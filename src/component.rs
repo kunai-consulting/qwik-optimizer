@@ -29,7 +29,7 @@ pub struct Id {
 }
 
 impl Id {
-    fn escape(input: &str) -> String {
+    fn sanitize(input: &str) -> String {
         input
             .chars()
             .fold((String::new(), false), |(mut acc, uscore), c| {
@@ -141,7 +141,7 @@ impl Id {
                 display_name = format!("{}{}", prefix, segment);
             }
         }
-        display_name = Self::escape(&display_name);
+        display_name = Self::sanitize(&display_name);
 
         let hash64 = Self::calculate_hash(&local_file_name, &display_name, scope);
 
@@ -326,8 +326,8 @@ mod tests {
 
     #[test]
     fn escapes_a_name() {
-        let name0 = Id::escape("a'b-c");
-        let name1 = Id::escape("A123b_c-~45");
+        let name0 = Id::sanitize("a'b-c");
+        let name1 = Id::sanitize("A123b_c-~45");
         assert_eq!(name0, "a_b_c");
         assert_eq!(name1, "A123b_c_45");
     }
