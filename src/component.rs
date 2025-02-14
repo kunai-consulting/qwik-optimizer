@@ -145,11 +145,11 @@ impl Id {
 
         let hash64 = Self::calculate_hash(&local_file_name, &display_name, scope);
 
-        let symbol_name = if matches!(target, Target::Dev | Target::Test) {
-            format!("{}_{}", display_name, hash64)
-        } else {
-            format!("s_{}", hash64)
+        let symbol_name = match target {
+            Target::Dev | Target::Test => format!("{}_{}", display_name, hash64),
+            Target::Lib | Target::Prod => format!("s_{}", hash64),
         };
+
 
         let display_name = format!("{}_{}", &source_info.file_name, display_name);
 
