@@ -2,6 +2,7 @@ mod prelude;
 mod error;
 mod parser;
 pub(crate) mod component;
+mod transformer;
 
 pub fn add(left: u64, right: u64) -> u64 {
     left + right

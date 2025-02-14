@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-oxc = "0.50.0"
+oxc = { version = "*", features = ["full"] }
 thiserror = "2.0.11"
 base64 = "0.22.1"
 anyhow = "1.0.95"
