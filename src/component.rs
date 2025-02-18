@@ -4,7 +4,6 @@ use base64::*;
 use path_slash::PathExt;
 use std::ffi::OsStr;
 use std::hash::*;
-use std::ops::Deref;
 use std::path::*;
 
 /// Renamed from `EmitMode` in V 1.0.
@@ -150,7 +149,6 @@ impl Id {
             Target::Lib | Target::Prod => format!("s_{}", hash64),
         };
 
-
         let display_name = format!("{}_{}", &source_info.file_name, display_name);
 
         Id {
@@ -167,12 +165,8 @@ impl Id {
 /// Renamed from `PathData` in V 1.0.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub struct SourceInfo {
-    pub abs_path: PathBuf,
     pub rel_path: PathBuf,
-    pub abs_dir: PathBuf,
     pub rel_dir: PathBuf,
-    pub file_stem: String,
-    pub extension: String,
     pub file_name: String,
 }
 
@@ -202,33 +196,12 @@ impl SourceInfo {
     ///
     /// # Arguments
     /// - src - source file.  e.g. `./app.js`
-    /// - base_dir - base directory. e.g. `./src`
-    pub fn new(src: &str, base_dir: &Path) -> Result<SourceInfo> {
+    pub fn new(src: &str) -> Result<SourceInfo> {
         let path = Path::new(src);
-        let lossy = path.to_slash_lossy();
-        let path = Path::new(lossy.as_ref());
-        let file_stem = path
-            .file_stem()
-            .and_then(OsStr::to_str)
-            .map(Into::into)
-            .ok_or_else(|| {
-                Error::StringConversion(
-                    path.to_string_lossy().to_string(),
-                    "Computing file stem".to_string(),
-                )
-            })?;
-
         let rel_dir = path.parent().map(|p| p.to_path_buf()).ok_or_else(|| {
             Error::StringConversion(
                 path.to_string_lossy().to_string(),
                 "Computing relative directory".to_string(),
-            )
-        })?;
-
-        let extension = path.extension().and_then(OsStr::to_str).ok_or_else(|| {
-            Error::StringConversion(
-                path.to_string_lossy().to_string(),
-                "Computing file extension".to_string(),
             )
         })?;
 
@@ -239,25 +212,10 @@ impl SourceInfo {
             )
         })?;
 
-        let abs_path = SourceInfo::normalize_path(base_dir.join(path).deref());
-        let abs_dir = abs_path
-            .parent()
-            .map(SourceInfo::normalize_path)
-            .ok_or_else(|| {
-                Error::StringConversion(
-                    path.to_string_lossy().to_string(),
-                    "Computing parent directory".to_string(),
-                )
-            })?;
-
         Ok(SourceInfo {
-            abs_path,
             rel_path: path.into(),
-            abs_dir,
             rel_dir,
-            extension: extension.into(),
             file_name: file_name.into(),
-            file_stem,
         })
     }
 }
@@ -277,20 +235,16 @@ mod tests {
 
     #[test]
     fn test_source_info() {
-        let source_info = SourceInfo::new("./app.js", Path::new("./src")).unwrap();
+        let source_info = SourceInfo::new("./app.js" ).unwrap();
         println!("{:?}", source_info);
-        assert_eq!(source_info.abs_path, Path::new("./src/app.js"));
         assert_eq!(source_info.rel_path, Path::new("./app.js"));
-        assert_eq!(source_info.abs_dir, Path::new("./src/"));
         assert_eq!(source_info.rel_dir, Path::new("./"));
-        assert_eq!(source_info.file_stem, "app");
-        assert_eq!(source_info.extension, "js");
         assert_eq!(source_info.file_name, "app.js");
     }
 
     #[test]
     fn creates_a_id() {
-        let source_info0 = SourceInfo::new("./app.js", Path::new("./src")).unwrap();
+        let source_info0 = SourceInfo::new("./app.js").unwrap();
         let id0 = Id::new(
             &source_info0,
             &vec!["a", "b", "c"],
