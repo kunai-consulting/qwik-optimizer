@@ -1,3 +1,4 @@
+#![allow(unused)]
 #[derive(thiserror::Error, Debug)]
 pub enum Error {
     #[error("Generic error: {0}")]

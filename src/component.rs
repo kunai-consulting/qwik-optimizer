@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 use crate::error::Error;
 use crate::prelude::*;
 use base64::*;
