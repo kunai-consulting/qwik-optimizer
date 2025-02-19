@@ -3,7 +3,6 @@
 use crate::error::Error;
 use crate::prelude::*;
 use base64::*;
-use path_slash::PathExt;
 use std::ffi::OsStr;
 use std::hash::*;
 use std::path::*;

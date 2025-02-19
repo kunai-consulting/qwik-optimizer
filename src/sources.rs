@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 use crate::prelude::*;
 use html5ever::tendril::TendrilSink;
 use html5ever::tree_builder::TreeBuilderOpts;
