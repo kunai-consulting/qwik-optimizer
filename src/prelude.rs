@@ -1,41 +1,15 @@
-#![allow(unused)]
 use crate::error::Error;
-use oxc_ast::ast::{CallExpression, ImportDeclarationSpecifier, ImportOrExportKind, JSXAttribute, Statement, WithClause};
-use oxc_ast::AstBuilder;
-use oxc_allocator::{Box as OxcBox, Vec as OxcVec, IntoIn}; 
-use oxc_span::{Atom, SPAN};
-
 
 pub type Result<T> = core::result::Result<T, Error>;
 
-pub trait SegmentRef<'a> {
-    fn normalize_name(&self) -> String;
-
-    fn is_qwik(&self) -> bool;
+pub trait DropLast {
+    fn drop_last(self) -> Self;
 }
 
-impl<'a> SegmentRef<'a> for CallExpression<'a> {
-    fn normalize_name(&self) -> String {
-        let name = self.callee_name();
-        let name= name.unwrap_or_default();
-         name.strip_suffix("$").unwrap_or(name).to_string()
-    }
-
-    fn is_qwik(&self) -> bool {
-        match self.callee_name() {
-            Some(name) => name.ends_with("$"),
-            None => false,
-        }
-    }
-}
-
-impl<'a> SegmentRef<'a> for JSXAttribute<'a> {
-    fn normalize_name(&self) -> String {
-        let name = self.name.get_identifier().name;
-        name.strip_suffix("$").unwrap_or(name.as_str()).to_string()
-    }
-
-    fn is_qwik(&self) -> bool {
-        self.name.get_identifier().name.ends_with("$")
+impl DropLast for String {
+    fn drop_last(self) -> String {
+        let mut chars = self.chars().clone();
+        chars.next_back();
+        chars.as_str().to_string()
     }
 }
