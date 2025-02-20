@@ -3,6 +3,12 @@
 use crate::error::Error;
 use crate::prelude::*;
 use base64::*;
+use oxc::allocator::{Allocator, Box as OxcBox, CloneIn, Vec as OxcVec};
+use oxc::ast::ast::*;
+use oxc::ast::AstBuilder;
+use oxc::codegen::Codegen;
+use oxc::span::{SourceType, SPAN};
+use std::cell::Cell;
 use std::ffi::OsStr;
 use std::hash::*;
 use std::path::*;
@@ -14,6 +20,92 @@ pub enum Target {
     Lib,
     Dev,
     Test,
+}
+
+pub struct QwikComponent<'a> {
+    pub id: Id,
+    pub source_type: SourceType,
+    pub function: ArrowFunctionExpression<'a>,
+}
+
+impl<'a> QwikComponent<'a> {
+    pub fn new(
+        source_info: &SourceInfo,
+        segments: &Vec<&str>,
+        function: ArrowFunctionExpression<'a>,
+        target: &Target,
+        scope: &Option<String>,
+    ) -> QwikComponent<'a> {
+        let id = Id::new(source_info, segments, target, scope);
+        let source_type = SourceType::from_path(&source_info.rel_path).unwrap();
+        QwikComponent {
+            id,
+            source_type,
+            function,
+        }
+    }
+
+    pub fn gen(&self, allocator: &Allocator) -> String {
+        // let source_type = SourceType::from_path(&self.source_info.rel_path).unwrap();
+
+        let name = &self.id.symbol_name;
+
+        let ast_builder = AstBuilder::new(allocator);
+
+        let id = OxcBox::new_in(ast_builder.binding_identifier(SPAN, name), allocator);
+        let bind_pat = ast_builder.binding_pattern(
+            BindingPatternKind::BindingIdentifier(id),
+            None::<OxcBox<'a, TSTypeAnnotation<'a>>>,
+            false,
+        );
+        let mut var_declarator = OxcVec::new_in(allocator);
+
+        let boxed = OxcBox::new_in(self.function.clone_in(allocator), allocator);
+        let expr = Expression::ArrowFunctionExpression(boxed);
+        var_declarator.push(ast_builder.variable_declarator(
+            SPAN,
+            VariableDeclarationKind::Const,
+            bind_pat,
+            Some(expr),
+            false,
+        ));
+
+        let decl = ast_builder.variable_declaration(
+            SPAN,
+            VariableDeclarationKind::Const,
+            var_declarator,
+            false,
+        );
+        let decl = OxcBox::new_in(decl, allocator);
+        let decl = Declaration::VariableDeclaration(decl);
+        let export = ast_builder.export_named_declaration(
+            SPAN,
+            Some(decl),
+            OxcVec::new_in(allocator),
+            None,
+            ImportOrExportKind::Value,
+            None::<OxcBox<WithClause>>,
+        );
+        let export = Statement::ExportNamedDeclaration(OxcBox::new_in(export, allocator));
+
+        let mut body = OxcVec::new_in(allocator);
+        body.push(export);
+        
+        let new_pgm = Program {
+            span: SPAN,
+            source_type: self.source_type,
+            source_text: "",
+            comments: OxcVec::new_in(allocator),
+            hashbang: None,
+            directives: OxcVec::new_in(allocator),
+            body,
+            scope_id: Cell::new(None),
+        };
+
+
+        let codegen = Codegen::new();
+        codegen.build(&new_pgm).code
+    }
 }
 
 /// Represents a component identifier, including its display name, symbol name, local file name, hash, and optional scope.
@@ -116,7 +208,7 @@ impl Id {
     pub fn new(
         source_info: &SourceInfo,
         segments: &Vec<&str>,
-        target: Target,
+        target: &Target,
         scope: &Option<String>,
     ) -> Id {
         let local_file_name = source_info.rel_path.to_string_lossy();
@@ -219,6 +311,15 @@ impl SourceInfo {
             file_name: file_name.into(),
         })
     }
+    
+}
+
+impl TryInto<SourceType> for &SourceInfo {
+    type Error = Error;
+
+    fn try_into(self) -> std::result::Result<SourceType, Self::Error> {
+        SourceType::from_path(&self.rel_path).map_err(|e| e.into())
+    }
 }
 
 #[cfg(test)]
@@ -236,7 +337,7 @@ mod tests {
 
     #[test]
     fn test_source_info() {
-        let source_info = SourceInfo::new("./app.js" ).unwrap();
+        let source_info = SourceInfo::new("./app.js").unwrap();
         println!("{:?}", source_info);
         assert_eq!(source_info.rel_path, Path::new("./app.js"));
         assert_eq!(source_info.rel_dir, Path::new("./"));
@@ -249,7 +350,7 @@ mod tests {
         let id0 = Id::new(
             &source_info0,
             &vec!["a", "b", "c"],
-            Target::Dev,
+            &Target::Dev,
             &Option::None,
         );
         let hash0 = Id::calculate_hash("./app.js", "a_b_c", &None);
@@ -263,7 +364,7 @@ mod tests {
         };
 
         let scope1 = Some("scope".to_string());
-        let id1 = Id::new(&source_info0, &vec!["1", "b", "c"], Target::Prod, &scope1);
+        let id1 = Id::new(&source_info0, &vec!["1", "b", "c"], &Target::Prod, &scope1);
         // Leading  segments that are digits are prefixed with an additional underscore.
         let hash1 = Id::calculate_hash("./app.js", "_1_b_c", &scope1);
         let expected1 = Id {
