@@ -2,6 +2,7 @@
 
 use crate::error::Error;
 use crate::prelude::*;
+use crate::ast_builder_ext::*;
 use base64::*;
 use oxc::allocator::{Allocator, Box as OxcBox, CloneIn, Vec as OxcVec};
 use oxc::ast::ast::*;
@@ -12,6 +13,38 @@ use std::cell::Cell;
 use std::ffi::OsStr;
 use std::hash::*;
 use std::path::*;
+
+
+const BUILDER_IO_QWIK: &str = "@builder.io/qwik";
+
+pub enum CommonImport {
+    BuilderIoQwik(String),
+}
+
+impl CommonImport {
+    
+    fn gen(self, ast_builder: AstBuilder) -> Statement {
+        match self { 
+            CommonImport::BuilderIoQwik(name) => ast_builder.qwik_import(name.as_str(), BUILDER_IO_QWIK),
+        }
+    }
+    
+}
+
+pub enum CommonExport {
+    BuilderIoQwik(String),
+}
+
+impl CommonExport {
+    
+    fn gen(self, ast_builder: AstBuilder) -> Statement {
+        match self { 
+            CommonExport::BuilderIoQwik(name) => ast_builder.qwik_export(name.as_str(), BUILDER_IO_QWIK),
+        }
+    }
+    
+}
+
 
 /// Renamed from `EmitMode` in V 1.0.
 #[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
@@ -35,22 +68,29 @@ impl<'a> QwikComponent<'a> {
         function: ArrowFunctionExpression<'a>,
         target: &Target,
         scope: &Option<String>,
-    ) -> QwikComponent<'a> {
+    ) -> Result<QwikComponent<'a>> {
         let id = Id::new(source_info, segments, target, scope);
-        let source_type = SourceType::from_path(&source_info.rel_path).unwrap();
-        QwikComponent {
+        let source_type = source_info.try_into()?;
+        Ok(QwikComponent {
             id,
             source_type,
             function,
-        }
+        })
+    }
+    
+    fn std_import(ast_builder: &AstBuilder)  {
+        let imported = ast_builder.module_export_name_identifier_name(SPAN, "qrl");
+        let local_name = ast_builder.binding_identifier(SPAN, "qrl");
+        let import_specifier = ast_builder.import_specifier(SPAN, imported, local_name, ImportOrExportKind::Value);
+        
     }
 
     pub fn gen(&self, allocator: &Allocator) -> String {
-        // let source_type = SourceType::from_path(&self.source_info.rel_path).unwrap();
-
         let name = &self.id.symbol_name;
 
         let ast_builder = AstBuilder::new(allocator);
+        
+        Self::std_import(&ast_builder);
 
         let id = OxcBox::new_in(ast_builder.binding_identifier(SPAN, name), allocator);
         let bind_pat = ast_builder.binding_pattern(
@@ -91,6 +131,9 @@ impl<'a> QwikComponent<'a> {
         let mut body = OxcVec::new_in(allocator);
         body.push(export);
         
+        let hw_export = CommonExport::BuilderIoQwik("_hW".into()).gen(ast_builder);
+        body.push(hw_export);
+
         let new_pgm = Program {
             span: SPAN,
             source_type: self.source_type,
@@ -101,7 +144,6 @@ impl<'a> QwikComponent<'a> {
             body,
             scope_id: Cell::new(None),
         };
-
 
         let codegen = Codegen::new();
         codegen.build(&new_pgm).code
@@ -311,7 +353,6 @@ impl SourceInfo {
             file_name: file_name.into(),
         })
     }
-    
 }
 
 impl TryInto<SourceType> for &SourceInfo {
