@@ -3,71 +3,75 @@
 use crate::error::Error;
 use crate::prelude::*;
 use crate::sources::*;
-use oxc::allocator::{Allocator, Box, CloneIn, FromIn, HashMap as OxcHashMap, IntoIn, Vec as OxcVec};
+use oxc::allocator::{
+    Allocator, Box as OxcBox, CloneIn, FromIn, HashMap as OxcHashMap, IntoIn, Vec as OxcVec,
+};
 use oxc::ast::ast::{
-    ArrowFunctionExpression, BindingIdentifier, CallExpression, Expression, Function,
-    IdentifierName, IdentifierReference, JSXAttribute, JSXClosingElement, JSXElement,
-    JSXOpeningElement, Program, Statement, VariableDeclaration,
+    ArrowFunctionExpression, BindingIdentifier, BindingPattern, CallExpression, Expression,
+    Function, IdentifierName, IdentifierReference, JSXAttribute, JSXClosingElement, JSXElement,
+    JSXOpeningElement, Program, Statement, VariableDeclaration, VariableDeclarator,
 };
 use oxc::ast::visit::walk_mut::*;
 use oxc::ast::{AstType, Visit, VisitMut};
 use oxc::codegen::{Codegen, Context, Gen};
 use oxc_index::Idx;
+use std::borrow::Cow;
 
+use crate::component::{QwikComponent, SourceInfo, Target};
+use crate::transformer::Mode::Recording;
 use oxc::parser::Parser;
 use oxc::semantic::{ScopeFlags, ScopeId, SemanticBuilder, SemanticBuilderReturn};
 use oxc::span::*;
 use std::cell::Cell;
 use std::collections::HashMap;
 use std::ops::Deref;
+use std::path::Components;
 
 struct TransformGenerator<'a> {
+    pub components: Vec<QwikComponent<'a>>,
+
     pub exported_components: OxcVec<'a, Program<'a>>,
 
-    pub app: Program<'a>,
-
-    pub source_type: SourceType,
-
-    // pub kept_functions: Vec<Statement<'a>>,
-    pub allocator: &'a Allocator,
+    allocator: &'a Allocator,
 
     current_scope_id: usize,
 
     segments: Vec<String>,
 
-    current_decl_name: Option<String>,
-
     depth: usize,
 
-    recording: usize,
+    mode: Mode,
 
-    comps: HashMap<String, ArrowFunctionExpression<'a>>,
+    source_info: &'a SourceInfo,
+    target: &'a Target,
+    scope: &'a Option<String>,
+}
+
+enum Mode {
+    Scanning,
+    Recording(usize),
 }
 
 impl<'a> TransformGenerator<'a> {
-    fn new(allocator: &'a Allocator, source_type: SourceType) -> Self {
-        let app = Program {
-            span: SPAN,
-            source_type,
-            source_text: "",
-            comments: OxcVec::new_in(allocator),
-            hashbang: None,
-            directives: OxcVec::new_in(allocator),
-            body: OxcVec::new_in(allocator),
-            scope_id: Cell::new(None),
-        };
+    fn new(
+        allocator: &'a Allocator,
+        source_info: &'a SourceInfo,
+        target: &'a Target,
+        scope: &'a Option<String>,
+    ) -> Self {
+        let source_type: SourceType /* Type */ = source_info.try_into().unwrap();
 
         Self {
             exported_components: OxcVec::new_in(allocator),
-            app,
-            source_type,
             allocator,
             current_scope_id: 0,
             segments: Vec::new(),
-            current_decl_name: None,
             depth: 0,
-            comps: HashMap::new(),
-            recording: 0,
+            components: Vec::new(),
+            mode: Mode::Scanning,
+            source_info,
+            target,
+            scope,
         }
     }
 
@@ -76,9 +80,9 @@ impl<'a> TransformGenerator<'a> {
     }
 
     fn render_segments(&self) -> String {
-        self.segments
-            .iter()
-            .fold("".to_string(), |acc, s| format!("{}_{}", acc, s))
+        self.segments.iter().fold("".to_string(), |acc, s| {
+            format!("{}_{}", acc.to_string(), s.to_string())
+        })
     }
 
     fn ascend(&mut self) {
@@ -91,12 +95,35 @@ impl<'a> TransformGenerator<'a> {
         self.depth += 1;
     }
 
-    fn push_segment(&mut self, segment: String) {
+    fn push_segment(&mut self, segment: String) -> bool {
         if (!segment.is_empty()) {
             self.segments.push(segment);
+            true
+        } else {
+            false
+        }
+    }
+
+    fn start_recording(&mut self) {
+        self.mode = match self.mode {
+            Mode::Scanning => Recording(1),
+            Mode::Recording(count) => Recording(count + 1),
+        }
+    }
+
+    fn stop_recording(&mut self) {
+        self.mode = match self.mode {
+            Mode::Scanning => Mode::Scanning,
+            Mode::Recording(count) if count > 1 => Recording(count - 1),
+            Mode::Recording(_) => Mode::Scanning,
         }
     }
 }
+
+const LOG_STATEMENTS: bool = false;
+const LOG_NODE_WALKS: bool = true;
+
+const LOG_ARROW_FUNCS: bool = true;
 
 impl<'a> VisitMut<'a> for TransformGenerator<'a> {
     fn enter_scope(&mut self, flags: ScopeFlags, scope_id: &Cell<Option<ScopeId>>) {
@@ -112,126 +139,137 @@ impl<'a> VisitMut<'a> for TransformGenerator<'a> {
     }
 
     fn visit_call_expression(&mut self, it: &mut CallExpression<'a>) {
-        // let indent = " ".repeat(self.current_scope_id * 4);
-        // println!("{}Call expression {:?}", indent, it);
+        let indent = " ".repeat(self.current_scope_id * 4);
+        println!("{}Call expression {:?}", indent, it);
         let mut recording = false;
-        it.callee_name().iter().for_each(|name| {
-            if name.ends_with("$") {
-                recording = true;
-                println!("Found component: {}", name);
-                self.push_segment(name.to_string().drop_last());
-                self.recording += 1;
-                if let Some(name) = &self.current_decl_name {
-                    self.push_segment(name.clone());
-                    self.current_decl_name = None;
-                }
-            } else {
-                self.push_segment(name.to_string());
-            }
-        });
+
+        let name = it.normalize_name();
+        self.push_segment(name);
+        if it.is_qwik() {
+            recording = true;
+            self.start_recording();
+        }
 
         walk_call_expression(self, it);
 
+        self.segments.pop();
         if recording {
-            self.segments.pop();
-            self.segments.pop();
-            self.recording -= 1;
-        } else {
-            self.segments.pop();
+            self.stop_recording();
         }
     }
 
     fn visit_binding_identifier(&mut self, it: &mut BindingIdentifier<'a>) {
-        println!("Binding identifier {:?}", it);
+        // println!("Binding identifier {:?}", it);
         walk_binding_identifier(self, it);
     }
 
+    fn visit_binding_pattern(&mut self, it: &mut BindingPattern<'a>) {
+        // println!("Binding pattern {:?}", it);
+        walk_binding_pattern(self, it);
+    }
+
     fn visit_statement(&mut self, it: &mut Statement<'a>) {
-        let indent = " ".repeat(self.current_scope_id * 4);
-        println!("{}[{}]{:?}", indent, self.current_scope_id, it);
+        if LOG_STATEMENTS {
+            let indent = " ".repeat(self.current_scope_id * 4);
+            println!("{}[{}]{:#?}", indent, self.current_scope_id, it);
+        }
         walk_statement(self, it);
     }
 
     fn visit_variable_declaration(&mut self, it: &mut VariableDeclaration<'a>) {
         let vd = it.declarations.first().unwrap();
-        let name = &vd.id.get_identifier_name().map(|s| s.to_string());
+        let name = &vd
+            .id
+            .get_identifier_name()
+            .map(|s| s.to_string())
+            .unwrap_or_default();
 
-        self.current_decl_name = name.clone();
-
+        // self.current_decl_name = name.clone();
+        let pushed = self.push_segment(name.clone());
         walk_variable_declaration(self, it);
+        if pushed {
+            self.segments.pop();
+        }
+    }
+
+    fn visit_variable_declarator(&mut self, it: &mut VariableDeclarator<'a>) {
+        // println!("Variable declarator {:?}", it);
+        walk_variable_declarator(self, it);
     }
 
     fn visit_jsx_element(&mut self, it: &mut JSXElement<'a>) {
         let indent = " ".repeat(self.current_scope_id * 4);
-        // println!("{}JSX element {:?}", indent, it);
-        // it.opening_element.
         let name = it.opening_element.name.get_identifier_name().unwrap();
-        self.push_segment(name.to_string());
+        let pushed = self.push_segment(name.to_string());
         walk_jsx_element(self, it);
-        self.segments.pop();
+        if pushed {
+            self.segments.pop();
+        }
     }
 
     fn visit_jsx_attribute(&mut self, it: &mut JSXAttribute<'a>) {
         let indent = " ".repeat(self.current_scope_id * 4);
-        println!("{}BEGIN: JSX attribute {:?}", indent, it);
-        let name = &it.name.as_identifier().unwrap().to_string();
-        let name = if name.ends_with('$') {
-            name.clone().drop_last()
-        } else {
-            name.clone()
-        };
 
-        self.push_segment(name);
+        let pushed = self.push_segment(it.normalize_name());
         walk_jsx_attribute(self, it);
-        self.segments.pop();
-        println!("{}END: JSX attribute {:?}", indent, it);
+        if pushed {
+            self.segments.pop();
+        }
     }
 
     fn visit_arrow_function_expression(&mut self, it: &mut ArrowFunctionExpression<'a>) {
-        println!("BEGIN: Arrow function expression {:?}", it);
-
-        if self.recording > 0 {
-            let name = self.render_segments();
-            self.comps.insert(name.clone(), it.clone_in(self.allocator));
+        if LOG_ARROW_FUNCS {
+            println!("BEGIN: Arrow function expression {:?}", it);
+        }
+        match self.mode {
+            Mode::Recording(_) => {
+                let name = self.render_segments();
+                // self.comps.insert(name.clone(), it.clone_in(self.allocator));
+                let segments: &Vec<&str> = &self.segments.iter().map(|s| s.as_str()).collect();
+                let comp = QwikComponent::new(
+                    &self.source_info,
+                    segments,
+                    it.clone_in(self.allocator),
+                    &self.target,
+                    &self.scope,
+                );
+                self.components.push(comp);
+            }
+            Mode::Scanning => (),
         }
 
         walk_arrow_function_expression(self, it);
 
-        println!("END: Arrow function expression {:?}", it);
+        if LOG_ARROW_FUNCS {
+            println!("END: Arrow function expression {:?}", it);
+        }
     }
 
     fn enter_node(&mut self, kind: AstType) {
         self.descend();
-        let indent = "-".repeat(self.depth);
-        println!(
-            "{}-> [S:{}] Entering {:?}.  Segments: {}",
-            indent,
-            self.current_scope_id,
-            kind,
-            self.render_segments()
-        );
+        if LOG_NODE_WALKS {
+            let indent = "-".repeat(self.depth);
+            println!(
+                "{}-> [S:{}] Entering {:?}.  Segments: {}",
+                indent,
+                self.current_scope_id,
+                kind,
+                self.render_segments()
+            );
+        }
     }
 
     fn leave_node(&mut self, kind: AstType) {
         self.ascend();
-        let indent = "-".repeat(self.depth);
-        println!(
-            "<-{} [s:{}]Leaving {:?}.  Segments: {}",
-            indent,
-            self.current_scope_id,
-            kind,
-            self.render_segments()
-        );
-        match kind {
-            AstType::VariableDeclaration => {
-                self.current_decl_name = None;
-            }
-            // AstType::CallExpression => {
-            //     self.segments.pop();
-            //     self.segments.pop();
-            // }
-            // 
-            _ => (),
+        if LOG_NODE_WALKS {
+            let indent = "-".repeat(self.depth);
+            println!(
+                "<-{} [s:{}]Leaving {:?}.  Segments: {}",
+                indent,
+                self.current_scope_id,
+                kind,
+                self.render_segments()
+            );
         }
     }
 
@@ -315,7 +353,8 @@ pub fn transform<'a, S: ScriptSource>(script_source: S) -> Result<()> {
     //     allocator: &allocator,
     // };
 
-    let mut v = TransformGenerator::new(&allocator, source_type);
+    let source_info = SourceInfo::new("test.tsx")?;
+    let mut v = TransformGenerator::new(&allocator, &source_info, &Target::Dev, &None);
 
     v.visit_program(&mut program);
 
@@ -325,22 +364,19 @@ pub fn transform<'a, S: ScriptSource>(script_source: S) -> Result<()> {
         println!("-------------------------------------")
     });
 
-    let app = Codegen::new().build(&v.app).code;
+    // let app = Codegen::new().build(&v.app).code;
     println!("-------------------------------------");
-    println!("Application\n{}", app);
+    // println!("Application\n{}", app);
     println!("-------------------------------------");
 
-
-    
     println!("-------------------------------------");
-    println!("Arrow funcs" );
-    v.comps.iter().for_each(|(name, func)| {
-        let mut code_gen0 =Codegen::default();
+    println!("Arrow funcs {}", v.components.len());
+    v.components.iter().for_each(|comp| {
+        let mut code_gen0 = Codegen::default();
         let code_gen = &mut code_gen0;
-        
-        func.body.gen(code_gen, Context::default());
-        let body: String  = code_gen0.into();
-        println!("{}: {}", name, body);
+
+        let body = comp.gen(&allocator);
+        println!("{}", body);
     });
     println!("-------------------------------------");
 
