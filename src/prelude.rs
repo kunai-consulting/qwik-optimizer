@@ -1,28 +1,12 @@
 #![allow(unused)]
 use crate::error::Error;
-use oxc::ast::ast::{CallExpression, JSXAttribute};
-use std::borrow::Cow;
+use oxc::ast::ast::{CallExpression, ImportDeclarationSpecifier, ImportOrExportKind, JSXAttribute, Statement, WithClause};
+use oxc::ast::AstBuilder;
+use oxc::allocator::{Box as OxcBox, Vec as OxcVec, IntoIn}; 
+use oxc::span::{Atom, SPAN};
+
 
 pub type Result<T> = core::result::Result<T, Error>;
-
-/// Drop the last element of implementations container type.
-pub trait DropLast {
-    fn drop_last(&self) -> &Self;
-}
-
-// impl DropLast for String {
-//     fn drop_last(&self) -> &Self {
-//         let mut chars = self.chars().clone();
-//         chars.next_back();
-//         &chars.as_str().to_string()
-//     }
-// }
-
-impl DropLast for str {
-    fn drop_last(&self) -> &Self {
-        self.strip_suffix(|_: char| true).unwrap_or(self)
-    }
-}
 
 pub trait SegmentRef<'a> {
     fn normalize_name(&self) -> String;
