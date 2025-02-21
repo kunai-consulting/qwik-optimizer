@@ -1,50 +1,55 @@
 #![allow(unused)]
 
+use crate::ast_builder_ext::*;
 use crate::error::Error;
 use crate::prelude::*;
-use crate::ast_builder_ext::*;
 use base64::*;
-use oxc::allocator::{Allocator, Box as OxcBox, CloneIn, Vec as OxcVec};
+use oxc::allocator::{Allocator, Box as OxcBox, CloneIn, IntoIn, Vec as OxcVec};
+use oxc::ast::ast::Argument::CallExpression;
 use oxc::ast::ast::*;
 use oxc::ast::AstBuilder;
+use oxc::ast::AstType::StringLiteral;
 use oxc::codegen::Codegen;
+use oxc::semantic::ReferenceId;
 use oxc::span::{SourceType, SPAN};
+use oxc_index::Idx;
 use std::cell::Cell;
 use std::ffi::OsStr;
+use std::fmt::format;
 use std::hash::*;
 use std::path::*;
 
-
 const BUILDER_IO_QWIK: &str = "@builder.io/qwik";
 
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum CommonImport {
     BuilderIoQwik(String),
 }
 
 impl CommonImport {
-    
     fn gen(self, ast_builder: AstBuilder) -> Statement {
-        match self { 
-            CommonImport::BuilderIoQwik(name) => ast_builder.qwik_import(name.as_str(), BUILDER_IO_QWIK),
+        match self {
+            CommonImport::BuilderIoQwik(name) => {
+                ast_builder.qwik_import(name.as_str(), BUILDER_IO_QWIK)
+            }
         }
     }
-    
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum CommonExport {
     BuilderIoQwik(String),
 }
 
 impl CommonExport {
-    
     fn gen(self, ast_builder: AstBuilder) -> Statement {
-        match self { 
-            CommonExport::BuilderIoQwik(name) => ast_builder.qwik_export(name.as_str(), BUILDER_IO_QWIK),
+        match self {
+            CommonExport::BuilderIoQwik(name) => {
+                ast_builder.qwik_export(name.as_str(), BUILDER_IO_QWIK)
+            }
         }
     }
-    
 }
-
 
 /// Renamed from `EmitMode` in V 1.0.
 #[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
@@ -55,10 +60,87 @@ pub enum Target {
     Test,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+pub struct Qrl {
+    pub rel_path: PathBuf,
+    pub display_name: String,
+}
+
+impl Qrl {
+    pub fn new<T: Into<PathBuf>>(rel_path: T, display_name: &str) -> Self {
+        Self {
+            rel_path: rel_path.into(),
+            display_name: display_name.into(),
+        }
+    }
+
+    pub fn gen(self, allocator: &Allocator) -> Statement {
+        let ast_builder = AstBuilder::new(allocator);
+        let rel_path = format!("./{}", &self.rel_path.file_stem().unwrap().to_string_lossy());
+        let display_name = &self.display_name;
+
+        let mut statements = OxcVec::with_capacity_in(1, allocator);
+        statements.push(ast_builder.qwik_simple_import(rel_path.as_ref()));
+        // statements.push(ast_builder.qwik_string_literal_statement(display_name));
+
+        let function_body = ast_builder.function_body(SPAN, OxcVec::new_in(allocator), statements);
+        let func_params = ast_builder.formal_parameters(
+            SPAN,
+            FormalParameterKind::ArrowFormalParameters,
+            OxcVec::new_in(allocator),
+            None::<OxcBox<BindingRestElement>>,
+        );
+        let arrow_function = ast_builder.arrow_function_expression(
+            SPAN,
+            true,
+            false,
+            None::<OxcBox<TSTypeParameterDeclaration>>,
+            func_params,
+            None::<OxcBox<TSTypeAnnotation>>,
+            function_body,
+        );
+
+        // let qurl = ast_builder.expression_identifier(SPAN, "qurl");
+        let refid: ReferenceId = ReferenceId::from_usize(0);
+        let qurl = OxcBox::new_in(
+            ast_builder.identifier_reference_with_reference_id(SPAN, "qrl", refid),
+            allocator,
+        );
+        let qurl = Expression::Identifier(qurl);
+
+        let raw: Atom = format!(r#""{}""#, display_name).into_in(allocator);
+        let display_name_arg = OxcBox::new_in(
+            ast_builder.string_literal(SPAN, display_name, Some(raw)),
+            allocator,
+        );
+
+        let mut args = OxcVec::with_capacity_in(2, allocator);
+        args.push(Argument::ArrowFunctionExpression(OxcBox::new_in(
+            arrow_function,
+            allocator,
+        )));
+        args.push(Argument::StringLiteral(display_name_arg));
+
+        let call_expr = ast_builder.call_expression(
+            SPAN,
+            qurl,
+            None::<OxcBox<TSTypeParameterInstantiation>>,
+            args,
+            false,
+        );
+
+        let call_expr = Expression::CallExpression(OxcBox::new_in(call_expr, allocator));
+        let s = ast_builder.statement_expression(SPAN, call_expr);
+        println!("{:#?}", s);
+        s
+    }
+}
+
 pub struct QwikComponent<'a> {
     pub id: Id,
     pub source_type: SourceType,
     pub function: ArrowFunctionExpression<'a>,
+    pub qurl: Qrl,
 }
 
 impl<'a> QwikComponent<'a> {
@@ -71,25 +153,30 @@ impl<'a> QwikComponent<'a> {
     ) -> Result<QwikComponent<'a>> {
         let id = Id::new(source_info, segments, target, scope);
         let source_type = source_info.try_into()?;
+        let qurl = Qrl::new(
+            source_info.rel_path.to_str().unwrap_or_default(),
+            &id.symbol_name,
+        );
         Ok(QwikComponent {
             id,
             source_type,
             function,
+            qurl,
         })
     }
-    
-    fn std_import(ast_builder: &AstBuilder)  {
+
+    fn std_import(ast_builder: &AstBuilder) {
         let imported = ast_builder.module_export_name_identifier_name(SPAN, "qrl");
         let local_name = ast_builder.binding_identifier(SPAN, "qrl");
-        let import_specifier = ast_builder.import_specifier(SPAN, imported, local_name, ImportOrExportKind::Value);
-        
+        let import_specifier =
+            ast_builder.import_specifier(SPAN, imported, local_name, ImportOrExportKind::Value);
     }
 
     pub fn gen(&self, allocator: &Allocator) -> String {
         let name = &self.id.symbol_name;
 
         let ast_builder = AstBuilder::new(allocator);
-        
+
         Self::std_import(&ast_builder);
 
         let id = OxcBox::new_in(ast_builder.binding_identifier(SPAN, name), allocator);
@@ -130,10 +217,11 @@ impl<'a> QwikComponent<'a> {
 
         let mut body = OxcVec::new_in(allocator);
         body.push(export);
-        
+
         let hw_export = CommonExport::BuilderIoQwik("_hW".into()).gen(ast_builder);
         body.push(hw_export);
 
+        // TODO: Replace with `AstBuilderExt::qwik_program`.
         let new_pgm = Program {
             span: SPAN,
             source_type: self.source_type,
@@ -444,5 +532,24 @@ mod tests {
         assert_eq!(norm1, Path::new("/a/c/"));
         assert_eq!(norm2, Path::new("/a/b/c/"));
         assert_eq!(norm0, norm2);
+    }
+
+    #[test]
+    fn test_qurl() {
+        let allocator = Allocator::default();
+        let ast_builder = AstBuilder::new(&allocator);
+        let qurl = Qrl::new(
+            "./test.tsx_renderHeader_zBbHWn4e8Cg.tsx",
+            "renderHeader_zBbHWn4e8Cg",
+        );
+        let source_type = SourceType::from_path(&qurl.rel_path).unwrap();
+        let statement = qurl.gen(&allocator);
+        let pgm = ast_builder.qwik_program(vec![statement], source_type);
+        let codegen = Codegen::new();
+        let script = codegen.build(&pgm).code;
+        println!("{}", script);
+        
+        let expected = r#"qrl(() => import("./test.tsx_renderHeader_zBbHWn4e8Cg"), "renderHeader_zBbHWn4e8Cg");"#;
+        assert_eq!(script.trim(), expected.trim())
     }
 }

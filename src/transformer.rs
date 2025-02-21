@@ -135,8 +135,6 @@ impl<'a> VisitMut<'a> for TransformGenerator<'a> {
     }
 
     fn visit_call_expression(&mut self, it: &mut CallExpression<'a>) {
-        let indent = " ".repeat(self.current_scope_id * 4);
-        println!("{}Call expression {:?}", indent, it);
         let mut recording = false;
 
         let name = it.normalize_name();
@@ -403,9 +401,11 @@ mod tests {
     "#;
     
     const SCRIPT4: &str = r#"export { _hW } from "@builder.io/qwik";"#;
+    
+    const QURL: &str = r#"qurl(() => import("./test.tsx_renderHeader_component_U6Kkv07sbpQ"), "renderHeader_component_U6Kkv07sbpQ")"#;
 
     #[test]
     fn test_transform() {
-        transform(Container::from_script(SCRIPT3)).unwrap();
+        transform(Container::from_script(QURL)).unwrap();
     }
 }
