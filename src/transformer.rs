@@ -26,7 +26,7 @@ use std::ops::Deref;
 use std::path::Components;
 
 struct TransformGenerator<'a> {
-    pub components: Vec<QwikComponent<'a>>,
+    pub components: Vec<QwikComponent>,
 
     pub errors: Vec<Error>,
 
@@ -117,7 +117,7 @@ impl<'a> TransformGenerator<'a> {
     }
 }
 
-const LOG_STATEMENTS: bool = true;
+const LOG_STATEMENTS: bool = false;
 const LOG_NODE_WALKS: bool = false;
 
 const LOG_ARROW_FUNCS: bool = false;
@@ -270,7 +270,7 @@ impl<'a> VisitMut<'a> for TransformGenerator<'a> {
 
 }
 
-pub fn transform<'a, S: ScriptSource>(script_source: S) -> Result<()> {
+pub fn transform<'a, S: ScriptSource>(script_source: S) -> Result<Vec<QwikComponent>> {
     let allocator = Allocator::default();
     let source_type = SourceType::from_path("foo.js")?;
     let source_text = script_source.scripts()?;
@@ -313,79 +313,20 @@ pub fn transform<'a, S: ScriptSource>(script_source: S) -> Result<()> {
         let mut code_gen0 = Codegen::default();
         let code_gen = &mut code_gen0;
 
-        let body = comp.gen(&allocator);
+        let body = &comp.code;
         println!("{}", body);
     });
     println!("-------------------------------------");
 
 
-    Ok(())
+    Ok(v.components)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    const SCRIPT0: &str = r#"
-        function $greet(name) {
-            return "Hello, " + name + "!";
-        }
-
-
-        /**
-         *
-         * @param name
-         * @returns {string}
-         */
-        function more_complex(name) {
-            if(name === "Alice") {
-                return "Hello, Alice!";
-            } else if(name === "Bob") {
-                return "Hello, Bob!";
-            } else {
-                return "Hello, " + name + "!";
-            }
-            return "Hello, " + name + "!";
-        }
-
-        function another_to_export(name) {
-            return "Goodbye, " + name + "!";
-        }
-
-        $greet("Alice");
-    "#;
-
-    const SCRIPT1: &str = r#"
-    export const Counter = component$(() => {
-      const count = useSignal(0);
- 
-      return <button onClick$={() => count.value++}>{count.value}</button>;
-    });
     
-     export const Greeter = component$(() => {
- 
-      return <p>hello!</p>;
-    });
-    "#;
-
-    const SCRIPT2: &str = r#"
-    import { component$, useStore } from '@qwik.dev/core';
-
-    export default component$(() => {
-    const store = useStore({ count: 0 });
-
-    return (
-      <main>
-        <p>Count: {store.count}</p>
-        <p>
-          <button onClick$={() => store.count++}>Click</button>
-        </p>
-      </main>
-    );
- });
-    "#;
-
-    const SCRIPT3: &str = r#"
+    const SCRIPT1: &str = r#"
      import { $, component, onRender } from '@builder.io/qwik';
 
     export const renderHeader = $(() => {
@@ -400,12 +341,19 @@ mod tests {
     }));
     "#;
     
-    const SCRIPT4: &str = r#"export { _hW } from "@builder.io/qwik";"#;
+    const EXPORT: &str = r#"export { _hW } from "@builder.io/qwik";"#;
     
     const QURL: &str = r#"qurl(() => import("./test.tsx_renderHeader_component_U6Kkv07sbpQ"), "renderHeader_component_U6Kkv07sbpQ")"#;
 
     #[test]
     fn test_transform() {
-        transform(Container::from_script(QURL)).unwrap();
+        let components = transform(Container::from_script(SCRIPT1)).unwrap();
+        assert_eq!(components.len(), 3);
+        
+        let onclick = &components.get(1).unwrap().code.trim().to_string();
+        let onclick_expected = r#"export const renderHeader_div_onClick_fV2uzAL99u4 = (ctx) => console.log(ctx);
+export { _hW } from "@builder.io/qwik";"#;
+        assert_eq!(onclick, onclick_expected);
+
     }
 }
