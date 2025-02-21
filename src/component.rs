@@ -136,31 +136,33 @@ impl Qrl {
     }
 }
 
-pub struct QwikComponent<'a> {
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct QwikComponent {
     pub id: Id,
     pub source_type: SourceType,
-    pub function: ArrowFunctionExpression<'a>,
+    pub code: String,
     pub qurl: Qrl,
 }
 
-impl<'a> QwikComponent<'a> {
+impl QwikComponent {
     pub fn new(
         source_info: &SourceInfo,
         segments: &Vec<&str>,
-        function: ArrowFunctionExpression<'a>,
+        function: ArrowFunctionExpression<'_>,
         target: &Target,
         scope: &Option<String>,
-    ) -> Result<QwikComponent<'a>> {
+    ) -> Result<QwikComponent> {
         let id = Id::new(source_info, segments, target, scope);
         let source_type = source_info.try_into()?;
         let qurl = Qrl::new(
             source_info.rel_path.to_str().unwrap_or_default(),
             &id.symbol_name,
         );
+        let code = Self::gen(&id, &function, &source_type, &Allocator::default());
         Ok(QwikComponent {
             id,
             source_type,
-            function,
+            code,
             qurl,
         })
     }
@@ -172,8 +174,8 @@ impl<'a> QwikComponent<'a> {
             ast_builder.import_specifier(SPAN, imported, local_name, ImportOrExportKind::Value);
     }
 
-    pub fn gen(&self, allocator: &Allocator) -> String {
-        let name = &self.id.symbol_name;
+    fn gen(id: &Id, function: &ArrowFunctionExpression, source_type: &SourceType,  allocator: &Allocator) -> String {
+        let name = &id.symbol_name;
 
         let ast_builder = AstBuilder::new(allocator);
 
@@ -182,12 +184,12 @@ impl<'a> QwikComponent<'a> {
         let id = OxcBox::new_in(ast_builder.binding_identifier(SPAN, name), allocator);
         let bind_pat = ast_builder.binding_pattern(
             BindingPatternKind::BindingIdentifier(id),
-            None::<OxcBox<'a, TSTypeAnnotation<'a>>>,
+            None::<OxcBox<'_, TSTypeAnnotation<'_>>>,
             false,
         );
         let mut var_declarator = OxcVec::new_in(allocator);
 
-        let boxed = OxcBox::new_in(self.function.clone_in(allocator), allocator);
+        let boxed = OxcBox::new_in(function.clone_in(allocator), allocator);
         let expr = Expression::ArrowFunctionExpression(boxed);
         var_declarator.push(ast_builder.variable_declarator(
             SPAN,
@@ -221,17 +223,17 @@ impl<'a> QwikComponent<'a> {
         let hw_export = CommonExport::BuilderIoQwik("_hW".into()).gen(ast_builder);
         body.push(hw_export);
 
-        // TODO: Replace with `AstBuilderExt::qwik_program`.
-        let new_pgm = Program {
-            span: SPAN,
-            source_type: self.source_type,
-            source_text: "",
-            comments: OxcVec::new_in(allocator),
-            hashbang: None,
-            directives: OxcVec::new_in(allocator),
-            body,
-            scope_id: Cell::new(None),
-        };
+        let ast_builder = AstBuilder::new(allocator);
+        
+        let new_pgm= ast_builder.program(
+            SPAN,
+            *source_type,
+            "",
+            OxcVec::new_in(allocator),
+            None,
+            OxcVec::new_in(allocator),
+            body
+        );
 
         let codegen = Codegen::new();
         codegen.build(&new_pgm).code
@@ -547,7 +549,6 @@ mod tests {
         let pgm = ast_builder.qwik_program(vec![statement], source_type);
         let codegen = Codegen::new();
         let script = codegen.build(&pgm).code;
-        println!("{}", script);
         
         let expected = r#"qrl(() => import("./test.tsx_renderHeader_zBbHWn4e8Cg"), "renderHeader_zBbHWn4e8Cg");"#;
         assert_eq!(script.trim(), expected.trim())
