@@ -1,9 +1,9 @@
 #![allow(unused)]
 use crate::error::Error;
-use oxc::ast::ast::{CallExpression, ImportDeclarationSpecifier, ImportOrExportKind, JSXAttribute, Statement, WithClause};
-use oxc::ast::AstBuilder;
-use oxc::allocator::{Box as OxcBox, Vec as OxcVec, IntoIn}; 
-use oxc::span::{Atom, SPAN};
+use oxc_ast::ast::{CallExpression, ImportDeclarationSpecifier, ImportOrExportKind, JSXAttribute, Statement, WithClause};
+use oxc_ast::AstBuilder;
+use oxc_allocator::{Box as OxcBox, Vec as OxcVec, IntoIn}; 
+use oxc_span::{Atom, SPAN};
 
 
 pub type Result<T> = core::result::Result<T, Error>;
