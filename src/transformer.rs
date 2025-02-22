@@ -3,27 +3,31 @@
 use crate::error::Error;
 use crate::prelude::*;
 use crate::sources::*;
-use oxc::allocator::{Allocator, Box as OxcBox, CloneIn, FromIn, HashMap as OxcHashMap, IntoIn, Vec as OxcVec};
-use oxc::ast::ast::{
-    ArrowFunctionExpression, BindingIdentifier, BindingPattern, CallExpression, Expression,
-    Function, IdentifierName, IdentifierReference, JSXAttribute, JSXClosingElement, JSXElement,
-    JSXOpeningElement, Program, Statement, VariableDeclaration, VariableDeclarator,
+use oxc_allocator::{
+    Allocator, Box as OxcBox, CloneIn, FromIn, HashMap as OxcHashMap, IntoIn, Vec as OxcVec,
 };
-use oxc::ast::visit::walk_mut::*;
-use oxc::ast::{AstType, Visit, VisitMut};
-use oxc::codegen::{Codegen, Context, Gen};
+use oxc_ast::ast::{
+    ArrowFunctionExpression, BindingIdentifier, BindingPattern, CallExpression, Expression,
+    ExpressionStatement, Function, IdentifierName, IdentifierReference, JSXAttribute,
+    JSXClosingElement, JSXElement, JSXOpeningElement, Program, Statement, VariableDeclaration,
+    VariableDeclarator,
+};
+use oxc_ast::visit::walk_mut::*;
+use oxc_ast::{match_member_expression, AstBuilder, AstType, Visit, VisitMut};
+use oxc_codegen::{Codegen, Context, Gen};
 use oxc_index::Idx;
 use std::borrow::Cow;
 
-use crate::component::{QwikComponent, SourceInfo, Target};
+use crate::component::{Qrl, QwikComponent, SourceInfo, Target};
 use crate::transformer::Mode::Recording;
-use oxc::parser::Parser;
-use oxc::semantic::{ScopeFlags, ScopeId, SemanticBuilder, SemanticBuilderReturn};
-use oxc::span::*;
-use std::cell::Cell;
+use oxc_semantic::{ScopeFlags, ScopeId, SemanticBuilder, SemanticBuilderReturn};
+use oxc_span::*;
+use std::cell::{Cell, RefCell};
 use std::collections::HashMap;
 use std::ops::Deref;
 use std::path::Components;
+use std::rc::Rc;
+use oxc_parser::Parser;
 
 struct TransformGenerator<'a> {
     pub components: Vec<QwikComponent>,
@@ -41,8 +45,8 @@ struct TransformGenerator<'a> {
     mode: Mode,
 
     source_info: &'a SourceInfo,
-    target: &'a Target,
-    scope: &'a Option<String>,
+    target: Target,
+    scope: Option<String>,
 }
 
 enum Mode {
@@ -54,10 +58,9 @@ impl<'a> TransformGenerator<'a> {
     fn new(
         allocator: &'a Allocator,
         source_info: &'a SourceInfo,
-        target: &'a Target,
-        scope: &'a Option<String>,
+        target: Target,
+        scope: Option<String>,
     ) -> Self {
-
         Self {
             components: Vec::new(),
             errors: Vec::new(),
@@ -115,131 +118,60 @@ impl<'a> TransformGenerator<'a> {
             Mode::Recording(_) => Mode::Scanning,
         }
     }
+
+    // pub fn component_aware_walk_expression_statement<'a, V: VisitMut<'a>>(
+    //     visitor: &mut V,
+    //     it: &mut ExpressionStatement<'a>,
+    // ) {
+    //     let kind = AstType::ExpressionStatement;
+    //     visitor.enter_node(kind);
+    //     visitor.visit_span(&mut it.span);
+    //     Self::component_aware_walk_expression(visitor, it);
+    //     visitor.leave_node(kind);
+    // }
+    //
+    // pub fn component_aware_walk_expression<'a, V: VisitMut<'a>>(
+    //     visitor: &mut V,
+    //     es: &mut ExpressionStatement<'a>,
+    // ) {
+    //     // No `AstType` for this type
+    //     let expr0 = &mut es.expression;
+    //     match expr0 {
+    //         Expression::CallExpression(it) => {
+    //             Self::component_aware_walk_call_expression(visitor, es)
+    //         }
+    //
+    //         // visitor.visit_call_expression(it),
+    //         expr => walk_expression(visitor, expr),
+    //     }
+    // }
+    //
+    // pub fn component_aware_walk_call_expression<'a, V: VisitMut<'a>>(
+    //     visitor: &mut V,
+    //     es: &mut ExpressionStatement<'a>,
+    // ) {
+    //     let it = &mut es.expression;
+    //
+    //     if let Expression::CallExpression(it) = it {
+    //         let kind = AstType::CallExpression;
+    //         visitor.enter_node(kind);
+    //         visitor.visit_span(&mut it.span);
+    //         visitor.visit_expression(&mut it.callee);
+    //         if let Some(type_parameters) = &mut it.type_parameters {
+    //             visitor.visit_ts_type_parameter_instantiation(type_parameters);
+    //         }
+    //         visitor.visit_arguments(&mut it.arguments);
+    //         visitor.leave_node(kind);
+    //     }
+    // }
 }
 
 const LOG_STATEMENTS: bool = false;
-const LOG_NODE_WALKS: bool = false;
+const LOG_NODE_WALKS: bool = true;
 
-const LOG_ARROW_FUNCS: bool = false;
+const LOG_ARROW_FUNCS: bool = true;
 
 impl<'a> VisitMut<'a> for TransformGenerator<'a> {
-    fn enter_scope(&mut self, flags: ScopeFlags, scope_id: &Cell<Option<ScopeId>>) {
-        self.current_scope_id = scope_id.get().map(|s| s.index()).unwrap_or(0);
-    }
-
-    fn leave_scope(&mut self) {
-        // println!("Exiting scope '{}'", self.current_scope_id);
-        if self.current_scope_id > 0 {
-            self.current_scope_id -= 1;
-        }
-    }
-
-    fn visit_call_expression(&mut self, it: &mut CallExpression<'a>) {
-        let mut recording = false;
-
-        let name = it.normalize_name();
-        self.push_segment(name);
-        if it.is_qwik() {
-            recording = true;
-            self.start_recording();
-        }
-
-        walk_call_expression(self, it);
-
-        self.segments.pop();
-        if recording {
-            self.stop_recording();
-        }
-    }
-
-    fn visit_binding_identifier(&mut self, it: &mut BindingIdentifier<'a>) {
-        // println!("Binding identifier {:?}", it);
-        walk_binding_identifier(self, it);
-    }
-
-    fn visit_binding_pattern(&mut self, it: &mut BindingPattern<'a>) {
-        // println!("Binding pattern {:?}", it);
-        walk_binding_pattern(self, it);
-    }
-
-    fn visit_statement(&mut self, it: &mut Statement<'a>) {
-        if LOG_STATEMENTS {
-            let indent = " ".repeat(self.current_scope_id * 4);
-            println!("{}[{}]{:#?}", indent, self.current_scope_id, it);
-        }
-        walk_statement(self, it);
-    }
-
-    fn visit_variable_declaration(&mut self, it: &mut VariableDeclaration<'a>) {
-        
-        if let Some(vd) = it.declarations.first() {
-            let name = &vd
-                .id
-                .get_identifier_name()
-                .map(|s| s.to_string())
-                .unwrap_or_default();
-
-            let pushed = self.push_segment(name.clone());
-            walk_variable_declaration(self, it);
-            if pushed {
-                self.segments.pop();
-            }
-        }
-    }
-
-    fn visit_jsx_element(&mut self, it: &mut JSXElement<'a>) {
-        
-        if let Some(name) = it.opening_element.name.get_identifier_name() {
-            let pushed = self.push_segment(name.to_string());
-            walk_jsx_element(self, it);
-            if pushed {
-                self.segments.pop();
-            }
-        }
-    }
-
-    fn visit_jsx_attribute(&mut self, it: &mut JSXAttribute<'a>) {
-        let indent = " ".repeat(self.current_scope_id * 4);
-
-        let pushed = self.push_segment(it.normalize_name());
-        walk_jsx_attribute(self, it);
-        if pushed {
-            self.segments.pop();
-        }
-    }
-
-    fn visit_arrow_function_expression(&mut self, it: &mut ArrowFunctionExpression<'a>) {
-        if LOG_ARROW_FUNCS {
-            println!("BEGIN: Arrow function expression {:?}", it);
-        }
-        
-        if let Mode::Recording(_) = self.mode {
-            let name = self.render_segments();
-            let segments: &Vec<&str> = &self.segments.iter().map(|s| s.as_str()).collect();
-            let comp = QwikComponent::new(
-                &self.source_info,
-                segments,
-                it.clone_in(self.allocator),
-                &self.target,
-                &self.scope,
-            );
-            match comp {
-                Ok(comp) => {
-                    self.components.push(comp);
-                }
-                Err(e) => {
-                    self.errors.push(e);
-                }
-            }
-        }
-
-        walk_arrow_function_expression(self, it);
-
-        if LOG_ARROW_FUNCS {
-            println!("END: Arrow function expression {:?}", it);
-        }
-    }
-
     fn enter_node(&mut self, kind: AstType) {
         self.descend();
         if LOG_NODE_WALKS {
@@ -268,6 +200,187 @@ impl<'a> VisitMut<'a> for TransformGenerator<'a> {
         }
     }
 
+    fn enter_scope(&mut self, flags: ScopeFlags, scope_id: &Cell<Option<ScopeId>>) {
+        self.current_scope_id = scope_id.get().map(|s| s.index()).unwrap_or(0);
+    }
+
+    fn leave_scope(&mut self) {
+        // println!("Exiting scope '{}'", self.current_scope_id);
+        if self.current_scope_id > 0 {
+            self.current_scope_id -= 1;
+        }
+    }
+
+    fn visit_binding_identifier(&mut self, it: &mut BindingIdentifier<'a>) {
+        // println!("Binding identifier {:?}", it);
+        walk_binding_identifier(self, it);
+    }
+
+    fn visit_call_expression(&mut self, it: &mut CallExpression<'a>) {
+        let mut recording = false;
+
+        let name = it.normalize_name();
+        let pushed = self.push_segment(name);
+        if it.is_qwik() {
+            recording = true;
+            self.start_recording();
+        }
+
+        walk_call_expression(self, it);
+
+        if pushed {
+            self.segments.pop();
+        }
+        if recording {
+            self.stop_recording();
+        }
+    }
+
+    fn visit_statement(&mut self, it: &mut Statement<'a>) {
+        if LOG_STATEMENTS {
+            let indent = " ".repeat(self.current_scope_id * 4);
+            println!("{}[{}]{:#?}", indent, self.current_scope_id, it);
+        }
+        walk_statement(self, it);
+    }
+
+    fn visit_variable_declaration(&mut self, it: &mut VariableDeclaration<'a>) {
+        if let Some(vd) = it.declarations.first() {
+            let name = &vd
+                .id
+                .get_identifier_name()
+                .map(|s| s.to_string())
+                .unwrap_or_default();
+
+            let pushed = self.push_segment(name.clone());
+
+            walk_variable_declaration(self, it);
+
+            if pushed {
+                let s = self.segments.pop();
+                // if let Some(s) = s {
+                //     println!("Popped segment {}", s);
+                // }
+            }
+        }
+    }
+
+    fn visit_expression_statement(&mut self, expr_statement: &mut ExpressionStatement<'a>) {
+
+        let kind = AstType::ExpressionStatement;
+        self.enter_node(kind);
+        self.visit_span(&mut expr_statement.span);
+
+        //
+        // let cell = RefCell::new(expr_statement);
+        // let rc = Rc::new(cell);
+        // self.expression_statements.push(rc);
+
+
+
+        self.visit_expression(&mut expr_statement.expression);
+
+
+        self.leave_node(kind);
+
+
+
+        // self.expression_statements.push(expr_statement);
+
+        // let expression = &mut expr_statement.expression;
+        // // if let Expression::CallExpression(it) = expr {
+        // let kind = AstType::ExpressionStatement;
+        // self.enter_node(kind);
+        // self.visit_span(&mut expr_statement.span);
+        // match expression {
+        //     Expression::CallExpression(call_expr) => {
+        //
+        //         let callee = &mut call_expr.callee;
+        //
+        //         match callee {
+        //             Expression::ArrowFunctionExpression(arrow_func_expr) => {
+        //                 if let Mode::Recording(_) = self.mode {
+        //                     let name = self.render_segments();
+        //                     let segments: &Vec<&str> =
+        //                         &self.segments.iter().map(|s| s.as_str()).collect();
+        //                     let comp = QwikComponent::new(
+        //                         self.source_info,
+        //                         segments,
+        //                         &arrow_func_expr,
+        //                         self.target,
+        //                         self.scope,
+        //                     );
+        //                     match comp {
+        //                         Ok(comp) => {
+        //                             let qrl = comp.qurl.clone();
+        //                             expr_statement.expression = qrl.into_in(self.allocator);
+        //                             self.components.push(comp);
+        //                         }
+        //                         Err(e) => {
+        //                             self.errors.push(e);
+        //                         }
+        //                     }
+        //                 }
+        //                 // walk_arrow_function_expression(self, arrow_func_expr);
+        //             }
+        //             // callee => walk_expression(self, callee)
+        //         }
+        //     },
+        //     expr => self.visit_expression(&mut expr_statement.expression)
+        // }
+        // self.leave_node(kind);
+    }
+
+    fn visit_arrow_function_expression(&mut self, it: &mut ArrowFunctionExpression<'a>) {
+        walk_arrow_function_expression(self, it);
+
+        if LOG_ARROW_FUNCS {
+            println!("BEGIN: Recording function expression {:?}", it);
+        }
+
+        if let Mode::Recording(_) = self.mode {
+            let name = self.render_segments();
+            let segments: &Vec<&str> = &self.segments.iter().map(|s| s.as_str()).collect();
+
+            let t = &self.target;
+            let scope = &self.scope;
+
+            let comp = QwikComponent::new(self.source_info, segments, &it, t, scope);
+            match comp {
+                Ok(comp) => {
+                    let qrl = comp.qurl.clone();
+                    self.components.push(comp);
+                }
+                Err(e) => {
+                    self.errors.push(e);
+                }
+            }
+        }
+
+        if LOG_ARROW_FUNCS {
+            println!("END: Recording Arrow function expression {:?}", it);
+        }
+    }
+
+    fn visit_jsx_element(&mut self, it: &mut JSXElement<'a>) {
+        if let Some(name) = it.opening_element.name.get_identifier_name() {
+            let pushed = self.push_segment(name.to_string());
+            walk_jsx_element(self, it);
+            if pushed {
+                self.segments.pop();
+            }
+        }
+    }
+
+    fn visit_jsx_attribute(&mut self, it: &mut JSXAttribute<'a>) {
+        let indent = " ".repeat(self.current_scope_id * 4);
+
+        let pushed = self.push_segment(it.normalize_name());
+        walk_jsx_attribute(self, it);
+        if pushed {
+            self.segments.pop();
+        }
+    }
 }
 
 pub fn transform<'a, S: ScriptSource>(script_source: S) -> Result<Vec<QwikComponent>> {
@@ -296,9 +409,8 @@ pub fn transform<'a, S: ScriptSource>(script_source: S) -> Result<Vec<QwikCompon
         // .with_cfg(true)                // Build a Control Flow Graph
         .build(&program);
 
-
     let source_info = SourceInfo::new("test.tsx")?;
-    let mut v = TransformGenerator::new(&allocator, &source_info, &Target::Dev, &None);
+    let mut v = TransformGenerator::new(&allocator, &source_info, Target::Dev, None);
 
     v.visit_program(&mut program);
 
@@ -318,14 +430,13 @@ pub fn transform<'a, S: ScriptSource>(script_source: S) -> Result<Vec<QwikCompon
     });
     println!("-------------------------------------");
 
-
     Ok(v.components)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    
+
     const SCRIPT1: &str = r#"
      import { $, component, onRender } from '@builder.io/qwik';
 
@@ -340,20 +451,19 @@ mod tests {
      return render;
     }));
     "#;
-    
+
     const EXPORT: &str = r#"export { _hW } from "@builder.io/qwik";"#;
-    
+
     const QURL: &str = r#"qurl(() => import("./test.tsx_renderHeader_component_U6Kkv07sbpQ"), "renderHeader_component_U6Kkv07sbpQ")"#;
 
     #[test]
     fn test_transform() {
         let components = transform(Container::from_script(SCRIPT1)).unwrap();
         assert_eq!(components.len(), 3);
-        
+
         let onclick = &components.get(1).unwrap().code.trim().to_string();
         let onclick_expected = r#"export const renderHeader_div_onClick_fV2uzAL99u4 = (ctx) => console.log(ctx);
 export { _hW } from "@builder.io/qwik";"#;
         assert_eq!(onclick, onclick_expected);
-
     }
 }

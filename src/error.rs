@@ -12,5 +12,5 @@ pub enum Error {
 
 
     #[error(transparent)]
-    OxcUnknownExtension(#[from] oxc::span::UnknownExtension),
+    OxcUnknownExtension(#[from] oxc_span::UnknownExtension),
 }

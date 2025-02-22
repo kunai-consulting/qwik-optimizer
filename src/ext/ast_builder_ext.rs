@@ -1,9 +1,9 @@
-use oxc::allocator::{Box as OxcBox, IntoIn, Vec as OxcVec};
-use oxc::ast::ast::{
+use oxc_allocator::{Box as OxcBox, IntoIn, Vec as OxcVec};
+use oxc_ast::ast::{
     Expression, ImportDeclarationSpecifier, ImportOrExportKind, Program, Statement, WithClause,
 };
-use oxc::ast::AstBuilder;
-use oxc::span::{Atom, SourceType, SPAN};
+use oxc_ast::AstBuilder;
+use oxc_span::{Atom, SourceType, SPAN};
 use std::cell::Cell;
 
 pub trait AstBuilderExt<'a> {
