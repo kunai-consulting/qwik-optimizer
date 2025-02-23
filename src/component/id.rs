@@ -101,7 +101,7 @@ impl Id {
     /// [V 1.0 REF] see `QwikTransform.register_context_name` in `transform.rs.
     pub fn new(
         source_info: &SourceInfo,
-        segments: &Vec<&str>,
+        segments: &Vec<String>,
         target: &Target,
         scope: &Option<String>,
     ) -> Id {
@@ -173,7 +173,7 @@ mod tests {
         let source_info0 = SourceInfo::new("./app.js").unwrap();
         let id0 = Id::new(
             &source_info0,
-            &vec!["a", "b", "c"],
+            &vec!["a".to_string(), "b".to_string(), "c".to_string()],
             &Target::Dev,
             &Option::None,
         );
@@ -188,7 +188,7 @@ mod tests {
         };
 
         let scope1 = Some("scope".to_string());
-        let id1 = Id::new(&source_info0, &vec!["1", "b", "c"], &Target::Prod, &scope1);
+        let id1 = Id::new(&source_info0, &vec!["1".to_string(), "b".to_string(), "c".to_string()], &Target::Prod, &scope1);
         // Leading  segments that are digits are prefixed with an additional underscore.
         let hash1 = Id::calculate_hash("./app.js", "_1_b_c", &scope1);
         let expected1 = Id {
