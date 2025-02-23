@@ -338,24 +338,24 @@ impl<'a> VisitMut<'a> for TransformGenerator<'a> {
             println!("BEGIN: Recording function expression {:?}", it);
         }
 
-        if let Mode::Recording(_) = self.mode {
-            let name = self.render_segments();
-            let segments: &Vec<&str> = &self.segments.iter().map(|s| s.as_str()).collect();
-
-            let t = &self.target;
-            let scope = &self.scope;
-
-            let comp = QwikComponent::new(self.source_info, segments, &it, t, scope);
-            match comp {
-                Ok(comp) => {
-                    let qrl = comp.qurl.clone();
-                    self.components.push(comp);
-                }
-                Err(e) => {
-                    self.errors.push(e);
-                }
-            }
-        }
+        // if let Mode::Recording(_) = self.mode {
+        //     let name = self.render_segments();
+        //     let segments: &Vec<&str> = &self.segments.iter().map(|s| s.as_str()).collect();
+        // 
+        //     let t = &self.target;
+        //     let scope = &self.scope;
+        // 
+        //     let comp = QwikComponent::new(self.source_info, segments, &it, t, scope);
+        //     match comp {
+        //         Ok(comp) => {
+        //             let qrl = comp.qurl.clone();
+        //             self.components.push(comp);
+        //         }
+        //         Err(e) => {
+        //             self.errors.push(e);
+        //         }
+        //     }
+        // }
 
         if LOG_ARROW_FUNCS {
             println!("END: Recording Arrow function expression {:?}", it);
