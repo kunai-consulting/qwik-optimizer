@@ -17,7 +17,7 @@ pub struct QwikComponent {
 impl QwikComponent {
     pub fn new(
         source_info: &SourceInfo,
-        segments: &Vec<&str>,
+        segments: &Vec<String>,
         function: &ArrowFunctionExpression<'_>,
         target: &Target,
         scope: &Option<String>,
