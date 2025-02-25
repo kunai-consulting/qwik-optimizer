@@ -36,7 +36,7 @@ impl<'a> AstBuilderExt<'a> for AstBuilder<'a> {
             source_location,
             None,
             None::<OxcBox<'a, WithClause<'a>>>,
-            ImportOrExportKind::Type,
+            ImportOrExportKind::Value,
         );
 
         Statement::ImportDeclaration(OxcBox::new_in(import_decl, self.allocator))
