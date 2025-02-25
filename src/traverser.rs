@@ -4,13 +4,14 @@ use crate::error::Error;
 use crate::prelude::*;
 use crate::sources::*;
 use oxc_allocator::{
-    Allocator, Box as OxcBox, CloneIn, FromIn, HashMap as OxcHashMap, IntoIn, Vec as OxcVec,
+    Allocator, Box as OxcBox, CloneIn, FromIn, GetAddress, HashMap as OxcHashMap, IntoIn,
+    Vec as OxcVec,
 };
 use oxc_ast::ast::{
-    ArrowFunctionExpression, BindingIdentifier, BindingPattern, CallExpression, Expression,
-    ExpressionStatement, Function, IdentifierName, IdentifierReference, JSXAttribute,
-    JSXAttributeName, JSXClosingElement, JSXElement, JSXElementName, JSXOpeningElement, Program,
-    Statement, VariableDeclaration, VariableDeclarator,
+    Argument, ArrowFunctionExpression, BindingIdentifier, BindingPattern, CallExpression,
+    Expression, ExpressionStatement, Function, IdentifierName, IdentifierReference, JSXAttribute,
+    JSXAttributeName, JSXAttributeValue, JSXClosingElement, JSXElement, JSXElementName,
+    JSXExpression, JSXOpeningElement, Program, Statement, VariableDeclaration, VariableDeclarator,
 };
 use oxc_ast::visit::walk_mut::*;
 use oxc_ast::{match_member_expression, AstBuilder, AstType, Visit, VisitMut};
@@ -18,33 +19,40 @@ use oxc_codegen::{Codegen, Context, Gen};
 use oxc_index::Idx;
 use std::borrow::Cow;
 
-use crate::component::{Qrl, QwikComponent, SourceInfo, Target};
+use crate::component::*;
 use oxc_parser::Parser;
 use oxc_semantic::{ScopeFlags, ScopeId, SemanticBuilder, SemanticBuilderReturn};
 use oxc_span::*;
-use oxc_traverse::{traverse_mut, Traverse, TraverseCtx};
+use oxc_traverse::{traverse_mut, Ancestor, Traverse, TraverseCtx};
 use std::cell::{Cell, RefCell};
 use std::collections::HashMap;
 use std::fmt::Display;
 use std::ops::Deref;
 use std::path::Components;
-use std::rc::Rc;
 
-struct TransformGenerator<'a> {
+struct TransformGenerator {
     pub components: Vec<QwikComponent>,
 
     pub errors: Vec<Error>,
 
-    allocator: &'a Allocator,
-
     depth: usize,
 
-    segments: Vec<Segment>,
+    segment_stack: Vec<Segment>,
+
+    component_stack: Vec<QwikComponent>,
+
+    jsx_qurl_stack: Vec<Qrl>,
+
+    var_decl_stack: Vec<Qrl>,
+
+    qrl_import_stack: usize,
 
     mode: Mode,
 
-    source_info: &'a SourceInfo,
+    source_info: SourceInfo,
+
     target: Target,
+
     scope: Option<String>,
 }
 
@@ -124,19 +132,18 @@ enum Mode {
     Recording(usize),
 }
 
-impl<'a> TransformGenerator<'a> {
-    fn new(
-        allocator: &'a Allocator,
-        source_info: &'a SourceInfo,
-        target: Target,
-        scope: Option<String>,
-    ) -> Self {
+impl TransformGenerator {
+    fn new(source_info: SourceInfo, target: Target, scope: Option<String>) -> Self {
         Self {
             components: Vec::new(),
             errors: Vec::new(),
-            allocator,
+            // allocator,
             depth: 0,
-            segments: Vec::new(),
+            segment_stack: Vec::new(),
+            component_stack: Vec::new(),
+            jsx_qurl_stack: Vec::new(),
+            var_decl_stack: Vec::new(),
+            qrl_import_stack: 0,
             mode: Mode::Scanning,
             source_info,
             target,
@@ -144,13 +151,9 @@ impl<'a> TransformGenerator<'a> {
         }
     }
 
-    fn print_segments(&self) {
-        println!("{}", self.render_segments());
-    }
-
     fn render_segments(&self) -> String {
         let ss: Vec<String> = self
-            .segments
+            .segment_stack
             .iter()
             .filter(|s| **s != Segment::AnonymousCaptured)
             .map(|s| {
@@ -187,13 +190,17 @@ impl<'a> TransformGenerator<'a> {
         self.depth += 1;
     }
 
-    fn debug(&self, s: &str) {
+    fn debug<T: AsRef<str>>(&self, s: T) {
         if DEBUG {
             let indent = "--".repeat(self.depth);
             let prefix = format!("|{}", indent);
             println!(
                 "{}[{}|MODE: {:?}]{}. Segments: {}",
-                prefix, self.depth, self.mode, s, self.render_segments()
+                prefix,
+                self.depth,
+                self.mode,
+                s.as_ref(),
+                self.render_segments()
             );
         }
     }
@@ -201,16 +208,34 @@ impl<'a> TransformGenerator<'a> {
 
 const DEBUG: bool = true;
 
-impl<'a> Traverse<'a> for TransformGenerator<'a> {
+impl<'a> Traverse<'a> for TransformGenerator {
+    fn enter_expression_statement(
+        &mut self,
+        node: &mut ExpressionStatement<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        self.ascend();
+        self.debug("ENTER: ExpressionStatement");
+    }
+
+    fn exit_expression_statement(
+        &mut self,
+        node: &mut ExpressionStatement<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        self.debug("EXIT: ExpressionStatement");
+        self.descend();
+    }
+
     fn enter_call_expression(&mut self, node: &mut CallExpression<'a>, ctx: &mut TraverseCtx<'a>) {
         self.ascend();
-        self.debug("ENTER: CallExpression");
+        self.debug(format!("ENTER: CallExpression, {:?}", node).);
 
         let name = node.callee_name().unwrap_or_default().to_string();
 
         let segment: Segment = name.into();
         let is_qwik = segment.is_qwik();
-        self.segments.push(segment);
+        self.segment_stack.push(segment);
 
         if is_qwik {
             self.start_recording();
@@ -218,15 +243,34 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
     }
 
     fn exit_call_expression(&mut self, node: &mut CallExpression<'a>, ctx: &mut TraverseCtx<'a>) {
-        let segment = self.segments.pop();
+        let segment = self.segment_stack.pop();
 
         if let Some(segment) = segment {
             if segment.is_qwik() {
                 self.stop_recording();
+                if let Some(comp) = self.component_stack.pop() {
+                    let qrl = &comp.qurl;
+                    let qrl = qrl.clone();
+                    println!(
+                        "CALLEE BEFORE: {:#?} PARENT {:?}",
+                        node.callee,
+                        ctx.parent()
+                    );
+
+                    match ctx.parent() {
+                        Ancestor::JSXExpressionContainerExpression(_) => {
+                            self.jsx_qurl_stack.push(qrl)
+                        }
+                        _ => node.callee = qrl.into_in(ctx.ast.allocator),
+                    }
+
+                    println!("CALLEE AFTER: {:#?}", node.callee);
+                    self.components.push(comp);
+                }
             }
         }
 
-        self.debug("EXIT: CallExpression");
+        self.debug(format!("EXIT: CallExpression. SCOPE[{:?}]", ctx.current_scope_id()));
         self.descend();
     }
 
@@ -241,7 +285,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         if let Some(vd) = node.declarations.first() {
             let id = &vd.id;
             let s: Segment = id.into();
-            self.segments.push(s);
+            self.segment_stack.push(s);
         }
     }
 
@@ -251,7 +295,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         ctx: &mut TraverseCtx<'a>,
     ) {
         if let Some(vd) = node.declarations.first() {
-            self.segments.pop();
+            self.segment_stack.pop();
         }
         self.debug("EXIT: VariableDeclaration");
         self.descend();
@@ -275,7 +319,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
             let name = self.render_segments();
 
             let segments: Vec<String> = self
-                .segments
+                .segment_stack
                 .iter()
                 .filter(|s| **s != Segment::AnonymousCaptured)
                 .map(|s| {
@@ -286,12 +330,19 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
 
             let t = &self.target;
             let scope = &self.scope;
+            let imports = if self.qrl_import_stack > 0 {
+                self.qrl_import_stack -= 1;
+                let qrl_import = CommonImport::BuilderIoQwik("qrl".to_string());
+                vec![qrl_import]
+            } else {
+                vec![]
+            };
 
-            let comp = QwikComponent::new(self.source_info, &segments, &node, t, scope);
+            let comp = QwikComponent::new(&self.source_info, &segments, node, imports, t, scope);
             match comp {
                 Ok(comp) => {
-                    let qrl = comp.qurl.clone();
-                    self.components.push(comp);
+                    self.qrl_import_stack += 1;
+                    self.component_stack.push(comp);
                 }
                 Err(e) => {
                     self.errors.push(e);
@@ -307,13 +358,13 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         self.debug("ENTER: JSXElementName");
         if let Some(name) = node.opening_element.name.get_identifier_name() {
             let segment: Segment = name.into();
-            self.segments.push(segment);
+            self.segment_stack.push(segment);
         }
     }
 
     fn exit_jsx_element(&mut self, node: &mut JSXElement<'a>, ctx: &mut TraverseCtx<'a>) {
         if let Some(name) = node.opening_element.name.get_identifier_name() {
-            self.segments.pop();
+            self.segment_stack.pop();
         }
         self.debug("EXIT: JSXElementName");
         self.descend();
@@ -322,14 +373,48 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
     fn enter_jsx_attribute(&mut self, node: &mut JSXAttribute<'a>, ctx: &mut TraverseCtx<'a>) {
         self.ascend();
         self.debug("ENTER: JSXAttribute");
+        println!("JSX_ATTRIBUTE BEFORE: {:#?}", node.value);
         let segment: Segment = node.name.get_identifier().name.into();
-        self.segments.push(segment);
+        self.segment_stack.push(segment);
     }
 
     fn exit_jsx_attribute(&mut self, node: &mut JSXAttribute<'a>, ctx: &mut TraverseCtx<'a>) {
-        self.segments.pop();
-        self.debug("EXIT: JSXAttributeName");
+        self.segment_stack.pop();
+        self.debug("EXIT: JSXAttribute");
         self.descend();
+        println!("JSX_ATTRIBUTE AFTER: {:#?}", node.value);
+    }
+
+    fn exit_jsx_attribute_value(
+        &mut self,
+        node: &mut JSXAttributeValue<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        if let JSXAttributeValue::ExpressionContainer(container) = node {
+            let wrl = self.jsx_qurl_stack.pop();
+            if let Some(qrl) = wrl {
+                // let call_expression = qrl.clone().as_call_expression(&ctx.ast);
+                // container.expression = JSXExpression::CallExpression(OxcBox::new_in(
+                //     call_expression,
+                //     ctx.ast.allocator,
+                // ));
+                container.expression = qrl.into_in(ctx.ast.allocator)
+            }
+        }
+    }
+
+    fn exit_variable_declarator(
+        &mut self,
+        node: &mut VariableDeclarator<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        if let Some(init) = &mut node.init {
+            let qrl = self.var_decl_stack.pop();
+            if let Some(qrl) = qrl {
+                node.init = Some(qrl.into_in(ctx.ast.allocator));
+            }
+        }
+
     }
 }
 
@@ -342,9 +427,6 @@ pub fn transform<'a, S: ScriptSource>(script_source: S) -> Result<(Vec<QwikCompo
         .ok_or_else(|| Error::Generic("No script found".to_string()))?;
     let mut errors = Vec::new();
 
-    // Step 1: Parsing
-    // Parse the TSX file into an AST. The root AST node is a `Program` struct.
-    // let ParserReturn { program, module_record, errors , irregular_whitespaces, panicked, is_flow_language } =
     let parse_return = Parser::new(&allocator, first_script, source_type).parse();
     errors.extend(parse_return.errors);
 
@@ -359,16 +441,16 @@ pub fn transform<'a, S: ScriptSource>(script_source: S) -> Result<(Vec<QwikCompo
         // .with_cfg(true)                // Build a Control Flow Graph
         .build(&program);
 
-    let source_info = SourceInfo::new("test.tsx")?;
-    let mut v = &mut TransformGenerator::new(&allocator, &source_info, Target::Dev, None);
+    let source_info = SourceInfo::new("./test.tsx")?;
+    let mut transform = &mut TransformGenerator::new(source_info, Target::Dev, None);
 
     let (symbols, scopes) = semantic.into_symbol_table_and_scope_tree();
 
-    traverse_mut(v, &allocator, &mut program, symbols, scopes);
+    traverse_mut(transform, &allocator, &mut program, symbols, scopes);
 
     println!("-------------------------------------");
-    println!("Arrow funcs {}", v.components.len());
-    v.components.iter().for_each(|comp| {
+    println!("Arrow funcs {}", transform.components.len());
+    transform.components.iter().for_each(|comp| {
         let mut code_gen0 = Codegen::default();
         let code_gen = &mut code_gen0;
 
@@ -377,7 +459,7 @@ pub fn transform<'a, S: ScriptSource>(script_source: S) -> Result<(Vec<QwikCompo
     });
     println!("-------------------------------------");
 
-    Ok(v.components.clone())
+    Ok(transform.components.clone())
 }
 
 #[cfg(test)]
@@ -413,6 +495,21 @@ mod tests {
             r#"export const renderHeader_div_onClick_fV2uzAL99u4 = (ctx) => console.log(ctx);
 export { _hW } from "@builder.io/qwik";"#
                 .trim();
+
+        let renderHeader = &components
+            .get(1)
+            .unwrap()
+            .code
+            .trim()
+            .to_string()
+            .replace("\t", "");
+        let renderHeader_expected = r#"import { qrl } from "@builder.io/qwik";
+export const renderHeader_zBbHWn4e8Cg = () => {
+return <div onClick={qrl(() => import("./test.tsx_renderHeader_div_onClick_fV2uzAL99u4"), "renderHeader_div_onClick_fV2uzAL99u4")} />;
+};
+export { _hW } from "@builder.io/qwik";"#.trim();
+
         assert_eq!(onclick, onclick_expected);
+        assert_eq!(renderHeader, renderHeader_expected);
     }
 }

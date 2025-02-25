@@ -1,19 +1,20 @@
+use std::borrow::Borrow;
 use crate::ext::AstBuilderExt;
-use oxc_allocator::{Allocator, IntoIn};
+use oxc_allocator::{Allocator, FromIn, IntoIn};
 use oxc_ast::ast::{Expression, Statement};
 use oxc_ast::AstBuilder;
 
 const BUILDER_IO_QWIK: &str = "@builder.io/qwik";
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
-pub(super) enum CommonImport {
+pub enum CommonImport {
     BuilderIoQwik(String),
 }
 
-impl<'a> IntoIn<'a, Statement<'a>> for CommonImport {
-    fn into_in(self, allocator: &'a Allocator) -> Statement<'a> {
+impl<'a> FromIn<'a, CommonImport> for Statement<'a> {
+    fn from_in(value: CommonImport, allocator: &'a Allocator) -> Self {
         let ast_builder = AstBuilder::new(allocator);
-        match self {
+        match value {
             CommonImport::BuilderIoQwik(name) => {
                 ast_builder.qwik_import(name.as_str(), BUILDER_IO_QWIK)
             }
@@ -21,15 +22,17 @@ impl<'a> IntoIn<'a, Statement<'a>> for CommonImport {
     }
 }
 
+
+
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum CommonExport {
     BuilderIoQwik(String),
 }
 
-impl<'a> IntoIn<'a, Statement<'a>> for CommonExport {
-    fn into_in(self, allocator: &'a Allocator) -> Statement<'a> {
+impl<'a> FromIn<'a, CommonExport> for Statement<'a> {
+    fn from_in(value: CommonExport, allocator: &'a Allocator) -> Self {
         let ast_builder = AstBuilder::new(allocator);
-        match self {
+        match value {
             CommonExport::BuilderIoQwik(name) => {
                 ast_builder.qwik_export(name.as_str(), BUILDER_IO_QWIK)
             }

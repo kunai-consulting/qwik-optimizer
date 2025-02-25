@@ -129,7 +129,8 @@ impl Id {
         }
         display_name = Self::sanitize(&display_name);
 
-        let hash64 = Self::calculate_hash(&local_file_name, &display_name, scope);
+        let normalized_local_file_name = local_file_name.strip_prefix("./").unwrap_or(&local_file_name);
+        let hash64 = Self::calculate_hash(normalized_local_file_name, &display_name, scope);
 
         let symbol_name = match target {
             Target::Dev | Target::Test => format!("{}_{}", display_name, hash64),
@@ -138,10 +139,11 @@ impl Id {
 
         let display_name = format!("{}_{}", &source_info.file_name, display_name);
 
+        let local_file_name = format!("{}_{}", local_file_name, symbol_name);
         Id {
             display_name,
             symbol_name,
-            local_file_name: source_info.file_name.clone(),
+            local_file_name,
             hash: hash64,
             scope: scope.clone(),
         }
@@ -170,19 +172,19 @@ mod tests {
     
     #[test]
     fn creates_a_id() {
-        let source_info0 = SourceInfo::new("./app.js").unwrap();
+        let source_info0 = SourceInfo::new("app.js").unwrap();
         let id0 = Id::new(
             &source_info0,
             &vec!["a".to_string(), "b".to_string(), "c".to_string()],
             &Target::Dev,
             &Option::None,
         );
-        let hash0 = Id::calculate_hash("./app.js", "a_b_c", &None);
+        let hash0 = Id::calculate_hash("app.js", "a_b_c", &None);
 
         let expected0 = Id {
             display_name: "app.js_a_b_c".to_string(),
             symbol_name: format!("a_b_c_{}", hash0),
-            local_file_name: "app.js".to_string(),
+            local_file_name: "app.js_a_b_c_tZuivXMgs2w".to_string(),
             hash: hash0,
             scope: None,
         };
@@ -190,12 +192,12 @@ mod tests {
         let scope1 = Some("scope".to_string());
         let id1 = Id::new(&source_info0, &vec!["1".to_string(), "b".to_string(), "c".to_string()], &Target::Prod, &scope1);
         // Leading  segments that are digits are prefixed with an additional underscore.
-        let hash1 = Id::calculate_hash("./app.js", "_1_b_c", &scope1);
+        let hash1 = Id::calculate_hash("app.js", "_1_b_c", &scope1);
         let expected1 = Id {
             display_name: "app.js__1_b_c".to_string(),
             // When Target is neither "Dev" nor "Test", the symbol name is set to "s_{hash}".
             symbol_name: format!("s_{}", hash1),
-            local_file_name: "app.js".to_string(),
+            local_file_name: "app.js_s_bQ4D62Vr0Zg".to_string(),
             hash: hash1,
             scope: Some("scope".to_string()),
         };
