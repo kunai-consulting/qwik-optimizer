@@ -8,16 +8,17 @@ use oxc_allocator::{
     Vec as OxcVec,
 };
 use oxc_ast::ast::{
-    Argument, ArrowFunctionExpression, BindingIdentifier, BindingPattern, CallExpression,
-    Expression, ExpressionStatement, Function, IdentifierName, IdentifierReference, JSXAttribute,
-    JSXAttributeName, JSXAttributeValue, JSXClosingElement, JSXElement, JSXElementName,
-    JSXExpression, JSXOpeningElement, Program, Statement, VariableDeclaration, VariableDeclarator,
+    Argument, ArrowFunctionExpression, BindingIdentifier, BindingPattern, BindingPatternKind,
+    CallExpression, Expression, ExpressionStatement, Function, IdentifierName, IdentifierReference,
+    JSXAttribute, JSXAttributeName, JSXAttributeValue, JSXClosingElement, JSXElement,
+    JSXElementName, JSXExpression, JSXOpeningElement, Program, Statement, TSTypeAnnotation,
+    VariableDeclaration, VariableDeclarator,
 };
 use oxc_ast::visit::walk_mut::*;
 use oxc_ast::{match_member_expression, AstBuilder, AstType, Visit, VisitMut};
 use oxc_codegen::{Codegen, Context, Gen};
 use oxc_index::Idx;
-use std::borrow::Cow;
+use std::borrow::{Borrow, Cow};
 
 use crate::component::*;
 use oxc_parser::Parser;
@@ -56,6 +57,7 @@ struct TransformGenerator {
     scope: Option<String>,
 }
 
+use std::marker::Sized;
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 enum Segment {
     Named(String),
@@ -64,13 +66,14 @@ enum Segment {
 }
 
 impl Segment {
-    fn new(input: String) -> Segment {
+    fn new<T: AsRef<str>>(input: T) -> Segment {
+        let input = input.as_ref();
         if (input == "$") {
             Segment::AnonymousCaptured
         } else {
             match input.strip_suffix("$") {
                 Some(name) => Segment::NamedCaptured(name.to_string()),
-                None => Segment::Named(input),
+                None => Segment::Named(input.into()),
             }
         }
     }
@@ -81,6 +84,25 @@ impl Segment {
             Segment::AnonymousCaptured => true,
             Segment::NamedCaptured(_) => true,
         }
+    }
+
+    fn into_binding_identifier<'a>(&self, allocator: &'a Allocator) -> BindingIdentifier<'a> {
+        let ast_builder = AstBuilder::new(allocator);
+        match self {
+            Segment::Named(name) => ast_builder.binding_identifier(SPAN, name),
+            Segment::AnonymousCaptured => ast_builder.binding_identifier(SPAN, "$"),
+            Segment::NamedCaptured(name) => ast_builder.binding_identifier(SPAN, name),
+        }
+    }
+
+    fn into_binding_pattern<'a>(&self, allocator: &'a Allocator) -> BindingPattern<'a> {
+        let ast_builder = AstBuilder::new(allocator);
+        let id = OxcBox::new_in(self.into_binding_identifier(allocator), allocator);
+        ast_builder.binding_pattern(
+            BindingPatternKind::BindingIdentifier(id),
+            None::<OxcBox<'a, TSTypeAnnotation<'a>>>,
+            false,
+        )
     }
 }
 
@@ -94,35 +116,35 @@ impl Display for Segment {
     }
 }
 
-impl Into<String> for &Segment {
-    fn into(self) -> String {
-        match self {
-            Segment::Named(name) => name.into(),
-            Segment::AnonymousCaptured => "$".into(),
-            Segment::NamedCaptured(name) => name.into(),
-        }
+impl<'a> FromIn<'a, Segment> for BindingPattern<'a> {
+    fn from_in(value: Segment, allocator: &'a Allocator) -> Self {
+        value.into_binding_pattern(allocator)
     }
 }
 
-impl From<Atom<'_>> for Segment {
-    fn from(input: Atom) -> Segment {
-        input.to_string().into()
-    }
-}
-
-impl From<String> for Segment {
-    fn from(input: String) -> Segment {
-        Segment::new(input)
-    }
-}
-
-impl From<&BindingPattern<'_>> for Segment {
-    fn from(input: &BindingPattern) -> Segment {
-        input
+impl<'a> FromIn<'a, &'a BindingPattern<'a>> for Segment {
+    fn from_in(value: &'a BindingPattern<'a>, allocator: &'a Allocator) -> Self {
+        let s: String = value
             .get_identifier_name()
+            .iter()
             .map(|s| s.to_string())
-            .unwrap_or_default()
-            .into()
+            .collect();
+        Segment::new(s)
+    }
+}
+
+impl From<&Segment> for String {
+    fn from(input: &Segment) -> Self {
+        input.to_string()
+    }
+}
+
+impl<T> From<T> for Segment
+where
+    T: AsRef<str>,
+{
+    fn from(input: T) -> Self {
+        Segment::new(input)
     }
 }
 
@@ -137,7 +159,6 @@ impl TransformGenerator {
         Self {
             components: Vec::new(),
             errors: Vec::new(),
-            // allocator,
             depth: 0,
             segment_stack: Vec::new(),
             component_stack: Vec::new(),
@@ -209,27 +230,9 @@ impl TransformGenerator {
 const DEBUG: bool = true;
 
 impl<'a> Traverse<'a> for TransformGenerator {
-    fn enter_expression_statement(
-        &mut self,
-        node: &mut ExpressionStatement<'a>,
-        ctx: &mut TraverseCtx<'a>,
-    ) {
-        self.ascend();
-        self.debug("ENTER: ExpressionStatement");
-    }
-
-    fn exit_expression_statement(
-        &mut self,
-        node: &mut ExpressionStatement<'a>,
-        ctx: &mut TraverseCtx<'a>,
-    ) {
-        self.debug("EXIT: ExpressionStatement");
-        self.descend();
-    }
-
     fn enter_call_expression(&mut self, node: &mut CallExpression<'a>, ctx: &mut TraverseCtx<'a>) {
         self.ascend();
-        self.debug(format!("ENTER: CallExpression, {:?}", node).);
+        self.debug(format!("ENTER: CallExpression, {:?}", node));
 
         let name = node.callee_name().unwrap_or_default().to_string();
 
@@ -270,34 +273,85 @@ impl<'a> Traverse<'a> for TransformGenerator {
             }
         }
 
-        self.debug(format!("EXIT: CallExpression. SCOPE[{:?}]", ctx.current_scope_id()));
+        self.debug(format!(
+            "EXIT: CallExpression. SCOPE[{:?}]",
+            ctx.current_scope_id()
+        ));
         self.descend();
     }
 
-    fn enter_variable_declaration(
+    // fn enter_variable_declaration(
+    //     &mut self,
+    //     node: &mut VariableDeclaration<'a>,
+    //     ctx: &mut TraverseCtx<'a>,
+    // ) {
+    //     self.ascend();
+    //     self.debug("ENTER: VariableDeclaration.");
+    //
+    //     if let Some(vd) = node.declarations.first() {
+    //         let id = &vd.id;
+    //         let s: Segment = id.into_in(ctx.ast.allocator);
+    //         self.segment_stack.push(s);
+    //     }
+    // }
+
+    // fn exit_variable_declaration(
+    //     &mut self,
+    //     node: &mut VariableDeclaration<'a>,
+    //     ctx: &mut TraverseCtx<'a>,
+    // ) {
+    //     if let Some(vd) = node.declarations.first() {
+    //         self.segment_stack.pop();
+    //     }
+    //     self.debug("EXIT: VariableDeclaration");
+    //     self.descend();
+    // }
+
+    fn enter_variable_declarator(
         &mut self,
-        node: &mut VariableDeclaration<'a>,
+        node: &mut VariableDeclarator<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) {
         self.ascend();
-        self.debug("ENTER: VariableDeclaration");
-
-        if let Some(vd) = node.declarations.first() {
-            let id = &vd.id;
-            let s: Segment = id.into();
-            self.segment_stack.push(s);
-        }
+        self.debug(format!("ENTER: VariableDeclarator.  ID {:?}", node.id));
+        let id = &node.id;
+        let s: Segment = id.into_in(ctx.ast.allocator);
+        self.segment_stack.push(s);
     }
 
-    fn exit_variable_declaration(
+    fn exit_variable_declarator(
         &mut self,
-        node: &mut VariableDeclaration<'a>,
+        node: &mut VariableDeclarator<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) {
-        if let Some(vd) = node.declarations.first() {
-            self.segment_stack.pop();
+        if let Some(init) = &mut node.init {
+            let qrl = self.var_decl_stack.pop();
+            if let Some(qrl) = qrl {
+                node.init = Some(qrl.into_in(ctx.ast.allocator));
+            }
         }
-        self.debug("EXIT: VariableDeclaration");
+
+        self.segment_stack.pop();
+
+        self.debug("EXIT: VariableDeclarator");
+        self.descend();
+    }
+
+    fn enter_expression_statement(
+        &mut self,
+        node: &mut ExpressionStatement<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        self.ascend();
+        self.debug("ENTER: ExpressionStatement");
+    }
+
+    fn exit_expression_statement(
+        &mut self,
+        node: &mut ExpressionStatement<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        self.debug("EXIT: ExpressionStatement");
         self.descend();
     }
 
@@ -401,20 +455,6 @@ impl<'a> Traverse<'a> for TransformGenerator {
                 container.expression = qrl.into_in(ctx.ast.allocator)
             }
         }
-    }
-
-    fn exit_variable_declarator(
-        &mut self,
-        node: &mut VariableDeclarator<'a>,
-        ctx: &mut TraverseCtx<'a>,
-    ) {
-        if let Some(init) = &mut node.init {
-            let qrl = self.var_decl_stack.pop();
-            if let Some(qrl) = qrl {
-                node.init = Some(qrl.into_in(ctx.ast.allocator));
-            }
-        }
-
     }
 }
 
