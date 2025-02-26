@@ -32,6 +32,13 @@ use std::fmt::Display;
 use std::ops::Deref;
 use std::path::Components;
 
+
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Default)]
+pub struct QwikApp {
+    pub body: String,
+    pub components: Vec<QwikComponent>,
+}
+
 struct TransformGenerator {
     pub components: Vec<QwikComponent>,
 
@@ -336,7 +343,6 @@ impl<'a> Traverse<'a> for TransformGenerator {
             }
         }
     }
-    
     
 }
 

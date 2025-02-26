@@ -5,14 +5,16 @@ use oxc_codegen::Codegen;
 use oxc_span::{SourceType, SPAN};
 use crate::component::*;
 use crate::prelude::*;
+use crate::component::Language;
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub struct QwikComponent {
     pub id: Id,
-    pub source_type: SourceType,
+    pub language: Language,
     pub code: String,
     pub qurl: Qrl,
 }
+
 
 impl QwikComponent {
     pub fn new(
@@ -23,28 +25,24 @@ impl QwikComponent {
         target: &Target,
         scope: &Option<String>,
     ) -> Result<QwikComponent> {
+        let language = source_info.language.clone();
         let id = Id::new(source_info, segments, target, scope);
-        let source_type = source_info.try_into()?;
         let qurl = Qrl::new(
             &id.local_file_name,
             &id.symbol_name,
         );
+        
+        let source_type: SourceType = language.into();
+        
         let code = Self::gen(&id, function, imports, &source_type, &Allocator::default());
         Ok(QwikComponent {
             id,
-            source_type,
+            language: source_info.language.clone(),
             code,
             qurl,
         })
     }
 
-    // fn std_import(ast_builder: &AstBuilder) {
-    //     let imported = ast_builder.module_export_name_identifier_name(SPAN, "qrl");
-    //     let local_name = ast_builder.binding_identifier(SPAN, "qrl");
-    //     let import_specifier =
-    //         ast_builder.import_specifier(SPAN, imported, local_name, ImportOrExportKind::Value);
-    // }
-    // 
     fn gen(
         id: &Id,
         function: &ArrowFunctionExpression,
@@ -56,8 +54,6 @@ impl QwikComponent {
 
         let ast_builder = AstBuilder::new(allocator);
 
-        // Self::std_import(&ast_builder);
-
         let id = OxcBox::new_in(ast_builder.binding_identifier(SPAN, name), allocator);
         let bind_pat = ast_builder.binding_pattern(
             BindingPatternKind::BindingIdentifier(id),
@@ -65,7 +61,7 @@ impl QwikComponent {
             false,
         );
         let mut var_declarator = OxcVec::new_in(allocator);
-        
+
 
         let boxed = OxcBox::new_in(function.clone_in(allocator), allocator);
         let expr = Expression::ArrowFunctionExpression(boxed);
@@ -99,7 +95,7 @@ impl QwikComponent {
             let statement: Statement = import.clone().into_in(allocator) ;
             statement
         });
-       
+
         let mut body = ast_builder.vec_from_iter(imports);
 
         body.push(export);

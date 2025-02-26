@@ -1,6 +1,7 @@
 use std::ffi::OsStr;
 use std::path::{Component, Path, PathBuf};
 use oxc_span::SourceType;
+use crate::component::Language;
 use crate::prelude::*;
 use crate::error::*;
 
@@ -11,6 +12,7 @@ pub struct SourceInfo {
     pub rel_path: PathBuf,
     pub rel_dir: PathBuf,
     pub file_name: String,
+    pub language: Language
 }
 
 impl SourceInfo {
@@ -54,11 +56,15 @@ impl SourceInfo {
                 "Computing file name".to_string(),
             )
         })?;
+        
+        
+        let language = Language::try_from(path)?;
 
         Ok(SourceInfo {
             rel_path: path.into(),
             rel_dir,
             file_name: file_name.into(),
+            language
         })
     }
     
