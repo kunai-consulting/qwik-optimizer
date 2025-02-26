@@ -23,7 +23,7 @@ impl Qrl {
     }
 
     /// Creates a `qrl` identifier.
-    /// 
+    ///
     /// # Examples
     /// ```javascript
     ///  qrl
@@ -32,30 +32,27 @@ impl Qrl {
     /// ```javascript
     /// qrl(() => import("./test.tsx_renderHeader_zBbHWn4e8Cg"), "renderHeader_zBbHWn4e8Cg");
     /// ```
-    /// 
-    fn as_identifier<'a>(ast_builder: &AstBuilder<'a>) -> oxc_allocator::Box<'a, IdentifierReference<'a>> {
+    ///
+    fn as_identifier<'a>(
+        ast_builder: &AstBuilder<'a>,
+    ) -> IdentifierReference<'a> {
         let refid: ReferenceId = ReferenceId::from_usize(0);
-        let qurl = OxcBox::new_in(
-            ast_builder.identifier_reference_with_reference_id(SPAN, "qrl", refid),
-            ast_builder.allocator,
-        );
-        qurl
+        ast_builder.identifier_reference_with_reference_id(SPAN, "qrl", refid)
     }
-   
-    
+
     /// Creates an arrow function expression that lazily imports a named module
     ///
     /// # Examples
     /// ```javascript
     /// () => import("./test.tsx_renderHeader_zBbHWn4e8Cg")
     /// ```
-    /// 
+    ///
     /// This arrow function expression will eventually be used to construct a call expression e.g. a function call to `qrl()`.
-    /// 
+    ///
     /// ```javascript
     /// qrl(() => import("./test.tsx_renderHeader_zBbHWn4e8Cg"), "renderHeader_zBbHWn4e8Cg");
     /// ```
-    /// 
+    ///
     fn as_arrow_function<'a>(self, ast_builder: &AstBuilder<'a>) -> ArrowFunctionExpression<'a> {
         let rel_path = self.rel_path.to_string_lossy();
 
@@ -71,7 +68,7 @@ impl Qrl {
         );
 
         //  Arrow Function Expression ////////
-         ast_builder.arrow_function_expression(
+        ast_builder.arrow_function_expression(
             SPAN,
             true,
             false,
@@ -83,7 +80,6 @@ impl Qrl {
     }
 
     fn as_arguments<'a>(self, ast_builder: &AstBuilder<'a>) -> OxcVec<'a, Argument<'a>> {
-
         let allocator = ast_builder.allocator;
         let display_name = self.display_name.clone();
 
@@ -104,9 +100,13 @@ impl Qrl {
 
         args
     }
-    
+
     fn as_call_expression<'a>(self, ast_builder: &AstBuilder<'a>) -> CallExpression<'a> {
         let qrl = Self::as_identifier(ast_builder);
+        let qrl = OxcBox::new_in(
+            qrl,
+            ast_builder.allocator,
+        );
         let call_expr = ast_builder.call_expression(
             SPAN,
             Expression::Identifier(qrl),
@@ -115,7 +115,7 @@ impl Qrl {
             false,
         );
 
-      call_expr
+        call_expr
     }
 
     /// To access this logic call `IntoIn` to convert `Qrl` to  full call `Expression`.
@@ -123,7 +123,7 @@ impl Qrl {
     /// ```rust
     /// use oxc_allocator::Allocator;
     /// use oxc_ast::ast::Expression;
-    /// 
+    ///
     /// let allocator = Allocator::default();
     /// let qrl = super::Qrl::new("./test.tsx_renderHeader_zBbHWn4e8Cg", "renderHeader_zBbHWn4e8Cg");
     /// let expr: Expression = qrl.into_in(&allocator);
@@ -131,65 +131,17 @@ impl Qrl {
     /// The resulting Javascript, when rendered, will be:
     /// ```javascript
     /// qrl(() => import("./test.tsx_renderHeader_zBbHWn4e8Cg"), "renderHeader_zBbHWn4e8Cg");
-    /// 
-    fn expression<'a>(self, allocator: &'a Allocator, ast_builder: &AstBuilder<'a>) -> Expression<'a> {
-        // let ast_builder = AstBuilder::new(allocator);
-        // let rel_path = format!(
-        //     "./{}",
-        //     self.rel_path.to_string_lossy()
-        // );
-        // let display_name = &self.display_name;
-        // let allocator = ast_builder.allocator;
-        //
-        // // Function Body /////////
-        // let mut statements = ast_builder.vec_with_capacity(1);
-        // statements.push(ast_builder.qwik_simple_import(rel_path.as_ref()));
-        // let function_body = ast_builder.function_body(SPAN, ast_builder.vec(), statements);
-        // let func_params = ast_builder.formal_parameters(
-        //     SPAN,
-        //     FormalParameterKind::ArrowFormalParameters,
-        //     OxcVec::with_capacity_in(0, ast_builder.allocator),
-        //     None::<OxcBox<BindingRestElement>>,
-        // );
-        //
-        // // ARG: Arrow Function Expression ////////
-        // let arrow_function = ast_builder.arrow_function_expression(
-        //     SPAN,
-        //     true,
-        //     false,
-        //     None::<OxcBox<TSTypeParameterDeclaration>>,
-        //     func_params,
-        //     None::<OxcBox<TSTypeAnnotation>>,
-        //     function_body,
-        // );
+    ///
+    fn expression<'a>(
+        self,
+        allocator: &'a Allocator,
+        ast_builder: &AstBuilder<'a>,
+    ) -> Expression<'a> {
 
-        // FUNC NAME: Reference Id 'qrl' ////////
-        // let qrl = self.as_identifier(ast_builder);
-
-        // ARG: Display name string literal ////////
-        // let raw: Atom = format!(r#""{}""#, display_name).into_in(allocator);
-        // let display_name_arg = OxcBox::new_in(
-        //     ast_builder.string_literal(SPAN, display_name, Some(raw)),
-        //     allocator,
-        // );
-        //
-        // let mut args = ast_builder.vec_with_capacity(2);
-        // args.push(Argument::ArrowFunctionExpression(OxcBox::new_in(
-        //     arrow_function,
-        //     allocator,
-        // )));
-        // args.push(Argument::StringLiteral(display_name_arg));
-
-        // Call Expression ////////
-        // let call_expr = ast_builder.call_expression(
-        //     SPAN,
-        //     Expression::Identifier(qrl),
-        //     None::<OxcBox<TSTypeParameterInstantiation>>,
-        //     self.as_arguments(ast_builder),
-        //     false,
-        // );
-
-        Expression::CallExpression(OxcBox::new_in(self.as_call_expression(ast_builder), allocator))
+        Expression::CallExpression(OxcBox::new_in(
+            self.as_call_expression(ast_builder),
+            allocator,
+        ))
     }
 
     pub fn as_statement<'a>(self, ast_builder: &AstBuilder<'a>) -> Statement<'a> {
@@ -198,6 +150,26 @@ impl Qrl {
     }
 }
 
+
+impl<'a> FromIn<'a, Qrl> for OxcVec<'a, Argument<'a>> {
+    fn from_in(qrl: Qrl, allocator: &'a Allocator) -> Self {
+        let ast_builder = AstBuilder::new(allocator);
+        qrl.as_arguments(&ast_builder)
+    }
+}
+impl<'a> FromIn<'a, Qrl> for IdentifierReference<'a> {
+    fn from_in(qrl: Qrl, allocator: &'a Allocator) -> Self {
+        let ast_builder = AstBuilder::new(allocator);
+        Qrl::as_identifier(&ast_builder)
+    }
+}
+
+impl<'a> FromIn<'a, Qrl> for OxcBox<'a, CallExpression<'a>> {
+    fn from_in(qrl: Qrl, allocator: &'a Allocator) -> OxcBox<'a, CallExpression<'a>> {
+        let ast_builder = AstBuilder::new(allocator);
+        OxcBox::new_in(qrl.as_call_expression(&ast_builder), allocator)
+    }
+}
 
 impl<'a> FromIn<'a, Qrl> for Expression<'a> {
     fn from_in(qrl: Qrl, allocator: &'a Allocator) -> Self {

@@ -53,10 +53,14 @@ impl Display for QwikApp {
             let body = &comp.code;
             format!("{}\n{}\n{}", acc, body, sep)
         });
-        
+
         let body_heading = "------------------------ BODY -----------------------\n".to_string();
 
-        write!(f, "{}{}{}{}", comp_heading, all_comps, body_heading, self.body)
+        write!(
+            f,
+            "{}{}{}{}",
+            comp_heading, all_comps, body_heading, self.body
+        )
     }
 }
 
@@ -77,6 +81,8 @@ struct TransformGenerator {
 
     var_decl_stack: Vec<Qrl>,
 
+    call_args_stack: Vec<Qrl>,
+
     qrl_import_stack: usize,
 
     mode: Mode,
@@ -87,8 +93,6 @@ struct TransformGenerator {
 
     scope: Option<String>,
 }
-
-use std::marker::Sized;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 enum Mode {
@@ -107,6 +111,7 @@ impl TransformGenerator {
             component_stack: Vec::new(),
             jsx_qurl_stack: Vec::new(),
             var_decl_stack: Vec::new(),
+            call_args_stack: Vec::new(),
             qrl_import_stack: 0,
             mode: Mode::Scanning,
             source_info,
@@ -171,8 +176,13 @@ impl TransformGenerator {
 }
 
 const DEBUG: bool = true;
+const DUMP_FINAL_AST: bool = false;
 
 impl<'a> Traverse<'a> for TransformGenerator {
+    fn enter_program(&mut self, node: &mut Program<'a>, ctx: &mut TraverseCtx<'a>) {
+        let statements = &mut node.body;
+        statements.insert(0, CommonImport::qrl().into_in(ctx.ast.allocator));
+    }
     fn exit_program(&mut self, node: &mut Program<'a>, ctx: &mut TraverseCtx<'a>) {
         let codegen = Codegen::new();
         let body = codegen.build(node).code;
@@ -181,6 +191,10 @@ impl<'a> Traverse<'a> for TransformGenerator {
             body,
             components: self.components.clone(),
         };
+
+        if DUMP_FINAL_AST {
+            println!("-------------------FINAL AST DUMP--------------------\n{:#?}", node);
+        }
     }
 
     fn enter_call_expression(&mut self, node: &mut CallExpression<'a>, ctx: &mut TraverseCtx<'a>) {
@@ -208,15 +222,18 @@ impl<'a> Traverse<'a> for TransformGenerator {
                     let qrl = &comp.qurl;
                     let qrl = qrl.clone();
                     println!(
-                        "CALLEE BEFORE: {:#?} PARENT {:?}",
+                        "CALLEE BEFORE: {:#?} PARENT {:?} GRANDPARENT {:?}",
                         node.callee,
-                        ctx.parent()
+                        ctx.parent(),
+                        ctx.ancestor(1)
                     );
 
                     match ctx.parent() {
                         Ancestor::JSXExpressionContainerExpression(_) => {
                             self.jsx_qurl_stack.push(qrl)
                         }
+                        Ancestor::VariableDeclaratorInit(_) => self.var_decl_stack.push(qrl),
+                        Ancestor::CallExpressionArguments(_) => self.call_args_stack.push(qrl),
                         _ => node.callee = qrl.into_in(ctx.ast.allocator),
                     }
 
@@ -231,6 +248,20 @@ impl<'a> Traverse<'a> for TransformGenerator {
             ctx.current_scope_id()
         ));
         self.descend();
+    }
+
+    fn exit_argument(&mut self, node: &mut Argument<'a>, ctx: &mut TraverseCtx<'a>) {
+        if let Argument::CallExpression(call_expr) = node {
+            let qrl = self.call_args_stack.pop();
+
+            if let Some(qrl) = qrl {
+                let idr = IdentifierReference::from_in(qrl.clone(), ctx.ast.allocator);
+                let args: OxcVec<'a, Argument<'a>> = qrl.into_in(ctx.ast.allocator) ;
+
+                call_expr.callee = Expression::Identifier(OxcBox::new_in(idr, ctx.ast.allocator));
+                call_expr.arguments = args
+            }
+        }
     }
 
     fn enter_variable_declarator(
@@ -312,7 +343,7 @@ impl<'a> Traverse<'a> for TransformGenerator {
             let scope = &self.scope;
             let imports = if self.qrl_import_stack > 0 {
                 self.qrl_import_stack -= 1;
-                let qrl_import = CommonImport::BuilderIoQwik("qrl".to_string());
+                let qrl_import = CommonImport::qrl();
                 vec![qrl_import]
             } else {
                 vec![]
@@ -371,8 +402,8 @@ impl<'a> Traverse<'a> for TransformGenerator {
         ctx: &mut TraverseCtx<'a>,
     ) {
         if let JSXAttributeValue::ExpressionContainer(container) = node {
-            let wrl = self.jsx_qurl_stack.pop();
-            if let Some(qrl) = wrl {
+            let qrl = self.jsx_qurl_stack.pop();
+            if let Some(qrl) = qrl {
                 container.expression = qrl.into_in(ctx.ast.allocator)
             }
         }
@@ -416,6 +447,16 @@ pub fn transform<S: ScriptSource>(script_source: S) -> Result<(QwikApp)> {
 mod tests {
     use super::*;
 
+
+    const SCRIPT0: &str =r#"
+    const renderHeader = component($(() => {
+        console.log("mount");
+     return render;
+    }));
+    "#;
+
+
+
     const SCRIPT1: &str = r#"
      import { $, component, onRender } from '@builder.io/qwik';
 
@@ -439,7 +480,7 @@ mod tests {
     fn test_transform() {
         let qwik_app = transform(Container::from_script(SCRIPT1)).unwrap();
         println!("{}", qwik_app);
-        
+
         let components = &qwik_app.components;
         assert_eq!(components.len(), 3);
 
@@ -464,5 +505,10 @@ export { _hW } from "@builder.io/qwik";"#.trim();
 
         assert_eq!(onclick, onclick_expected);
         assert_eq!(renderHeader, renderHeader_expected);
+    }
+    #[test]
+    fn test_script_0() {
+        let qwik_app = transform(Container::from_script(SCRIPT0)).unwrap();
+        println!("{}", qwik_app);
     }
 }

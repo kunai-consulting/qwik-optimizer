@@ -11,6 +11,13 @@ pub enum CommonImport {
     BuilderIoQwik(String),
 }
 
+impl CommonImport {
+
+    pub fn qrl() -> CommonImport {
+        CommonImport::BuilderIoQwik("qrl".to_string())
+    }
+}
+
 impl<'a> FromIn<'a, CommonImport> for Statement<'a> {
     fn from_in(value: CommonImport, allocator: &'a Allocator) -> Self {
         let ast_builder = AstBuilder::new(allocator);
@@ -20,6 +27,7 @@ impl<'a> FromIn<'a, CommonImport> for Statement<'a> {
             }
         }
     }
+    
 }
 
 
