@@ -1,8 +1,8 @@
 #![allow(unused)]
 
 use crate::error::Error;
-use crate::segment::Segment;
 use crate::prelude::*;
+use crate::segment::Segment;
 use crate::sources::*;
 use oxc_allocator::{
     Allocator, Box as OxcBox, CloneIn, FromIn, GetAddress, HashMap as OxcHashMap, IntoIn,
@@ -28,10 +28,9 @@ use oxc_span::*;
 use oxc_traverse::{traverse_mut, Ancestor, Traverse, TraverseCtx};
 use std::cell::{Cell, RefCell};
 use std::collections::HashMap;
-use std::fmt::Display;
+use std::fmt::{write, Display};
 use std::ops::Deref;
 use std::path::Components;
-
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Default)]
 pub struct QwikApp {
@@ -39,8 +38,32 @@ pub struct QwikApp {
     pub components: Vec<QwikComponent>,
 }
 
+impl Display for QwikApp {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let component_count = self.components.len();
+        let comp_heading = format!(
+            "------------------- COMPONENTS[{}] ------------------\n",
+            component_count
+        );
+        let sep = format!("{}\n", "-".repeat(comp_heading.len()));
+        let all_comps = self.components.iter().fold(String::new(), |acc, comp| {
+            let mut code_gen0 = Codegen::default();
+            let code_gen = &mut code_gen0;
+
+            let body = &comp.code;
+            format!("{}\n{}\n{}", acc, body, sep)
+        });
+        
+        let body_heading = "------------------------ BODY -----------------------\n".to_string();
+
+        write!(f, "{}{}{}{}", comp_heading, all_comps, body_heading, self.body)
+    }
+}
+
 struct TransformGenerator {
     pub components: Vec<QwikComponent>,
+
+    pub app: QwikApp,
 
     pub errors: Vec<Error>,
 
@@ -77,6 +100,7 @@ impl TransformGenerator {
     fn new(source_info: SourceInfo, target: Target, scope: Option<String>) -> Self {
         Self {
             components: Vec::new(),
+            app: QwikApp::default(),
             errors: Vec::new(),
             depth: 0,
             segment_stack: Vec::new(),
@@ -149,6 +173,16 @@ impl TransformGenerator {
 const DEBUG: bool = true;
 
 impl<'a> Traverse<'a> for TransformGenerator {
+    fn exit_program(&mut self, node: &mut Program<'a>, ctx: &mut TraverseCtx<'a>) {
+        let codegen = Codegen::new();
+        let body = codegen.build(node).code;
+
+        self.app = QwikApp {
+            body,
+            components: self.components.clone(),
+        };
+    }
+
     fn enter_call_expression(&mut self, node: &mut CallExpression<'a>, ctx: &mut TraverseCtx<'a>) {
         self.ascend();
         self.debug(format!("ENTER: CallExpression, {:?}", node));
@@ -343,10 +377,9 @@ impl<'a> Traverse<'a> for TransformGenerator {
             }
         }
     }
-    
 }
 
-pub fn transform<'a, S: ScriptSource>(script_source: S) -> Result<(Vec<QwikComponent>)> {
+pub fn transform<S: ScriptSource>(script_source: S) -> Result<(QwikApp)> {
     let allocator = Allocator::default();
     let source_type = SourceType::from_path("foo.js")?;
     let source_text = script_source.scripts()?;
@@ -376,18 +409,7 @@ pub fn transform<'a, S: ScriptSource>(script_source: S) -> Result<(Vec<QwikCompo
 
     traverse_mut(transform, &allocator, &mut program, symbols, scopes);
 
-    println!("-------------------------------------");
-    println!("Arrow funcs {}", transform.components.len());
-    transform.components.iter().for_each(|comp| {
-        let mut code_gen0 = Codegen::default();
-        let code_gen = &mut code_gen0;
-
-        let body = &comp.code;
-        println!("{}", body);
-    });
-    println!("-------------------------------------");
-
-    Ok(transform.components.clone())
+    Ok(transform.app.clone())
 }
 
 #[cfg(test)]
@@ -415,7 +437,10 @@ mod tests {
 
     #[test]
     fn test_transform() {
-        let components = transform(Container::from_script(SCRIPT1)).unwrap();
+        let qwik_app = transform(Container::from_script(SCRIPT1)).unwrap();
+        println!("{}", qwik_app);
+        
+        let components = &qwik_app.components;
         assert_eq!(components.len(), 3);
 
         let onclick = &components.get(0).unwrap().code.trim().to_string();
