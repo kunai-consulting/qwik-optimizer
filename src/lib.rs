@@ -6,3 +6,4 @@ pub(crate) mod prelude;
 
 pub mod transformer;
 mod traverser;
+mod segment;
