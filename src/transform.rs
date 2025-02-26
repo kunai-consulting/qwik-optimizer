@@ -85,8 +85,6 @@ struct TransformGenerator {
 
     qrl_import_stack: usize,
 
-    mode: Mode,
-
     source_info: SourceInfo,
 
     target: Target,
@@ -94,11 +92,11 @@ struct TransformGenerator {
     scope: Option<String>,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
-enum Mode {
-    Scanning,
-    Recording(usize),
-}
+// #[derive(Debug, Clone, PartialEq, Eq)]
+// enum Mode {
+//     Scanning,
+//     Recording(usize),
+// }
 
 impl TransformGenerator {
     fn new(source_info: SourceInfo, target: Target, scope: Option<String>) -> Self {
@@ -113,11 +111,18 @@ impl TransformGenerator {
             var_decl_stack: Vec::new(),
             call_args_stack: Vec::new(),
             qrl_import_stack: 0,
-            mode: Mode::Scanning,
+            // mode: Mode::Scanning,
             source_info,
             target,
             scope,
         }
+    }
+
+    fn is_recording(&self) -> bool {
+        matches!(
+            self.segment_stack.last(),
+            Some(Segment::AnonymousCaptured | Segment::NamedCaptured(_))
+        )
     }
 
     fn render_segments(&self) -> String {
@@ -134,20 +139,20 @@ impl TransformGenerator {
         ss.concat()
     }
 
-    fn start_recording(&mut self) {
-        self.mode = match self.mode {
-            Mode::Scanning => Mode::Recording(1),
-            Mode::Recording(count) => Mode::Recording(count + 1),
-        }
-    }
+    // fn start_recording(&mut self) {
+    //     self.mode = match self.mode {
+    //         Mode::Scanning => Mode::Recording(1),
+    //         Mode::Recording(count) => Mode::Recording(count + 1),
+    //     }
+    // }
 
-    fn stop_recording(&mut self) {
-        self.mode = match self.mode {
-            Mode::Scanning => Mode::Scanning,
-            Mode::Recording(count) if count > 1 => Mode::Recording(count - 1),
-            Mode::Recording(_) => Mode::Scanning,
-        }
-    }
+    // fn stop_recording(&mut self) {
+    //     self.mode = match self.mode {
+    //         Mode::Scanning => Mode::Scanning,
+    //         Mode::Recording(count) if count > 1 => Mode::Recording(count - 1),
+    //         Mode::Recording(_) => Mode::Scanning,
+    //     }
+    // }
 
     fn descend(&mut self) {
         if self.depth > 0 {
@@ -164,10 +169,11 @@ impl TransformGenerator {
             let indent = "--".repeat(self.depth);
             let prefix = format!("|{}", indent);
             println!(
-                "{}[{}|MODE: {:?}]{}. Segments: {}",
+                "{}[{}|RECORDING: {}]{}. Segments: {}",
                 prefix,
                 self.depth,
-                self.mode,
+                self.is_recording(),
+                // self.mode,
                 s.as_ref(),
                 self.render_segments()
             );
@@ -210,9 +216,9 @@ impl<'a> Traverse<'a> for TransformGenerator {
         let is_qwik = segment.is_qwik();
         self.segment_stack.push(segment);
 
-        if is_qwik {
-            self.start_recording();
-        }
+        // if is_qwik {
+        //     self.start_recording();
+        // }
     }
 
     fn exit_call_expression(&mut self, node: &mut CallExpression<'a>, ctx: &mut TraverseCtx<'a>) {
@@ -220,7 +226,7 @@ impl<'a> Traverse<'a> for TransformGenerator {
 
         if let Some(segment) = segment {
             if segment.is_qwik() {
-                self.stop_recording();
+                // self.stop_recording();
                 if let Some(comp) = self.component_stack.pop() {
                     let qrl = &comp.qurl;
                     let qrl = qrl.clone();
@@ -329,7 +335,8 @@ impl<'a> Traverse<'a> for TransformGenerator {
         node: &mut ArrowFunctionExpression<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) {
-        if let Mode::Recording(_) = self.mode {
+        // if let Mode::Recording(_) = self.mode {
+        if self.is_recording() {
             let name = self.render_segments();
 
             let segments: Vec<String> = self
@@ -432,8 +439,8 @@ pub fn transform<S: ScriptSource>(script_source: S) -> Result<(QwikApp)> {
         errors: semantic_errors,
     } = SemanticBuilder::new()
         .with_check_syntax_error(true) // Enable extra syntax error checking
-        .with_build_jsdoc(true)        // Enable JSDoc parsing
-        .with_cfg(true)                // Build a Control Flow Graph
+        .with_build_jsdoc(true) // Enable JSDoc parsing
+        .with_cfg(true) // Build a Control Flow Graph
         .build(&program);
 
     let source_info = SourceInfo::new("./test.tsx")?;
@@ -497,12 +504,16 @@ mod tests {
         let renderHeader_component_U6Kkv07sbpQ = &components[2].code.trim();
         let renderHeader_component_U6Kkv07sbpQ_expected =
             example.renderHeader_component_U6Kkv07sbpQ;
+        
+        let app_body = &qwik_app.body.trim();
+        let app_body_expected = example.body;
 
         assert_eq!(onclick, &onclick_expected);
         assert_eq!(renderHeader, &renderHeader_expected);
         assert_eq!(
             renderHeader_component_U6Kkv07sbpQ,
             &renderHeader_component_U6Kkv07sbpQ_expected
-        )
+        );
+        assert_eq!(app_body, &app_body_expected);
     }
 }

@@ -29,7 +29,12 @@ export { _hW } from "@builder.io/qwik";"#
             .trim()
             .to_string();
 
-        let body = String::new();
+        let body =r#"import { qrl } from "@builder.io/qwik";
+import { $, component, onRender } from "@builder.io/qwik";
+export const renderHeader = qrl(() => import("./test.tsx_renderHeader_zBbHWn4e8Cg"), "renderHeader_zBbHWn4e8Cg");
+const renderHeader = component(qrl(() => import("./test.tsx_renderHeader_component_U6Kkv07sbpQ"), "renderHeader_component_U6Kkv07sbpQ"));"#
+            .trim()
+            .to_string();
 
         Example1Snapshot {
             renderHeader_div_onClick_fV2uzAL99u4,
