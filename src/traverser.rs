@@ -1,6 +1,7 @@
 #![allow(unused)]
 
 use crate::error::Error;
+use crate::segment::Segment;
 use crate::prelude::*;
 use crate::sources::*;
 use oxc_allocator::{
@@ -58,95 +59,6 @@ struct TransformGenerator {
 }
 
 use std::marker::Sized;
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
-enum Segment {
-    Named(String),
-    AnonymousCaptured,
-    NamedCaptured(String),
-}
-
-impl Segment {
-    fn new<T: AsRef<str>>(input: T) -> Segment {
-        let input = input.as_ref();
-        if (input == "$") {
-            Segment::AnonymousCaptured
-        } else {
-            match input.strip_suffix("$") {
-                Some(name) => Segment::NamedCaptured(name.to_string()),
-                None => Segment::Named(input.into()),
-            }
-        }
-    }
-
-    fn is_qwik(&self) -> bool {
-        match self {
-            Segment::Named(_) => false,
-            Segment::AnonymousCaptured => true,
-            Segment::NamedCaptured(_) => true,
-        }
-    }
-
-    fn into_binding_identifier<'a>(&self, allocator: &'a Allocator) -> BindingIdentifier<'a> {
-        let ast_builder = AstBuilder::new(allocator);
-        match self {
-            Segment::Named(name) => ast_builder.binding_identifier(SPAN, name),
-            Segment::AnonymousCaptured => ast_builder.binding_identifier(SPAN, "$"),
-            Segment::NamedCaptured(name) => ast_builder.binding_identifier(SPAN, name),
-        }
-    }
-
-    fn into_binding_pattern<'a>(&self, allocator: &'a Allocator) -> BindingPattern<'a> {
-        let ast_builder = AstBuilder::new(allocator);
-        let id = OxcBox::new_in(self.into_binding_identifier(allocator), allocator);
-        ast_builder.binding_pattern(
-            BindingPatternKind::BindingIdentifier(id),
-            None::<OxcBox<'a, TSTypeAnnotation<'a>>>,
-            false,
-        )
-    }
-}
-
-impl Display for Segment {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Segment::Named(name) => write!(f, "{}", name),
-            Segment::AnonymousCaptured => write!(f, ""),
-            Segment::NamedCaptured(name) => write!(f, "{}", name),
-        }
-    }
-}
-
-impl<'a> FromIn<'a, Segment> for BindingPattern<'a> {
-    fn from_in(value: Segment, allocator: &'a Allocator) -> Self {
-        value.into_binding_pattern(allocator)
-    }
-}
-
-impl<'a> FromIn<'a, &'a BindingPattern<'a>> for Segment {
-    fn from_in(value: &'a BindingPattern<'a>, allocator: &'a Allocator) -> Self {
-        let s: String = value
-            .get_identifier_name()
-            .iter()
-            .map(|s| s.to_string())
-            .collect();
-        Segment::new(s)
-    }
-}
-
-impl From<&Segment> for String {
-    fn from(input: &Segment) -> Self {
-        input.to_string()
-    }
-}
-
-impl<T> From<T> for Segment
-where
-    T: AsRef<str>,
-{
-    fn from(input: T) -> Self {
-        Segment::new(input)
-    }
-}
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 enum Mode {
@@ -279,33 +191,6 @@ impl<'a> Traverse<'a> for TransformGenerator {
         ));
         self.descend();
     }
-
-    // fn enter_variable_declaration(
-    //     &mut self,
-    //     node: &mut VariableDeclaration<'a>,
-    //     ctx: &mut TraverseCtx<'a>,
-    // ) {
-    //     self.ascend();
-    //     self.debug("ENTER: VariableDeclaration.");
-    //
-    //     if let Some(vd) = node.declarations.first() {
-    //         let id = &vd.id;
-    //         let s: Segment = id.into_in(ctx.ast.allocator);
-    //         self.segment_stack.push(s);
-    //     }
-    // }
-
-    // fn exit_variable_declaration(
-    //     &mut self,
-    //     node: &mut VariableDeclaration<'a>,
-    //     ctx: &mut TraverseCtx<'a>,
-    // ) {
-    //     if let Some(vd) = node.declarations.first() {
-    //         self.segment_stack.pop();
-    //     }
-    //     self.debug("EXIT: VariableDeclaration");
-    //     self.descend();
-    // }
 
     fn enter_variable_declarator(
         &mut self,
@@ -447,15 +332,12 @@ impl<'a> Traverse<'a> for TransformGenerator {
         if let JSXAttributeValue::ExpressionContainer(container) = node {
             let wrl = self.jsx_qurl_stack.pop();
             if let Some(qrl) = wrl {
-                // let call_expression = qrl.clone().as_call_expression(&ctx.ast);
-                // container.expression = JSXExpression::CallExpression(OxcBox::new_in(
-                //     call_expression,
-                //     ctx.ast.allocator,
-                // ));
                 container.expression = qrl.into_in(ctx.ast.allocator)
             }
         }
     }
+    
+    
 }
 
 pub fn transform<'a, S: ScriptSource>(script_source: S) -> Result<(Vec<QwikComponent>)> {
