@@ -34,9 +34,9 @@ impl TryFrom<SourceType> for Language {
     }
 }
 
-impl Into<SourceType> for Language {
-    fn into(self) -> SourceType {
-        match self {
+impl From<Language> for SourceType {
+    fn from(val: Language) -> Self {
+        match val {
             Language::Javascript => SourceType::jsx(),
             Language::Typescript => SourceType::tsx(),
         }

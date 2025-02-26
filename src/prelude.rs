@@ -1,8 +1,6 @@
 use crate::error::Error;
-use oxc_ast::ast::{CallExpression, ImportDeclarationSpecifier, ImportOrExportKind, JSXAttribute, Statement, WithClause};
-use oxc_ast::AstBuilder;
-use oxc_allocator::{Box as OxcBox, Vec as OxcVec, IntoIn}; 
-use oxc_span::{Atom, SPAN};
+use oxc_ast::ast::{CallExpression, JSXAttribute};
+ 
 
 
 pub type Result<T> = core::result::Result<T, Error>;

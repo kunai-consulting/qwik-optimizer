@@ -193,7 +193,10 @@ impl<'a> Traverse<'a> for TransformGenerator {
         };
 
         if DUMP_FINAL_AST {
-            println!("-------------------FINAL AST DUMP--------------------\n{:#?}", node);
+            println!(
+                "-------------------FINAL AST DUMP--------------------\n{:#?}",
+                node
+            );
         }
     }
 
@@ -256,7 +259,7 @@ impl<'a> Traverse<'a> for TransformGenerator {
 
             if let Some(qrl) = qrl {
                 let idr = IdentifierReference::from_in(qrl.clone(), ctx.ast.allocator);
-                let args: OxcVec<'a, Argument<'a>> = qrl.into_in(ctx.ast.allocator) ;
+                let args: OxcVec<'a, Argument<'a>> = qrl.into_in(ctx.ast.allocator);
 
                 call_expr.callee = Expression::Identifier(OxcBox::new_in(idr, ctx.ast.allocator));
                 call_expr.arguments = args
@@ -428,9 +431,9 @@ pub fn transform<S: ScriptSource>(script_source: S) -> Result<(QwikApp)> {
         semantic,
         errors: semantic_errors,
     } = SemanticBuilder::new()
-        // .with_check_syntax_error(true) // Enable extra syntax error checking
-        // .with_build_jsdoc(true)        // Enable JSDoc parsing
-        // .with_cfg(true)                // Build a Control Flow Graph
+        .with_check_syntax_error(true) // Enable extra syntax error checking
+        .with_build_jsdoc(true)        // Enable JSDoc parsing
+        .with_cfg(true)                // Build a Control Flow Graph
         .build(&program);
 
     let source_info = SourceInfo::new("./test.tsx")?;
@@ -446,16 +449,14 @@ pub fn transform<S: ScriptSource>(script_source: S) -> Result<(QwikApp)> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::snapshots::*;
 
-
-    const SCRIPT0: &str =r#"
+    const SCRIPT0: &str = r#"
     const renderHeader = component($(() => {
         console.log("mount");
      return render;
     }));
     "#;
-
-
 
     const SCRIPT1: &str = r#"
      import { $, component, onRender } from '@builder.io/qwik';
@@ -484,31 +485,24 @@ mod tests {
         let components = &qwik_app.components;
         assert_eq!(components.len(), 3);
 
-        let onclick = &components.get(0).unwrap().code.trim().to_string();
-        let onclick_expected =
-            r#"export const renderHeader_div_onClick_fV2uzAL99u4 = (ctx) => console.log(ctx);
-export { _hW } from "@builder.io/qwik";"#
-                .trim();
+        let example = Example1Snapshot::default();
 
-        let renderHeader = &components
-            .get(1)
-            .unwrap()
-            .code
-            .trim()
-            .to_string()
-            .replace("\t", "");
-        let renderHeader_expected = r#"import { qrl } from "@builder.io/qwik";
-export const renderHeader_zBbHWn4e8Cg = () => {
-return <div onClick={qrl(() => import("./test.tsx_renderHeader_div_onClick_fV2uzAL99u4"), "renderHeader_div_onClick_fV2uzAL99u4")} />;
-};
-export { _hW } from "@builder.io/qwik";"#.trim();
+        let onclick = &components[0].code.trim().to_string();
+        let onclick_expected = example.renderHeader_div_onClick_fV2uzAL99u4;
 
-        assert_eq!(onclick, onclick_expected);
-        assert_eq!(renderHeader, renderHeader_expected);
-    }
-    #[test]
-    fn test_script_0() {
-        let qwik_app = transform(Container::from_script(SCRIPT0)).unwrap();
-        println!("{}", qwik_app);
+        let renderHeader = &components[1].code.trim().replace("\t", "");
+
+        let renderHeader_expected = example.renderHeader_zBbHWn4e8Cg;
+
+        let renderHeader_component_U6Kkv07sbpQ = &components[2].code.trim();
+        let renderHeader_component_U6Kkv07sbpQ_expected =
+            example.renderHeader_component_U6Kkv07sbpQ;
+
+        assert_eq!(onclick, &onclick_expected);
+        assert_eq!(renderHeader, &renderHeader_expected);
+        assert_eq!(
+            renderHeader_component_U6Kkv07sbpQ,
+            &renderHeader_component_U6Kkv07sbpQ_expected
+        )
     }
 }

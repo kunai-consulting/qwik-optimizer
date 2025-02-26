@@ -4,10 +4,9 @@ use oxc_ast::ast::{
 };
 use oxc_ast::AstBuilder;
 use oxc_span::{Atom, SourceType, SPAN};
-use std::cell::Cell;
 
 pub trait AstBuilderExt<'a> {
-    fn qwik_import(self, name: &str, source: &str) -> Statement<'a>;
+    fn qwik_import<T: AsRef<str>>(self, names: Vec<T>, source: &str) -> Statement<'a>;
     fn qwik_export(self, name: &str, source: &str) -> Statement<'a>;
     fn qwik_string_literal_expr(self, value: &str) -> Expression<'a>;
 
@@ -17,16 +16,22 @@ pub trait AstBuilderExt<'a> {
 }
 
 impl<'a> AstBuilderExt<'a> for AstBuilder<'a> {
-    fn qwik_import(self, name: &str, source: &str) -> Statement<'a> {
-        let imported = self.module_export_name_identifier_name(SPAN, name);
-        let local_name = self.binding_identifier(SPAN, name);
-        let import_specifier =
-            self.import_specifier(SPAN, imported, local_name, ImportOrExportKind::Value);
-        let mut import_decl_specifier = OxcVec::new_in(self.allocator);
-        import_decl_specifier.push(ImportDeclarationSpecifier::ImportSpecifier(OxcBox::new_in(
-            import_specifier,
-            self.allocator,
-        )));
+    fn qwik_import<T: AsRef<str>>(self, names: Vec<T>, source: &str) -> Statement<'a> {
+
+        let mut import_decl_specifier = OxcVec::with_capacity_in(names.len(), self.allocator);
+        for name in names {
+            let name: Atom<'a> = name.as_ref().into_in(self.allocator);
+            let imported = self.module_export_name_identifier_name(SPAN, &name);
+            let local_name = self.binding_identifier(SPAN, &name);
+            let import_specifier =
+                self.import_specifier(SPAN, imported, local_name, ImportOrExportKind::Value);
+
+            import_decl_specifier.push(ImportDeclarationSpecifier::ImportSpecifier(OxcBox::new_in(
+                import_specifier,
+                self.allocator,
+            )));
+        }
+        
         let raw = format!("'{}'", source);
         let raw: Atom = raw.into_in(self.allocator);
         let source_location = self.string_literal(SPAN, source, Some(raw));

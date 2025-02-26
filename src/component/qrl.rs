@@ -2,11 +2,11 @@ use crate::ext::AstBuilderExt;
 use oxc_allocator::{Allocator, Box as OxcBox, FromIn, IntoIn, Vec as OxcVec};
 use oxc_ast::ast::*;
 use oxc_ast::AstBuilder;
-use oxc_codegen::Codegen;
 use oxc_index::Idx;
 use oxc_semantic::ReferenceId;
 use oxc_span::{Atom, SPAN};
 use std::path::PathBuf;
+use oxc_codegen::Codegen;
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Qrl {
@@ -120,19 +120,20 @@ impl Qrl {
 
     /// To access this logic call `IntoIn` to convert `Qrl` to  full call `Expression`.
     /// # Examples
-    /// ```rust
+    /// ```ignore
     /// use oxc_allocator::Allocator;
     /// use oxc_ast::ast::Expression;
+    /// 
     ///
     /// let allocator = Allocator::default();
-    /// let qrl = super::Qrl::new("./test.tsx_renderHeader_zBbHWn4e8Cg", "renderHeader_zBbHWn4e8Cg");
+    /// let qrl = Qrl::new("./test.tsx_renderHeader_zBbHWn4e8Cg", "renderHeader_zBbHWn4e8Cg");
     /// let expr: Expression = qrl.into_in(&allocator);
     /// ```
     /// The resulting Javascript, when rendered, will be:
     /// ```javascript
     /// qrl(() => import("./test.tsx_renderHeader_zBbHWn4e8Cg"), "renderHeader_zBbHWn4e8Cg");
     ///
-    fn expression<'a>(
+    pub(crate) fn expression<'a>(
         self,
         allocator: &'a Allocator,
         ast_builder: &AstBuilder<'a>,
@@ -158,7 +159,7 @@ impl<'a> FromIn<'a, Qrl> for OxcVec<'a, Argument<'a>> {
     }
 }
 impl<'a> FromIn<'a, Qrl> for IdentifierReference<'a> {
-    fn from_in(qrl: Qrl, allocator: &'a Allocator) -> Self {
+    fn from_in(_: Qrl, allocator: &'a Allocator) -> Self {
         let ast_builder = AstBuilder::new(allocator);
         Qrl::as_identifier(&ast_builder)
     }

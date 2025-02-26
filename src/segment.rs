@@ -14,7 +14,7 @@ pub(crate) enum Segment {
 impl Segment {
     fn new<T: AsRef<str>>(input: T) -> Segment {
         let input = input.as_ref();
-        if (input == "$") {
+        if input == "$" {
             Segment::AnonymousCaptured
         } else {
             match input.strip_suffix("$") {
