@@ -16,8 +16,8 @@ use oxc_ast::ast::{
     VariableDeclaration, VariableDeclarator,
 };
 use oxc_ast::visit::walk_mut::*;
-use oxc_ast::{match_member_expression, AstBuilder, AstType, Visit, VisitMut};
-use oxc_codegen::{Codegen, Context, Gen};
+use oxc_ast::{match_member_expression, AstBuilder, AstType, Comment, CommentKind, Visit, VisitMut};
+use oxc_codegen::{Codegen, CodegenOptions, Context, Gen};
 use oxc_index::Idx;
 use std::borrow::{Borrow, Cow};
 
@@ -83,7 +83,7 @@ struct TransformGenerator {
 
     call_args_stack: Vec<Qrl>,
 
-    qrl_import_stack: usize,
+    qrl_import_stack: Vec<CommonImport>,
 
     source_info: SourceInfo,
 
@@ -91,12 +91,6 @@ struct TransformGenerator {
 
     scope: Option<String>,
 }
-
-// #[derive(Debug, Clone, PartialEq, Eq)]
-// enum Mode {
-//     Scanning,
-//     Recording(usize),
-// }
 
 impl TransformGenerator {
     fn new(source_info: SourceInfo, target: Target, scope: Option<String>) -> Self {
@@ -110,7 +104,7 @@ impl TransformGenerator {
             jsx_qurl_stack: Vec::new(),
             var_decl_stack: Vec::new(),
             call_args_stack: Vec::new(),
-            qrl_import_stack: 0,
+            qrl_import_stack: Vec::new(),
             // mode: Mode::Scanning,
             source_info,
             target,
@@ -119,10 +113,24 @@ impl TransformGenerator {
     }
 
     fn is_recording(&self) -> bool {
-        matches!(
-            self.segment_stack.last(),
-            Some(Segment::AnonymousCaptured | Segment::NamedCaptured(_))
-        )
+        self.segment_stack
+            .last()
+            .map(|s| s.is_qwik())
+            .unwrap_or(false)
+    }
+
+    fn qrl_type(&self) -> QrlType {
+        self.segment_stack
+            .last()
+            .map(|s| s.associated_qrl_type())
+            .unwrap_or(QrlType::Qrl)
+    }
+
+    fn requires_handle_watch(&self) -> bool {
+        self.segment_stack
+            .last()
+            .map(|s| s.requires_handle_watch())
+            .unwrap_or(false)
     }
 
     fn render_segments(&self) -> String {
@@ -139,21 +147,6 @@ impl TransformGenerator {
         ss.concat()
     }
 
-    // fn start_recording(&mut self) {
-    //     self.mode = match self.mode {
-    //         Mode::Scanning => Mode::Recording(1),
-    //         Mode::Recording(count) => Mode::Recording(count + 1),
-    //     }
-    // }
-
-    // fn stop_recording(&mut self) {
-    //     self.mode = match self.mode {
-    //         Mode::Scanning => Mode::Scanning,
-    //         Mode::Recording(count) if count > 1 => Mode::Recording(count - 1),
-    //         Mode::Recording(_) => Mode::Scanning,
-    //     }
-    // }
-
     fn descend(&mut self) {
         if self.depth > 0 {
             self.depth -= 1;
@@ -162,6 +155,35 @@ impl TransformGenerator {
 
     fn ascend(&mut self) {
         self.depth += 1;
+    }
+    
+    fn import_clean_up<'a>( pgm: &mut Program<'a>, ast_builder: &AstBuilder<'a>) {
+       
+        let mut remove: Vec<usize> = Vec::new();
+        
+        for (idx, statement) in pgm.body.iter_mut().enumerate() {
+            if let Statement::ImportDeclaration(import) = statement {
+                let source_value = import.source.value;
+                let specifiers = &mut import.specifiers;
+                if source_value == BUILDER_IO_QWIK {
+                    if let Some(specifiers) = specifiers {
+                            specifiers.retain(|s| {
+                                !QRL_MARKER_IMPORTS.contains(&s.name().deref())
+                        });
+                        
+                        // If all specifiers are removed, we will want to eventually remove that statment completely.
+                        if specifiers.is_empty() {
+                            remove.push(idx);
+                        }
+                    }
+                }
+            }
+        }
+        
+        for idx in remove.iter() {
+            pgm.body.remove(*idx);
+        }
+        
     }
 
     fn debug<T: AsRef<str>>(&self, s: T) {
@@ -187,16 +209,31 @@ const DUMP_FINAL_AST: bool = false;
 impl<'a> Traverse<'a> for TransformGenerator {
     fn enter_program(&mut self, node: &mut Program<'a>, ctx: &mut TraverseCtx<'a>) {
         let statements = &mut node.body;
-        statements.insert(0, CommonImport::qrl().into_in(ctx.ast.allocator));
+        // statements.insert(0, CommonImport::qrl().into_in(ctx.ast.allocator));
     }
     fn exit_program(&mut self, node: &mut Program<'a>, ctx: &mut TraverseCtx<'a>) {
-        let codegen = Codegen::new();
+        
+        Self::import_clean_up(node, &ctx.ast);
+        
+        let test_comment = Comment::new(0, PURE_ANNOTATION_LENGTH, CommentKind::Block);
+        
+        node.comments.push(test_comment);
+        
+        for import in self.qrl_import_stack.iter() {
+            let import = Statement::from_in(import, ctx.ast.allocator);
+            node.body.insert(0, import);
+        }
+        
+        let codegen_options = CodegenOptions { annotation_comments: true, ..Default::default() };
+        let codegen = Codegen::new().with_options(codegen_options);
+        
         let body = codegen.build(node).code;
 
         self.app = QwikApp {
             body,
             components: self.components.clone(),
         };
+        
 
         if DUMP_FINAL_AST {
             println!(
@@ -345,24 +382,47 @@ impl<'a> Traverse<'a> for TransformGenerator {
                 .filter(|s| **s != Segment::AnonymousCaptured)
                 .map(|s| {
                     let string: String = s.into();
+                    println!("SEGMENT: {} STRING {}", s, string);
                     string
                 })
                 .collect();
 
             let t = &self.target;
             let scope = &self.scope;
-            let imports = if self.qrl_import_stack > 0 {
-                self.qrl_import_stack -= 1;
-                let qrl_import = CommonImport::qrl();
-                vec![qrl_import]
-            } else {
-                vec![]
-            };
 
-            let comp = QwikComponent::new(&self.source_info, &segments, node, imports, t, scope);
+            // let qrl_type = self.qrl_type();
+
+            // let imports = if self.qrl_import_stack > 0 {
+            //     self.qrl_import_stack -= 1;
+            //     // let qrl_import = match qrl_type {
+            //     //     QrlType::Qrl => CommonImport::qrl(),
+            //     //     QrlType::ComponentQrl => CommonImport::component_qrl(),
+            //     // };
+            //     vec![qrl_import]
+            // } else {
+            //     vec![]
+            // };
+            let qrl_import = self
+                .qrl_import_stack
+                .pop()
+                .map(|i| vec![i])
+                .unwrap_or_default();
+            let qrl_type = self.qrl_type().clone();
+
+            let comp = QwikComponent::new(
+                &self.source_info,
+                &segments,
+                node,
+                qrl_import,
+                self.requires_handle_watch(),
+                qrl_type,
+                t,
+                scope,
+            );
             match comp {
                 Ok(comp) => {
-                    self.qrl_import_stack += 1;
+                    let qrl_type = self.qrl_type();
+                    self.qrl_import_stack.push(qrl_type.into());
                     self.component_stack.push(comp);
                 }
                 Err(e) => {
@@ -449,6 +509,11 @@ pub fn transform<S: ScriptSource>(script_source: S) -> Result<(QwikApp)> {
     let (symbols, scopes) = semantic.into_symbol_table_and_scope_tree();
 
     traverse_mut(transform, &allocator, &mut program, symbols, scopes);
+    
+    let options = CodegenOptions { annotation_comments: true, ..Default::default() };
+    let code = Codegen::default().with_options(options).build(&program).code;
+    
+    println!("---- CODE GEN AFTER ----\n{}", code);
 
     Ok(transform.app.clone())
 }
@@ -480,12 +545,23 @@ mod tests {
     }));
     "#;
 
+    const SCRIPT2: &str = r#"/*Hello*/ import { $, component$ } from '@builder.io/qwik';
+    
+    // Single line of comments
+    
+export const Header = component$(() => {
+    console.log("mount");
+    return (
+        <div onClick={$((ctx) => console.log(ctx))}/>
+    );
+});"#;
+
     const EXPORT: &str = r#"export { _hW } from "@builder.io/qwik";"#;
 
     const QURL: &str = r#"qurl(() => import("./test.tsx_renderHeader_component_U6Kkv07sbpQ"), "renderHeader_component_U6Kkv07sbpQ")"#;
 
     #[test]
-    fn test_transform() {
+    fn test_script_1() {
         let qwik_app = transform(Container::from_script(SCRIPT1)).unwrap();
         println!("{}", qwik_app);
 
@@ -504,7 +580,7 @@ mod tests {
         let renderHeader_component_U6Kkv07sbpQ = &components[2].code.trim();
         let renderHeader_component_U6Kkv07sbpQ_expected =
             example.renderHeader_component_U6Kkv07sbpQ;
-        
+
         let app_body = &qwik_app.body.trim();
         let app_body_expected = example.body;
 
@@ -515,5 +591,34 @@ mod tests {
             &renderHeader_component_U6Kkv07sbpQ_expected
         );
         assert_eq!(app_body, &app_body_expected);
+    }
+
+    #[test]
+    fn test_script_2() {
+        let qwik_app = transform(Container::from_script(SCRIPT2)).unwrap();
+        println!("{}", qwik_app);
+        let components = &qwik_app.components;
+        assert_eq!(components.len(), 2);
+        let example = Example2Snapshot::default();
+
+        let Header_component_div_onClick_i7ekvWH3674 = normalize_test_output(&components[0].code);
+        let Header_component_div_onClick_i7ekvWH3674_expected =
+            example.Header_component_div_onClick_i7ekvWH367g;
+
+        let Header_component_J4uyIhaBNR4 = normalize_test_output(&components[1].code);
+        let Header_component_J4uyIhaBNR4_expected = example.Header_component_J4uyIhaBNR4;
+        
+        let body = &normalize_test_output(qwik_app.body);
+        let body_expected = example.body;
+
+        assert_eq!(
+            Header_component_div_onClick_i7ekvWH3674,
+            Header_component_div_onClick_i7ekvWH3674_expected
+        );
+        assert_eq!(
+            Header_component_J4uyIhaBNR4,
+            Header_component_J4uyIhaBNR4_expected
+        );
+        assert_eq!(body, &body_expected);
     }
 }

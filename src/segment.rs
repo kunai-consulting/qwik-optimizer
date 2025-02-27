@@ -3,21 +3,29 @@ use oxc_ast::ast::{BindingIdentifier, BindingPattern, BindingPatternKind, TSType
 use oxc_ast::AstBuilder;
 use oxc_span::SPAN;
 use std::fmt::Display;
+use crate::component::*;
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) enum Segment {
     Named(String),
+    /// Represents a component captured by the `$` function.
     AnonymousCaptured,
+    
     NamedCaptured(String),
+    
+    /// Represents a component captured by the `component$` function.
+    ComponentCaptured,
 }
+
 
 impl Segment {
     fn new<T: AsRef<str>>(input: T) -> Segment {
         let input = input.as_ref();
-        if input == "$" {
+        if input == COMPONENT_SUFFIX {
             Segment::AnonymousCaptured
         } else {
-            match input.strip_suffix("$") {
+            match input.strip_suffix(COMPONENT_SUFFIX) {
+                Some(name) if name == COMPONENT => Segment::ComponentCaptured,
                 Some(name) => Segment::NamedCaptured(name.to_string()),
                 None => Segment::Named(input.into()),
             }
@@ -29,6 +37,26 @@ impl Segment {
             Segment::Named(_) => false,
             Segment::AnonymousCaptured => true,
             Segment::NamedCaptured(_) => true,
+            Segment::ComponentCaptured => true,
+        }
+    }
+    
+    pub fn requires_handle_watch(&self) -> bool {
+        match self {
+            Segment::Named(_) => true,
+            Segment::AnonymousCaptured => true,
+            Segment::NamedCaptured(_) => true,
+            Segment::ComponentCaptured => false,
+        }
+    }
+    
+    pub fn associated_qrl_type(&self) -> QrlType {
+        match self {
+            Segment::Named(_) => QrlType::Qrl,
+            Segment::AnonymousCaptured => QrlType::Qrl,
+            Segment::NamedCaptured(name) if name == COMPONENT  => QrlType::ComponentQrl,
+            Segment::ComponentCaptured => QrlType::ComponentQrl,
+            Segment::NamedCaptured(_) => QrlType::Qrl
         }
     }
 
@@ -36,8 +64,9 @@ impl Segment {
         let ast_builder = AstBuilder::new(allocator);
         match self {
             Segment::Named(name) => ast_builder.binding_identifier(SPAN, name),
-            Segment::AnonymousCaptured => ast_builder.binding_identifier(SPAN, "$"),
+            Segment::AnonymousCaptured => ast_builder.binding_identifier(SPAN, COMPONENT_SUFFIX),
             Segment::NamedCaptured(name) => ast_builder.binding_identifier(SPAN, name),
+            Segment::ComponentCaptured => ast_builder.binding_identifier(SPAN, "component"),
         }
     }
 
@@ -58,6 +87,7 @@ impl Display for Segment {
             Segment::Named(name) => write!(f, "{}", name),
             Segment::AnonymousCaptured => write!(f, ""),
             Segment::NamedCaptured(name) => write!(f, "{}", name),
+            Segment::ComponentCaptured => write!(f, "{}", COMPONENT),
         }
     }
 }

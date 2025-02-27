@@ -22,6 +22,8 @@ impl QwikComponent {
         segments: &Vec<String>,
         function: &ArrowFunctionExpression<'_>,
         imports: Vec<CommonImport>,
+        requires_handle_watch: bool,
+        qrl_type: QrlType,
         target: &Target,
         scope: &Option<String>,
     ) -> Result<QwikComponent> {
@@ -30,11 +32,12 @@ impl QwikComponent {
         let qurl = Qrl::new(
             &id.local_file_name,
             &id.symbol_name,
+            qrl_type
         );
         
         let source_type: SourceType = language.into();
         
-        let code = Self::gen(&id, function, imports, &source_type, &Allocator::default());
+        let code = Self::gen(&id, function, imports, requires_handle_watch, &source_type, &Allocator::default());
         Ok(QwikComponent {
             id,
             language: source_info.language.clone(),
@@ -47,6 +50,7 @@ impl QwikComponent {
         id: &Id,
         function: &ArrowFunctionExpression,
         imports: Vec<CommonImport>,
+        requires_handle_watch: bool,
         source_type: &SourceType,
         allocator: &Allocator,
     ) -> String {
@@ -100,8 +104,10 @@ impl QwikComponent {
 
         body.push(export);
 
-        let hw_export = CommonExport::BuilderIoQwik("_hW".into()).into_in(allocator);
-        body.push(hw_export);
+        if requires_handle_watch {
+            let hw_export = CommonExport::handle_watch().into_in(allocator);
+            body.push(hw_export);
+        }
 
         let ast_builder = AstBuilder::new(allocator);
 
