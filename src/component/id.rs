@@ -1,21 +1,6 @@
-#![allow(unused)]
-
-use crate::error::Error;
-use crate::prelude::*;
-use base64::*;
-use path_slash::PathExt;
-use std::ffi::OsStr;
-use std::hash::*;
-use std::path::*;
-
-/// Renamed from `EmitMode` in V 1.0.
-#[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
-pub enum Target {
-    Prod,
-    Lib,
-    Dev,
-    Test,
-}
+use std::hash::{DefaultHasher, Hasher};
+use base64::{engine, Engine};
+use crate::component::{SourceInfo, Target};
 
 /// Represents a component identifier, including its display name, symbol name, local file name, hash, and optional scope.
 ///
@@ -116,8 +101,8 @@ impl Id {
     /// [V 1.0 REF] see `QwikTransform.register_context_name` in `transform.rs.
     pub fn new(
         source_info: &SourceInfo,
-        segments: &Vec<&str>,
-        target: Target,
+        segments: &Vec<String>,
+        target: &Target,
         scope: &Option<String>,
     ) -> Id {
         let local_file_name = source_info.rel_path.to_string_lossy();
@@ -127,10 +112,10 @@ impl Id {
         for segment in segments {
             if display_name.is_empty()
                 && segment
-                    .chars()
-                    .next()
-                    .map(|c| c.is_ascii_digit())
-                    .unwrap_or(false)
+                .chars()
+                .next()
+                .map(|c| c.is_ascii_digit())
+                .unwrap_or(false)
             {
                 display_name = format!("_{}", segment);
             } else {
@@ -144,7 +129,8 @@ impl Id {
         }
         display_name = Self::sanitize(&display_name);
 
-        let hash64 = Self::calculate_hash(&local_file_name, &display_name, scope);
+        let normalized_local_file_name = local_file_name.strip_prefix("./").unwrap_or(&local_file_name);
+        let hash64 = Self::calculate_hash(normalized_local_file_name, &display_name, scope);
 
         let symbol_name = match target {
             Target::Dev | Target::Test => format!("{}_{}", display_name, hash64),
@@ -153,132 +139,20 @@ impl Id {
 
         let display_name = format!("{}_{}", &source_info.file_name, display_name);
 
+        let local_file_name = format!("{}_{}", local_file_name, symbol_name);
         Id {
             display_name,
             symbol_name,
-            local_file_name: source_info.file_name.clone(),
+            local_file_name,
             hash: hash64,
             scope: scope.clone(),
         }
     }
 }
 
-/// Contains information about the source file, including its absolute and relative paths, directory paths.
-/// Renamed from `PathData` in V 1.0.
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
-pub struct SourceInfo {
-    pub rel_path: PathBuf,
-    pub rel_dir: PathBuf,
-    pub file_name: String,
-}
-
-impl SourceInfo {
-    /// Normalizes a path by "squashing" `ParentDir` components (e.g., "..") and ensuring it ends with a slash.
-    fn normalize_path(path: &Path) -> PathBuf {
-        let mut normalized = PathBuf::new();
-        for component in path.components() {
-            match &component {
-                Component::ParentDir => {
-                    if !normalized.pop() {
-                        normalized.push(component);
-                    }
-                }
-                _ => {
-                    normalized.push(component);
-                }
-            }
-        }
-        normalized
-    }
-
-    /// Creates a new `SourceInfo` instance from a source file path and a base directory.
-    ///
-    /// From this information it computes the absolute path, relative path, absolute directory, relative directory,
-    /// file stem (file name less the extension), file name, and file extension.
-    ///
-    /// # Arguments
-    /// - src - source file.  e.g. `./app.js`
-    pub fn new(src: &str) -> Result<SourceInfo> {
-        let path = Path::new(src);
-        let rel_dir = path.parent().map(|p| p.to_path_buf()).ok_or_else(|| {
-            Error::StringConversion(
-                path.to_string_lossy().to_string(),
-                "Computing relative directory".to_string(),
-            )
-        })?;
-
-        let file_name = path.file_name().and_then(OsStr::to_str).ok_or_else(|| {
-            Error::StringConversion(
-                path.to_string_lossy().to_string(),
-                "Computing file name".to_string(),
-            )
-        })?;
-
-        Ok(SourceInfo {
-            rel_path: path.into(),
-            rel_dir,
-            file_name: file_name.into(),
-        })
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::path::Path;
-
-    #[test]
-    fn test_calculate_hash() {
-        let hash0 = Id::calculate_hash("./app.js", "a_b_c", &None);
-        let hash1 = Id::calculate_hash("./app.js", "a_b_c", &Some("scope".to_string()));
-        assert_eq!(hash0, "0RVAWYCCxyk");
-        assert_ne!(hash1, hash0);
-    }
-
-    #[test]
-    fn test_source_info() {
-        let source_info = SourceInfo::new("./app.js" ).unwrap();
-        println!("{:?}", source_info);
-        assert_eq!(source_info.rel_path, Path::new("./app.js"));
-        assert_eq!(source_info.rel_dir, Path::new("./"));
-        assert_eq!(source_info.file_name, "app.js");
-    }
-
-    #[test]
-    fn creates_a_id() {
-        let source_info0 = SourceInfo::new("./app.js").unwrap();
-        let id0 = Id::new(
-            &source_info0,
-            &vec!["a", "b", "c"],
-            Target::Dev,
-            &Option::None,
-        );
-        let hash0 = Id::calculate_hash("./app.js", "a_b_c", &None);
-
-        let expected0 = Id {
-            display_name: "app.js_a_b_c".to_string(),
-            symbol_name: format!("a_b_c_{}", hash0),
-            local_file_name: "app.js".to_string(),
-            hash: hash0,
-            scope: None,
-        };
-
-        let scope1 = Some("scope".to_string());
-        let id1 = Id::new(&source_info0, &vec!["1", "b", "c"], Target::Prod, &scope1);
-        // Leading  segments that are digits are prefixed with an additional underscore.
-        let hash1 = Id::calculate_hash("./app.js", "_1_b_c", &scope1);
-        let expected1 = Id {
-            display_name: "app.js__1_b_c".to_string(),
-            // When Target is neither "Dev" nor "Test", the symbol name is set to "s_{hash}".
-            symbol_name: format!("s_{}", hash1),
-            local_file_name: "app.js".to_string(),
-            hash: hash1,
-            scope: Some("scope".to_string()),
-        };
-
-        assert_eq!(id0, expected0);
-        assert_eq!(id1, expected1);
-    }
 
     #[test]
     fn escapes_a_name() {
@@ -287,21 +161,48 @@ mod tests {
         assert_eq!(name0, "a_b_c");
         assert_eq!(name1, "A123b_c_45");
     }
-
+    
     #[test]
-    fn properly_normalize_path() {
-        let path0 = Path::new("/a/b/c");
-        let norm0 = SourceInfo::normalize_path(path0);
+    fn test_calculate_hash() {
+        let hash0 = Id::calculate_hash("./app.js", "a_b_c", &None);
+        let hash1 = Id::calculate_hash("./app.js", "a_b_c", &Some("scope".to_string()));
+        assert_eq!(hash0, "0RVAWYCCxyk");
+        assert_ne!(hash1, hash0);
+    }
+    
+    #[test]
+    fn creates_a_id() {
+        let source_info0 = SourceInfo::new("app.js").unwrap();
+        let id0 = Id::new(
+            &source_info0,
+            &vec!["a".to_string(), "b".to_string(), "c".to_string()],
+            &Target::Dev,
+            &Option::None,
+        );
+        let hash0 = Id::calculate_hash("app.js", "a_b_c", &None);
 
-        let path1 = Path::new("/a/b/../c/"); // Path will be normalized to /a/c/
-        let norm1 = SourceInfo::normalize_path(path1);
+        let expected0 = Id {
+            display_name: "app.js_a_b_c".to_string(),
+            symbol_name: format!("a_b_c_{}", hash0),
+            local_file_name: "app.js_a_b_c_tZuivXMgs2w".to_string(),
+            hash: hash0,
+            scope: None,
+        };
 
-        let path2 = Path::new("/a/b/c/"); // Path will be normalized to /a/c/
-        let norm2 = SourceInfo::normalize_path(path2);
+        let scope1 = Some("scope".to_string());
+        let id1 = Id::new(&source_info0, &vec!["1".to_string(), "b".to_string(), "c".to_string()], &Target::Prod, &scope1);
+        // Leading  segments that are digits are prefixed with an additional underscore.
+        let hash1 = Id::calculate_hash("app.js", "_1_b_c", &scope1);
+        let expected1 = Id {
+            display_name: "app.js__1_b_c".to_string(),
+            // When Target is neither "Dev" nor "Test", the symbol name is set to "s_{hash}".
+            symbol_name: format!("s_{}", hash1),
+            local_file_name: "app.js_s_bQ4D62Vr0Zg".to_string(),
+            hash: hash1,
+            scope: Some("scope".to_string()),
+        };
 
-        assert_eq!(norm0, Path::new("/a/b/c/"));
-        assert_eq!(norm1, Path::new("/a/c/"));
-        assert_eq!(norm2, Path::new("/a/b/c/"));
-        assert_eq!(norm0, norm2);
+        assert_eq!(id0, expected0);
+        assert_eq!(id1, expected1);
     }
 }
