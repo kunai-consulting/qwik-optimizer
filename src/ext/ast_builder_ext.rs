@@ -6,7 +6,7 @@ use oxc_ast::AstBuilder;
 use oxc_span::{Atom, SourceType, SPAN};
 
 pub trait AstBuilderExt<'a> {
-    fn qwik_import<T: AsRef<str>>(self, names: Vec<T>, source: &str) -> Statement<'a>;
+    fn qwik_import<T: AsRef<str>, U: AsRef<str>>(self, names: Vec<T>, source: U) -> Statement<'a>;
     fn qwik_export(self, name: &str, source: &str) -> Statement<'a>;
     fn qwik_string_literal_expr(self, value: &str) -> Expression<'a>;
 
@@ -16,7 +16,7 @@ pub trait AstBuilderExt<'a> {
 }
 
 impl<'a> AstBuilderExt<'a> for AstBuilder<'a> {
-    fn qwik_import<T: AsRef<str>>(self, names: Vec<T>, source: &str) -> Statement<'a> {
+    fn qwik_import<T: AsRef<str>, U: AsRef<str>>(self, names: Vec<T>, source: U) -> Statement<'a> {
 
         let mut import_decl_specifier = OxcVec::with_capacity_in(names.len(), self.allocator);
         for name in names {
@@ -32,9 +32,9 @@ impl<'a> AstBuilderExt<'a> for AstBuilder<'a> {
             )));
         }
         
-        let raw = format!("'{}'", source);
+        let raw = format!("'{}'", source.as_ref());
         let raw: Atom = raw.into_in(self.allocator);
-        let source_location = self.string_literal(SPAN, source, Some(raw));
+        let source_location = self.string_literal(SPAN, source.as_ref(), Some(raw));
         let import_decl = self.import_declaration(
             SPAN,
             Some(import_decl_specifier),

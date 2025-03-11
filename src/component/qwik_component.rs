@@ -1,11 +1,12 @@
+use crate::component::Language;
+use crate::component::*;
+use crate::prelude::*;
 use oxc_allocator::{Allocator, Box as OxcBox, CloneIn, IntoIn, Vec as OxcVec};
 use oxc_ast::ast::*;
 use oxc_ast::*;
-use oxc_codegen::Codegen;
+use oxc_codegen::{Codegen, CodegenOptions};
+use oxc_minifier::*;
 use oxc_span::{SourceType, SPAN};
-use crate::component::*;
-use crate::prelude::*;
-use crate::component::Language;
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub struct QwikComponent {
@@ -15,7 +16,6 @@ pub struct QwikComponent {
     pub qurl: Qrl,
 }
 
-
 impl QwikComponent {
     pub fn new(
         source_info: &SourceInfo,
@@ -23,21 +23,26 @@ impl QwikComponent {
         function: &ArrowFunctionExpression<'_>,
         imports: Vec<CommonImport>,
         requires_handle_watch: bool,
+        minify: bool,
         qrl_type: QrlType,
         target: &Target,
         scope: &Option<String>,
     ) -> Result<QwikComponent> {
         let language = source_info.language.clone();
         let id = Id::new(source_info, segments, target, scope);
-        let qurl = Qrl::new(
-            &id.local_file_name,
-            &id.symbol_name,
-            qrl_type
-        );
-        
+        let qurl = Qrl::new(&id.local_file_name, &id.symbol_name, qrl_type);
+
         let source_type: SourceType = language.into();
-        
-        let code = Self::gen(&id, function, imports, requires_handle_watch, &source_type, &Allocator::default());
+
+        let code = Self::gen(
+            &id,
+            function,
+            imports,
+            requires_handle_watch,
+            minify,
+            &source_type,
+            &Allocator::default(),
+        );
         Ok(QwikComponent {
             id,
             language: source_info.language.clone(),
@@ -51,6 +56,7 @@ impl QwikComponent {
         function: &ArrowFunctionExpression,
         imports: Vec<CommonImport>,
         requires_handle_watch: bool,
+        minify: bool,
         source_type: &SourceType,
         allocator: &Allocator,
     ) -> String {
@@ -65,7 +71,6 @@ impl QwikComponent {
             false,
         );
         let mut var_declarator = OxcVec::new_in(allocator);
-
 
         let boxed = OxcBox::new_in(function.clone_in(allocator), allocator);
         let expr = Expression::ArrowFunctionExpression(boxed);
@@ -95,8 +100,8 @@ impl QwikComponent {
         );
         let export = Statement::ExportNamedDeclaration(OxcBox::new_in(export, allocator));
 
-        let imports = imports.iter().map ( |import|  {
-            let statement: Statement = import.clone().into_in(allocator) ;
+        let imports = imports.iter().map(|import| {
+            let statement: Statement = import.clone().into_in(allocator);
             statement
         });
 
@@ -111,7 +116,7 @@ impl QwikComponent {
 
         let ast_builder = AstBuilder::new(allocator);
 
-        let new_pgm = ast_builder.program(
+        let mut new_pgm = ast_builder.program(
             SPAN,
             *source_type,
             "",
@@ -122,6 +127,30 @@ impl QwikComponent {
         );
 
         let codegen = Codegen::new();
-        codegen.build(&new_pgm).code
+        let codegen_options = CodegenOptions {
+            annotation_comments: true,
+            minify: minify,
+            ..Default::default()
+        };
+
+        if minify {
+            let ops = MinifierOptions {
+                compress: Some(CompressOptions::default()),
+                mangle: None,
+                // mangle: Some(MangleOptions::default()),
+            };
+            let minifier = Minifier::new(ops);
+            let ret = minifier.build(allocator, &mut new_pgm);
+            let sym_tab = ret.symbol_table;
+
+            codegen
+                .with_options(codegen_options)
+                .with_symbol_table(sym_tab)
+                .build(&new_pgm)
+                .code
+        } else { 
+            codegen.with_options(codegen_options).build(&new_pgm).code
+        }
     }
 }
+

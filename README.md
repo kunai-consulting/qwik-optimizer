@@ -2,31 +2,42 @@
 Qwik Optimizer remake
 
 
-**_DISCLAIMER_**: This is very much a work in progress so expect this space to change a lot.
+## Component Hash Generation
 
-## What
-This is a ground up re-implementation of the original Qwik Optimzer.
+Current hashing algo is just Rust's `DefaultHasher`.
 
-## Why
-The decision was made to mover from SWC to Oxide as the foundation for the Qwik Optimizer.  
+## Questions on Previous Implementation
 
-In the process of doing this, we hope to make the internal Qwik Optimizer more modular and to be more idiomatic Rust.
+### test_example_8
 
+#### Input
 
-## Modules
+```typescript jsx
+import { $, component$ } from '@builder.io/qwik';
 
-### prelude
+export const Header = component$(() => {
+    return $((hola) => {
+        const hola = this;
+        const {something, styff} = hola;
+        const hello = hola.nothere.stuff[global];
+        return (
+            <Header/>
+        );
+    });
+});
+```
 
-This is a collection of common types and traits that are used throughout the Qwik Optimizer.
+####  test.tsx_Header_component_1_2B8d0oH9ZWc.tsx 
 
-### component
+Why is the `const hello = hola.nothere.stuff[global];` assignment changed to a call, `hola.nothere.stuff[global];`? 
 
-This module currently contains metadata info for components.
-
-## Usage
-
-Not much save for the unit tests.
-
-```shell 
-cargo test
+```typescript
+import { Header } from "./test";
+export const Header_component_1_2B8d0oH9ZWc = (hola)=>{
+    const hola = this;
+    const { something, styff } = hola;
+    hola.nothere.stuff[global];
+    return <Header/>;
+};
+export { _hW } from "@builder.io/qwik";
 ```

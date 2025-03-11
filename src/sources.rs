@@ -40,6 +40,11 @@ impl Container {
         Container::Script(vec![s])
     }
     
+    pub fn from_script_file(file_path: &Path) -> Result<Container> {
+        let file_contents = fs::read_to_string(file_path)?;
+        Ok(Container::Script(vec![file_contents]))
+    }
+    
 }
 
 pub trait ScriptSource {
