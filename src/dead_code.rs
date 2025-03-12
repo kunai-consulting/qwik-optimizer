@@ -1,5 +1,5 @@
+use oxc_allocator::Box as OxcBox;
 use oxc_ast::ast::{ClassElement, FunctionBody, Statement};
-use oxc_allocator::{Box as OxcBox};
 
 pub trait DeadCode {
     fn is_dead_code(&self) -> bool;
@@ -10,7 +10,7 @@ impl DeadCode for OxcBox<'_, FunctionBody<'_>> {
         let body_empty = self.is_empty();
         let statements_empty = &self.statements.is_empty();
         let statements_all_dead = self.statements.iter().all(|stmt| stmt.is_dead_code());
-        
+
         body_empty && *statements_empty && statements_all_dead
     }
 }
@@ -25,10 +25,10 @@ impl DeadCode for Statement<'_> {
                 } else {
                     false
                 }
-            },
+            }
             Statement::ClassDeclaration(class) => {
-               let elements =  &class.body.body;
-                
+                let elements = &class.body.body;
+
                 for element in elements {
                     match element {
                         ClassElement::StaticBlock(block) => {
@@ -37,16 +37,16 @@ impl DeadCode for Statement<'_> {
                             if !empty || !all_dead {
                                 return false;
                             }
-                        },
+                        }
                         ClassElement::MethodDefinition(method) => {
                             let body = &method.value;
-                            if let Some(body)  = &body.body {
-                               if !body.is_dead_code() {
-                                   return false;
-                               } 
+                            if let Some(body) = &body.body {
+                                if !body.is_dead_code() {
+                                    return false;
+                                }
                             }
                         }
-                        ClassElement::PropertyDefinition(prop  ) => {
+                        ClassElement::PropertyDefinition(prop) => {
                             if prop.value.is_some() {
                                 return false;
                             }
@@ -55,15 +55,13 @@ impl DeadCode for Statement<'_> {
                             if prop.value.is_some() {
                                 return false;
                             }
-                        },
+                        }
 
-                        ClassElement::TSIndexSignature(_) => {},
-                        
+                        ClassElement::TSIndexSignature(_) => {}
                     }
-                    
                 }
                 true
-            },
+            }
             _ => false,
         }
     }

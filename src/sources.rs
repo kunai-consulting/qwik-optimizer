@@ -39,17 +39,16 @@ impl Container {
         let s = script.to_string();
         Container::Script(vec![s])
     }
-    
+
     pub fn from_script_file(file_path: &Path) -> Result<Container> {
         let file_contents = fs::read_to_string(file_path)?;
         Ok(Container::Script(vec![file_contents]))
     }
-    
 }
 
 pub trait ScriptSource {
     fn scripts(&self) -> Result<Vec<String>>;
-    
+
     fn script_type() -> String;
 }
 
@@ -100,4 +99,3 @@ impl ScriptSource for Container {
         "js".to_string()
     }
 }
-

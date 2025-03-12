@@ -1,4 +1,3 @@
-
 #[macro_export]
 macro_rules! function_name {
     () => {{
@@ -19,19 +18,19 @@ macro_rules! _assert_valid_transform {
         let func_name = function_name!();
         let path = PathBuf::from("./src/test_input").join(format!("{func_name}.tsx"));
         println!("Loading test input file from path: {:?}", &path);
-        
-         let source_input = Container::from_script_file(path.as_path()).unwrap();
-         let result = transform(source_input).unwrap();
-        
+
+        let source_input = Container::from_script_file(path.as_path()).unwrap();
+        let result = transform(source_input).unwrap();
+
         if $input == true {
             println!("{}", result);
         }
-        
+
         let body_snap_name = format!("{}_body", func_name);
-        
+
         // Return a clone of the cached result
-      insta::assert_yaml_snapshot!(body_snap_name, result.body);
-        
+        insta::assert_yaml_snapshot!(body_snap_name, result.body);
+
         for comp in result.components {
             let comp_snap_name = format!("{}_{}", func_name, comp.id.symbol_name);
             insta::assert_yaml_snapshot!(comp_snap_name, comp.code);
@@ -39,15 +38,12 @@ macro_rules! _assert_valid_transform {
     }};
 }
 
-
-
 #[macro_export]
 macro_rules! assert_valid_transform {
     () => {{
         _assert_valid_transform!(false);
     }};
 }
-
 
 #[macro_export]
 macro_rules! assert_valid_transform_debug {

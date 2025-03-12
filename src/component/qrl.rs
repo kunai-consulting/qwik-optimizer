@@ -230,8 +230,7 @@ impl<'a> FromIn<'a, Qrl> for JSXExpression<'a> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    
-    
+
     use oxc_codegen::Codegen;
 
     #[test]

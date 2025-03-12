@@ -20,7 +20,7 @@ pub const PURE_ANNOTATION_LENGTH: u32 = PURE_ANNOTATION.len() as u32;
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum CommonImport {
     BuilderIoQwik(Vec<String>),
-    Import(Import)
+    Import(Import),
 }
 
 impl CommonImport {
@@ -36,8 +36,10 @@ impl<'a> FromIn<'a, CommonImport> for Statement<'a> {
     fn from_in(value: CommonImport, allocator: &'a Allocator) -> Self {
         let ast_builder = AstBuilder::new(allocator);
         match value {
-            CommonImport::BuilderIoQwik(names) => ast_builder.create_import_statement(names, BUILDER_IO_QWIK),
-            CommonImport::Import(import) =>import.into_statement(allocator) 
+            CommonImport::BuilderIoQwik(names) => {
+                ast_builder.create_import_statement(names, BUILDER_IO_QWIK)
+            }
+            CommonImport::Import(import) => import.into_statement(allocator),
         }
     }
 }
@@ -50,7 +52,7 @@ impl<'a> FromIn<'a, &CommonImport> for Statement<'a> {
                 let names = names.clone();
                 ast_builder.create_import_statement(names, BUILDER_IO_QWIK)
             }
-            CommonImport::Import(import) => import.into_in(allocator)
+            CommonImport::Import(import) => import.into_in(allocator),
         }
     }
 }
@@ -114,7 +116,6 @@ pub enum Reference {
 }
 
 impl Reference {
-    
     pub fn name(&self) -> String {
         match self {
             Reference::Variable(name) => name.clone(),

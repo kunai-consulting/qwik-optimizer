@@ -1,22 +1,21 @@
+use crate::component::*;
 use oxc_allocator::{Allocator, Box as OxcBox, FromIn};
 use oxc_ast::ast::{BindingIdentifier, BindingPattern, BindingPatternKind, TSTypeAnnotation};
 use oxc_ast::AstBuilder;
 use oxc_span::SPAN;
 use std::fmt::Display;
-use crate::component::*;
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) enum Segment {
     Named(String),
     /// Represents a component captured by the `$` function.
     AnonymousCaptured,
-    
+
     NamedCaptured(String),
-    
+
     /// Represents a component captured by the `component$` function.
     ComponentCaptured,
 }
-
 
 impl Segment {
     fn new<T: AsRef<str>>(input: T) -> Segment {
@@ -40,7 +39,7 @@ impl Segment {
             Segment::ComponentCaptured => true,
         }
     }
-    
+
     pub fn requires_handle_watch(&self) -> bool {
         match self {
             Segment::Named(_) => true,
@@ -49,14 +48,14 @@ impl Segment {
             Segment::ComponentCaptured => false,
         }
     }
-    
+
     pub fn associated_qrl_type(&self) -> QrlType {
         match self {
             Segment::Named(_) => QrlType::Qrl,
             Segment::AnonymousCaptured => QrlType::Qrl,
-            Segment::NamedCaptured(name) if name == COMPONENT  => QrlType::ComponentQrl,
+            Segment::NamedCaptured(name) if name == COMPONENT => QrlType::ComponentQrl,
             Segment::ComponentCaptured => QrlType::ComponentQrl,
-            Segment::NamedCaptured(_) => QrlType::Qrl
+            Segment::NamedCaptured(_) => QrlType::Qrl,
         }
     }
 
@@ -99,7 +98,7 @@ impl<'a> FromIn<'a, Segment> for BindingPattern<'a> {
 }
 
 impl<'a> FromIn<'a, &'a BindingPattern<'a>> for Segment {
-    fn from_in(value: &'a BindingPattern<'a>,  _a : &'a Allocator) -> Self {
+    fn from_in(value: &'a BindingPattern<'a>, _a: &'a Allocator) -> Self {
         let s: String = value
             .get_identifier_name()
             .iter()

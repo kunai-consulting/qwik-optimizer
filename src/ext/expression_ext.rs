@@ -1,5 +1,5 @@
-use oxc_ast::ast::Expression;
 use crate::component::QRL_MARKER;
+use oxc_ast::ast::Expression;
 
 pub trait ExpressionExt {
     fn is_qrl_replaceable(&self) -> bool;
@@ -17,5 +17,4 @@ impl ExpressionExt for Expression<'_> {
             false
         }
     }
-
 }

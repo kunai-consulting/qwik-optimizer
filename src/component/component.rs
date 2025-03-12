@@ -148,9 +148,8 @@ impl QrlComponent {
                 .with_symbol_table(sym_tab)
                 .build(&new_pgm)
                 .code
-        } else { 
+        } else {
             codegen.with_options(codegen_options).build(&new_pgm).code
         }
     }
 }
-

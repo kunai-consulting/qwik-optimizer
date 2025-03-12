@@ -60,8 +60,8 @@ impl TryInto<SourceType> for &SourceInfo {
 
 #[cfg(test)]
 mod tests {
-    use std::path::Component;
     use super::*;
+    use std::path::Component;
 
     impl SourceInfo {
         /// Normalizes a path by "squashing" `ParentDir` components (e.g., "..") and ensuring it ends with a slash.

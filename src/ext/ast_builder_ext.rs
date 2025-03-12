@@ -1,7 +1,5 @@
 use oxc_allocator::{Box as OxcBox, IntoIn, Vec as OxcVec};
-use oxc_ast::ast::{
-    ImportDeclarationSpecifier, ImportOrExportKind, Statement, WithClause,
-};
+use oxc_ast::ast::{ImportDeclarationSpecifier, ImportOrExportKind, Statement, WithClause};
 use oxc_ast::AstBuilder;
 use oxc_span::{Atom, SPAN};
 

@@ -1,14 +1,14 @@
-mod shared;
 mod component;
-mod qrl;
 mod id;
-mod source_info;
 mod language;
+mod qrl;
+mod shared;
+mod source_info;
 
 // -- Flatten
-pub(crate) use shared::*;
 pub(crate) use component::*;
-pub(crate) use qrl::*;
 pub(crate) use id::*;
-pub(crate) use source_info::*;
 pub(crate) use language::*;
+pub(crate) use qrl::*;
+pub(crate) use shared::*;
+pub(crate) use source_info::*;
