@@ -1,9 +1,9 @@
-use std::ffi::OsStr;
-use std::path::{Component, Path, PathBuf};
-use oxc_span::SourceType;
 use crate::component::Language;
-use crate::prelude::*;
 use crate::error::*;
+use crate::prelude::*;
+use oxc_span::SourceType;
+use std::ffi::OsStr;
+use std::path::{Path, PathBuf};
 
 /// Contains information about the source file, including its absolute and relative paths, directory paths.
 /// Renamed from `PathData` in V 1.0.
@@ -12,28 +12,10 @@ pub struct SourceInfo {
     pub rel_path: PathBuf,
     pub rel_dir: PathBuf,
     pub file_name: String,
-    pub language: Language
+    pub language: Language,
 }
 
 impl SourceInfo {
-    /// Normalizes a path by "squashing" `ParentDir` components (e.g., "..") and ensuring it ends with a slash.
-    fn normalize_path(path: &Path) -> PathBuf {
-        let mut normalized = PathBuf::new();
-        for component in path.components() {
-            match &component {
-                Component::ParentDir => {
-                    if !normalized.pop() {
-                        normalized.push(component);
-                    }
-                }
-                _ => {
-                    normalized.push(component);
-                }
-            }
-        }
-        normalized
-    }
-
     /// Creates a new `SourceInfo` instance from a source file path and a base directory.
     ///
     /// From this information it computes the absolute path, relative path, absolute directory, relative directory,
@@ -56,19 +38,16 @@ impl SourceInfo {
                 "Computing file name".to_string(),
             )
         })?;
-        
-        
+
         let language = Language::try_from(path)?;
 
         Ok(SourceInfo {
             rel_path: path.into(),
             rel_dir,
             file_name: file_name.into(),
-            language
+            language,
         })
     }
-    
-
 }
 
 impl TryInto<SourceType> for &SourceInfo {
@@ -81,7 +60,28 @@ impl TryInto<SourceType> for &SourceInfo {
 
 #[cfg(test)]
 mod tests {
+    use std::path::Component;
     use super::*;
+
+    impl SourceInfo {
+        /// Normalizes a path by "squashing" `ParentDir` components (e.g., "..") and ensuring it ends with a slash.
+        fn normalize_path(path: &Path) -> PathBuf {
+            let mut normalized = PathBuf::new();
+            for component in path.components() {
+                match &component {
+                    Component::ParentDir => {
+                        if !normalized.pop() {
+                            normalized.push(component);
+                        }
+                    }
+                    _ => {
+                        normalized.push(component);
+                    }
+                }
+            }
+            normalized
+        }
+    }
 
     #[test]
     fn test_source_info() {
