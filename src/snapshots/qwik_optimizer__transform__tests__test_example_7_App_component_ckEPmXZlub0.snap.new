@@ -1,0 +1,6 @@
+---
+source: src/transform.rs
+assertion_line: 756
+expression: comp.code
+---
+"import { componentQrl, qrl } from \"@builder.io/qwik\";\nimport { Header } from \"./test\";\nexport const App_component_ckEPmXZlub0 = () => {\n\treturn <Header />;\n};\n"

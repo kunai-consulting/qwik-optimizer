@@ -1,0 +1,6 @@
+---
+source: src/transform.rs
+expression: comp.code
+snapshot_kind: text
+---
+"import { qrl } from \"@builder.io/qwik\";\nexport const Header_component_J4uyIhaBNR4 = () => {\n\tconsole.log(\"mount\");\n\treturn <div onClick={qrl(() => import(\"./test.tsx_Header_component_div_onClick_i7ekvWH3674\"), \"Header_component_div_onClick_i7ekvWH3674\")} />;\n};\n"

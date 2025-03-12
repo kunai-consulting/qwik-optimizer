@@ -1,0 +1,6 @@
+---
+source: src/transform.rs
+expression: result.body
+snapshot_kind: text
+---
+"import { qrl } from \"@builder.io/qwik\";\nexport const sym1 = qrl(() => import(\"./test.tsx_sym1_aXUrPXX5Lak\"), \"sym1_aXUrPXX5Lak\");\n"
