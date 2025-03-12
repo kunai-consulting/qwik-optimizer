@@ -1,6 +1,6 @@
 ---
 source: src/transform.rs
-assertion_line: 722
 expression: result.body
+snapshot_kind: text
 ---
 "import { qrl } from \"@builder.io/qwik\";\nconst Header = qrl(() => import(\"./test.tsx_Header_WjUaUQN7Oxg\"), \"Header_WjUaUQN7Oxg\");\n"

@@ -10,8 +10,7 @@ pub mod macros;
 mod dead_code;
 mod transform;
 mod segment;
-mod snapshots;
 mod fixture;
-mod minifier;
+mod ref_counter;
 
 

@@ -1,11 +1,12 @@
 #![allow(unused)]
 
+use crate::dead_code::DeadCode;
 use crate::error::Error;
 use crate::ext::*;
 use crate::prelude::*;
+use crate::ref_counter::RefCounter;
 use crate::segment::Segment;
 use crate::sources::*;
-use crate::dead_code::DeadCode;
 use oxc_allocator::{
     Allocator, Box as OxcBox, CloneIn, FromIn, GetAddress, HashMap as OxcHashMap, IntoIn,
     Vec as OxcVec,
@@ -22,7 +23,6 @@ use std::collections::HashMap;
 
 use crate::component::*;
 use crate::macros::*;
-use crate::minifier::Minifier;
 use oxc_parser::Parser;
 use oxc_semantic::{ScopeFlags, ScopeId, SemanticBuilder, SemanticBuilderReturn};
 use oxc_span::*;
@@ -128,7 +128,6 @@ impl TransformGenerator {
             scoped_references: HashMap::new(),
             import_stack: Vec::new(),
             anonymous_return_depth: 0,
-            // mode: Mode::Scanning,
             source_info,
             target,
             scope,
@@ -265,6 +264,33 @@ impl TransformGenerator {
                 let imp = CommonImport::Import(r.into_import(PathBuf::from("./test")));
                 refs.push(imp);
             }
+        }
+    }
+
+    fn to_pure_call<'a>(
+        node: &'a mut Statement,
+        allocator: &'a Allocator,
+    ) -> Option<CallExpression<'a>> {
+        // let mut replacement:  Option<&OxcBox<'CallExpression>> = None;
+        if let Statement::VariableDeclaration(decl) = node {
+            if let Some(decl) = decl.declarations.first() {
+                if let Some(Expression::CallExpression(expr)) = &decl.init {
+                    let name = expr.callee_name().unwrap_or_default();
+                    if name == COMPONENT_QRL {
+                        let ce0 = &**expr;
+                        let ce1 = ce0.clone_in(allocator);
+                        Some(ce1)
+                    } else {
+                        None
+                    }
+                } else {
+                    None
+                }
+            } else {
+                None
+            }
+        } else {
+            None
         }
     }
 }
@@ -423,11 +449,6 @@ impl<'a> Traverse<'a> for TransformGenerator {
         if let Some(init) = &mut node.init {
             let qrl = self.var_decl_stack.pop();
             if let Some(qrl) = qrl {
-                // let grandparent = ctx.ancestor(1);
-                // match grandparent {
-                //     Ancestor::ExportNamedDeclarationDeclaration(_) => node.init = Some(qrl.into_in(ctx.ast.allocator)),
-                //     _ => {}
-                // }
                 node.init = Some(qrl.into_in(ctx.ast.allocator))
             }
         }
@@ -609,19 +630,56 @@ impl<'a> Traverse<'a> for TransformGenerator {
         }
     }
 
-
     fn enter_statements(
         &mut self,
         node: &mut OxcVec<'a, Statement<'a>>,
         ctx: &mut TraverseCtx<'a>,
     ) {
+        for statement in node.iter_mut() {
+            if let Statement::VariableDeclaration(decl) = statement {
+                if let Some(decl) = decl.declarations.first() {
+                    let name = decl.id.get_identifier_name();
+                    let refs = decl.reference_count(ctx);
+                    self.debug(
+                        format!("REF COUNT `{:?}` has  {} reference(s)", name, refs),
+                        ctx,
+                    );
+                }
+            }
+        }
+
         self.debug("ENTER: Statements", ctx);
-        node.retain(|s| {
-          !s.is_dead_code() 
-        });
+        node.retain(|s| !s.is_dead_code());
     }
 
-    // fn exit_try_statement(&mut self node: &mut TryStatement<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn exit_statements(&mut self, node: &mut OxcVec<'a, Statement<'a>>, ctx: &mut TraverseCtx<'a>) {
+        for statement in node.iter_mut() {
+            if let Statement::VariableDeclaration(decl) = statement {
+                if let Some(decl) = decl.declarations.first() {
+                    let ref_count = decl.reference_count(ctx);
+                    if (ref_count < 1) {
+                        if let Some(Expression::CallExpression(expr)) = &decl.init {
+                            let name = expr.callee_name().unwrap_or_default();
+                            if name == COMPONENT_QRL {
+                                let ce = &**expr;
+                                let ce = ce.clone_in(ctx.ast.allocator);
+                                let ce = Expression::CallExpression(OxcBox::new_in(
+                                    ce,
+                                    ctx.ast.allocator,
+                                ));
+                                let ces = ctx.ast.expression_statement(SPAN, ce);
+                                let s = Statement::ExpressionStatement(OxcBox::new_in(
+                                    ces,
+                                    ctx.ast.allocator,
+                                ));
+                                *statement = s;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 pub fn transform<S: ScriptSource>(script_source: S) -> Result<(QwikApp)> {
@@ -654,26 +712,12 @@ pub fn transform<S: ScriptSource>(script_source: S) -> Result<(QwikApp)> {
 
     traverse_mut(transform, &allocator, &mut program, symbols, scopes);
 
-    let options = CodegenOptions {
-        annotation_comments: true,
-        ..Default::default()
-    };
-    let code = Codegen::default()
-        .with_options(options)
-        .build(&program)
-        .code;
-
-    if DEBUG {
-        println!("---- CODE GEN AFTER ----\n{}", code);
-    }
-
     Ok(transform.app.clone())
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::snapshots::*;
     use insta::assert_yaml_snapshot;
     use std::path::PathBuf;
 
