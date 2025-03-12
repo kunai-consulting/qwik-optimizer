@@ -6,17 +6,17 @@ use oxc_ast::AstBuilder;
 use oxc_span::{Atom, SourceType, SPAN};
 
 pub trait AstBuilderExt<'a> {
-    fn qwik_import<T: AsRef<str>, U: AsRef<str>>(self, names: Vec<T>, source: U) -> Statement<'a>;
-    fn qwik_export(self, name: &str, source: &str) -> Statement<'a>;
-    fn qwik_string_literal_expr(self, value: &str) -> Expression<'a>;
+    fn create_import_statement<T: AsRef<str>, U: AsRef<str>>(self, names: Vec<T>, source: U) -> Statement<'a>;
+    fn create_export_statement(self, name: &str, source: &str) -> Statement<'a>;
+    fn create_string_literal_expr(self, value: &str) -> Expression<'a>;
 
-    fn qwik_simple_import(self, name: &str) -> Statement<'a>;
+    fn create_simple_import(self, name: &str) -> Statement<'a>;
 
-    fn qwik_program(self, statements: Vec<Statement<'a>>, source_type: SourceType) -> Program<'a>;
+    fn create_program(self, statements: Vec<Statement<'a>>, source_type: SourceType) -> Program<'a>;
 }
 
 impl<'a> AstBuilderExt<'a> for AstBuilder<'a> {
-    fn qwik_import<T: AsRef<str>, U: AsRef<str>>(self, names: Vec<T>, source: U) -> Statement<'a> {
+    fn create_import_statement<T: AsRef<str>, U: AsRef<str>>(self, names: Vec<T>, source: U) -> Statement<'a> {
 
         let mut import_decl_specifier = OxcVec::with_capacity_in(names.len(), self.allocator);
         for name in names {
@@ -47,7 +47,7 @@ impl<'a> AstBuilderExt<'a> for AstBuilder<'a> {
         Statement::ImportDeclaration(OxcBox::new_in(import_decl, self.allocator))
     }
 
-    fn qwik_export(self, name: &str, source: &str) -> Statement<'a> {
+    fn create_export_statement(self, name: &str, source: &str) -> Statement<'a> {
         let exported = self.module_export_name_identifier_name(SPAN, name);
         let local_name = self.module_export_name_identifier_name(SPAN, name);
         let export_specifier =
@@ -69,12 +69,12 @@ impl<'a> AstBuilderExt<'a> for AstBuilder<'a> {
         Statement::ExportNamedDeclaration(OxcBox::new_in(export_decl, self.allocator))
     }
 
-    fn qwik_string_literal_expr(self, value: &str) -> Expression<'a> {
+    fn create_string_literal_expr(self, value: &str) -> Expression<'a> {
         let raw: Atom = format!(r#""{}""#, value).into_in(self.allocator);
         self.expression_string_literal(SPAN, value, Some(raw))
     }
 
-    fn qwik_simple_import(self, name: &str) -> Statement<'a> {
+    fn create_simple_import(self, name: &str) -> Statement<'a> {
         let raw: Atom = format!(r#""{}""#, name).into_in(self.allocator);
         let source = self.expression_string_literal(SPAN, name, Some(raw));
         let import_expression =
@@ -82,7 +82,7 @@ impl<'a> AstBuilderExt<'a> for AstBuilder<'a> {
         self.statement_expression(SPAN, import_expression)
     }
 
-    fn qwik_program(self, statements: Vec<Statement<'a>>, source_type: SourceType) -> Program<'a> {
+    fn create_program(self, statements: Vec<Statement<'a>>, source_type: SourceType) -> Program<'a> {
         let statements = OxcVec::from_iter_in(statements, self.allocator);
         self.program(
             SPAN,

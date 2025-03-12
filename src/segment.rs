@@ -32,7 +32,7 @@ impl Segment {
         }
     }
 
-    pub fn is_qwik(&self) -> bool {
+    pub fn is_qrl_extractable(&self) -> bool {
         match self {
             Segment::Named(_) => false,
             Segment::AnonymousCaptured => true,

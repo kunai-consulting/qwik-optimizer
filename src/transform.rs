@@ -33,19 +33,19 @@ use std::ops::Deref;
 use std::path::{Components, PathBuf};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Default)]
-pub struct QwikApp {
+pub struct OptimizedApp {
     pub body: String,
-    pub components: Vec<QwikComponent>,
+    pub components: Vec<QrlComponent>,
 }
-impl QwikApp {
-    fn get_component(&self, name: String) -> Option<&QwikComponent> {
+impl OptimizedApp {
+    fn get_component(&self, name: String) -> Option<&QrlComponent> {
         self.components
             .iter()
             .find(|comp| comp.id.symbol_name == name)
     }
 }
 
-impl Display for QwikApp {
+impl Display for OptimizedApp {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let component_count = self.components.len();
         let comp_heading = format!(
@@ -74,9 +74,9 @@ impl Display for QwikApp {
 }
 
 struct TransformGenerator {
-    pub components: Vec<QwikComponent>,
+    pub components: Vec<QrlComponent>,
 
-    pub app: QwikApp,
+    pub app: OptimizedApp,
 
     pub errors: Vec<Error>,
 
@@ -84,7 +84,7 @@ struct TransformGenerator {
 
     segment_stack: Vec<Segment>,
 
-    component_stack: Vec<QwikComponent>,
+    component_stack: Vec<QrlComponent>,
 
     jsx_qurl_stack: Vec<Qrl>,
 
@@ -115,7 +115,7 @@ impl TransformGenerator {
     fn new(source_info: SourceInfo, minify: bool, target: Target, scope: Option<String>) -> Self {
         Self {
             components: Vec::new(),
-            app: QwikApp::default(),
+            app: OptimizedApp::default(),
             errors: Vec::new(),
             depth: 0,
             segment_stack: Vec::new(),
@@ -138,7 +138,7 @@ impl TransformGenerator {
     fn is_recording(&self) -> bool {
         self.segment_stack
             .last()
-            .map(|s| s.is_qwik())
+            .map(|s| s.is_qrl_extractable())
             .unwrap_or(false)
     }
 
@@ -320,7 +320,7 @@ impl<'a> Traverse<'a> for TransformGenerator {
 
         let body = codegen.build(node).code;
 
-        self.app = QwikApp {
+        self.app = OptimizedApp {
             body,
             components: self.components.clone(),
         };
@@ -340,7 +340,7 @@ impl<'a> Traverse<'a> for TransformGenerator {
         let name = node.callee_name().unwrap_or_default().to_string();
 
         let segment: Segment = name.into();
-        let is_qwik = segment.is_qwik();
+        let is_extractable = segment.is_qrl_extractable();
         self.segment_stack.push(segment);
     }
 
@@ -348,7 +348,7 @@ impl<'a> Traverse<'a> for TransformGenerator {
         let segment = self.segment_stack.pop();
 
         if let Some(segment) = segment {
-            if segment.is_qwik() {
+            if segment.is_qrl_extractable() {
                 // self.stop_recording();
                 if let Some(comp) = self.component_stack.pop() {
                     let qrl = &comp.qurl;
@@ -520,7 +520,7 @@ impl<'a> Traverse<'a> for TransformGenerator {
 
             qrl_import.extend(self.import_stack.pop().unwrap_or_default());
 
-            let comp = QwikComponent::new(
+            let comp = QrlComponent::new(
                 &self.source_info,
                 &segments,
                 node,
@@ -682,7 +682,7 @@ impl<'a> Traverse<'a> for TransformGenerator {
     }
 }
 
-pub fn transform<S: ScriptSource>(script_source: S) -> Result<(QwikApp)> {
+pub fn transform<S: ScriptSource>(script_source: S) -> Result<(OptimizedApp)> {
     let allocator = Allocator::default();
     let source_type = SourceType::from_path("foo.js")?;
     let source_text = script_source.scripts()?;

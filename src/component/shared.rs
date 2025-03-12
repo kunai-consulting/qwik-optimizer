@@ -36,7 +36,7 @@ impl<'a> FromIn<'a, CommonImport> for Statement<'a> {
     fn from_in(value: CommonImport, allocator: &'a Allocator) -> Self {
         let ast_builder = AstBuilder::new(allocator);
         match value {
-            CommonImport::BuilderIoQwik(names) => ast_builder.qwik_import(names, BUILDER_IO_QWIK),
+            CommonImport::BuilderIoQwik(names) => ast_builder.create_import_statement(names, BUILDER_IO_QWIK),
             CommonImport::Import(import) =>import.into_statement(allocator) 
         }
     }
@@ -48,7 +48,7 @@ impl<'a> FromIn<'a, &CommonImport> for Statement<'a> {
         match value {
             CommonImport::BuilderIoQwik(names) => {
                 let names = names.clone();
-                ast_builder.qwik_import(names, BUILDER_IO_QWIK)
+                ast_builder.create_import_statement(names, BUILDER_IO_QWIK)
             }
             CommonImport::Import(import) => import.into_in(allocator)
         }
@@ -71,7 +71,7 @@ impl<'a> FromIn<'a, CommonExport> for Statement<'a> {
         let ast_builder = AstBuilder::new(allocator);
         match value {
             CommonExport::BuilderIoQwik(name) => {
-                ast_builder.qwik_export(name.as_str(), BUILDER_IO_QWIK)
+                ast_builder.create_export_statement(name.as_str(), BUILDER_IO_QWIK)
             }
         }
     }
@@ -92,7 +92,7 @@ impl Import {
 
     pub fn into_statement<'a>(&self, allocator: &'a Allocator) -> Statement<'a> {
         let ast_builder = AstBuilder::new(allocator);
-        ast_builder.qwik_import(self.names.clone(), self.source.to_string_lossy())
+        ast_builder.create_import_statement(self.names.clone(), self.source.to_string_lossy())
     }
 }
 

@@ -79,7 +79,7 @@ impl Qrl {
 
         // Function Body /////////
         let mut statements = ast_builder.vec_with_capacity(1);
-        statements.push(ast_builder.qwik_simple_import(rel_path.as_ref()));
+        statements.push(ast_builder.create_simple_import(rel_path.as_ref()));
         let function_body = ast_builder.function_body(SPAN, ast_builder.vec(), statements);
         let func_params = ast_builder.formal_parameters(
             SPAN,
@@ -241,7 +241,7 @@ fn test_qurl() {
     );
     let source_type = SourceType::from_path("test.tsx").unwrap();
     let statement = qurl.into_statement(&ast_builder);
-    let pgm = ast_builder.qwik_program(vec![statement], source_type);
+    let pgm = ast_builder.create_program(vec![statement], source_type);
     let codegen = Codegen::new();
     let script = codegen.build(&pgm).code;
 

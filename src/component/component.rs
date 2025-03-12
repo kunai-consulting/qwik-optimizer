@@ -9,14 +9,14 @@ use oxc_minifier::*;
 use oxc_span::{SourceType, SPAN};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
-pub struct QwikComponent {
+pub struct QrlComponent {
     pub id: Id,
     pub language: Language,
     pub code: String,
     pub qurl: Qrl,
 }
 
-impl QwikComponent {
+impl QrlComponent {
     pub fn new(
         source_info: &SourceInfo,
         segments: &Vec<String>,
@@ -27,7 +27,7 @@ impl QwikComponent {
         qrl_type: QrlType,
         target: &Target,
         scope: &Option<String>,
-    ) -> Result<QwikComponent> {
+    ) -> Result<QrlComponent> {
         let language = source_info.language.clone();
         let id = Id::new(source_info, segments, target, scope);
         let qurl = Qrl::new(&id.local_file_name, &id.symbol_name, qrl_type);
@@ -43,7 +43,7 @@ impl QwikComponent {
             &source_type,
             &Allocator::default(),
         );
-        Ok(QwikComponent {
+        Ok(QrlComponent {
             id,
             language: source_info.language.clone(),
             code,
