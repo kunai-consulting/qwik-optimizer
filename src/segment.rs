@@ -99,7 +99,7 @@ impl<'a> FromIn<'a, Segment> for BindingPattern<'a> {
 }
 
 impl<'a> FromIn<'a, &'a BindingPattern<'a>> for Segment {
-    fn from_in(value: &'a BindingPattern<'a>, allocator: &'a Allocator) -> Self {
+    fn from_in(value: &'a BindingPattern<'a>,  _a : &'a Allocator) -> Self {
         let s: String = value
             .get_identifier_name()
             .iter()

@@ -1,6 +1,6 @@
 use crate::ext::AstBuilderExt;
 use oxc_allocator::{Allocator, FromIn, IntoIn};
-use oxc_ast::ast::{Statement, VariableDeclarator};
+use oxc_ast::ast::Statement;
 use oxc_ast::AstBuilder;
 use std::convert::Into;
 use std::path::PathBuf;
@@ -128,20 +128,11 @@ impl Reference {
 }
 
 /// Renamed from `EmitMode` in V 1.0.
+#[allow(dead_code)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Target {
     Prod,
     Lib,
     Dev,
     Test,
-}
-
-pub fn normalize_test_output<T: AsRef<str>>(input: T) -> String {
-    input
-        .as_ref()
-        .trim()
-        .replace("\t", "    ")
-        .replace("()=>{", "() => {")
-        .replace("()=>i", "() => i")
-        .replace("/*#__PURE__*/ ", "") // TODO: Remove this after tree shaking is implemented/
 }

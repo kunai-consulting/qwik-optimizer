@@ -1,3 +1,4 @@
+use crate::component::{CommonImport, COMPONENT_QRL, QRL};
 use crate::ext::AstBuilderExt;
 use oxc_allocator::{Allocator, Box as OxcBox, FromIn, IntoIn, Vec as OxcVec};
 use oxc_ast::ast::*;
@@ -6,8 +7,6 @@ use oxc_index::Idx;
 use oxc_semantic::ReferenceId;
 use oxc_span::{Atom, SPAN};
 use std::path::PathBuf;
-use oxc_codegen::Codegen;
-use crate::component::{CommonImport, COMPONENT, COMPONENT_QRL, QRL};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum QrlType {
@@ -19,7 +18,9 @@ impl From<QrlType> for CommonImport {
     fn from(value: QrlType) -> Self {
         match value {
             QrlType::Qrl => CommonImport::qrl(),
-            QrlType::ComponentQrl => CommonImport::BuilderIoQwik(vec![COMPONENT_QRL.into(), QRL.into()]),
+            QrlType::ComponentQrl => {
+                CommonImport::BuilderIoQwik(vec![COMPONENT_QRL.into(), QRL.into()])
+            }
         }
     }
 }
@@ -51,13 +52,13 @@ impl Qrl {
     /// qrl(() => import("./test.tsx_renderHeader_zBbHWn4e8Cg"), "renderHeader_zBbHWn4e8Cg");
     /// ```
     ///
-    fn into_identifier<'a>(&self,
-                           ast_builder: &AstBuilder<'a>,
-    ) -> IdentifierReference<'a> {
+    fn into_identifier<'a>(&self, ast_builder: &AstBuilder<'a>) -> IdentifierReference<'a> {
         let ref_id: ReferenceId = ReferenceId::from_usize(0);
         match self.qrl_type {
             QrlType::Qrl => ast_builder.identifier_reference_with_reference_id(SPAN, QRL, ref_id),
-            QrlType::ComponentQrl => ast_builder.identifier_reference_with_reference_id(SPAN, COMPONENT_QRL, ref_id),
+            QrlType::ComponentQrl => {
+                ast_builder.identifier_reference_with_reference_id(SPAN, COMPONENT_QRL, ref_id)
+            }
         }
     }
 
@@ -126,12 +127,9 @@ impl Qrl {
         let ref_id: ReferenceId = ReferenceId::from_usize(0);
         let qrl = ast_builder.identifier_reference_with_reference_id(SPAN, QRL, ref_id);
         let qrl_type = self.qrl_type.clone();
-        
+
         let args = self.into_arguments(ast_builder);
-        let qrl = OxcBox::new_in(
-            qrl,
-            ast_builder.allocator,
-        );
+        let qrl = OxcBox::new_in(qrl, ast_builder.allocator);
         let call_expr = ast_builder.call_expression(
             SPAN,
             Expression::Identifier(qrl),
@@ -139,15 +137,17 @@ impl Qrl {
             args,
             false,
         );
-        
-        
-        
+
         match qrl_type {
-            QrlType::Qrl => call_expr, 
-            
+            QrlType::Qrl => call_expr,
+
             QrlType::ComponentQrl => {
-                let ident = OxcBox::new_in(ast_builder.identifier_reference_with_reference_id(SPAN, COMPONENT_QRL, ref_id), ast_builder.allocator);
-                let arg = Argument::CallExpression(OxcBox::new_in(call_expr, ast_builder.allocator));
+                let ident = OxcBox::new_in(
+                    ast_builder.identifier_reference_with_reference_id(SPAN, COMPONENT_QRL, ref_id),
+                    ast_builder.allocator,
+                );
+                let arg =
+                    Argument::CallExpression(OxcBox::new_in(call_expr, ast_builder.allocator));
                 let args = ast_builder.vec1(arg);
                 ast_builder.call_expression(
                     SPAN,
@@ -158,7 +158,6 @@ impl Qrl {
                 )
             }
         }
-
     }
 
     /// To access this logic call `IntoIn` to convert `Qrl` to  full call `Expression`.
@@ -166,7 +165,7 @@ impl Qrl {
     /// ```ignore
     /// use oxc_allocator::Allocator;
     /// use oxc_ast::ast::Expression;
-    /// 
+    ///
     ///
     /// let allocator = Allocator::default();
     /// let qrl = Qrl::new("./test.tsx_renderHeader_zBbHWn4e8Cg", "renderHeader_zBbHWn4e8Cg");
@@ -181,7 +180,6 @@ impl Qrl {
         allocator: &'a Allocator,
         ast_builder: &AstBuilder<'a>,
     ) -> Expression<'a> {
-
         Expression::CallExpression(OxcBox::new_in(
             self.into_call_expression(ast_builder),
             allocator,
@@ -193,7 +191,6 @@ impl Qrl {
         ast_builder.statement_expression(SPAN, call_expr)
     }
 }
-
 
 impl<'a> FromIn<'a, Qrl> for OxcVec<'a, Argument<'a>> {
     fn from_in(qrl: Qrl, allocator: &'a Allocator) -> Self {
@@ -230,22 +227,36 @@ impl<'a> FromIn<'a, Qrl> for JSXExpression<'a> {
     }
 }
 
-#[test]
-fn test_qurl() {
-    let allocator = Allocator::default();
-    let ast_builder = AstBuilder::new(&allocator);
-    let qurl = Qrl::new(
-        "./test.tsx_renderHeader_zBbHWn4e8Cg",
-        "renderHeader_zBbHWn4e8Cg",
-        QrlType::Qrl,
-    );
-    let source_type = SourceType::from_path("test.tsx").unwrap();
-    let statement = qurl.into_statement(&ast_builder);
-    let pgm = ast_builder.create_program(vec![statement], source_type);
-    let codegen = Codegen::new();
-    let script = codegen.build(&pgm).code;
+#[cfg(test)]
+mod tests {
+    use super::*;
+    
+    
+    use oxc_codegen::Codegen;
 
-    let expected =
-        r#"qrl(() => import("./test.tsx_renderHeader_zBbHWn4e8Cg"), "renderHeader_zBbHWn4e8Cg");"#;
-    assert_eq!(script.trim(), expected.trim())
+    #[test]
+    fn test_qurl() {
+        let allocator = Allocator::default();
+        let ast_builder = AstBuilder::new(&allocator);
+        let qurl = Qrl::new(
+            "./test.tsx_renderHeader_zBbHWn4e8Cg",
+            "renderHeader_zBbHWn4e8Cg",
+            QrlType::Qrl,
+        );
+        let statement = qurl.into_statement(&ast_builder);
+        let pgm = ast_builder.program(
+            SPAN,
+            SourceType::tsx(),
+            "",
+            OxcVec::new_in(&allocator),
+            None,
+            OxcVec::new_in(&allocator),
+            ast_builder.vec1(statement),
+        );
+        let codegen = Codegen::new();
+        let script = codegen.build(&pgm).code;
+
+        let expected = r#"qrl(() => import("./test.tsx_renderHeader_zBbHWn4e8Cg"), "renderHeader_zBbHWn4e8Cg");"#;
+        assert_eq!(script.trim(), expected.trim())
+    }
 }

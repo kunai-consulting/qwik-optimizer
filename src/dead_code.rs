@@ -5,16 +5,6 @@ pub trait DeadCode {
     fn is_dead_code(&self) -> bool;
 }
 
-fn function_body_is_dead(function_body: &FunctionBody) -> bool {
-    
-    let body_empty = function_body.is_empty();
-    let statements_empty = &function_body.statements.is_empty();
-    let statements_all_dead = function_body.statements.iter().all(|stmt| stmt.is_dead_code());
-    
-    body_empty && *statements_empty && statements_all_dead
-  
-}
-
 impl DeadCode for OxcBox<'_, FunctionBody<'_>> {
     fn is_dead_code(&self) -> bool {
         let body_empty = self.is_empty();

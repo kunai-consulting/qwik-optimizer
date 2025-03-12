@@ -1,23 +1,27 @@
 use oxc_allocator::{Box as OxcBox, IntoIn, Vec as OxcVec};
 use oxc_ast::ast::{
-    Expression, ImportDeclarationSpecifier, ImportOrExportKind, Program, Statement, WithClause,
+    ImportDeclarationSpecifier, ImportOrExportKind, Statement, WithClause,
 };
 use oxc_ast::AstBuilder;
-use oxc_span::{Atom, SourceType, SPAN};
+use oxc_span::{Atom, SPAN};
 
 pub trait AstBuilderExt<'a> {
-    fn create_import_statement<T: AsRef<str>, U: AsRef<str>>(self, names: Vec<T>, source: U) -> Statement<'a>;
+    fn create_import_statement<T: AsRef<str>, U: AsRef<str>>(
+        self,
+        names: Vec<T>,
+        source: U,
+    ) -> Statement<'a>;
     fn create_export_statement(self, name: &str, source: &str) -> Statement<'a>;
-    fn create_string_literal_expr(self, value: &str) -> Expression<'a>;
 
     fn create_simple_import(self, name: &str) -> Statement<'a>;
-
-    fn create_program(self, statements: Vec<Statement<'a>>, source_type: SourceType) -> Program<'a>;
 }
 
 impl<'a> AstBuilderExt<'a> for AstBuilder<'a> {
-    fn create_import_statement<T: AsRef<str>, U: AsRef<str>>(self, names: Vec<T>, source: U) -> Statement<'a> {
-
+    fn create_import_statement<T: AsRef<str>, U: AsRef<str>>(
+        self,
+        names: Vec<T>,
+        source: U,
+    ) -> Statement<'a> {
         let mut import_decl_specifier = OxcVec::with_capacity_in(names.len(), self.allocator);
         for name in names {
             let name: Atom<'a> = name.as_ref().into_in(self.allocator);
@@ -26,12 +30,11 @@ impl<'a> AstBuilderExt<'a> for AstBuilder<'a> {
             let import_specifier =
                 self.import_specifier(SPAN, imported, local_name, ImportOrExportKind::Value);
 
-            import_decl_specifier.push(ImportDeclarationSpecifier::ImportSpecifier(OxcBox::new_in(
-                import_specifier,
-                self.allocator,
-            )));
+            import_decl_specifier.push(ImportDeclarationSpecifier::ImportSpecifier(
+                OxcBox::new_in(import_specifier, self.allocator),
+            ));
         }
-        
+
         let raw = format!("'{}'", source.as_ref());
         let raw: Atom = raw.into_in(self.allocator);
         let source_location = self.string_literal(SPAN, source.as_ref(), Some(raw));
@@ -69,29 +72,11 @@ impl<'a> AstBuilderExt<'a> for AstBuilder<'a> {
         Statement::ExportNamedDeclaration(OxcBox::new_in(export_decl, self.allocator))
     }
 
-    fn create_string_literal_expr(self, value: &str) -> Expression<'a> {
-        let raw: Atom = format!(r#""{}""#, value).into_in(self.allocator);
-        self.expression_string_literal(SPAN, value, Some(raw))
-    }
-
     fn create_simple_import(self, name: &str) -> Statement<'a> {
         let raw: Atom = format!(r#""{}""#, name).into_in(self.allocator);
         let source = self.expression_string_literal(SPAN, name, Some(raw));
         let import_expression =
             self.expression_import(SPAN, source, OxcVec::new_in(self.allocator), None);
         self.statement_expression(SPAN, import_expression)
-    }
-
-    fn create_program(self, statements: Vec<Statement<'a>>, source_type: SourceType) -> Program<'a> {
-        let statements = OxcVec::from_iter_in(statements, self.allocator);
-        self.program(
-            SPAN,
-            source_type,
-            "",
-            OxcVec::new_in(self.allocator),
-            None,
-            OxcVec::new_in(self.allocator),
-            statements,
-        )
     }
 }
