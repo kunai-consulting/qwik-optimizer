@@ -6,7 +6,6 @@ use crate::ext::*;
 use crate::prelude::*;
 use crate::ref_counter::RefCounter;
 use crate::segment::Segment;
-use crate::sources::*;
 use oxc_allocator::{
     Allocator, Box as OxcBox, CloneIn, FromIn, GetAddress, HashMap as OxcHashMap, IntoIn,
     Vec as OxcVec,
@@ -23,6 +22,7 @@ use std::collections::HashMap;
 
 use crate::component::*;
 use crate::macros::*;
+use crate::source::Source;
 use oxc_parser::Parser;
 use oxc_semantic::{ScopeFlags, ScopeId, SemanticBuilder, SemanticBuilderReturn};
 use oxc_span::*;
@@ -73,7 +73,7 @@ impl Display for OptimizedApp {
     }
 }
 
-struct TransformGenerator {
+struct TransformGenerator<'gen> {
     pub components: Vec<QrlComponent>,
 
     pub app: OptimizedApp,
@@ -102,7 +102,7 @@ struct TransformGenerator {
 
     return_arg_stack: Vec<Qrl>,
 
-    source_info: SourceInfo,
+    source_info: &'gen SourceInfo,
 
     target: Target,
 
@@ -111,8 +111,13 @@ struct TransformGenerator {
     minify: bool,
 }
 
-impl TransformGenerator {
-    fn new(source_info: SourceInfo, minify: bool, target: Target, scope: Option<String>) -> Self {
+impl<'gen> TransformGenerator<'gen> {
+    fn new(
+        source_info: &'gen SourceInfo,
+        minify: bool,
+        target: Target,
+        scope: Option<String>,
+    ) -> Self {
         Self {
             components: Vec::new(),
             app: OptimizedApp::default(),
@@ -261,7 +266,8 @@ impl TransformGenerator {
             let import_stack = &mut self.import_stack;
             let r0 = import_stack.last_mut();
             if let Some(refs) = r0 {
-                let imp = CommonImport::Import(r.into_import(PathBuf::from("./test")));
+                let app_file_path = &self.source_info.rel_import_path();
+                let imp = CommonImport::Import(r.into_import(app_file_path));
                 refs.push(imp);
             }
         }
@@ -298,7 +304,7 @@ impl TransformGenerator {
 const DEBUG: bool = true;
 const DUMP_FINAL_AST: bool = false;
 
-impl<'a> Traverse<'a> for TransformGenerator {
+impl<'a> Traverse<'a> for TransformGenerator<'a> {
     fn exit_program(&mut self, node: &mut Program<'a>, ctx: &mut TraverseCtx<'a>) {
         Self::import_clean_up(node, &ctx.ast);
 
@@ -559,6 +565,7 @@ impl<'a> Traverse<'a> for TransformGenerator {
     }
 
     fn exit_jsx_element(&mut self, node: &mut JSXElement<'a>, ctx: &mut TraverseCtx<'a>) {
+        // JSX Elements should be treated as part of the segment scope.
         if let Some(name) = node.opening_element.name.get_identifier_name() {
             self.segment_stack.pop();
         }
@@ -569,6 +576,7 @@ impl<'a> Traverse<'a> for TransformGenerator {
     fn enter_jsx_attribute(&mut self, node: &mut JSXAttribute<'a>, ctx: &mut TraverseCtx<'a>) {
         self.ascend();
         self.debug("ENTER: JSXAttribute", ctx);
+        // JSX Attributes should be treated as part of the segment scope.
         let segment: Segment = node.name.get_identifier().name.into();
         self.segment_stack.push(segment);
     }
@@ -654,6 +662,8 @@ impl<'a> Traverse<'a> for TransformGenerator {
 
     fn exit_statements(&mut self, node: &mut OxcVec<'a, Statement<'a>>, ctx: &mut TraverseCtx<'a>) {
         for statement in node.iter_mut() {
+            // This will determine whether the variable declaration can be replaced with just the call that is being used to initialize it.
+            // e.g. `const x = componentQrl(...)` can be replaced with just `componentQrl(...)`.
             if let Statement::VariableDeclaration(decl) = statement {
                 if let Some(decl) = decl.declarations.first() {
                     let ref_count = decl.reference_count(ctx);
@@ -682,16 +692,15 @@ impl<'a> Traverse<'a> for TransformGenerator {
     }
 }
 
-pub fn transform<S: ScriptSource>(script_source: S) -> Result<(OptimizedApp)> {
+pub fn transform(script_source: Source) -> Result<(OptimizedApp)> {
     let allocator = Allocator::default();
-    let source_type = SourceType::from_path("foo.js")?;
-    let source_text = script_source.scripts()?;
-    let first_script = source_text
-        .first()
-        .ok_or_else(|| Error::Generic("No script found".to_string()))?;
+    let source_text = script_source.source_code();
+    let source_info = script_source.source_info();
+    let source_type = script_source.source_info().try_into()?;
+
     let mut errors = Vec::new();
 
-    let parse_return = Parser::new(&allocator, first_script, source_type).parse();
+    let parse_return = Parser::new(&allocator, source_text, source_type).parse();
     errors.extend(parse_return.errors);
 
     let mut program = parse_return.program;
@@ -705,7 +714,6 @@ pub fn transform<S: ScriptSource>(script_source: S) -> Result<(OptimizedApp)> {
         .with_cfg(true) // Build a Control Flow Graph
         .build(&program);
 
-    let source_info = SourceInfo::new("./test.tsx")?;
     let mut transform = &mut TransformGenerator::new(source_info, false, Target::Dev, None);
 
     let (symbols, scopes) = semantic.into_symbol_table_and_scope_tree();

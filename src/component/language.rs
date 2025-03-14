@@ -9,6 +9,16 @@ pub enum Language {
     Typescript,
 }
 
+impl Language {
+    pub fn extension(&self) -> String {
+        match self {
+            Language::Javascript => "jsx",
+            Language::Typescript => "tsx",
+        }
+        .into()
+    }
+}
+
 impl<'a> TryFrom<&'a Path> for Language {
     type Error = Error;
 
@@ -22,10 +32,10 @@ impl TryFrom<SourceType> for Language {
     type Error = Error;
 
     fn try_from(source_type: SourceType) -> Result<Language> {
-        if source_type.is_javascript() || source_type.is_jsx() {
-            Ok(Language::Javascript)
-        } else if source_type.is_typescript() || source_type.is_typescript_definition() {
+        if source_type.is_typescript() || source_type.is_typescript_definition() {
             Ok(Language::Typescript)
+        } else if source_type.is_javascript() || source_type.is_jsx() {
+            Ok(Language::Javascript)
         } else {
             Err(Error::UnsupportedLanguage(format!("{:?}", source_type)))
         }

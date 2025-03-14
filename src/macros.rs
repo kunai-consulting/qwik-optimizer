@@ -19,7 +19,14 @@ macro_rules! _assert_valid_transform {
         let path = PathBuf::from("./src/test_input").join(format!("{func_name}.tsx"));
         println!("Loading test input file from path: {:?}", &path);
 
-        let source_input = Container::from_script_file(path.as_path()).unwrap();
+        let source_code = std::fs::read_to_string(&path).unwrap();
+
+        let source_input = Source::from_source(
+            source_code,
+            crate::component::Language::Typescript,
+            Some("test".to_string()),
+        )
+        .unwrap();
         let result = transform(source_input).unwrap();
 
         if $input == true {

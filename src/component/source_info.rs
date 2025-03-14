@@ -23,8 +23,9 @@ impl SourceInfo {
     ///
     /// # Arguments
     /// - src - source file.  e.g. `./app.js`
-    pub fn new(src: &str) -> Result<SourceInfo> {
-        let path = Path::new(src);
+    pub fn new<P: AsRef<Path>>(path: P) -> Result<SourceInfo> {
+        // let path = Path::new(src);
+        let path = path.as_ref();
         let rel_dir = path.parent().map(|p| p.to_path_buf()).ok_or_else(|| {
             Error::StringConversion(
                 path.to_string_lossy().to_string(),
@@ -48,9 +49,24 @@ impl SourceInfo {
             language,
         })
     }
+
+    pub fn rel_import_path(&self) -> PathBuf {
+        match self.language {
+            Language::Javascript => self.rel_path.clone(),
+            Language::Typescript => self.rel_path.clone().with_extension(""),
+        }
+    }
 }
 
 impl TryInto<SourceType> for &SourceInfo {
+    type Error = Error;
+
+    fn try_into(self) -> std::result::Result<SourceType, Self::Error> {
+        SourceType::from_path(&self.rel_path).map_err(|e| e.into())
+    }
+}
+
+impl TryInto<SourceType> for SourceInfo {
     type Error = Error;
 
     fn try_into(self) -> std::result::Result<SourceType, Self::Error> {
