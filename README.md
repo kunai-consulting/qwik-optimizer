@@ -62,5 +62,4 @@ export const Header_component_1_2B8d0oH9ZWc = (hola)=>{
     return <Header/>;
 };
 export { _hW } from "@builder.io/qwik";
->>>>>>> 62603bb (WIP: Testing)
 ```
