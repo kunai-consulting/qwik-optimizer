@@ -2,11 +2,12 @@ use oxc_allocator::{Box as OxcBox, IntoIn, Vec as OxcVec};
 use oxc_ast::ast::{ImportDeclarationSpecifier, ImportOrExportKind, Statement, WithClause};
 use oxc_ast::AstBuilder;
 use oxc_span::{Atom, SPAN};
+use crate::component::ImportId;
 
 pub trait AstBuilderExt<'a> {
-    fn create_import_statement<T: AsRef<str>, U: AsRef<str>>(
+    fn create_import_statement< U: AsRef<str>>(
         self,
-        names: Vec<T>,
+        names: Vec<ImportId>,
         source: U,
     ) -> Statement<'a>;
     fn create_export_statement(self, name: &str, source: &str) -> Statement<'a>;
@@ -15,22 +16,14 @@ pub trait AstBuilderExt<'a> {
 }
 
 impl<'a> AstBuilderExt<'a> for AstBuilder<'a> {
-    fn create_import_statement<T: AsRef<str>, U: AsRef<str>>(
+    fn create_import_statement< U: AsRef<str>>(
         self,
-        names: Vec<T>,
+        import_ids: Vec<ImportId>,
         source: U,
     ) -> Statement<'a> {
-        let mut import_decl_specifier = OxcVec::with_capacity_in(names.len(), self.allocator);
-        for name in names {
-            let name: Atom<'a> = name.as_ref().into_in(self.allocator);
-            let imported = self.module_export_name_identifier_name(SPAN, &name);
-            let local_name = self.binding_identifier(SPAN, &name);
-            let import_specifier =
-                self.import_specifier(SPAN, imported, local_name, ImportOrExportKind::Value);
-
-            import_decl_specifier.push(ImportDeclarationSpecifier::ImportSpecifier(
-                OxcBox::new_in(import_specifier, self.allocator),
-            ));
+        let mut import_decl_specifier = OxcVec::with_capacity_in(import_ids.len(), self.allocator);
+        for import_id in import_ids {
+            import_decl_specifier.push(import_id.into_in(self.allocator));
         }
 
         let raw = format!("'{}'", source.as_ref());

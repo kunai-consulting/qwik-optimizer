@@ -18,19 +18,22 @@ use oxc_ast::{
 use oxc_codegen::{Codegen, CodegenOptions, Context, Gen};
 use oxc_index::Idx;
 use std::borrow::{Borrow, Cow};
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 use crate::component::*;
 use crate::macros::*;
 use crate::source::Source;
 use oxc_parser::Parser;
-use oxc_semantic::{ScopeFlags, ScopeId, SemanticBuilder, SemanticBuilderReturn};
+use oxc_semantic::{
+    ReferenceId, ScopeFlags, ScopeId, SemanticBuilder, SemanticBuilderReturn, SymbolId,
+};
 use oxc_span::*;
 use oxc_traverse::{traverse_mut, Ancestor, Traverse, TraverseCtx};
 use std::cell::{Cell, RefCell};
 use std::fmt::{write, Display};
 use std::ops::Deref;
 use std::path::{Components, PathBuf};
+use crate::import_clean_up::ImportCleanUp;
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Default)]
 pub struct OptimizedApp {
@@ -92,15 +95,15 @@ struct TransformGenerator<'gen> {
 
     call_args_stack: Vec<Qrl>,
 
-    qrl_import_stack: Vec<CommonImport>,
-
-    scoped_references: HashMap<u32, Vec<Reference>>,
-
     import_stack: Vec<Vec<CommonImport>>,
+
+    import_by_ref: HashMap<SymbolId, Import>,
 
     anonymous_return_depth: usize,
 
     return_arg_stack: Vec<Qrl>,
+
+    scoped_references: HashMap<u32, Vec<Reference>>,
 
     source_info: &'gen SourceInfo,
 
@@ -128,10 +131,10 @@ impl<'gen> TransformGenerator<'gen> {
             jsx_qurl_stack: Vec::new(),
             var_decl_stack: Vec::new(),
             call_args_stack: Vec::new(),
-            qrl_import_stack: Vec::new(),
+            import_stack: vec![vec![]],
+            import_by_ref: Default::default(),
             return_arg_stack: Vec::new(),
             scoped_references: HashMap::new(),
-            import_stack: Vec::new(),
             anonymous_return_depth: 0,
             source_info,
             target,
@@ -185,39 +188,41 @@ impl<'gen> TransformGenerator<'gen> {
         self.depth += 1;
     }
 
-    fn import_clean_up<'a>(pgm: &mut Program<'a>, ast_builder: &AstBuilder<'a>) {
-        let mut remove: Vec<usize> = Vec::new();
-
-        for (idx, statement) in pgm.body.iter_mut().enumerate() {
-            if let Statement::ImportDeclaration(import) = statement {
-                let source_value = import.source.value;
-                let specifiers = &mut import.specifiers;
-                if source_value == BUILDER_IO_QWIK {
-                    if let Some(specifiers) = specifiers {
-                        specifiers.retain(|s| !QRL_MARKER_IMPORTS.contains(&s.name().deref()));
-
-                        // If all specifiers are removed, we will want to eventually remove that statment completely.
-                        if specifiers.is_empty() {
-                            remove.push(idx);
-                        }
-                    }
-                }
-            }
-        }
-
-        for idx in remove.iter() {
-            pgm.body.remove(*idx);
-        }
-    }
+    // fn import_clean_up(pgm: &mut Program<'_>, ctx: &mut TraverseCtx) {
+    //     let mut remove: Vec<usize> = Vec::new();
+    //
+    //     for (idx, statement) in pgm.body.iter_mut().enumerate() {
+    //         if let Statement::ImportDeclaration(import) = statement {
+    //             let source_value = import.source.value;
+    //             let specifiers = &mut import.specifiers;
+    //             if let Some(specifiers) = specifiers {
+    //                 // specifiers.retain(|s| !QRL_MARKER_IMPORTS.contains(&s.name().deref()));
+    //                 specifiers.retain(|s| {
+    //                     let local = s.local();
+    //                     ctx.symbols().symbol_is_used(local.symbol_id())
+    //                         && !local.name.ends_with("$")
+    //                 });
+    //
+    //                 // If all specifiers are removed, we will want to eventually remove that statement completely.
+    //                 if specifiers.is_empty() {
+    //                     remove.push(idx);
+    //                 }
+    //             }
+    //         }
+    //     }
+    //
+    //     for idx in remove.iter() {
+    //         pgm.body.remove(*idx);
+    //     }
+    // }
 
     fn debug<T: AsRef<str>>(&self, s: T, traverse_ctx: &TraverseCtx) {
         if DEBUG {
             let scope_id = traverse_ctx.current_scope_id();
-            let indent = "--".repeat(self.depth);
+            let indent = "--".repeat(scope_id.index());
             let prefix = format!("|{}", indent);
             println!(
-                "{prefix}[{}|SCOPE {:?}, RECORDING: {}]{}. Segments: {}",
-                self.depth,
+                "{prefix}[SCOPE {:?}, RECORDING: {}]{}. Segments: {}",
                 scope_id,
                 self.is_recording(),
                 s.as_ref(),
@@ -226,8 +231,8 @@ impl<'gen> TransformGenerator<'gen> {
         }
     }
 
-    fn add_scoped_reference(&mut self, reference: Reference, ctx: &TraverseCtx) {
-        let scope_id: u32 = ctx.current_scope_id().index() as u32;
+    fn add_scoped_reference(&mut self, reference: Reference, scope_id: ScopeId) {
+        let scope_id: u32 = scope_id.index() as u32;
         let mut scoped_references = &mut self.scoped_references;
         let refs_in_scope = scoped_references.get_mut(&scope_id);
         match refs_in_scope {
@@ -259,44 +264,19 @@ impl<'gen> TransformGenerator<'gen> {
         }
     }
 
-    fn add_scoped_reference_import(&mut self, scope_id: ScopeId, ref_name: String) {
-        let scope_id: u32 = scope_id.index() as u32;
-        let reference = self.get_scoped_references_rec(scope_id, ref_name).clone();
+    fn add_scoped_reference_import(&mut self, ref_name: String, scope_id: ScopeId) {
+        let reference = self
+            .get_scoped_references_rec(scope_id.index() as u32, ref_name)
+            .clone();
         if let Some(r) = reference {
-            let import_stack = &mut self.import_stack;
-            let r0 = import_stack.last_mut();
-            if let Some(refs) = r0 {
-                let app_file_path = &self.source_info.rel_import_path();
-                let imp = CommonImport::Import(r.into_import(app_file_path));
-                refs.push(imp);
-            }
+            let imp = CommonImport::Import(r.into_import(PathBuf::from("./test")));
+            self.push_import(imp)
         }
     }
 
-    fn to_pure_call<'a>(
-        node: &'a mut Statement,
-        allocator: &'a Allocator,
-    ) -> Option<CallExpression<'a>> {
-        // let mut replacement:  Option<&OxcBox<'CallExpression>> = None;
-        if let Statement::VariableDeclaration(decl) = node {
-            if let Some(decl) = decl.declarations.first() {
-                if let Some(Expression::CallExpression(expr)) = &decl.init {
-                    let name = expr.callee_name().unwrap_or_default();
-                    if name == COMPONENT_QRL {
-                        let ce0 = &**expr;
-                        let ce1 = ce0.clone_in(allocator);
-                        Some(ce1)
-                    } else {
-                        None
-                    }
-                } else {
-                    None
-                }
-            } else {
-                None
-            }
-        } else {
-            None
+    fn push_import(&mut self, import: CommonImport) {
+        if let Some(mut imports) = self.import_stack.last_mut() {
+            imports.push(import);
         }
     }
 }
@@ -306,16 +286,22 @@ const DUMP_FINAL_AST: bool = false;
 
 impl<'a> Traverse<'a> for TransformGenerator<'a> {
     fn exit_program(&mut self, node: &mut Program<'a>, ctx: &mut TraverseCtx<'a>) {
-        Self::import_clean_up(node, &ctx.ast);
 
-        let test_comment = Comment::new(0, PURE_ANNOTATION_LENGTH, CommentKind::Block);
+        let flattened_imports = self
+            .import_stack
+            .iter()
+            .flatten()
+            .collect::<Vec<&CommonImport>>();
 
-        node.comments.push(test_comment);
+        let imports: HashSet<&CommonImport> = HashSet::from_iter(flattened_imports).clone();
+        let imports: Vec<&&CommonImport> = imports.iter().clone().collect();
 
-        for import in self.qrl_import_stack.iter() {
-            let import = Statement::from_in(import, ctx.ast.allocator);
+        for import in imports {
+            let import = Statement::from_in(*import, ctx.ast.allocator);
             node.body.insert(0, import);
         }
+
+        ImportCleanUp::clean_up(node, ctx.ast.allocator);
 
         let codegen_options = CodegenOptions {
             annotation_comments: true,
@@ -330,6 +316,8 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
             body,
             components: self.components.clone(),
         };
+
+
 
         if DEBUG && DUMP_FINAL_AST {
             println!(
@@ -355,7 +343,6 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
 
         if let Some(segment) = segment {
             if segment.is_qrl_extractable() {
-                // self.stop_recording();
                 if let Some(comp) = self.component_stack.pop() {
                     let qrl = &comp.qurl;
                     let qrl = qrl.clone();
@@ -387,13 +374,23 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
                     self.components.push(comp);
                 }
             }
-        }
 
-        self.debug(
-            format!("EXIT: CallExpression. SCOPE[{:?}]", ctx.current_scope_id()),
-            ctx,
-        );
-        self.descend();
+            // Build up a list imports this extracted will need best one what it is currently referencing.
+            for symbol_id in &node.callee.get_referenced_symbols(ctx) {
+                if let Some(import) = self.import_by_ref.get(&symbol_id) {
+                    if let Some(import_stack) = self.import_stack.last_mut() {
+                        let import = CommonImport::Import(import.clone());
+                        import_stack.push(import);
+                    }
+                }
+            }
+
+            self.debug(
+                format!("EXIT: CallExpression. SCOPE[{:?}]", ctx.current_scope_id()),
+                ctx,
+            );
+            self.descend();
+        }
     }
 
     fn enter_function(&mut self, node: &mut Function<'a>, ctx: &mut TraverseCtx<'a>) {
@@ -443,7 +440,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
 
         if let Some(name) = id.get_identifier_name() {
             let reference = Reference::Variable(name.into());
-            self.add_scoped_reference(reference, ctx);
+            self.add_scoped_reference(reference, ctx.current_scope_id());
         }
     }
 
@@ -491,7 +488,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         self.ascend();
         self.debug("ENTER: ArrowFunctionExpression", ctx);
         if self.is_recording() {
-            self.import_stack.push(Vec::new());
+            self.import_stack.push(vec![]);
         }
     }
 
@@ -500,7 +497,6 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         node: &mut ArrowFunctionExpression<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) {
-        // if let Mode::Recording(_) = self.mode {
         if self.is_recording() {
             let name = self.render_segments();
 
@@ -514,33 +510,30 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
                 })
                 .collect();
 
-            let t = &self.target;
-            let scope = &self.scope;
-
-            let mut qrl_import = self
-                .qrl_import_stack
-                .pop()
-                .map(|i| vec![i])
-                .unwrap_or_default();
             let qrl_type = self.qrl_type().clone();
 
-            qrl_import.extend(self.import_stack.pop().unwrap_or_default());
+            self.debug(
+                format!("Calculating component imports, {:?}", self.import_stack),
+                ctx,
+            );
+
+            let imports: Vec<CommonImport> = self.import_stack.pop().unwrap_or_default();
 
             let comp = QrlComponent::new(
                 &self.source_info,
                 &segments,
                 node,
-                qrl_import,
+                imports,
                 self.requires_handle_watch(),
                 self.minify,
                 qrl_type,
-                t,
-                scope,
+                &self.target,
+                &self.scope,
             );
             match comp {
                 Ok(comp) => {
-                    let qrl_type = self.qrl_type();
-                    self.qrl_import_stack.push(qrl_type.into());
+                    let target_scope = ctx.current_scope_id().index() as u32;
+                    self.push_import(self.qrl_type().into());
                     self.component_stack.push(comp);
                 }
                 Err(e) => {
@@ -558,7 +551,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
             let segment: Segment = name.into();
             self.debug(format!("ENTER: JSXElementName {segment}"), ctx);
             self.segment_stack.push(segment);
-            self.add_scoped_reference_import(ctx.current_scope_id(), name.to_string());
+            self.add_scoped_reference_import(name.to_string(), ctx.current_scope_id());
         } else {
             self.debug("ENTER: JSXElementName", ctx);
         }
@@ -661,6 +654,8 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
     }
 
     fn exit_statements(&mut self, node: &mut OxcVec<'a, Statement<'a>>, ctx: &mut TraverseCtx<'a>) {
+        self.debug(format!("Scoped QRL Imports: {:?}", self.import_stack), ctx);
+
         for statement in node.iter_mut() {
             // This will determine whether the variable declaration can be replaced with just the call that is being used to initialize it.
             // e.g. `const x = componentQrl(...)` can be replaced with just `componentQrl(...)`.
@@ -686,6 +681,28 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
                             }
                         }
                     }
+                }
+            }
+        }
+    }
+
+    fn enter_import_declaration(
+        &mut self,
+        node: &mut ImportDeclaration<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        self.debug(format!("{:?}", node), ctx);
+
+        // Recording each import by its SymbolId will allow CallExpressions within newly-created modules to
+        // determine if they need to add this import to their import_stack.
+        if let Some(specifiers) = &node.specifiers {
+            for specifier in specifiers.iter() {
+                if let Some(symbol_id) = specifier.local().symbol_id.get() {
+                    let source = node.source.value;
+                    let source = PathBuf::from(source.as_ref());
+                    // let n =
+                    self.import_by_ref
+                        .insert(symbol_id, Import::new(vec![specifier.into()], source));
                 }
             }
         }
@@ -761,7 +778,7 @@ mod tests {
 
     #[test]
     fn test_example_7() {
-        assert_valid_transform_debug!();
+        assert_valid_transform!();
     }
 
     #[test]
@@ -771,6 +788,24 @@ mod tests {
 
     #[test]
     fn test_example_9() {
+        // Not removing:
+        // const decl8 = 1, decl9;
+        assert_valid_transform_debug!();
+    }
+
+    #[test]
+    fn test_example_10() {
+        // Not converting:
+        // const a = ident1 + ident3;
+        // const b = ident1 + ident3;
+        // to:
+        // ident1, ident3;
+        // ident1, ident3;
+        assert_valid_transform_debug!();
+    }
+
+    #[test]
+    fn test_example_11() {
         assert_valid_transform_debug!();
     }
 }
