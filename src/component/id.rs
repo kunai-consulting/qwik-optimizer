@@ -1,6 +1,6 @@
-use std::hash::{DefaultHasher, Hasher};
-use base64::{engine, Engine};
 use crate::component::{SourceInfo, Target};
+use base64::{engine, Engine};
+use std::hash::{DefaultHasher, Hasher};
 
 /// Represents a component identifier, including its display name, symbol name, local file name, hash, and optional scope.
 ///
@@ -112,10 +112,10 @@ impl Id {
         for segment in segments {
             if display_name.is_empty()
                 && segment
-                .chars()
-                .next()
-                .map(|c| c.is_ascii_digit())
-                .unwrap_or(false)
+                    .chars()
+                    .next()
+                    .map(|c| c.is_ascii_digit())
+                    .unwrap_or(false)
             {
                 display_name = format!("_{}", segment);
             } else {
@@ -129,7 +129,9 @@ impl Id {
         }
         display_name = Self::sanitize(&display_name);
 
-        let normalized_local_file_name = local_file_name.strip_prefix("./").unwrap_or(&local_file_name);
+        let normalized_local_file_name = local_file_name
+            .strip_prefix("./")
+            .unwrap_or(&local_file_name);
         let hash64 = Self::calculate_hash(normalized_local_file_name, &display_name, scope);
 
         let symbol_name = match target {
@@ -161,7 +163,7 @@ mod tests {
         assert_eq!(name0, "a_b_c");
         assert_eq!(name1, "A123b_c_45");
     }
-    
+
     #[test]
     fn test_calculate_hash() {
         let hash0 = Id::calculate_hash("./app.js", "a_b_c", &None);
@@ -169,7 +171,7 @@ mod tests {
         assert_eq!(hash0, "0RVAWYCCxyk");
         assert_ne!(hash1, hash0);
     }
-    
+
     #[test]
     fn creates_a_id() {
         let source_info0 = SourceInfo::new("app.js").unwrap();
@@ -190,7 +192,12 @@ mod tests {
         };
 
         let scope1 = Some("scope".to_string());
-        let id1 = Id::new(&source_info0, &vec!["1".to_string(), "b".to_string(), "c".to_string()], &Target::Prod, &scope1);
+        let id1 = Id::new(
+            &source_info0,
+            &vec!["1".to_string(), "b".to_string(), "c".to_string()],
+            &Target::Prod,
+            &scope1,
+        );
         // Leading  segments that are digits are prefixed with an additional underscore.
         let hash1 = Id::calculate_hash("app.js", "_1_b_c", &scope1);
         let expected1 = Id {
