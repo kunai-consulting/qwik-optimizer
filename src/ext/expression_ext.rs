@@ -1,4 +1,4 @@
-use crate::component::QRL_MARKER;
+use crate::component::MARKER_SUFFIX;
 use oxc_ast::ast::Expression;
 use oxc_semantic::SymbolId;
 use oxc_traverse::TraverseCtx;
@@ -73,7 +73,7 @@ impl ExpressionExt for Expression<'_> {
     fn is_qrl_replaceable(&self) -> bool {
         if let Expression::CallExpression(call_xpr) = self {
             if let Expression::Identifier(id_ref) = &call_xpr.callee {
-                id_ref.name.ends_with(QRL_MARKER)
+                id_ref.name.ends_with(MARKER_SUFFIX)
             } else {
                 false
             }

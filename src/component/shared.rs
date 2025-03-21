@@ -7,16 +7,9 @@ use std::convert::Into;
 use std::path::{Path, PathBuf};
 
 pub const QWIK_CORE_SOURCE: &str = "@qwik.dev/core";
-pub const COMPONENT_SUFFIX: &str = "$";
-pub const COMPONENT: &str = "component";
-pub const COMPONENT_QRL: &str = "componentQrl";
+pub const MARKER_SUFFIX: &str = "$";
 pub const QRL: &str = "qrl";
-
-pub const QRL_MARKER: &str = "$";
-pub const QRL_COMPONENT_MARKER: &str = "component$";
-pub const QRL_MARKER_IMPORTS: [&str; 2] = [QRL_MARKER, QRL_COMPONENT_MARKER];
-pub const PURE_ANNOTATION: &str = "/*#__PURE__*/";
-pub const PURE_ANNOTATION_LENGTH: u32 = PURE_ANNOTATION.len() as u32;
+pub const QRL_SUFFIX: &str = "Qrl";
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum CommonImport {
@@ -27,9 +20,6 @@ pub enum CommonImport {
 impl CommonImport {
     pub fn qrl() -> CommonImport {
         CommonImport::QwikCore(vec![QRL.into()])
-    }
-    pub fn component_qrl() -> CommonImport {
-        CommonImport::QwikCore(vec![COMPONENT_QRL.into()])
     }
 }
 
@@ -61,12 +51,6 @@ impl<'a> FromIn<'a, &CommonImport> for Statement<'a> {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum CommonExport {
     BuilderIoQwik(String),
-}
-
-impl CommonExport {
-    pub fn handle_watch() -> CommonExport {
-        CommonExport::BuilderIoQwik("_hW".into())
-    }
 }
 
 impl<'a> FromIn<'a, CommonExport> for Statement<'a> {

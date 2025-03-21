@@ -10,21 +10,17 @@ pub(crate) enum Segment {
     Named(String),
     /// Represents a component captured by the `$` function.
     AnonymousCaptured,
-
+    /// Represents a named capture with the `$` suffix e.g. `component$`, `foo$`.
     NamedCaptured(String),
-
-    /// Represents a component captured by the `component$` function.
-    ComponentCaptured,
 }
 
 impl Segment {
     fn new<T: AsRef<str>>(input: T) -> Segment {
         let input = input.as_ref();
-        if input == COMPONENT_SUFFIX {
+        if input == MARKER_SUFFIX {
             Segment::AnonymousCaptured
         } else {
-            match input.strip_suffix(COMPONENT_SUFFIX) {
-                Some(name) if name == COMPONENT => Segment::ComponentCaptured,
+            match input.strip_suffix(MARKER_SUFFIX) {
                 Some(name) => Segment::NamedCaptured(name.to_string()),
                 None => Segment::Named(input.into()),
             }
@@ -36,16 +32,6 @@ impl Segment {
             Segment::Named(_) => false,
             Segment::AnonymousCaptured => true,
             Segment::NamedCaptured(_) => true,
-            Segment::ComponentCaptured => true,
-        }
-    }
-
-    pub fn requires_handle_watch(&self) -> bool {
-        match self {
-            Segment::Named(_) => true,
-            Segment::AnonymousCaptured => true,
-            Segment::NamedCaptured(_) => true,
-            Segment::ComponentCaptured => false,
         }
     }
 
@@ -53,9 +39,7 @@ impl Segment {
         match self {
             Segment::Named(_) => QrlType::Qrl,
             Segment::AnonymousCaptured => QrlType::Qrl,
-            Segment::NamedCaptured(name) if name == COMPONENT => QrlType::ComponentQrl,
-            Segment::ComponentCaptured => QrlType::ComponentQrl,
-            Segment::NamedCaptured(_) => QrlType::Qrl,
+            Segment::NamedCaptured(prefix) => QrlType::PrefixedQrl(prefix.into()),
         }
     }
 
@@ -63,9 +47,10 @@ impl Segment {
         let ast_builder = AstBuilder::new(allocator);
         match self {
             Segment::Named(name) => ast_builder.binding_identifier(SPAN, name),
-            Segment::AnonymousCaptured => ast_builder.binding_identifier(SPAN, COMPONENT_SUFFIX),
-            Segment::NamedCaptured(name) => ast_builder.binding_identifier(SPAN, name),
-            Segment::ComponentCaptured => ast_builder.binding_identifier(SPAN, "component"),
+            Segment::AnonymousCaptured => ast_builder.binding_identifier(SPAN, MARKER_SUFFIX),
+            Segment::NamedCaptured(name) => {
+                ast_builder.binding_identifier(SPAN, format!("{}{}", name, MARKER_SUFFIX))
+            }
         }
     }
 
@@ -86,7 +71,7 @@ impl Display for Segment {
             Segment::Named(name) => write!(f, "{}", name),
             Segment::AnonymousCaptured => write!(f, ""),
             Segment::NamedCaptured(name) => write!(f, "{}", name),
-            Segment::ComponentCaptured => write!(f, "{}", COMPONENT),
+            // Segment::ComponentCaptured => write!(f, "{}", COMPONENT),
         }
     }
 }

@@ -18,7 +18,7 @@ use oxc_ast::{
 use oxc_codegen::{Codegen, CodegenOptions, Context, Gen};
 use oxc_index::Idx;
 use std::borrow::{Borrow, Cow};
-use std::collections::{HashMap, HashSet};
+use std::collections::{BTreeSet, HashMap, HashSet};
 
 use crate::component::*;
 use crate::import_clean_up::ImportCleanUp;
@@ -93,7 +93,7 @@ struct TransformGenerator<'gen> {
 
     call_args_stack: Vec<Qrl>,
 
-    import_stack: Vec<Vec<CommonImport>>,
+    import_stack: Vec<BTreeSet<CommonImport>>,
 
     import_by_ref: HashMap<SymbolId, Import>,
 
@@ -129,7 +129,7 @@ impl<'gen> TransformGenerator<'gen> {
             jsx_qurl_stack: Vec::new(),
             var_decl_stack: Vec::new(),
             call_args_stack: Vec::new(),
-            import_stack: vec![vec![]],
+            import_stack: vec![BTreeSet::new()],
             import_by_ref: Default::default(),
             return_arg_stack: Vec::new(),
             scoped_references: HashMap::new(),
@@ -153,13 +153,6 @@ impl<'gen> TransformGenerator<'gen> {
             .last()
             .map(|s| s.associated_qrl_type())
             .unwrap_or(QrlType::Qrl)
-    }
-
-    fn requires_handle_watch(&self) -> bool {
-        self.segment_stack
-            .last()
-            .map(|s| s.requires_handle_watch())
-            .unwrap_or(false)
     }
 
     fn render_segments(&self) -> String {
@@ -274,7 +267,7 @@ impl<'gen> TransformGenerator<'gen> {
 
     fn push_import(&mut self, import: CommonImport) {
         if let Some(mut imports) = self.import_stack.last_mut() {
-            imports.push(import);
+            imports.insert(import);
         }
     }
 }
@@ -290,9 +283,11 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
             .flatten()
             .collect::<Vec<&CommonImport>>();
 
-        let imports: HashSet<&CommonImport> = HashSet::from_iter(flattened_imports).clone();
+        // Both removes duplicate and guarantees deterministic ordering (important for reproducible tests).
+        let imports: BTreeSet<&CommonImport> = BTreeSet::from_iter(flattened_imports).clone();
         let imports: Vec<&&CommonImport> = imports.iter().clone().collect();
 
+        dbg!(&imports);
         for import in imports {
             let import = Statement::from_in(*import, ctx.ast.allocator);
             node.body.insert(0, import);
@@ -375,7 +370,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
                 if let Some(import) = self.import_by_ref.get(&symbol_id) {
                     if let Some(import_stack) = self.import_stack.last_mut() {
                         let import = CommonImport::Import(import.clone());
-                        import_stack.push(import);
+                        import_stack.insert(import);
                     }
                 }
             }
@@ -483,7 +478,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         self.ascend();
         self.debug("ENTER: ArrowFunctionExpression", ctx);
         if self.is_recording() {
-            self.import_stack.push(vec![]);
+            self.import_stack.push(BTreeSet::new());
         }
     }
 
@@ -512,14 +507,18 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
                 ctx,
             );
 
-            let imports: Vec<CommonImport> = self.import_stack.pop().unwrap_or_default();
+            let imports: Vec<CommonImport> = self
+                .import_stack
+                .pop()
+                .unwrap_or_default()
+                .into_iter()
+                .collect();
 
             let comp = QrlComponent::new(
                 &self.source_info,
                 &segments,
                 node,
                 imports,
-                self.requires_handle_watch(),
                 self.minify,
                 qrl_type,
                 &self.target,
@@ -631,19 +630,6 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         node: &mut OxcVec<'a, Statement<'a>>,
         ctx: &mut TraverseCtx<'a>,
     ) {
-        for statement in node.iter_mut() {
-            if let Statement::VariableDeclaration(decl) = statement {
-                if let Some(decl) = decl.declarations.first() {
-                    let name = decl.id.get_identifier_name();
-                    let refs = decl.reference_count(ctx);
-                    self.debug(
-                        format!("REF COUNT `{:?}` has  {} reference(s)", name, refs),
-                        ctx,
-                    );
-                }
-            }
-        }
-
         self.debug("ENTER: Statements", ctx);
         node.retain(|s| !s.is_dead_code());
     }
@@ -653,26 +639,36 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
 
         for statement in node.iter_mut() {
             // This will determine whether the variable declaration can be replaced with just the call that is being used to initialize it.
-            // e.g. `const x = componentQrl(...)` can be replaced with just `componentQrl(...)`.
+            // e.g. `const x = componentQrl(...)` can be replaced with just `componentQrl(...)`,
+            // `const Header = qrl(...)` can be replaced with qrl(...).
+            // The semantics of this check are as follows: The declaration is not referenced, it is a `qrl`, and is not an export.
             if let Statement::VariableDeclaration(decl) = statement {
-                if let Some(decl) = decl.declarations.first() {
-                    let ref_count = decl.reference_count(ctx);
-                    if (ref_count < 1) {
-                        if let Some(Expression::CallExpression(expr)) = &decl.init {
-                            let name = expr.callee_name().unwrap_or_default();
-                            if name == COMPONENT_QRL {
-                                let ce = &**expr;
-                                let ce = ce.clone_in(ctx.ast.allocator);
-                                let ce = Expression::CallExpression(OxcBox::new_in(
-                                    ce,
-                                    ctx.ast.allocator,
-                                ));
-                                let ces = ctx.ast.expression_statement(SPAN, ce);
-                                let s = Statement::ExpressionStatement(OxcBox::new_in(
-                                    ces,
-                                    ctx.ast.allocator,
-                                ));
-                                *statement = s;
+                if decl.declarations.len() == 1 {
+                    if let Some(decl) = decl.declarations.first() {
+                        let ref_count = decl.reference_count(ctx);
+                        let grandparent = ctx.ancestor(1);
+                        if ref_count < 1
+                            && !matches!(
+                                grandparent,
+                                Ancestor::ExportNamedDeclarationDeclaration(_)
+                            )
+                        {
+                            if let Some(Expression::CallExpression(expr)) = &decl.init {
+                                let name = expr.callee_name().unwrap_or_default();
+                                if name == QRL || name.ends_with(QRL_SUFFIX) {
+                                    let ce = &**expr;
+                                    let ce = ce.clone_in(ctx.ast.allocator);
+                                    let ce = Expression::CallExpression(OxcBox::new_in(
+                                        ce,
+                                        ctx.ast.allocator,
+                                    ));
+                                    let ces = ctx.ast.expression_statement(SPAN, ce);
+                                    let s = Statement::ExpressionStatement(OxcBox::new_in(
+                                        ces,
+                                        ctx.ast.allocator,
+                                    ));
+                                    *statement = s;
+                                }
                             }
                         }
                     }
@@ -747,7 +743,7 @@ mod tests {
 
     #[test]
     fn test_example_1() {
-        assert_valid_transform!();
+        assert_valid_transform_debug!();
     }
 
     #[test]
@@ -805,6 +801,7 @@ mod tests {
 
     #[test]
     fn test_example_11() {
+        // Unused imports present in main app output.
         assert_valid_transform_debug!();
     }
 }

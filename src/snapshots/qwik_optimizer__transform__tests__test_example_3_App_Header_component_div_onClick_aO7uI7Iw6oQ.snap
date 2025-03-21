@@ -3,4 +3,4 @@ source: src/transform.rs
 expression: comp.code
 snapshot_kind: text
 ---
-"export const App_Header_component_div_onClick_aO7uI7Iw6oQ = (ctx) => console.log(ctx);\nexport { _hW } from \"@qwik.dev/core\";\n"
+"export const App_Header_component_div_onClick_aO7uI7Iw6oQ = (ctx) => console.log(ctx);\n"

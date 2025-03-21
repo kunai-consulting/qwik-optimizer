@@ -3,4 +3,4 @@ source: src/transform.rs
 expression: comp.code
 snapshot_kind: text
 ---
-"import { Header } from \"./test\";\nexport const Header_component_1_2B8d0oH9ZWc = (hola) => {\n\tconst hola = this;\n\tconst { something, styff } = hola;\n\tconst hello = hola.nothere.stuff[global];\n\treturn <Header />;\n};\nexport { _hW } from \"@qwik.dev/core\";\n"
+"import { Header } from \"./test\";\nexport const Header_component_1_2B8d0oH9ZWc = (hola) => {\n\tconst hola = this;\n\tconst { something, styff } = hola;\n\tconst hello = hola.nothere.stuff[global];\n\treturn <Header />;\n};\n"

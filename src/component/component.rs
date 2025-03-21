@@ -22,7 +22,6 @@ impl QrlComponent {
         segments: &Vec<String>,
         function: &ArrowFunctionExpression<'_>,
         imports: Vec<CommonImport>,
-        requires_handle_watch: bool,
         minify: bool,
         qrl_type: QrlType,
         target: &Target,
@@ -38,7 +37,6 @@ impl QrlComponent {
             &id,
             function,
             imports,
-            requires_handle_watch,
             minify,
             &source_type,
             &Allocator::default(),
@@ -55,7 +53,6 @@ impl QrlComponent {
         id: &Id,
         function: &ArrowFunctionExpression,
         imports: Vec<CommonImport>,
-        requires_handle_watch: bool,
         minify: bool,
         source_type: &SourceType,
         allocator: &Allocator,
@@ -108,11 +105,6 @@ impl QrlComponent {
         let mut body = ast_builder.vec_from_iter(imports);
 
         body.push(export);
-
-        if requires_handle_watch {
-            let hw_export = CommonExport::handle_watch().into_in(allocator);
-            body.push(hw_export);
-        }
 
         let ast_builder = AstBuilder::new(allocator);
 
