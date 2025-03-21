@@ -3,4 +3,4 @@ source: src/transform.rs
 expression: comp.code
 snapshot_kind: text
 ---
-"export const Header_component_div_onClick_i7ekvWH3674 = (ctx) => console.log(\"2\");\nexport { _hW } from \"@builder.io/qwik\";\n"
+"export const Header_component_div_onClick_i7ekvWH3674 = (ctx) => console.log(\"2\");\nexport { _hW } from \"@qwik.dev/core\";\n"

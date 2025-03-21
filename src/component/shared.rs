@@ -6,7 +6,7 @@ use oxc_span::SPAN;
 use std::convert::Into;
 use std::path::{Path, PathBuf};
 
-pub const BUILDER_IO_QWIK: &str = "@builder.io/qwik";
+pub const QWIK_CORE_SOURCE: &str = "@qwik.dev/core";
 pub const COMPONENT_SUFFIX: &str = "$";
 pub const COMPONENT: &str = "component";
 pub const COMPONENT_QRL: &str = "componentQrl";
@@ -20,16 +20,16 @@ pub const PURE_ANNOTATION_LENGTH: u32 = PURE_ANNOTATION.len() as u32;
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum CommonImport {
-    BuilderIoQwik(Vec<ImportId>),
+    QwikCore(Vec<ImportId>),
     Import(Import),
 }
 
 impl CommonImport {
     pub fn qrl() -> CommonImport {
-        CommonImport::BuilderIoQwik(vec![QRL.into()])
+        CommonImport::QwikCore(vec![QRL.into()])
     }
     pub fn component_qrl() -> CommonImport {
-        CommonImport::BuilderIoQwik(vec![COMPONENT_QRL.into()])
+        CommonImport::QwikCore(vec![COMPONENT_QRL.into()])
     }
 }
 
@@ -37,8 +37,8 @@ impl<'a> FromIn<'a, CommonImport> for Statement<'a> {
     fn from_in(value: CommonImport, allocator: &'a Allocator) -> Self {
         let ast_builder = AstBuilder::new(allocator);
         match value {
-            CommonImport::BuilderIoQwik(names) => {
-                ast_builder.create_import_statement(names, BUILDER_IO_QWIK)
+            CommonImport::QwikCore(names) => {
+                ast_builder.create_import_statement(names, QWIK_CORE_SOURCE)
             }
             CommonImport::Import(import) => import.into_statement(allocator),
         }
@@ -49,9 +49,9 @@ impl<'a> FromIn<'a, &CommonImport> for Statement<'a> {
     fn from_in(value: &CommonImport, allocator: &'a Allocator) -> Self {
         let ast_builder = AstBuilder::new(allocator);
         match value {
-            CommonImport::BuilderIoQwik(names) => {
+            CommonImport::QwikCore(names) => {
                 let names = names.clone();
-                ast_builder.create_import_statement(names, BUILDER_IO_QWIK)
+                ast_builder.create_import_statement(names, QWIK_CORE_SOURCE)
             }
             CommonImport::Import(import) => import.into_in(allocator),
         }
@@ -74,7 +74,7 @@ impl<'a> FromIn<'a, CommonExport> for Statement<'a> {
         let ast_builder = AstBuilder::new(allocator);
         match value {
             CommonExport::BuilderIoQwik(name) => {
-                ast_builder.create_export_statement(name.as_str(), BUILDER_IO_QWIK)
+                ast_builder.create_export_statement(name.as_str(), QWIK_CORE_SOURCE)
             }
         }
     }
@@ -94,8 +94,8 @@ impl From<&str> for ImportId {
     }
 }
 
-impl From<&ImportDeclarationSpecifier<'_>> for ImportId {
-    fn from(value: &ImportDeclarationSpecifier<'_>) -> Self {
+impl From<&mut ImportDeclarationSpecifier<'_>> for ImportId {
+    fn from(value: &mut ImportDeclarationSpecifier<'_>) -> Self {
         match value {
             ImportDeclarationSpecifier::ImportSpecifier(specifier) => {
                 let imported = specifier.imported.name().to_string();

@@ -1,3 +1,4 @@
+use crate::component::QWIK_CORE_SOURCE;
 use oxc_allocator::Allocator;
 use oxc_ast::ast::{ImportDeclaration, ImportOrExportKind, Program, Statement};
 use oxc_semantic::{SemanticBuilder, SemanticBuilderReturn};
@@ -27,6 +28,33 @@ impl ImportCleanUp {
         let transform = &mut ImportCleanUp::new();
 
         traverse_mut(transform, allocator, program, symbols, scopes);
+    }
+
+    /// This function renames the Qwik imports to the new qwik.dev imports.
+    ///
+    /// The following import sources are renamed:
+    /// - `@builder.io/qwik-city/...` -> `@qwik.dev/router/...`
+    /// - `@builder.io/qwik-react/...` -> `@qwik.dev/react/...`
+    /// - `@builder.io/qwik/...` -> `@qwik.dev/core/...`
+    ///
+    /// Otherwise, it returns the original import source string.
+    pub fn rename_qwik_imports<T: AsRef<str>>(source: T) -> String {
+        let source = source.as_ref();
+        const BUILDER_QWIK_CITY: &str = "@builder.io/qwik-city";
+        const BUILDER_QWIK_REACT_SOURCE: &str = "@builder.io/qwik-react";
+        const BUILDER_QWIK_SOURCE: &str = "@builder.io/qwik";
+        const QWIK_ROUTER_SOURCE: &str = "@qwik.dev/router";
+        const QWIK_REACT_SOURCE: &str = "@qwik.dev/react";
+
+        if let Some(base) = source.strip_prefix(BUILDER_QWIK_CITY) {
+            format!("{}{}", QWIK_ROUTER_SOURCE, base)
+        } else if let Some(base) = source.strip_prefix(BUILDER_QWIK_REACT_SOURCE) {
+            format!("{}{}", QWIK_REACT_SOURCE, base)
+        } else if let Some(base) = source.strip_prefix(BUILDER_QWIK_SOURCE) {
+            format!("{}{}", QWIK_CORE_SOURCE, base)
+        } else {
+            source.into()
+        }
     }
 }
 
@@ -98,5 +126,54 @@ impl<'a> Traverse<'a> for ImportCleanUp {
         for idx in remove.iter() {
             node.remove(*idx);
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use oxc_allocator::Allocator;
+    use oxc_codegen::Codegen;
+    use oxc_parser::Parser;
+    use oxc_span::SourceType;
+
+    #[test]
+    fn test_import_clean_up() {
+        let allocator = Allocator::new();
+        let source = r#"
+            import { a } from '@builder.io/qwik-city';
+            import { b } from '@builder.io/qwik-react';
+            import { c } from '@builder.io/qwik';
+            import { d } from '@qwik.dev/router';
+            
+            b.foo();
+        "#;
+
+        let parse_return = Parser::new(&allocator, source, SourceType::tsx()).parse();
+        let mut program = parse_return.program;
+        ImportCleanUp::clean_up(&mut program, &allocator);
+
+        let codegen = Codegen::default();
+        let raw = codegen.build(&program).code;
+        let lines: Vec<&str> = raw.lines().collect();
+        assert_eq!(program.body.len(), 2);
+        assert_eq!(lines.len(), 2);
+        assert_eq!(lines[0], r#"import { b } from "@builder.io/qwik-react";"#);
+        assert_eq!(lines[1], r#"b.foo();"#);
+    }
+
+    #[test]
+    fn test_rename_qwik_imports() {
+        let source = "@builder.io/qwik-city/foo";
+        let renamed = ImportCleanUp::rename_qwik_imports(source);
+        assert_eq!(renamed, "@qwik.dev/router/foo");
+
+        let source = "@builder.io/qwik-react/bar";
+        let renamed = ImportCleanUp::rename_qwik_imports(source);
+        assert_eq!(renamed, "@qwik.dev/react/bar");
+
+        let source = "@builder.io/qwik/baz";
+        let renamed = ImportCleanUp::rename_qwik_imports(source);
+        assert_eq!(renamed, "@qwik.dev/core/baz");
     }
 }

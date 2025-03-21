@@ -59,8 +59,6 @@ impl Display for OptimizedApp {
         let sep = format!("{}\n", "-".repeat(comp_heading.len()));
         let all_comps = self.components.iter().fold(String::new(), |acc, comp| {
             let heading = format!("-------- COMPONENT: {}", comp.id.symbol_name);
-            let mut code_gen0 = Codegen::default();
-            let code_gen = &mut code_gen0;
 
             let body = &comp.code;
             format!("{}\n{}\n{}\n{}", acc, heading, body, sep)
@@ -690,17 +688,21 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
     ) {
         self.debug(format!("{:?}", node), ctx);
 
-        // Recording each import by its SymbolId will allow CallExpressions within newly-created modules to
-        // determine if they need to add this import to their import_stack.
-        if let Some(specifiers) = &node.specifiers {
-            for specifier in specifiers.iter() {
+        if let Some(specifiers) = &mut node.specifiers {
+            for specifier in specifiers.iter_mut() {
+                // Recording each import by its SymbolId will allow CallExpressions within newly-created modules to
+                // determine if they need to add this import to their import_stack.
                 if let Some(symbol_id) = specifier.local().symbol_id.get() {
                     let source = node.source.value;
                     let source = PathBuf::from(source.as_ref());
-                    // let n =
                     self.import_by_ref
                         .insert(symbol_id, Import::new(vec![specifier.into()], source));
                 }
+
+                // Rename qwik imports per https://github.com/QwikDev/qwik/blob/build/v2/packages/qwik/src/optimizer/core/src/rename_imports.rs
+                let source = node.source.value;
+                let source = ImportCleanUp::rename_qwik_imports(source);
+                node.source.value = source.into_in(ctx.ast.allocator);
             }
         }
     }
