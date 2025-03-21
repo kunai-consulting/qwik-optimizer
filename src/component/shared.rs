@@ -3,7 +3,7 @@ use oxc_allocator::{Allocator, FromIn, IntoIn};
 use oxc_ast::ast::Statement;
 use oxc_ast::AstBuilder;
 use std::convert::Into;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 pub const BUILDER_IO_QWIK: &str = "@builder.io/qwik";
 pub const COMPONENT_SUFFIX: &str = "$";
@@ -121,9 +121,9 @@ impl Reference {
             Reference::Variable(name) => name.clone(),
         }
     }
-    pub fn into_import(&self, source: PathBuf) -> Import {
+    pub fn into_import<T: AsRef<Path>>(&self, source: T) -> Import {
         match self {
-            Reference::Variable(name) => Import::new(vec![name.clone()], source),
+            Reference::Variable(name) => Import::new(vec![name.clone()], source.as_ref()),
         }
     }
 }
