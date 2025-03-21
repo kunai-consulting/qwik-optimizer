@@ -127,7 +127,12 @@ impl<'a> FromIn<'a, ImportId> for ImportDeclarationSpecifier<'a> {
             ImportId::Named(name) => {
                 let imported = ast.module_export_name_identifier_name(SPAN, &name);
                 let local_name = ast.binding_identifier(SPAN, &name);
-                ast.import_declaration_specifier_import_specifier(SPAN, imported, local_name, ImportOrExportKind::Value)
+                ast.import_declaration_specifier_import_specifier(
+                    SPAN,
+                    imported,
+                    local_name,
+                    ImportOrExportKind::Value,
+                )
             }
 
             ImportId::NamedWithAlias(name, local_name) => {

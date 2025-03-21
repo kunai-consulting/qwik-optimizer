@@ -21,6 +21,7 @@ use std::borrow::{Borrow, Cow};
 use std::collections::{HashMap, HashSet};
 
 use crate::component::*;
+use crate::import_clean_up::ImportCleanUp;
 use crate::macros::*;
 use crate::source::Source;
 use oxc_parser::Parser;
@@ -33,7 +34,6 @@ use std::cell::{Cell, RefCell};
 use std::fmt::{write, Display};
 use std::ops::Deref;
 use std::path::{Components, PathBuf};
-use crate::import_clean_up::ImportCleanUp;
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Default)]
 pub struct OptimizedApp {
@@ -286,7 +286,6 @@ const DUMP_FINAL_AST: bool = false;
 
 impl<'a> Traverse<'a> for TransformGenerator<'a> {
     fn exit_program(&mut self, node: &mut Program<'a>, ctx: &mut TraverseCtx<'a>) {
-
         let flattened_imports = self
             .import_stack
             .iter()
@@ -316,8 +315,6 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
             body,
             components: self.components.clone(),
         };
-
-
 
         if DEBUG && DUMP_FINAL_AST {
             println!(

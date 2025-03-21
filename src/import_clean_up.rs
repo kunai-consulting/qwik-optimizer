@@ -1,8 +1,8 @@
-use oxc_allocator::{Allocator};
+use oxc_allocator::Allocator;
 use oxc_ast::ast::{ImportDeclaration, ImportOrExportKind, Program, Statement};
 use oxc_semantic::{SemanticBuilder, SemanticBuilderReturn};
 use oxc_traverse::{traverse_mut, Traverse, TraverseCtx};
-use std::collections::{HashSet};
+use std::collections::HashSet;
 
 /// This struct is used to clean up unused imports in the AST.
 pub(crate) struct ImportCleanUp;
@@ -83,7 +83,6 @@ impl<'a> Traverse<'a> for ImportCleanUp {
                     if specifiers.is_empty() {
                         remove.insert(0, idx);
                     }
-                    
                 }
 
                 // Duplicate check

@@ -1,16 +1,19 @@
-use std::collections::HashSet;
 use crate::component::{CommonImport, QRL_MARKER};
 use oxc_ast::ast::Expression;
 use oxc_semantic::SymbolId;
 use oxc_traverse::TraverseCtx;
+use std::collections::HashSet;
 
 pub trait ExpressionExt {
     fn is_qrl_replaceable(&self) -> bool;
-    fn get_referenced_symbols(&self, ctx: &mut TraverseCtx ) -> HashSet<SymbolId>;
+    fn get_referenced_symbols(&self, ctx: &mut TraverseCtx) -> HashSet<SymbolId>;
 }
 
-fn walk_referenced_symbols(expression: &Expression, symbols: &mut HashSet<SymbolId>, ctx: &mut TraverseCtx)  {
-
+fn walk_referenced_symbols(
+    expression: &Expression,
+    symbols: &mut HashSet<SymbolId>,
+    ctx: &mut TraverseCtx,
+) {
     match expression {
         Expression::BooleanLiteral(_) => {}
         Expression::NullLiteral(_) => {}
@@ -64,9 +67,7 @@ fn walk_referenced_symbols(expression: &Expression, symbols: &mut HashSet<Symbol
         }
         Expression::PrivateFieldExpression(_) => {}
     }
-
 }
-
 
 impl ExpressionExt for Expression<'_> {
     fn is_qrl_replaceable(&self) -> bool {
@@ -82,7 +83,7 @@ impl ExpressionExt for Expression<'_> {
     }
 
     fn get_referenced_symbols(&self, ctx: &mut TraverseCtx) -> HashSet<SymbolId> {
-        let mut symbols =  HashSet::new();
+        let mut symbols = HashSet::new();
         walk_referenced_symbols(self, &mut symbols, ctx);
         symbols
     }

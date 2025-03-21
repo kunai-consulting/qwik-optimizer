@@ -8,7 +8,7 @@ pub mod source;
 pub mod macros;
 
 mod dead_code;
+mod import_clean_up;
 mod ref_counter;
 mod segment;
 pub mod transform;
-mod import_clean_up;

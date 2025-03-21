@@ -1,11 +1,11 @@
+use crate::component::ImportId;
 use oxc_allocator::{Box as OxcBox, IntoIn, Vec as OxcVec};
 use oxc_ast::ast::{ImportDeclarationSpecifier, ImportOrExportKind, Statement, WithClause};
 use oxc_ast::AstBuilder;
 use oxc_span::{Atom, SPAN};
-use crate::component::ImportId;
 
 pub trait AstBuilderExt<'a> {
-    fn create_import_statement< U: AsRef<str>>(
+    fn create_import_statement<U: AsRef<str>>(
         self,
         names: Vec<ImportId>,
         source: U,
@@ -16,7 +16,7 @@ pub trait AstBuilderExt<'a> {
 }
 
 impl<'a> AstBuilderExt<'a> for AstBuilder<'a> {
-    fn create_import_statement< U: AsRef<str>>(
+    fn create_import_statement<U: AsRef<str>>(
         self,
         import_ids: Vec<ImportId>,
         source: U,
