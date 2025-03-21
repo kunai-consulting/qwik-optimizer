@@ -1,7 +1,7 @@
 use crate::ext::AstBuilderExt;
 use oxc_allocator::{Allocator, FromIn, IntoIn};
 use oxc_ast::ast::{
-    ImportDeclaration, ImportDeclarationSpecifier, ImportOrExportKind, ImportSpecifier, Statement,
+    ImportDeclarationSpecifier, ImportOrExportKind, Statement,
 };
 use oxc_ast::AstBuilder;
 use oxc_span::SPAN;

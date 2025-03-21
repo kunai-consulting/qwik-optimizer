@@ -1,4 +1,4 @@
-use crate::component::{CommonImport, QRL_MARKER};
+use crate::component::QRL_MARKER;
 use oxc_ast::ast::Expression;
 use oxc_semantic::SymbolId;
 use oxc_traverse::TraverseCtx;
