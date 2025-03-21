@@ -1,8 +1,6 @@
 use crate::ext::AstBuilderExt;
 use oxc_allocator::{Allocator, FromIn, IntoIn};
-use oxc_ast::ast::{
-    ImportDeclarationSpecifier, ImportOrExportKind, Statement,
-};
+use oxc_ast::ast::{ImportDeclarationSpecifier, ImportOrExportKind, Statement};
 use oxc_ast::AstBuilder;
 use oxc_span::SPAN;
 use std::convert::Into;
