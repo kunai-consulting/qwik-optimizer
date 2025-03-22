@@ -1,0 +1,6 @@
+---
+source: src/transform.rs
+expression: comp.code
+snapshot_kind: text
+---
+"import css3 from \"./style.css\";\nexport const App_component_useStyles_1_QaDDTipqmN4 = css3;\n"
