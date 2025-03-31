@@ -31,12 +31,13 @@ use oxc_semantic::{
 };
 use oxc_span::*;
 use oxc_traverse::{traverse_mut, Ancestor, Traverse, TraverseCtx};
+use serde::{Deserialize, Serialize};
 use std::cell::{Cell, RefCell};
 use std::fmt::{write, Display};
 use std::ops::Deref;
 use std::path::{Components, PathBuf};
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Default)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Default, Serialize)]
 pub struct OptimizedApp {
     pub body: String,
     pub components: Vec<QrlComponent>,
@@ -615,6 +616,90 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
             }
         }
     }
+}
+
+#[derive(Debug, Deserialize, Copy, Clone, PartialEq, Eq)]
+#[serde(rename_all = "camelCase")]
+pub enum MinifyMode {
+    Simplify,
+    None,
+}
+
+#[derive(Debug, Copy, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub enum EntryStrategy {
+    Inline,
+    Hoist,
+    Single,
+    Hook,
+    Segment,
+    Component,
+    Smart,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct TransformFsOptions {
+    pub src_dir: String,
+    pub root_dir: Option<String>,
+    pub vendor_roots: Vec<String>,
+    pub glob: Option<String>,
+    pub minify: MinifyMode,
+    pub entry_strategy: EntryStrategy,
+    pub source_maps: bool,
+    pub transpile_ts: bool,
+    pub transpile_jsx: bool,
+    pub preserve_filenames: bool,
+    pub explicit_extensions: bool,
+    pub mode: Target,
+    pub scope: Option<String>,
+
+    pub core_module: Option<String>,
+    pub strip_exports: Option<Vec<String>>,
+    pub strip_ctx_name: Option<Vec<String>>,
+    pub strip_event_handlers: bool,
+    pub reg_ctx_name: Option<Vec<String>>,
+    pub is_server: Option<bool>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct TransformModuleInput {
+    pub path: String,
+    pub dev_path: Option<String>,
+    pub code: String,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct TransformModulesOptions {
+    pub src_dir: String,
+    pub root_dir: Option<String>,
+    pub input: Vec<TransformModuleInput>,
+    pub source_maps: bool,
+    pub minify: MinifyMode,
+    pub transpile_ts: bool,
+    pub transpile_jsx: bool,
+    pub preserve_filenames: bool,
+    pub entry_strategy: EntryStrategy,
+    pub explicit_extensions: bool,
+    pub mode: Target,
+    pub scope: Option<String>,
+
+    pub core_module: Option<String>,
+    pub strip_exports: Option<Vec<String>>,
+    pub strip_ctx_name: Option<Vec<String>>,
+    pub strip_event_handlers: bool,
+    pub reg_ctx_name: Option<Vec<String>>,
+    pub is_server: Option<bool>,
+}
+
+pub fn transform_fs(config: TransformFsOptions) -> Result<(OptimizedApp)> {
+    Err(Error::Generic("Not yet implemented".to_string()))
+}
+
+pub fn transform_modules(config: TransformModulesOptions) -> Result<(OptimizedApp)> {
+    Err(Error::Generic("Not yet implemented".to_string()))
 }
 
 pub fn transform(script_source: Source) -> Result<(OptimizedApp)> {

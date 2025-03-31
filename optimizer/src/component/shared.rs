@@ -4,6 +4,7 @@ use oxc_allocator::{Allocator, FromIn};
 use oxc_ast::ast::{ImportDeclarationSpecifier, ImportOrExportKind, Statement};
 use oxc_ast::AstBuilder;
 use oxc_span::{Atom, SPAN};
+use serde::{Deserialize, Serialize};
 use std::convert::Into;
 use std::path::PathBuf;
 
@@ -145,7 +146,7 @@ impl<'a> FromIn<'a, Import> for Statement<'a> {
 
 /// Renamed from `EmitMode` in V 1.0.
 #[allow(dead_code)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, Serialize, Deserialize, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Target {
     Prod,
     Lib,
