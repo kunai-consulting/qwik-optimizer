@@ -6,9 +6,10 @@ use oxc_ast::AstBuilder;
 use oxc_index::Idx;
 use oxc_semantic::ReferenceId;
 use oxc_span::{Atom, SPAN};
+use serde::Serialize;
 use std::path::PathBuf;
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Serialize)]
 pub enum QrlType {
     Qrl,
     PrefixedQrl(String),
@@ -26,7 +27,7 @@ impl From<QrlType> for CommonImport {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Serialize)]
 pub struct Qrl {
     pub rel_path: PathBuf,
     pub display_name: String,
