@@ -1,0 +1,6 @@
+---
+source: src/transform.rs
+expression: comp.code
+snapshot_kind: text
+---
+"import { Header } from \"./test\";\nimport { foo } from \"../state\";\nexport const App_component_ckEPmXZlub0 = () => {\n\treturn <Header>{foo()}</Header>;\n};\n"

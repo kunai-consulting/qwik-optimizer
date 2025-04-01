@@ -95,6 +95,7 @@ mod tests {
                     }
                 }
             }
+
             normalized
         }
     }

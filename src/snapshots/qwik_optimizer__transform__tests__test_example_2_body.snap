@@ -1,6 +1,6 @@
 ---
 source: src/transform.rs
-expression: r.body
+expression: result.body
 snapshot_kind: text
 ---
-"import { qrl } from \"@builder.io/qwik\";\nimport { component, onRender } from \"@builder.io/qwik\";\nexport const renderHeader = qrl(() => import(\"./test.tsx_renderHeader_zBbHWn4e8Cg\"), \"renderHeader_zBbHWn4e8Cg\");\nconst renderHeader = component(qrl(() => import(\"./test.tsx_renderHeader_component_U6Kkv07sbpQ\"), \"renderHeader_component_U6Kkv07sbpQ\"));\n"
+"import { component } from \"@builder.io/qwik\";\nimport { qrl } from \"@builder.io/qwik\";\nexport const renderHeader = qrl(() => import(\"./test.tsx_renderHeader_zBbHWn4e8Cg\"), \"renderHeader_zBbHWn4e8Cg\");\nconst renderHeader = component(qrl(() => import(\"./test.tsx_renderHeader_component_U6Kkv07sbpQ\"), \"renderHeader_component_U6Kkv07sbpQ\"));\n"
