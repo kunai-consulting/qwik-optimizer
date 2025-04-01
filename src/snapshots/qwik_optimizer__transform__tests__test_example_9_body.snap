@@ -3,4 +3,4 @@ source: src/transform.rs
 expression: result.body
 snapshot_kind: text
 ---
-"import { qrl } from \"@builder.io/qwik\";\nconst Header = qrl(() => import(\"./test.tsx_Header_WjUaUQN7Oxg\"), \"Header_WjUaUQN7Oxg\");\n"
+"import { qrl } from \"@qwik.dev/core\";\nconst Header = qrl(() => import(\"./test.tsx_Header_WjUaUQN7Oxg\"), \"Header_WjUaUQN7Oxg\");\n"

@@ -3,4 +3,4 @@ source: src/transform.rs
 expression: comp.code
 snapshot_kind: text
 ---
-"import dep3 from \"dep3/something\";\nexport const Header_component_Header_onClick_oNOlojcAk6Q = (ev) => dep3(ev);\nexport { _hW } from \"@builder.io/qwik\";\n"
+"import dep3 from \"dep3/something\";\nexport const Header_component_Header_onClick_oNOlojcAk6Q = (ev) => dep3(ev);\nexport { _hW } from \"@qwik.dev/core\";\n"

@@ -18,9 +18,7 @@ impl From<QrlType> for CommonImport {
     fn from(value: QrlType) -> Self {
         match value {
             QrlType::Qrl => CommonImport::qrl(),
-            QrlType::ComponentQrl => {
-                CommonImport::BuilderIoQwik(vec![COMPONENT_QRL.into(), QRL.into()])
-            }
+            QrlType::ComponentQrl => CommonImport::QwikCore(vec![COMPONENT_QRL.into(), QRL.into()]),
         }
     }
 }
