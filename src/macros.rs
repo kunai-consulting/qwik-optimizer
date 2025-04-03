@@ -16,17 +16,20 @@ macro_rules! function_name {
 macro_rules! _assert_valid_transform {
     ($input:literal) => {{
         let func_name = function_name!();
-        let path = PathBuf::from("./src/test_input").join(format!("{func_name}.tsx"));
+        let mut path = PathBuf::from("./src/test_input").join(format!("{func_name}.tsx"));
+        let mut lang = crate::component::Language::Typescript;
+
+        if !path.exists() {
+            path = PathBuf::from("./src/test_input").join(format!("{func_name}.js"));
+            lang = crate::component::Language::Javascript;
+        }
+
         println!("Loading test input file from path: {:?}", &path);
 
         let source_code = std::fs::read_to_string(&path).unwrap();
 
-        let source_input = Source::from_source(
-            source_code,
-            crate::component::Language::Typescript,
-            Some("test".to_string()),
-        )
-        .unwrap();
+        let source_input =
+            Source::from_source(source_code, lang, Some("test".to_string())).unwrap();
         let result = transform(source_input).unwrap();
 
         if $input == true {

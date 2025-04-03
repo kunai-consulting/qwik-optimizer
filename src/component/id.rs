@@ -1,4 +1,5 @@
 use crate::component::{SourceInfo, Target};
+use crate::segment::Segment;
 use base64::{engine, Engine};
 use std::hash::{DefaultHasher, Hasher};
 
@@ -44,6 +45,24 @@ impl Id {
         engine::general_purpose::URL_SAFE_NO_PAD
             .encode(hash.to_le_bytes())
             .replace(['-', '_'], "0")
+    }
+
+    fn update_display_name(display_name: &mut String, name_segment: String) {
+        if display_name.is_empty()
+            && name_segment
+                .chars()
+                .next()
+                .map(|c| c.is_ascii_digit())
+                .unwrap_or(false)
+        {
+            display_name.push('_');
+            display_name.push_str(name_segment.as_str());
+        } else if display_name.is_empty() {
+            display_name.push_str(name_segment.as_str());
+        } else {
+            display_name.push('_');
+            display_name.push_str(name_segment.as_str());
+        }
     }
 
     /// Creates a component [Id] from a given [SourceInfo], a `Vec[String]` of segment identifiers that relate back the
@@ -101,7 +120,7 @@ impl Id {
     /// [V 1.0 REF] see `QwikTransform.register_context_name` in `transform.rs.
     pub fn new(
         source_info: &SourceInfo,
-        segments: &Vec<String>,
+        segments: &Vec<Segment>,
         target: &Target,
         scope: &Option<String>,
     ) -> Id {
@@ -109,25 +128,38 @@ impl Id {
 
         let mut display_name = String::new();
 
-        for segment in segments {
-            if display_name.is_empty()
-                && segment
-                    .chars()
-                    .next()
-                    .map(|c| c.is_ascii_digit())
-                    .unwrap_or(false)
-            {
-                display_name = format!("_{}", segment);
-            } else {
-                let prefix: String = if display_name.is_empty() {
-                    "".to_string()
-                } else {
-                    format!("{}_", display_name).to_string()
-                };
-                display_name = format!("{}{}", prefix, segment);
+        if let Some((tail, head)) = segments.split_last() {
+            for s in head {
+                match s {
+                    Segment::Named(name) => {
+                        Self::update_display_name(&mut display_name, name.into())
+                    }
+                    Segment::NamedQrl(name, 0) => {
+                        Self::update_display_name(&mut display_name, name.into())
+                    }
+                    Segment::NamedQrl(name, index) => {
+                        Self::update_display_name(&mut display_name, format!("{name}_{index}"))
+                    }
+                    Segment::IndexQrl(_) => {}
+                }
             }
+
+            match tail {
+                Segment::Named(name) => Self::update_display_name(&mut display_name, name.into()),
+                Segment::NamedQrl(name, 0) => {
+                    Self::update_display_name(&mut display_name, name.into())
+                }
+                Segment::NamedQrl(name, index) => {
+                    Self::update_display_name(&mut display_name, format!("{name}_{index}"))
+                }
+                Segment::IndexQrl(0) => {}
+                Segment::IndexQrl(index) => {
+                    Self::update_display_name(&mut display_name, index.to_string())
+                }
+            }
+
+            display_name = Self::sanitize(&display_name);
         }
-        display_name = Self::sanitize(&display_name);
 
         let normalized_local_file_name = local_file_name
             .strip_prefix("./")
@@ -177,7 +209,11 @@ mod tests {
         let source_info0 = SourceInfo::new("app.js").unwrap();
         let id0 = Id::new(
             &source_info0,
-            &vec!["a".to_string(), "b".to_string(), "c".to_string()],
+            &vec![
+                Segment::Named("a".to_string()),
+                Segment::Named("b".to_string()),
+                Segment::Named("c".to_string()),
+            ],
             &Target::Dev,
             &Option::None,
         );
@@ -194,7 +230,11 @@ mod tests {
         let scope1 = Some("scope".to_string());
         let id1 = Id::new(
             &source_info0,
-            &vec!["1".to_string(), "b".to_string(), "c".to_string()],
+            &vec![
+                Segment::Named("1".to_string()),
+                Segment::Named("b".to_string()),
+                Segment::Named("c".to_string()),
+            ],
             &Target::Prod,
             &scope1,
         );
@@ -211,5 +251,84 @@ mod tests {
 
         assert_eq!(id0, expected0);
         assert_eq!(id1, expected1);
+    }
+
+    #[test]
+    fn creates_a_id_with_indexes() {
+        let source_info0 = SourceInfo::new("app.js").unwrap();
+        let id1 = Id::new(
+            &source_info0,
+            &vec![
+                Segment::Named("a".to_string()),
+                Segment::Named("b".to_string()),
+                Segment::IndexQrl(1),
+                Segment::IndexQrl(2),
+                Segment::IndexQrl(0),
+            ],
+            &Target::Dev,
+            &None,
+        );
+
+        let id2 = Id::new(
+            &source_info0,
+            &vec![
+                Segment::Named("a".to_string()),
+                Segment::Named("b".to_string()),
+                Segment::IndexQrl(1),
+            ],
+            &Target::Dev,
+            &None,
+        );
+
+        let id3 = Id::new(
+            &source_info0,
+            &vec![
+                Segment::Named("a".to_string()),
+                Segment::Named("b".to_string()),
+                Segment::NamedQrl("c".to_string(), 0),
+            ],
+            &Target::Dev,
+            &None,
+        );
+
+        let id4 = Id::new(
+            &source_info0,
+            &vec![
+                Segment::Named("a".to_string()),
+                Segment::Named("b".to_string()),
+                Segment::NamedQrl("c".to_string(), 1),
+            ],
+            &Target::Dev,
+            &None,
+        );
+
+        let id5 = Id::new(
+            &source_info0,
+            &vec![
+                Segment::Named("a".to_string()),
+                Segment::NamedQrl("b".to_string(), 0),
+                Segment::IndexQrl(1),
+            ],
+            &Target::Dev,
+            &None,
+        );
+
+        let id6 = Id::new(
+            &source_info0,
+            &vec![
+                Segment::Named("a".to_string()),
+                Segment::NamedQrl("b".to_string(), 0),
+                Segment::IndexQrl(0),
+            ],
+            &Target::Dev,
+            &None,
+        );
+
+        assert_eq!(id1.display_name, "app.js_a_b");
+        assert_eq!(id2.display_name, "app.js_a_b_1");
+        assert_eq!(id3.display_name, "app.js_a_b_c");
+        assert_eq!(id4.display_name, "app.js_a_b_c_1");
+        assert_eq!(id5.display_name, "app.js_a_b_1");
+        assert_eq!(id6.display_name, "app.js_a_b");
     }
 }

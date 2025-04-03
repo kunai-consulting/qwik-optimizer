@@ -1,6 +1,6 @@
 use crate::component::Language;
 use crate::component::*;
-use crate::prelude::*;
+use crate::segment::Segment;
 use oxc_allocator::{Allocator, Box as OxcBox, CloneIn, IntoIn, Vec as OxcVec};
 use oxc_ast::ast::*;
 use oxc_ast::*;
@@ -13,45 +13,43 @@ pub struct QrlComponent {
     pub id: Id,
     pub language: Language,
     pub code: String,
-    pub qurl: Qrl,
+    pub qrl: Qrl,
 }
 
 impl QrlComponent {
-    pub fn new(
+    pub(crate) fn new(
         source_info: &SourceInfo,
-        segments: &Vec<String>,
-        function: &ArrowFunctionExpression<'_>,
+        id: Id,
+        exported_expression: Expression<'_>,
         imports: Vec<CommonImport>,
         minify: bool,
         qrl_type: QrlType,
-        target: &Target,
-        scope: &Option<String>,
-    ) -> Result<QrlComponent> {
+    ) -> QrlComponent {
         let language = source_info.language.clone();
-        let id = Id::new(source_info, segments, target, scope);
-        let qurl = Qrl::new(&id.local_file_name, &id.symbol_name, qrl_type);
+        // let id = Id::new(source_info, segments, target, scope);
+        let qrl = Qrl::new(&id.local_file_name, &id.symbol_name, qrl_type);
 
         let source_type: SourceType = language.into();
 
         let code = Self::gen(
             &id,
-            function,
+            exported_expression,
             imports,
             minify,
             &source_type,
             &Allocator::default(),
         );
-        Ok(QrlComponent {
+        QrlComponent {
             id,
             language: source_info.language.clone(),
             code,
-            qurl,
-        })
+            qrl,
+        }
     }
 
     fn gen(
         id: &Id,
-        function: &ArrowFunctionExpression,
+        exported_expression: Expression<'_>,
         imports: Vec<CommonImport>,
         minify: bool,
         source_type: &SourceType,
@@ -69,13 +67,11 @@ impl QrlComponent {
         );
         let mut var_declarator = OxcVec::new_in(allocator);
 
-        let boxed = OxcBox::new_in(function.clone_in(allocator), allocator);
-        let expr = Expression::ArrowFunctionExpression(boxed);
         var_declarator.push(ast_builder.variable_declarator(
             SPAN,
             VariableDeclarationKind::Const,
             bind_pat,
-            Some(expr),
+            Some(exported_expression),
             false,
         ));
 
@@ -143,5 +139,41 @@ impl QrlComponent {
         } else {
             codegen.with_options(codegen_options).build(&new_pgm).code
         }
+    }
+
+    /// Create a QrlComponent from an `Expression`.
+    pub(crate) fn from_expression(
+        expr: Expression<'_>,
+        imports: Vec<CommonImport>,
+        segments: &Vec<Segment>,
+        target: &Target,
+        scope: &Option<String>,
+        source_info: &SourceInfo,
+        minify: bool,
+    ) -> QrlComponent {
+        let qrl_type: QrlType = segments
+            .last()
+            .iter()
+            .flat_map(|segment| segment.qrl_type())
+            .last()
+            .unwrap(); // TODO Clean this up.
+
+        let id = Id::new(source_info, segments, target, scope);
+
+        QrlComponent::new(source_info, id, expr, imports, minify, qrl_type)
+    }
+
+    pub(crate) fn from_call_expression_argument(
+        arg: &Argument,
+        imports: Vec<CommonImport>,
+        segments: &Vec<Segment>,
+        target: &Target,
+        scope: &Option<String>,
+        source_info: &SourceInfo,
+        minify: bool,
+        allocator: &Allocator,
+    ) -> QrlComponent {
+        let init = arg.clone_in(allocator).into_expression();
+        Self::from_expression(init, imports, segments, target, scope, source_info, minify)
     }
 }

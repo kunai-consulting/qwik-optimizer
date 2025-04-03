@@ -3,4 +3,4 @@ source: src/transform.rs
 expression: result.body
 snapshot_kind: text
 ---
-"import { componentQrl, qrl } from \"@qwik.dev/core\";\nexport const Header = componentQrl(qrl(() => import(\"./test.tsx_Header_component_J4uyIhaBNR4\"), \"Header_component_J4uyIhaBNR4\"));\nexport const App = componentQrl(qrl(() => import(\"./test.tsx_App_component_ckEPmXZlub0\"), \"App_component_ckEPmXZlub0\"));\n"
+"import { qrl } from \"@qwik.dev/core\";\nimport { componentQrl } from \"@qwik.dev/core\";\nexport const Header = componentQrl(qrl(() => import(\"./test.tsx_Header_component_J4uyIhaBNR4\"), \"Header_component_J4uyIhaBNR4\"));\nexport const App = componentQrl(qrl(() => import(\"./test.tsx_App_component_ckEPmXZlub0\"), \"App_component_ckEPmXZlub0\"));\n"

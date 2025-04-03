@@ -1,0 +1,6 @@
+---
+source: src/transform.rs
+expression: comp.code
+snapshot_kind: text
+---
+"import css1 from \"./global.css\";\nimport css2 from \"./style.css\";\nexport const App_component_useStyles_yj4sK3KtjRE = `${css1}${css2}`;\n"

@@ -1,10 +1,11 @@
 use crate::ext::AstBuilderExt;
+use crate::import_clean_up::ImportCleanUp;
 use oxc_allocator::{Allocator, FromIn, IntoIn};
 use oxc_ast::ast::{ImportDeclarationSpecifier, ImportOrExportKind, Statement};
 use oxc_ast::AstBuilder;
-use oxc_span::SPAN;
+use oxc_span::{Atom, SPAN};
 use std::convert::Into;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
 pub const QWIK_CORE_SOURCE: &str = "@qwik.dev/core";
 pub const MARKER_SUFFIX: &str = "$";
@@ -12,7 +13,7 @@ pub const QRL: &str = "qrl";
 pub const QRL_SUFFIX: &str = "Qrl";
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub enum CommonImport {
+pub(crate) enum CommonImport {
     QwikCore(Vec<ImportId>),
     Import(Import),
 }
@@ -49,23 +50,12 @@ impl<'a> FromIn<'a, &CommonImport> for Statement<'a> {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
-pub enum CommonExport {
+pub(crate) enum CommonExport {
     BuilderIoQwik(String),
 }
 
-impl<'a> FromIn<'a, CommonExport> for Statement<'a> {
-    fn from_in(value: CommonExport, allocator: &'a Allocator) -> Self {
-        let ast_builder = AstBuilder::new(allocator);
-        match value {
-            CommonExport::BuilderIoQwik(name) => {
-                ast_builder.create_export_statement(name.as_str(), QWIK_CORE_SOURCE)
-            }
-        }
-    }
-}
-
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub enum ImportId {
+pub(crate) enum ImportId {
     Named(String),
     NamedWithAlias(String, String),
     Default(String),
@@ -78,12 +68,22 @@ impl From<&str> for ImportId {
     }
 }
 
-impl From<&mut ImportDeclarationSpecifier<'_>> for ImportId {
-    fn from(value: &mut ImportDeclarationSpecifier<'_>) -> Self {
+fn replace_marker_with_qrl(name: Atom<'_>) -> String {
+    let name = name.to_string();
+    if let Some(qrl_call) = name.strip_suffix(MARKER_SUFFIX) {
+        format!("{}{}", qrl_call, QRL_SUFFIX)
+    } else {
+        name
+    }
+}
+
+impl From<&ImportDeclarationSpecifier<'_>> for ImportId {
+    fn from(value: &ImportDeclarationSpecifier<'_>) -> Self {
         match value {
             ImportDeclarationSpecifier::ImportSpecifier(specifier) => {
-                let imported = specifier.imported.name().to_string();
-                let local_name = specifier.local.name.to_string();
+                let imported = replace_marker_with_qrl(specifier.imported.name());
+                let local_name = replace_marker_with_qrl(specifier.local.name);
+
                 if imported == local_name {
                     ImportId::Named(imported)
                 } else {
@@ -146,7 +146,8 @@ pub struct Import {
 }
 
 impl Import {
-    pub fn new<T: Into<PathBuf>>(names: Vec<ImportId>, source: T) -> Self {
+    pub fn new<T: AsRef<str>>(names: Vec<ImportId>, source: T) -> Self {
+        let source = ImportCleanUp::rename_qwik_imports(source);
         Self {
             names,
             source: source.into(),
@@ -157,16 +158,18 @@ impl Import {
         let ast_builder = AstBuilder::new(allocator);
         ast_builder.create_import_statement(self.names.clone(), self.source.to_string_lossy())
     }
+
+    pub fn from_import_declaration_specifier<T: AsRef<str>>(
+        import: &ImportDeclarationSpecifier<'_>,
+        source: T,
+    ) -> Self {
+        let names = vec![import.into()];
+        Self::new(names, source)
+    }
 }
 
 impl<'a> FromIn<'a, &Import> for Statement<'a> {
     fn from_in(value: &Import, allocator: &'a Allocator) -> Self {
-        value.into_statement(allocator)
-    }
-}
-
-impl<'a> FromIn<'a, Import> for Statement<'a> {
-    fn from_in(value: Import, allocator: &'a Allocator) -> Self {
         value.into_statement(allocator)
     }
 }
@@ -182,9 +185,9 @@ impl Reference {
             Reference::Variable(name) => name.clone(),
         }
     }
-    pub fn into_import<T: AsRef<Path>>(&self, source: T) -> Import {
+    pub fn into_import<T: AsRef<str>>(&self, source: T) -> Import {
         match self {
-            Reference::Variable(name) => Import::new(vec![name.as_str().into()], source.as_ref()),
+            Reference::Variable(name) => Import::new(vec![name.as_str().into()], source),
         }
     }
 }
