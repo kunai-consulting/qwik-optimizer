@@ -1,4 +1,4 @@
-use crate::component::{CommonImport, COMPONENT_QRL, QRL};
+use crate::component::{CommonImport, QRL, QRL_SUFFIX};
 use crate::ext::AstBuilderExt;
 use oxc_allocator::{Allocator, Box as OxcBox, FromIn, IntoIn, Vec as OxcVec};
 use oxc_ast::ast::*;
@@ -11,14 +11,17 @@ use std::path::PathBuf;
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum QrlType {
     Qrl,
-    ComponentQrl,
+    PrefixedQrl(String),
 }
 
 impl From<QrlType> for CommonImport {
     fn from(value: QrlType) -> Self {
         match value {
             QrlType::Qrl => CommonImport::qrl(),
-            QrlType::ComponentQrl => CommonImport::QwikCore(vec![COMPONENT_QRL.into(), QRL.into()]),
+            QrlType::PrefixedQrl(prefix) => CommonImport::QwikCore(vec![
+                format!("{}{}", prefix, QRL_SUFFIX).as_str().into(),
+                QRL.into(),
+            ]),
         }
     }
 }
@@ -52,11 +55,13 @@ impl Qrl {
     ///
     fn into_identifier<'a>(&self, ast_builder: &AstBuilder<'a>) -> IdentifierReference<'a> {
         let ref_id: ReferenceId = ReferenceId::from_usize(0);
-        match self.qrl_type {
+        match &self.qrl_type {
             QrlType::Qrl => ast_builder.identifier_reference_with_reference_id(SPAN, QRL, ref_id),
-            QrlType::ComponentQrl => {
-                ast_builder.identifier_reference_with_reference_id(SPAN, COMPONENT_QRL, ref_id)
-            }
+            QrlType::PrefixedQrl(prefix) => ast_builder.identifier_reference_with_reference_id(
+                SPAN,
+                format!("{}{}", prefix, QRL_SUFFIX),
+                ref_id,
+            ),
         }
     }
 
@@ -139,9 +144,13 @@ impl Qrl {
         match qrl_type {
             QrlType::Qrl => call_expr,
 
-            QrlType::ComponentQrl => {
+            QrlType::PrefixedQrl(prefix) => {
                 let ident = OxcBox::new_in(
-                    ast_builder.identifier_reference_with_reference_id(SPAN, COMPONENT_QRL, ref_id),
+                    ast_builder.identifier_reference_with_reference_id(
+                        SPAN,
+                        format!("{}{}", prefix, QRL_SUFFIX),
+                        ref_id,
+                    ),
                     ast_builder.allocator,
                 );
                 let arg =
