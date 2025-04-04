@@ -1,6 +1,6 @@
 use crate::ext::AstBuilderExt;
 use crate::import_clean_up::ImportCleanUp;
-use oxc_allocator::{Allocator, FromIn, IntoIn};
+use oxc_allocator::{Allocator, FromIn};
 use oxc_ast::ast::{ImportDeclarationSpecifier, ImportOrExportKind, Statement};
 use oxc_ast::AstBuilder;
 use oxc_span::{Atom, SPAN};
@@ -11,48 +11,6 @@ pub const QWIK_CORE_SOURCE: &str = "@qwik.dev/core";
 pub const MARKER_SUFFIX: &str = "$";
 pub const QRL: &str = "qrl";
 pub const QRL_SUFFIX: &str = "Qrl";
-
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub(crate) enum CommonImport {
-    QwikCore(Vec<ImportId>),
-    Import(Import),
-}
-
-impl CommonImport {
-    pub fn qrl() -> CommonImport {
-        CommonImport::QwikCore(vec![QRL.into()])
-    }
-}
-
-impl<'a> FromIn<'a, CommonImport> for Statement<'a> {
-    fn from_in(value: CommonImport, allocator: &'a Allocator) -> Self {
-        let ast_builder = AstBuilder::new(allocator);
-        match value {
-            CommonImport::QwikCore(names) => {
-                ast_builder.create_import_statement(names, QWIK_CORE_SOURCE)
-            }
-            CommonImport::Import(import) => import.into_statement(allocator),
-        }
-    }
-}
-
-impl<'a> FromIn<'a, &CommonImport> for Statement<'a> {
-    fn from_in(value: &CommonImport, allocator: &'a Allocator) -> Self {
-        let ast_builder = AstBuilder::new(allocator);
-        match value {
-            CommonImport::QwikCore(names) => {
-                let names = names.clone();
-                ast_builder.create_import_statement(names, QWIK_CORE_SOURCE)
-            }
-            CommonImport::Import(import) => import.into_in(allocator),
-        }
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
-pub(crate) enum CommonExport {
-    BuilderIoQwik(String),
-}
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) enum ImportId {
@@ -166,6 +124,11 @@ impl Import {
         let names = vec![import.into()];
         Self::new(names, source)
     }
+
+    pub fn qrl() -> Self {
+        let names = vec![QRL.into()];
+        Self::new(names, QWIK_CORE_SOURCE)
+    }
 }
 
 impl<'a> FromIn<'a, &Import> for Statement<'a> {
@@ -174,21 +137,9 @@ impl<'a> FromIn<'a, &Import> for Statement<'a> {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
-pub enum Reference {
-    Variable(String),
-}
-
-impl Reference {
-    pub fn name(&self) -> String {
-        match self {
-            Reference::Variable(name) => name.clone(),
-        }
-    }
-    pub fn into_import<T: AsRef<str>>(&self, source: T) -> Import {
-        match self {
-            Reference::Variable(name) => Import::new(vec![name.as_str().into()], source),
-        }
+impl<'a> FromIn<'a, Import> for Statement<'a> {
+    fn from_in(value: Import, allocator: &'a Allocator) -> Self {
+        value.into_statement(allocator)
     }
 }
 

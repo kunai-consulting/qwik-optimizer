@@ -87,29 +87,27 @@ pub struct TransformGenerator<'gen> {
 
     depth: usize,
 
-    pub(crate) segment_stack: Vec<Segment>,
+    segment_stack: Vec<Segment>,
 
     segment_builder: SegmentBuilder,
 
     symbol_by_name: HashMap<String, SymbolId>,
 
-    pub(crate) component_stack: Vec<QrlComponent>,
+    component_stack: Vec<QrlComponent>,
 
     qrl_stack: Vec<Qrl>,
 
-    pub(crate) import_stack: Vec<BTreeSet<CommonImport>>,
+    import_stack: Vec<BTreeSet<Import>>,
 
-    pub(crate) import_by_symbol: HashMap<SymbolId, Import>,
+    import_by_symbol: HashMap<SymbolId, Import>,
 
-    scoped_references: HashMap<u32, Vec<Reference>>,
+    source_info: &'gen SourceInfo,
 
-    pub(crate) source_info: &'gen SourceInfo,
+    target: Target,
 
-    pub(crate) target: Target,
+    scope: Option<String>,
 
-    pub(crate) scope: Option<String>,
-
-    pub(crate) minify: bool,
+    minify: bool,
 }
 
 impl<'gen> TransformGenerator<'gen> {
@@ -131,7 +129,6 @@ impl<'gen> TransformGenerator<'gen> {
             qrl_stack: Vec::new(),
             import_stack: vec![BTreeSet::new()],
             import_by_symbol: Default::default(),
-            scoped_references: HashMap::new(),
             source_info,
             target,
             scope,
@@ -182,52 +179,6 @@ impl<'gen> TransformGenerator<'gen> {
                 s.as_ref(),
                 self.render_segments()
             );
-        }
-    }
-
-    fn add_scoped_reference(&mut self, reference: Reference, scope_id: ScopeId) {
-        let scope_id: u32 = scope_id.index() as u32;
-        let mut scoped_references = &mut self.scoped_references;
-        let refs_in_scope = scoped_references.get_mut(&scope_id);
-        match refs_in_scope {
-            None => {
-                scoped_references.insert(scope_id, vec![reference]);
-            }
-            Some(refs) => {
-                if !refs.contains(&reference) {
-                    refs.push(reference);
-                }
-            }
-        }
-    }
-
-    fn get_scoped_references_rec(&self, scope_id: u32, ref_name: String) -> Option<Reference> {
-        let refs = self.scoped_references.get(&scope_id);
-        match refs {
-            Some(refs) if !refs.is_empty() => {
-                let reference = refs.iter().find(|r| r.name().deref() == ref_name);
-                match reference {
-                    Some(r) => Some(r.clone()),
-                    None if scope_id > 0 => self.get_scoped_references_rec(scope_id - 1, ref_name),
-                    None => None,
-                }
-            }
-            Some(_) => None,
-            None if scope_id > 0 => self.get_scoped_references_rec(scope_id - 1, ref_name),
-            None => None,
-        }
-    }
-
-    fn add_scoped_reference_import(&mut self, ref_name: String, ctx: &mut TraverseCtx) {
-        let reference = self
-            .get_scoped_references_rec(ctx.current_scope_id().index() as u32, ref_name)
-            .clone();
-        if let Some(r) = reference {
-            let imp = CommonImport::Import(
-                r.into_import(self.source_info.rel_import_path().to_string_lossy()),
-            );
-            // self.push_import(imp);
-            self.import_stack.last_mut().unwrap().insert(imp);
         }
     }
 
@@ -323,7 +274,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
                 }
 
                 if let Some(comp) = comp {
-                    let imports: CommonImport = comp.qrl.qrl_type.clone().into();
+                    let import: Import = comp.qrl.qrl_type.clone().into();
                     self.qrl_stack.push(comp.qrl.clone());
                     self.components.push(comp);
                     let parent_scope = ctx
@@ -331,7 +282,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
                         .last()
                         .map(|s| s.index())
                         .unwrap_or_default();
-                    self.import_stack.last_mut().unwrap().insert(imports);
+                    self.import_stack.last_mut().unwrap().insert(import);
                 }
             }
         }
@@ -370,6 +321,12 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         }
     }
 
+    // fn enter_export_named_declaration(&mut self, node: &mut ExportNamedDeclaration<'a>, ctx: &mut TraverseCtx<'a>) {
+    //
+    //
+    //     todo!()
+    // }
+
     fn enter_variable_declarator(
         &mut self,
         node: &mut VariableDeclarator<'a>,
@@ -388,8 +345,23 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         self.segment_stack.push(s);
 
         if let Some(name) = id.get_identifier_name() {
-            let reference = Reference::Variable(name.into());
-            self.add_scoped_reference(reference, ctx.current_scope_id());
+            /// Adds symbol and import information in the case this declaration ends up being referenced in
+            /// an exported component.
+            let grandparent = ctx.ancestor(1);
+            if let Ancestor::ExportNamedDeclarationDeclaration(export) = grandparent {
+                let symbol_id = id.get_binding_identifier().and_then(|b| b.symbol_id.get());
+                if let Some(symbol_id) = symbol_id {
+                    self.symbol_by_name.insert(name.to_string(), symbol_id);
+                    let import_id = ImportId::Named(name.to_string());
+                    self.import_by_symbol.insert(
+                        symbol_id,
+                        Import::new(
+                            vec![import_id],
+                            self.source_info.rel_import_path().to_string_lossy(),
+                        ),
+                    );
+                }
+            }
         }
     }
 
@@ -432,15 +404,12 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
     }
 
     fn enter_jsx_element(&mut self, node: &mut JSXElement<'a>, ctx: &mut TraverseCtx<'a>) {
-        self.ascend();
         if let Some(name) = node.opening_element.name.get_identifier_name() {
             let segment: Segment = self.new_segment(name);
             self.debug(format!("ENTER: JSXElementName {segment}"), ctx);
             println!("push segment: {segment}");
             self.segment_stack.push(segment);
-            self.add_scoped_reference_import(name.to_string(), ctx);
-        } else {
-            self.debug("ENTER: JSXElementName", ctx);
+            dbg!(node);
         }
     }
 
@@ -640,9 +609,8 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         if let Some(symbol_id) = ctx.symbols().get_reference(ref_id).symbol_id() {
             if let Some(import) = self.import_by_symbol.get(&symbol_id) {
                 let import = import.clone();
-                let imp = CommonImport::Import(import);
                 if !id_ref.name.ends_with(MARKER_SUFFIX) {
-                    self.import_stack.last_mut().unwrap().insert(imp);
+                    self.import_stack.last_mut().unwrap().insert(import);
                 }
             }
         }
