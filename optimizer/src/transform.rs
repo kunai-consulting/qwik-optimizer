@@ -1,6 +1,7 @@
 #![allow(unused)]
 
 use crate::dead_code::DeadCode;
+use crate::entry_strategy::*;
 use crate::error::Error;
 use crate::ext::*;
 use crate::prelude::*;
@@ -34,8 +35,13 @@ use oxc_traverse::{traverse_mut, Ancestor, Traverse, TraverseCtx};
 use serde::{Deserialize, Serialize};
 use std::cell::{Cell, RefCell};
 use std::fmt::{write, Display, Pointer};
+use std::iter::Sum;
 use std::ops::Deref;
 use std::path::{Components, PathBuf};
+
+use std::fs;
+use std::path::Path;
+use std::str;
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Default, Serialize)]
 pub struct OptimizedApp {
@@ -649,23 +655,18 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
     }
 }
 
-#[derive(Debug, Deserialize, Copy, Clone, PartialEq, Eq)]
-#[serde(rename_all = "camelCase")]
-pub enum MinifyMode {
-    Simplify,
-    None,
+pub struct TransformOptions {
+    pub minify: bool,
+    pub target: Target,
 }
 
-#[derive(Debug, Copy, Clone, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub enum EntryStrategy {
-    Inline,
-    Hoist,
-    Single,
-    Hook,
-    Segment,
-    Component,
-    Smart,
+impl Default for TransformOptions {
+    fn default() -> Self {
+        TransformOptions {
+            minify: false,
+            target: Target::Dev,
+        }
+    }
 }
 
 #[derive(Debug, Deserialize)]
@@ -733,7 +734,7 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<(OptimizedAp
     Err(Error::Generic("Not yet implemented".to_string()))
 }
 
-pub fn transform(script_source: Source) -> Result<OptimizationResult> {
+pub fn transform(script_source: Source, options: TransformOptions) -> Result<(OptimizedApp)> {
     let allocator = Allocator::default();
     let source_text = script_source.source_code();
     let source_info = script_source.source_info();
@@ -755,7 +756,8 @@ pub fn transform(script_source: Source) -> Result<OptimizationResult> {
         .with_cfg(true) // Build a Control Flow Graph
         .build(&program);
 
-    let mut transform = &mut TransformGenerator::new(source_info, false, Target::Dev, None);
+    let mut transform =
+        &mut TransformGenerator::new(source_info, options.minify, options.target, None);
 
     let (symbols, scopes) = semantic.into_symbol_table_and_scope_tree();
 

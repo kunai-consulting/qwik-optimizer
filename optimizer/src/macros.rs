@@ -31,7 +31,7 @@ macro_rules! _assert_valid_transform {
 
         let source_input =
             Source::from_source(source_code, lang, Some("test".to_string())).unwrap();
-        let result = transform(source_input).unwrap().optimized_app;
+        let result = transform(source_input, TransformOptions::default()).unwrap().optimized_app;
 
         if $input == true {
             println!("{}", result);
