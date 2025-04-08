@@ -7,8 +7,9 @@ use oxc_ast::*;
 use oxc_codegen::{Codegen, CodegenOptions};
 use oxc_minifier::*;
 use oxc_span::{SourceType, SPAN};
+use serde::Serialize;
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Serialize)]
 pub struct QrlComponent {
     pub id: Id,
     pub language: Language,
