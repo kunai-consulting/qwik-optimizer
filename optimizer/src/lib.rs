@@ -8,7 +8,10 @@ pub mod source;
 pub mod macros;
 
 mod dead_code;
+mod entry_strategy;
 mod import_clean_up;
+pub mod js_lib_interface;
+mod package_json;
 mod ref_counter;
 mod segment;
 pub mod transform;
