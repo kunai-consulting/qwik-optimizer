@@ -63,7 +63,7 @@ impl Qrl {
                 // `qrl` is ALWAYS part of newly created expression, even if `$` was not used in the initial script.
                 // If `qrl` was not explicitly imported in the original script, we need to synthesize both a SymbolId and an Import.
                 let qrl_symbol_id = if !symbols_by_name.contains_key(QRL) {
-                    let symbol_id = ctx.symbols_mut().create_symbol(
+                    let symbol_id = ctx.scoping_mut().create_symbol(
                         SPAN,
                         QRL,
                         SymbolFlags::Import,

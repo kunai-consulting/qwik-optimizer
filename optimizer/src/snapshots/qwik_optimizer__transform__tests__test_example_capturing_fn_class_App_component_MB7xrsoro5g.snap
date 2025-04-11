@@ -1,0 +1,6 @@
+---
+source: src/transform.rs
+expression: comp.code
+snapshot_kind: text
+---
+"import { qrl } from \"@qwik.dev/core\";\nexport const App_component_MB7xrsoro5g = () => {\n\treturn qrl(() => import(\"./test.jsx_App_component_1_EvccaSLDWjU\"), \"App_component_1_EvccaSLDWjU\");\n};\n"

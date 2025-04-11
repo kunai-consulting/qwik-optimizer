@@ -1,5 +1,6 @@
 use oxc_ast::ast::Statement;
 use oxc_semantic::SymbolId;
+use std::fmt::Display;
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum IllegalCodeType {
@@ -41,9 +42,12 @@ pub(crate) trait IllegalCode {
 impl IllegalCode for Statement<'_> {
     fn is_illegal_code_in_qrl(&self) -> Option<IllegalCodeType> {
         match self {
-            Statement::FunctionDeclaration(fd) => fd
-                .symbol_id()
-                .map(|symbol_id| IllegalCodeType::Function(symbol_id, fd.name().map(String::from))),
+            Statement::FunctionDeclaration(fd) => {
+                let bid = fd.id.clone();
+                bid.and_then(|id| id.symbol_id.get()).map(|symbol_id| {
+                    IllegalCodeType::Function(symbol_id, fd.name().map(String::from))
+                })
+            }
             Statement::ClassDeclaration(cd) => {
                 let bid = cd.id.clone();
                 bid.and_then(|bid| bid.symbol_id.get())
@@ -59,7 +63,7 @@ mod tests {
     use super::*;
 
     use oxc_allocator::Allocator;
-    
+    use oxc_index::Idx;
     use oxc_parser::Parser;
     use oxc_semantic::{SemanticBuilder, SemanticBuilderReturn};
     use oxc_span::SourceType;

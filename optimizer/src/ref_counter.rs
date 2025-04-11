@@ -9,7 +9,7 @@ impl RefCounter for &BindingIdentifier<'_> {
     fn reference_count(&self, ctx: &TraverseCtx<'_>) -> usize {
         let mut count: usize = 0;
         if let Some(sym) = self.symbol_id.get() {
-            count = ctx.symbols().get_resolved_references(sym).count();
+            count = ctx.scoping().get_resolved_references(sym).count();
         }
         count
     }
