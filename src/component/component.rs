@@ -21,12 +21,11 @@ impl QrlComponent {
         source_info: &SourceInfo,
         id: Id,
         exported_expression: Expression<'_>,
-        imports: Vec<CommonImport>,
+        imports: Vec<Import>,
         minify: bool,
         qrl_type: QrlType,
     ) -> QrlComponent {
         let language = source_info.language.clone();
-        // let id = Id::new(source_info, segments, target, scope);
         let qrl = Qrl::new(&id.local_file_name, &id.symbol_name, qrl_type);
 
         let source_type: SourceType = language.into();
@@ -50,7 +49,7 @@ impl QrlComponent {
     fn gen(
         id: &Id,
         exported_expression: Expression<'_>,
-        imports: Vec<CommonImport>,
+        imports: Vec<Import>,
         minify: bool,
         source_type: &SourceType,
         allocator: &Allocator,
@@ -144,7 +143,7 @@ impl QrlComponent {
     /// Create a QrlComponent from an `Expression`.
     pub(crate) fn from_expression(
         expr: Expression<'_>,
-        imports: Vec<CommonImport>,
+        imports: Vec<Import>,
         segments: &Vec<Segment>,
         target: &Target,
         scope: &Option<String>,
@@ -165,7 +164,7 @@ impl QrlComponent {
 
     pub(crate) fn from_call_expression_argument(
         arg: &Argument,
-        imports: Vec<CommonImport>,
+        imports: Vec<Import>,
         segments: &Vec<Segment>,
         target: &Target,
         scope: &Option<String>,

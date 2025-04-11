@@ -1,4 +1,4 @@
-use crate::component::{CommonImport, Import, QRL, QRL_SUFFIX, QWIK_CORE_SOURCE};
+use crate::component::{Import, QRL, QRL_SUFFIX, QWIK_CORE_SOURCE};
 use crate::ext::AstBuilderExt;
 use oxc_allocator::{Allocator, Box as OxcBox, CloneIn, FromIn, IntoIn, Vec as OxcVec};
 use oxc_ast::ast::*;
@@ -16,15 +16,18 @@ pub enum QrlType {
     IndexedQrl(usize),
 }
 
-impl From<QrlType> for CommonImport {
+impl From<QrlType> for Import {
     fn from(value: QrlType) -> Self {
         match value {
-            QrlType::Qrl => CommonImport::qrl(),
-            QrlType::IndexedQrl(_) => CommonImport::qrl(),
-            QrlType::PrefixedQrl(prefix) => CommonImport::QwikCore(vec![
-                format!("{}{}", prefix, QRL_SUFFIX).as_str().into(),
-                QRL.into(),
-            ]),
+            QrlType::Qrl => Import::qrl(),
+            QrlType::IndexedQrl(_) => Import::qrl(),
+            QrlType::PrefixedQrl(prefix) => Import::new(
+                vec![
+                    format!("{}{}", prefix, QRL_SUFFIX).as_str().into(),
+                    QRL.into(),
+                ],
+                QWIK_CORE_SOURCE,
+            ),
         }
     }
 }
