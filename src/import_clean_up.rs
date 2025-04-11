@@ -1,9 +1,9 @@
-use crate::component::QWIK_CORE_SOURCE;
+use crate::component::{Import, QWIK_CORE_SOURCE};
 use oxc_allocator::Allocator;
 use oxc_ast::ast::{ImportDeclaration, ImportOrExportKind, Program, Statement};
 use oxc_semantic::{SemanticBuilder, SemanticBuilderReturn};
 use oxc_traverse::{traverse_mut, Traverse, TraverseCtx};
-use std::collections::HashSet;
+use std::collections::BTreeSet;
 
 /// This struct is used to clean up unused imports in the AST.
 pub(crate) struct ImportCleanUp;
@@ -76,7 +76,7 @@ impl From<&ImportDeclaration<'_>> for Key {
             }
         }
 
-        key.push_str(&import.source.value.to_string());
+        key.push_str(import.source.value.as_ref());
         key.push('|');
         let kind = match import.import_kind {
             ImportOrExportKind::Value => "0",
@@ -94,36 +94,29 @@ impl<'a> Traverse<'a> for ImportCleanUp {
         node: &mut oxc_allocator::Vec<'a, Statement<'a>>,
         ctx: &mut TraverseCtx<'a>,
     ) {
-        let mut keys: HashSet<Key> = HashSet::new();
+        let mut imports: BTreeSet<Import> = BTreeSet::new();
 
         node.retain_mut(|node| match node {
             Statement::ImportDeclaration(import) => {
-                if import.source.value.starts_with("@builder.io")
-                    || import.source.value.starts_with("@qwik.dev")
-                {
-                    let specifiers = &mut import.specifiers;
-                    let mut retain = true;
-                    if let Some(specifiers) = specifiers {
-                        specifiers.retain(|s| {
-                            let local = s.local();
-                            ctx.symbols().symbol_is_used(local.symbol_id())
-                        });
-
-                        if specifiers.is_empty() {
-                            retain = false;
-                        } else {
-                            let key: Key = Key::from(import.as_ref());
-                            retain = keys.insert(key);
+                let source = import.source.clone();
+                let specifiers = &mut import.specifiers;
+                if let Some(specifiers) = specifiers {
+                    for specifier in specifiers {
+                        if ctx.symbols().symbol_is_used(specifier.local().symbol_id()) {
+                            imports.insert(Import::from_import_declaration_specifier(
+                                specifier, &source,
+                            ));
                         }
                     }
-
-                    retain
-                } else {
-                    true
                 }
+                false
             }
             _ => true,
         });
+
+        imports.iter().for_each(|import| {
+            node.insert(0, import.into_statement(ctx.ast.allocator));
+        })
     }
 }
 
@@ -143,7 +136,6 @@ mod tests {
             import { b } from '@builder.io/qwik-react';
             import { c } from '@builder.io/qwik';
             import { d } from '@qwik.dev/router';
-            import { e } from 'my/lib';
             
             b.foo();
         "#;
@@ -155,11 +147,10 @@ mod tests {
         let codegen = Codegen::default();
         let raw = codegen.build(&program).code;
         let lines: Vec<&str> = raw.lines().collect();
-        assert_eq!(program.body.len(), 3);
-        assert_eq!(lines.len(), 3);
-        assert_eq!(lines[0], r#"import { b } from "@builder.io/qwik-react";"#);
-        assert_eq!(lines[1], r#"import { e } from "my/lib";"#);
-        assert_eq!(lines[2], r#"b.foo();"#);
+        assert_eq!(program.body.len(), 2);
+        assert_eq!(lines.len(), 2);
+        assert_eq!(lines[0], r#"import { b } from "@qwik.dev/react";"#);
+        assert_eq!(lines[1], r#"b.foo();"#);
     }
 
     #[test]
