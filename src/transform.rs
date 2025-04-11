@@ -32,7 +32,7 @@ use oxc_semantic::{
 use oxc_span::*;
 use oxc_traverse::{traverse_mut, Ancestor, Traverse, TraverseCtx};
 use std::cell::{Cell, RefCell};
-use std::fmt::{write, Display};
+use std::fmt::{write, Display, Pointer};
 use std::ops::Deref;
 use std::path::{Components, PathBuf};
 
@@ -43,6 +43,8 @@ pub struct OptimizedApp {
 }
 
 use crate::ext::*;
+use crate::illegal_code::{IllegalCode, IllegalCodeType};
+use crate::processing_failure::ProcessingFailure;
 
 impl OptimizedApp {
     fn get_component(&self, name: String) -> Option<&QrlComponent> {
@@ -78,12 +80,26 @@ impl Display for OptimizedApp {
     }
 }
 
+pub struct OptimizationResult {
+    optimized_app: OptimizedApp,
+    errors: Vec<ProcessingFailure>,
+}
+
+impl OptimizationResult {
+    pub fn new(optimized_app: OptimizedApp, errors: Vec<ProcessingFailure>) -> Self {
+        Self {
+            optimized_app,
+            errors,
+        }
+    }
+}
+
 pub struct TransformGenerator<'gen> {
     pub components: Vec<QrlComponent>,
 
     pub app: OptimizedApp,
 
-    pub errors: Vec<Error>,
+    pub errors: Vec<ProcessingFailure>,
 
     depth: usize,
 
@@ -100,6 +116,8 @@ pub struct TransformGenerator<'gen> {
     import_stack: Vec<BTreeSet<Import>>,
 
     import_by_symbol: HashMap<SymbolId, Import>,
+
+    removed: HashMap<SymbolId, IllegalCodeType>,
 
     source_info: &'gen SourceInfo,
 
@@ -129,6 +147,7 @@ impl<'gen> TransformGenerator<'gen> {
             qrl_stack: Vec::new(),
             import_stack: vec![BTreeSet::new()],
             import_by_symbol: Default::default(),
+            removed: HashMap::new(),
             source_info,
             target,
             scope,
@@ -286,7 +305,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
                 }
             }
         }
-        &self.segment_stack.pop();
+        self.segment_stack.pop();
     }
 
     fn enter_function(&mut self, node: &mut Function<'a>, ctx: &mut TraverseCtx<'a>) {
@@ -320,12 +339,6 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
             }
         }
     }
-
-    // fn enter_export_named_declaration(&mut self, node: &mut ExportNamedDeclaration<'a>, ctx: &mut TraverseCtx<'a>) {
-    //
-    //
-    //     todo!()
-    // }
 
     fn enter_variable_declarator(
         &mut self,
@@ -409,7 +422,6 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
             self.debug(format!("ENTER: JSXElementName {segment}"), ctx);
             println!("push segment: {segment}");
             self.segment_stack.push(segment);
-            dbg!(node);
         }
     }
 
@@ -465,7 +477,6 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
                         &mut self.symbol_by_name,
                         &mut self.import_by_symbol,
                     );
-                    dbg!(&expression);
                     node.argument = Some(expression);
                 }
             }
@@ -477,8 +488,18 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         node: &mut OxcVec<'a, Statement<'a>>,
         ctx: &mut TraverseCtx<'a>,
     ) {
-        self.debug("ENTER: Statements", ctx);
-        node.retain(|s| !s.is_dead_code());
+        node.retain(|s| {
+            let not_dead = !s.is_dead_code();
+            let mut legal = true;
+            if self.is_recording() {
+                if let Some(e) = s.is_illegal_code_in_qrl() {
+                    legal = false;
+                    self.removed.insert(e.symbol_id(), e.clone());
+                }
+            }
+
+            legal && not_dead
+        });
     }
 
     fn exit_statements(&mut self, node: &mut OxcVec<'a, Statement<'a>>, ctx: &mut TraverseCtx<'a>) {
@@ -602,9 +623,19 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         id_ref: &mut IdentifierReference<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) {
+        if let Some(illegal_code_type) = id_ref
+            .reference_id
+            .get()
+            .and_then(|ref_id| ctx.symbols().references.get(ref_id))
+            .and_then(|refr| refr.symbol_id())
+            .and_then(|symbol_id| self.removed.get(&symbol_id))
+        {
+            self.errors.push(illegal_code_type.into());
+        }
+
         // Whilst visiting each identifier reference, we check if that references refers to an import.
         // If so, we store on the current import stack so that it can be used later in the `exit_expression`
-        // logic that ends up creating a new module/component.
+        // logic that ends up creating a new module/component.,f
         let ref_id = id_ref.reference_id();
         if let Some(symbol_id) = ctx.symbols().get_reference(ref_id).symbol_id() {
             if let Some(import) = self.import_by_symbol.get(&symbol_id) {
@@ -617,7 +648,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
     }
 }
 
-pub fn transform(script_source: Source) -> Result<(OptimizedApp)> {
+pub fn transform(script_source: Source) -> Result<OptimizationResult> {
     let allocator = Allocator::default();
     let source_text = script_source.source_code();
     let source_info = script_source.source_info();
@@ -645,11 +676,15 @@ pub fn transform(script_source: Source) -> Result<(OptimizedApp)> {
 
     traverse_mut(transform, &allocator, &mut program, symbols, scopes);
 
-    Ok(transform.app.clone())
+    Ok(OptimizationResult::new(
+        transform.app.clone(),
+        transform.errors.clone(),
+    ))
 }
 
 #[cfg(test)]
 mod tests {
+
     use super::*;
     use insta::assert_yaml_snapshot;
     use std::path::PathBuf;
@@ -709,17 +744,41 @@ mod tests {
         // to:
         // ident1, ident3;
         // ident1, ident3;
-        assert_valid_transform_debug!();
+        assert_valid_transform!();
     }
 
     #[test]
     fn test_example_11() {
-        // Unused imports present in main app output.
-        assert_valid_transform_debug!();
+        assert_valid_transform!();
     }
 
     #[test]
     fn test_example_capture_imports() {
-        assert_valid_transform_debug!();
+        assert_valid_transform!();
+    }
+
+    #[test]
+    fn test_example_capturing_fn_class() {
+        // TODO: _jsxSorted is not being applied.  Subsequent feature additions will address this
+        // assert_valid_transform_debug!();
+        assert_processing_errors!(|errors: Vec<ProcessingFailure>| {
+            assert_eq!(errors.len(), 2);
+
+            if let ProcessingFailure::IllegalCode(IllegalCodeType::Function(_, Some(name))) =
+                &errors[0]
+            {
+                assert_eq!(name, "hola");
+            } else {
+                panic!("Expected function invocation to be illegal code");
+            }
+
+            if let ProcessingFailure::IllegalCode(IllegalCodeType::Class(_, Some(name))) =
+                &errors[1]
+            {
+                assert_eq!(name, "Thing");
+            } else {
+                panic!("Expected class construction to be illegal code");
+            }
+        });
     }
 }
