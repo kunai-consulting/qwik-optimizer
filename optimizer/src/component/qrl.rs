@@ -203,6 +203,7 @@ impl Qrl {
             .into_arguments(&ast_builder)
             .clone_in(ast_builder.allocator);
         let qrl = OxcBox::new_in(qrl, ast_builder.allocator);
+
         let qrl_call_expr = ast_builder.call_expression(
             SPAN,
             Expression::Identifier(qrl),
