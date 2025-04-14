@@ -635,7 +635,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
 
         // Whilst visiting each identifier reference, we check if that references refers to an import.
         // If so, we store on the current import stack so that it can be used later in the `exit_expression`
-        // logic that ends up creating a new module/component.,f
+        // logic that ends up creating a new module/component.
         let ref_id = id_ref.reference_id();
         if let Some(symbol_id) = ctx.symbols().get_reference(ref_id).symbol_id() {
             if let Some(import) = self.import_by_symbol.get(&symbol_id) {
