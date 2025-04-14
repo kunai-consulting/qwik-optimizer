@@ -1,13 +1,17 @@
 use crate::component::Language;
 use crate::component::*;
+use crate::config::Config;
 use crate::segment::Segment;
 use oxc_allocator::{Allocator, Box as OxcBox, CloneIn, IntoIn, Vec as OxcVec};
 use oxc_ast::ast::*;
 use oxc_ast::*;
 use oxc_codegen::{Codegen, CodegenOptions};
 use oxc_minifier::*;
+use oxc_semantic::SemanticBuilder;
 use oxc_span::{SourceType, SPAN};
 use serde::Serialize;
+use oxc_transformer::{TransformOptions, Transformer};
+use crate::transpiler::Transpiler;
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Serialize)]
 pub struct QrlComponent {
@@ -19,6 +23,7 @@ pub struct QrlComponent {
 
 impl QrlComponent {
     pub(crate) fn new(
+        config: &Config,
         source_info: &SourceInfo,
         id: Id,
         exported_expression: Expression<'_>,
@@ -32,11 +37,13 @@ impl QrlComponent {
         let source_type: SourceType = language.into();
 
         let code = Self::gen(
+            config,
             &id,
             exported_expression,
             imports,
             minify,
             &source_type,
+            source_info,
             &Allocator::default(),
         );
         QrlComponent {
@@ -48,11 +55,13 @@ impl QrlComponent {
     }
 
     fn gen(
+        config: &Config,
         id: &Id,
         exported_expression: Expression<'_>,
         imports: Vec<Import>,
         minify: bool,
         source_type: &SourceType,
+        source_info: &SourceInfo,
         allocator: &Allocator,
     ) -> String {
         let name = &id.symbol_name;
@@ -114,6 +123,10 @@ impl QrlComponent {
             body,
         );
 
+        if config.transpile_jsx {
+            Transpiler::transpile(allocator, &mut new_pgm, source_info);
+        }
+
         let codegen = Codegen::new();
         let codegen_options = CodegenOptions {
             annotation_comments: true,
@@ -148,6 +161,7 @@ impl QrlComponent {
         segments: &Vec<Segment>,
         target: &Target,
         scope: &Option<String>,
+        config: &Config,
         source_info: &SourceInfo,
         minify: bool,
     ) -> QrlComponent {
@@ -160,7 +174,7 @@ impl QrlComponent {
 
         let id = Id::new(source_info, segments, target, scope);
 
-        QrlComponent::new(source_info, id, expr, imports, minify, qrl_type)
+        QrlComponent::new(config, source_info, id, expr, imports, minify, qrl_type)
     }
 
     pub(crate) fn from_call_expression_argument(
@@ -169,11 +183,21 @@ impl QrlComponent {
         segments: &Vec<Segment>,
         target: &Target,
         scope: &Option<String>,
+        config: &Config,
         source_info: &SourceInfo,
         minify: bool,
         allocator: &Allocator,
     ) -> QrlComponent {
         let init = arg.clone_in(allocator).into_expression();
-        Self::from_expression(init, imports, segments, target, scope, source_info, minify)
+        Self::from_expression(
+            init,
+            imports,
+            segments,
+            target,
+            scope,
+            config,
+            source_info,
+            minify,
+        )
     }
 }
