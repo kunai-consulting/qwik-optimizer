@@ -1,12 +1,13 @@
 use crate::component::{SourceInfo, Target};
 use crate::segment::Segment;
 use base64::{engine, Engine};
+use serde::Serialize;
 use std::hash::{DefaultHasher, Hasher};
 
 /// Represents a component identifier, including its display name, symbol name, local file name, hash, and optional scope.
 ///
 /// This information is used to uniquely identify a component in the Qwik framework.
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Serialize)]
 pub struct Id {
     pub display_name: String,
     pub symbol_name: String,

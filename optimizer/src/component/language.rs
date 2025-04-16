@@ -1,9 +1,10 @@
 use crate::error::Error;
 use crate::prelude::*;
 use oxc_span::SourceType;
+use serde::Serialize;
 use std::path::Path;
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Serialize)]
 pub enum Language {
     Javascript,
     Typescript,
