@@ -239,17 +239,48 @@ pub fn transform_fs(config: TransformFsOptions) -> Result<TransformOutput> {
     let iterator = paths.iter();
 
     let mut final_output = iterator
-        .map(|path| -> Result<TransformOutput> {
+        .map(|path| -> Result<Option<TransformOutput>> {
+            let ext = path.extension().and_then(|e| e.to_str()).unwrap_or("");
             let relative_path = pathdiff::diff_paths(path, &config.src_dir)
                 .unwrap()
                 .into_os_string()
                 .into_string()
                 .unwrap();
+            // TODO: Is there any use for the language variable here?
+            let language = match ext {
+                "ts" => {
+                    if config.transpile_ts {
+                        Language::Typescript
+                    } else {
+                        println!("AAAA - Skipping disabled TS file: {relative_path}");
+                        return Ok(None);
+                    }
+                }
+                "tsx" => {
+                    if config.transpile_ts && config.transpile_jsx {
+                        Language::Typescript
+                    } else {
+                        println!("AAAA - Skipping disabled TSX file: {relative_path}");
+                        return Ok(None);
+                    }
+                }
+                "js" => Language::Javascript,
+                "jsx" => {
+                    if config.transpile_jsx {
+                        Language::Javascript
+                    } else {
+                        println!("AAAA - Skipping disabled JSX file: {relative_path}");
+                        return Ok(None);
+                    }
+                }
+                _ => {
+                    println!("AAAA - Skipping file with unrecognized extension: {relative_path}");
+                    return Ok(None);
+                }
+            };
+            println!("AAAA - Transforming file {relative_path}");
             let r = transform(
-                Source::ScriptFile {
-                    text: fs::read_to_string(path)?,
-                    source_info: SourceInfo::new(path)?,
-                },
+                Source::from_file(path)?,
                 TransformOptions {
                     minify: match config.minify {
                         MinifyMode::Simplify => true,
@@ -274,14 +305,15 @@ pub fn transform_fs(config: TransformFsOptions) -> Result<TransformOutput> {
                 is_entry: true,
                 order: next_order(),
             }));
-            Ok(TransformOutput {
+            Ok(Some(TransformOutput {
                 modules,
                 diagnostics: vec![],                 // TODO: Collect diagnostics
                 is_type_script: config.transpile_ts, // TODO: Set this flag correctly
                 is_jsx: config.transpile_jsx,        // TODO: Set this flag correctly
-            })
+            }))
         })
-        .sum::<Result<TransformOutput>>()?;
+        .sum::<Result<Option<TransformOutput>>>()?
+        .unwrap_or(TransformOutput::default());
 
     final_output.modules.sort_unstable_by_key(|key| key.order);
 
@@ -290,4 +322,48 @@ pub fn transform_fs(config: TransformFsOptions) -> Result<TransformOutput> {
 
 pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOutput> {
     Err(Error::Generic("Not yet implemented".to_string()))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::path::PathBuf;
+
+    #[test]
+    fn test_project_1() {
+        // This should be a macro eventually
+        let func_name = function_name!();
+        let path = PathBuf::from("./src/test_input").join(func_name);
+
+        println!(
+            "Loading test input project directory from path: {:?}",
+            &path
+        );
+
+        let result = transform_fs(TransformFsOptions {
+            src_dir: path.clone().into_os_string().into_string().unwrap(),
+            root_dir: Some(path.clone().into_os_string().into_string().unwrap()),
+            vendor_roots: vec![],
+            glob: None,
+            minify: MinifyMode::None,
+            entry_strategy: EntryStrategy::Component,
+            source_maps: false,
+            transpile_ts: true,
+            transpile_jsx: true,
+            preserve_filenames: false,
+            explicit_extensions: false,
+            mode: Target::Dev,
+            scope: None,
+
+            core_module: None,
+            strip_exports: None,
+            strip_ctx_name: None,
+            strip_event_handlers: false,
+            reg_ctx_name: None,
+            is_server: None,
+        })
+        .unwrap();
+
+        insta::assert_yaml_snapshot!(func_name, result);
+    }
 }
