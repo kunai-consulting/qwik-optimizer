@@ -3,8 +3,6 @@
 // not used in this rewrite, but needed for compatibility.
 
 use crate::entry_strategy::*;
-use crate::error::Error;
-use crate::package_json;
 use crate::prelude::*;
 use crate::source::Source;
 use crate::transform::*;
@@ -14,40 +12,15 @@ use serde::{Deserialize, Serialize};
 use std::iter::Sum;
 
 use std::cmp::Ordering;
-use std::fs;
 use std::path::Path;
 use std::str;
+use std::hash::{DefaultHasher, Hasher};
 
 #[derive(Debug, Deserialize, Copy, Clone, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub enum MinifyMode {
     Simplify,
     None,
-}
-
-#[derive(Debug, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct TransformFsOptions {
-    pub src_dir: String,
-    pub root_dir: Option<String>,
-    pub vendor_roots: Vec<String>,
-    pub glob: Option<String>,
-    pub minify: MinifyMode,
-    pub entry_strategy: EntryStrategy,
-    pub source_maps: bool,
-    pub transpile_ts: bool,
-    pub transpile_jsx: bool,
-    pub preserve_filenames: bool,
-    pub explicit_extensions: bool,
-    pub mode: Target,
-    pub scope: Option<String>,
-
-    pub core_module: Option<String>,
-    pub strip_exports: Option<Vec<String>>,
-    pub strip_ctx_name: Option<Vec<String>>,
-    pub strip_event_handlers: bool,
-    pub reg_ctx_name: Option<Vec<String>>,
-    pub is_server: Option<bool>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -219,40 +192,22 @@ pub enum DiagnosticScope {
     Optimizer,
 }
 
-//const BUILDER_IO_QWIK: &str = "@builder.io/qwik";
-
-pub fn transform_fs(config: TransformFsOptions) -> Result<TransformOutput> {
-    //let core_module = config.core_module.unwrap_or(BUILDER_IO_QWIK.to_string());
-    let src_dir = Path::new(&config.src_dir);
-    //let root_dir = config.root_dir.as_ref().map(Path::new);
-
-    let mut paths = vec![];
-    //let entry_policy = &*parse_entry_strategy(&config.entry_strategy);
-    package_json::find_modules(src_dir, config.vendor_roots, &mut paths)?;
-
-    let mut counter: u64 = 0; // TODO: Determine order correctly
-    let mut next_order = || {
-        counter += 1;
-        counter
-    };
-
-    let iterator = paths.iter();
-
-    let mut final_output = iterator
-        .map(|path| -> Result<Option<TransformOutput>> {
+pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOutput> {
+    let mut final_output = config.input.into_iter()
+        .map(|input| -> Result<Option<TransformOutput>> {
+            let path = Path::new(&input.path);
             let ext = path.extension().and_then(|e| e.to_str()).unwrap_or("");
             let relative_path = pathdiff::diff_paths(path, &config.src_dir)
                 .unwrap()
                 .into_os_string()
                 .into_string()
                 .unwrap();
-            // TODO: Is there any use for the language variable here?
+            // TODO: Parse JSX/TSX when extension matches
             let language = match ext {
                 "ts" => {
                     if config.transpile_ts {
                         Language::Typescript
                     } else {
-                        println!("AAAA - Skipping disabled TS file: {relative_path}");
                         return Ok(None);
                     }
                 }
@@ -260,7 +215,6 @@ pub fn transform_fs(config: TransformFsOptions) -> Result<TransformOutput> {
                     if config.transpile_ts && config.transpile_jsx {
                         Language::Typescript
                     } else {
-                        println!("AAAA - Skipping disabled TSX file: {relative_path}");
                         return Ok(None);
                     }
                 }
@@ -269,18 +223,15 @@ pub fn transform_fs(config: TransformFsOptions) -> Result<TransformOutput> {
                     if config.transpile_jsx {
                         Language::Javascript
                     } else {
-                        println!("AAAA - Skipping disabled JSX file: {relative_path}");
                         return Ok(None);
                     }
                 }
                 _ => {
-                    println!("AAAA - Skipping file with unrecognized extension: {relative_path}");
                     return Ok(None);
                 }
             };
-            println!("AAAA - Transforming file {relative_path}");
             let r = transform(
-                Source::from_file(path)?,
+                Source::from_source(input.code, language, Some(relative_path.clone()))?,
                 TransformOptions {
                     minify: match config.minify {
                         MinifyMode::Simplify => true,
@@ -289,13 +240,15 @@ pub fn transform_fs(config: TransformFsOptions) -> Result<TransformOutput> {
                     target: config.mode,
                 },
             )?;
+            let mut hasher = DefaultHasher::new();
+            hasher.write(relative_path.as_bytes());
             let mut modules = vec![TransformModule {
                 path: relative_path.clone(),
                 code: r.body,
                 map: None,
                 segment: None,
                 is_entry: false,
-                order: next_order(),
+                order: hasher.finish(),
             }];
             modules.extend(r.components.into_iter().map(|c| TransformModule {
                 path: relative_path.clone(),
@@ -303,7 +256,7 @@ pub fn transform_fs(config: TransformFsOptions) -> Result<TransformOutput> {
                 map: None,
                 segment: None,
                 is_entry: true,
-                order: next_order(),
+                order: c.id.sort_order,
             }));
             Ok(Some(TransformOutput {
                 modules,
@@ -320,13 +273,10 @@ pub fn transform_fs(config: TransformFsOptions) -> Result<TransformOutput> {
     Ok(final_output)
 }
 
-pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOutput> {
-    Err(Error::Generic("Not yet implemented".to_string()))
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+    use glob::glob;
     use std::path::PathBuf;
 
     #[test]
@@ -340,11 +290,18 @@ mod tests {
             &path
         );
 
-        let result = transform_fs(TransformFsOptions {
+        let result = transform_modules(TransformModulesOptions {
+            input: glob(path.join("src/**/*.ts*").to_str().unwrap()).unwrap().into_iter().map(|file| {
+                let file = Path::new(".").join(file.unwrap());
+                let code = std::fs::read_to_string(&file).unwrap();
+                TransformModuleInput {
+                    path: file.into_os_string().into_string().unwrap(),
+                    dev_path: None,
+                    code,
+                }
+            }).collect(),
             src_dir: path.clone().into_os_string().into_string().unwrap(),
             root_dir: Some(path.clone().into_os_string().into_string().unwrap()),
-            vendor_roots: vec![],
-            glob: None,
             minify: MinifyMode::None,
             entry_strategy: EntryStrategy::Component,
             source_maps: false,

@@ -23,5 +23,6 @@ serde_json = "1.0"
 pathdiff = "0.2.1"
 
 [dev-dependencies]
+glob = "0.3.2"
 insta = { version = "1.42.1", features = ["yaml"] }
 #biome_js_formatter = "0.5.7"

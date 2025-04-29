@@ -13,6 +13,7 @@ pub struct Id {
     pub symbol_name: String,
     pub local_file_name: String,
     pub hash: String,
+    pub sort_order: u64,
     pub scope: Option<String>,
 }
 
@@ -35,7 +36,7 @@ impl Id {
             .0
     }
 
-    fn calculate_hash(local_file_name: &str, display_name: &str, scope: &Option<String>) -> String {
+    fn calculate_hash(local_file_name: &str, display_name: &str, scope: &Option<String>) -> (u64, String) {
         let mut hasher = DefaultHasher::new();
         if let Some(scope) = scope {
             hasher.write(scope.as_bytes());
@@ -43,9 +44,9 @@ impl Id {
         hasher.write(local_file_name.as_bytes());
         hasher.write(display_name.as_bytes());
         let hash = hasher.finish();
-        engine::general_purpose::URL_SAFE_NO_PAD
+        (hash, engine::general_purpose::URL_SAFE_NO_PAD
             .encode(hash.to_le_bytes())
-            .replace(['-', '_'], "0")
+            .replace(['-', '_'], "0"))
     }
 
     fn update_display_name(display_name: &mut String, name_segment: String) {
@@ -165,11 +166,11 @@ impl Id {
         let normalized_local_file_name = local_file_name
             .strip_prefix("./")
             .unwrap_or(&local_file_name);
-        let hash64 = Self::calculate_hash(normalized_local_file_name, &display_name, scope);
+        let (sort_order, hash) = Self::calculate_hash(normalized_local_file_name, &display_name, scope);
 
         let symbol_name = match target {
-            Target::Dev | Target::Test => format!("{}_{}", display_name, hash64),
-            Target::Lib | Target::Prod => format!("s_{}", hash64),
+            Target::Dev | Target::Test => format!("{}_{}", display_name, hash),
+            Target::Lib | Target::Prod => format!("s_{}", hash),
         };
 
         let display_name = format!("{}_{}", &source_info.file_name, display_name);
@@ -179,7 +180,8 @@ impl Id {
             display_name,
             symbol_name,
             local_file_name,
-            hash: hash64,
+            hash,
+            sort_order,
             scope: scope.clone(),
         }
     }
@@ -199,8 +201,8 @@ mod tests {
 
     #[test]
     fn test_calculate_hash() {
-        let hash0 = Id::calculate_hash("./app.js", "a_b_c", &None);
-        let hash1 = Id::calculate_hash("./app.js", "a_b_c", &Some("scope".to_string()));
+        let (_, hash0) = Id::calculate_hash("./app.js", "a_b_c", &None);
+        let (_, hash1) = Id::calculate_hash("./app.js", "a_b_c", &Some("scope".to_string()));
         assert_eq!(hash0, "0RVAWYCCxyk");
         assert_ne!(hash1, hash0);
     }
@@ -218,13 +220,14 @@ mod tests {
             &Target::Dev,
             &Option::None,
         );
-        let hash0 = Id::calculate_hash("app.js", "a_b_c", &None);
+        let (sort_order, hash0) = Id::calculate_hash("app.js", "a_b_c", &None);
 
         let expected0 = Id {
             display_name: "app.js_a_b_c".to_string(),
             symbol_name: format!("a_b_c_{}", hash0),
             local_file_name: "app.js_a_b_c_tZuivXMgs2w".to_string(),
             hash: hash0,
+            sort_order,
             scope: None,
         };
 
@@ -240,13 +243,14 @@ mod tests {
             &scope1,
         );
         // Leading  segments that are digits are prefixed with an additional underscore.
-        let hash1 = Id::calculate_hash("app.js", "_1_b_c", &scope1);
+        let (sort_order, hash1) = Id::calculate_hash("app.js", "_1_b_c", &scope1);
         let expected1 = Id {
             display_name: "app.js__1_b_c".to_string(),
             // When Target is neither "Dev" nor "Test", the symbol name is set to "s_{hash}".
             symbol_name: format!("s_{}", hash1),
             local_file_name: "app.js_s_bQ4D62Vr0Zg".to_string(),
             hash: hash1,
+            sort_order,
             scope: Some("scope".to_string()),
         };
 
