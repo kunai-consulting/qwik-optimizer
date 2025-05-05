@@ -13,6 +13,7 @@ impl DeadCode for OxcBox<'_, FunctionBody<'_>> {
 
         body_empty && *statements_empty && statements_all_dead
     }
+    
 }
 
 impl DeadCode for Statement<'_> {
@@ -65,4 +66,5 @@ impl DeadCode for Statement<'_> {
             _ => false,
         }
     }
+    
 }

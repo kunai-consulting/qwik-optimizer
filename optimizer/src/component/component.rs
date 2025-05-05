@@ -129,11 +129,11 @@ impl QrlComponent {
             };
             let minifier = Minifier::new(ops);
             let ret = minifier.build(allocator, &mut new_pgm);
-            let sym_tab = ret.symbol_table;
+            let scoping = ret.scoping;
 
             codegen
                 .with_options(codegen_options)
-                .with_symbol_table(sym_tab)
+                .with_scoping(scoping)
                 .build(&new_pgm)
                 .code
         } else {

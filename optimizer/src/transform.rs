@@ -11,10 +11,8 @@ use oxc_allocator::{
     Vec as OxcVec,
 };
 use oxc_ast::ast::*;
-use oxc_ast::visit::walk_mut::*;
-use oxc_ast::{
-    match_member_expression, AstBuilder, AstType, Comment, CommentKind, Visit, VisitMut,
-};
+use oxc_ast::{match_member_expression, AstBuilder, AstType, Comment, CommentKind};
+use oxc_ast_visit::{Visit, VisitMut};
 use oxc_codegen::{Codegen, CodegenOptions, Context, Gen};
 use oxc_index::Idx;
 use std::borrow::{Borrow, Cow};
@@ -26,7 +24,7 @@ use crate::macros::*;
 use crate::source::Source;
 use oxc_parser::Parser;
 use oxc_semantic::{
-    NodeId, ReferenceId, ScopeFlags, ScopeId, SemanticBuilder, SemanticBuilderReturn, SymbolFlags,
+    NodeId, ReferenceId, ScopeFlags, Scoping, SemanticBuilder, SemanticBuilderReturn, SymbolFlags,
     SymbolId,
 };
 use oxc_span::*;
@@ -46,6 +44,7 @@ pub struct OptimizedApp {
 use crate::ext::*;
 use crate::illegal_code::{IllegalCode, IllegalCodeType};
 use crate::processing_failure::ProcessingFailure;
+// use oxc_syntax::scope::ScopeId;
 
 impl OptimizedApp {
     fn get_component(&self, name: String) -> Option<&QrlComponent> {
@@ -300,7 +299,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
                     let parent_scope = ctx
                         .ancestor_scopes()
                         .last()
-                        .map(|s| s.index())
+                        .map(|s: oxc_syntax::scope::ScopeId| s.index())
                         .unwrap_or_default();
                     self.import_stack.last_mut().unwrap().insert(import);
                 }
@@ -572,7 +571,12 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
 
                     // We want to rename all marker imports to their QRL equivalent yet preserve the original symbol id.
                     if let Some(local_name) = local_name {
-                        ctx.symbols_mut().set_name(symbol_id, local_name.as_str());
+                        // ctx. symbols_mut().set_name(symbol_id, local_name.as_str());
+                        ctx.scoping.rename_symbol(
+                            symbol_id,
+                            ctx.current_scope_id(),
+                            local_name.as_str().into(),
+                        );
 
                         let local_name = if local_name == QRL_SUFFIX {
                             QRL.to_string()
@@ -627,7 +631,8 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         if let Some(illegal_code_type) = id_ref
             .reference_id
             .get()
-            .and_then(|ref_id| ctx.symbols().references.get(ref_id))
+            // .and_then(|ref_id| ctx.symbols().references.get(ref_id))
+            .map(|ref_id| ctx.scoping().get_reference(ref_id))
             .and_then(|refr| refr.symbol_id())
             .and_then(|symbol_id| self.removed.get(&symbol_id))
         {
@@ -636,9 +641,9 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
 
         // Whilst visiting each identifier reference, we check if that references refers to an import.
         // If so, we store on the current import stack so that it can be used later in the `exit_expression`
-        // logic that ends up creating a new module/component.,f
+        // logic that ends up creating a new module/component.
         let ref_id = id_ref.reference_id();
-        if let Some(symbol_id) = ctx.symbols().get_reference(ref_id).symbol_id() {
+        if let Some(symbol_id) = ctx.scoping.scoping().get_reference(ref_id).symbol_id() {
             if let Some(import) = self.import_by_symbol.get(&symbol_id) {
                 let import = import.clone();
                 if !id_ref.name.ends_with(MARKER_SUFFIX) {
@@ -646,6 +651,13 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
                 }
             }
         }
+    }
+
+    fn enter_class(&mut self, node: &mut Class<'a>, ctx: &mut TraverseCtx<'a>) {
+      if  self.is_recording() {
+
+
+      }
     }
 }
 
@@ -757,9 +769,9 @@ pub fn transform(script_source: Source) -> Result<OptimizationResult> {
 
     let mut transform = &mut TransformGenerator::new(source_info, false, Target::Dev, None);
 
-    let (symbols, scopes) = semantic.into_symbol_table_and_scope_tree();
+    let scoping = semantic.into_scoping();
 
-    traverse_mut(transform, &allocator, &mut program, symbols, scopes);
+    traverse_mut(transform, &allocator, &mut program, scoping);
 
     Ok(OptimizationResult::new(
         transform.app.clone(),
