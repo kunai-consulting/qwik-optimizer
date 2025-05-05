@@ -1,3 +1,5 @@
+use crate::illegal_code::IllegalCodeType;
+
 #[derive(thiserror::Error, Debug)]
 pub enum Error {
     #[error("Generic error: {0}")]
@@ -14,4 +16,7 @@ pub enum Error {
 
     #[error(transparent)]
     OxcUnknownExtension(#[from] oxc_span::UnknownExtension),
+
+    #[error( "Reference to identifier '{id}' can not be used inside a Qrl($) scope because it's a {expr_type}", id =.0.identifier(), expr_type = .0.expression_type())]
+    IllegalCode(IllegalCodeType),
 }
