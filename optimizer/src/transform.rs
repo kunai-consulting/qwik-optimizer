@@ -88,8 +88,8 @@ impl Display for OptimizedApp {
 }
 
 pub struct OptimizationResult {
-    optimized_app: OptimizedApp,
-    errors: Vec<ProcessingFailure>,
+    pub optimized_app: OptimizedApp,
+    pub errors: Vec<ProcessingFailure>,
 }
 
 impl OptimizationResult {
@@ -669,72 +669,7 @@ impl Default for TransformOptions {
     }
 }
 
-#[derive(Debug, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct TransformFsOptions {
-    pub src_dir: String,
-    pub root_dir: Option<String>,
-    pub vendor_roots: Vec<String>,
-    pub glob: Option<String>,
-    pub minify: MinifyMode,
-    pub entry_strategy: EntryStrategy,
-    pub source_maps: bool,
-    pub transpile_ts: bool,
-    pub transpile_jsx: bool,
-    pub preserve_filenames: bool,
-    pub explicit_extensions: bool,
-    pub mode: Target,
-    pub scope: Option<String>,
-
-    pub core_module: Option<String>,
-    pub strip_exports: Option<Vec<String>>,
-    pub strip_ctx_name: Option<Vec<String>>,
-    pub strip_event_handlers: bool,
-    pub reg_ctx_name: Option<Vec<String>>,
-    pub is_server: Option<bool>,
-}
-
-#[derive(Debug, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct TransformModuleInput {
-    pub path: String,
-    pub dev_path: Option<String>,
-    pub code: String,
-}
-
-#[derive(Debug, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct TransformModulesOptions {
-    pub src_dir: String,
-    pub root_dir: Option<String>,
-    pub input: Vec<TransformModuleInput>,
-    pub source_maps: bool,
-    pub minify: MinifyMode,
-    pub transpile_ts: bool,
-    pub transpile_jsx: bool,
-    pub preserve_filenames: bool,
-    pub entry_strategy: EntryStrategy,
-    pub explicit_extensions: bool,
-    pub mode: Target,
-    pub scope: Option<String>,
-
-    pub core_module: Option<String>,
-    pub strip_exports: Option<Vec<String>>,
-    pub strip_ctx_name: Option<Vec<String>>,
-    pub strip_event_handlers: bool,
-    pub reg_ctx_name: Option<Vec<String>>,
-    pub is_server: Option<bool>,
-}
-
-pub fn transform_fs(config: TransformFsOptions) -> Result<(OptimizedApp)> {
-    Err(Error::Generic("Not yet implemented".to_string()))
-}
-
-pub fn transform_modules(config: TransformModulesOptions) -> Result<(OptimizedApp)> {
-    Err(Error::Generic("Not yet implemented".to_string()))
-}
-
-pub fn transform(script_source: Source, options: TransformOptions) -> Result<(OptimizedApp)> {
+pub fn transform(script_source: Source, options: TransformOptions) -> Result<OptimizationResult> {
     let allocator = Allocator::default();
     let source_text = script_source.source_code();
     let source_info = script_source.source_info();

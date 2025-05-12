@@ -3,7 +3,9 @@
 // not used in this rewrite, but needed for compatibility.
 
 use crate::entry_strategy::*;
+use crate::illegal_code::IllegalCodeType;
 use crate::prelude::*;
+use crate::processing_failure::ProcessingFailure;
 use crate::source::Source;
 use crate::transform::*;
 
@@ -12,9 +14,9 @@ use serde::{Deserialize, Serialize};
 use std::iter::Sum;
 
 use std::cmp::Ordering;
+use std::hash::{DefaultHasher, Hasher};
 use std::path::Path;
 use std::str;
-use std::hash::{DefaultHasher, Hasher};
 
 #[derive(Debug, Deserialize, Copy, Clone, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
@@ -192,8 +194,29 @@ pub enum DiagnosticScope {
     Optimizer,
 }
 
+fn error_to_diagnostic(error: ProcessingFailure, path: &Path) -> Diagnostic {
+    let message = match error {
+        ProcessingFailure::IllegalCode(code) =>
+            format!(
+                "Reference to identifier '{id}' can not be used inside a Qrl($) scope because it's a {expr_type}",
+                id = code.identifier(), expr_type = code.expression_type()
+            )
+    };
+    Diagnostic {
+        category: DiagnosticCategory::Error,
+        code: None,
+        file: path.to_string_lossy().to_string(),
+        message,
+        highlights: None,
+        suggestions: None,
+        scope: DiagnosticScope::Optimizer,
+    }
+}
+
 pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOutput> {
-    let mut final_output = config.input.into_iter()
+    let mut final_output = config
+        .input
+        .into_iter()
         .map(|input| -> Result<Option<TransformOutput>> {
             let path = Path::new(&input.path);
             let ext = path.extension().and_then(|e| e.to_str()).unwrap_or("");
@@ -230,7 +253,10 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
                     return Ok(None);
                 }
             };
-            let r = transform(
+            let OptimizationResult {
+                optimized_app,
+                errors,
+            } = transform(
                 Source::from_source(input.code, language, Some(relative_path.clone()))?,
                 TransformOptions {
                     minify: match config.minify {
@@ -244,23 +270,31 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
             hasher.write(relative_path.as_bytes());
             let mut modules = vec![TransformModule {
                 path: relative_path.clone(),
-                code: r.body,
+                code: optimized_app.body,
                 map: None,
                 segment: None,
                 is_entry: false,
                 order: hasher.finish(),
             }];
-            modules.extend(r.components.into_iter().map(|c| TransformModule {
-                path: relative_path.clone(),
-                code: c.code,
-                map: None,
-                segment: None,
-                is_entry: true,
-                order: c.id.sort_order,
-            }));
+            modules.extend(
+                optimized_app
+                    .components
+                    .into_iter()
+                    .map(|c| TransformModule {
+                        path: relative_path.clone(),
+                        code: c.code,
+                        map: None,
+                        segment: None,
+                        is_entry: true,
+                        order: c.id.sort_order,
+                    }),
+            );
             Ok(Some(TransformOutput {
                 modules,
-                diagnostics: vec![],                 // TODO: Collect diagnostics
+                diagnostics: errors
+                    .into_iter()
+                    .map(|e| error_to_diagnostic(e, &path))
+                    .collect(),
                 is_type_script: config.transpile_ts, // TODO: Set this flag correctly
                 is_jsx: config.transpile_jsx,        // TODO: Set this flag correctly
             }))
@@ -291,15 +325,19 @@ mod tests {
         );
 
         let result = transform_modules(TransformModulesOptions {
-            input: glob(path.join("src/**/*.ts*").to_str().unwrap()).unwrap().into_iter().map(|file| {
-                let file = Path::new(".").join(file.unwrap());
-                let code = std::fs::read_to_string(&file).unwrap();
-                TransformModuleInput {
-                    path: file.into_os_string().into_string().unwrap(),
-                    dev_path: None,
-                    code,
-                }
-            }).collect(),
+            input: glob(path.join("src/**/*.ts*").to_str().unwrap())
+                .unwrap()
+                .into_iter()
+                .map(|file| {
+                    let file = Path::new(".").join(file.unwrap());
+                    let code = std::fs::read_to_string(&file).unwrap();
+                    TransformModuleInput {
+                        path: file.into_os_string().into_string().unwrap(),
+                        dev_path: None,
+                        code,
+                    }
+                })
+                .collect(),
             src_dir: path.clone().into_os_string().into_string().unwrap(),
             root_dir: Some(path.clone().into_os_string().into_string().unwrap()),
             minify: MinifyMode::None,
