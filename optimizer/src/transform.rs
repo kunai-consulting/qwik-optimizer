@@ -1,6 +1,7 @@
 #![allow(unused)]
 
 use crate::dead_code::DeadCode;
+use crate::entry_strategy::*;
 use crate::error::Error;
 use crate::ext::*;
 use crate::prelude::*;
@@ -34,8 +35,13 @@ use oxc_traverse::{traverse_mut, Ancestor, Traverse, TraverseCtx};
 use serde::{Deserialize, Serialize};
 use std::cell::{Cell, RefCell};
 use std::fmt::{write, Display, Pointer};
+use std::iter::Sum;
 use std::ops::Deref;
 use std::path::{Components, PathBuf};
+
+use std::fs;
+use std::path::Path;
+use std::str;
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Default, Serialize)]
 pub struct OptimizedApp {
@@ -82,8 +88,8 @@ impl Display for OptimizedApp {
 }
 
 pub struct OptimizationResult {
-    optimized_app: OptimizedApp,
-    errors: Vec<ProcessingFailure>,
+    pub optimized_app: OptimizedApp,
+    pub errors: Vec<ProcessingFailure>,
 }
 
 impl OptimizationResult {
@@ -649,91 +655,21 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
     }
 }
 
-#[derive(Debug, Deserialize, Copy, Clone, PartialEq, Eq)]
-#[serde(rename_all = "camelCase")]
-pub enum MinifyMode {
-    Simplify,
-    None,
+pub struct TransformOptions {
+    pub minify: bool,
+    pub target: Target,
 }
 
-#[derive(Debug, Copy, Clone, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub enum EntryStrategy {
-    Inline,
-    Hoist,
-    Single,
-    Hook,
-    Segment,
-    Component,
-    Smart,
+impl Default for TransformOptions {
+    fn default() -> Self {
+        TransformOptions {
+            minify: false,
+            target: Target::Dev,
+        }
+    }
 }
 
-#[derive(Debug, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct TransformFsOptions {
-    pub src_dir: String,
-    pub root_dir: Option<String>,
-    pub vendor_roots: Vec<String>,
-    pub glob: Option<String>,
-    pub minify: MinifyMode,
-    pub entry_strategy: EntryStrategy,
-    pub source_maps: bool,
-    pub transpile_ts: bool,
-    pub transpile_jsx: bool,
-    pub preserve_filenames: bool,
-    pub explicit_extensions: bool,
-    pub mode: Target,
-    pub scope: Option<String>,
-
-    pub core_module: Option<String>,
-    pub strip_exports: Option<Vec<String>>,
-    pub strip_ctx_name: Option<Vec<String>>,
-    pub strip_event_handlers: bool,
-    pub reg_ctx_name: Option<Vec<String>>,
-    pub is_server: Option<bool>,
-}
-
-#[derive(Debug, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct TransformModuleInput {
-    pub path: String,
-    pub dev_path: Option<String>,
-    pub code: String,
-}
-
-#[derive(Debug, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct TransformModulesOptions {
-    pub src_dir: String,
-    pub root_dir: Option<String>,
-    pub input: Vec<TransformModuleInput>,
-    pub source_maps: bool,
-    pub minify: MinifyMode,
-    pub transpile_ts: bool,
-    pub transpile_jsx: bool,
-    pub preserve_filenames: bool,
-    pub entry_strategy: EntryStrategy,
-    pub explicit_extensions: bool,
-    pub mode: Target,
-    pub scope: Option<String>,
-
-    pub core_module: Option<String>,
-    pub strip_exports: Option<Vec<String>>,
-    pub strip_ctx_name: Option<Vec<String>>,
-    pub strip_event_handlers: bool,
-    pub reg_ctx_name: Option<Vec<String>>,
-    pub is_server: Option<bool>,
-}
-
-pub fn transform_fs(config: TransformFsOptions) -> Result<(OptimizedApp)> {
-    Err(Error::Generic("Not yet implemented".to_string()))
-}
-
-pub fn transform_modules(config: TransformModulesOptions) -> Result<(OptimizedApp)> {
-    Err(Error::Generic("Not yet implemented".to_string()))
-}
-
-pub fn transform(script_source: Source) -> Result<OptimizationResult> {
+pub fn transform(script_source: Source, options: TransformOptions) -> Result<OptimizationResult> {
     let allocator = Allocator::default();
     let source_text = script_source.source_code();
     let source_info = script_source.source_info();
@@ -755,7 +691,8 @@ pub fn transform(script_source: Source) -> Result<OptimizationResult> {
         .with_cfg(true) // Build a Control Flow Graph
         .build(&program);
 
-    let mut transform = &mut TransformGenerator::new(source_info, false, Target::Dev, None);
+    let mut transform =
+        &mut TransformGenerator::new(source_info, options.minify, options.target, None);
 
     let (symbols, scopes) = semantic.into_symbol_table_and_scope_tree();
 
