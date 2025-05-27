@@ -148,8 +148,12 @@ impl<'a> FromIn<'a, Import> for Statement<'a> {
 #[allow(dead_code)]
 #[derive(Debug, Serialize, Deserialize, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Target {
+    #[serde(alias = "prod", alias = "PROD")]
     Prod,
+    #[serde(alias = "lib", alias = "LIB")]
     Lib,
+    #[serde(alias = "dev", alias = "DEV")]
     Dev,
+    #[serde(alias = "test", alias = "TEST")]
     Test,
 }
