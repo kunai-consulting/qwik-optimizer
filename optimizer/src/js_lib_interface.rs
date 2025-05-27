@@ -3,7 +3,7 @@
 // not used in this rewrite, but needed for compatibility.
 
 use crate::entry_strategy::*;
-use crate::illegal_code::IllegalCodeType;
+use crate::error::Error;
 use crate::prelude::*;
 use crate::processing_failure::ProcessingFailure;
 use crate::source::Source;
@@ -220,11 +220,19 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
         .map(|input| -> Result<Option<TransformOutput>> {
             let path = Path::new(&input.path);
             let ext = path.extension().and_then(|e| e.to_str()).unwrap_or("");
-            let relative_path = pathdiff::diff_paths(path, &config.src_dir)
-                .unwrap()
-                .into_os_string()
-                .into_string()
-                .unwrap();
+            let relative_path = if path.is_relative() {
+                path.into()
+            } else {
+                pathdiff::diff_paths(path, &config.src_dir).ok_or_else(|| {
+                    Error::Generic(format!(
+                        "Path {} cannot be made relative to directory {}",
+                        path.to_string_lossy(),
+                        &config.src_dir
+                    ))
+                })?
+            }
+            .to_string_lossy()
+            .to_string();
             // TODO: Parse JSX/TSX when extension matches
             let language = match ext {
                 "ts" => {
@@ -284,7 +292,25 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
                         path: relative_path.clone(),
                         code: c.code,
                         map: None,
-                        segment: None,
+                        segment: Some(SegmentAnalysis {
+                            origin: relative_path.clone(),
+                            name: c.id.symbol_name.clone(),
+                            entry: None,
+                            display_name: c.id.display_name,
+                            hash: c.id.hash,
+                            canonical_filename: c.id.local_file_name,
+                            path: relative_path.clone(),
+                            extension: ext.into(),
+                            parent: c.id.scope,
+                            ctx_kind: if c.id.symbol_name.starts_with("on") {
+                                SegmentKind::JSXProp
+                            } else {
+                                SegmentKind::Function
+                            },
+                            ctx_name: c.id.symbol_name,
+                            captures: false,
+                            loc: (0, 0),
+                        }),
                         is_entry: true,
                         order: c.id.sort_order,
                     }),
