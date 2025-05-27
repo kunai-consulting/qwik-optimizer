@@ -1,0 +1,68 @@
+---
+source: src/js_lib_interface.rs
+expression: result
+---
+modules:
+  - path: src/routes/index.tsx
+    code: "import { qrl } from \"@qwik.dev/core\";\nimport { componentQrl } from \"@qwik.dev/core\";\nimport { DocumentHead } from \"@qwik.dev/router\";\nexport default componentQrl(qrl(() => import(\"./src/routes/index.tsx.tsx_component_0lHKhlBXq9w\"), \"component_0lHKhlBXq9w\"));\nexport const head: DocumentHead = componentQrl(qrl(() => import(\"./src/routes/index.tsx.tsx_component_0lHKhlBXq9w\"), \"component_0lHKhlBXq9w\"));\n"
+    map: ~
+    segment: ~
+    isEntry: false
+  - path: src/root.tsx
+    code: "import { QwikCityProvider } from \"@qwik.dev/router\";\nimport { RouterHead } from \"./components/router-head/router-head\";\nimport { RouterOutlet } from \"@qwik.dev/router\";\nimport { ServiceWorkerRegister } from \"@qwik.dev/router\";\nimport { isDev } from \"@qwik.dev/core\";\nexport const component_Q1jqh14YGE4 = () => {\n\treturn <QwikCityProvider>\n      <head>\n        <meta charset=\"utf-8\" />\n        {!isDev && <link rel=\"manifest\" href={`${import.meta.env.BASE_URL}manifest.json`} />}\n        <RouterHead />\n      </head>\n      <body lang=\"en\">\n        <RouterOutlet />\n        {!isDev && <ServiceWorkerRegister />}\n      </body>\n    </QwikCityProvider>;\n};\n"
+    map: ~
+    segment: ~
+    isEntry: true
+  - path: src/components/router-head/router-head.tsx
+    code: "import { qrl } from \"@qwik.dev/core\";\nimport { componentQrl } from \"@qwik.dev/core\";\n/**\n* The RouterHead component is placed inside of the document `<head>` element.\n*/\nexport const RouterHead = componentQrl(qrl(() => import(\"./src/components/router-head/router-head.tsx.tsx_RouterHead_component_cmnVjLRycb8\"), \"RouterHead_component_cmnVjLRycb8\"));\n"
+    map: ~
+    segment: ~
+    isEntry: false
+  - path: src/root.tsx
+    code: "import { qrl } from \"@qwik.dev/core\";\nimport { componentQrl } from \"@qwik.dev/core\";\nexport default componentQrl(qrl(() => import(\"./src/root.tsx.tsx_component_Q1jqh14YGE4\"), \"component_Q1jqh14YGE4\"));\n"
+    map: ~
+    segment: ~
+    isEntry: false
+  - path: src/routes/service-worker.ts
+    code: "import { setupServiceWorker } from \"@qwik.dev/router/service-worker\";\nsetupServiceWorker();\naddEventListener(\"install\", () => self.skipWaiting());\naddEventListener(\"activate\", () => self.clients.claim());\ndeclare const self: ServiceWorkerGlobalScope;\n"
+    map: ~
+    segment: ~
+    isEntry: false
+  - path: src/components/router-head/router-head.tsx
+    code: "import { useDocumentHead } from \"@qwik.dev/router\";\nimport { useLocation } from \"@qwik.dev/router\";\nexport const RouterHead_component_cmnVjLRycb8 = () => {\n\tconst head = useDocumentHead();\n\tconst loc = useLocation();\n\treturn <>\n      <title>{head.title}</title>\n\n      <link rel=\"canonical\" href={loc.url.href} />\n      <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n      <link rel=\"icon\" type=\"image/svg+xml\" href=\"/favicon.svg\" />\n\n      {head.meta.map((m) => <meta key={m.key} {...m} />)}\n\n      {head.links.map((l) => <link key={l.key} {...l} />)}\n\n      {head.styles.map((s) => <style key={s.key} {...s.props} {...s.props?.dangerouslySetInnerHTML ? {} : { dangerouslySetInnerHTML: s.style }} />)}\n\n      {head.scripts.map((s) => <script key={s.key} {...s.props} {...s.props?.dangerouslySetInnerHTML ? {} : { dangerouslySetInnerHTML: s.script }} />)}\n    </>;\n};\n"
+    map: ~
+    segment: ~
+    isEntry: true
+  - path: src/routes/layout.tsx
+    code: "import { Slot } from \"@qwik.dev/core\";\nexport const component_9FUyuTlHyso = () => {\n\treturn <Slot />;\n};\n"
+    map: ~
+    segment: ~
+    isEntry: true
+  - path: src/entry.dev.tsx
+    code: "import Root from \"./root\";\nimport { render } from \"@qwik.dev/core\";\nimport { RenderOptions } from \"@qwik.dev/core\";\nexport default function(opts: RenderOptions) {\n\treturn render(document, <Root />, opts);\n}\n"
+    map: ~
+    segment: ~
+    isEntry: false
+  - path: src/entry.ssr.tsx
+    code: "import Root from \"./root\";\nimport { renderToStream } from \"@qwik.dev/core/server\";\nimport { manifest } from \"@qwik-client-manifest\";\nimport { RenderToStreamOptions } from \"@qwik.dev/core/server\";\nexport default function(opts: RenderToStreamOptions) {\n\treturn renderToStream(<Root />, {\n\t\tmanifest,\n\t\t...opts,\n\t\tcontainerAttributes: {\n\t\t\tlang: \"en-us\",\n\t\t\t...opts.containerAttributes\n\t\t},\n\t\tserverData: { ...opts.serverData }\n\t});\n}\n"
+    map: ~
+    segment: ~
+    isEntry: false
+  - path: src/routes/index.tsx
+    code: "export const component_0lHKhlBXq9w = () => {\n\treturn <>\n      <h1>Hi 👋</h1>\n      <div>\n        Can't wait to see what you build with qwik!\n        <br />\n        Happy coding.\n      </div>\n    </>;\n};\n"
+    map: ~
+    segment: ~
+    isEntry: true
+  - path: src/entry.preview.tsx
+    code: "import render from \"./entry.ssr\";\nimport qwikCityPlan from \"@qwik-city-plan\";\nimport { createQwikCity } from \"@qwik.dev/router/middleware/node\";\n/**\n* The default export is the QwikCity adapter used by Vite preview.\n*/\nexport default createQwikCity({\n\trender,\n\tqwikCityPlan\n});\n"
+    map: ~
+    segment: ~
+    isEntry: false
+  - path: src/routes/layout.tsx
+    code: "import { qrl } from \"@qwik.dev/core\";\nimport { componentQrl } from \"@qwik.dev/core\";\nimport { RequestHandler } from \"@qwik.dev/router\";\nexport const onGet: RequestHandler = async ({ cacheControl }) => {\n\tcacheControl({\n\t\tstaleWhileRevalidate: 60 * 60 * 24 * 7,\n\t\tmaxAge: 5\n\t});\n};\nexport default componentQrl(qrl(() => import(\"./src/routes/layout.tsx.tsx_component_9FUyuTlHyso\"), \"component_9FUyuTlHyso\"));\n"
+    map: ~
+    segment: ~
+    isEntry: false
+diagnostics: []
+isTypeScript: true
+isJsx: true
