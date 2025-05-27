@@ -23,11 +23,11 @@ impl ImportCleanUp {
             .with_cfg(true) // Build a Control Flow Graph
             .build(program);
 
-        let (symbols, scopes) = semantic.into_symbol_table_and_scope_tree();
+        let scoping = semantic.into_scoping();
 
         let transform = &mut ImportCleanUp::new();
 
-        traverse_mut(transform, allocator, program, symbols, scopes);
+        traverse_mut(transform, allocator, program, scoping);
     }
 
     /// This function renames the Qwik imports to the new qwik.dev imports.
@@ -102,7 +102,7 @@ impl<'a> Traverse<'a> for ImportCleanUp {
                 let specifiers = &mut import.specifiers;
                 if let Some(specifiers) = specifiers {
                     for specifier in specifiers {
-                        if ctx.symbols().symbol_is_used(specifier.local().symbol_id()) {
+                        if ctx.scoping().symbol_is_used(specifier.local().symbol_id()) {
                             imports.insert(Import::from_import_declaration_specifier(
                                 specifier, &source,
                             ));
