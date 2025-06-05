@@ -36,6 +36,7 @@ use std::fmt::{write, Display, Pointer};
 use std::iter::Sum;
 use std::ops::Deref;
 use std::path::{Components, PathBuf};
+use crate::config::Config;
 
 use std::fs;
 use std::path::Path;
@@ -50,7 +51,7 @@ pub struct OptimizedApp {
 use crate::ext::*;
 use crate::illegal_code::{IllegalCode, IllegalCodeType};
 use crate::processing_failure::ProcessingFailure;
-// use oxc_syntax::scope::ScopeId;
+use crate::transpiler::Transpiler;
 
 impl OptimizedApp {
     fn get_component(&self, name: String) -> Option<&QrlComponent> {
@@ -101,6 +102,8 @@ impl OptimizationResult {
 }
 
 pub struct TransformGenerator<'gen> {
+    pub config: Config,
+
     pub components: Vec<QrlComponent>,
 
     pub app: OptimizedApp,
@@ -136,12 +139,14 @@ pub struct TransformGenerator<'gen> {
 
 impl<'gen> TransformGenerator<'gen> {
     fn new(
+        config: Config,
         source_info: &'gen SourceInfo,
         minify: bool,
         target: Target,
         scope: Option<String>,
     ) -> Self {
         Self {
+            config,
             components: Vec::new(),
             app: OptimizedApp::default(),
             errors: Vec::new(),
@@ -225,6 +230,10 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
 
         ImportCleanUp::clean_up(node, ctx.ast.allocator);
 
+        if self.config.transpile_jsx {
+            Transpiler::transpile(ctx.ast.allocator, node, self.source_info);
+        }
+
         let codegen_options = CodegenOptions {
             annotation_comments: true,
             minify: self.minify,
@@ -265,7 +274,6 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         let segment = self.segment_stack.last();
 
         if let Some(segment) = segment {
-            // let callee_name = node.callee_name().unwrap_or_default();
             if segment.is_qrl() {
                 let comp = node.arguments.first().map(|arg0| {
                     let imports = self
@@ -282,6 +290,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
                         &self.segment_stack,
                         &self.target,
                         &self.scope,
+                        &self.config,
                         self.source_info,
                         self.minify,
                         ctx.ast.allocator,
@@ -658,13 +667,6 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
             }
         }
     }
-
-    fn enter_class(&mut self, node: &mut Class<'a>, ctx: &mut TraverseCtx<'a>) {
-      if  self.is_recording() {
-
-
-      }
-    }
 }
 
 pub struct TransformOptions {
@@ -681,7 +683,7 @@ impl Default for TransformOptions {
     }
 }
 
-pub fn transform(script_source: Source, options: TransformOptions) -> Result<OptimizationResult> {
+pub fn transform(script_source: Source, config: Config, options: TransformOptions) -> Result<OptimizationResult> {
     let allocator = Allocator::default();
     let source_text = script_source.source_code();
     let source_info = script_source.source_info();
@@ -704,8 +706,9 @@ pub fn transform(script_source: Source, options: TransformOptions) -> Result<Opt
         .build(&program);
 
     let mut transform =
-        &mut TransformGenerator::new(source_info, options.minify, options.target, None);
+        &mut TransformGenerator::new(config, source_info, options.minify, options.target, None);
 
+    // let (symbols, scopes) = semantic.into_symbol_table_and_scope_tree();
     let scoping = semantic.into_scoping();
 
     traverse_mut(transform, &allocator, &mut program, scoping);
@@ -725,49 +728,49 @@ mod tests {
 
     #[test]
     fn test_example_1() {
-        assert_valid_transform_debug!();
+        assert_valid_transform_debug!(Config::default());
     }
 
     #[test]
     fn test_example_2() {
-        assert_valid_transform!();
+        assert_valid_transform!(Config::default());
     }
 
     #[test]
     fn test_example_3() {
-        assert_valid_transform!();
+        assert_valid_transform!(Config::default());
     }
 
     #[test]
     fn test_example_4() {
-        assert_valid_transform!();
+        assert_valid_transform!(Config::default());
     }
 
     #[test]
     fn test_example_5() {
-        assert_valid_transform!();
+        assert_valid_transform!(Config::default());
     }
 
     #[test]
     fn test_example_6() {
-        assert_valid_transform!();
+        assert_valid_transform!(Config::default());
     }
 
     #[test]
     fn test_example_7() {
-        assert_valid_transform_debug!();
+        assert_valid_transform_debug!(Config::default());
     }
 
     #[test]
     fn test_example_8() {
-        assert_valid_transform_debug!();
+        assert_valid_transform_debug!(Config::default());
     }
 
     // #[test]
     fn test_example_9() {
         // Not removing:
         // const decl8 = 1, decl9;
-        assert_valid_transform_debug!();
+        assert_valid_transform_debug!(Config::default());
     }
 
     // #[test]
@@ -778,23 +781,23 @@ mod tests {
         // to:
         // ident1, ident3;
         // ident1, ident3;
-        assert_valid_transform!();
+        assert_valid_transform!(Config::default());
     }
 
     #[test]
     fn test_example_11() {
-        assert_valid_transform!();
+        assert_valid_transform!(Config::default());
     }
 
     #[test]
     fn test_example_capture_imports() {
-        assert_valid_transform!();
+        assert_valid_transform!(Config::default());
     }
 
     #[test]
     fn test_example_capturing_fn_class() {
         // TODO: _jsxSorted is not being applied.  Subsequent feature additions will address this
-        // assert_valid_transform_debug!();
+        assert_valid_transform_debug!(Config::default());
         assert_processing_errors!(|errors: Vec<ProcessingFailure>| {
             assert_eq!(errors.len(), 2);
 
@@ -813,6 +816,12 @@ mod tests {
             } else {
                 panic!("Expected class construction to be illegal code");
             }
+
         });
+    }
+
+    #[test]
+    fn test_example_jsx() {
+        assert_valid_transform_debug!(Config::default().with_transpile_jsx(true));
     }
 }
