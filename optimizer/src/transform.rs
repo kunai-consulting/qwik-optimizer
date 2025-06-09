@@ -36,7 +36,6 @@ use std::fmt::{write, Display, Pointer};
 use std::iter::Sum;
 use std::ops::Deref;
 use std::path::{Components, PathBuf};
-use crate::config::Config;
 
 use std::fs;
 use std::path::Path;
@@ -102,7 +101,7 @@ impl OptimizationResult {
 }
 
 pub struct TransformGenerator<'gen> {
-    pub config: Config,
+    pub options: TransformOptions,
 
     pub components: Vec<QrlComponent>,
 
@@ -130,23 +129,17 @@ pub struct TransformGenerator<'gen> {
 
     source_info: &'gen SourceInfo,
 
-    target: Target,
-
     scope: Option<String>,
-
-    minify: bool,
 }
 
 impl<'gen> TransformGenerator<'gen> {
     fn new(
-        config: Config,
         source_info: &'gen SourceInfo,
-        minify: bool,
-        target: Target,
+        options: TransformOptions,
         scope: Option<String>,
     ) -> Self {
         Self {
-            config,
+            options,
             components: Vec::new(),
             app: OptimizedApp::default(),
             errors: Vec::new(),
@@ -160,9 +153,7 @@ impl<'gen> TransformGenerator<'gen> {
             import_by_symbol: Default::default(),
             removed: HashMap::new(),
             source_info,
-            target,
             scope,
-            minify,
         }
     }
 
@@ -230,13 +221,13 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
 
         ImportCleanUp::clean_up(node, ctx.ast.allocator);
 
-        if self.config.transpile_jsx {
+        if self.options.transpile_jsx {
             Transpiler::transpile(ctx.ast.allocator, node, self.source_info);
         }
 
         let codegen_options = CodegenOptions {
             annotation_comments: true,
-            minify: self.minify,
+            minify: self.options.minify,
             ..Default::default()
         };
         let codegen = Codegen::new().with_options(codegen_options);
@@ -288,11 +279,9 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
                         arg0,
                         imports,
                         &self.segment_stack,
-                        &self.target,
                         &self.scope,
-                        &self.config,
+                        &self.options,
                         self.source_info,
-                        self.minify,
                         ctx.ast.allocator,
                     )
                 });
@@ -672,6 +661,14 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
 pub struct TransformOptions {
     pub minify: bool,
     pub target: Target,
+    pub transpile_jsx: bool,
+}
+
+impl TransformOptions {
+    pub fn with_transpile_jsx(mut self, transpile_jsx: bool) -> Self {
+        self.transpile_jsx = transpile_jsx;
+        self
+    }
 }
 
 impl Default for TransformOptions {
@@ -679,11 +676,12 @@ impl Default for TransformOptions {
         TransformOptions {
             minify: false,
             target: Target::Dev,
+            transpile_jsx: false,
         }
     }
 }
 
-pub fn transform(script_source: Source, config: Config, options: TransformOptions) -> Result<OptimizationResult> {
+pub fn transform(script_source: Source, options: TransformOptions) -> Result<OptimizationResult> {
     let allocator = Allocator::default();
     let source_text = script_source.source_code();
     let source_info = script_source.source_info();
@@ -705,8 +703,7 @@ pub fn transform(script_source: Source, config: Config, options: TransformOption
         .with_cfg(true) // Build a Control Flow Graph
         .build(&program);
 
-    let mut transform =
-        &mut TransformGenerator::new(config, source_info, options.minify, options.target, None);
+    let mut transform = &mut TransformGenerator::new(source_info, options, None);
 
     // let (symbols, scopes) = semantic.into_symbol_table_and_scope_tree();
     let scoping = semantic.into_scoping();
@@ -728,49 +725,49 @@ mod tests {
 
     #[test]
     fn test_example_1() {
-        assert_valid_transform_debug!(Config::default());
+        assert_valid_transform_debug!(TransformOptions::default());
     }
 
     #[test]
     fn test_example_2() {
-        assert_valid_transform!(Config::default());
+        assert_valid_transform!(TransformOptions::default());
     }
 
     #[test]
     fn test_example_3() {
-        assert_valid_transform!(Config::default());
+        assert_valid_transform!(TransformOptions::default());
     }
 
     #[test]
     fn test_example_4() {
-        assert_valid_transform!(Config::default());
+        assert_valid_transform!(TransformOptions::default());
     }
 
     #[test]
     fn test_example_5() {
-        assert_valid_transform!(Config::default());
+        assert_valid_transform!(TransformOptions::default());
     }
 
     #[test]
     fn test_example_6() {
-        assert_valid_transform!(Config::default());
+        assert_valid_transform!(TransformOptions::default());
     }
 
     #[test]
     fn test_example_7() {
-        assert_valid_transform_debug!(Config::default());
+        assert_valid_transform_debug!(TransformOptions::default());
     }
 
     #[test]
     fn test_example_8() {
-        assert_valid_transform_debug!(Config::default());
+        assert_valid_transform_debug!(TransformOptions::default());
     }
 
     // #[test]
     fn test_example_9() {
         // Not removing:
         // const decl8 = 1, decl9;
-        assert_valid_transform_debug!(Config::default());
+        assert_valid_transform_debug!(TransformOptions::default());
     }
 
     // #[test]
@@ -781,23 +778,23 @@ mod tests {
         // to:
         // ident1, ident3;
         // ident1, ident3;
-        assert_valid_transform!(Config::default());
+        assert_valid_transform!(TransformOptions::default());
     }
 
     #[test]
     fn test_example_11() {
-        assert_valid_transform!(Config::default());
+        assert_valid_transform!(TransformOptions::default());
     }
 
     #[test]
     fn test_example_capture_imports() {
-        assert_valid_transform!(Config::default());
+        assert_valid_transform!(TransformOptions::default());
     }
 
     #[test]
     fn test_example_capturing_fn_class() {
         // TODO: _jsxSorted is not being applied.  Subsequent feature additions will address this
-        assert_valid_transform_debug!(Config::default());
+        assert_valid_transform_debug!(TransformOptions::default());
         assert_processing_errors!(|errors: Vec<ProcessingFailure>| {
             assert_eq!(errors.len(), 2);
 
@@ -816,12 +813,11 @@ mod tests {
             } else {
                 panic!("Expected class construction to be illegal code");
             }
-
         });
     }
 
     #[test]
     fn test_example_jsx() {
-        assert_valid_transform_debug!(Config::default().with_transpile_jsx(true));
+        assert_valid_transform_debug!(TransformOptions::default().with_transpile_jsx(true));
     }
 }

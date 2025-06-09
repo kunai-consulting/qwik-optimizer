@@ -272,6 +272,7 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
                         MinifyMode::None => false,
                     },
                     target: config.mode,
+                    transpile_jsx: config.transpile_jsx,
                 },
             )?;
             let mut hasher = DefaultHasher::new();
