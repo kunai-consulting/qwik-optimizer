@@ -233,33 +233,14 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
             }
             .to_string_lossy()
             .to_string();
-            // TODO: Parse JSX/TSX when extension matches
             let language = match ext {
-                "ts" => {
-                    if config.transpile_ts {
-                        Language::Typescript
-                    } else {
-                        return Ok(None);
-                    }
-                }
-                "tsx" => {
-                    if config.transpile_ts && config.transpile_jsx {
-                        Language::Typescript
-                    } else {
-                        return Ok(None);
-                    }
-                }
+                "ts" => Language::Typescript,
+                "tsx" => Language::Typescript,
                 "js" => Language::Javascript,
-                "jsx" => {
-                    if config.transpile_jsx {
-                        Language::Javascript
-                    } else {
-                        return Ok(None);
-                    }
-                }
-                _ => {
-                    return Ok(None);
-                }
+                "jsx" => Language::Javascript,
+                "mjs" => Language::Javascript,
+                "cjs" => Language::Javascript,
+                _ => return Ok(None),
             };
             let OptimizationResult {
                 optimized_app,
@@ -272,6 +253,7 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
                         MinifyMode::None => false,
                     },
                     target: config.mode,
+                    transpile_jsx: config.transpile_jsx,
                 },
             )?;
             let mut hasher = DefaultHasher::new();

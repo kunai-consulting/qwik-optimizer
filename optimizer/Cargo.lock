@@ -791,7 +791,6 @@ version = "0.1.0"
 dependencies = [
  "base64",
  "glob",
- "html5ever",
  "insta",
  "oxc_allocator",
  "oxc_ast",

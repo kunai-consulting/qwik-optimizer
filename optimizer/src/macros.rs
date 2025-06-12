@@ -1,6 +1,3 @@
-use crate::config::Config;
-use crate::processing_failure::ProcessingFailure;
-
 #[macro_export]
 macro_rules! function_name {
     () => {{
@@ -17,7 +14,7 @@ macro_rules! function_name {
 
 #[macro_export]
 macro_rules! _assert_valid_transform {
-    ($debug:literal, $config:expr) => {{
+    ($debug:literal, $options:expr) => {{
         let func_name = function_name!();
         let mut path = PathBuf::from("./src/test_input").join(format!("{func_name}.tsx"));
         let mut lang = crate::component::Language::Typescript;
@@ -33,7 +30,7 @@ macro_rules! _assert_valid_transform {
 
         let source_input =
             Source::from_source(source_code, lang, Some("test".to_string())).unwrap();
-        let result = transform(source_input, $config, TransformOptions::default()).unwrap().optimized_app;
+        let result = transform(source_input, $options).unwrap().optimized_app;
 
         if $debug == true {
             println!("{}", result);
@@ -53,15 +50,15 @@ macro_rules! _assert_valid_transform {
 
 #[macro_export]
 macro_rules! assert_valid_transform {
-    ($config:expr) => {{
-        _assert_valid_transform!(false, $config);
+    ($options:expr) => {{
+        _assert_valid_transform!(false, $options);
     }};
 }
 
 #[macro_export]
 macro_rules! assert_valid_transform_debug {
-    ($config:expr) => {{
-        _assert_valid_transform!(true, $config);
+    ($options:expr) => {{
+        _assert_valid_transform!(true, $options);
     }};
 }
 
@@ -83,7 +80,9 @@ macro_rules! assert_processing_errors {
 
         let source_input =
             Source::from_source(source_code, lang, Some("test".to_string())).unwrap();
-        let errors: Vec<ProcessingFailure> = transform(source_input, Config::default(), TransformOptions::default()).unwrap().errors;
+        let errors: Vec<ProcessingFailure> = transform(source_input, TransformOptions::default())
+            .unwrap()
+            .errors;
 
         ($verifier)(errors)
     }};

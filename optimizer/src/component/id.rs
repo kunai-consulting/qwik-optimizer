@@ -36,7 +36,11 @@ impl Id {
             .0
     }
 
-    fn calculate_hash(local_file_name: &str, display_name: &str, scope: &Option<String>) -> (u64, String) {
+    fn calculate_hash(
+        local_file_name: &str,
+        display_name: &str,
+        scope: &Option<String>,
+    ) -> (u64, String) {
         let mut hasher = DefaultHasher::new();
         if let Some(scope) = scope {
             hasher.write(scope.as_bytes());
@@ -44,9 +48,12 @@ impl Id {
         hasher.write(local_file_name.as_bytes());
         hasher.write(display_name.as_bytes());
         let hash = hasher.finish();
-        (hash, engine::general_purpose::URL_SAFE_NO_PAD
-            .encode(hash.to_le_bytes())
-            .replace(['-', '_'], "0"))
+        (
+            hash,
+            engine::general_purpose::URL_SAFE_NO_PAD
+                .encode(hash.to_le_bytes())
+                .replace(['-', '_'], "0"),
+        )
     }
 
     fn update_display_name(display_name: &mut String, name_segment: String) {
@@ -166,7 +173,8 @@ impl Id {
         let normalized_local_file_name = local_file_name
             .strip_prefix("./")
             .unwrap_or(&local_file_name);
-        let (sort_order, hash) = Self::calculate_hash(normalized_local_file_name, &display_name, scope);
+        let (sort_order, hash) =
+            Self::calculate_hash(normalized_local_file_name, &display_name, scope);
 
         let symbol_name = match target {
             Target::Dev | Target::Test => format!("{}_{}", display_name, hash),
