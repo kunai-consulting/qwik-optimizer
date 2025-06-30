@@ -50,7 +50,6 @@ pub struct OptimizedApp {
 use crate::ext::*;
 use crate::illegal_code::{IllegalCode, IllegalCodeType};
 use crate::processing_failure::ProcessingFailure;
-use crate::transpiler::Transpiler;
 
 const JSX_SORTED: &str = "_jsxSorted";
 const JSX_SPLIT: &str = "_jsxSplit";
@@ -270,10 +269,6 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         }
 
         ImportCleanUp::clean_up(node, ctx.ast.allocator);
-
-        if self.options.transpile_jsx {
-            Transpiler::transpile(ctx.ast.allocator, node, self.source_info);
-        }
 
         let codegen_options = CodegenOptions {
             annotation_comments: true,
