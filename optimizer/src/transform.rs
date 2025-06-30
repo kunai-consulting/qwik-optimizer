@@ -514,7 +514,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
 
     fn exit_expression(&mut self, node: &mut Expression<'a>, ctx: &mut TraverseCtx<'a>) {
         if let Some(expr) = self.replace_expr.take() {
-            self.debug("Replacing expression on exit", ctx);
+            println!("Replacing expression on exit");
             *node = expr;
         }
     }
@@ -564,15 +564,19 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
                     });
                 }
                 let name = &node.opening_element.name;
-                let jsx_type = match name {
-                    JSXElementName::Identifier(b) => self.builder.expression_string_literal(
-                        (*b).span,
-                        (*b).name,
-                        Some((*b).name),
+                let (jsx_type, pure) = match name {
+                    JSXElementName::Identifier(b) => (
+                        self.builder.expression_string_literal(
+                            (*b).span,
+                            (*b).name,
+                            Some((*b).name),
+                        ),
+                        true,
                     ),
-                    JSXElementName::IdentifierReference(b) => {
-                        self.builder.expression_identifier((*b).span, (*b).name)
-                    }
+                    JSXElementName::IdentifierReference(b) => (
+                        self.builder.expression_identifier((*b).span, (*b).name),
+                        false,
+                    ),
                     JSXElementName::NamespacedName(b) => {
                         panic!("namespaced names in JSX not implemented")
                     }
@@ -601,17 +605,22 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
                                     .into(),
                             }
                         }
-                        self.builder
-                            .member_expression_static(
-                                (*b).span(),
-                                process_member_expr(&self.builder, &((*b).object)),
-                                self.builder
-                                    .identifier_name((*b).property.span(), (*b).property.name),
-                                false,
-                            )
-                            .into()
+                        (
+                            self.builder
+                                .member_expression_static(
+                                    (*b).span(),
+                                    process_member_expr(&self.builder, &((*b).object)),
+                                    self.builder
+                                        .identifier_name((*b).property.span(), (*b).property.name),
+                                    false,
+                                )
+                                .into(),
+                            false,
+                        )
                     }
-                    JSXElementName::ThisExpression(b) => self.builder.expression_this((*b).span),
+                    JSXElementName::ThisExpression(b) => {
+                        (self.builder.expression_this((*b).span), false)
+                    }
                 };
                 let args: OxcVec<Argument<'a>> = OxcVec::from_array_in(
                     [
@@ -679,7 +688,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
                     None::<OxcBox<TSTypeParameterInstantiation<'a>>>,
                     args,
                     false,
-                    jsx.is_text_only,
+                    pure,
                 ));
             }
             if jsx.is_segment {
@@ -688,6 +697,35 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         }
         self.debug("EXIT: JSXElementName", ctx);
         self.descend();
+    }
+
+    fn enter_jsx_fragment(&mut self, node: &mut JSXFragment<'a>, ctx: &mut TraverseCtx<'a>) {
+        self.jsx_stack.push(JsxState {
+            is_fn: false,
+            is_text_only: false,
+            is_segment: false,
+            should_runtime_sort: false,
+            static_listeners: true,
+            static_subtree: true,
+            key_prop: None,
+            var_props: OxcVec::new_in(self.builder.allocator),
+            const_props: OxcVec::new_in(self.builder.allocator),
+            children: OxcVec::new_in(self.builder.allocator),
+        });
+        self.debug("ENTER: JSXFragment", ctx);
+    }
+
+    fn exit_jsx_fragment(&mut self, node: &mut JSXFragment<'a>, ctx: &mut TraverseCtx<'a>) {
+        if let Some(mut jsx) = self.jsx_stack.pop() {
+            if (self.options.transpile_jsx) {
+                self.replace_expr = Some(self.builder.expression_array(
+                    node.span(),
+                    jsx.children,
+                    None,
+                ));
+            }
+        }
+        self.debug("EXIT: JSXFragment", ctx);
     }
 
     fn exit_jsx_spread_attribute(
@@ -738,8 +776,14 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
                     let v = &mut node.value;
                     match v {
                         None => self.builder.expression_boolean_literal(node.span, true),
-                        Some(JSXAttributeValue::Element(_)) => self.replace_expr.take().unwrap(),
-                        Some(JSXAttributeValue::Fragment(_)) => self.replace_expr.take().unwrap(),
+                        Some(JSXAttributeValue::Element(_)) => {
+                            println!("Replacing JSX attribute element on exit");
+                            self.replace_expr.take().unwrap()
+                        }
+                        Some(JSXAttributeValue::Fragment(_)) => {
+                            println!("Replacing JSX attribute fragment on exit");
+                            self.replace_expr.take().unwrap()
+                        }
                         Some(JSXAttributeValue::StringLiteral(b)) => self
                             .builder
                             .expression_string_literal((*b).span, (*b).value, Some((*b).value)),
@@ -799,14 +843,21 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         if (!self.options.transpile_jsx) {
             return;
         }
+        self.debug("EXIT: JSX child", ctx);
         if let Some(jsx) = self.jsx_stack.last_mut() {
             jsx.children.push(match node {
                 JSXChild::Text(b) => self
                     .builder
                     .expression_string_literal((*b).span, (*b).value, Some((*b).value))
                     .into(),
-                JSXChild::Element(_) => self.replace_expr.take().unwrap().into(),
-                JSXChild::Fragment(_) => self.replace_expr.take().unwrap().into(),
+                JSXChild::Element(_) => {
+                    println!("Replacing JSX child element on exit");
+                    self.replace_expr.take().unwrap().into()
+                }
+                JSXChild::Fragment(_) => {
+                    println!("Replacing JSX child fragment on exit");
+                    self.replace_expr.take().unwrap().into()
+                }
                 JSXChild::ExpressionContainer(b) => {
                     jsx.static_subtree = false;
                     move_expression(&self.builder, (*b).expression.to_expression_mut()).into()
