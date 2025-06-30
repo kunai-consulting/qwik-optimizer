@@ -261,7 +261,12 @@ const DEBUG: bool = true;
 const DUMP_FINAL_AST: bool = false;
 
 impl<'a> Traverse<'a> for TransformGenerator<'a> {
+    fn enter_program(&mut self, node: &mut Program<'a>, ctx: &mut TraverseCtx<'a>) {
+        println!("ENTERING PROGRAM {}", self.source_info.file_name);
+    }
+
     fn exit_program(&mut self, node: &mut Program<'a>, ctx: &mut TraverseCtx<'a>) {
+        println!("EXITING PROGRAM {}", self.source_info.file_name);
         if let Some(tree) = self.import_stack.pop() {
             tree.iter().for_each(|import| {
                 node.body.insert(0, import.into_in(ctx.ast.allocator));
