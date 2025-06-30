@@ -421,10 +421,12 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
 
         let s: Segment = self.new_segment(segment_name);
         self.segment_stack.push(s);
-        self.expr_is_const_stack.push(match node.kind {
-            VariableDeclarationKind::Const => true,
-            _ => false,
-        });
+        if (self.options.transpile_jsx) {
+            self.expr_is_const_stack.push(match node.kind {
+                VariableDeclarationKind::Const => true,
+                _ => false,
+            });
+        }
 
         if let Some(name) = id.get_identifier_name() {
             /// Adds symbol and import information in the case this declaration ends up being referenced in
@@ -464,7 +466,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         }
 
         // If this definition is constant, mark it as constant within the current scope
-        if self.expr_is_const_stack.pop().unwrap_or_default() {
+        if self.options.transpile_jsx && self.expr_is_const_stack.pop().unwrap_or_default() {
             if let Some(consts) = self.const_stack.last_mut() {
                 let symbol_id = node
                     .id
@@ -481,11 +483,15 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
     }
 
     fn enter_block_statement(&mut self, node: &mut BlockStatement<'a>, ctx: &mut TraverseCtx<'a>) {
-        self.const_stack.push(BTreeSet::new());
+        if (self.options.transpile_jsx) {
+            self.const_stack.push(BTreeSet::new());
+        }
     }
 
     fn exit_block_statement(&mut self, node: &mut BlockStatement<'a>, ctx: &mut TraverseCtx<'a>) {
-        self.const_stack.pop();
+        if (self.options.transpile_jsx) {
+            self.const_stack.pop();
+        }
     }
 
     fn enter_expression_statement(
@@ -547,130 +553,135 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
 
     fn exit_jsx_element(&mut self, node: &mut JSXElement<'a>, ctx: &mut TraverseCtx<'a>) {
         if let Some(mut jsx) = self.jsx_stack.pop() {
-            if (!jsx.should_runtime_sort) {
-                jsx.var_props.sort_by_key(|prop| match prop {
-                    ObjectPropertyKind::ObjectProperty(b) => match &(*b).key {
-                        PropertyKey::StringLiteral(b) => (*b).to_string(),
+            if (self.options.transpile_jsx) {
+                if (!jsx.should_runtime_sort) {
+                    jsx.var_props.sort_by_key(|prop| match prop {
+                        ObjectPropertyKind::ObjectProperty(b) => match &(*b).key {
+                            PropertyKey::StringLiteral(b) => (*b).to_string(),
+                            _ => "".to_string(),
+                        },
                         _ => "".to_string(),
-                    },
-                    _ => "".to_string(),
-                });
-            }
-            let name = &node.opening_element.name;
-            let jsx_type = match name {
-                JSXElementName::Identifier(b) => {
-                    self.builder
-                        .expression_string_literal((*b).span, (*b).name, Some((*b).name))
+                    });
                 }
-                JSXElementName::IdentifierReference(b) => {
-                    self.builder.expression_identifier((*b).span, (*b).name)
-                }
-                JSXElementName::NamespacedName(b) => {
-                    panic!("namespaced names in JSX not implemented")
-                }
-                JSXElementName::MemberExpression(b) => {
-                    fn process_member_expr<'b>(
-                        builder: &AstBuilder<'b>,
-                        expr: &JSXMemberExpressionObject<'b>,
-                    ) -> Expression<'b> {
-                        match expr {
-                            JSXMemberExpressionObject::ThisExpression(b) => {
-                                builder.expression_this((*b).span)
-                            }
-                            JSXMemberExpressionObject::IdentifierReference(b) => {
-                                builder.expression_identifier((*b).span, (*b).name)
-                            }
-                            JSXMemberExpressionObject::MemberExpression(b) => builder
-                                .member_expression_static(
-                                    (*b).span,
-                                    process_member_expr(builder, &(*b).object),
-                                    builder
-                                        .identifier_name((*b).property.span(), (*b).property.name),
-                                    false,
-                                )
-                                .into(),
-                        }
+                let name = &node.opening_element.name;
+                let jsx_type = match name {
+                    JSXElementName::Identifier(b) => self.builder.expression_string_literal(
+                        (*b).span,
+                        (*b).name,
+                        Some((*b).name),
+                    ),
+                    JSXElementName::IdentifierReference(b) => {
+                        self.builder.expression_identifier((*b).span, (*b).name)
                     }
-                    self.builder
-                        .member_expression_static(
-                            (*b).span(),
-                            process_member_expr(&self.builder, &((*b).object)),
-                            self.builder
-                                .identifier_name((*b).property.span(), (*b).property.name),
-                            false,
-                        )
-                        .into()
-                }
-                JSXElementName::ThisExpression(b) => self.builder.expression_this((*b).span),
-            };
-            let args: OxcVec<Argument<'a>> = OxcVec::from_array_in(
-                [
-                    // type
-                    jsx_type.into(),
-                    // varProps
-                    self.builder
-                        .expression_object(node.span(), jsx.var_props, None)
-                        .into(),
-                    // constProps
-                    self.builder
-                        .expression_object(node.span(), jsx.const_props, None)
-                        .into(),
-                    // children
-                    self.builder
-                        .expression_array(node.span(), jsx.children, None)
-                        .into(),
-                    // flags
-                    self.builder
-                        .expression_numeric_literal(
-                            node.span(),
-                            ((if jsx.static_subtree { 0b1 } else { 0 })
-                                | (if jsx.static_listeners { 0b01 } else { 0 }))
-                            .into(),
-                            None,
-                            NumberBase::Binary,
-                        )
-                        .into(),
-                    // key
-                    jsx.key_prop
-                        .unwrap_or_else(|| -> Expression<'a> {
-                            // TODO: Figure out how to replicate root_jsx_mode from old optimizer
-                            // (this conditional should be is_fn || root_jsx_mode)
-                            if jsx.is_fn {
-                                if let Some(cmp) = self.component_stack.last() {
-                                    let new_key = format!(
-                                        "{}_{}",
-                                        cmp.id.hash.chars().take(2).collect::<String>(),
-                                        self.jsx_key_counter
-                                    );
-                                    self.jsx_key_counter += 1;
-                                    return self.builder.expression_string_literal(
-                                        Span::default(),
-                                        new_key,
-                                        None,
-                                    );
+                    JSXElementName::NamespacedName(b) => {
+                        panic!("namespaced names in JSX not implemented")
+                    }
+                    JSXElementName::MemberExpression(b) => {
+                        fn process_member_expr<'b>(
+                            builder: &AstBuilder<'b>,
+                            expr: &JSXMemberExpressionObject<'b>,
+                        ) -> Expression<'b> {
+                            match expr {
+                                JSXMemberExpressionObject::ThisExpression(b) => {
+                                    builder.expression_this((*b).span)
                                 }
+                                JSXMemberExpressionObject::IdentifierReference(b) => {
+                                    builder.expression_identifier((*b).span, (*b).name)
+                                }
+                                JSXMemberExpressionObject::MemberExpression(b) => builder
+                                    .member_expression_static(
+                                        (*b).span,
+                                        process_member_expr(builder, &(*b).object),
+                                        builder.identifier_name(
+                                            (*b).property.span(),
+                                            (*b).property.name,
+                                        ),
+                                        false,
+                                    )
+                                    .into(),
                             }
-                            self.builder.expression_null_literal(Span::default())
-                        })
-                        .into(),
-                ],
-                self.builder.allocator,
-            );
-            self.replace_expr = Some(self.builder.expression_call_with_pure(
-                node.span,
-                self.builder.expression_identifier(
-                    name.span(),
-                    if (jsx.should_runtime_sort) {
-                        JSX_SPLIT
-                    } else {
-                        JSX_SORTED
-                    },
-                ),
-                None::<OxcBox<TSTypeParameterInstantiation<'a>>>,
-                args,
-                false,
-                jsx.is_text_only,
-            ));
+                        }
+                        self.builder
+                            .member_expression_static(
+                                (*b).span(),
+                                process_member_expr(&self.builder, &((*b).object)),
+                                self.builder
+                                    .identifier_name((*b).property.span(), (*b).property.name),
+                                false,
+                            )
+                            .into()
+                    }
+                    JSXElementName::ThisExpression(b) => self.builder.expression_this((*b).span),
+                };
+                let args: OxcVec<Argument<'a>> = OxcVec::from_array_in(
+                    [
+                        // type
+                        jsx_type.into(),
+                        // varProps
+                        self.builder
+                            .expression_object(node.span(), jsx.var_props, None)
+                            .into(),
+                        // constProps
+                        self.builder
+                            .expression_object(node.span(), jsx.const_props, None)
+                            .into(),
+                        // children
+                        self.builder
+                            .expression_array(node.span(), jsx.children, None)
+                            .into(),
+                        // flags
+                        self.builder
+                            .expression_numeric_literal(
+                                node.span(),
+                                ((if jsx.static_subtree { 0b1 } else { 0 })
+                                    | (if jsx.static_listeners { 0b01 } else { 0 }))
+                                .into(),
+                                None,
+                                NumberBase::Binary,
+                            )
+                            .into(),
+                        // key
+                        jsx.key_prop
+                            .unwrap_or_else(|| -> Expression<'a> {
+                                // TODO: Figure out how to replicate root_jsx_mode from old optimizer
+                                // (this conditional should be is_fn || root_jsx_mode)
+                                if jsx.is_fn {
+                                    if let Some(cmp) = self.component_stack.last() {
+                                        let new_key = format!(
+                                            "{}_{}",
+                                            cmp.id.hash.chars().take(2).collect::<String>(),
+                                            self.jsx_key_counter
+                                        );
+                                        self.jsx_key_counter += 1;
+                                        return self.builder.expression_string_literal(
+                                            Span::default(),
+                                            new_key,
+                                            None,
+                                        );
+                                    }
+                                }
+                                self.builder.expression_null_literal(Span::default())
+                            })
+                            .into(),
+                    ],
+                    self.builder.allocator,
+                );
+                self.replace_expr = Some(self.builder.expression_call_with_pure(
+                    node.span,
+                    self.builder.expression_identifier(
+                        name.span(),
+                        if (jsx.should_runtime_sort) {
+                            JSX_SPLIT
+                        } else {
+                            JSX_SORTED
+                        },
+                    ),
+                    None::<OxcBox<TSTypeParameterInstantiation<'a>>>,
+                    args,
+                    false,
+                    jsx.is_text_only,
+                ));
+            }
             if jsx.is_segment {
                 let popped = self.segment_stack.pop();
             }
@@ -684,6 +695,9 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         node: &mut JSXSpreadAttribute<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) {
+        if (!self.options.transpile_jsx) {
+            return;
+        }
         // Reference: qwik build/v2 internal_handle_jsx_props_obj
         // If we have spread props, all props that come before it are variable even if they're static
         if let Some(jsx) = self.jsx_stack.last_mut() {
@@ -703,11 +717,13 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
     }
 
     fn enter_jsx_attribute(&mut self, node: &mut JSXAttribute<'a>, ctx: &mut TraverseCtx<'a>) {
-        self.expr_is_const_stack.push(
-            self.jsx_stack
-                .last()
-                .map_or(false, |jsx| !jsx.should_runtime_sort),
-        );
+        if (self.options.transpile_jsx) {
+            self.expr_is_const_stack.push(
+                self.jsx_stack
+                    .last()
+                    .map_or(false, |jsx| !jsx.should_runtime_sort),
+            );
+        }
         self.ascend();
         self.debug("ENTER: JSXAttribute", ctx);
         // JSX Attributes should be treated as part of the segment scope.
@@ -716,42 +732,44 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
     }
 
     fn exit_jsx_attribute(&mut self, node: &mut JSXAttribute<'a>, ctx: &mut TraverseCtx<'a>) {
-        if let Some(jsx) = self.jsx_stack.last_mut() {
-            let expr: Expression<'a> = {
-                let v = &mut node.value;
-                match v {
-                    None => self.builder.expression_boolean_literal(node.span, true),
-                    Some(JSXAttributeValue::Element(_)) => self.replace_expr.take().unwrap(),
-                    Some(JSXAttributeValue::Fragment(_)) => self.replace_expr.take().unwrap(),
-                    Some(JSXAttributeValue::StringLiteral(b)) => self
-                        .builder
-                        .expression_string_literal((*b).span, (*b).value, Some((*b).value)),
-                    Some(JSXAttributeValue::ExpressionContainer(b)) => {
-                        move_expression(&self.builder, (*b).expression.to_expression_mut())
+        if (self.options.transpile_jsx) {
+            if let Some(jsx) = self.jsx_stack.last_mut() {
+                let expr: Expression<'a> = {
+                    let v = &mut node.value;
+                    match v {
+                        None => self.builder.expression_boolean_literal(node.span, true),
+                        Some(JSXAttributeValue::Element(_)) => self.replace_expr.take().unwrap(),
+                        Some(JSXAttributeValue::Fragment(_)) => self.replace_expr.take().unwrap(),
+                        Some(JSXAttributeValue::StringLiteral(b)) => self
+                            .builder
+                            .expression_string_literal((*b).span, (*b).value, Some((*b).value)),
+                        Some(JSXAttributeValue::ExpressionContainer(b)) => {
+                            move_expression(&self.builder, (*b).expression.to_expression_mut())
+                        }
                     }
-                }
-            };
-            let is_const = self.expr_is_const_stack.pop().unwrap_or_default();
-            if node.is_key() {
-                jsx.key_prop = Some(expr);
-            } else {
-                let props = if is_const {
-                    &mut jsx.const_props
-                } else {
-                    &mut jsx.var_props
                 };
-                props.push(self.builder.object_property_kind_object_property(
-                    node.span,
-                    PropertyKind::Init,
-                    self.builder.property_key_static_identifier(
-                        node.name.span(),
-                        node.name.get_identifier().name,
-                    ),
-                    expr,
-                    false,
-                    false,
-                    false,
-                ));
+                let is_const = self.expr_is_const_stack.pop().unwrap_or_default();
+                if node.is_key() {
+                    jsx.key_prop = Some(expr);
+                } else {
+                    let props = if is_const {
+                        &mut jsx.const_props
+                    } else {
+                        &mut jsx.var_props
+                    };
+                    props.push(self.builder.object_property_kind_object_property(
+                        node.span,
+                        PropertyKind::Init,
+                        self.builder.property_key_static_identifier(
+                            node.name.span(),
+                            node.name.get_identifier().name,
+                        ),
+                        expr,
+                        false,
+                        false,
+                        false,
+                    ));
+                }
             }
         }
         let popped = self.segment_stack.pop();
@@ -778,6 +796,9 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
     }
 
     fn exit_jsx_child(&mut self, node: &mut JSXChild<'a>, ctx: &mut TraverseCtx<'a>) {
+        if (!self.options.transpile_jsx) {
+            return;
+        }
         if let Some(jsx) = self.jsx_stack.last_mut() {
             jsx.children.push(match node {
                 JSXChild::Text(b) => self
