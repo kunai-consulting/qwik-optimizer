@@ -1,9 +1,9 @@
-use crate::component::{Import, QWIK_CORE_SOURCE};
+use crate::component::{Import, ImportId, QWIK_CORE_SOURCE};
 use oxc_allocator::Allocator;
 use oxc_ast::ast::{ImportDeclaration, ImportOrExportKind, Program, Statement};
 use oxc_semantic::{SemanticBuilder, SemanticBuilderReturn};
 use oxc_traverse::{traverse_mut, Traverse, TraverseCtx};
-use std::collections::BTreeSet;
+use std::collections::{BTreeMap, BTreeSet};
 
 /// This struct is used to clean up unused imports in the AST.
 pub(crate) struct ImportCleanUp;
@@ -94,28 +94,38 @@ impl<'a> Traverse<'a> for ImportCleanUp {
         node: &mut oxc_allocator::Vec<'a, Statement<'a>>,
         ctx: &mut TraverseCtx<'a>,
     ) {
-        let mut imports: BTreeSet<Import> = BTreeSet::new();
+        let mut imports: BTreeMap<&str, BTreeSet<ImportId>> = BTreeMap::new();
 
+        // TODO: This will probably fail on `import { foo as bar } from "qux"`
+        // Needs a special case for rename imports
         node.retain_mut(|node| match node {
             Statement::ImportDeclaration(import) => {
                 let source = import.source.clone();
-                let specifiers = &mut import.specifiers;
-                if let Some(specifiers) = specifiers {
+                if let Some(specifiers) = &import.specifiers {
                     for specifier in specifiers {
                         if ctx.scoping().symbol_is_used(specifier.local().symbol_id()) {
-                            imports.insert(Import::from_import_declaration_specifier(
-                                specifier, &source,
-                            ));
+                            if let Some(existing_set) = imports.get_mut(source.value.into()) {
+                                existing_set.insert(specifier.into());
+                            } else {
+                                let mut set: BTreeSet<ImportId> = BTreeSet::new();
+                                set.insert(specifier.into());
+                                imports.insert(source.value.into(), set);
+                            }
                         }
                     }
+                    false
+                } else {
+                    true
                 }
-                false
             }
             _ => true,
         });
 
-        imports.iter().for_each(|import| {
-            node.insert(0, import.into_statement(ctx.ast.allocator));
+        imports.into_iter().rev().for_each(|(module, names)| {
+            node.insert(
+                0,
+                Import::new(names.into_iter().collect(), module).into_statement(ctx.ast.allocator),
+            );
         })
     }
 }
@@ -151,6 +161,31 @@ mod tests {
         assert_eq!(lines.len(), 2);
         assert_eq!(lines[0], r#"import { b } from "@qwik.dev/react";"#);
         assert_eq!(lines[1], r#"b.foo();"#);
+    }
+
+    #[test]
+    fn test_merge_imports() {
+        let allocator = Allocator::new();
+        let source = r#"
+            import { a } from '@qwik.dev/core';
+            import { b } from '@qwik.dev/core';
+            import { c } from '@qwik.dev/router';
+
+            a.foo(b, c);
+        "#;
+
+        let parse_return = Parser::new(&allocator, source, SourceType::tsx()).parse();
+        let mut program = parse_return.program;
+        ImportCleanUp::clean_up(&mut program, &allocator);
+
+        let codegen = Codegen::default();
+        let raw = codegen.build(&program).code;
+        let lines: Vec<&str> = raw.lines().collect();
+        assert_eq!(program.body.len(), 3);
+        assert_eq!(lines.len(), 3);
+        assert_eq!(lines[0], r#"import { a, b } from "@qwik.dev/core";"#);
+        assert_eq!(lines[1], r#"import { c } from "@qwik.dev/router";"#);
+        assert_eq!(lines[2], r#"a.foo(b, c);"#);
     }
 
     #[test]

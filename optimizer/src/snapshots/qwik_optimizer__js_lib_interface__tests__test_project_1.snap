@@ -49,12 +49,12 @@ modules:
         - 0
     isEntry: true
   - path: "./src/test_input/test_project_1/src/entry.ssr.tsx"
-    code: "import Root from \"./root\";\nimport { renderToStream } from \"@qwik.dev/core/server\";\nimport { manifest } from \"@qwik-client-manifest\";\nimport { _jsxSorted } from \"@qwik.dev/core\";\nimport { RenderToStreamOptions } from \"@qwik.dev/core/server\";\nexport default function(opts: RenderToStreamOptions) {\n\treturn renderToStream(_jsxSorted(Root, {}, {}, [], 1, null), {\n\t\tmanifest,\n\t\t...opts,\n\t\tcontainerAttributes: {\n\t\t\tlang: \"en-us\",\n\t\t\t...opts.containerAttributes\n\t\t},\n\t\tserverData: { ...opts.serverData }\n\t});\n}\n"
+    code: "import Root from \"./root\";\nimport { manifest } from \"@qwik-client-manifest\";\nimport { _jsxSorted } from \"@qwik.dev/core\";\nimport { RenderToStreamOptions, renderToStream } from \"@qwik.dev/core/server\";\nexport default function(opts: RenderToStreamOptions) {\n\treturn renderToStream(_jsxSorted(Root, {}, {}, [], 1, null), {\n\t\tmanifest,\n\t\t...opts,\n\t\tcontainerAttributes: {\n\t\t\tlang: \"en-us\",\n\t\t\t...opts.containerAttributes\n\t\t},\n\t\tserverData: { ...opts.serverData }\n\t});\n}\n"
     map: ~
     segment: ~
     isEntry: false
   - path: "./src/test_input/test_project_1/src/root.tsx"
-    code: "import { qrl } from \"@qwik.dev/core\";\nimport { componentQrl } from \"@qwik.dev/core\";\nexport default componentQrl(qrl(() => import(\"././src/test_input/test_project_1/src/root.tsx.tsx_component_cQDlEL2LM0Q\"), \"component_cQDlEL2LM0Q\"));\n"
+    code: "import { componentQrl, qrl } from \"@qwik.dev/core\";\nimport \"./global.css\";\nexport default componentQrl(qrl(() => import(\"././src/test_input/test_project_1/src/root.tsx.tsx_component_cQDlEL2LM0Q\"), \"component_cQDlEL2LM0Q\"));\n"
     map: ~
     segment: ~
     isEntry: false
@@ -79,17 +79,17 @@ modules:
         - 0
     isEntry: true
   - path: "./src/test_input/test_project_1/src/routes/index.tsx"
-    code: "import { qrl } from \"@qwik.dev/core\";\nimport { componentQrl } from \"@qwik.dev/core\";\nimport { DocumentHead } from \"@qwik.dev/router\";\nexport default componentQrl(qrl(() => import(\"././src/test_input/test_project_1/src/routes/index.tsx.tsx_component_3DYNZg0ikgU\"), \"component_3DYNZg0ikgU\"));\nexport const head: DocumentHead = componentQrl(qrl(() => import(\"././src/test_input/test_project_1/src/routes/index.tsx.tsx_component_3DYNZg0ikgU\"), \"component_3DYNZg0ikgU\"));\n"
+    code: "import { componentQrl, qrl } from \"@qwik.dev/core\";\nimport { DocumentHead } from \"@qwik.dev/router\";\nexport default componentQrl(qrl(() => import(\"././src/test_input/test_project_1/src/routes/index.tsx.tsx_component_3DYNZg0ikgU\"), \"component_3DYNZg0ikgU\"));\nexport const head: DocumentHead = componentQrl(qrl(() => import(\"././src/test_input/test_project_1/src/routes/index.tsx.tsx_component_3DYNZg0ikgU\"), \"component_3DYNZg0ikgU\"));\n"
     map: ~
     segment: ~
     isEntry: false
   - path: "./src/test_input/test_project_1/src/routes/layout.tsx"
-    code: "import { qrl } from \"@qwik.dev/core\";\nimport { componentQrl } from \"@qwik.dev/core\";\nimport { RequestHandler } from \"@qwik.dev/router\";\nexport const onGet: RequestHandler = async ({ cacheControl }) => {\n\tcacheControl({\n\t\tstaleWhileRevalidate: 60 * 60 * 24 * 7,\n\t\tmaxAge: 5\n\t});\n};\nexport default componentQrl(qrl(() => import(\"././src/test_input/test_project_1/src/routes/layout.tsx.tsx_component_a1SxCR8N64g\"), \"component_a1SxCR8N64g\"));\n"
+    code: "import { componentQrl, qrl } from \"@qwik.dev/core\";\nimport { RequestHandler } from \"@qwik.dev/router\";\nexport const onGet: RequestHandler = async ({ cacheControl }) => {\n\tcacheControl({\n\t\tstaleWhileRevalidate: 60 * 60 * 24 * 7,\n\t\tmaxAge: 5\n\t});\n};\nexport default componentQrl(qrl(() => import(\"././src/test_input/test_project_1/src/routes/layout.tsx.tsx_component_a1SxCR8N64g\"), \"component_a1SxCR8N64g\"));\n"
     map: ~
     segment: ~
     isEntry: false
   - path: "./src/test_input/test_project_1/src/entry.dev.tsx"
-    code: "import Root from \"./root\";\nimport { render } from \"@qwik.dev/core\";\nimport { _jsxSorted } from \"@qwik.dev/core\";\nimport { RenderOptions } from \"@qwik.dev/core\";\nexport default function(opts: RenderOptions) {\n\treturn render(document, _jsxSorted(Root, {}, {}, [], 1, null), opts);\n}\n"
+    code: "import Root from \"./root\";\nimport { RenderOptions, _jsxSorted, render } from \"@qwik.dev/core\";\nexport default function(opts: RenderOptions) {\n\treturn render(document, _jsxSorted(Root, {}, {}, [], 1, null), opts);\n}\n"
     map: ~
     segment: ~
     isEntry: false
@@ -99,7 +99,7 @@ modules:
     segment: ~
     isEntry: false
   - path: "./src/test_input/test_project_1/src/components/router-head/router-head.tsx"
-    code: "import { qrl } from \"@qwik.dev/core\";\nimport { componentQrl } from \"@qwik.dev/core\";\n/**\n* The RouterHead component is placed inside of the document `<head>` element.\n*/\nexport const RouterHead = componentQrl(qrl(() => import(\"././src/test_input/test_project_1/src/components/router-head/router-head.tsx.tsx_RouterHead_component_9vp071E6SfU\"), \"RouterHead_component_9vp071E6SfU\"));\n"
+    code: "import { componentQrl, qrl } from \"@qwik.dev/core\";\n/**\n* The RouterHead component is placed inside of the document `<head>` element.\n*/\nexport const RouterHead = componentQrl(qrl(() => import(\"././src/test_input/test_project_1/src/components/router-head/router-head.tsx.tsx_RouterHead_component_9vp071E6SfU\"), \"RouterHead_component_9vp071E6SfU\"));\n"
     map: ~
     segment: ~
     isEntry: false
