@@ -51,9 +51,6 @@ use crate::ext::*;
 use crate::illegal_code::{IllegalCode, IllegalCodeType};
 use crate::processing_failure::ProcessingFailure;
 
-const JSX_SORTED: &str = "_jsxSorted";
-const JSX_SPLIT: &str = "_jsxSplit";
-
 impl OptimizedApp {
     fn get_component(&self, name: String) -> Option<&QrlComponent> {
         self.components
@@ -154,13 +151,16 @@ pub struct TransformGenerator<'gen> {
 
     jsx_key_counter: u32,
 
-    // Marks whether each JSX attribute in the stack is var (false) or const (true)
-    // An attribute is considered var if it:
-    // - calls a function
-    // - accesses a member
-    // - is a variable that is not an import, an export, or in the const stack
+    /// Marks whether each JSX attribute in the stack is var (false) or const (true).
+    /// An attribute is considered var if it:
+    /// - calls a function
+    /// - accesses a member
+    /// - is a variable that is not an import, an export, or in the const stack
     expr_is_const_stack: Vec<bool>,
 
+    /// Used to replace the current expression in the AST. Should be set when exiting a specific
+    /// type of expression (e.g., `exit_jsx_element`); this will be picked up in `exit_expression`,
+    /// which will replace the entire expression with the contents of this field.
     replace_expr: Option<Expression<'gen>>,
 }
 
@@ -306,9 +306,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         }
 
         let name = node.callee_name().unwrap_or_default().to_string();
-        if (name == JSX_NAME) {
-            println!("JSX FOUND IN CALLEXPRESSION, {:?}", node);
-        } else if (name.ends_with(MARKER_SUFFIX)) {
+        if (name.ends_with(MARKER_SUFFIX)) {
             self.import_stack.push(BTreeSet::new());
         }
 
@@ -680,21 +678,22 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
                     ],
                     self.builder.allocator,
                 );
+                let callee = if (jsx.should_runtime_sort) {
+                    JSX_SPLIT_NAME
+                } else {
+                    JSX_SORTED_NAME
+                };
                 self.replace_expr = Some(self.builder.expression_call_with_pure(
                     node.span,
-                    self.builder.expression_identifier(
-                        name.span(),
-                        if (jsx.should_runtime_sort) {
-                            JSX_SPLIT
-                        } else {
-                            JSX_SORTED
-                        },
-                    ),
+                    self.builder.expression_identifier(name.span(), callee),
                     None::<OxcBox<TSTypeParameterInstantiation<'a>>>,
                     args,
                     false,
                     pure,
                 ));
+                if let Some(imports) = self.import_stack.last_mut() {
+                    imports.insert(Import::new(vec![callee.into()], QWIK_CORE_SOURCE));
+                }
             }
             if jsx.is_segment {
                 let popped = self.segment_stack.pop();

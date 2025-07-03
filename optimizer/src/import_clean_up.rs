@@ -64,7 +64,7 @@ struct Key(String);
 impl From<&ImportDeclaration<'_>> for Key {
     fn from(import: &ImportDeclaration) -> Self {
         let mut key = String::new();
-        for specifiers in &import.specifiers {
+        if let Some(specifiers) = &import.specifiers {
             for specifier in specifiers {
                 let local = specifier.local();
                 let local_name = local.name;

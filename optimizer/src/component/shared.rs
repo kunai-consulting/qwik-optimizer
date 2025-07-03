@@ -9,7 +9,8 @@ use std::convert::Into;
 use std::path::PathBuf;
 
 pub const QWIK_CORE_SOURCE: &str = "@qwik.dev/core";
-pub const JSX_NAME: &str = "_jsx";
+pub const JSX_SORTED_NAME: &str = "_jsxSorted";
+pub const JSX_SPLIT_NAME: &str = "_jsxSplit";
 pub const MARKER_SUFFIX: &str = "$";
 pub const QRL: &str = "qrl";
 pub const QRL_SUFFIX: &str = "Qrl";
