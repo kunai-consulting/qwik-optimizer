@@ -49,7 +49,7 @@ modules:
         - 0
     isEntry: true
   - path: "./src/test_input/test_project_1/src/entry.ssr.tsx"
-    code: "import Root from \"./root\";\nimport { manifest } from \"@qwik-client-manifest\";\nimport { _jsxSorted } from \"@qwik.dev/core\";\nimport { RenderToStreamOptions, renderToStream } from \"@qwik.dev/core/server\";\nexport default function(opts: RenderToStreamOptions) {\n\treturn renderToStream(_jsxSorted(Root, {}, {}, [], 1, null), {\n\t\tmanifest,\n\t\t...opts,\n\t\tcontainerAttributes: {\n\t\t\tlang: \"en-us\",\n\t\t\t...opts.containerAttributes\n\t\t},\n\t\tserverData: { ...opts.serverData }\n\t});\n}\n"
+    code: "import Root from \"./root\";\nimport { manifest } from \"@qwik-client-manifest\";\nimport { _jsxSorted } from \"@qwik.dev/core\";\nimport { renderToStream } from \"@qwik.dev/core/server\";\nexport default function(opts) {\n\treturn renderToStream(_jsxSorted(Root, {}, {}, [], 1, null), {\n\t\tmanifest,\n\t\t...opts,\n\t\tcontainerAttributes: {\n\t\t\tlang: \"en-us\",\n\t\t\t...opts.containerAttributes\n\t\t},\n\t\tserverData: { ...opts.serverData }\n\t});\n}\n"
     map: ~
     segment: ~
     isEntry: false
@@ -79,22 +79,22 @@ modules:
         - 0
     isEntry: true
   - path: "./src/test_input/test_project_1/src/routes/index.tsx"
-    code: "import { componentQrl, qrl } from \"@qwik.dev/core\";\nimport { DocumentHead } from \"@qwik.dev/router\";\nexport default componentQrl(qrl(() => import(\"././src/test_input/test_project_1/src/routes/index.tsx.tsx_component_3DYNZg0ikgU\"), \"component_3DYNZg0ikgU\"));\nexport const head: DocumentHead = componentQrl(qrl(() => import(\"././src/test_input/test_project_1/src/routes/index.tsx.tsx_component_3DYNZg0ikgU\"), \"component_3DYNZg0ikgU\"));\n"
+    code: "import { componentQrl, qrl } from \"@qwik.dev/core\";\nexport default componentQrl(qrl(() => import(\"././src/test_input/test_project_1/src/routes/index.tsx.tsx_component_3DYNZg0ikgU\"), \"component_3DYNZg0ikgU\"));\nexport const head = componentQrl(qrl(() => import(\"././src/test_input/test_project_1/src/routes/index.tsx.tsx_component_3DYNZg0ikgU\"), \"component_3DYNZg0ikgU\"));\n"
     map: ~
     segment: ~
     isEntry: false
   - path: "./src/test_input/test_project_1/src/routes/layout.tsx"
-    code: "import { componentQrl, qrl } from \"@qwik.dev/core\";\nimport { RequestHandler } from \"@qwik.dev/router\";\nexport const onGet: RequestHandler = async ({ cacheControl }) => {\n\tcacheControl({\n\t\tstaleWhileRevalidate: 60 * 60 * 24 * 7,\n\t\tmaxAge: 5\n\t});\n};\nexport default componentQrl(qrl(() => import(\"././src/test_input/test_project_1/src/routes/layout.tsx.tsx_component_a1SxCR8N64g\"), \"component_a1SxCR8N64g\"));\n"
+    code: "import { componentQrl, qrl } from \"@qwik.dev/core\";\nexport const onGet = async ({ cacheControl }) => {\n\tcacheControl({\n\t\tstaleWhileRevalidate: 60 * 60 * 24 * 7,\n\t\tmaxAge: 5\n\t});\n};\nexport default componentQrl(qrl(() => import(\"././src/test_input/test_project_1/src/routes/layout.tsx.tsx_component_a1SxCR8N64g\"), \"component_a1SxCR8N64g\"));\n"
     map: ~
     segment: ~
     isEntry: false
   - path: "./src/test_input/test_project_1/src/entry.dev.tsx"
-    code: "import Root from \"./root\";\nimport { RenderOptions, _jsxSorted, render } from \"@qwik.dev/core\";\nexport default function(opts: RenderOptions) {\n\treturn render(document, _jsxSorted(Root, {}, {}, [], 1, null), opts);\n}\n"
+    code: "import Root from \"./root\";\nimport { _jsxSorted, render } from \"@qwik.dev/core\";\nexport default function(opts) {\n\treturn render(document, _jsxSorted(Root, {}, {}, [], 1, null), opts);\n}\n"
     map: ~
     segment: ~
     isEntry: false
   - path: "./src/test_input/test_project_1/src/routes/service-worker.ts"
-    code: "import { setupServiceWorker } from \"@qwik.dev/router/service-worker\";\nsetupServiceWorker();\naddEventListener(\"install\", () => self.skipWaiting());\naddEventListener(\"activate\", () => self.clients.claim());\ndeclare const self: ServiceWorkerGlobalScope;\n"
+    code: "import { setupServiceWorker } from \"@qwik.dev/router/service-worker\";\nsetupServiceWorker();\naddEventListener(\"install\", () => self.skipWaiting());\naddEventListener(\"activate\", () => self.clients.claim());\n"
     map: ~
     segment: ~
     isEntry: false

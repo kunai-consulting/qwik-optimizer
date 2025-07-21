@@ -253,6 +253,7 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
                         MinifyMode::None => false,
                     },
                     target: config.mode,
+                    transpile_ts: config.transpile_ts,
                     transpile_jsx: config.transpile_jsx,
                 },
             )?;

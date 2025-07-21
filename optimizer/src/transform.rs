@@ -16,6 +16,7 @@ use oxc_ast::{match_member_expression, AstBuilder, AstType, Comment, CommentKind
 use oxc_ast_visit::{Visit, VisitMut};
 use oxc_codegen::{Codegen, CodegenOptions, Context, Gen};
 use oxc_index::Idx;
+use oxc_transformer::JsxOptions;
 use std::borrow::{Borrow, Cow};
 use std::collections::{BTreeSet, HashMap, HashSet};
 
@@ -29,6 +30,7 @@ use oxc_semantic::{
     SymbolId,
 };
 use oxc_span::*;
+use oxc_transformer::{TransformOptions as OxcTransformOptions, Transformer, TypeScriptOptions};
 use oxc_traverse::{traverse_mut, Ancestor, Traverse, TraverseCtx};
 use serde::{Deserialize, Serialize};
 use std::cell::{Cell, RefCell};
@@ -1075,10 +1077,16 @@ fn is_text_only(node: &str) -> bool {
 pub struct TransformOptions {
     pub minify: bool,
     pub target: Target,
+    pub transpile_ts: bool,
     pub transpile_jsx: bool,
 }
 
 impl TransformOptions {
+    pub fn with_transpile_ts(mut self, transpile_ts: bool) -> Self {
+        self.transpile_ts = transpile_ts;
+        self
+    }
+
     pub fn with_transpile_jsx(mut self, transpile_jsx: bool) -> Self {
         self.transpile_jsx = transpile_jsx;
         self
@@ -1090,6 +1098,7 @@ impl Default for TransformOptions {
         TransformOptions {
             minify: false,
             target: Target::Dev,
+            transpile_ts: false,
             transpile_jsx: false,
         }
     }
@@ -1107,6 +1116,24 @@ pub fn transform(script_source: Source, options: TransformOptions) -> Result<Opt
     errors.extend(parse_return.errors);
 
     let mut program = parse_return.program;
+
+    if (options.transpile_ts) {
+        let SemanticBuilderReturn {
+            semantic,
+            errors: semantic_errors,
+        } = SemanticBuilder::new().build(&program);
+        let scoping = semantic.into_scoping();
+        Transformer::new(
+            &allocator,
+            source_info.rel_path.as_path(),
+            &OxcTransformOptions {
+                typescript: TypeScriptOptions::default(),
+                jsx: JsxOptions::disable(),
+                ..OxcTransformOptions::default()
+            },
+        )
+        .build_with_scoping(scoping, &mut program);
+    }
 
     let SemanticBuilderReturn {
         semantic,
@@ -1233,5 +1260,10 @@ mod tests {
     #[test]
     fn test_example_jsx() {
         assert_valid_transform_debug!(TransformOptions::default().with_transpile_jsx(true));
+    }
+
+    #[test]
+    fn test_example_ts() {
+        assert_valid_transform_debug!(TransformOptions::default().with_transpile_ts(true));
     }
 }
