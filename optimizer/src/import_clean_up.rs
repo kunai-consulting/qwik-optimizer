@@ -6,11 +6,15 @@ use oxc_traverse::{traverse_mut, Traverse, TraverseCtx};
 use std::collections::{BTreeMap, BTreeSet};
 
 /// This struct is used to clean up unused imports in the AST.
-pub(crate) struct ImportCleanUp;
+pub(crate) struct ImportCleanUp<'a> {
+    imports: BTreeMap<&'a str, BTreeSet<ImportId>>,
+}
 
-impl ImportCleanUp {
+impl ImportCleanUp<'_> {
     pub fn new() -> Self {
-        ImportCleanUp
+        ImportCleanUp {
+            imports: BTreeMap::new(),
+        }
     }
 
     pub fn clean_up<'a>(program: &mut Program<'a>, allocator: &'a Allocator) {
@@ -25,9 +29,20 @@ impl ImportCleanUp {
 
         let scoping = semantic.into_scoping();
 
-        let transform = &mut ImportCleanUp::new();
+        let mut transform = ImportCleanUp::new();
 
-        traverse_mut(transform, allocator, program, scoping);
+        traverse_mut(&mut transform, allocator, program, scoping);
+
+        transform
+            .imports
+            .into_iter()
+            .rev()
+            .for_each(|(module, names)| {
+                program.body.insert(
+                    0,
+                    Import::new(names.into_iter().collect(), module).into_statement(allocator),
+                );
+            })
     }
 
     /// This function renames the Qwik imports to the new qwik.dev imports.
@@ -88,28 +103,24 @@ impl From<&ImportDeclaration<'_>> for Key {
     }
 }
 
-impl<'a> Traverse<'a> for ImportCleanUp {
-    fn enter_statements(
+impl<'a> Traverse<'a> for ImportCleanUp<'a> {
+    fn exit_statements(
         &mut self,
         node: &mut oxc_allocator::Vec<'a, Statement<'a>>,
         ctx: &mut TraverseCtx<'a>,
     ) {
-        let mut imports: BTreeMap<&str, BTreeSet<ImportId>> = BTreeMap::new();
-
-        // TODO: This will probably fail on `import { foo as bar } from "qux"`
-        // Needs a special case for rename imports
         node.retain_mut(|node| match node {
             Statement::ImportDeclaration(import) => {
                 let source = import.source.clone();
                 if let Some(specifiers) = &import.specifiers {
                     for specifier in specifiers {
                         if ctx.scoping().symbol_is_used(specifier.local().symbol_id()) {
-                            if let Some(existing_set) = imports.get_mut(source.value.into()) {
+                            if let Some(existing_set) = self.imports.get_mut(source.value.into()) {
                                 existing_set.insert(specifier.into());
                             } else {
                                 let mut set: BTreeSet<ImportId> = BTreeSet::new();
                                 set.insert(specifier.into());
-                                imports.insert(source.value.into(), set);
+                                self.imports.insert(source.value.into(), set);
                             }
                         }
                     }
@@ -120,13 +131,6 @@ impl<'a> Traverse<'a> for ImportCleanUp {
             }
             _ => true,
         });
-
-        imports.into_iter().rev().for_each(|(module, names)| {
-            node.insert(
-                0,
-                Import::new(names.into_iter().collect(), module).into_statement(ctx.ast.allocator),
-            );
-        })
     }
 }
 
@@ -167,11 +171,11 @@ mod tests {
     fn test_merge_imports() {
         let allocator = Allocator::new();
         let source = r#"
-            import { a } from '@qwik.dev/core';
+            import { a as A } from '@qwik.dev/core';
             import { b } from '@qwik.dev/core';
             import { c } from '@qwik.dev/router';
 
-            a.foo(b, c);
+            A.foo(b, c);
         "#;
 
         let parse_return = Parser::new(&allocator, source, SourceType::tsx()).parse();
@@ -183,9 +187,9 @@ mod tests {
         let lines: Vec<&str> = raw.lines().collect();
         assert_eq!(program.body.len(), 3);
         assert_eq!(lines.len(), 3);
-        assert_eq!(lines[0], r#"import { a, b } from "@qwik.dev/core";"#);
+        assert_eq!(lines[0], r#"import { b, a as A } from "@qwik.dev/core";"#);
         assert_eq!(lines[1], r#"import { c } from "@qwik.dev/router";"#);
-        assert_eq!(lines[2], r#"a.foo(b, c);"#);
+        assert_eq!(lines[2], r#"A.foo(b, c);"#);
     }
 
     #[test]

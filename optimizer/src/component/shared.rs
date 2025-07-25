@@ -16,7 +16,7 @@ pub const QRL: &str = "qrl";
 pub const QRL_SUFFIX: &str = "Qrl";
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub(crate) enum ImportId {
+pub enum ImportId {
     Named(String),
     NamedWithAlias(String, String),
     Default(String),
