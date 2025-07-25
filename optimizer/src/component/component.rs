@@ -1,7 +1,7 @@
-use crate::component::Language;
 use crate::component::*;
 use crate::segment::Segment;
 use crate::transform::TransformOptions;
+use crate::{component::Language, import_clean_up::ImportCleanUp};
 use oxc_allocator::{Allocator, Box as OxcBox, CloneIn, IntoIn, Vec as OxcVec};
 use oxc_ast::ast::*;
 use oxc_ast::*;
@@ -116,6 +116,8 @@ impl QrlComponent {
             OxcVec::new_in(allocator),
             body,
         );
+
+        ImportCleanUp::clean_up(&mut new_pgm, allocator);
 
         let codegen = Codegen::new();
         let codegen_options = CodegenOptions {

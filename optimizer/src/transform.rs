@@ -851,32 +851,43 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         }
         self.debug("EXIT: JSX child", ctx);
         if let Some(jsx) = self.jsx_stack.last_mut() {
-            jsx.children.push(match node {
-                JSXChild::Text(b) => self
-                    .builder
-                    .expression_string_literal((*b).span, (*b).value, Some((*b).value))
-                    .into(),
+            let maybe_child = match node {
+                JSXChild::Text(b) => {
+                    let text: &'a str = self.builder.allocator.alloc_str(b.value.trim());
+                    if (text.is_empty()) {
+                        None
+                    } else {
+                        Some(
+                            self.builder
+                                .expression_string_literal((*b).span, text, Some(text.into()))
+                                .into(),
+                        )
+                    }
+                }
                 JSXChild::Element(_) => {
                     println!("Replacing JSX child element on exit");
-                    self.replace_expr.take().unwrap().into()
+                    Some(self.replace_expr.take().unwrap().into())
                 }
                 JSXChild::Fragment(_) => {
                     println!("Replacing JSX child fragment on exit");
-                    self.replace_expr.take().unwrap().into()
+                    Some(self.replace_expr.take().unwrap().into())
                 }
                 JSXChild::ExpressionContainer(b) => {
                     jsx.static_subtree = false;
-                    move_expression(&self.builder, (*b).expression.to_expression_mut()).into()
+                    Some(move_expression(&self.builder, (*b).expression.to_expression_mut()).into())
                 }
                 JSXChild::Spread(b) => {
                     jsx.static_subtree = false;
                     let span = (*b).span.clone();
-                    self.builder.array_expression_element_spread_element(
+                    Some(self.builder.array_expression_element_spread_element(
                         span,
                         move_expression(&self.builder, &mut (*b).expression),
-                    )
+                    ))
                 }
-            });
+            };
+            if let Some(child) = maybe_child {
+                jsx.children.push(child);
+            }
         }
     }
 
@@ -1144,17 +1155,15 @@ pub fn transform(script_source: Source, options: TransformOptions) -> Result<Opt
         .with_cfg(true) // Build a Control Flow Graph
         .build(&program);
 
-    let mut transform = &mut TransformGenerator::new(source_info, options, None, &allocator);
+    let mut transform = TransformGenerator::new(source_info, options, None, &allocator);
 
     // let (symbols, scopes) = semantic.into_symbol_table_and_scope_tree();
     let scoping = semantic.into_scoping();
 
-    traverse_mut(transform, &allocator, &mut program, scoping);
+    traverse_mut(&mut transform, &allocator, &mut program, scoping);
 
-    Ok(OptimizationResult::new(
-        transform.app.clone(),
-        transform.errors.clone(),
-    ))
+    let TransformGenerator { app, errors, .. } = transform;
+    Ok(OptimizationResult::new(app, errors))
 }
 
 #[cfg(test)]

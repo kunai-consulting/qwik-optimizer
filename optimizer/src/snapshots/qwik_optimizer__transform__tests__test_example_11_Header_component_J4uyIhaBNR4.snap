@@ -1,6 +1,5 @@
 ---
-source: src/transform.rs
+source: optimizer/src/transform.rs
 expression: comp.code
-snapshot_kind: text
 ---
-"import { Header } from \"./test\";\nimport { qrl } from \"@qwik.dev/core\";\nimport { bar as bbar } from \"../state\";\nimport * as dep2 from \"dep2\";\nexport const Header_component_J4uyIhaBNR4 = () => {\n\treturn <Header onClick={qrl(() => import(\"./test.tsx_Header_component_Header_onClick_oNOlojcAk6Q\"), \"Header_component_Header_onClick_oNOlojcAk6Q\")}>\n            {dep2.stuff()}{bbar()}\n        </Header>;\n};\n"
+"import { bar as bbar } from \"../state\";\nimport { Header } from \"./test\";\nimport { qrl } from \"@qwik.dev/core\";\nimport * as dep2 from \"dep2\";\nexport const Header_component_J4uyIhaBNR4 = () => {\n\treturn <Header onClick={qrl(() => import(\"./test.tsx_Header_component_Header_onClick_oNOlojcAk6Q\"), \"Header_component_Header_onClick_oNOlojcAk6Q\")}>\n            {dep2.stuff()}{bbar()}\n        </Header>;\n};\n"
