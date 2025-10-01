@@ -1,5 +1,5 @@
 ---
-source: src/transform.rs
+source: optimizer/src/transform.rs
 expression: result.body
 ---
-"import { qrl } from \"@qwik.dev/core\";\nimport { componentQrl } from \"@qwik.dev/core\";\nimport { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from \"react/jsx-runtime\";\nexport const Lightweight = (props) => {\n\treturn /* @__PURE__ */ _jsx(\"div\", { children: /* @__PURE__ */ _jsxs(_Fragment, { children: [/* @__PURE__ */ _jsx(\"div\", {}), /* @__PURE__ */ _jsx(\"button\", { ...props })] }) });\n};\nexport const Foo = componentQrl(qrl(() => import(\"./test.jsx_Foo_component_XXLiwMim708\"), \"Foo_component_XXLiwMim708\"));\n"
+"import { _jsxSorted, _jsxSplit, componentQrl, qrl } from \"@qwik.dev/core\";\nexport const Lightweight = (props) => {\n\treturn /* @__PURE__ */ _jsxSorted(\"div\", {}, {}, [[/* @__PURE__ */ _jsxSorted(\"div\", {}, {}, [], 1, null), /* @__PURE__ */ _jsxSplit(\"button\", { ...props }, {}, [], 0, null)]], 1, null);\n};\nexport const Foo = componentQrl(qrl(() => import(\"./test.jsx_Foo_component_XXLiwMim708\"), \"Foo_component_XXLiwMim708\"));\n"

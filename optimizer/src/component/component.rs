@@ -1,8 +1,7 @@
-use crate::component::Language;
 use crate::component::*;
 use crate::segment::Segment;
 use crate::transform::TransformOptions;
-use crate::transpiler::Transpiler;
+use crate::{component::Language, import_clean_up::ImportCleanUp};
 use oxc_allocator::{Allocator, Box as OxcBox, CloneIn, IntoIn, Vec as OxcVec};
 use oxc_ast::ast::*;
 use oxc_ast::*;
@@ -118,9 +117,7 @@ impl QrlComponent {
             body,
         );
 
-        if options.transpile_jsx {
-            Transpiler::transpile(allocator, &mut new_pgm, source_info);
-        }
+        ImportCleanUp::clean_up(&mut new_pgm, allocator);
 
         let codegen = Codegen::new();
         let codegen_options = CodegenOptions {

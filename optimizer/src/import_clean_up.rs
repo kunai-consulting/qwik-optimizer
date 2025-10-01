@@ -1,33 +1,44 @@
-use crate::component::{Import, QWIK_CORE_SOURCE};
+use crate::component::{Import, ImportId, QWIK_CORE_SOURCE};
 use oxc_allocator::Allocator;
 use oxc_ast::ast::{ImportDeclaration, ImportOrExportKind, Program, Statement};
 use oxc_semantic::{SemanticBuilder, SemanticBuilderReturn};
 use oxc_traverse::{traverse_mut, Traverse, TraverseCtx};
-use std::collections::BTreeSet;
+use std::collections::{BTreeMap, BTreeSet};
 
 /// This struct is used to clean up unused imports in the AST.
-pub(crate) struct ImportCleanUp;
+pub(crate) struct ImportCleanUp<'a> {
+    imports: BTreeMap<&'a str, BTreeSet<ImportId>>,
+}
 
-impl ImportCleanUp {
+impl ImportCleanUp<'_> {
     pub fn new() -> Self {
-        ImportCleanUp
+        ImportCleanUp {
+            imports: BTreeMap::new(),
+        }
     }
 
     pub fn clean_up<'a>(program: &mut Program<'a>, allocator: &'a Allocator) {
         let SemanticBuilderReturn {
             semantic,
             errors: semantic_errors,
-        } = SemanticBuilder::new()
-            .with_check_syntax_error(true) // Enable extra syntax error checking
-            .with_build_jsdoc(true) // Enable JSDoc parsing
-            .with_cfg(true) // Build a Control Flow Graph
-            .build(program);
+        } = SemanticBuilder::new().build(program);
 
         let scoping = semantic.into_scoping();
 
-        let transform = &mut ImportCleanUp::new();
+        let mut transform = ImportCleanUp::new();
 
-        traverse_mut(transform, allocator, program, scoping);
+        traverse_mut(&mut transform, allocator, program, scoping);
+
+        transform
+            .imports
+            .into_iter()
+            .rev()
+            .for_each(|(module, names)| {
+                program.body.insert(
+                    0,
+                    Import::new(names.into_iter().collect(), module).into_statement(allocator),
+                );
+            })
     }
 
     /// This function renames the Qwik imports to the new qwik.dev imports.
@@ -64,7 +75,7 @@ struct Key(String);
 impl From<&ImportDeclaration<'_>> for Key {
     fn from(import: &ImportDeclaration) -> Self {
         let mut key = String::new();
-        for specifiers in &import.specifiers {
+        if let Some(specifiers) = &import.specifiers {
             for specifier in specifiers {
                 let local = specifier.local();
                 let local_name = local.name;
@@ -88,35 +99,34 @@ impl From<&ImportDeclaration<'_>> for Key {
     }
 }
 
-impl<'a> Traverse<'a> for ImportCleanUp {
-    fn enter_statements(
+impl<'a> Traverse<'a> for ImportCleanUp<'a> {
+    fn exit_statements(
         &mut self,
         node: &mut oxc_allocator::Vec<'a, Statement<'a>>,
         ctx: &mut TraverseCtx<'a>,
     ) {
-        let mut imports: BTreeSet<Import> = BTreeSet::new();
-
         node.retain_mut(|node| match node {
             Statement::ImportDeclaration(import) => {
                 let source = import.source.clone();
-                let specifiers = &mut import.specifiers;
-                if let Some(specifiers) = specifiers {
+                if let Some(specifiers) = &import.specifiers {
                     for specifier in specifiers {
                         if ctx.scoping().symbol_is_used(specifier.local().symbol_id()) {
-                            imports.insert(Import::from_import_declaration_specifier(
-                                specifier, &source,
-                            ));
+                            if let Some(existing_set) = self.imports.get_mut(source.value.into()) {
+                                existing_set.insert(specifier.into());
+                            } else {
+                                let mut set: BTreeSet<ImportId> = BTreeSet::new();
+                                set.insert(specifier.into());
+                                self.imports.insert(source.value.into(), set);
+                            }
                         }
                     }
+                    false
+                } else {
+                    true
                 }
-                false
             }
             _ => true,
         });
-
-        imports.iter().for_each(|import| {
-            node.insert(0, import.into_statement(ctx.ast.allocator));
-        })
     }
 }
 
@@ -151,6 +161,31 @@ mod tests {
         assert_eq!(lines.len(), 2);
         assert_eq!(lines[0], r#"import { b } from "@qwik.dev/react";"#);
         assert_eq!(lines[1], r#"b.foo();"#);
+    }
+
+    #[test]
+    fn test_merge_imports() {
+        let allocator = Allocator::new();
+        let source = r#"
+            import { a as A } from '@qwik.dev/core';
+            import { b } from '@qwik.dev/core';
+            import { c } from '@qwik.dev/router';
+
+            A.foo(b, c);
+        "#;
+
+        let parse_return = Parser::new(&allocator, source, SourceType::tsx()).parse();
+        let mut program = parse_return.program;
+        ImportCleanUp::clean_up(&mut program, &allocator);
+
+        let codegen = Codegen::default();
+        let raw = codegen.build(&program).code;
+        let lines: Vec<&str> = raw.lines().collect();
+        assert_eq!(program.body.len(), 3);
+        assert_eq!(lines.len(), 3);
+        assert_eq!(lines[0], r#"import { b, a as A } from "@qwik.dev/core";"#);
+        assert_eq!(lines[1], r#"import { c } from "@qwik.dev/router";"#);
+        assert_eq!(lines[2], r#"A.foo(b, c);"#);
     }
 
     #[test]

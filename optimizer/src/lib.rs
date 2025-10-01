@@ -17,4 +17,3 @@ mod processing_failure;
 mod ref_counter;
 mod segment;
 pub mod transform;
-mod transpiler;

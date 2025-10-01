@@ -246,13 +246,18 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
                 optimized_app,
                 errors,
             } = transform(
-                Source::from_source(input.code, language, Some(relative_path.clone()))?,
+                Source::from_source(
+                    input.code,
+                    language,
+                    Some(path.with_extension("").to_string_lossy().to_string()),
+                )?,
                 TransformOptions {
                     minify: match config.minify {
                         MinifyMode::Simplify => true,
                         MinifyMode::None => false,
                     },
                     target: config.mode,
+                    transpile_ts: config.transpile_ts,
                     transpile_jsx: config.transpile_jsx,
                 },
             )?;
