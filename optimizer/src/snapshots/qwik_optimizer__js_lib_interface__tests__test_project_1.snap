@@ -64,7 +64,7 @@ modules:
     segment: ~
     isEntry: false
   - path: "./src/test_input/test_project_1/src/routes/layout.tsx"
-    code: "import { componentQrl, qrl } from \"@qwik.dev/core\";\nexport const onGet = async ({ cacheControl }) => {\n\tcacheControl({\n\t\tstaleWhileRevalidate: 60 * 60 * 24 * 7,\n\t\tmaxAge: 5\n\t});\n};\nexport default componentQrl(qrl(() => import(\"././src/test_input/test_project_1/src/routes/layout.tsx_component_e0ZOSHqXHEo\"), \"component_e0ZOSHqXHEo\"));\n"
+    code: "import { componentQrl, qrl } from \"@qwik.dev/core\";\nexport const onGet = async ({ cacheControl }) => {\n\t// Control caching for this request for best performance and to reduce hosting costs:\n\t// https://qwik.dev/docs/caching/\n\tcacheControl({\n\t\tstaleWhileRevalidate: 60 * 60 * 24 * 7,\n\t\tmaxAge: 5\n\t});\n};\nexport default componentQrl(qrl(() => import(\"././src/test_input/test_project_1/src/routes/layout.tsx_component_e0ZOSHqXHEo\"), \"component_e0ZOSHqXHEo\"));\n"
     map: ~
     segment: ~
     isEntry: false

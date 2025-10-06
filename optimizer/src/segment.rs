@@ -176,13 +176,13 @@ impl Segment {
     }
 
     fn into_binding_identifier<'a>(&self, allocator: &'a Allocator) -> BindingIdentifier<'a> {
-        let ast_builder = AstBuilder::new(allocator);
+        let ast = AstBuilder::new(allocator);
         match self {
-            Segment::Named(name) => ast_builder.binding_identifier(SPAN, name),
+            Segment::Named(name) => ast.binding_identifier(SPAN, ast.atom(name)),
             Segment::NamedQrl(name, _) => {
-                ast_builder.binding_identifier(SPAN, format!("{}{}", name, MARKER_SUFFIX))
+                ast.binding_identifier(SPAN, ast.atom(&format!("{}{}", name, MARKER_SUFFIX)))
             }
-            Segment::IndexQrl(_) => ast_builder.binding_identifier(SPAN, MARKER_SUFFIX),
+            Segment::IndexQrl(_) => ast.binding_identifier(SPAN, MARKER_SUFFIX),
         }
     }
 

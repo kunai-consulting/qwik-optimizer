@@ -54,7 +54,7 @@ impl Qrl {
     ///
     fn make_ref_id(
         qrl_type: &QrlType,
-        ctx: &mut TraverseCtx,
+        ctx: &mut TraverseCtx<'_, ()>,
         symbols_by_name: &mut HashMap<String, SymbolId>,
         import_by_symbol: &mut HashMap<SymbolId, Import>,
     ) -> ReferenceId {
@@ -95,7 +95,7 @@ impl Qrl {
     /// # Examples
     /// ```javascript
     ///  qrl
-    /// ```    
+    /// ```
     /// This identifier will eventually be used to construct a call expression e.g. a function call to `qrl()`.
     /// ```javascript
     /// qrl(() => import("./test.tsx_renderHeader_zBbHWn4e8Cg"), "renderHeader_zBbHWn4e8Cg");
@@ -103,7 +103,7 @@ impl Qrl {
     ///
     pub fn into_identifier_reference<'a>(
         &self,
-        ctx: &mut TraverseCtx<'a>,
+        ctx: &mut TraverseCtx<'a, ()>,
         symbols_by_name: &mut HashMap<String, SymbolId>,
         import_by_symbol: &mut HashMap<SymbolId, Import>,
     ) -> IdentifierReference<'a> {
@@ -119,7 +119,7 @@ impl Qrl {
                     Self::make_ref_id(&self.qrl_type, ctx, symbols_by_name, import_by_symbol);
                 ast.identifier_reference_with_reference_id(
                     SPAN,
-                    format!("{}{}", prefix, QRL_SUFFIX),
+                    ast.atom(&format!("{}{}", prefix, QRL_SUFFIX)),
                     ref_id,
                 )
             }
@@ -167,12 +167,11 @@ impl Qrl {
 
     fn into_arguments<'a>(&self, ast_builder: &AstBuilder<'a>) -> OxcVec<'a, Argument<'a>> {
         let allocator = ast_builder.allocator;
-        let display_name = self.display_name.clone();
 
         // ARG: Display name string literal ////////
-        let raw: Atom = format!(r#""{}""#, display_name).into_in(allocator);
+        let raw = ast_builder.atom(&format!(r#""{}""#, &self.display_name));
         let display_name_arg = OxcBox::new_in(
-            ast_builder.string_literal(SPAN, display_name, Some(raw)),
+            ast_builder.string_literal(SPAN, ast_builder.atom(&self.display_name), Some(raw)),
             allocator,
         );
 
@@ -189,7 +188,7 @@ impl Qrl {
 
     pub fn into_call_expression<'a>(
         &self,
-        ctx: &mut TraverseCtx<'a>,
+        ctx: &mut TraverseCtx<'a, ()>,
         symbols_by_name: &mut HashMap<String, SymbolId>,
         import_by_symbol: &mut HashMap<SymbolId, Import>,
     ) -> CallExpression<'a> {
@@ -222,7 +221,7 @@ impl Qrl {
                 let ident = OxcBox::new_in(
                     ast_builder.identifier_reference_with_reference_id(
                         SPAN,
-                        format!("{}{}", prefix, QRL_SUFFIX),
+                        ast_builder.atom(&format!("{}{}", prefix, QRL_SUFFIX)),
                         ref_id,
                     ),
                     ast_builder.allocator,
@@ -258,7 +257,7 @@ impl Qrl {
     ///
     pub(crate) fn into_expression<'a>(
         self,
-        ctx: &mut TraverseCtx<'a>,
+        ctx: &mut TraverseCtx<'a, ()>,
         symbols_by_name: &mut HashMap<String, SymbolId>,
         import_by_symbol: &mut HashMap<SymbolId, Import>,
     ) -> Expression<'a> {
@@ -270,7 +269,7 @@ impl Qrl {
 
     pub fn into_statement<'a>(
         self,
-        ctx: &mut TraverseCtx<'a>,
+        ctx: &mut TraverseCtx<'a, ()>,
         symbols_by_name: &mut HashMap<String, SymbolId>,
         import_by_symbol: &mut HashMap<SymbolId, Import>,
     ) -> Statement<'a> {
@@ -280,7 +279,7 @@ impl Qrl {
 
     pub fn into_jsx_expression<'a>(
         self,
-        ctx: &mut TraverseCtx<'a>,
+        ctx: &mut TraverseCtx<'a, ()>,
         symbols_by_name: &mut HashMap<String, SymbolId>,
         import_by_symbol: &mut HashMap<SymbolId, Import>,
     ) -> JSXExpression<'a> {

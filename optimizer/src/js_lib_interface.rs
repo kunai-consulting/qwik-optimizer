@@ -317,6 +317,20 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
 
     final_output.modules.sort_unstable_by_key(|key| key.order);
 
+    final_output.modules.iter().for_each(|m| {
+        println!("------------------------------------------");
+        println!(
+            "MODULE {} - {}",
+            m.path,
+            m.segment
+                .clone()
+                .map(|s| { s.canonical_filename })
+                .unwrap_or("<none>".into())
+        );
+        println!("");
+        println!("{}", m.code);
+    });
+
     Ok(final_output)
 }
 

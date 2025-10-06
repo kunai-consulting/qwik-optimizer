@@ -27,7 +27,7 @@ impl ImportCleanUp<'_> {
 
         let mut transform = ImportCleanUp::new();
 
-        traverse_mut(&mut transform, allocator, program, scoping);
+        traverse_mut(&mut transform, allocator, program, scoping, ());
 
         transform
             .imports
@@ -99,18 +99,21 @@ impl From<&ImportDeclaration<'_>> for Key {
     }
 }
 
-impl<'a> Traverse<'a> for ImportCleanUp<'a> {
+impl<'a> Traverse<'a, ()> for ImportCleanUp<'a> {
     fn exit_statements(
         &mut self,
         node: &mut oxc_allocator::Vec<'a, Statement<'a>>,
-        ctx: &mut TraverseCtx<'a>,
+        ctx: &mut TraverseCtx<'a, ()>,
     ) {
         node.retain_mut(|node| match node {
             Statement::ImportDeclaration(import) => {
                 let source = import.source.clone();
                 if let Some(specifiers) = &import.specifiers {
                     for specifier in specifiers {
-                        if ctx.scoping().symbol_is_used(specifier.local().symbol_id()) {
+                        if !ctx
+                            .scoping()
+                            .symbol_is_unused(specifier.local().symbol_id())
+                        {
                             if let Some(existing_set) = self.imports.get_mut(source.value.into()) {
                                 existing_set.insert(specifier.into());
                             } else {
