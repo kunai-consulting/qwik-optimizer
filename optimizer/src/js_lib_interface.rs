@@ -316,7 +316,6 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
         .unwrap_or(TransformOutput::default());
 
     final_output.modules.sort_unstable_by_key(|key| key.order);
-
     Ok(final_output)
 }
 

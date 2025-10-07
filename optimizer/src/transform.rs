@@ -231,7 +231,7 @@ impl<'gen> TransformGenerator<'gen> {
         self.depth += 1;
     }
 
-    fn debug<T: AsRef<str>>(&self, s: T, traverse_ctx: &TraverseCtx) {
+    fn debug<T: AsRef<str>>(&self, s: T, traverse_ctx: &TraverseCtx<'_, ()>) {
         if DEBUG {
             let scope_id = traverse_ctx.current_scope_id();
             let indent = "--".repeat(scope_id.index());
@@ -262,12 +262,12 @@ fn move_expression<'gen>(
 const DEBUG: bool = true;
 const DUMP_FINAL_AST: bool = false;
 
-impl<'a> Traverse<'a> for TransformGenerator<'a> {
-    fn enter_program(&mut self, node: &mut Program<'a>, ctx: &mut TraverseCtx<'a>) {
+impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
+    fn enter_program(&mut self, node: &mut Program<'a>, ctx: &mut TraverseCtx<'a, ()>) {
         println!("ENTERING PROGRAM {}", self.source_info.file_name);
     }
 
-    fn exit_program(&mut self, node: &mut Program<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn exit_program(&mut self, node: &mut Program<'a>, ctx: &mut TraverseCtx<'a, ()>) {
         println!("EXITING PROGRAM {}", self.source_info.file_name);
         if let Some(tree) = self.import_stack.pop() {
             tree.iter().for_each(|import| {
@@ -278,7 +278,6 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         ImportCleanUp::clean_up(node, ctx.ast.allocator);
 
         let codegen_options = CodegenOptions {
-            annotation_comments: true,
             minify: self.options.minify,
             ..Default::default()
         };
@@ -299,7 +298,11 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         }
     }
 
-    fn enter_call_expression(&mut self, node: &mut CallExpression<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn enter_call_expression(
+        &mut self,
+        node: &mut CallExpression<'a>,
+        ctx: &mut TraverseCtx<'a, ()>,
+    ) {
         self.ascend();
         self.debug(format!("ENTER: CallExpression, {:?}", node), ctx);
 
@@ -317,7 +320,11 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         self.segment_stack.push(segment);
     }
 
-    fn exit_call_expression(&mut self, node: &mut CallExpression<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn exit_call_expression(
+        &mut self,
+        node: &mut CallExpression<'a>,
+        ctx: &mut TraverseCtx<'a, ()>,
+    ) {
         let segment = self.segment_stack.last();
 
         if let Some(segment) = segment {
@@ -371,14 +378,14 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
     fn enter_member_expression(
         &mut self,
         node: &mut MemberExpression<'a>,
-        ctx: &mut TraverseCtx<'a>,
+        ctx: &mut TraverseCtx<'a, ()>,
     ) {
         if let Some(mut is_const) = self.expr_is_const_stack.last_mut() {
             *is_const = false;
         }
     }
 
-    fn enter_function(&mut self, node: &mut Function<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn enter_function(&mut self, node: &mut Function<'a>, ctx: &mut TraverseCtx<'a, ()>) {
         let segment: Segment = node
             .name()
             .map(|n| self.new_segment(n))
@@ -387,12 +394,12 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         self.segment_stack.push(segment);
     }
 
-    fn exit_function(&mut self, node: &mut Function<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn exit_function(&mut self, node: &mut Function<'a>, ctx: &mut TraverseCtx<'a, ()>) {
         let popped = self.segment_stack.pop();
         println!("pop segment: {popped:?}");
     }
 
-    fn exit_argument(&mut self, node: &mut Argument<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn exit_argument(&mut self, node: &mut Argument<'a>, ctx: &mut TraverseCtx<'a, ()>) {
         if let Argument::CallExpression(call_expr) = node {
             let qrl = self.qrl_stack.pop();
 
@@ -413,7 +420,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
     fn enter_variable_declarator(
         &mut self,
         node: &mut VariableDeclarator<'a>,
-        ctx: &mut TraverseCtx<'a>,
+        ctx: &mut TraverseCtx<'a, ()>,
     ) {
         self.ascend();
         let id = &node.id;
@@ -457,7 +464,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
     fn exit_variable_declarator(
         &mut self,
         node: &mut VariableDeclarator<'a>,
-        ctx: &mut TraverseCtx<'a>,
+        ctx: &mut TraverseCtx<'a, ()>,
     ) {
         if let Some(init) = &mut node.init {
             let qrl = self.qrl_stack.pop();
@@ -487,13 +494,21 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         println!("pop segment: {popped:?}");
     }
 
-    fn enter_block_statement(&mut self, node: &mut BlockStatement<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn enter_block_statement(
+        &mut self,
+        node: &mut BlockStatement<'a>,
+        ctx: &mut TraverseCtx<'a, ()>,
+    ) {
         if (self.options.transpile_jsx) {
             self.const_stack.push(BTreeSet::new());
         }
     }
 
-    fn exit_block_statement(&mut self, node: &mut BlockStatement<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn exit_block_statement(
+        &mut self,
+        node: &mut BlockStatement<'a>,
+        ctx: &mut TraverseCtx<'a, ()>,
+    ) {
         if (self.options.transpile_jsx) {
             self.const_stack.pop();
         }
@@ -502,7 +517,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
     fn enter_expression_statement(
         &mut self,
         node: &mut ExpressionStatement<'a>,
-        ctx: &mut TraverseCtx<'a>,
+        ctx: &mut TraverseCtx<'a, ()>,
     ) {
         self.ascend();
         self.debug("ENTER: ExpressionStatement", ctx);
@@ -511,20 +526,20 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
     fn exit_expression_statement(
         &mut self,
         node: &mut ExpressionStatement<'a>,
-        ctx: &mut TraverseCtx<'a>,
+        ctx: &mut TraverseCtx<'a, ()>,
     ) {
         self.debug("EXIT: ExpressionStatement", ctx);
         self.descend();
     }
 
-    fn exit_expression(&mut self, node: &mut Expression<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn exit_expression(&mut self, node: &mut Expression<'a>, ctx: &mut TraverseCtx<'a, ()>) {
         if let Some(expr) = self.replace_expr.take() {
             println!("Replacing expression on exit");
             *node = expr;
         }
     }
 
-    fn enter_jsx_element(&mut self, node: &mut JSXElement<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn enter_jsx_element(&mut self, node: &mut JSXElement<'a>, ctx: &mut TraverseCtx<'a, ()>) {
         let (segment, is_fn, is_text_only) =
             if let Some(id) = node.opening_element.name.get_identifier() {
                 (Some(self.new_segment(id.name)), true, false)
@@ -556,7 +571,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         }
     }
 
-    fn exit_jsx_element(&mut self, node: &mut JSXElement<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn exit_jsx_element(&mut self, node: &mut JSXElement<'a>, ctx: &mut TraverseCtx<'a, ()>) {
         if let Some(mut jsx) = self.jsx_stack.pop() {
             if (self.options.transpile_jsx) {
                 if (!jsx.should_runtime_sort) {
@@ -633,15 +648,15 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
                         jsx_type.into(),
                         // varProps
                         self.builder
-                            .expression_object(node.span(), jsx.var_props, None)
+                            .expression_object(node.span(), jsx.var_props)
                             .into(),
                         // constProps
                         self.builder
-                            .expression_object(node.span(), jsx.const_props, None)
+                            .expression_object(node.span(), jsx.const_props)
                             .into(),
                         // children
                         self.builder
-                            .expression_array(node.span(), jsx.children, None)
+                            .expression_array(node.span(), jsx.children)
                             .into(),
                         // flags
                         self.builder
@@ -669,7 +684,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
                                         self.jsx_key_counter += 1;
                                         return self.builder.expression_string_literal(
                                             Span::default(),
-                                            new_key,
+                                            self.builder.atom(&new_key),
                                             None,
                                         );
                                     }
@@ -705,7 +720,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         self.descend();
     }
 
-    fn enter_jsx_fragment(&mut self, node: &mut JSXFragment<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn enter_jsx_fragment(&mut self, node: &mut JSXFragment<'a>, ctx: &mut TraverseCtx<'a, ()>) {
         self.jsx_stack.push(JsxState {
             is_fn: false,
             is_text_only: false,
@@ -721,14 +736,10 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         self.debug("ENTER: JSXFragment", ctx);
     }
 
-    fn exit_jsx_fragment(&mut self, node: &mut JSXFragment<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn exit_jsx_fragment(&mut self, node: &mut JSXFragment<'a>, ctx: &mut TraverseCtx<'a, ()>) {
         if let Some(mut jsx) = self.jsx_stack.pop() {
             if (self.options.transpile_jsx) {
-                self.replace_expr = Some(self.builder.expression_array(
-                    node.span(),
-                    jsx.children,
-                    None,
-                ));
+                self.replace_expr = Some(self.builder.expression_array(node.span(), jsx.children));
             }
         }
         self.debug("EXIT: JSXFragment", ctx);
@@ -737,7 +748,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
     fn exit_jsx_spread_attribute(
         &mut self,
         node: &mut JSXSpreadAttribute<'a>,
-        ctx: &mut TraverseCtx<'a>,
+        ctx: &mut TraverseCtx<'a, ()>,
     ) {
         if (!self.options.transpile_jsx) {
             return;
@@ -760,7 +771,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         }
     }
 
-    fn enter_jsx_attribute(&mut self, node: &mut JSXAttribute<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn enter_jsx_attribute(&mut self, node: &mut JSXAttribute<'a>, ctx: &mut TraverseCtx<'a, ()>) {
         if (self.options.transpile_jsx) {
             self.expr_is_const_stack.push(
                 self.jsx_stack
@@ -775,7 +786,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         self.segment_stack.push(segment);
     }
 
-    fn exit_jsx_attribute(&mut self, node: &mut JSXAttribute<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn exit_jsx_attribute(&mut self, node: &mut JSXAttribute<'a>, ctx: &mut TraverseCtx<'a, ()>) {
         if (self.options.transpile_jsx) {
             if let Some(jsx) = self.jsx_stack.last_mut() {
                 let expr: Expression<'a> = {
@@ -830,7 +841,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
     fn exit_jsx_attribute_value(
         &mut self,
         node: &mut JSXAttributeValue<'a>,
-        ctx: &mut TraverseCtx<'a>,
+        ctx: &mut TraverseCtx<'a, ()>,
     ) {
         if let JSXAttributeValue::ExpressionContainer(container) = node {
             let qrl = self.qrl_stack.pop();
@@ -845,7 +856,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         }
     }
 
-    fn exit_jsx_child(&mut self, node: &mut JSXChild<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn exit_jsx_child(&mut self, node: &mut JSXChild<'a>, ctx: &mut TraverseCtx<'a, ()>) {
         if (!self.options.transpile_jsx) {
             return;
         }
@@ -891,7 +902,11 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         }
     }
 
-    fn exit_return_statement(&mut self, node: &mut ReturnStatement<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn exit_return_statement(
+        &mut self,
+        node: &mut ReturnStatement<'a>,
+        ctx: &mut TraverseCtx<'a, ()>,
+    ) {
         if let Some(expr) = &node.argument {
             if expr.is_qrl_replaceable() {
                 let qrl = self.qrl_stack.pop();
@@ -910,7 +925,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
     fn enter_statements(
         &mut self,
         node: &mut OxcVec<'a, Statement<'a>>,
-        ctx: &mut TraverseCtx<'a>,
+        ctx: &mut TraverseCtx<'a, ()>,
     ) {
         node.retain(|s| {
             let not_dead = !s.is_dead_code();
@@ -926,7 +941,11 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
         });
     }
 
-    fn exit_statements(&mut self, node: &mut OxcVec<'a, Statement<'a>>, ctx: &mut TraverseCtx<'a>) {
+    fn exit_statements(
+        &mut self,
+        node: &mut OxcVec<'a, Statement<'a>>,
+        ctx: &mut TraverseCtx<'a, ()>,
+    ) {
         for statement in node.iter_mut() {
             // This will determine whether the variable declaration can be replaced with just the call that is being used to initialize it.
             // e.g. `const x = componentQrl(...)` can be replaced with just `componentQrl(...)`,
@@ -970,7 +989,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
     fn enter_import_declaration(
         &mut self,
         node: &mut ImportDeclaration<'a>,
-        ctx: &mut TraverseCtx<'a>,
+        ctx: &mut TraverseCtx<'a, ()>,
     ) {
         self.debug(format!("{:?}", node), ctx);
 
@@ -996,9 +1015,10 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
                     // We want to rename all marker imports to their QRL equivalent yet preserve the original symbol id.
                     if let Some(local_name) = local_name {
                         // ctx. symbols_mut().set_name(symbol_id, local_name.as_str());
-                        ctx.scoping.rename_symbol(
+                        let scope_id = ctx.current_scope_id();
+                        ctx.scoping_mut().rename_symbol(
                             symbol_id,
-                            ctx.current_scope_id(),
+                            scope_id,
                             local_name.as_str().into(),
                         );
 
@@ -1019,7 +1039,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
                         match specifier {
                             ImportDeclarationSpecifier::ImportSpecifier(specifier) => {
                                 specifier.imported = ModuleExportName::IdentifierName(
-                                    ctx.ast.identifier_name(SPAN, name),
+                                    ctx.ast.identifier_name(SPAN, ctx.ast.atom(&name)),
                                 );
                                 specifier.local.name = local_name.into_in(ctx.ast.allocator);
                             }
@@ -1050,7 +1070,7 @@ impl<'a> Traverse<'a> for TransformGenerator<'a> {
     fn exit_identifier_reference(
         &mut self,
         id_ref: &mut IdentifierReference<'a>,
-        ctx: &mut TraverseCtx<'a>,
+        ctx: &mut TraverseCtx<'a, ()>,
     ) {
         if let Some(illegal_code_type) = id_ref
             .reference_id
@@ -1151,7 +1171,6 @@ pub fn transform(script_source: Source, options: TransformOptions) -> Result<Opt
         errors: semantic_errors,
     } = SemanticBuilder::new()
         .with_check_syntax_error(true) // Enable extra syntax error checking
-        .with_build_jsdoc(true) // Enable JSDoc parsing
         .with_cfg(true) // Build a Control Flow Graph
         .build(&program);
 
@@ -1160,7 +1179,7 @@ pub fn transform(script_source: Source, options: TransformOptions) -> Result<Opt
     // let (symbols, scopes) = semantic.into_symbol_table_and_scope_tree();
     let scoping = semantic.into_scoping();
 
-    traverse_mut(&mut transform, &allocator, &mut program, scoping);
+    traverse_mut(&mut transform, &allocator, &mut program, scoping, ());
 
     let TransformGenerator { app, errors, .. } = transform;
     Ok(OptimizationResult::new(app, errors))

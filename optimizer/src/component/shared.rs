@@ -68,8 +68,8 @@ impl<'a> FromIn<'a, ImportId> for ImportDeclarationSpecifier<'a> {
         let ast = AstBuilder::new(allocator);
         match value {
             ImportId::Named(name) => {
-                let imported = ast.module_export_name_identifier_name(SPAN, &name);
-                let local_name = ast.binding_identifier(SPAN, &name);
+                let imported = ast.module_export_name_identifier_name(SPAN, ast.atom(&name));
+                let local_name = ast.binding_identifier(SPAN, ast.atom(&name));
                 ast.import_declaration_specifier_import_specifier(
                     SPAN,
                     imported,
@@ -79,8 +79,8 @@ impl<'a> FromIn<'a, ImportId> for ImportDeclarationSpecifier<'a> {
             }
 
             ImportId::NamedWithAlias(name, local_name) => {
-                let imported = ast.module_export_name_identifier_name(SPAN, &name);
-                let local_name = ast.binding_identifier(SPAN, &local_name);
+                let imported = ast.module_export_name_identifier_name(SPAN, ast.atom(&name));
+                let local_name = ast.binding_identifier(SPAN, ast.atom(&local_name));
                 ast.import_declaration_specifier_import_specifier(
                     SPAN,
                     imported,
@@ -89,11 +89,11 @@ impl<'a> FromIn<'a, ImportId> for ImportDeclarationSpecifier<'a> {
                 )
             }
             ImportId::Namespace(local_name) => {
-                let local_name = ast.binding_identifier(SPAN, &local_name);
+                let local_name = ast.binding_identifier(SPAN, ast.atom(&local_name));
                 ast.import_declaration_specifier_import_namespace_specifier(SPAN, local_name)
             }
             ImportId::Default(name) => {
-                let local_name = ast.binding_identifier(SPAN, &name);
+                let local_name = ast.binding_identifier(SPAN, ast.atom(&name));
                 ast.import_declaration_specifier_import_default_specifier(SPAN, local_name)
             }
         }

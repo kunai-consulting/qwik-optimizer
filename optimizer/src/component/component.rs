@@ -62,7 +62,10 @@ impl QrlComponent {
 
         let ast_builder = AstBuilder::new(allocator);
 
-        let id = OxcBox::new_in(ast_builder.binding_identifier(SPAN, name), allocator);
+        let id = OxcBox::new_in(
+            ast_builder.binding_identifier(SPAN, name.as_str()),
+            allocator,
+        );
         let bind_pat = ast_builder.binding_pattern(
             BindingPatternKind::BindingIdentifier(id),
             None::<OxcBox<'_, TSTypeAnnotation<'_>>>,
@@ -121,7 +124,6 @@ impl QrlComponent {
 
         let codegen = Codegen::new();
         let codegen_options = CodegenOptions {
-            annotation_comments: true,
             minify: options.minify,
             ..Default::default()
         };
@@ -133,7 +135,7 @@ impl QrlComponent {
                 // mangle: Some(MangleOptions::default()),
             };
             let minifier = Minifier::new(ops);
-            let ret = minifier.build(allocator, &mut new_pgm);
+            let ret = minifier.minify(allocator, &mut new_pgm);
             let scoping = ret.scoping;
 
             codegen

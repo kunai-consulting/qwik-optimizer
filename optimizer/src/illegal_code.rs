@@ -1,6 +1,5 @@
 use oxc_ast::ast::Statement;
 use oxc_semantic::SymbolId;
-use std::fmt::Display;
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum IllegalCodeType {
@@ -63,7 +62,6 @@ mod tests {
     use super::*;
 
     use oxc_allocator::Allocator;
-    use oxc_index::Idx;
     use oxc_parser::Parser;
     use oxc_semantic::{SemanticBuilder, SemanticBuilderReturn};
     use oxc_span::SourceType;
@@ -78,7 +76,6 @@ mod tests {
             errors: _,
         } = SemanticBuilder::new()
             .with_check_syntax_error(true) // Enable extra syntax error checking
-            .with_build_jsdoc(true) // Enable JSDoc parsing
             .with_cfg(true) // Build a Control Flow Graph
             .build(&program);
 
