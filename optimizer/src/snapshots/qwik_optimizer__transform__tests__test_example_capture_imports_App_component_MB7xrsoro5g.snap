@@ -1,5 +1,0 @@
----
-source: optimizer/src/transform.rs
-expression: comp.code
----
-"import { qrl, useStylesQrl } from \"@qwik.dev/core\";\nexport const App_component_MB7xrsoro5g = () => {\n\tuseStylesQrl(qrl(() => import(\"./test.jsx_App_component_useStyles_yj4sK3KtjRE\"), \"App_component_useStyles_yj4sK3KtjRE\"));\n\tuseStylesQrl(qrl(() => import(\"./test.jsx_App_component_useStyles_1_QaDDTipqmN4\"), \"App_component_useStyles_1_QaDDTipqmN4\"));\n};\n"

@@ -1,5 +1,0 @@
----
-source: optimizer/src/transform.rs
-expression: comp.code
----
-"import { Lightweight } from \"./test.jsx\";\nimport { _jsxSorted, _jsxSplit } from \"@qwik.dev/core\";\nexport const Foo_component_1_dBtHyQ8Btps = () => {\n\treturn /* @__PURE__ */ _jsxSorted(\"div\", {}, {}, [\n\t\t[\n\t\t\t/* @__PURE__ */ _jsxSorted(\"div\", {}, { class: \"class\" }, [], 1, null),\n\t\t\t/* @__PURE__ */ _jsxSorted(\"div\", {}, { class: \"class\" }, [], 1, null),\n\t\t\t/* @__PURE__ */ _jsxSorted(\"div\", {}, { class: \"class\" }, [\"12\"], 1, null)\n\t\t],\n\t\t/* @__PURE__ */ _jsxSorted(\"div\", {}, { class: \"class\" }, [_jsxSplit(Lightweight, { ...props }, {}, [], 0, null)], 1, null),\n\t\t/* @__PURE__ */ _jsxSorted(\"div\", {}, { class: \"class\" }, [\n\t\t\t/* @__PURE__ */ _jsxSorted(\"div\", {}, {}, [], 1, null),\n\t\t\t/* @__PURE__ */ _jsxSorted(\"div\", {}, {}, [], 1, null),\n\t\t\t/* @__PURE__ */ _jsxSorted(\"div\", {}, {}, [], 1, null)\n\t\t], 1, null),\n\t\t/* @__PURE__ */ _jsxSorted(\"div\", {}, { class: \"class\" }, [children], 1, null)\n\t], 1, null);\n};\n"

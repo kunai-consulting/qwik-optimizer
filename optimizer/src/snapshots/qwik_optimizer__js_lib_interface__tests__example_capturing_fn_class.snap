@@ -1,0 +1,112 @@
+---
+source: optimizer/src/js_lib_interface.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+    function hola() {
+        console.log('hola');
+    }
+    class Thing {}
+    class Other {}
+
+    return $(() => {
+        hola();
+        new Thing();
+        return (
+            <div></div>
+        )
+    });
+})
+============================= ./test_example_capturing_fn_class.jsx_App_component_1_sEJrlBvQHzk.js (ENTRY POINT)==
+
+import { _jsxSorted } from "@qwik.dev/core";
+export const App_component_1_sEJrlBvQHzk = () => {
+	hola();
+	new Thing();
+	return /* @__PURE__ */ _jsxSorted("div", {}, {}, [], 1, null);
+};
+
+
+None
+/*
+{
+  "origin": "test_example_capturing_fn_class.js",
+  "name": "App_component_1_sEJrlBvQHzk",
+  "entry": null,
+  "displayName": "test_example_capturing_fn_class.jsx_App_component_1",
+  "hash": "sEJrlBvQHzk",
+  "canonicalFilename": "test_example_capturing_fn_class.jsx_App_component_1_sEJrlBvQHzk",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_1_sEJrlBvQHzk",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./test_example_capturing_fn_class.jsx_App_component_9Afc3zxCXkY.js (ENTRY POINT)==
+
+import { qrl } from "@qwik.dev/core";
+export const App_component_9Afc3zxCXkY = () => {
+	return qrl(() => import("./test_example_capturing_fn_class.jsx_App_component_1_sEJrlBvQHzk.js"), "App_component_1_sEJrlBvQHzk");
+};
+
+
+None
+/*
+{
+  "origin": "test_example_capturing_fn_class.js",
+  "name": "App_component_9Afc3zxCXkY",
+  "entry": null,
+  "displayName": "test_example_capturing_fn_class.jsx_App_component",
+  "hash": "9Afc3zxCXkY",
+  "canonicalFilename": "test_example_capturing_fn_class.jsx_App_component_9Afc3zxCXkY",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_9Afc3zxCXkY",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= test_example_capturing_fn_class.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const App = componentQrl(qrl(() => import("./test_example_capturing_fn_class.jsx_App_component_9Afc3zxCXkY.js"), "App_component_9Afc3zxCXkY"));
+
+
+None
+== DIAGNOSTICS ==
+
+[
+  {
+    "category": "error",
+    "code": null,
+    "file": "test_example_capturing_fn_class.js",
+    "message": "Reference to identifier 'hola' can not be used inside a Qrl($) scope because it's a function",
+    "highlights": null,
+    "suggestions": null,
+    "scope": "optimizer"
+  },
+  {
+    "category": "error",
+    "code": null,
+    "file": "test_example_capturing_fn_class.js",
+    "message": "Reference to identifier 'Thing' can not be used inside a Qrl($) scope because it's a class",
+    "highlights": null,
+    "suggestions": null,
+    "scope": "optimizer"
+  }
+]

@@ -140,11 +140,14 @@ impl Qrl {
     /// ```
     ///
     fn into_arrow_function<'a>(&self, ast_builder: &AstBuilder<'a>) -> ArrowFunctionExpression<'a> {
-        let rel_path = self.rel_path.to_string_lossy();
+        let filename = format!(
+            "./{}.js",
+            self.rel_path.file_name().unwrap().to_string_lossy()
+        );
 
         // Function Body /////////
         let mut statements = ast_builder.vec_with_capacity(1);
-        statements.push(ast_builder.create_simple_import(rel_path.as_ref()));
+        statements.push(ast_builder.create_simple_import(filename.as_ref()));
         let function_body = ast_builder.function_body(SPAN, ast_builder.vec(), statements);
         let func_params = ast_builder.formal_parameters(
             SPAN,

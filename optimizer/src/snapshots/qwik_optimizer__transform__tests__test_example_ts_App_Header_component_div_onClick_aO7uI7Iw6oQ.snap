@@ -1,5 +1,0 @@
----
-source: optimizer/src/transform.rs
-expression: comp.code
----
-"export const App_Header_component_div_onClick_aO7uI7Iw6oQ = (ctx) => console.log(ctx);\n"

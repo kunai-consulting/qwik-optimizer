@@ -1,0 +1,110 @@
+---
+source: optimizer/src/js_lib_interface.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useStyles$ } from '@qwik.dev/core';
+import css1 from './global.css';
+import css2 from './style.css';
+import css3 from './style.css';
+
+export const App = component$(() => {
+    useStyles$(`${css1}${css2}`);
+    useStyles$(css3);
+})
+============================= ./test_example_capture_imports.jsx_App_component_useStyles_1_8FQjeZvEvS8.js (ENTRY POINT)==
+
+import css3 from "./style.css";
+export const App_component_useStyles_1_8FQjeZvEvS8 = css3;
+
+
+None
+/*
+{
+  "origin": "test_example_capture_imports.js",
+  "name": "App_component_useStyles_1_8FQjeZvEvS8",
+  "entry": null,
+  "displayName": "test_example_capture_imports.jsx_App_component_useStyles_1",
+  "hash": "8FQjeZvEvS8",
+  "canonicalFilename": "test_example_capture_imports.jsx_App_component_useStyles_1_8FQjeZvEvS8",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_useStyles_1_8FQjeZvEvS8",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./test_example_capture_imports.jsx_App_component_duMjzEh70Eg.js (ENTRY POINT)==
+
+import { qrl, useStylesQrl } from "@qwik.dev/core";
+export const App_component_duMjzEh70Eg = () => {
+	useStylesQrl(qrl(() => import("./test_example_capture_imports.jsx_App_component_useStyles_4DpomvGIbW4.js"), "App_component_useStyles_4DpomvGIbW4"));
+	useStylesQrl(qrl(() => import("./test_example_capture_imports.jsx_App_component_useStyles_1_8FQjeZvEvS8.js"), "App_component_useStyles_1_8FQjeZvEvS8"));
+};
+
+
+None
+/*
+{
+  "origin": "test_example_capture_imports.js",
+  "name": "App_component_duMjzEh70Eg",
+  "entry": null,
+  "displayName": "test_example_capture_imports.jsx_App_component",
+  "hash": "duMjzEh70Eg",
+  "canonicalFilename": "test_example_capture_imports.jsx_App_component_duMjzEh70Eg",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_duMjzEh70Eg",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./test_example_capture_imports.jsx_App_component_useStyles_4DpomvGIbW4.js (ENTRY POINT)==
+
+import css1 from "./global.css";
+import css2 from "./style.css";
+export const App_component_useStyles_4DpomvGIbW4 = `${css1}${css2}`;
+
+
+None
+/*
+{
+  "origin": "test_example_capture_imports.js",
+  "name": "App_component_useStyles_4DpomvGIbW4",
+  "entry": null,
+  "displayName": "test_example_capture_imports.jsx_App_component_useStyles",
+  "hash": "4DpomvGIbW4",
+  "canonicalFilename": "test_example_capture_imports.jsx_App_component_useStyles_4DpomvGIbW4",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_useStyles_4DpomvGIbW4",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= test_example_capture_imports.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const App = componentQrl(qrl(() => import("./test_example_capture_imports.jsx_App_component_duMjzEh70Eg.js"), "App_component_duMjzEh70Eg"));
+
+
+None
+== DIAGNOSTICS ==
+
+[]
