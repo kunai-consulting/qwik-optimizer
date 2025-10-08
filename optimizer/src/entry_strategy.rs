@@ -69,7 +69,7 @@ impl PerComponentStrategy {
 }
 
 impl EntryPolicy for PerComponentStrategy {
-    fn get_entry_for_sym(&self, context: &[String], segment: &Segment) -> Option<String> {
+    fn get_entry_for_sym(&self, _context: &[String], _segment: &Segment) -> Option<String> {
         panic!("Not implemented")
         /*
         context.first().map_or_else(
@@ -90,7 +90,7 @@ impl SmartStrategy {
 }
 
 impl EntryPolicy for SmartStrategy {
-    fn get_entry_for_sym(&self, context: &[String], segment: &Segment) -> Option<String> {
+    fn get_entry_for_sym(&self, _context: &[String], _segment: &Segment) -> Option<String> {
         panic!("Not implemented")
         /*
         // Event handlers without scope variables are put into a separate file
