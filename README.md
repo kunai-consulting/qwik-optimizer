@@ -1,17 +1,18 @@
 # qwik-optimizer
-Qwik Optimizer remake
 
+Qwik Optimizer remake
 
 **_DISCLAIMER_**: This is very much a work in progress so expect this space to change a lot.
 
 ## What
+
 This is a ground up re-implementation of the original Qwik Optimzer.
 
 ## Why
-The decision was made to mover from SWC to Oxide as the foundation for the Qwik Optimizer.  
+
+The decision was made to mover from SWC to Oxide as the foundation for the Qwik Optimizer.
 
 In the process of doing this, we hope to make the internal Qwik Optimizer more modular and to be more idiomatic Rust.
-
 
 ## Modules
 
@@ -27,3 +28,16 @@ This module currently contains metadata info for components.
 
 Not much save for the unit tests.
 
+## Nix
+
+If you have Nix installed, you can enter a development shell with all the necessary dependencies by running:
+
+```bash
+nix develop
+```
+
+You can also install `direnv` and have it automatically load the development environment when you enter the project directory:
+
+```bash
+direnv allow
+```
