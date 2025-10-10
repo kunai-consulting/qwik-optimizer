@@ -1,5 +1,0 @@
----
-source: src/transform.rs
-expression: comp.code
----
-"import { qrl } from \"@qwik.dev/core\";\nexport const Foo_component_XXLiwMim708 = (props) => {\n\treturn qrl(() => import(\"./test.jsx_Foo_component_1_dBtHyQ8Btps\"), \"Foo_component_1_dBtHyQ8Btps\");\n};\n"

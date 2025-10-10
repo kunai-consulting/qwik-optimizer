@@ -15,7 +15,7 @@ use std::iter::Sum;
 
 use std::cmp::Ordering;
 use std::hash::{DefaultHasher, Hasher};
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::str;
 
 #[derive(Debug, Deserialize, Copy, Clone, PartialEq, Eq)]
@@ -271,37 +271,42 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
                 is_entry: false,
                 order: hasher.finish(),
             }];
-            modules.extend(
-                optimized_app
-                    .components
-                    .into_iter()
-                    .map(|c| TransformModule {
-                        path: relative_path.clone(),
-                        code: c.code,
-                        map: None,
-                        segment: Some(SegmentAnalysis {
-                            origin: relative_path.clone(),
-                            name: c.id.symbol_name.clone(),
-                            entry: None,
-                            display_name: c.id.display_name,
-                            hash: c.id.hash,
-                            canonical_filename: c.id.local_file_name,
-                            path: relative_path.clone(),
-                            extension: ext.into(),
-                            parent: c.id.scope,
-                            ctx_kind: if c.id.symbol_name.starts_with("on") {
-                                SegmentKind::JSXProp
-                            } else {
-                                SegmentKind::Function
-                            },
-                            ctx_name: c.id.symbol_name,
-                            captures: false,
-                            loc: (0, 0),
-                        }),
-                        is_entry: true,
-                        order: c.id.sort_order,
+            modules.extend(optimized_app.components.into_iter().map(|c| {
+                TransformModule {
+                    path: format!("{}.js", &c.id.local_file_name),
+                    code: c.code,
+                    map: None,
+                    segment: Some(SegmentAnalysis {
+                        origin: relative_path.clone(),
+                        name: c.id.symbol_name.clone(),
+                        entry: None,
+                        display_name: c.id.display_name,
+                        hash: c.id.hash,
+                        canonical_filename: PathBuf::from(&c.id.local_file_name)
+                            .file_name()
+                            .unwrap()
+                            .to_string_lossy()
+                            .to_string(),
+                        path: PathBuf::from(&c.id.local_file_name)
+                            .parent()
+                            .unwrap()
+                            .to_string_lossy()
+                            .to_string(),
+                        extension: "js".to_string(),
+                        parent: c.id.scope,
+                        ctx_kind: if c.id.symbol_name.starts_with("on") {
+                            SegmentKind::JSXProp
+                        } else {
+                            SegmentKind::Function
+                        },
+                        ctx_name: c.id.symbol_name,
+                        captures: false,
+                        loc: (0, 0),
                     }),
-            );
+                    is_entry: true,
+                    order: c.id.sort_order,
+                }
+            }));
             Ok(Some(TransformOutput {
                 modules,
                 diagnostics: errors
@@ -323,7 +328,112 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
 mod tests {
     use super::*;
     use glob::glob;
+    use serde_json::to_string_pretty;
     use std::path::PathBuf;
+
+    #[test]
+    fn test_example_1() {
+        assert_valid_transform_debug!(EntryStrategy::Segment);
+    }
+
+    #[test]
+    fn test_example_2() {
+        assert_valid_transform!(EntryStrategy::Segment);
+    }
+
+    #[test]
+    fn test_example_3() {
+        assert_valid_transform!(EntryStrategy::Segment);
+    }
+
+    #[test]
+    fn test_example_4() {
+        assert_valid_transform!(EntryStrategy::Segment);
+    }
+
+    #[test]
+    fn test_example_5() {
+        assert_valid_transform!(EntryStrategy::Segment);
+    }
+
+    #[test]
+    fn test_example_6() {
+        assert_valid_transform!(EntryStrategy::Segment);
+    }
+
+    #[test]
+    fn test_example_7() {
+        assert_valid_transform_debug!(EntryStrategy::Segment);
+    }
+
+    #[test]
+    fn test_example_8() {
+        assert_valid_transform_debug!(EntryStrategy::Segment);
+    }
+
+    // #[test]
+    fn test_example_9() {
+        // Not removing:
+        // const decl8 = 1, decl9;
+        assert_valid_transform_debug!(EntryStrategy::Segment);
+    }
+
+    // #[test]
+    fn test_example_10() {
+        // Not converting:
+        // const a = ident1 + ident3;
+        // const b = ident1 + ident3;
+        // to:
+        // ident1, ident3;
+        // ident1, ident3;
+        assert_valid_transform!(EntryStrategy::Segment);
+    }
+
+    #[test]
+    fn test_example_11() {
+        assert_valid_transform!(EntryStrategy::Segment);
+    }
+
+    #[test]
+    fn test_example_capture_imports() {
+        assert_valid_transform!(EntryStrategy::Segment);
+    }
+
+    #[test]
+    fn test_example_capturing_fn_class() {
+        assert_valid_transform_debug!(EntryStrategy::Segment);
+        /*
+        assert_processing_errors!(|errors: Vec<ProcessingFailure>| {
+            assert_eq!(errors.len(), 2);
+
+            if let ProcessingFailure::IllegalCode(IllegalCodeType::Function(_, Some(name))) =
+                &errors[0]
+            {
+                assert_eq!(name, "hola");
+            } else {
+                panic!("Expected function invocation to be illegal code");
+            }
+
+            if let ProcessingFailure::IllegalCode(IllegalCodeType::Class(_, Some(name))) =
+                &errors[1]
+            {
+                assert_eq!(name, "Thing");
+            } else {
+                panic!("Expected class construction to be illegal code");
+            }
+        });
+        */
+    }
+
+    #[test]
+    fn test_example_jsx() {
+        assert_valid_transform_debug!(EntryStrategy::Segment);
+    }
+
+    #[test]
+    fn test_example_ts() {
+        assert_valid_transform_debug!(EntryStrategy::Segment);
+    }
 
     #[test]
     fn test_project_1() {

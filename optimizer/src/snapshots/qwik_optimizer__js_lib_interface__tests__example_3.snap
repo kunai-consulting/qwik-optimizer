@@ -1,0 +1,87 @@
+---
+source: optimizer/src/js_lib_interface.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$ } from '@builder.io/qwik';
+export const App = () => {
+    const Header = component$(() => {
+        console.log("mount");
+        return (
+            <div onClick={$((ctx) => console.log(ctx))}/>
+        );
+    });
+    return Header;
+};
+
+
+============================= ./test_example_3.tsx_App_Header_component_div_onClick_PHteWc0iLkc.js (ENTRY POINT)==
+
+export const App_Header_component_div_onClick_PHteWc0iLkc = (ctx) => console.log(ctx);
+
+
+None
+/*
+{
+  "origin": "test_example_3.tsx",
+  "name": "App_Header_component_div_onClick_PHteWc0iLkc",
+  "entry": null,
+  "displayName": "test_example_3.tsx_App_Header_component_div_onClick",
+  "hash": "PHteWc0iLkc",
+  "canonicalFilename": "test_example_3.tsx_App_Header_component_div_onClick_PHteWc0iLkc",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_Header_component_div_onClick_PHteWc0iLkc",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= test_example_3.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const App = () => {
+	const Header = componentQrl(qrl(() => import("./test_example_3.tsx_App_Header_component_sugl04P0hM8.js"), "App_Header_component_sugl04P0hM8"));
+	return Header;
+};
+
+
+None
+============================= ./test_example_3.tsx_App_Header_component_sugl04P0hM8.js (ENTRY POINT)==
+
+import { _jsxSorted, qrl } from "@qwik.dev/core";
+export const App_Header_component_sugl04P0hM8 = () => {
+	console.log("mount");
+	return /* @__PURE__ */ _jsxSorted("div", { onClick: qrl(() => import("./test_example_3.tsx_App_Header_component_div_onClick_PHteWc0iLkc.js"), "App_Header_component_div_onClick_PHteWc0iLkc") }, {}, [], 1, null);
+};
+
+
+None
+/*
+{
+  "origin": "test_example_3.tsx",
+  "name": "App_Header_component_sugl04P0hM8",
+  "entry": null,
+  "displayName": "test_example_3.tsx_App_Header_component",
+  "hash": "sugl04P0hM8",
+  "canonicalFilename": "test_example_3.tsx_App_Header_component_sugl04P0hM8",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_Header_component_sugl04P0hM8",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

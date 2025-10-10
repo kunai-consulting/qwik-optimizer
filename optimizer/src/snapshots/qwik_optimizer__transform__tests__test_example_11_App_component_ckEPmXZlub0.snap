@@ -1,5 +1,0 @@
----
-source: optimizer/src/transform.rs
-expression: comp.code
----
-"import { foo } from \"../state\";\nimport { Header } from \"./test\";\nexport const App_component_ckEPmXZlub0 = () => {\n\treturn <Header>{foo()}</Header>;\n};\n"

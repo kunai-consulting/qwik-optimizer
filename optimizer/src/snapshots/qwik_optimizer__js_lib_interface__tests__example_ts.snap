@@ -1,0 +1,87 @@
+---
+source: optimizer/src/js_lib_interface.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$, type Component } from '@builder.io/qwik';
+
+export const App = () => {
+    const Header: Component = component$(() => {
+        console.log("mount");
+        return (
+            <div onClick={$((ctx) => console.log(ctx))}/>
+        );
+    });
+    return Header;
+};
+
+============================= test_example_ts.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const App = () => {
+	const Header = componentQrl(qrl(() => import("./test_example_ts.tsx_App_Header_component_IcZnKqyst0A.js"), "App_Header_component_IcZnKqyst0A"));
+	return Header;
+};
+
+
+None
+============================= ./test_example_ts.tsx_App_Header_component_div_onClick_heZI5duJilM.js (ENTRY POINT)==
+
+export const App_Header_component_div_onClick_heZI5duJilM = (ctx) => console.log(ctx);
+
+
+None
+/*
+{
+  "origin": "test_example_ts.tsx",
+  "name": "App_Header_component_div_onClick_heZI5duJilM",
+  "entry": null,
+  "displayName": "test_example_ts.tsx_App_Header_component_div_onClick",
+  "hash": "heZI5duJilM",
+  "canonicalFilename": "test_example_ts.tsx_App_Header_component_div_onClick_heZI5duJilM",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_Header_component_div_onClick_heZI5duJilM",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./test_example_ts.tsx_App_Header_component_IcZnKqyst0A.js (ENTRY POINT)==
+
+import { _jsxSorted, qrl } from "@qwik.dev/core";
+export const App_Header_component_IcZnKqyst0A = () => {
+	console.log("mount");
+	return /* @__PURE__ */ _jsxSorted("div", { onClick: qrl(() => import("./test_example_ts.tsx_App_Header_component_div_onClick_heZI5duJilM.js"), "App_Header_component_div_onClick_heZI5duJilM") }, {}, [], 1, null);
+};
+
+
+None
+/*
+{
+  "origin": "test_example_ts.tsx",
+  "name": "App_Header_component_IcZnKqyst0A",
+  "entry": null,
+  "displayName": "test_example_ts.tsx_App_Header_component",
+  "hash": "IcZnKqyst0A",
+  "canonicalFilename": "test_example_ts.tsx_App_Header_component_IcZnKqyst0A",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_Header_component_IcZnKqyst0A",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

@@ -1,5 +1,0 @@
----
-source: optimizer/src/transform.rs
-expression: result.body
----
-"import { componentQrl, qrl } from \"@qwik.dev/core\";\nexport function App() {\n\tconst Header = componentQrl(qrl(() => import(\"./test.tsx_App_Header_component_B9F3YeqcO1w\"), \"App_Header_component_B9F3YeqcO1w\"));\n\treturn Header;\n}\n"

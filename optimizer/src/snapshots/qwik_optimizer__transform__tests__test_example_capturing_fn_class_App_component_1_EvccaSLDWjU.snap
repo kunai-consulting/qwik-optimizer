@@ -1,6 +1,0 @@
----
-source: src/transform.rs
-expression: comp.code
-snapshot_kind: text
----
-"export const App_component_1_EvccaSLDWjU = () => {\n\thola();\n\tnew Thing();\n\treturn <div></div>;\n};\n"

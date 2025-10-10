@@ -1,6 +1,0 @@
----
-source: src/transform.rs
-expression: comp.code
-snapshot_kind: text
----
-"export const renderHeader_component_U6Kkv07sbpQ = () => {\n\tconsole.log(\"mount\");\n\treturn render;\n};\n"

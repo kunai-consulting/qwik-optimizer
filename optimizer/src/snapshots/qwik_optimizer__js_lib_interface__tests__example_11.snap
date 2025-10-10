@@ -1,0 +1,126 @@
+---
+source: optimizer/src/js_lib_interface.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$ } from '@qwik.dev/core';
+import {foo, bar as bbar} from "../state";
+import * as dep2 from "dep2";
+import dep3 from "dep3/something";
+
+export const Header = component$(() => {
+    return (
+        <Header onClick={$((ev) => dep3(ev))}>
+            {dep2.stuff()}{bbar()}
+        </Header>
+    );
+});
+
+export const App = component$(() => {
+    return (
+        <Header>{foo()}</Header>
+    );
+});
+
+============================= ./test_example_11.tsx_App_component_Sjj92bgB1iA.js (ENTRY POINT)==
+
+import { foo } from "../state";
+import { Header } from "./test_example_11";
+import { _jsxSorted } from "@qwik.dev/core";
+export const App_component_Sjj92bgB1iA = () => {
+	return _jsxSorted(Header, {}, {}, [foo()], 1, null);
+};
+
+
+None
+/*
+{
+  "origin": "test_example_11.tsx",
+  "name": "App_component_Sjj92bgB1iA",
+  "entry": null,
+  "displayName": "test_example_11.tsx_App_component",
+  "hash": "Sjj92bgB1iA",
+  "canonicalFilename": "test_example_11.tsx_App_component_Sjj92bgB1iA",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_Sjj92bgB1iA",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./test_example_11.tsx_Header_component_Header_onClick_YvUbMIjc9kI.js (ENTRY POINT)==
+
+import dep3 from "dep3/something";
+export const Header_component_Header_onClick_YvUbMIjc9kI = (ev) => dep3(ev);
+
+
+None
+/*
+{
+  "origin": "test_example_11.tsx",
+  "name": "Header_component_Header_onClick_YvUbMIjc9kI",
+  "entry": null,
+  "displayName": "test_example_11.tsx_Header_component_Header_onClick",
+  "hash": "YvUbMIjc9kI",
+  "canonicalFilename": "test_example_11.tsx_Header_component_Header_onClick_YvUbMIjc9kI",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Header_component_Header_onClick_YvUbMIjc9kI",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= test_example_11.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const Header = componentQrl(qrl(() => import("./test_example_11.tsx_Header_component_r6bL70De5aU.js"), "Header_component_r6bL70De5aU"));
+export const App = componentQrl(qrl(() => import("./test_example_11.tsx_App_component_Sjj92bgB1iA.js"), "App_component_Sjj92bgB1iA"));
+
+
+None
+============================= ./test_example_11.tsx_Header_component_r6bL70De5aU.js (ENTRY POINT)==
+
+import { bar as bbar } from "../state";
+import { Header } from "./test_example_11";
+import { _jsxSorted, qrl } from "@qwik.dev/core";
+import * as dep2 from "dep2";
+export const Header_component_r6bL70De5aU = () => {
+	return _jsxSorted(Header, { onClick: qrl(() => import("./test_example_11.tsx_Header_component_Header_onClick_YvUbMIjc9kI.js"), "Header_component_Header_onClick_YvUbMIjc9kI") }, {}, [dep2.stuff(), bbar()], 1, null);
+};
+
+
+None
+/*
+{
+  "origin": "test_example_11.tsx",
+  "name": "Header_component_r6bL70De5aU",
+  "entry": null,
+  "displayName": "test_example_11.tsx_Header_component",
+  "hash": "r6bL70De5aU",
+  "canonicalFilename": "test_example_11.tsx_Header_component_r6bL70De5aU",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Header_component_r6bL70De5aU",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]
