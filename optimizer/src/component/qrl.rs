@@ -1,10 +1,10 @@
 use crate::component::{Import, QRL, QRL_SUFFIX, QWIK_CORE_SOURCE};
 use crate::ext::AstBuilderExt;
-use oxc_allocator::{Allocator, Box as OxcBox, CloneIn, FromIn, IntoIn, Vec as OxcVec};
+use oxc_allocator::{Allocator, Box as OxcBox, CloneIn, FromIn, Vec as OxcVec};
 use oxc_ast::ast::*;
 use oxc_ast::AstBuilder;
 use oxc_semantic::{NodeId, ReferenceFlags, ReferenceId, ScopeId, SymbolFlags, SymbolId};
-use oxc_span::{Atom, SPAN};
+use oxc_span::SPAN;
 use oxc_traverse::TraverseCtx;
 use serde::Serialize;
 use std::collections::HashMap;

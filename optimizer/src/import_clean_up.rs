@@ -20,7 +20,7 @@ impl ImportCleanUp<'_> {
     pub fn clean_up<'a>(program: &mut Program<'a>, allocator: &'a Allocator) {
         let SemanticBuilderReturn {
             semantic,
-            errors: semantic_errors,
+            errors: _semantic_errors,
         } = SemanticBuilder::new().build(program);
 
         let scoping = semantic.into_scoping();

@@ -52,7 +52,7 @@ impl IllegalCode for Statement<'_> {
                 bid.and_then(|bid| bid.symbol_id.get())
                     .map(|id| IllegalCodeType::Class(id, cd.name().map(String::from)))
             }
-            s => None,
+            _s => None,
         }
     }
 }

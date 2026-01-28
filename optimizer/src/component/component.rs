@@ -55,7 +55,7 @@ impl QrlComponent {
         exported_expression: Expression<'_>,
         imports: Vec<Import>,
         source_type: &SourceType,
-        source_info: &SourceInfo,
+        _source_info: &SourceInfo,
         allocator: &Allocator,
     ) -> String {
         let name = &id.symbol_name;

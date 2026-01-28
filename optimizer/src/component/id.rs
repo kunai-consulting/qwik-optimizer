@@ -127,7 +127,7 @@ impl Id {
     /// - The `scope` (if provided).
     ///
     /// [V 1.0 REF] see `QwikTransform.register_context_name` in `transform.rs.
-    pub fn new(
+    pub(crate) fn new(
         source_info: &SourceInfo,
         segments: &Vec<Segment>,
         target: &Target,
