@@ -1,3 +1,4 @@
+pub mod collector;
 pub mod component;
 pub(crate) mod error;
 pub(crate) mod ext;
