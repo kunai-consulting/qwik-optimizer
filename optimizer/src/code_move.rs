@@ -196,16 +196,24 @@ mod tests {
         if let Some(Statement::ExpressionStatement(expr_stmt)) = program.body.first() {
             // Need to clone the expression to avoid lifetime issues
             use oxc_allocator::CloneIn;
-            expr_stmt.expression.clone_in(allocator)
+            let expr = expr_stmt.expression.clone_in(allocator);
+            // Unwrap parenthesized expression if present
+            if let Expression::ParenthesizedExpression(paren) = expr {
+                paren.unbox().expression
+            } else {
+                expr
+            }
         } else {
             panic!("Expected expression statement");
         }
     }
 
     fn gen_code(expr: &Expression) -> String {
-        let codegen = Codegen::new().with_options(CodegenOptions::default());
-        // Create a minimal program to codegen the expression
-        codegen.print_expression(expr)
+        let mut codegen = Codegen::new().with_options(CodegenOptions::default());
+        // Print the expression to the internal buffer
+        codegen.print_expression(expr);
+        // Get the final generated code
+        codegen.into_source_text()
     }
 
     #[test]
