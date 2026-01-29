@@ -191,6 +191,15 @@ pub struct TransformGenerator<'gen> {
     /// Native elements (lowercase first char like `<div>`, `<button>`) get event name transformation.
     /// Component elements (uppercase first char like `<MyButton>`) keep original attribute names.
     jsx_element_is_native: Vec<bool>,
+
+    /// Props destructuring state for current component.
+    /// Maps local variable names to their original property keys for _rawProps.key access.
+    /// Key: (local_name, scope_id), Value: property key string
+    props_identifiers: HashMap<Id, String>,
+
+    /// Flag indicating we're inside a component$ that needs props transformation.
+    /// Set to true when entering a component$ with destructured props, cleared on exit.
+    in_component_props: bool,
 }
 
 impl<'gen> TransformGenerator<'gen> {
@@ -226,6 +235,8 @@ impl<'gen> TransformGenerator<'gen> {
             replace_expr: None,
             decl_stack: vec![Vec::new()],
             jsx_element_is_native: Vec::new(),
+            props_identifiers: HashMap::new(),
+            in_component_props: false,
         }
     }
 
@@ -405,6 +416,23 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             self.import_stack.push(BTreeSet::new());
         }
 
+        // Check for component$ with destructured props
+        // This will be transformed in exit_call_expression if needed
+        if name.starts_with("component") && name.ends_with(MARKER_SUFFIX) {
+            if let Some(arg) = node.arguments.first() {
+                if let Some(expr) = arg.as_expression() {
+                    if let Expression::ArrowFunctionExpression(arrow) = expr {
+                        // Check if first param is ObjectPattern
+                        if let Some(first_param) = arrow.params.items.first() {
+                            if matches!(first_param.pattern, BindingPattern::ObjectPattern(_)) {
+                                self.in_component_props = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         let segment: Segment = self.new_segment(name);
         println!("push segment: {segment}");
         self.segment_stack.push(segment);
@@ -415,6 +443,26 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         node: &mut CallExpression<'a>,
         ctx: &mut TraverseCtx<'a, ()>,
     ) {
+        // Handle component$ props destructuring BEFORE QRL extraction
+        // Transform ObjectPattern parameter to _rawProps and track prop mappings
+        if self.in_component_props {
+            if let Some(arg) = node.arguments.first_mut() {
+                if let Some(expr) = arg.as_expression_mut() {
+                    if let Expression::ArrowFunctionExpression(arrow) = expr {
+                        use crate::props_destructuring::PropsDestructuring;
+                        let mut props_trans = PropsDestructuring::new(
+                            ctx.ast.allocator,
+                            None, // component_ident not needed here, we already know it's component$
+                        );
+                        if props_trans.transform_component_props(arrow, &ctx.ast) {
+                            self.props_identifiers = props_trans.identifiers;
+                        }
+                    }
+                }
+            }
+            self.in_component_props = false;
+        }
+
         let segment = self.segment_stack.last();
 
         if let Some(segment) = segment {
@@ -568,6 +616,7 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                 }
             }
         }
+
         self.segment_stack.pop();
     }
 

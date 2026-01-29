@@ -197,111 +197,140 @@ impl<'a> PropsDestructuring<'a> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-    use crate::transform::{default_options, do_transform};
+    use crate::component::Language;
+    use crate::source::Source;
+    use crate::transform::{transform, TransformOptions};
+
+    // Note: super::* not needed since we only test via the transform function
 
     /// Test that simple destructure is detected and transformed.
     /// component$(({ message }) => ...) should become component$((_rawProps) => ...)
     #[test]
     fn test_props_destructuring_simple() {
-        let input = r#"
-            import { component$ } from "@qwik.dev/core";
-            export const Cmp = component$(({ message }) => {
-                return <div>{message}</div>;
-            });
-        "#;
+        let source_code = r#"
+import { component$ } from "@qwik.dev/core";
+export const Cmp = component$(({ message }) => {
+    return <div>{message}</div>;
+});
+"#;
 
-        let (app, errors) = do_transform(input, &default_options(), None);
-        assert!(errors.is_empty(), "Transform errors: {:?}", errors);
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
 
-        // Should contain _rawProps in the component output
+        // Should contain _rawProps in either the body or component code
+        let has_raw_props = result.optimized_app.body.contains("_rawProps")
+            || result.optimized_app.components.iter().any(|c| c.code.contains("_rawProps"));
+
         assert!(
-            app.body.contains("_rawProps"),
-            "Expected _rawProps parameter, got: {}",
-            app.body
+            has_raw_props,
+            "Expected _rawProps parameter, got body: {}\ncomponents: {:?}",
+            result.optimized_app.body,
+            result.optimized_app.components.iter().map(|c| &c.code).collect::<Vec<_>>()
         );
     }
 
     /// Test that multiple destructured props are tracked.
     #[test]
     fn test_props_destructuring_multiple() {
-        let input = r#"
-            import { component$ } from "@qwik.dev/core";
-            export const Cmp = component$(({ message, id, count }) => {
-                return <div id={id}>{message} - {count}</div>;
-            });
-        "#;
+        let source_code = r#"
+import { component$ } from "@qwik.dev/core";
+export const Cmp = component$(({ message, id, count }) => {
+    return <div id={id}>{message} - {count}</div>;
+});
+"#;
 
-        let (app, errors) = do_transform(input, &default_options(), None);
-        assert!(errors.is_empty(), "Transform errors: {:?}", errors);
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
 
-        // Should contain _rawProps in the component output
+        // Should contain _rawProps in either the body or component code
+        let has_raw_props = result.optimized_app.body.contains("_rawProps")
+            || result.optimized_app.components.iter().any(|c| c.code.contains("_rawProps"));
+
         assert!(
-            app.body.contains("_rawProps"),
-            "Expected _rawProps parameter, got: {}",
-            app.body
+            has_raw_props,
+            "Expected _rawProps parameter, got body: {}\ncomponents: {:?}",
+            result.optimized_app.body,
+            result.optimized_app.components.iter().map(|c| &c.code).collect::<Vec<_>>()
         );
     }
 
     /// Test that aliased destructure ({{ count: c }}) is handled.
     #[test]
     fn test_props_destructuring_aliased() {
-        let input = r#"
-            import { component$ } from "@qwik.dev/core";
-            export const Cmp = component$(({ count: c, name: n }) => {
-                return <div>{c} - {n}</div>;
-            });
-        "#;
+        let source_code = r#"
+import { component$ } from "@qwik.dev/core";
+export const Cmp = component$(({ count: c, name: n }) => {
+    return <div>{c} - {n}</div>;
+});
+"#;
 
-        let (app, errors) = do_transform(input, &default_options(), None);
-        assert!(errors.is_empty(), "Transform errors: {:?}", errors);
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
 
-        // Should contain _rawProps in the component output
+        // Should contain _rawProps in either the body or component code
+        let has_raw_props = result.optimized_app.body.contains("_rawProps")
+            || result.optimized_app.components.iter().any(|c| c.code.contains("_rawProps"));
+
         assert!(
-            app.body.contains("_rawProps"),
-            "Expected _rawProps parameter, got: {}",
-            app.body
+            has_raw_props,
+            "Expected _rawProps parameter, got body: {}\ncomponents: {:?}",
+            result.optimized_app.body,
+            result.optimized_app.components.iter().map(|c| &c.code).collect::<Vec<_>>()
         );
     }
 
     /// Test that non-component arrow functions are not transformed.
     #[test]
     fn test_ignores_non_component() {
-        let input = r#"
-            const regularFn = ({ x }) => x * 2;
-            const result = regularFn({ x: 5 });
-        "#;
+        let source_code = r#"
+const regularFn = ({ x }) => x * 2;
+const result = regularFn({ x: 5 });
+"#;
 
-        let (app, errors) = do_transform(input, &default_options(), None);
-        assert!(errors.is_empty(), "Transform errors: {:?}", errors);
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default();
+        let result = transform(source, options).expect("Transform should succeed");
 
         // Should NOT contain _rawProps - this is a regular function
         assert!(
-            !app.body.contains("_rawProps"),
+            !result.optimized_app.body.contains("_rawProps"),
             "Non-component function should not have _rawProps: {}",
-            app.body
+            result.optimized_app.body
         );
     }
 
     /// Test that non-destructured params are not transformed.
     #[test]
     fn test_ignores_non_destructured() {
-        let input = r#"
-            import { component$ } from "@qwik.dev/core";
-            export const Cmp = component$((props) => {
-                return <div>{props.message}</div>;
-            });
-        "#;
+        let source_code = r#"
+import { component$ } from "@qwik.dev/core";
+export const Cmp = component$((props) => {
+    return <div>{props.message}</div>;
+});
+"#;
 
-        let (app, errors) = do_transform(input, &default_options(), None);
-        assert!(errors.is_empty(), "Transform errors: {:?}", errors);
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
 
         // Should NOT contain _rawProps - props is already a simple param
         // The body should still contain 'props' as the parameter
+        let has_raw_props = result.optimized_app.body.contains("_rawProps")
+            || result.optimized_app.components.iter().any(|c| c.code.contains("_rawProps"));
+
         assert!(
-            !app.body.contains("_rawProps"),
-            "Non-destructured param should not become _rawProps: {}",
-            app.body
+            !has_raw_props,
+            "Non-destructured param should not become _rawProps, body: {}\ncomponents: {:?}",
+            result.optimized_app.body,
+            result.optimized_app.components.iter().map(|c| &c.code).collect::<Vec<_>>()
         );
     }
 }
