@@ -1400,6 +1400,46 @@ fn get_event_scope_data_from_jsx_event(jsx_event: &str) -> (&'static str, usize)
     }
 }
 
+/// Creates an HTML event attribute name from an event name and prefix.
+///
+/// Converts camelCase to kebab-case (e.g., "Click" -> "click", "DblClick" -> "dblclick").
+/// The `-` prefix in the original name preserves case (e.g., "-cLick" -> "c-lick").
+///
+/// # Examples
+/// - ("Click", "on:") -> "on:click"
+/// - ("DblClick", "on:") -> "on:dblclick"
+/// - ("Focus", "on-document:") -> "on-document:focus"
+fn create_event_name(name: &str, prefix: &str) -> String {
+    let mut result = String::from(prefix);
+
+    // Check if name starts with '-' (case-preserving marker)
+    let name = if let Some(stripped) = name.strip_prefix('-') {
+        // Case-preserving: don't lowercase, but still convert camelCase humps to dashes
+        for c in stripped.chars() {
+            if c.is_ascii_uppercase() {
+                result.push('-');
+                result.push(c.to_ascii_lowercase());
+            } else {
+                result.push(c);
+            }
+        }
+        return result;
+    } else {
+        name
+    };
+
+    // Standard camelCase to kebab-case: lowercase everything
+    for c in name.chars() {
+        if c.is_ascii_uppercase() {
+            result.push(c.to_ascii_lowercase());
+        } else {
+            result.push(c);
+        }
+    }
+
+    result
+}
+
 /// Compute which identifiers from parent scopes are captured by a QRL.
 ///
 /// Takes all identifiers referenced in the QRL body and all declarations from parent scopes,
