@@ -1311,7 +1311,17 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                 } else {
                     self.builder.expression_object(node.span(), jsx.var_props)
                 };
-                let const_props_arg: Expression<'a> = if jsx.const_props.is_empty() {
+                // When spread exists, constProps is _getConstProps(spread_expr) call directly
+                let const_props_arg: Expression<'a> = if let Some(spread_expr) = jsx.spread_expr.take() {
+                    // Generate _getConstProps(spread_expr) - call directly, not wrapped in object
+                    self.builder.expression_call(
+                        node.span(),
+                        self.builder.expression_identifier(node.span(), _GET_CONST_PROPS),
+                        None::<OxcBox<TSTypeParameterInstantiation<'a>>>,
+                        self.builder.vec1(Argument::from(spread_expr)),
+                        false,
+                    )
+                } else if jsx.const_props.is_empty() {
                     self.builder.expression_null_literal(node.span())
                 } else {
                     self.builder.expression_object(node.span(), jsx.const_props)
@@ -1412,6 +1422,7 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             var_props: OxcVec::new_in(self.builder.allocator),
             const_props: OxcVec::new_in(self.builder.allocator),
             children: OxcVec::new_in(self.builder.allocator),
+            spread_expr: None,
         });
         self.debug("ENTER: JSXFragment", ctx);
     }
@@ -1526,10 +1537,24 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             jsx.should_runtime_sort = true;
             jsx.static_subtree = false;
             jsx.static_listeners = false;
+
+            // Store spread expression for _getConstProps generation in exit_jsx_element
+            let spread_arg = move_expression(&self.builder, &mut node.argument);
+            jsx.spread_expr = Some(spread_arg.clone_in(self.builder.allocator));
+
+            // Generate _getVarProps(spread_arg) call and spread it into var_props
+            // Output: { ..._getVarProps(props) }
+            let get_var_props_call = self.builder.expression_call(
+                node.span(),
+                self.builder.expression_identifier(node.span(), _GET_VAR_PROPS),
+                None::<OxcBox<TSTypeParameterInstantiation<'a>>>,
+                self.builder.vec1(Argument::from(spread_arg)),
+                false,
+            );
             jsx.var_props
                 .push(self.builder.object_property_kind_spread_property(
                     node.span(),
-                    move_expression(&self.builder, &mut node.argument).into(),
+                    get_var_props_call,
                 ))
         }
     }
@@ -3925,5 +3950,55 @@ export const App = component$(() => {
         // Static props should be present
         assert!(component_code.contains("staticProp"),
             "staticProp should be in output, got: {}", component_code);
+    }
+
+    // ==================== Spread Props Tests ====================
+
+    #[test]
+    fn test_spread_props_use_helpers() {
+        // Test that spread props use _getVarProps and _getConstProps helpers
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+    const props = { foo: "bar" };
+    return <button {...props} />;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Get component code
+        let component_code = result.optimized_app.components.iter()
+            .find(|c| c.code.contains("button"))
+            .map(|c| &c.code)
+            .expect("Should have a component with button");
+
+        // STRONG ASSERTIONS:
+        // 1. Should use _jsxSplit (not _jsxSorted) for spread props
+        assert!(component_code.contains("_jsxSplit"),
+            "Expected _jsxSplit for spread props, got: {}", component_code);
+
+        // 2. Should contain _getVarProps(props) call
+        assert!(component_code.contains("_getVarProps(props)"),
+            "Expected _getVarProps(props) call, got: {}", component_code);
+
+        // 3. Should contain _getConstProps(props) call
+        assert!(component_code.contains("_getConstProps(props)"),
+            "Expected _getConstProps(props) call, got: {}", component_code);
+
+        // 4. varProps should be an object with spread: { ..._getVarProps(props) }
+        assert!(component_code.contains("..._getVarProps(props)"),
+            "Expected spread of _getVarProps in varProps object, got: {}", component_code);
+
+        // 5. Should import the helper functions
+        assert!(component_code.contains("_getVarProps") && component_code.contains("_getConstProps"),
+            "Expected _getVarProps and _getConstProps to be imported, got: {}", component_code);
     }
 }
