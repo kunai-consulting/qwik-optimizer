@@ -3,8 +3,11 @@
 //! This module provides `IdentCollector` which traverses AST to identify
 //! which variables are referenced within QRL function bodies. This is
 //! essential for generating the `[captures]` array in `qrl()` calls.
+//!
+//! Additionally, provides `ExportInfo` and export collection for tracking
+//! module exports, used for segment file import generation.
 
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 
 use oxc_ast::ast;
 use oxc_ast_visit::Visit;
@@ -13,6 +16,24 @@ use oxc_semantic::ScopeId;
 /// Identifier type for OXC - (name, scope_id)
 /// Similar to SWC's `(Atom, SyntaxContext)` pattern
 pub type Id = (String, ScopeId);
+
+/// Information about a module export.
+///
+/// Used for segment file import generation - when QRL segment files
+/// reference symbols that are exports from the source file, those
+/// segments need to import from the source file.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ExportInfo {
+    /// The local identifier name (the variable name in the source file)
+    pub local_name: String,
+    /// The exported name (may differ for `export { x as y }`)
+    pub exported_name: String,
+    /// True for default exports (`export default ...`)
+    pub is_default: bool,
+    /// Source path for re-exports (`export { foo } from './other'`)
+    /// None for local exports
+    pub source: Option<String>,
+}
 
 /// Context for tracking whether we're in an expression or should skip collection.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -139,6 +160,124 @@ impl<'a> Visit<'a> for IdentCollector {
         oxc_ast_visit::walk::walk_member_expression(self, member);
         self.expr_ctxt.pop();
     }
+}
+
+/// Collects all exports from a module's AST.
+///
+/// Returns a HashMap keyed by local name, where each entry contains
+/// the export information (local name, exported name, is_default, source).
+///
+/// Collects:
+/// - Named exports with declarations: `export const Foo = ...`
+/// - Named export lists: `export { foo, bar as baz }`
+/// - Default exports: `export default function ...`
+/// - Re-exports: `export { foo } from './other'`
+pub fn collect_exports(program: &ast::Program) -> HashMap<String, ExportInfo> {
+    let mut exports = HashMap::new();
+
+    for stmt in &program.body {
+        match stmt {
+            // Export named declaration: `export const Foo = ...` or `export function bar() {}`
+            ast::Statement::ExportNamedDeclaration(export) => {
+                // Re-exports: `export { foo } from './other'`
+                let source = export.source.as_ref().map(|s| s.value.to_string());
+
+                // Export with declaration: `export const Foo = ...`
+                if let Some(decl) = &export.declaration {
+                    match decl {
+                        ast::Declaration::VariableDeclaration(var_decl) => {
+                            for declarator in &var_decl.declarations {
+                                if let Some(ident) = declarator.id.get_binding_identifier() {
+                                    let name = ident.name.to_string();
+                                    exports.insert(name.clone(), ExportInfo {
+                                        local_name: name.clone(),
+                                        exported_name: name,
+                                        is_default: false,
+                                        source: source.clone(),
+                                    });
+                                }
+                            }
+                        }
+                        ast::Declaration::FunctionDeclaration(fn_decl) => {
+                            if let Some(ident) = &fn_decl.id {
+                                let name = ident.name.to_string();
+                                exports.insert(name.clone(), ExportInfo {
+                                    local_name: name.clone(),
+                                    exported_name: name,
+                                    is_default: false,
+                                    source: source.clone(),
+                                });
+                            }
+                        }
+                        ast::Declaration::ClassDeclaration(class_decl) => {
+                            if let Some(ident) = &class_decl.id {
+                                let name = ident.name.to_string();
+                                exports.insert(name.clone(), ExportInfo {
+                                    local_name: name.clone(),
+                                    exported_name: name,
+                                    is_default: false,
+                                    source: source.clone(),
+                                });
+                            }
+                        }
+                        _ => {}
+                    }
+                }
+
+                // Export specifiers: `export { foo, bar as baz }`
+                for specifier in &export.specifiers {
+                    let local_name = specifier.local.name().to_string();
+                    let exported_name = specifier.exported.name().to_string();
+                    exports.insert(local_name.clone(), ExportInfo {
+                        local_name,
+                        exported_name,
+                        is_default: false,
+                        source: source.clone(),
+                    });
+                }
+            }
+
+            // Export default declaration: `export default function Foo() {}` or `export default Foo`
+            ast::Statement::ExportDefaultDeclaration(export) => {
+                let (local_name, _is_named) = match &export.declaration {
+                    ast::ExportDefaultDeclarationKind::FunctionDeclaration(fn_decl) => {
+                        if let Some(ident) = &fn_decl.id {
+                            (ident.name.to_string(), true)
+                        } else {
+                            ("_default".to_string(), false)
+                        }
+                    }
+                    ast::ExportDefaultDeclarationKind::ClassDeclaration(class_decl) => {
+                        if let Some(ident) = &class_decl.id {
+                            (ident.name.to_string(), true)
+                        } else {
+                            ("_default".to_string(), false)
+                        }
+                    }
+                    ast::ExportDefaultDeclarationKind::Identifier(ident) => {
+                        (ident.name.to_string(), true)
+                    }
+                    _ => ("_default".to_string(), false),
+                };
+
+                exports.insert(local_name.clone(), ExportInfo {
+                    local_name,
+                    exported_name: "default".to_string(),
+                    is_default: true,
+                    source: None,
+                });
+            }
+
+            // Export all: `export * from './other'` - tracked but not as individual exports
+            ast::Statement::ExportAllDeclaration(_) => {
+                // Not tracked individually - would need full module resolution
+            }
+
+            _ => {}
+        }
+    }
+
+    exports
 }
 
 #[cfg(test)]
