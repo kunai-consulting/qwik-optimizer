@@ -22,6 +22,7 @@ export const Counter = () => {
 ============================= ./test_qrl_with_captures.tsx_Counter_increment_GRxSFiyL3cQ.js (ENTRY POINT)==
 
 export const Counter_increment_GRxSFiyL3cQ = () => {
+	const [count, name] = useLexicalScope();
 	console.log(count.value, name);
 };
 
@@ -54,7 +55,7 @@ import { qrl, useSignal } from "@qwik.dev/core";
 export const Counter = () => {
 	const count = useSignal(0);
 	const name = "test";
-	const increment = qrl(() => import("./test_qrl_with_captures.tsx_Counter_increment_GRxSFiyL3cQ.js"), "Counter_increment_GRxSFiyL3cQ");
+	const increment = qrl(() => import("./test_qrl_with_captures.tsx_Counter_increment_GRxSFiyL3cQ.js"), "Counter_increment_GRxSFiyL3cQ", [count, name]);
 	return increment;
 };
 
