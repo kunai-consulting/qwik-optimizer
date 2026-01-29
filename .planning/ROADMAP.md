@@ -92,14 +92,14 @@ Plans:
   3. bind:value and bind:checked directives transform correctly
   4. useSignal$, useStore$, and useComputed$ extract correctly
   5. Signal access in JSX and store mutations work correctly
-**Plans**: TBD
+**Plans**: 5 plans
 
 Plans:
-- [ ] 04-01: Props destructuring and reconstruction
-- [ ] 04-02: Props spread, rest, defaults, and aliasing
-- [ ] 04-03: Bind directives (bind:value, bind:checked)
-- [ ] 04-04: Signal hooks (useSignal$, useStore$, useComputed$)
-- [ ] 04-05: Signal access in JSX and derived signals
+- [ ] 04-01-PLAN.md — Props destructuring detection and _rawProps parameter replacement
+- [ ] 04-02-PLAN.md — Rest props (_restProps), defaults, and prop aliasing
+- [ ] 04-03-PLAN.md — _wrapProp generation for prop and signal.value access
+- [ ] 04-04-PLAN.md — _fnSignal generation for computed expressions
+- [ ] 04-05-PLAN.md — Bind directives (bind:value, bind:checked) transformation
 
 ### Phase 5: JSX Transformation
 **Goal**: All JSX patterns transform correctly to _jsxSorted output
@@ -232,7 +232,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 | 1. OXC Foundation | 2/2 | Complete | 2026-01-29 |
 | 2. QRL Core | 7/7 | Complete | 2026-01-29 |
 | 3. Event Handlers | 3/3 | Complete | 2026-01-29 |
-| 4. Props & Signals | 0/5 | Not started | - |
+| 4. Props & Signals | 0/5 | Planned | - |
 | 5. JSX Transformation | 0/4 | Not started | - |
 | 6. Imports & Exports | 0/4 | Not started | - |
 | 7. Entry Strategies | 0/3 | Not started | - |
@@ -243,4 +243,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-29 (Phase 3 execution complete)*
+*Last updated: 2026-01-29 (Phase 4 planning complete)*
