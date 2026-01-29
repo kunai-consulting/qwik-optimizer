@@ -2727,4 +2727,180 @@ export const Cmp = component$(({ message, ...rest }) => {
         assert!(has_core_source,
             "Expected @qwik.dev/core import source");
     }
+
+    // ==================== _fnSignal Infrastructure Tests ====================
+
+    #[test]
+    fn test_should_wrap_in_fn_signal_member_access() {
+        // Test: should_wrap_in_fn_signal detects member access patterns
+        use crate::inlined_fn::should_wrap_in_fn_signal;
+        use oxc_allocator::Allocator;
+        use oxc_parser::Parser;
+        use oxc_span::SourceType;
+
+        let allocator = Allocator::default();
+        let source = "store.count + 1";
+        let source_type = SourceType::mjs();
+        let expr = Parser::new(&allocator, source, source_type)
+            .parse_expression()
+            .expect("Should parse expression");
+
+        let scoped_idents = vec![("store".to_string(), ScopeId::new(0))];
+
+        assert!(
+            should_wrap_in_fn_signal(&expr, &scoped_idents),
+            "Member access pattern should need _fnSignal wrapping"
+        );
+    }
+
+    #[test]
+    fn test_should_not_wrap_simple_identifier() {
+        // Test: simple identifier without member access should NOT need _fnSignal
+        use crate::inlined_fn::should_wrap_in_fn_signal;
+        use oxc_allocator::Allocator;
+        use oxc_parser::Parser;
+        use oxc_span::SourceType;
+
+        let allocator = Allocator::default();
+        let source = "count + 1";
+        let source_type = SourceType::mjs();
+        let expr = Parser::new(&allocator, source, source_type)
+            .parse_expression()
+            .expect("Should parse expression");
+
+        let scoped_idents = vec![("count".to_string(), ScopeId::new(0))];
+
+        assert!(
+            !should_wrap_in_fn_signal(&expr, &scoped_idents),
+            "Simple identifier should NOT need _fnSignal wrapping"
+        );
+    }
+
+    #[test]
+    fn test_should_not_wrap_arrow_function() {
+        // Test: arrow functions should NOT be wrapped
+        use crate::inlined_fn::should_wrap_in_fn_signal;
+        use oxc_allocator::Allocator;
+        use oxc_parser::Parser;
+        use oxc_span::SourceType;
+
+        let allocator = Allocator::default();
+        let source = "() => store.count";
+        let source_type = SourceType::mjs();
+        let expr = Parser::new(&allocator, source, source_type)
+            .parse_expression()
+            .expect("Should parse expression");
+
+        let scoped_idents = vec![("store".to_string(), ScopeId::new(0))];
+
+        assert!(
+            !should_wrap_in_fn_signal(&expr, &scoped_idents),
+            "Arrow function should NOT need _fnSignal wrapping"
+        );
+    }
+
+    #[test]
+    fn test_should_not_wrap_call_expression() {
+        // Test: expressions with function calls should NOT be wrapped
+        use crate::inlined_fn::should_wrap_in_fn_signal;
+        use oxc_allocator::Allocator;
+        use oxc_parser::Parser;
+        use oxc_span::SourceType;
+
+        let allocator = Allocator::default();
+        let source = "store.count + calculate()";
+        let source_type = SourceType::mjs();
+        let expr = Parser::new(&allocator, source, source_type)
+            .parse_expression()
+            .expect("Should parse expression");
+
+        let scoped_idents = vec![("store".to_string(), ScopeId::new(0))];
+
+        // Call expressions can't be serialized, so should return false
+        assert!(
+            !should_wrap_in_fn_signal(&expr, &scoped_idents),
+            "Expression with call should NOT need _fnSignal wrapping"
+        );
+    }
+
+    #[test]
+    fn test_convert_inlined_fn_basic() {
+        // Test: convert_inlined_fn creates hoisted function structure
+        use crate::inlined_fn::convert_inlined_fn;
+        use oxc_allocator::Allocator;
+        use oxc_ast::AstBuilder;
+        use oxc_parser::Parser;
+        use oxc_span::SourceType;
+
+        let allocator = Allocator::default();
+        let source = "store.count + 1";
+        let source_type = SourceType::mjs();
+        let expr = Parser::new(&allocator, source, source_type)
+            .parse_expression()
+            .expect("Should parse expression");
+        let builder = AstBuilder::new(&allocator);
+
+        let scoped_idents = vec![("store".to_string(), ScopeId::new(0))];
+
+        let result = convert_inlined_fn(&expr, &scoped_idents, 0, &builder, &allocator);
+
+        assert!(
+            result.is_some(),
+            "Should produce InlinedFnResult for member access expression"
+        );
+
+        let result = result.unwrap();
+        assert_eq!(result.hoisted_name, "_hf0");
+        assert!(!result.captures.is_empty(), "Should have captures");
+    }
+
+    #[test]
+    fn test_convert_inlined_fn_no_scoped_idents() {
+        // Test: convert_inlined_fn returns None when no scoped idents
+        use crate::inlined_fn::convert_inlined_fn;
+        use oxc_allocator::Allocator;
+        use oxc_ast::AstBuilder;
+        use oxc_parser::Parser;
+        use oxc_span::SourceType;
+
+        let allocator = Allocator::default();
+        let source = "store.count + 1";
+        let source_type = SourceType::mjs();
+        let expr = Parser::new(&allocator, source, source_type)
+            .parse_expression()
+            .expect("Should parse expression");
+        let builder = AstBuilder::new(&allocator);
+
+        let scoped_idents: Vec<(String, ScopeId)> = vec![];
+
+        let result = convert_inlined_fn(&expr, &scoped_idents, 0, &builder, &allocator);
+
+        assert!(result.is_none(), "Should return None when no scoped idents");
+    }
+
+    #[test]
+    fn test_transform_generator_hoisted_fn_fields() {
+        // Test: TransformGenerator has hoisted function tracking fields initialized
+        use crate::component::Language;
+        use crate::source::Source;
+
+        // Simple transform to verify initialization
+        let source_code = r#"
+import { component$ } from "@qwik.dev/core";
+export const Cmp = component$(() => {
+    return <div>hello</div>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+
+        // Transform should succeed - verifies fields are initialized correctly
+        let result = transform(source, options);
+        assert!(
+            result.is_ok(),
+            "Transform should succeed with hoisted fn tracking"
+        );
+    }
 }
