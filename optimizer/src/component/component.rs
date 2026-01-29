@@ -43,15 +43,17 @@ impl QrlComponent {
         segment_data: Option<SegmentData>,
     ) -> QrlComponent {
         let language = source_info.language.clone();
-        let qrl = Qrl::new(&id.local_file_name, &id.symbol_name, qrl_type);
 
-        let source_type: SourceType = language.into();
-
-        // Extract scoped_idents for transform_function_expr
+        // Extract scoped_idents for both Qrl and transform_function_expr
         let scoped_idents: Vec<CollectorId> = segment_data
             .as_ref()
             .map(|d| d.scoped_idents.clone())
             .unwrap_or_default();
+
+        // Create Qrl with scoped_idents for capture array generation
+        let qrl = Qrl::new(&id.local_file_name, &id.symbol_name, qrl_type, scoped_idents.clone());
+
+        let source_type: SourceType = language.into();
 
         let code = Self::gen(
             options,

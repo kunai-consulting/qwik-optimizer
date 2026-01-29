@@ -1,3 +1,4 @@
+use crate::collector::Id;
 use crate::component::{Import, QRL, QRL_SUFFIX, QWIK_CORE_SOURCE};
 use crate::ext::AstBuilderExt;
 use oxc_allocator::{Allocator, Box as OxcBox, CloneIn, FromIn, Vec as OxcVec};
@@ -38,14 +39,23 @@ pub struct Qrl {
     pub rel_path: PathBuf,
     pub display_name: String,
     pub qrl_type: QrlType,
+    /// Captured variables from enclosing scope (sorted for deterministic output)
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub scoped_idents: Vec<Id>,
 }
 
 impl Qrl {
-    pub fn new<T: Into<PathBuf>>(rel_path: T, display_name: &str, qrl_type: QrlType) -> Self {
+    pub fn new<T: Into<PathBuf>>(
+        rel_path: T,
+        display_name: &str,
+        qrl_type: QrlType,
+        scoped_idents: Vec<Id>,
+    ) -> Self {
         Self {
             rel_path: rel_path.into(),
             display_name: display_name.into(),
             qrl_type,
+            scoped_idents,
         }
     }
 
@@ -171,20 +181,38 @@ impl Qrl {
     fn into_arguments<'a>(&self, ast_builder: &AstBuilder<'a>) -> OxcVec<'a, Argument<'a>> {
         let allocator = ast_builder.allocator;
 
-        // ARG: Display name string literal ////////
+        // ARG 1: Lazy import arrow function
+        let arrow_function = self.into_arrow_function(ast_builder);
+
+        // ARG 2: Display name string literal
         let raw = ast_builder.atom(&format!(r#""{}""#, &self.display_name));
         let display_name_arg = OxcBox::new_in(
             ast_builder.string_literal(SPAN, ast_builder.atom(&self.display_name), Some(raw)),
             allocator,
         );
 
-        let mut args = ast_builder.vec_with_capacity(2);
-        let arrow_function = self.into_arrow_function(ast_builder);
+        // Determine capacity based on whether we have captures
+        let capacity = if self.scoped_idents.is_empty() { 2 } else { 3 };
+        let mut args = ast_builder.vec_with_capacity(capacity);
+
         args.push(Argument::ArrowFunctionExpression(OxcBox::new_in(
             arrow_function,
             allocator,
         )));
         args.push(Argument::StringLiteral(display_name_arg));
+
+        // ARG 3: Captured variables array (only if non-empty)
+        // Format: [a, b, c] - array of identifier references
+        if !self.scoped_idents.is_empty() {
+            let mut elements = ast_builder.vec_with_capacity(self.scoped_idents.len());
+            for (name, _scope_id) in &self.scoped_idents {
+                // Create identifier reference for each captured variable
+                let ident_ref = ast_builder.expression_identifier(SPAN, ast_builder.atom(name.as_str()));
+                elements.push(ArrayExpressionElement::from(ident_ref));
+            }
+            let captures_array = ast_builder.expression_array(SPAN, elements);
+            args.push(Argument::from(captures_array));
+        }
 
         args
     }
@@ -251,12 +279,16 @@ impl Qrl {
     ///
     ///
     /// let allocator = Allocator::default();
-    /// let qrl = Qrl::new("./test.tsx_renderHeader_zBbHWn4e8Cg", "renderHeader_zBbHWn4e8Cg");
+    /// let qrl = Qrl::new("./test.tsx_renderHeader_zBbHWn4e8Cg", "renderHeader_zBbHWn4e8Cg", QrlType::Qrl, vec![]);
     /// let expr: Expression = qrl.into_in(&allocator);
     /// ```
     /// The resulting Javascript, when rendered, will be:
     /// ```javascript
     /// qrl(() => import("./test.tsx_renderHeader_zBbHWn4e8Cg"), "renderHeader_zBbHWn4e8Cg");
+    /// ```
+    /// Or with captures:
+    /// ```javascript
+    /// qrl(() => import("./test.tsx_renderHeader_zBbHWn4e8Cg"), "renderHeader_zBbHWn4e8Cg", [count, name]);
     ///
     pub(crate) fn into_expression<'a>(
         self,

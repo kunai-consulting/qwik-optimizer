@@ -47,7 +47,7 @@ export const Foo = component$((props) => {
 
 import { qrl } from "@qwik.dev/core";
 export const Foo_component_pGZPkYSFNjQ = (props) => {
-	return qrl(() => import("./test_example_jsx.jsx_Foo_component_1_Za18NfgUnDQ.js"), "Foo_component_1_Za18NfgUnDQ");
+	return qrl(() => import("./test_example_jsx.jsx_Foo_component_1_Za18NfgUnDQ.js"), "Foo_component_1_Za18NfgUnDQ", [props]);
 };
 
 
