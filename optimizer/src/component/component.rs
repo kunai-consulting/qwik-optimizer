@@ -29,6 +29,11 @@ pub struct QrlComponent {
     /// Segment metadata (captures, context kind, etc.)
     #[serde(skip_serializing_if = "Option::is_none")]
     pub segment_data: Option<SegmentData>,
+    /// Entry grouping for bundler (determined by entry strategy).
+    /// Some(name) means group with other segments sharing this entry name.
+    /// None means this segment gets its own file.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub entry: Option<String>,
 }
 
 impl QrlComponent {
@@ -41,6 +46,7 @@ impl QrlComponent {
         imports: Vec<Import>,
         qrl_type: QrlType,
         segment_data: Option<SegmentData>,
+        entry: Option<String>,
     ) -> QrlComponent {
         let language = source_info.language.clone();
 
@@ -91,6 +97,7 @@ impl QrlComponent {
             code,
             qrl,
             segment_data,
+            entry,
         }
     }
 
@@ -248,6 +255,7 @@ impl QrlComponent {
         options: &TransformOptions,
         source_info: &SourceInfo,
         segment_data: Option<SegmentData>,
+        entry: Option<String>,
     ) -> QrlComponent {
         let qrl_type: QrlType = segments
             .last()
@@ -258,7 +266,7 @@ impl QrlComponent {
 
         let id = Id::new(source_info, segments, &options.target, scope);
 
-        QrlComponent::new(options, source_info, id, expr, imports, qrl_type, segment_data)
+        QrlComponent::new(options, source_info, id, expr, imports, qrl_type, segment_data, entry)
     }
 
     /// Create a QrlComponent from a call expression argument.
@@ -270,10 +278,11 @@ impl QrlComponent {
         options: &TransformOptions,
         source_info: &SourceInfo,
         segment_data: Option<SegmentData>,
+        entry: Option<String>,
         allocator: &Allocator,
     ) -> QrlComponent {
         let init = arg.clone_in(allocator).into_expression();
-        Self::from_expression(init, imports, segments, scope, options, source_info, segment_data)
+        Self::from_expression(init, imports, segments, scope, options, source_info, segment_data, entry)
     }
 
     // --- Segment data accessors ---

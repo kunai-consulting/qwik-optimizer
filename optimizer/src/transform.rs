@@ -254,6 +254,10 @@ pub struct TransformGenerator<'gen> {
     /// Tracks names as AST is traversed (file name, function names, component names,
     /// JSX elements, attributes) for PerComponentStrategy and SmartStrategy.
     stack_ctxt: Vec<String>,
+
+    /// Entry policy for determining how segments are grouped for bundling.
+    /// Parsed from TransformOptions.entry_strategy at initialization.
+    entry_policy: Box<dyn EntryPolicy>,
 }
 
 impl<'gen> TransformGenerator<'gen> {
@@ -265,6 +269,7 @@ impl<'gen> TransformGenerator<'gen> {
     ) -> Self {
         let qwik_core_import_path = PathBuf::from("@qwik/core");
         let builder = AstBuilder::new(allocator);
+        let entry_policy = parse_entry_strategy(&options.entry_strategy);
         Self {
             options,
             components: Vec::new(),
@@ -303,6 +308,7 @@ impl<'gen> TransformGenerator<'gen> {
             export_by_name: HashMap::new(),
             synthesized_imports: HashMap::new(),
             stack_ctxt: Vec::with_capacity(16),
+            entry_policy,
         }
     }
 
@@ -960,6 +966,9 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                         referenced_exports,
                     );
 
+                    // Compute entry grouping using the entry policy and stack_ctxt
+                    let entry = self.entry_policy.get_entry_for_sym(&self.stack_ctxt, &segment_data);
+
                     QrlComponent::from_call_expression_argument(
                         arg0,
                         imports,
@@ -968,6 +977,7 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                         &self.options,
                         self.source_info,
                         Some(segment_data),
+                        entry,
                         ctx.ast.allocator,
                     )
                 });
@@ -2737,6 +2747,8 @@ pub struct TransformOptions {
     pub target: Target,
     pub transpile_ts: bool,
     pub transpile_jsx: bool,
+    /// Entry strategy for determining how segments are grouped for bundling.
+    pub entry_strategy: EntryStrategy,
 }
 
 impl TransformOptions {
@@ -2758,6 +2770,7 @@ impl Default for TransformOptions {
             target: Target::Dev,
             transpile_ts: false,
             transpile_jsx: false,
+            entry_strategy: EntryStrategy::Segment,
         }
     }
 }
