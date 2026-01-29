@@ -1440,6 +1440,37 @@ fn create_event_name(name: &str, prefix: &str) -> String {
     result
 }
 
+/// Transforms a Qwik JSX event attribute name to HTML attribute format.
+///
+/// Returns `None` if the attribute is not a valid event (doesn't end with '$'
+/// or doesn't start with a valid event prefix).
+///
+/// # Examples
+/// - "onClick$" -> Some("on:click")
+/// - "onDblClick$" -> Some("on:dblclick")
+/// - "document:onFocus$" -> Some("on-document:focus")
+/// - "window:onClick$" -> Some("on-window:click")
+/// - "on-cLick$" -> Some("on:c-lick") (case preserved due to '-' prefix)
+/// - "onClick" -> None (no '$' suffix)
+/// - "custom$" -> None (not an event)
+fn jsx_event_to_html_attribute(jsx_event: &str) -> Option<String> {
+    // Must end with '$' to be a Qwik event handler
+    if !jsx_event.ends_with('$') {
+        return None;
+    }
+
+    let (prefix, idx) = get_event_scope_data_from_jsx_event(jsx_event);
+    if idx == usize::MAX {
+        return None;
+    }
+
+    // Extract event name: strip '$' suffix and take from idx
+    // e.g., "onClick$" with idx=2 -> "Click"
+    let name = &jsx_event[idx..jsx_event.len() - 1];
+
+    Some(create_event_name(name, prefix))
+}
+
 /// Compute which identifiers from parent scopes are captured by a QRL.
 ///
 /// Takes all identifiers referenced in the QRL body and all declarations from parent scopes,
@@ -1658,5 +1689,50 @@ mod tests {
 
         assert!(scoped.is_empty());
         assert!(is_const); // Default is true when nothing captured
+    }
+
+    #[test]
+    fn test_jsx_event_to_html_attribute_basic() {
+        assert_eq!(jsx_event_to_html_attribute("onClick$"), Some("on:click".to_string()));
+        assert_eq!(jsx_event_to_html_attribute("onInput$"), Some("on:input".to_string()));
+        assert_eq!(jsx_event_to_html_attribute("onDblClick$"), Some("on:dblclick".to_string()));
+        assert_eq!(jsx_event_to_html_attribute("onKeyDown$"), Some("on:keydown".to_string()));
+        assert_eq!(jsx_event_to_html_attribute("onMouseOver$"), Some("on:mouseover".to_string()));
+        assert_eq!(jsx_event_to_html_attribute("onBlur$"), Some("on:blur".to_string()));
+    }
+
+    #[test]
+    fn test_jsx_event_to_html_attribute_document_window() {
+        assert_eq!(jsx_event_to_html_attribute("document:onFocus$"), Some("on-document:focus".to_string()));
+        assert_eq!(jsx_event_to_html_attribute("document:onClick$"), Some("on-document:click".to_string()));
+        assert_eq!(jsx_event_to_html_attribute("window:onClick$"), Some("on-window:click".to_string()));
+        assert_eq!(jsx_event_to_html_attribute("window:onScroll$"), Some("on-window:scroll".to_string()));
+    }
+
+    #[test]
+    fn test_jsx_event_to_html_attribute_case_preserving() {
+        // The '-' prefix preserves case with dash separation at uppercase letters
+        assert_eq!(jsx_event_to_html_attribute("on-cLick$"), Some("on:c-lick".to_string()));
+        assert_eq!(jsx_event_to_html_attribute("on-anotherCustom$"), Some("on:another-custom".to_string()));
+    }
+
+    #[test]
+    fn test_jsx_event_to_html_attribute_not_event() {
+        // No '$' suffix
+        assert_eq!(jsx_event_to_html_attribute("onClick"), None);
+        // Not starting with 'on' (after any scope prefix)
+        assert_eq!(jsx_event_to_html_attribute("custom$"), None);
+        // Empty or invalid
+        assert_eq!(jsx_event_to_html_attribute("$"), None);
+        assert_eq!(jsx_event_to_html_attribute(""), None);
+    }
+
+    #[test]
+    fn test_get_event_scope_data() {
+        assert_eq!(get_event_scope_data_from_jsx_event("onClick$"), ("on:", 2));
+        assert_eq!(get_event_scope_data_from_jsx_event("onInput$"), ("on:", 2));
+        assert_eq!(get_event_scope_data_from_jsx_event("document:onFocus$"), ("on-document:", 11));
+        assert_eq!(get_event_scope_data_from_jsx_event("window:onClick$"), ("on-window:", 9));
+        assert_eq!(get_event_scope_data_from_jsx_event("custom$"), ("", usize::MAX));
     }
 }
