@@ -9,7 +9,7 @@ use std::path::PathBuf;
 
 use serde::{Deserialize, Serialize};
 
-use crate::collector::Id;
+use crate::collector::{ExportInfo, Id};
 
 /// Indicates the context type of a QRL segment.
 ///
@@ -125,6 +125,11 @@ pub struct SegmentData {
 
     /// Whether the segment needs transformation (useLexicalScope injection)
     pub need_transform: bool,
+
+    /// Source file exports referenced in the QRL body.
+    /// These need to be imported in the segment file from the source file.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub referenced_exports: Vec<ExportInfo>,
 }
 
 impl SegmentData {
@@ -148,6 +153,40 @@ impl SegmentData {
         local_idents: Vec<Id>,
         parent_segment: Option<String>,
     ) -> Self {
+        Self::new_with_exports(
+            ctx_name,
+            display_name,
+            hash,
+            origin,
+            scoped_idents,
+            local_idents,
+            parent_segment,
+            Vec::new(),
+        )
+    }
+
+    /// Creates a new SegmentData with referenced exports for segment file import generation.
+    ///
+    /// # Arguments
+    ///
+    /// * `ctx_name` - The context name (e.g., "onClick$", "component$")
+    /// * `display_name` - Human-readable name for the segment
+    /// * `hash` - Unique hash identifying this segment
+    /// * `origin` - Source file path
+    /// * `scoped_idents` - Variables captured from enclosing scope
+    /// * `local_idents` - Variables used locally in the segment
+    /// * `parent_segment` - Parent segment name if this is nested
+    /// * `referenced_exports` - Source file exports referenced in QRL body
+    pub fn new_with_exports(
+        ctx_name: &str,
+        display_name: String,
+        hash: String,
+        origin: PathBuf,
+        scoped_idents: Vec<Id>,
+        local_idents: Vec<Id>,
+        parent_segment: Option<String>,
+        referenced_exports: Vec<ExportInfo>,
+    ) -> Self {
         let ctx_kind = SegmentKind::from_ctx_name(ctx_name);
         let need_transform = !scoped_idents.is_empty();
 
@@ -163,6 +202,7 @@ impl SegmentData {
             display_name,
             hash,
             need_transform,
+            referenced_exports,
         }
     }
 
