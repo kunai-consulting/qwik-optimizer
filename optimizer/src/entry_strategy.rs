@@ -144,3 +144,156 @@ pub fn parse_entry_strategy(strategy: &EntryStrategy) -> Box<dyn EntryPolicy> {
         EntryStrategy::Smart => Box::new(SmartStrategy::new()),
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::component::{SegmentData, SegmentKind};
+    use std::path::PathBuf;
+
+    fn make_segment(ctx_name: &str, origin: &str, scoped_idents: Vec<(&str, u32)>) -> SegmentData {
+        use oxc_semantic::ScopeId;
+        let scoped: Vec<_> = scoped_idents
+            .into_iter()
+            .map(|(name, id)| (name.to_string(), ScopeId::new(id as usize)))
+            .collect();
+        SegmentData::new(
+            ctx_name,
+            "test_display".to_string(),
+            "hash123".to_string(),
+            PathBuf::from(origin),
+            scoped,
+            vec![],
+            None,
+        )
+    }
+
+    // =========================================
+    // InlineStrategy tests (ENT-01 - PRE-EXISTING)
+    // =========================================
+    #[test]
+    fn test_inline_strategy_always_returns_entry_segments() {
+        let strategy = InlineStrategy;
+        let segment = make_segment("component$", "test.tsx", vec![]);
+        assert_eq!(
+            strategy.get_entry_for_sym(&["Counter".into()], &segment),
+            Some("entry_segments".to_string())
+        );
+    }
+
+    #[test]
+    fn test_inline_strategy_no_context() {
+        let strategy = InlineStrategy;
+        let segment = make_segment("$", "test.tsx", vec![]);
+        assert_eq!(
+            strategy.get_entry_for_sym(&[], &segment),
+            Some("entry_segments".to_string())
+        );
+    }
+
+    // =========================================
+    // SingleStrategy tests (ENT-02 - PRE-EXISTING)
+    // =========================================
+    #[test]
+    fn test_single_strategy_always_returns_entry_segments() {
+        let strategy = SingleStrategy::new();
+        let segment = make_segment("component$", "test.tsx", vec![]);
+        assert_eq!(
+            strategy.get_entry_for_sym(&["Counter".into()], &segment),
+            Some("entry_segments".to_string())
+        );
+    }
+
+    // =========================================
+    // PerSegmentStrategy tests (ENT-03 - PRE-EXISTING)
+    // =========================================
+    #[test]
+    fn test_per_segment_strategy_always_returns_none() {
+        let strategy = PerSegmentStrategy::new();
+        let segment = make_segment("onClick$", "test.tsx", vec![]);
+        assert_eq!(
+            strategy.get_entry_for_sym(&["Counter".into()], &segment),
+            None
+        );
+    }
+
+    #[test]
+    fn test_per_segment_strategy_no_context() {
+        let strategy = PerSegmentStrategy::new();
+        let segment = make_segment("$", "test.tsx", vec![]);
+        assert_eq!(
+            strategy.get_entry_for_sym(&[], &segment),
+            None
+        );
+    }
+
+    // =========================================
+    // PerComponentStrategy tests (ENT-04)
+    // =========================================
+    #[test]
+    fn test_per_component_with_context() {
+        let strategy = PerComponentStrategy::new();
+        let segment = make_segment("onClick$", "src/Counter.tsx", vec![]);
+        assert_eq!(
+            strategy.get_entry_for_sym(&["Counter".into()], &segment),
+            Some("src/Counter.tsx_entry_Counter".to_string())
+        );
+    }
+
+    #[test]
+    fn test_per_component_no_context() {
+        let strategy = PerComponentStrategy::new();
+        let segment = make_segment("$", "test.tsx", vec![]);
+        assert_eq!(
+            strategy.get_entry_for_sym(&[], &segment),
+            Some("entry_segments".to_string())
+        );
+    }
+
+    // =========================================
+    // SmartStrategy tests (ENT-05)
+    // =========================================
+    #[test]
+    fn test_smart_event_handler_no_captures() {
+        let strategy = SmartStrategy::new();
+        // Event handler without captures -> separate file
+        let segment = make_segment("onClick$", "test.tsx", vec![]);
+        assert_eq!(
+            strategy.get_entry_for_sym(&["Counter".into()], &segment),
+            None
+        );
+    }
+
+    #[test]
+    fn test_smart_event_handler_with_captures() {
+        let strategy = SmartStrategy::new();
+        // Event handler WITH captures -> grouped with component
+        let segment = make_segment("onClick$", "src/Counter.tsx", vec![("count", 1)]);
+        assert_eq!(
+            strategy.get_entry_for_sym(&["Counter".into()], &segment),
+            Some("src/Counter.tsx_entry_Counter".to_string())
+        );
+    }
+
+    #[test]
+    fn test_smart_function_with_context() {
+        let strategy = SmartStrategy::new();
+        // Function type (not event handler) -> grouped with component
+        let segment = make_segment("component$", "src/Counter.tsx", vec![]);
+        assert_eq!(
+            strategy.get_entry_for_sym(&["Counter".into()], &segment),
+            Some("src/Counter.tsx_entry_Counter".to_string())
+        );
+    }
+
+    #[test]
+    fn test_smart_no_context() {
+        let strategy = SmartStrategy::new();
+        // No context -> separate file
+        let segment = make_segment("component$", "test.tsx", vec![]);
+        assert_eq!(
+            strategy.get_entry_for_sym(&[], &segment),
+            None
+        );
+    }
+}
