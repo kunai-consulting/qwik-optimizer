@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 ## Current Position
 
 Phase: 4 of 11 (Props & Signals)
-Plan: 2 of 5 in Phase 4
-Status: In progress - completed 04-02-PLAN.md
-Last activity: 2026-01-29 - Completed 04-02-PLAN.md (Rest Props & Aliasing)
+Plan: 4 of 5 in Phase 4
+Status: In progress - completed 04-04-PLAN.md
+Last activity: 2026-01-29 - Completed 04-04-PLAN.md (_fnSignal Generation)
 
-Progress: [======              ] 31.8% (3/11 phases complete, 14/44 total plans)
+Progress: [=======             ] 36.4% (3/11 phases complete, 16/44 total plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 14
+- Total plans completed: 16
 - Average duration: 6.3 min
-- Total execution time: 1.6 hours
+- Total execution time: 1.8 hours
 
 **By Phase:**
 
@@ -30,11 +30,11 @@ Progress: [======              ] 31.8% (3/11 phases complete, 14/44 total plans)
 | 01-oxc-foundation | 2/2 | 15 min | 7.5 min |
 | 02-qrl-core | 7/7 | 51 min | 7.3 min |
 | 03-event-handlers | 3/3 | 15 min | 5.0 min |
-| 04-props-signals | 2/5 | 12 min | 6.0 min |
+| 04-props-signals | 4/5 | 28 min | 7.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 03-01 (3 min), 03-02 (8 min), 03-03 (4 min), 04-01 (7 min), 04-02 (5 min)
-- Phase 4 props & signals continuing
+- Last 5 plans: 03-02 (8 min), 03-03 (4 min), 04-01 (7 min), 04-02 (5 min), 04-04 (8 min)
+- Phase 4 props & signals nearing completion
 
 *Updated after each plan completion*
 
@@ -73,6 +73,10 @@ Recent decisions affecting current work:
 - [04-02]: Use ScopeId::new(0) for rest_id since we match by name later
 - [04-02]: Handle arrow.expression flag to determine if body is expression or block statement
 - [04-02]: OXC 0.111.0 expression_identifier() not expression_identifier_reference()
+- [04-04]: Use is_used_as_object_or_call for dual detection of member access and call patterns
+- [04-04]: Filter call expressions from _fnSignal wrapping (can't serialize function calls)
+- [04-04]: Use IdentifierReplacer visitor for AST-level identifier transformation
+- [04-04]: MAX_EXPR_LENGTH 150 chars for _fnSignal wrapping threshold
 
 ### Pending Todos
 
@@ -85,7 +89,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed 04-02-PLAN.md (Rest Props & Aliasing)
+Stopped at: Completed 04-04-PLAN.md (_fnSignal Generation)
 Resume file: None
 
 ## Phase 2 QRL Core Summary
@@ -163,10 +167,22 @@ Phase 4 Props & Signals in progress:
    - _restProps import added when rest pattern present
    - 86 total tests passing (4 new rest props tests)
 
+3. **04-03:** Identifier replacement with _wrapProp - IN PROGRESS (parallel)
+   - _WRAP_PROP constant added to shared.rs
+   - Implementation in progress
+
+4. **04-04:** _fnSignal generation - COMPLETE
+   - inlined_fn.rs module with should_wrap_in_fn_signal, convert_inlined_fn
+   - ObjectUsageChecker, IdentifierReplacer for AST traversal
+   - TransformGenerator integration with hoisted_fns tracking
+   - 16 new _fnSignal tests, 102 total tests passing
+
 **Key Deliverables so far:**
 - Props parameter transformation: `({ message, id })` -> `(_rawProps)`
 - Rest props: `({ message, ...rest })` -> `const rest = _restProps(_rawProps, ["message"])`
 - Rest-only: `({ ...props })` -> `const props = _restProps(_rawProps)`
 - Aliased props tracked: c -> "count" for later replacement
+- _fnSignal infrastructure: hoisted functions with positional params (p0, p1, ...)
+- Member access detection for computed expression wrapping
 
-**Ready for:** Plan 03 (Identifier Replacement with _wrapProp)
+**Ready for:** Plan 05 (Computed Signal Integration)
