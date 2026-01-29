@@ -9,6 +9,19 @@ use std::convert::Into;
 use std::path::PathBuf;
 
 pub const QWIK_CORE_SOURCE: &str = "@qwik.dev/core";
+
+/// Import source for build mode constants (isServer, isBrowser, isDev)
+pub const QWIK_CORE_BUILD: &str = "@qwik.dev/core/build";
+
+/// isServer identifier - true on server, false in browser
+pub const IS_SERVER: &str = "isServer";
+
+/// isBrowser identifier - inverse of isServer (!isServer)
+pub const IS_BROWSER: &str = "isBrowser";
+
+/// isDev identifier - true in development mode
+pub const IS_DEV: &str = "isDev";
+
 pub const JSX_SORTED_NAME: &str = "_jsxSorted";
 pub const JSX_SPLIT_NAME: &str = "_jsxSplit";
 pub const MARKER_SUFFIX: &str = "$";
