@@ -1,5 +1,6 @@
 #![allow(unused)]
 
+use crate::const_replace::ConstReplacerVisitor;
 use crate::dead_code::DeadCode;
 use crate::entry_strategy::*;
 use crate::error::Error;
@@ -2874,6 +2875,44 @@ pub fn transform(script_source: Source, options: TransformOptions) -> Result<Opt
             },
         )
         .build_with_scoping(scoping, &mut program);
+    }
+
+    // Collect imports BEFORE const replacement (for import aliasing)
+    let mut import_tracker = ImportTracker::new();
+    for stmt in &program.body {
+        if let Statement::ImportDeclaration(import) = stmt {
+            let source = import.source.value.to_string();
+            if let Some(specifiers) = &import.specifiers {
+                for specifier in specifiers {
+                    match specifier {
+                        ImportDeclarationSpecifier::ImportSpecifier(spec) => {
+                            let imported = spec.imported.name().to_string();
+                            let local = spec.local.name.to_string();
+                            import_tracker.add_import(&source, &imported, &local);
+                        }
+                        ImportDeclarationSpecifier::ImportDefaultSpecifier(spec) => {
+                            let local = spec.local.name.to_string();
+                            import_tracker.add_import(&source, "default", &local);
+                        }
+                        ImportDeclarationSpecifier::ImportNamespaceSpecifier(spec) => {
+                            let local = spec.local.name.to_string();
+                            import_tracker.add_import(&source, "*", &local);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Apply const replacement (skip in Test mode to match SWC behavior)
+    if options.target != Target::Test {
+        let mut const_replacer = ConstReplacerVisitor::new(
+            &allocator,
+            options.is_server,
+            options.is_dev(),
+            &import_tracker,
+        );
+        const_replacer.visit_program(&mut program);
     }
 
     let SemanticBuilderReturn {
