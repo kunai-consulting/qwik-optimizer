@@ -21,6 +21,9 @@ pub const _REST_PROPS: &str = "_restProps";
 /// Import for _wrapProp function (prop wrapping for reactivity)
 pub const _WRAP_PROP: &str = "_wrapProp";
 
+/// Import for _fnSignal function (computed signal expressions)
+pub const _FN_SIGNAL: &str = "_fnSignal";
+
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum ImportId {
     Named(String),
