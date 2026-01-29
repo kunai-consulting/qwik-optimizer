@@ -4492,9 +4492,9 @@ export const App = component$(() => {
 
         let exports = collect_exports(&parse_result.program);
 
-        // export { original as aliased }
-        assert!(exports.contains_key("original"), "Should track aliased export by local name");
-        let aliased_export = exports.get("original").unwrap();
+        // export { original as aliased } - keyed by exported name (aliased), not local name
+        assert!(exports.contains_key("aliased"), "Should track aliased export by exported name");
+        let aliased_export = exports.get("aliased").unwrap();
         assert_eq!(aliased_export.local_name, "original");
         assert_eq!(aliased_export.exported_name, "aliased");
         assert!(!aliased_export.is_default);

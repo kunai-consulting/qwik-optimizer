@@ -225,10 +225,11 @@ pub fn collect_exports(program: &ast::Program) -> HashMap<String, ExportInfo> {
                 }
 
                 // Export specifiers: `export { foo, bar as baz }`
+                // Key by exported_name so aliased exports don't overwrite direct exports
                 for specifier in &export.specifiers {
                     let local_name = specifier.local.name().to_string();
                     let exported_name = specifier.exported.name().to_string();
-                    exports.insert(local_name.clone(), ExportInfo {
+                    exports.insert(exported_name.clone(), ExportInfo {
                         local_name,
                         exported_name,
                         is_default: false,
