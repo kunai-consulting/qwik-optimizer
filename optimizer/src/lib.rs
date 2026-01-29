@@ -3,6 +3,7 @@ pub mod collector;
 pub mod component;
 pub(crate) mod error;
 pub(crate) mod ext;
+pub mod is_const;
 pub(crate) mod prelude;
 pub mod props_destructuring;
 pub mod inlined_fn;
