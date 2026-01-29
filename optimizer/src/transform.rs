@@ -133,6 +133,8 @@ struct JsxState<'gen> {
     /// Spread expression for _getVarProps/_getConstProps generation.
     /// Set when encountering spread attribute, used in exit_jsx_element.
     spread_expr: Option<Expression<'gen>>,
+    /// Whether we pushed to stack_ctxt for this JSX element (for pop on exit).
+    stacked_ctxt: bool,
 }
 
 pub struct TransformGenerator<'gen> {
@@ -247,6 +249,11 @@ pub struct TransformGenerator<'gen> {
     /// Maps source path to set of import names for deduplication and merging.
     /// Key: source path (e.g., "@qwik.dev/core"), Value: set of ImportId
     synthesized_imports: HashMap<String, BTreeSet<ImportId>>,
+
+    /// Context stack for entry strategy component grouping.
+    /// Tracks names as AST is traversed (file name, function names, component names,
+    /// JSX elements, attributes) for PerComponentStrategy and SmartStrategy.
+    stack_ctxt: Vec<String>,
 }
 
 impl<'gen> TransformGenerator<'gen> {
@@ -295,6 +302,7 @@ impl<'gen> TransformGenerator<'gen> {
             needs_inlined_qrl_import: false,
             export_by_name: HashMap::new(),
             synthesized_imports: HashMap::new(),
+            stack_ctxt: Vec::with_capacity(16),
         }
     }
 
@@ -688,6 +696,8 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         let name = node.callee_name().unwrap_or_default().to_string();
         if (name.ends_with(MARKER_SUFFIX)) {
             self.import_stack.push(BTreeSet::new());
+            // Push marker function name to stack_ctxt for entry strategy (SWC fold_call_expr)
+            self.stack_ctxt.push(name.clone());
         }
 
         // Check for component$ with destructured props
@@ -980,6 +990,12 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         }
 
         self.segment_stack.pop();
+
+        // Pop stack_ctxt if we pushed a marker function name (SWC fold_call_expr)
+        let name = node.callee_name().unwrap_or_default().to_string();
+        if name.ends_with(MARKER_SUFFIX) {
+            self.stack_ctxt.pop();
+        }
     }
 
     fn enter_member_expression(
@@ -1001,11 +1017,14 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         self.segment_stack.push(segment);
 
         // Track function name as Fn declaration in parent scope
+        // and push to stack_ctxt for entry strategy (SWC fold_fn_decl)
         if let Some(name) = node.name() {
             if let Some(current_scope) = self.decl_stack.last_mut() {
                 let scope_id = ctx.current_scope_id();
                 current_scope.push(((name.to_string(), scope_id), IdentType::Fn));
             }
+            // Push function name to stack_ctxt
+            self.stack_ctxt.push(name.to_string());
         }
 
         // Push new scope for function body
@@ -1029,15 +1048,23 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
 
         // Pop function scope from decl_stack
         self.decl_stack.pop();
+
+        // Pop stack_ctxt if we pushed a function name (SWC fold_fn_decl)
+        if node.name().is_some() {
+            self.stack_ctxt.pop();
+        }
     }
 
     fn enter_class(&mut self, node: &mut Class<'a>, ctx: &mut TraverseCtx<'a, ()>) {
         // Track class name as Class declaration in parent scope
+        // and push to stack_ctxt for entry strategy (SWC fold_class_decl)
         if let Some(ident) = &node.id {
             if let Some(current_scope) = self.decl_stack.last_mut() {
                 let scope_id = ctx.current_scope_id();
                 current_scope.push(((ident.name.to_string(), scope_id), IdentType::Class));
             }
+            // Push class name to stack_ctxt
+            self.stack_ctxt.push(ident.name.to_string());
         }
 
         // Push new scope for class body
@@ -1047,6 +1074,11 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
     fn exit_class(&mut self, node: &mut Class<'a>, ctx: &mut TraverseCtx<'a, ()>) {
         // Pop class scope from decl_stack
         self.decl_stack.pop();
+
+        // Pop stack_ctxt if we pushed a class name (SWC fold_class_decl)
+        if node.id.is_some() {
+            self.stack_ctxt.pop();
+        }
     }
 
     fn enter_export_named_declaration(
@@ -1208,8 +1240,13 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             .map(|s| s.to_string())
             .collect();
 
-        let s: Segment = self.new_segment(segment_name);
+        let s: Segment = self.new_segment(segment_name.clone());
         self.segment_stack.push(s);
+
+        // Push variable name to stack_ctxt for entry strategy tracking (SWC fold_var_declarator)
+        if !segment_name.is_empty() {
+            self.stack_ctxt.push(segment_name);
+        }
 
         let is_const = node.kind == VariableDeclarationKind::Const;
 
@@ -1275,6 +1312,11 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             }
         }
 
+        // Pop stack_ctxt if we pushed a variable name (SWC fold_var_declarator)
+        if node.id.get_identifier_name().is_some() {
+            self.stack_ctxt.pop();
+        }
+
         let popped = self.segment_stack.pop();
         println!("pop segment: {popped:?}");
     }
@@ -1337,6 +1379,17 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         };
         self.jsx_element_is_native.push(is_native);
 
+        // Push JSX element name to stack_ctxt for entry strategy (SWC fold_jsx_element)
+        // Only push if it's an identifier (not member expression or other complex form)
+        let jsx_element_name = match &node.opening_element.name {
+            JSXElementName::Identifier(id) => Some(id.name.to_string()),
+            JSXElementName::IdentifierReference(id) => Some(id.name.to_string()),
+            _ => None,
+        };
+        if let Some(name) = &jsx_element_name {
+            self.stack_ctxt.push(name.clone());
+        }
+
         let (segment, is_fn, is_text_only) =
             if let Some(id) = node.opening_element.name.get_identifier() {
                 (Some(self.new_segment(id.name)), true, false)
@@ -1361,6 +1414,8 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             const_props: OxcVec::new_in(self.builder.allocator),
             children: OxcVec::new_in(self.builder.allocator),
             spread_expr: None,
+            // Track whether we pushed to stack_ctxt
+            stacked_ctxt: jsx_element_name.is_some(),
         });
         if let Some(segment) = segment {
             self.debug(format!("ENTER: JSXElementName {segment}"), ctx);
@@ -1554,6 +1609,10 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             if jsx.is_segment {
                 let popped = self.segment_stack.pop();
             }
+            // Pop stack_ctxt if we pushed for this JSX element (SWC fold_jsx_element)
+            if jsx.stacked_ctxt {
+                self.stack_ctxt.pop();
+            }
         }
 
         // Pop native element tracking
@@ -1576,6 +1635,7 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             const_props: OxcVec::new_in(self.builder.allocator),
             children: OxcVec::new_in(self.builder.allocator),
             spread_expr: None,
+            stacked_ctxt: false, // Fragments don't push to stack_ctxt
         });
         self.debug("ENTER: JSXFragment", ctx);
     }
@@ -1734,6 +1794,22 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         // Check if this is an event handler attribute with a function value
         let attr_name = get_jsx_attribute_full_name(&node.name);
 
+        // Push attribute name to stack_ctxt for entry strategy (SWC fold_jsx_attr)
+        // For native elements with event handlers, push the transformed name (on:click);
+        // otherwise push the original attribute name
+        let is_native = self.jsx_element_is_native.last().copied().unwrap_or(false);
+        let stack_ctxt_name = if is_native {
+            // Try to transform event name for native elements
+            if let Some(html_attr) = jsx_event_to_html_attribute(&attr_name) {
+                html_attr.to_string()
+            } else {
+                attr_name.clone()
+            }
+        } else {
+            attr_name.clone()
+        };
+        self.stack_ctxt.push(stack_ctxt_name);
+
         // Check for bind directive (bind:value or bind:checked)
         // Only process on native elements
         let is_native = self.jsx_element_is_native.last().copied().unwrap_or(false);
@@ -1853,8 +1929,9 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                             }
                         }
 
-                        // Skip the normal prop processing - pop segment and return
+                        // Skip the normal prop processing - pop segment/stack_ctxt and return
                         self.segment_stack.pop();
+                        self.stack_ctxt.pop();
                         self.debug("EXIT: JSXAttribute (bind directive)", ctx);
                         self.descend();
                         return;
@@ -2142,6 +2219,8 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             }
         }
         let popped = self.segment_stack.pop();
+        // Pop stack_ctxt for this attribute (SWC fold_jsx_attr)
+        self.stack_ctxt.pop();
         self.debug("EXIT: JSXAttribute", ctx);
         self.descend();
     }
