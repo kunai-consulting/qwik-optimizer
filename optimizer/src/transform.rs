@@ -36,7 +36,7 @@ use serde::{Deserialize, Serialize};
 use std::cell::{Cell, RefCell};
 use std::fmt::{write, Display, Pointer};
 
-use crate::collector::Id;
+use crate::collector::{ExportInfo, Id};
 use crate::is_const::is_const_expr;
 
 /// Type of declaration for tracking captured variables.
@@ -235,6 +235,18 @@ pub struct TransformGenerator<'gen> {
 
     /// Flag indicating inlinedQrl import needs to be added.
     needs_inlined_qrl_import: bool,
+
+    /// Tracks all module exports for segment file import generation.
+    /// When QRL segment files reference symbols that are exports from the source file,
+    /// those segments need to import from the source file (e.g., "./test").
+    /// Key: local name of the exported symbol
+    /// Value: ExportInfo with local_name, exported_name, is_default, source
+    export_by_name: HashMap<String, ExportInfo>,
+
+    /// Synthesized imports to be emitted at module top during finalization.
+    /// Maps source path to set of import names for deduplication and merging.
+    /// Key: source path (e.g., "@qwik.dev/core"), Value: set of ImportId
+    synthesized_imports: HashMap<String, BTreeSet<ImportId>>,
 }
 
 impl<'gen> TransformGenerator<'gen> {
@@ -281,7 +293,27 @@ impl<'gen> TransformGenerator<'gen> {
             needs_val_import: false,
             needs_chk_import: false,
             needs_inlined_qrl_import: false,
+            export_by_name: HashMap::new(),
+            synthesized_imports: HashMap::new(),
         }
+    }
+
+    /// Adds a synthesized import to be emitted at module finalization.
+    /// Imports from the same source are automatically merged.
+    fn add_synthesized_import(&mut self, name: ImportId, source: &str) {
+        self.synthesized_imports
+            .entry(source.to_string())
+            .or_insert_with(BTreeSet::new)
+            .insert(name);
+    }
+
+    /// Finalizes all synthesized imports and emits them at module top.
+    /// Merges imports from the same source into single import statements.
+    fn finalize_imports(&mut self) -> Vec<Import> {
+        self.synthesized_imports
+            .drain()
+            .map(|(source, names)| Import::new(names.into_iter().collect(), &source))
+            .collect()
     }
 
     fn is_recording(&self) -> bool {
@@ -549,51 +581,29 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
     fn exit_program(&mut self, node: &mut Program<'a>, ctx: &mut TraverseCtx<'a, ()>) {
         println!("EXITING PROGRAM {}", self.source_info.file_name);
 
-        // Add _wrapProp import if needed
+        // Collect synthesized imports based on transformation flags
         if self.needs_wrap_prop_import {
-            if let Some(imports) = self.import_stack.last_mut() {
-                imports.insert(Import::new(
-                    vec![ImportId::Named("_wrapProp".into())],
-                    QWIK_CORE_SOURCE,
-                ));
-            }
+            self.add_synthesized_import(ImportId::Named("_wrapProp".into()), QWIK_CORE_SOURCE);
         }
-
-        // Add _fnSignal import if needed
         if self.needs_fn_signal_import {
-            if let Some(imports) = self.import_stack.last_mut() {
-                imports.insert(Import::new(
-                    vec![ImportId::Named("_fnSignal".into())],
-                    QWIK_CORE_SOURCE,
-                ));
-            }
+            self.add_synthesized_import(ImportId::Named("_fnSignal".into()), QWIK_CORE_SOURCE);
         }
-
-        // Add bind directive imports if needed
         if self.needs_val_import {
-            if let Some(imports) = self.import_stack.last_mut() {
-                imports.insert(Import::new(
-                    vec![ImportId::Named("_val".into())],
-                    QWIK_CORE_SOURCE,
-                ));
-            }
+            self.add_synthesized_import(ImportId::Named("_val".into()), QWIK_CORE_SOURCE);
         }
-
         if self.needs_chk_import {
-            if let Some(imports) = self.import_stack.last_mut() {
-                imports.insert(Import::new(
-                    vec![ImportId::Named("_chk".into())],
-                    QWIK_CORE_SOURCE,
-                ));
-            }
+            self.add_synthesized_import(ImportId::Named("_chk".into()), QWIK_CORE_SOURCE);
+        }
+        if self.needs_inlined_qrl_import {
+            self.add_synthesized_import(ImportId::Named("inlinedQrl".into()), QWIK_CORE_SOURCE);
         }
 
-        if self.needs_inlined_qrl_import {
+        // Finalize and emit synthesized imports
+        // These are merged by source and emitted at module top
+        let synthesized = self.finalize_imports();
+        for import in synthesized {
             if let Some(imports) = self.import_stack.last_mut() {
-                imports.insert(Import::new(
-                    vec![ImportId::Named("inlinedQrl".into())],
-                    QWIK_CORE_SOURCE,
-                ));
+                imports.insert(import);
             }
         }
 
@@ -1010,6 +1020,104 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
     fn exit_class(&mut self, node: &mut Class<'a>, ctx: &mut TraverseCtx<'a, ()>) {
         // Pop class scope from decl_stack
         self.decl_stack.pop();
+    }
+
+    fn enter_export_named_declaration(
+        &mut self,
+        node: &mut ExportNamedDeclaration<'a>,
+        _ctx: &mut TraverseCtx<'a, ()>,
+    ) {
+        // Track named exports for segment file import generation
+        let source = node.source.as_ref().map(|s| s.value.to_string());
+
+        // Export with declaration: `export const Foo = ...`, `export function bar() {}`
+        if let Some(decl) = &node.declaration {
+            match decl {
+                Declaration::VariableDeclaration(var_decl) => {
+                    for declarator in &var_decl.declarations {
+                        if let Some(ident) = declarator.id.get_binding_identifier() {
+                            let name = ident.name.to_string();
+                            self.export_by_name.insert(name.clone(), ExportInfo {
+                                local_name: name.clone(),
+                                exported_name: name,
+                                is_default: false,
+                                source: source.clone(),
+                            });
+                        }
+                    }
+                }
+                Declaration::FunctionDeclaration(fn_decl) => {
+                    if let Some(ident) = &fn_decl.id {
+                        let name = ident.name.to_string();
+                        self.export_by_name.insert(name.clone(), ExportInfo {
+                            local_name: name.clone(),
+                            exported_name: name,
+                            is_default: false,
+                            source: source.clone(),
+                        });
+                    }
+                }
+                Declaration::ClassDeclaration(class_decl) => {
+                    if let Some(ident) = &class_decl.id {
+                        let name = ident.name.to_string();
+                        self.export_by_name.insert(name.clone(), ExportInfo {
+                            local_name: name.clone(),
+                            exported_name: name,
+                            is_default: false,
+                            source: source.clone(),
+                        });
+                    }
+                }
+                _ => {}
+            }
+        }
+
+        // Export specifiers: `export { foo, bar as baz }`
+        for specifier in &node.specifiers {
+            let local_name = specifier.local.name().to_string();
+            let exported_name = specifier.exported.name().to_string();
+            self.export_by_name.insert(local_name.clone(), ExportInfo {
+                local_name,
+                exported_name,
+                is_default: false,
+                source: source.clone(),
+            });
+        }
+    }
+
+    fn enter_export_default_declaration(
+        &mut self,
+        node: &mut ExportDefaultDeclaration<'a>,
+        _ctx: &mut TraverseCtx<'a, ()>,
+    ) {
+        // Track default exports for segment file import generation
+        let local_name = match &node.declaration {
+            ExportDefaultDeclarationKind::FunctionDeclaration(fn_decl) => {
+                if let Some(ident) = &fn_decl.id {
+                    ident.name.to_string()
+                } else {
+                    "_default".to_string()
+                }
+            }
+            ExportDefaultDeclarationKind::ClassDeclaration(class_decl) => {
+                if let Some(ident) = &class_decl.id {
+                    ident.name.to_string()
+                } else {
+                    "_default".to_string()
+                }
+            }
+            ExportDefaultDeclarationKind::Identifier(ident) => {
+                ident.name.to_string()
+            }
+            _ => "_default".to_string(),
+        };
+
+        self.export_by_name.insert(local_name.clone(), ExportInfo {
+            local_name,
+            exported_name: "default".to_string(),
+            is_default: true,
+            source: None,
+        });
     }
 
     fn enter_arrow_function_expression(
