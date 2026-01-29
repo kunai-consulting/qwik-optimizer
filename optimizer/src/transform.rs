@@ -544,15 +544,41 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         }
 
         // Check for component$ with destructured props
-        // This will be transformed in exit_call_expression if needed
+        // Populate props_identifiers EARLY so JSX processing can use them for _wrapProp
         if name.starts_with("component") && name.ends_with(MARKER_SUFFIX) {
             if let Some(arg) = node.arguments.first() {
                 if let Some(expr) = arg.as_expression() {
                     if let Expression::ArrowFunctionExpression(arrow) = expr {
                         // Check if first param is ObjectPattern
                         if let Some(first_param) = arrow.params.items.first() {
-                            if matches!(first_param.pattern, BindingPattern::ObjectPattern(_)) {
+                            if let BindingPattern::ObjectPattern(obj_pat) = &first_param.pattern {
                                 self.in_component_props = true;
+                                // Populate props_identifiers NOW before JSX processing
+                                // This maps local var names to original property keys
+                                for prop in &obj_pat.properties {
+                                    use oxc_ast::ast::BindingProperty;
+                                    let BindingProperty { key, value, .. } = prop;
+
+                                    // Get the original property key
+                                    let prop_key = match key {
+                                        PropertyKey::StaticIdentifier(id) => id.name.to_string(),
+                                        PropertyKey::StringLiteral(s) => s.value.to_string(),
+                                        _ => continue,
+                                    };
+
+                                    // Get the local binding name
+                                    let local_name = match value {
+                                        BindingPattern::BindingIdentifier(id) => id.name.to_string(),
+                                        _ => continue,
+                                    };
+
+                                    // Store mapping: (local_name, scope_id) -> prop_key
+                                    let scope_id = ctx.current_scope_id();
+                                    self.props_identifiers.insert((local_name.clone(), scope_id), prop_key.clone());
+                                    if DEBUG {
+                                        println!("Registered prop: {} -> key {:?}", local_name, prop_key);
+                                    }
+                                }
                             }
                         }
                     }
@@ -2902,5 +2928,170 @@ export const Cmp = component$(() => {
             result.is_ok(),
             "Transform should succeed with hoisted fn tracking"
         );
+    }
+
+    // ==================== _wrapProp Tests ====================
+
+    #[test]
+    fn test_wrap_prop_basic() {
+        // Test: direct prop access in JSX child should be wrapped with _wrapProp
+        use crate::component::Language;
+        use crate::source::Source;
+
+        let source_code = r#"
+import { component$ } from "@qwik.dev/core";
+export const Cmp = component$(({ message }) => {
+    return <div>{message}</div>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Check in both body and components for _wrapProp
+        let has_wrap_prop = result.optimized_app.body.contains("_wrapProp(_rawProps")
+            || result.optimized_app.components.iter().any(|c| c.code.contains("_wrapProp(_rawProps"));
+        assert!(has_wrap_prop,
+            "Expected _wrapProp(_rawProps, ...) for prop access, got body: {}\ncomponents: {:?}",
+            result.optimized_app.body,
+            result.optimized_app.components.iter().map(|c| &c.code).collect::<Vec<_>>());
+    }
+
+    #[test]
+    fn test_wrap_prop_attribute() {
+        // Test: prop as JSX attribute value should be wrapped
+        use crate::component::Language;
+        use crate::source::Source;
+
+        let source_code = r#"
+import { component$ } from "@qwik.dev/core";
+export const Cmp = component$(({ id }) => {
+    return <div id={id}>content</div>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Check for _wrapProp(_rawProps, "id")
+        let has_id_wrap = result.optimized_app.body.contains(r#"_wrapProp(_rawProps, "id")"#)
+            || result.optimized_app.components.iter().any(|c| c.code.contains(r#"_wrapProp(_rawProps, "id")"#));
+        assert!(has_id_wrap,
+            "Expected _wrapProp(_rawProps, \"id\") for id prop attribute, got body: {}\ncomponents: {:?}",
+            result.optimized_app.body,
+            result.optimized_app.components.iter().map(|c| &c.code).collect::<Vec<_>>());
+    }
+
+    #[test]
+    fn test_wrap_prop_signal_value() {
+        // Test: signal.value access generates _wrapProp(signal)
+        use crate::component::Language;
+        use crate::source::Source;
+
+        let source_code = r#"
+import { component$, useSignal } from "@qwik.dev/core";
+export const Cmp = component$(() => {
+    const count = useSignal(0);
+    return <div>{count.value}</div>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Check for _wrapProp(count) - signal.value becomes _wrapProp(signal)
+        let has_signal_wrap = result.optimized_app.body.contains("_wrapProp(count)")
+            || result.optimized_app.components.iter().any(|c| c.code.contains("_wrapProp(count)"));
+        assert!(has_signal_wrap,
+            "Expected _wrapProp(count) for signal.value, got body: {}\ncomponents: {:?}",
+            result.optimized_app.body,
+            result.optimized_app.components.iter().map(|c| &c.code).collect::<Vec<_>>());
+    }
+
+    #[test]
+    fn test_wrap_prop_import() {
+        // Test: _wrapProp import is added when prop wrapping is used
+        use crate::component::Language;
+        use crate::source::Source;
+
+        let source_code = r#"
+import { component$ } from "@qwik.dev/core";
+export const Cmp = component$(({ value }) => {
+    return <div>{value}</div>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Check that _wrapProp is in component code (import is there)
+        let has_wrap_in_component = result.optimized_app.components.iter()
+            .any(|c| c.code.contains("_wrapProp") && c.code.contains("@qwik.dev/core"));
+        assert!(has_wrap_in_component,
+            "Expected _wrapProp in component code with @qwik.dev/core import, got components: {:?}",
+            result.optimized_app.components.iter().map(|c| &c.code).collect::<Vec<_>>());
+    }
+
+    #[test]
+    fn test_no_wrap_local_vars() {
+        // Test: local variables (not props) should NOT be wrapped with _wrapProp(_rawProps, ...)
+        use crate::component::Language;
+        use crate::source::Source;
+
+        let source_code = r#"
+import { component$ } from "@qwik.dev/core";
+export const Cmp = component$(() => {
+    const local = "hello";
+    return <div>{local}</div>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Should NOT have _wrapProp(_rawProps, ...) for local variable
+        let has_wrap_prop = result.optimized_app.body.contains("_wrapProp(_rawProps")
+            || result.optimized_app.components.iter().any(|c| c.code.contains("_wrapProp(_rawProps"));
+        assert!(!has_wrap_prop,
+            "Should NOT wrap local vars with _wrapProp(_rawProps, ...), got body: {}\ncomponents: {:?}",
+            result.optimized_app.body,
+            result.optimized_app.components.iter().map(|c| &c.code).collect::<Vec<_>>());
+    }
+
+    #[test]
+    fn test_wrap_prop_aliased() {
+        // Test: aliased props use original key
+        use crate::component::Language;
+        use crate::source::Source;
+
+        let source_code = r#"
+import { component$ } from "@qwik.dev/core";
+export const Cmp = component$(({ count: c }) => {
+    return <div>{c}</div>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Should use original key "count", not alias "c"
+        let has_count_key = result.optimized_app.body.contains(r#"_wrapProp(_rawProps, "count")"#)
+            || result.optimized_app.components.iter().any(|c| c.code.contains(r#"_wrapProp(_rawProps, "count")"#));
+        assert!(has_count_key,
+            "Expected _wrapProp(_rawProps, \"count\") for aliased prop, got body: {}\ncomponents: {:?}",
+            result.optimized_app.body,
+            result.optimized_app.components.iter().map(|c| &c.code).collect::<Vec<_>>());
     }
 }
