@@ -15,6 +15,9 @@ pub const MARKER_SUFFIX: &str = "$";
 pub const QRL: &str = "qrl";
 pub const QRL_SUFFIX: &str = "Qrl";
 
+/// Import for _restProps function (rest props destructuring)
+pub const _REST_PROPS: &str = "_restProps";
+
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum ImportId {
     Named(String),
