@@ -129,13 +129,13 @@ Plans:
   3. Synthesized imports (qrl, component$) are added correctly
   4. Named, default, and re-exports transform correctly
   5. Dynamic import generation for lazy loading works correctly
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 06-01: Import capture for QRL scope
-- [ ] 06-02: Unused import cleanup
-- [ ] 06-03: Synthesized imports and dynamic import generation
-- [ ] 06-04: Named, default, re-exports, and side-effect imports
+- [ ] 06-01-PLAN.md — Export tracking for segment file import generation
+- [ ] 06-02-PLAN.md — Synthesized import deduplication and module finalization
+- [ ] 06-03-PLAN.md — Segment file import generation from source exports
+- [ ] 06-04-PLAN.md — Side-effect imports and re-export handling
 
 ### Phase 7: Entry Strategies
 **Goal**: All code-splitting strategies produce correct output
@@ -234,7 +234,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 | 3. Event Handlers | 3/3 | Complete | 2026-01-29 |
 | 4. Props & Signals | 5/5 | Complete | 2026-01-29 |
 | 5. JSX Transformation | 4/4 | Complete | 2026-01-29 |
-| 6. Imports & Exports | 0/4 | Not started | - |
+| 6. Imports & Exports | 0/4 | Planned | - |
 | 7. Entry Strategies | 0/3 | Not started | - |
 | 8. SSR & Build Modes | 0/3 | Not started | - |
 | 9. TypeScript Support | 0/3 | Not started | - |
@@ -243,4 +243,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-29 (Phase 5 complete)*
+*Last updated: 2026-01-29 (Phase 6 planned)*
