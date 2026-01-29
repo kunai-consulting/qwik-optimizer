@@ -1,3 +1,4 @@
+pub mod code_move;
 pub mod collector;
 pub mod component;
 pub(crate) mod error;
