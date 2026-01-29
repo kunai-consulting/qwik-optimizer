@@ -164,12 +164,12 @@ Plans:
   3. Server-only code eliminated in client builds
   4. Client-only code eliminated in server builds
   5. Mode-specific transformations apply correctly
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 08-01: isServer and isDev const replacement
-- [ ] 08-02: Server/client code elimination
-- [ ] 08-03: Mode-specific transformation validation
+- [ ] 08-01-PLAN.md — TransformOptions extension and import tracking infrastructure
+- [ ] 08-02-PLAN.md — ConstReplacerVisitor for isServer/isBrowser/isDev replacement
+- [ ] 08-03-PLAN.md — Pipeline integration and SSR requirement validation
 
 ### Phase 9: TypeScript Support
 **Goal**: TSX files parse and transform correctly with type handling
@@ -236,11 +236,11 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 | 5. JSX Transformation | 4/4 | Complete | 2026-01-29 |
 | 6. Imports & Exports | 4/4 | Complete | 2026-01-29 |
 | 7. Entry Strategies | 3/3 | Complete | 2026-01-29 |
-| 8. SSR & Build Modes | 0/3 | Not started | - |
+| 8. SSR & Build Modes | 0/3 | Planned | - |
 | 9. TypeScript Support | 0/3 | Not started | - |
 | 10. Edge Cases | 0/5 | Not started | - |
 | 11. Test Infrastructure | 0/3 | Not started | - |
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-29 (Phase 7 complete)*
+*Last updated: 2026-01-29 (Phase 8 planned)*
