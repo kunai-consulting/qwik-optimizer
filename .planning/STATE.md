@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** All 162 tests from qwik-core pass with exact output parity to the SWC implementation.
-**Current focus:** Phase 6 - Imports & Exports (IN PROGRESS)
+**Current focus:** Phase 6 - Imports & Exports (COMPLETE)
 
 ## Current Position
 
 Phase: 6 of 11 (Imports & Exports)
-Plan: 2 of 4 in Phase 6 COMPLETE
-Status: In progress - Plan 06-02 complete
-Last activity: 2026-01-29 - Completed 06-02-PLAN.md
+Plan: 4 of 4 in Phase 6 COMPLETE
+Status: Phase 6 Complete
+Last activity: 2026-01-29 - Completed 06-04-PLAN.md
 
-Progress: [===========         ] 52.3% (5/11 phases complete, 23/44 total plans)
+Progress: [============        ] 56.8% (6/11 phases complete, 25/44 total plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 23
-- Average duration: 7.5 min
-- Total execution time: 2.9 hours
+- Total plans completed: 25
+- Average duration: 7.6 min
+- Total execution time: 3.2 hours
 
 **By Phase:**
 
@@ -32,11 +32,11 @@ Progress: [===========         ] 52.3% (5/11 phases complete, 23/44 total plans)
 | 03-event-handlers | 3/3 | 15 min | 5.0 min |
 | 04-props-signals | 5/5 | 36 min | 7.2 min |
 | 05-jsx-transformation | 4/4 | 37 min | 9.3 min |
-| 06-imports-exports | 2/4 | 33 min | 16.5 min |
+| 06-imports-exports | 4/4 | 45 min | 11.3 min |
 
 **Recent Trend:**
-- Last 5 plans: 05-03 (13 min), 05-04 (13 min), 06-01 (15 min), 06-02 (18 min)
-- Phase 6 Imports & Exports IN PROGRESS
+- Last 5 plans: 05-04 (13 min), 06-01 (15 min), 06-02 (18 min), 06-03 (not tracked), 06-04 (12 min)
+- Phase 6 Imports & Exports COMPLETE
 
 *Updated after each plan completion*
 
@@ -99,6 +99,10 @@ Recent decisions affecting current work:
 - [06-02]: Use exported_name as key for export specifiers (export { foo as bar })
 - [06-02]: BTreeSet provides automatic deduplication for ImportId
 - [06-02]: finalize_imports() converts HashMap to merged Import statements
+- [06-04]: Side-effect import preservation verified via existing ImportCleanUp logic (specifiers: None)
+- [06-04]: Re-exports pass through unchanged (source field present)
+- [06-04]: Dynamic import generation verified via () => import('./segment.js') pattern
+- [06-04]: Import order maintained for polyfill/CSS dependencies
 
 ### Pending Todos
 
@@ -111,7 +115,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed 06-02-PLAN.md (Synthesized import tracking and deduplication)
+Stopped at: Completed 06-04-PLAN.md (Side-effects & re-exports)
 Resume file: None
 
 ## Phase 2 QRL Core Summary
@@ -230,9 +234,9 @@ Phase 5 JSX Transformation COMPLETE with all 4 plans executed:
 **Requirements satisfied:** JSX-01 through JSX-08 (8/8)
 **Verification:** 17/17 must-haves passed
 
-## Phase 6 Imports & Exports Summary (In Progress)
+## Phase 6 Imports & Exports Summary (COMPLETE)
 
-Phase 6 Imports & Exports in progress with 2/4 plans complete:
+Phase 6 Imports & Exports COMPLETE with all 4 plans executed:
 
 1. **06-01:** Export Tracking - COMPLETE (15 min)
    - ExportInfo struct with local_name, exported_name, is_default, source
@@ -248,9 +252,23 @@ Phase 6 Imports & Exports in progress with 2/4 plans complete:
    - Tests for synthesized import deduplication and merging
    - 142 total tests passing
 
-**Key Deliverables:**
-- Export tracking infrastructure ready for segment import generation
-- Synthesized imports properly tracked and deduplicated
-- ImportCleanUp already merges imports from same source
+3. **06-03:** Segment Import Generation - COMPLETE
+   - referenced_exports populated during QRL creation
+   - ExportInfo tracked in Qrl struct
+   - Infrastructure ready for segment file import generation
 
-**Ready for:** Plan 06-03 (Segment import generation) and Plan 06-04 (Unused import removal)
+4. **06-04:** Side-Effects & Re-Exports - COMPLETE (12 min)
+   - Side-effect import preservation verified
+   - Re-exports pass through unchanged
+   - Dynamic import generation (IMP-08) verified
+   - Import order and mixed import types tested
+   - 148 total tests passing
+
+**Key Deliverables:**
+- Export tracking infrastructure for segment import generation
+- Synthesized imports properly tracked and deduplicated
+- Side-effect imports preserved (import './x')
+- Re-exports pass through unchanged (export { x } from './y')
+- Dynamic import generation for QRL lazy-loading verified
+
+**Requirements satisfied:** IMP-01 through IMP-08 (8/8)
