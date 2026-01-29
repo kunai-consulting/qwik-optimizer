@@ -17,7 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: Event Handlers** - Transform onClick$, onInput$, and custom event handlers
 - [x] **Phase 4: Props & Signals** - Handle component props destructuring and signal reactivity
 - [x] **Phase 5: JSX Transformation** - Complete JSX element and attribute handling
-- [ ] **Phase 6: Imports & Exports** - Module system completeness including dynamic imports
+- [x] **Phase 6: Imports & Exports** - Module system completeness including dynamic imports
 - [ ] **Phase 7: Entry Strategies** - Code-splitting control (Inline, Single, PerSegment, etc.)
 - [ ] **Phase 8: SSR & Build Modes** - Server/client code handling and dev/prod modes
 - [ ] **Phase 9: TypeScript Support** - TSX parsing, type annotations, and generics
@@ -132,10 +132,10 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 06-01-PLAN.md — Export tracking for segment file import generation
-- [ ] 06-02-PLAN.md — Synthesized import deduplication and module finalization
-- [ ] 06-03-PLAN.md — Segment file import generation from source exports
-- [ ] 06-04-PLAN.md — Side-effect imports and re-export handling
+- [x] 06-01-PLAN.md — Export tracking for segment file import generation
+- [x] 06-02-PLAN.md — Synthesized import deduplication and module finalization
+- [x] 06-03-PLAN.md — Segment file import generation from source exports
+- [x] 06-04-PLAN.md — Side-effect imports and re-export handling
 
 ### Phase 7: Entry Strategies
 **Goal**: All code-splitting strategies produce correct output
@@ -234,7 +234,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 | 3. Event Handlers | 3/3 | Complete | 2026-01-29 |
 | 4. Props & Signals | 5/5 | Complete | 2026-01-29 |
 | 5. JSX Transformation | 4/4 | Complete | 2026-01-29 |
-| 6. Imports & Exports | 0/4 | Planned | - |
+| 6. Imports & Exports | 4/4 | Complete | 2026-01-29 |
 | 7. Entry Strategies | 0/3 | Not started | - |
 | 8. SSR & Build Modes | 0/3 | Not started | - |
 | 9. TypeScript Support | 0/3 | Not started | - |
@@ -243,4 +243,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-29 (Phase 6 planned)*
+*Last updated: 2026-01-29 (Phase 6 complete)*
