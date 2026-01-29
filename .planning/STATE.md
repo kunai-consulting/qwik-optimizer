@@ -9,19 +9,19 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 
 ## Current Position
 
-Phase: 2 of 11 (QRL Core) - COMPLETE
-Plan: 7 of 7 in Phase 2
-Status: Phase 2 complete, ready for Phase 3
-Last activity: 2026-01-29 - Completed Phase 2 verification (gap closure plans 02-06, 02-07)
+Phase: 3 of 11 (Event Handlers) - In Progress
+Plan: 1 of 3 in Phase 3
+Status: Plan 03-01 complete, ready for Plan 03-02
+Last activity: 2026-01-29 - Completed 03-01-PLAN.md (Event Name Transformation)
 
-Progress: [====                ] 18.2% (2/11 phases, 9/44 total plans)
+Progress: [=====               ] 22.7% (2/11 phases complete, 10/44 total plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 9
-- Average duration: 7.4 min
-- Total execution time: 1.1 hours
+- Total plans completed: 10
+- Average duration: 6.9 min
+- Total execution time: 1.2 hours
 
 **By Phase:**
 
@@ -29,10 +29,11 @@ Progress: [====                ] 18.2% (2/11 phases, 9/44 total plans)
 |-------|-------|-------|----------|
 | 01-oxc-foundation | 2/2 | 15 min | 7.5 min |
 | 02-qrl-core | 7/7 | 51 min | 7.3 min |
+| 03-event-handlers | 1/3 | 3 min | 3.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 02-03 (3 min), 02-04 (5 min), 02-05 (18 min), 02-06 (5 min), 02-07 (2 min)
-- Phase 2 complete including gap closure
+- Last 5 plans: 02-04 (5 min), 02-05 (18 min), 02-06 (5 min), 02-07 (2 min), 03-01 (3 min)
+- Phase 3 event handlers in progress
 
 *Updated after each plan completion*
 
@@ -58,6 +59,8 @@ Recent decisions affecting current work:
 - [02-05]: Filter imported identifiers from scoped_idents to avoid capturing variables already handled via imports
 - [02-05]: Add scoped_idents field to Qrl struct for capture array generation
 - [02-06]: Compare identifiers by name only in compute_scoped_idents (item.0.0 == ident.0), ignoring ScopeId mismatch
+- [03-01]: Used usize::MAX as sentinel value for invalid event detection
+- [03-01]: Case-preserving events trigger on dash prefix before event name
 
 ### Pending Todos
 
@@ -70,7 +73,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed Phase 2 QRL Core (all 7 plans including gap closure)
+Stopped at: Completed 03-01-PLAN.md (Event Name Transformation)
 Resume file: None
 
 ## Phase 2 QRL Core Summary
@@ -97,4 +100,14 @@ Phase 2 QRL Core complete with all 7 plans executed:
 
 **Requirements satisfied:** QRL-01 through QRL-10 (10/10)
 
-**Ready for:** Phase 3 Event Handlers
+## Phase 3 Event Handlers Progress
+
+Phase 3 Event Handlers in progress:
+
+1. **03-01:** Event name transformation utilities - COMPLETE
+   - jsx_event_to_html_attribute: onClick$ -> on:click
+   - get_event_scope_data_from_jsx_event: prefix extraction
+   - create_event_name: camelCase to kebab-case conversion
+   - 5 unit tests passing
+
+**Ready for:** Plan 03-02 (JSX attribute transformation integration)
