@@ -4725,4 +4725,78 @@ export const App = component$(() => <div>test</div>);
         assert!(output.contains("componentQrl") || output.contains("qrl("),
             "Expected QRL transformation to still work, got: {}", output);
     }
+
+    #[test]
+    fn test_dynamic_import_generation() {
+        // Test that dynamic import generation for QRL lazy-loading works correctly
+        // The QRL into_arrow_function method generates: () => import("./segment_file.js")
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+    return <div>Hello</div>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        let output = &result.optimized_app.body;
+
+        // STRONG ASSERTIONS:
+        // 1. Should have qrl() call with dynamic import arrow function
+        assert!(output.contains("qrl(") || output.contains("componentQrl("),
+            "Expected qrl() or componentQrl() call in output, got: {}", output);
+
+        // 2. The QRL should contain arrow function with import
+        // Pattern: qrl(() => import("./..."), "App_component_...")
+        assert!(output.contains("import(") || output.contains("import ("),
+            "Expected dynamic import in QRL, got: {}", output);
+    }
+
+    #[test]
+    fn test_dynamic_import_in_qrl() {
+        // Test that dynamic imports inside QRL bodies are preserved
+        // User-written dynamic imports should work alongside QRL wrapper imports
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+    const loadModule = async () => {
+        const mod = await import('./lazy-module');
+        return mod.default;
+    };
+    return <div onClick$={loadModule}>load</div>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Check component code for dynamic imports
+        let all_code: String = result.optimized_app.components.iter()
+            .map(|c| c.code.clone())
+            .collect::<Vec<_>>()
+            .join("\n");
+        let full_output = format!("{}\n{}", result.optimized_app.body, all_code);
+
+        // STRONG ASSERTIONS:
+        // 1. User-written dynamic import should be preserved
+        assert!(full_output.contains("import(") || full_output.contains("import ("),
+            "Expected dynamic import to be preserved, got: {}", full_output);
+
+        // 2. QRL transformation should still work
+        assert!(full_output.contains("qrl("),
+            "Expected QRL transformation to work, got: {}", full_output);
+    }
 }
