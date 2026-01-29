@@ -37,6 +37,7 @@ use std::cell::{Cell, RefCell};
 use std::fmt::{write, Display, Pointer};
 
 use crate::collector::Id;
+use crate::is_const::is_const_expr;
 
 /// Type of declaration for tracking captured variables.
 /// Used in compute_scoped_idents to determine if captured variables are const.
@@ -3696,5 +3697,127 @@ export const Cmp = component$(() => {
         assert_eq!(TransformGenerator::is_bind_directive("bind:stuff"), None);
         assert_eq!(TransformGenerator::is_bind_directive("onClick$"), None);
         assert_eq!(TransformGenerator::is_bind_directive("value"), None);
+    }
+
+    // ==================== Fragment Tests ====================
+
+    #[test]
+    fn test_implicit_fragment_transformation() {
+        // Test that implicit fragments (<></>) transform to _jsxSorted(_Fragment, ...)
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+    return (
+        <>
+            <div>First</div>
+            <div>Second</div>
+        </>
+    );
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Get component code
+        let component_code = result.optimized_app.components.iter()
+            .find(|c| c.code.contains("First"))
+            .map(|c| &c.code)
+            .expect("Should have a component with First");
+
+        // STRONG ASSERTIONS:
+        // 1. Should use _Fragment identifier
+        assert!(component_code.contains("_jsxSorted(_Fragment"),
+            "Expected _jsxSorted(_Fragment, ...) call, got: {}", component_code);
+
+        // 2. Should have Fragment import from jsx-runtime
+        assert!(component_code.contains("Fragment as _Fragment") ||
+            component_code.contains("import { Fragment as _Fragment }"),
+            "Expected Fragment as _Fragment import, got: {}", component_code);
+    }
+
+    #[test]
+    fn test_explicit_fragment_uses_user_import() {
+        // Test that explicit <Fragment> uses user-imported Fragment identifier
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$, Fragment } from '@qwik.dev/core';
+
+export const App = component$(() => {
+    return (
+        <Fragment>
+            <div>Explicit Fragment</div>
+        </Fragment>
+    );
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Get component code
+        let component_code = result.optimized_app.components.iter()
+            .find(|c| c.code.contains("Explicit Fragment"))
+            .map(|c| &c.code)
+            .expect("Should have a component with Explicit Fragment");
+
+        // STRONG ASSERTIONS:
+        // 1. Should use Fragment identifier (not _Fragment)
+        assert!(component_code.contains("_jsxSorted(Fragment,"),
+            "Expected _jsxSorted(Fragment, ...) call using user import, got: {}", component_code);
+
+        // 2. Should NOT add _Fragment import (uses user's Fragment)
+        assert!(!component_code.contains("Fragment as _Fragment"),
+            "Should not add Fragment as _Fragment import for explicit Fragment, got: {}", component_code);
+    }
+
+    #[test]
+    fn test_implicit_fragment_generates_key_in_component() {
+        // Test that implicit fragments generate keys when inside components
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+    return (
+        <div>
+            <>
+                <span>Keyed</span>
+            </>
+        </div>
+    );
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Get component code
+        let component_code = result.optimized_app.components.iter()
+            .find(|c| c.code.contains("Keyed"))
+            .map(|c| &c.code)
+            .expect("Should have a component with Keyed");
+
+        // STRONG ASSERTIONS:
+        // Fragment should have a key generated (not null as last argument)
+        // Pattern: _jsxSorted(_Fragment, null, null, ..., flags, "XX_N")
+        // But outside component returns null
+        // Inside component, it should generate a key
+        assert!(component_code.contains("_jsxSorted(_Fragment"),
+            "Expected _jsxSorted(_Fragment, ...) call, got: {}", component_code);
     }
 }
