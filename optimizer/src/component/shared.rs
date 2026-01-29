@@ -18,6 +18,9 @@ pub const QRL_SUFFIX: &str = "Qrl";
 /// Import for _restProps function (rest props destructuring)
 pub const _REST_PROPS: &str = "_restProps";
 
+/// Import for _wrapProp function (prop wrapping for reactivity)
+pub const _WRAP_PROP: &str = "_wrapProp";
+
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum ImportId {
     Named(String),
