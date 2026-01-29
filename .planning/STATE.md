@@ -99,6 +99,10 @@ Recent decisions affecting current work:
 - [06-02]: Use exported_name as key for export specifiers (export { foo as bar })
 - [06-02]: BTreeSet provides automatic deduplication for ImportId
 - [06-02]: finalize_imports() converts HashMap to merged Import statements
+- [06-03]: referenced_exports stored on both Qrl and SegmentData for transport and generation
+- [06-03]: Default exports use import { default as LocalName } pattern
+- [06-03]: Aliased exports use import { exported_name as local_name } pattern
+- [06-03]: ExportInfo derives PartialOrd, Ord, Serialize for Qrl struct compatibility
 - [06-04]: Side-effect import preservation verified via existing ImportCleanUp logic (specifiers: None)
 - [06-04]: Re-exports pass through unchanged (source field present)
 - [06-04]: Dynamic import generation verified via () => import('./segment.js') pattern
@@ -252,10 +256,12 @@ Phase 6 Imports & Exports COMPLETE with all 4 plans executed:
    - Tests for synthesized import deduplication and merging
    - 142 total tests passing
 
-3. **06-03:** Segment Import Generation - COMPLETE
+3. **06-03:** Segment Import Generation - COMPLETE (13 min)
    - referenced_exports populated during QRL creation
-   - ExportInfo tracked in Qrl struct
-   - Infrastructure ready for segment file import generation
+   - ExportInfo tracked in Qrl and SegmentData structs
+   - generate_source_file_imports helper in QrlComponent
+   - Default, aliased, and named export import syntax handled
+   - 151 total tests passing
 
 4. **06-04:** Side-Effects & Re-Exports - COMPLETE (12 min)
    - Side-effect import preservation verified
