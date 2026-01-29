@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 ## Current Position
 
 Phase: 7 of 11 (Entry Strategies)
-Plan: 1 of 3 in Phase 7 COMPLETE
+Plan: 2 of 3 in Phase 7 COMPLETE
 Status: In Progress
-Last activity: 2026-01-29 - Completed 07-01-PLAN.md
+Last activity: 2026-01-29 - Completed 07-02-PLAN.md
 
-Progress: [============        ] 59.1% (6/11 phases complete, 26/44 total plans)
+Progress: [============        ] 61.4% (6/11 phases complete, 27/44 total plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 25
-- Average duration: 7.6 min
-- Total execution time: 3.2 hours
+- Total plans completed: 27
+- Average duration: 7.5 min
+- Total execution time: 3.4 hours
 
 **By Phase:**
 
@@ -33,10 +33,10 @@ Progress: [============        ] 59.1% (6/11 phases complete, 26/44 total plans)
 | 04-props-signals | 5/5 | 36 min | 7.2 min |
 | 05-jsx-transformation | 4/4 | 37 min | 9.3 min |
 | 06-imports-exports | 4/4 | 45 min | 11.3 min |
-| 07-entry-strategies | 1/3 | 15 min | 15.0 min |
+| 07-entry-strategies | 2/3 | 23 min | 11.5 min |
 
 **Recent Trend:**
-- Last 5 plans: 06-01 (15 min), 06-02 (18 min), 06-03 (not tracked), 06-04 (12 min), 07-01 (15 min)
+- Last 5 plans: 06-02 (18 min), 06-03 (not tracked), 06-04 (12 min), 07-01 (15 min), 07-02 (8 min)
 - Phase 7 Entry Strategies in progress
 
 *Updated after each plan completion*
@@ -110,7 +110,9 @@ Recent decisions affecting current work:
 - [06-04]: Import order maintained for polyfill/CSS dependencies
 - [07-01]: Added stacked_ctxt flag to JsxState to track whether JSX element pushed to stack_ctxt
 - [07-01]: EntryPolicy::get_entry_for_sym takes &SegmentData instead of &Segment
-- [07-01]: PerComponentStrategy and SmartStrategy marked with panic! for 07-02 implementation
+- [07-02]: PerComponentStrategy returns entry_segments for top-level QRLs (empty context)
+- [07-02]: SmartStrategy checks scoped_idents.is_empty() AND ctx_kind for event handler detection
+- [07-02]: Entry grouping format: {origin}_entry_{root} for component-grouped segments
 
 ### Pending Todos
 
@@ -123,7 +125,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed 07-01-PLAN.md (Context Stack Infrastructure)
+Stopped at: Completed 07-02-PLAN.md (Strategy Implementations)
 Resume file: None
 
 ## Phase 2 QRL Core Summary
@@ -295,10 +297,16 @@ Phase 7 Entry Strategies in progress:
    - EntryPolicy trait updated to use &SegmentData
    - 6 stack_ctxt tests added, 157 total tests passing
 
-2. **07-02:** Strategy Implementations - PENDING
+2. **07-02:** Strategy Implementations - COMPLETE (8 min)
+   - PerComponentStrategy: groups QRLs by root component ({origin}_entry_{root})
+   - SmartStrategy: separates stateless event handlers for independent loading
+   - 11 unit tests covering all 5 entry strategies (ENT-01 through ENT-05)
+   - 168 total tests passing
+
 3. **07-03:** Integration & Validation - PENDING
 
-**Key Deliverables (07-01):**
+**Key Deliverables (07-01, 07-02):**
 - stack_ctxt field tracks component hierarchy for entry strategy grouping
 - EntryPolicy::get_entry_for_sym accepts SegmentData for full QRL metadata access
 - All visitor methods updated with push/pop following SWC patterns
+- All 5 entry strategies implemented and tested
