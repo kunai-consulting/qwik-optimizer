@@ -214,6 +214,23 @@ pub struct TransformGenerator<'gen> {
 
     /// Flag indicating _fnSignal import needs to be added.
     needs_fn_signal_import: bool,
+
+    /// Pending bind directives for current element: (is_checked, signal_expr)
+    /// Collected during attribute processing and applied at element exit.
+    pending_bind_directives: Vec<(bool, Expression<'gen>)>,
+
+    /// Pending on:input handlers for current element.
+    /// Used to merge with bind handlers when both exist on same element.
+    pending_on_input_handlers: Vec<Expression<'gen>>,
+
+    /// Flag indicating _val import needs to be added (bind:value).
+    needs_val_import: bool,
+
+    /// Flag indicating _chk import needs to be added (bind:checked).
+    needs_chk_import: bool,
+
+    /// Flag indicating inlinedQrl import needs to be added.
+    needs_inlined_qrl_import: bool,
 }
 
 impl<'gen> TransformGenerator<'gen> {
@@ -255,6 +272,11 @@ impl<'gen> TransformGenerator<'gen> {
             hoisted_fns: Vec::new(),
             hoisted_fn_counter: 0,
             needs_fn_signal_import: false,
+            pending_bind_directives: Vec::new(),
+            pending_on_input_handlers: Vec::new(),
+            needs_val_import: false,
+            needs_chk_import: false,
+            needs_inlined_qrl_import: false,
         }
     }
 
@@ -419,6 +441,76 @@ impl<'gen> TransformGenerator<'gen> {
         }
         false
     }
+
+    /// Check if attribute name is a bind directive.
+    /// Returns Some(true) for bind:checked, Some(false) for bind:value, None otherwise.
+    fn is_bind_directive(name: &str) -> Option<bool> {
+        if name == "bind:value" {
+            Some(false)  // is_checked = false
+        } else if name == "bind:checked" {
+            Some(true)   // is_checked = true
+        } else {
+            None
+        }
+    }
+
+    /// Create inlinedQrl for bind handler.
+    /// inlinedQrl(_val, "_val", [signal]) for bind:value
+    /// inlinedQrl(_chk, "_chk", [signal]) for bind:checked
+    fn create_bind_handler<'b>(
+        builder: &AstBuilder<'b>,
+        is_checked: bool,
+        signal_expr: Expression<'b>,
+    ) -> Expression<'b> {
+        let helper = if is_checked { "_chk" } else { "_val" };
+
+        builder.expression_call(
+            SPAN,
+            builder.expression_identifier(SPAN, "inlinedQrl"),
+            None::<OxcBox<TSTypeParameterInstantiation<'b>>>,
+            builder.vec_from_array([
+                Argument::from(builder.expression_identifier(SPAN, helper)),
+                Argument::from(builder.expression_string_literal(SPAN, helper, None)),
+                Argument::from(builder.expression_array(
+                    SPAN,
+                    builder.vec1(ArrayExpressionElement::from(signal_expr)),
+                )),
+            ]),
+            false,
+        )
+    }
+
+    /// Merge bind handler with existing on:input handler.
+    /// Returns array expression: [existingHandler, bindHandler]
+    fn merge_event_handlers<'b>(
+        builder: &AstBuilder<'b>,
+        existing: Expression<'b>,
+        bind_handler: Expression<'b>,
+    ) -> Expression<'b> {
+        // If existing is already an array, add bind_handler to it
+        match existing {
+            Expression::ArrayExpression(arr) => {
+                // Clone and add bind_handler
+                let mut elements: OxcVec<'b, ArrayExpressionElement<'b>> =
+                    builder.vec_with_capacity(arr.elements.len() + 1);
+                for elem in arr.elements.iter() {
+                    elements.push(elem.clone_in(builder.allocator));
+                }
+                elements.push(ArrayExpressionElement::from(bind_handler));
+                builder.expression_array(SPAN, elements)
+            }
+            _ => {
+                // Create new array with both handlers
+                builder.expression_array(
+                    SPAN,
+                    builder.vec_from_array([
+                        ArrayExpressionElement::from(existing),
+                        ArrayExpressionElement::from(bind_handler),
+                    ]),
+                )
+            }
+        }
+    }
 }
 
 fn move_expression<'gen>(
@@ -455,6 +547,34 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             if let Some(imports) = self.import_stack.last_mut() {
                 imports.insert(Import::new(
                     vec![ImportId::Named("_fnSignal".into())],
+                    QWIK_CORE_SOURCE,
+                ));
+            }
+        }
+
+        // Add bind directive imports if needed
+        if self.needs_val_import {
+            if let Some(imports) = self.import_stack.last_mut() {
+                imports.insert(Import::new(
+                    vec![ImportId::Named("_val".into())],
+                    QWIK_CORE_SOURCE,
+                ));
+            }
+        }
+
+        if self.needs_chk_import {
+            if let Some(imports) = self.import_stack.last_mut() {
+                imports.insert(Import::new(
+                    vec![ImportId::Named("_chk".into())],
+                    QWIK_CORE_SOURCE,
+                ));
+            }
+        }
+
+        if self.needs_inlined_qrl_import {
+            if let Some(imports) = self.import_stack.last_mut() {
+                imports.insert(Import::new(
+                    vec![ImportId::Named("inlinedQrl".into())],
                     QWIK_CORE_SOURCE,
                 ));
             }
@@ -1322,6 +1442,30 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         // Check if this is an event handler attribute with a function value
         let attr_name = get_jsx_attribute_full_name(&node.name);
 
+        // Check for bind directive (bind:value or bind:checked)
+        // Only process on native elements
+        let is_native = self.jsx_element_is_native.last().copied().unwrap_or(false);
+        if is_native {
+            if let Some(is_checked) = Self::is_bind_directive(&attr_name) {
+                // Extract signal expression from value
+                if let Some(JSXAttributeValue::ExpressionContainer(container)) = &node.value {
+                    if let Some(expr) = container.expression.as_expression() {
+                        self.pending_bind_directives.push((
+                            is_checked,
+                            expr.clone_in(ctx.ast.allocator)
+                        ));
+                        // Mark import needs
+                        if is_checked {
+                            self.needs_chk_import = true;
+                        } else {
+                            self.needs_val_import = true;
+                        }
+                        self.needs_inlined_qrl_import = true;
+                    }
+                }
+            }
+        }
+
         if attr_name.ends_with(MARKER_SUFFIX) {
             if let Some(JSXAttributeValue::ExpressionContainer(container)) = &node.value {
                 if let Some(expr) = container.expression.as_expression() {
@@ -1342,10 +1486,92 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
     fn exit_jsx_attribute(&mut self, node: &mut JSXAttribute<'a>, ctx: &mut TraverseCtx<'a, ()>) {
         // Transform event handler attribute names on native elements
         let attr_name = get_jsx_attribute_full_name(&node.name);
+        let is_native = self.jsx_element_is_native.last().copied().unwrap_or(false);
+
+        // Check for bind directive transformation (bind:value or bind:checked)
+        // Only transform on native elements
+        if is_native && self.options.transpile_jsx {
+            if let Some(is_checked) = Self::is_bind_directive(&attr_name) {
+                // This is bind:value or bind:checked - transform it
+                if let Some(JSXAttributeValue::ExpressionContainer(container)) = &node.value {
+                    if let Some(expr) = container.expression.as_expression() {
+                        let signal_expr = expr.clone_in(ctx.ast.allocator);
+                        let prop_name = if is_checked { "checked" } else { "value" };
+
+                        // Create the bind handler: inlinedQrl(_val/_chk, "_val"/"_chk", [signal])
+                        let bind_handler = Self::create_bind_handler(&ctx.ast, is_checked, signal_expr.clone_in(ctx.ast.allocator));
+
+                        // Pop the is_const from stack since we're handling this manually
+                        self.expr_is_const_stack.pop();
+
+                        if let Some(jsx) = self.jsx_stack.last_mut() {
+                            // Add value/checked prop with signal to const_props
+                            let prop_name_atom = self.builder.atom(prop_name);
+                            jsx.const_props.push(self.builder.object_property_kind_object_property(
+                                node.span,
+                                PropertyKind::Init,
+                                self.builder.property_key_static_identifier(SPAN, prop_name_atom),
+                                signal_expr,
+                                false,
+                                false,
+                                false,
+                            ));
+
+                            // Check if there's an existing on:input handler to merge with
+                            // Look in both const_props and var_props for "on:input"
+                            let existing_on_input_idx = jsx.const_props.iter().position(|prop| {
+                                if let ObjectPropertyKind::ObjectProperty(obj_prop) = prop {
+                                    if let PropertyKey::StaticIdentifier(id) = &obj_prop.key {
+                                        return id.name == "on:input";
+                                    }
+                                }
+                                false
+                            });
+
+                            if let Some(idx) = existing_on_input_idx {
+                                // Merge with existing on:input handler
+                                if let ObjectPropertyKind::ObjectProperty(obj_prop) = &jsx.const_props[idx] {
+                                    let existing_handler = obj_prop.value.clone_in(ctx.ast.allocator);
+                                    let merged = Self::merge_event_handlers(&ctx.ast, existing_handler, bind_handler);
+
+                                    // Replace the existing prop with merged handler
+                                    let on_input_atom = self.builder.atom("on:input");
+                                    jsx.const_props[idx] = self.builder.object_property_kind_object_property(
+                                        node.span,
+                                        PropertyKind::Init,
+                                        self.builder.property_key_static_identifier(SPAN, on_input_atom),
+                                        merged,
+                                        false,
+                                        false,
+                                        false,
+                                    );
+                                }
+                            } else {
+                                // No existing on:input, add the bind handler as-is
+                                let on_input_atom = self.builder.atom("on:input");
+                                jsx.const_props.push(self.builder.object_property_kind_object_property(
+                                    node.span,
+                                    PropertyKind::Init,
+                                    self.builder.property_key_static_identifier(SPAN, on_input_atom),
+                                    bind_handler,
+                                    false,
+                                    false,
+                                    false,
+                                ));
+                            }
+                        }
+
+                        // Skip the normal prop processing - pop segment and return
+                        self.segment_stack.pop();
+                        self.debug("EXIT: JSXAttribute (bind directive)", ctx);
+                        self.descend();
+                        return;
+                    }
+                }
+            }
+        }
 
         if attr_name.ends_with(MARKER_SUFFIX) {
-            let is_native = self.jsx_element_is_native.last().copied().unwrap_or(false);
-
             if is_native {
                 if let Some(html_attr) = jsx_event_to_html_attribute(&attr_name) {
                     let new_name = self.builder.atom(&html_attr);
@@ -1520,23 +1746,75 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                     // Use the transformed name (or original if not transformed) for the property key
                     let prop_name = get_jsx_attribute_full_name(&node.name);
                     let prop_name_atom = self.builder.atom(&prop_name);
-                    let props = if is_const {
-                        &mut jsx.const_props
+
+                    // Check if this is an on:input handler that needs to merge with existing bind handler
+                    if prop_name == "on:input" {
+                        let existing_on_input_idx = jsx.const_props.iter().position(|prop| {
+                            if let ObjectPropertyKind::ObjectProperty(obj_prop) = prop {
+                                if let PropertyKey::StaticIdentifier(id) = &obj_prop.key {
+                                    return id.name == "on:input";
+                                }
+                            }
+                            false
+                        });
+
+                        if let Some(idx) = existing_on_input_idx {
+                            // Merge with existing on:input from bind directive
+                            if let ObjectPropertyKind::ObjectProperty(obj_prop) = &jsx.const_props[idx] {
+                                let existing_handler = obj_prop.value.clone_in(ctx.ast.allocator);
+                                // For this case, the existing handler is from bind, new one is from onInput$
+                                // So we want [onInput$_handler, bind_handler]
+                                let merged = Self::merge_event_handlers(&ctx.ast, expr, existing_handler);
+
+                                jsx.const_props[idx] = self.builder.object_property_kind_object_property(
+                                    node.span,
+                                    PropertyKind::Init,
+                                    self.builder.property_key_static_identifier(SPAN, prop_name_atom),
+                                    merged,
+                                    false,
+                                    false,
+                                    false,
+                                );
+                            }
+                        } else {
+                            // No existing on:input, add normally
+                            let props = if is_const {
+                                &mut jsx.const_props
+                            } else {
+                                &mut jsx.var_props
+                            };
+                            props.push(self.builder.object_property_kind_object_property(
+                                node.span,
+                                PropertyKind::Init,
+                                self.builder.property_key_static_identifier(
+                                    node.name.span(),
+                                    prop_name_atom,
+                                ),
+                                expr,
+                                false,
+                                false,
+                                false,
+                            ));
+                        }
                     } else {
-                        &mut jsx.var_props
-                    };
-                    props.push(self.builder.object_property_kind_object_property(
-                        node.span,
-                        PropertyKind::Init,
-                        self.builder.property_key_static_identifier(
-                            node.name.span(),
-                            prop_name_atom,
-                        ),
-                        expr,
-                        false,
-                        false,
-                        false,
-                    ));
+                        let props = if is_const {
+                            &mut jsx.const_props
+                        } else {
+                            &mut jsx.var_props
+                        };
+                        props.push(self.builder.object_property_kind_object_property(
+                            node.span,
+                            PropertyKind::Init,
+                            self.builder.property_key_static_identifier(
+                                node.name.span(),
+                                prop_name_atom,
+                            ),
+                            expr,
+                            false,
+                            false,
+                            false,
+                        ));
+                    }
                 }
             }
         }
