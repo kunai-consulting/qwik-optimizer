@@ -111,13 +111,13 @@ Plans:
   3. Spread attributes and conditional rendering work correctly
   4. List rendering with map produces correct output
   5. _jsxSorted output format matches SWC exactly
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 05-01: Basic JSX and fragment transformation
-- [ ] 05-02: Dynamic children and conditional rendering
-- [ ] 05-03: Spread attributes and list rendering
-- [ ] 05-04: _jsxSorted output format validation
+- [ ] 05-01-PLAN.md — Prop constness detection (is_const_expr) and null output format
+- [ ] 05-02-PLAN.md — Fragment handling (_Fragment import from jsx-runtime)
+- [ ] 05-03-PLAN.md — Spread props helpers (_getVarProps/_getConstProps) and single child optimization
+- [ ] 05-04-PLAN.md — Conditional/list rendering and comprehensive JSX tests
 
 ### Phase 6: Imports & Exports
 **Goal**: Module system transforms correctly with proper import cleanup
@@ -233,7 +233,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 | 2. QRL Core | 7/7 | Complete | 2026-01-29 |
 | 3. Event Handlers | 3/3 | Complete | 2026-01-29 |
 | 4. Props & Signals | 5/5 | Complete | 2026-01-29 |
-| 5. JSX Transformation | 0/4 | Not started | - |
+| 5. JSX Transformation | 0/4 | Planned | - |
 | 6. Imports & Exports | 0/4 | Not started | - |
 | 7. Entry Strategies | 0/3 | Not started | - |
 | 8. SSR & Build Modes | 0/3 | Not started | - |
@@ -243,4 +243,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-29 (Phase 4 execution complete)*
+*Last updated: 2026-01-29 (Phase 5 planning complete)*
