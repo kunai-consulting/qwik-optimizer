@@ -204,6 +204,16 @@ pub struct TransformGenerator<'gen> {
     /// Flag indicating _wrapProp import needs to be added.
     /// Set when any prop identifier or signal.value access is wrapped.
     needs_wrap_prop_import: bool,
+
+    /// Hoisted functions for _fnSignal (hoisted_name, hoisted_fn_expr, hoisted_str).
+    /// These are emitted at module top before the component code.
+    hoisted_fns: Vec<(String, Expression<'gen>, String)>,
+
+    /// Counter for hoisted function names (_hf0, _hf1, ...).
+    hoisted_fn_counter: usize,
+
+    /// Flag indicating _fnSignal import needs to be added.
+    needs_fn_signal_import: bool,
 }
 
 impl<'gen> TransformGenerator<'gen> {
@@ -242,6 +252,9 @@ impl<'gen> TransformGenerator<'gen> {
             props_identifiers: HashMap::new(),
             in_component_props: false,
             needs_wrap_prop_import: false,
+            hoisted_fns: Vec::new(),
+            hoisted_fn_counter: 0,
+            needs_fn_signal_import: false,
         }
     }
 
@@ -356,6 +369,32 @@ impl<'gen> TransformGenerator<'gen> {
             .replace(['-', '_'], "0")
     }
 
+    /// Create _fnSignal call: _fnSignal(_hfN, [captures], _hfN_str)
+    fn create_fn_signal_call<'b>(
+        &self,
+        builder: &AstBuilder<'b>,
+        hoisted_name: &'b str,
+        captures: Vec<Expression<'b>>,
+        str_name: &'b str,
+    ) -> Expression<'b> {
+        builder.expression_call(
+            SPAN,
+            builder.expression_identifier(SPAN, "_fnSignal"),
+            None::<OxcBox<TSTypeParameterInstantiation<'b>>>,
+            builder.vec_from_array([
+                Argument::from(builder.expression_identifier(SPAN, hoisted_name)),
+                Argument::from(builder.expression_array(
+                    SPAN,
+                    builder.vec_from_iter(
+                        captures.into_iter().map(ArrayExpressionElement::from)
+                    ),
+                )),
+                Argument::from(builder.expression_identifier(SPAN, str_name)),
+            ]),
+            false,
+        )
+    }
+
     /// Check if this expression is a prop identifier that needs _wrapProp wrapping.
     /// Returns Some((raw_props_name, prop_key)) if wrapping is needed.
     fn should_wrap_prop(&self, expr: &Expression) -> Option<(String, String)> {
@@ -409,6 +448,53 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                     QWIK_CORE_SOURCE,
                 ));
             }
+        }
+
+        // Add _fnSignal import if needed
+        if self.needs_fn_signal_import {
+            if let Some(imports) = self.import_stack.last_mut() {
+                imports.insert(Import::new(
+                    vec![ImportId::Named("_fnSignal".into())],
+                    QWIK_CORE_SOURCE,
+                ));
+            }
+        }
+
+        // Emit hoisted functions at top of module: const _hf0 = ...; const _hf0_str = "...";
+        // Insert in reverse order so they appear in order at top
+        for (name, fn_expr, str_val) in self.hoisted_fns.drain(..).rev() {
+            // const _hfN = (p0, p1) => expr;
+            let fn_stmt = Statement::VariableDeclaration(ctx.ast.alloc(ctx.ast.variable_declaration(
+                SPAN,
+                VariableDeclarationKind::Const,
+                ctx.ast.vec1(ctx.ast.variable_declarator(
+                    SPAN,
+                    VariableDeclarationKind::Const,
+                    ctx.ast.binding_pattern_binding_identifier(SPAN, ctx.ast.atom(&name)),
+                    NONE,
+                    Some(fn_expr),
+                    false,
+                )),
+                false,
+            )));
+            node.body.insert(0, fn_stmt);
+
+            // const _hfN_str = "expr";
+            let str_name = format!("{}_str", name);
+            let str_stmt = Statement::VariableDeclaration(ctx.ast.alloc(ctx.ast.variable_declaration(
+                SPAN,
+                VariableDeclarationKind::Const,
+                ctx.ast.vec1(ctx.ast.variable_declarator(
+                    SPAN,
+                    VariableDeclarationKind::Const,
+                    ctx.ast.binding_pattern_binding_identifier(SPAN, ctx.ast.atom(&str_name)),
+                    NONE,
+                    Some(ctx.ast.expression_string_literal(SPAN, ctx.ast.atom(&str_val), None)),
+                    false,
+                )),
+                false,
+            )));
+            node.body.insert(1, str_stmt); // Insert after the function
         }
 
         if let Some(tree) = self.import_stack.pop() {
