@@ -455,6 +455,41 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                             None, // component_ident not needed here, we already know it's component$
                         );
                         if props_trans.transform_component_props(arrow, &ctx.ast) {
+                            // If rest pattern present, inject _restProps statement
+                            // Do this BEFORE moving identifiers
+                            if props_trans.rest_id.is_some() {
+                                if let Some(rest_stmt) = props_trans.generate_rest_stmt(&ctx.ast) {
+                                    // Inject at start of function body
+                                    // arrow.body is a FunctionBody struct with statements field
+                                    // arrow.expression indicates if body was originally an expression
+
+                                    if arrow.expression {
+                                        // Expression body: convert to block with rest stmt + return
+                                        // The expression is stored in statements[0] as ExpressionStatement
+                                        if let Some(Statement::ExpressionStatement(expr_stmt)) = arrow.body.statements.pop() {
+                                            let return_stmt = ctx.ast.statement_return(SPAN, Some(expr_stmt.unbox().expression));
+                                            let mut new_stmts = ctx.ast.vec_with_capacity(2);
+                                            new_stmts.push(rest_stmt);
+                                            new_stmts.push(return_stmt);
+                                            arrow.body.statements = new_stmts;
+                                            arrow.expression = false;
+                                        }
+                                    } else {
+                                        // Block body: prepend _restProps statement
+                                        arrow.body.statements.insert(0, rest_stmt);
+                                    }
+                                }
+
+                                // Add _restProps import
+                                if let Some(imports) = self.import_stack.last_mut() {
+                                    imports.insert(Import::new(
+                                        vec![ImportId::Named("_restProps".into())],
+                                        QWIK_CORE_SOURCE,
+                                    ));
+                                }
+                            }
+
+                            // Store prop identifiers for later replacement
                             self.props_identifiers = props_trans.identifiers;
                         }
                     }
