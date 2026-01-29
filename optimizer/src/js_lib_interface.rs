@@ -260,6 +260,7 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
                     transpile_ts: config.transpile_ts,
                     transpile_jsx: config.transpile_jsx,
                     entry_strategy: config.entry_strategy,
+                    is_server: true, // Default to server build
                 },
             )?;
             let mut hasher = DefaultHasher::new();

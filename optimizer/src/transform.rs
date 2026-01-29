@@ -2749,6 +2749,9 @@ pub struct TransformOptions {
     pub transpile_jsx: bool,
     /// Entry strategy for determining how segments are grouped for bundling.
     pub entry_strategy: EntryStrategy,
+    /// Whether this is a server build (true) or client/browser build (false).
+    /// Default: true (safe default - server code is safer to run on server than client code on server)
+    pub is_server: bool,
 }
 
 impl TransformOptions {
@@ -2761,6 +2764,16 @@ impl TransformOptions {
         self.transpile_jsx = transpile_jsx;
         self
     }
+
+    pub fn with_is_server(mut self, is_server: bool) -> Self {
+        self.is_server = is_server;
+        self
+    }
+
+    /// Returns true if running in development mode (Target::Dev)
+    pub fn is_dev(&self) -> bool {
+        self.target == Target::Dev
+    }
 }
 
 impl Default for TransformOptions {
@@ -2771,6 +2784,7 @@ impl Default for TransformOptions {
             transpile_ts: false,
             transpile_jsx: false,
             entry_strategy: EntryStrategy::Segment,
+            is_server: true, // Safe default
         }
     }
 }
