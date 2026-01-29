@@ -1,4 +1,4 @@
-use crate::component::SegmentData;
+use crate::component::{SegmentData, SegmentKind};
 use serde::{Deserialize, Serialize};
 
 const ENTRY_SEGMENTS: &str = "entry_segments";
@@ -93,11 +93,11 @@ impl PerComponentStrategy {
 }
 
 impl EntryPolicy for PerComponentStrategy {
-    fn get_entry_for_sym(&self, _context: &[String], _segment: &SegmentData) -> Option<String> {
-        // TODO: Implement in plan 07-02
-        // Will use context.first() to get root component name
-        // and segment.origin for the file origin
-        panic!("PerComponentStrategy not yet implemented - see plan 07-02")
+    fn get_entry_for_sym(&self, context: &[String], segment: &SegmentData) -> Option<String> {
+        context.first().map_or_else(
+            || Some(ENTRY_SEGMENTS.to_string()),
+            |root| Some([segment.origin.display().to_string().as_str(), "_entry_", root].concat()),
+        )
     }
 }
 
@@ -114,12 +114,23 @@ impl SmartStrategy {
 }
 
 impl EntryPolicy for SmartStrategy {
-    fn get_entry_for_sym(&self, _context: &[String], _segment: &SegmentData) -> Option<String> {
-        // TODO: Implement in plan 07-02
-        // Will check segment.scoped_idents.is_empty() and segment.ctx_kind
-        // Event handlers without captures get None (own file)
-        // Others use context.first() for component grouping
-        panic!("SmartStrategy not yet implemented - see plan 07-02")
+    fn get_entry_for_sym(&self, context: &[String], segment: &SegmentData) -> Option<String> {
+        // Event handlers without scope variables are put into a separate file
+        if segment.scoped_idents.is_empty()
+            && (segment.ctx_kind != SegmentKind::Function || segment.ctx_name == "event$")
+        {
+            return None;
+        }
+
+        // Everything else is put into a single file per component
+        // This means that all QRLs for a component are loaded together
+        // if one is used
+        context.first().map_or_else(
+            // Top-level QRLs are put into a separate file
+            || None,
+            // Other QRLs are put into a file named after the original file + the root component
+            |root| Some([segment.origin.display().to_string().as_str(), "_entry_", root].concat()),
+        )
     }
 }
 
