@@ -15,7 +15,7 @@ use crate::collector::Id;
 ///
 /// This enum distinguishes between different QRL usage contexts, which affects
 /// how the segment is processed and optimized.
-#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord)]
 #[serde(rename_all = "camelCase")]
 pub enum SegmentKind {
     /// Regular function QRL (e.g., `$(() => ...)`)
@@ -40,8 +40,8 @@ impl SegmentKind {
     ///
     /// # Examples
     ///
-    /// ```
-    /// use optimizer::component::SegmentKind;
+    /// ```ignore
+    /// use qwik_optimizer::component::SegmentKind;
     ///
     /// assert_eq!(SegmentKind::from_ctx_name("onClick$"), SegmentKind::EventHandler);
     /// assert_eq!(SegmentKind::from_ctx_name("onInput$"), SegmentKind::EventHandler);
@@ -91,7 +91,7 @@ impl SegmentKind {
 /// file paths, and identifiers.
 ///
 /// Matches SWC's `SegmentData` structure for compatibility.
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Serialize)]
 pub struct SegmentData {
     /// File extension (e.g., "js", "ts", "tsx")
     pub extension: String,

@@ -353,6 +353,61 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         if let Some(segment) = segment {
             if segment.is_qrl() {
                 let comp = node.arguments.first().map(|arg0| {
+                    // Collect all identifiers referenced in the QRL body
+                    let descendent_idents = {
+                        use crate::collector::IdentCollector;
+                        let mut collector = IdentCollector::new();
+                        if let Some(expr) = arg0.as_expression() {
+                            use oxc_ast_visit::Visit;
+                            collector.visit_expression(expr);
+                        }
+                        collector.get_words()
+                    };
+
+                    // Get all declarations from parent scopes (flatten decl_stack)
+                    let all_decl: Vec<IdPlusType> = self
+                        .decl_stack
+                        .iter()
+                        .flat_map(|v| v.iter())
+                        .cloned()
+                        .collect();
+
+                    // Partition into valid (Var) and invalid (Fn, Class)
+                    let (decl_collect, invalid_decl): (Vec<_>, Vec<_>) = all_decl
+                        .into_iter()
+                        .partition(|(_, t)| matches!(t, IdentType::Var(_)));
+
+                    // Check for invalid function/class references
+                    for (id, ident_type) in &invalid_decl {
+                        if descendent_idents.iter().any(|ident| ident == id) {
+                            let type_name = match ident_type {
+                                IdentType::Fn => "function",
+                                IdentType::Class => "class",
+                                IdentType::Var(_) => unreachable!(),
+                            };
+                            // Log warning for now - full error integration in later plan
+                            if DEBUG {
+                                println!(
+                                    "Warning: Reference to {} '{}' cannot be used inside a QRL scope",
+                                    type_name, id.0
+                                );
+                            }
+                        }
+                    }
+
+                    // Compute captured variables (scoped_idents)
+                    let (scoped_idents, _is_const) =
+                        compute_scoped_idents(&descendent_idents, &decl_collect);
+
+                    // Store scoped_idents for later use in SegmentData (Plan 04)
+                    // For now, just log them for debugging
+                    if DEBUG && !scoped_idents.is_empty() {
+                        println!(
+                            "QRL captures: {:?}",
+                            scoped_idents.iter().map(|(name, _)| name).collect::<Vec<_>>()
+                        );
+                    }
+
                     let imports = self
                         .import_stack
                         .pop()
@@ -368,6 +423,7 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                         &self.scope,
                         &self.options,
                         self.source_info,
+                        None, // TODO: Create SegmentData in Plan 03/04
                         ctx.ast.allocator,
                     )
                 });

@@ -1,3 +1,4 @@
+use crate::collector::Id as CollectorId;
 use crate::component::*;
 use crate::segment::Segment;
 use crate::transform::TransformOptions;
@@ -10,15 +11,27 @@ use oxc_minifier::*;
 use oxc_span::{SourceType, SPAN};
 use serde::Serialize;
 
+/// A QRL component represents a lazy-loadable segment of code.
+///
+/// QrlComponent combines the component identification, generated code,
+/// QRL reference, and segment metadata needed for code generation.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Serialize)]
 pub struct QrlComponent {
+    /// Component identifier (symbol name, hash, etc.)
     pub id: Id,
+    /// Source language (JavaScript, TypeScript, etc.)
     pub language: Language,
+    /// Generated code for this segment
     pub code: String,
+    /// QRL reference (path and symbol)
     pub qrl: Qrl,
+    /// Segment metadata (captures, context kind, etc.)
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub segment_data: Option<SegmentData>,
 }
 
 impl QrlComponent {
+    /// Creates a new QrlComponent with optional segment data.
     pub(crate) fn new(
         options: &TransformOptions,
         source_info: &SourceInfo,
@@ -26,6 +39,7 @@ impl QrlComponent {
         exported_expression: Expression<'_>,
         imports: Vec<Import>,
         qrl_type: QrlType,
+        segment_data: Option<SegmentData>,
     ) -> QrlComponent {
         let language = source_info.language.clone();
         let qrl = Qrl::new(&id.local_file_name, &id.symbol_name, qrl_type);
@@ -46,6 +60,7 @@ impl QrlComponent {
             language: source_info.language.clone(),
             code,
             qrl,
+            segment_data,
         }
     }
 
@@ -149,6 +164,7 @@ impl QrlComponent {
         scope: &Option<String>,
         options: &TransformOptions,
         source_info: &SourceInfo,
+        segment_data: Option<SegmentData>,
     ) -> QrlComponent {
         let qrl_type: QrlType = segments
             .last()
@@ -159,9 +175,10 @@ impl QrlComponent {
 
         let id = Id::new(source_info, segments, &options.target, scope);
 
-        QrlComponent::new(options, source_info, id, expr, imports, qrl_type)
+        QrlComponent::new(options, source_info, id, expr, imports, qrl_type, segment_data)
     }
 
+    /// Create a QrlComponent from a call expression argument.
     pub(crate) fn from_call_expression_argument(
         arg: &Argument,
         imports: Vec<Import>,
@@ -169,9 +186,56 @@ impl QrlComponent {
         scope: &Option<String>,
         options: &TransformOptions,
         source_info: &SourceInfo,
+        segment_data: Option<SegmentData>,
         allocator: &Allocator,
     ) -> QrlComponent {
         let init = arg.clone_in(allocator).into_expression();
-        Self::from_expression(init, imports, segments, scope, options, source_info)
+        Self::from_expression(init, imports, segments, scope, options, source_info, segment_data)
+    }
+
+    // --- Segment data accessors ---
+
+    /// Returns the captured variable identifiers (scoped_idents).
+    ///
+    /// These are variables from the enclosing scope that need to be
+    /// captured via `useLexicalScope` injection.
+    pub fn scoped_idents(&self) -> &[CollectorId] {
+        self.segment_data
+            .as_ref()
+            .map(|d| d.scoped_idents.as_slice())
+            .unwrap_or(&[])
+    }
+
+    /// Returns the local identifiers used in the segment.
+    ///
+    /// These are used for import generation in the segment file.
+    pub fn local_idents(&self) -> &[CollectorId] {
+        self.segment_data
+            .as_ref()
+            .map(|d| d.local_idents.as_slice())
+            .unwrap_or(&[])
+    }
+
+    /// Returns the parent segment name if this is a nested QRL.
+    ///
+    /// Nested QRLs (QRLs defined inside other QRLs) need to track
+    /// their parent segment for proper resolution.
+    pub fn parent_segment(&self) -> Option<&str> {
+        self.segment_data
+            .as_ref()
+            .and_then(|d| d.parent_segment.as_deref())
+    }
+
+    /// Returns true if this segment has captured variables.
+    pub fn has_captures(&self) -> bool {
+        self.segment_data
+            .as_ref()
+            .map(|d| d.has_captures())
+            .unwrap_or(false)
+    }
+
+    /// Returns the segment's context kind if segment data is present.
+    pub fn ctx_kind(&self) -> Option<SegmentKind> {
+        self.segment_data.as_ref().map(|d| d.ctx_kind)
     }
 }
