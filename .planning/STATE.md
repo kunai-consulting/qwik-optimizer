@@ -5,22 +5,22 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** All 162 tests from qwik-core pass with exact output parity to the SWC implementation.
-**Current focus:** Phase 7 - Entry Strategies (COMPLETE)
+**Current focus:** Phase 8 - SSR & Build Modes (IN PROGRESS)
 
 ## Current Position
 
-Phase: 7 of 11 (Entry Strategies)
-Plan: 3 of 3 in Phase 7 COMPLETE
-Status: Phase Complete
-Last activity: 2026-01-29 - Completed 07-03-PLAN.md
+Phase: 8 of 11 (SSR & Build Modes)
+Plan: 1 of 3 in Phase 8 COMPLETE
+Status: In Progress
+Last activity: 2026-01-29 - Completed 08-01-PLAN.md
 
-Progress: [=============       ] 63.6% (7/11 phases complete, 28/44 total plans)
+Progress: [==============      ] 65.9% (7/11 phases complete + 1 plan, 29/44 total plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 28
-- Average duration: 7.4 min
+- Total plans completed: 29
+- Average duration: 7.2 min
 - Total execution time: 3.5 hours
 
 **By Phase:**
@@ -34,10 +34,11 @@ Progress: [=============       ] 63.6% (7/11 phases complete, 28/44 total plans)
 | 05-jsx-transformation | 4/4 | 37 min | 9.3 min |
 | 06-imports-exports | 4/4 | 45 min | 11.3 min |
 | 07-entry-strategies | 3/3 | 29 min | 9.7 min |
+| 08-ssr-build-modes | 1/3 | 5 min | 5.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 06-04 (12 min), 07-01 (15 min), 07-02 (8 min), 07-03 (6 min)
-- Phase 7 Entry Strategies COMPLETE
+- Last 5 plans: 07-01 (15 min), 07-02 (8 min), 07-03 (6 min), 08-01 (5 min)
+- Phase 8 SSR & Build Modes IN PROGRESS
 
 *Updated after each plan completion*
 
@@ -116,6 +117,9 @@ Recent decisions affecting current work:
 - [07-03]: Entry field added to QrlComponent struct, not SegmentData, for proper serialization
 - [07-03]: Entry computed at QRL extraction time using entry_policy.get_entry_for_sym(stack_ctxt, segment_data)
 - [07-03]: JSX event handlers (onClick$) don't produce segments - only component$() calls do
+- [08-01]: is_server defaults to true (safe default - server code is safer)
+- [08-01]: is_dev derived from target (not stored separately) matching SWC implementation
+- [08-01]: ImportTracker uses (source, specifier) tuple as key for efficient lookup
 
 ### Pending Todos
 
@@ -127,8 +131,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-29
-Stopped at: Completed 07-03-PLAN.md (Integration & Validation)
+Last session: 2026-01-29 23:46:30Z
+Stopped at: Completed 08-01-PLAN.md (Infrastructure)
 Resume file: None
 
 ## Phase 2 QRL Core Summary
@@ -320,3 +324,20 @@ Phase 7 Entry Strategies COMPLETE with all 3 plans executed:
 - Entry value flows from TransformOptions to SegmentAnalysis output
 
 **Requirements satisfied:** ENT-01 through ENT-05 (5/5)
+
+## Phase 8 SSR & Build Modes Summary (IN PROGRESS)
+
+Phase 8 SSR & Build Modes in progress:
+
+1. **08-01:** Infrastructure - COMPLETE (5 min)
+   - QWIK_CORE_BUILD, IS_SERVER, IS_BROWSER, IS_DEV constants
+   - TransformOptions.is_server field (default: true)
+   - TransformOptions.is_dev() method (derived from target)
+   - ImportTracker struct for aliased import tracking
+   - get_imported_local() method for const replacement lookup
+   - 180 total tests passing (177 existing + 3 new)
+
+**Key Deliverables so far:**
+- Build mode constants defined for @qwik.dev/core/build imports
+- TransformOptions extended with SSR/build mode configuration
+- ImportTracker ready to find isServer/isBrowser/isDev imports
