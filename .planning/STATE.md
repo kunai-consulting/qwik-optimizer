@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 ## Current Position
 
 Phase: 5 of 11 (JSX Transformation) - In progress
-Plan: 1 of 5 in Phase 5 COMPLETE
-Status: In progress - 1/5 plans executed
-Last activity: 2026-01-29 - Completed 05-01-PLAN.md (Prop Constness Detection)
+Plan: 4 of 5 in Phase 5 COMPLETE (05-01, 05-02, 05-03, 05-04 done)
+Status: In progress - 4/5 plans executed
+Last activity: 2026-01-29 - Completed 05-04-PLAN.md (Children & Flags)
 
-Progress: [========            ] 40.9% (4/11 phases complete, 18/44 total plans)
+Progress: [=========           ] 45% (4/11 phases complete, 22/44 total plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 18
-- Average duration: 6.3 min
-- Total execution time: 2.0 hours
+- Total plans completed: 22
+- Average duration: 7.0 min
+- Total execution time: 2.5 hours
 
 **By Phase:**
 
@@ -31,11 +31,11 @@ Progress: [========            ] 40.9% (4/11 phases complete, 18/44 total plans)
 | 02-qrl-core | 7/7 | 51 min | 7.3 min |
 | 03-event-handlers | 3/3 | 15 min | 5.0 min |
 | 04-props-signals | 5/5 | 36 min | 7.2 min |
-| 05-jsx-transformation | 1/5 | 7 min | 7.0 min |
+| 05-jsx-transformation | 4/5 | 35 min | 8.8 min |
 
 **Recent Trend:**
-- Last 5 plans: 04-02 (5 min), 04-04 (8 min), 04-05 (8 min), 05-01 (7 min)
-- Phase 5 JSX Transformation in progress
+- Last 5 plans: 05-01 (7 min), 05-02 (8 min), 05-03 (7 min), 05-04 (13 min)
+- Phase 5 JSX Transformation 80% complete
 
 *Updated after each plan completion*
 
@@ -86,6 +86,12 @@ Recent decisions affecting current work:
 - [05-01]: Use HashSet<String> for import names instead of full GlobalCollect
 - [05-01]: Pre-compute is_const before mutable jsx_stack borrow to avoid borrow conflicts
 - [05-01]: stack_is_const guards is_const_expr call (respects should_runtime_sort)
+- [05-02]: Fragment as _Fragment import from @qwik.dev/core/jsx-runtime
+- [05-02]: Implicit fragments get _jsxSorted(_Fragment, ...) output
+- [05-02]: Explicit Fragment components use user-imported identifier
+- [05-04]: Flags bit order: bit 0 = static_listeners (1), bit 1 = static_subtree (2) per SWC
+- [05-04]: Single child passed directly without array wrapper
+- [05-04]: Empty children output as null, not empty array
 
 ### Pending Todos
 
@@ -98,7 +104,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed 05-01-PLAN.md (Prop Constness Detection)
+Stopped at: Completed 05-04-PLAN.md (Children & Flags)
 Resume file: None
 
 ## Phase 2 QRL Core Summary
@@ -163,53 +169,47 @@ Phase 3 Event Handlers complete with all 3 plans executed:
 Phase 4 Props & Signals COMPLETE with all 5 plans executed:
 
 1. **04-01:** Props destructuring detection - COMPLETE (7 min)
-   - PropsDestructuring struct with component_ident tracking and identifiers HashMap
-   - transform_component_props detects ObjectPattern and replaces with _rawProps
-   - Integration into TransformGenerator enter/exit_call_expression
-   - props_identifiers map populated with prop name -> key mappings
-   - 82 total tests passing (5 new props tests)
-
 2. **04-02:** Rest props and aliasing - COMPLETE (5 min)
-   - rest_id and omit_keys fields added to PropsDestructuring
-   - generate_rest_stmt creates _restProps call with omit array
-   - Statement injection at function body start
-   - _restProps import added when rest pattern present
-   - 86 total tests passing (4 new rest props tests)
-
 3. **04-03:** Identifier replacement with _wrapProp - COMPLETE (8 min)
-   - _WRAP_PROP constant added to shared.rs
-   - should_wrap_prop and should_wrap_signal_value helpers
-   - Props_identifiers populated in enter_call_expression (critical fix)
-   - _wrapProp(_rawProps, "propKey") for prop access
-   - _wrapProp(signal) for signal.value access
-   - 108 total tests passing (6 new _wrapProp tests)
-
 4. **04-04:** _fnSignal generation - COMPLETE (8 min)
-   - inlined_fn.rs module with should_wrap_in_fn_signal, convert_inlined_fn
-   - ObjectUsageChecker, IdentifierReplacer for AST traversal
-   - TransformGenerator integration with hoisted_fns tracking
-   - 108 total tests passing
-
 5. **04-05:** Bind directives - COMPLETE (8 min)
-   - is_bind_directive, create_bind_handler, merge_event_handlers methods
-   - bind:value -> value prop + on:input with inlinedQrl(_val)
-   - bind:checked -> checked prop + on:input with inlinedQrl(_chk)
-   - Handler merging for existing onInput$ (order-independent)
-   - _val, _chk, inlinedQrl import generation
-   - 115 total tests passing (7 new bind directive tests)
 
 **Key Deliverables:**
 - Props parameter transformation: `({ message, id })` -> `(_rawProps)`
 - Rest props: `({ message, ...rest })` -> `const rest = _restProps(_rawProps, ["message"])`
-- Rest-only: `({ ...props })` -> `const props = _restProps(_rawProps)`
-- Aliased props tracked: c -> "count" for later replacement
-- _wrapProp for prop access: `{message}` -> `_wrapProp(_rawProps, "message")`
-- _wrapProp for signals: `{count.value}` -> `_wrapProp(count)`
-- _fnSignal infrastructure: hoisted functions with positional params (p0, p1, ...)
-- Member access detection for computed expression wrapping
+- _wrapProp for prop access and signal.value
+- _fnSignal infrastructure for computed expressions
 - bind:value/bind:checked two-way binding transformation
-- Handler merging with existing event handlers
+- 115 total tests passing
 
-**Requirements satisfied:** PROP-01 through PROP-08 (estimated 8/8)
+**Requirements satisfied:** PROP-01 through PROP-08 (8/8)
 
-**Ready for:** Phase 5 (JSX Transformation)
+## Phase 5 JSX Transformation Summary (In Progress)
+
+Phase 5 JSX Transformation 80% complete (4/5 plans):
+
+1. **05-01:** Prop Constness Detection - COMPLETE (7 min)
+   - is_const_expr function for detecting static vs dynamic props
+   - HashSet<String> for import names tracking
+   - Pre-compute is_const before mutable borrow
+   - 128 total tests passing
+
+2. **05-02:** Fragment Transformation - COMPLETE (8 min)
+   - Implicit fragments: <></> -> _jsxSorted(_Fragment, ...)
+   - Explicit fragments preserve user import
+   - _Fragment import from @qwik.dev/core/jsx-runtime
+   - 128 total tests passing
+
+3. **05-03:** Spread Props Helpers - COMPLETE (7 min)
+   - _getVarProps/_getConstProps for spread props
+   - _jsxSplit used instead of _jsxSorted for spread
+   - 128 total tests passing
+
+4. **05-04:** Children & Flags - COMPLETE (13 min)
+   - Flags calculation: bit 0 = static_listeners, bit 1 = static_subtree
+   - Single child optimization (not wrapped in array)
+   - Empty children as null
+   - Comprehensive JSX tests
+   - 137 total tests passing
+
+**Ready for:** 05-05 (final plan of phase 5)
