@@ -24,6 +24,22 @@ pub const _WRAP_PROP: &str = "_wrapProp";
 /// Import for _fnSignal function (computed signal expressions)
 pub const _FN_SIGNAL: &str = "_fnSignal";
 
+/// Import for _val function (bind:value helper)
+pub const _VAL: &str = "_val";
+
+/// Import for _chk function (bind:checked helper)
+pub const _CHK: &str = "_chk";
+
+/// Import for inlinedQrl function (inline QRL creation)
+pub const INLINED_QRL: &str = "inlinedQrl";
+
+/// Prefix for bind directives
+pub const BIND_PREFIX: &str = "bind:";
+
+/// Bind directive constants
+pub const BIND_VALUE: &str = "bind:value";
+pub const BIND_CHECKED: &str = "bind:checked";
+
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum ImportId {
     Named(String),
