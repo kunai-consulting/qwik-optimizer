@@ -33,14 +33,14 @@ Requirements for achieving test parity with qwik-core SWC optimizer.
 
 ### Event Handlers
 
-- [ ] **EVT-01**: onClick$ transformation
-- [ ] **EVT-02**: onInput$ transformation
-- [ ] **EVT-03**: Multiple event handlers on single element
-- [ ] **EVT-04**: Event handler with captured state
-- [ ] **EVT-05**: Event names without JSX transpile
-- [ ] **EVT-06**: Event handlers on non-element nodes (skip)
-- [ ] **EVT-07**: Prevent default patterns
-- [ ] **EVT-08**: Custom event handlers (onCustomEvent$)
+- [x] **EVT-01**: onClick$ transformation
+- [x] **EVT-02**: onInput$ transformation
+- [x] **EVT-03**: Multiple event handlers on single element
+- [x] **EVT-04**: Event handler with captured state
+- [x] **EVT-05**: Event names without JSX transpile
+- [x] **EVT-06**: Event handlers on non-element nodes (skip)
+- [x] **EVT-07**: Prevent default patterns
+- [x] **EVT-08**: Custom event handlers (onCustomEvent$)
 
 ### Props Handling
 
@@ -179,14 +179,14 @@ Which phases cover which requirements. Updated during roadmap creation.
 | QRL-08 | Phase 2 | Complete |
 | QRL-09 | Phase 2 | Complete |
 | QRL-10 | Phase 2 | Complete |
-| EVT-01 | Phase 3 | Pending |
-| EVT-02 | Phase 3 | Pending |
-| EVT-03 | Phase 3 | Pending |
-| EVT-04 | Phase 3 | Pending |
-| EVT-05 | Phase 3 | Pending |
-| EVT-06 | Phase 3 | Pending |
-| EVT-07 | Phase 3 | Pending |
-| EVT-08 | Phase 3 | Pending |
+| EVT-01 | Phase 3 | Complete |
+| EVT-02 | Phase 3 | Complete |
+| EVT-03 | Phase 3 | Complete |
+| EVT-04 | Phase 3 | Complete |
+| EVT-05 | Phase 3 | Complete |
+| EVT-06 | Phase 3 | Complete |
+| EVT-07 | Phase 3 | Complete |
+| EVT-08 | Phase 3 | Complete |
 | PRP-01 | Phase 4 | Pending |
 | PRP-02 | Phase 4 | Pending |
 | PRP-03 | Phase 4 | Pending |
@@ -253,4 +253,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-29*
-*Last updated: 2026-01-29 Phase 2 complete*
+*Last updated: 2026-01-29 Phase 3 complete*
