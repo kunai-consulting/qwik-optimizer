@@ -13,7 +13,7 @@ This roadmap delivers test parity between the OXC-based Qwik optimizer and the p
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: OXC Foundation** - Update all OXC crates to 0.111.0 and fix breaking API changes
-- [ ] **Phase 2: QRL Core** - Implement complete QRL extraction and transformation
+- [x] **Phase 2: QRL Core** - Implement complete QRL extraction and transformation
 - [ ] **Phase 3: Event Handlers** - Transform onClick$, onInput$, and custom event handlers
 - [ ] **Phase 4: Props & Signals** - Handle component props destructuring and signal reactivity
 - [ ] **Phase 5: JSX Transformation** - Complete JSX element and attribute handling
@@ -230,7 +230,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. OXC Foundation | 2/2 | Complete | 2026-01-29 |
-| 2. QRL Core | 5/7 | Gap Closure | - |
+| 2. QRL Core | 7/7 | Complete | 2026-01-29 |
 | 3. Event Handlers | 0/4 | Not started | - |
 | 4. Props & Signals | 0/5 | Not started | - |
 | 5. JSX Transformation | 0/4 | Not started | - |
@@ -243,4 +243,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-29 (Phase 2 planned)*
+*Last updated: 2026-01-29 (Phase 2 complete)*

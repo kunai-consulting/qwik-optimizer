@@ -20,16 +20,16 @@ Requirements for achieving test parity with qwik-core SWC optimizer.
 
 ### Core QRL & Components
 
-- [ ] **QRL-01**: QRL extraction from arrow functions
-- [ ] **QRL-02**: QRL extraction from function declarations
-- [ ] **QRL-03**: Component$ transformation
-- [ ] **QRL-04**: Nested QRL handling
-- [ ] **QRL-05**: QRL in ternary expressions
-- [ ] **QRL-06**: Multiple QRLs per file
-- [ ] **QRL-07**: QRL with captured variables (lexical scope)
-- [ ] **QRL-08**: QRL display name generation
-- [ ] **QRL-09**: QRL hash generation (stable, unique)
-- [ ] **QRL-10**: Component with normal function transformation
+- [x] **QRL-01**: QRL extraction from arrow functions
+- [x] **QRL-02**: QRL extraction from function declarations
+- [x] **QRL-03**: Component$ transformation
+- [x] **QRL-04**: Nested QRL handling
+- [x] **QRL-05**: QRL in ternary expressions
+- [x] **QRL-06**: Multiple QRLs per file
+- [x] **QRL-07**: QRL with captured variables (lexical scope)
+- [x] **QRL-08**: QRL display name generation
+- [x] **QRL-09**: QRL hash generation (stable, unique)
+- [x] **QRL-10**: Component with normal function transformation
 
 ### Event Handlers
 
@@ -169,16 +169,16 @@ Which phases cover which requirements. Updated during roadmap creation.
 | OXC-06 | Phase 1 | Complete |
 | OXC-07 | Phase 1 | Complete |
 | OXC-08 | Phase 1 | Complete |
-| QRL-01 | Phase 2 | Pending |
-| QRL-02 | Phase 2 | Pending |
-| QRL-03 | Phase 2 | Pending |
-| QRL-04 | Phase 2 | Pending |
-| QRL-05 | Phase 2 | Pending |
-| QRL-06 | Phase 2 | Pending |
-| QRL-07 | Phase 2 | Pending |
-| QRL-08 | Phase 2 | Pending |
-| QRL-09 | Phase 2 | Pending |
-| QRL-10 | Phase 2 | Pending |
+| QRL-01 | Phase 2 | Complete |
+| QRL-02 | Phase 2 | Complete |
+| QRL-03 | Phase 2 | Complete |
+| QRL-04 | Phase 2 | Complete |
+| QRL-05 | Phase 2 | Complete |
+| QRL-06 | Phase 2 | Complete |
+| QRL-07 | Phase 2 | Complete |
+| QRL-08 | Phase 2 | Complete |
+| QRL-09 | Phase 2 | Complete |
+| QRL-10 | Phase 2 | Complete |
 | EVT-01 | Phase 3 | Pending |
 | EVT-02 | Phase 3 | Pending |
 | EVT-03 | Phase 3 | Pending |
@@ -253,4 +253,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-29*
-*Last updated: 2026-01-29 Phase 1 complete*
+*Last updated: 2026-01-29 Phase 2 complete*
