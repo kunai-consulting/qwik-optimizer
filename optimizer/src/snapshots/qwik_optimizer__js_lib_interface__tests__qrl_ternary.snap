@@ -1,0 +1,79 @@
+---
+source: optimizer/src/js_lib_interface.rs
+expression: output
+---
+==INPUT==
+
+import { $ } from '@qwik.dev/core';
+
+// QRL in ternary expression
+const condition = true;
+
+export const handler = condition
+    ? $(() => console.log('true branch'))
+    : $(() => console.log('false branch'));
+
+============================= ./test_qrl_ternary.tsx_handler_1_mOTT0ekKnYQ.js (ENTRY POINT)==
+
+export const handler_1_mOTT0ekKnYQ = () => console.log("false branch");
+
+
+None
+/*
+{
+  "origin": "test_qrl_ternary.tsx",
+  "name": "handler_1_mOTT0ekKnYQ",
+  "entry": null,
+  "displayName": "test_qrl_ternary.tsx_handler_1",
+  "hash": "mOTT0ekKnYQ",
+  "canonicalFilename": "test_qrl_ternary.tsx_handler_1_mOTT0ekKnYQ",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "handler_1_mOTT0ekKnYQ",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= test_qrl_ternary.tsx ==
+
+import { qrl } from "@qwik.dev/core";
+// QRL in ternary expression
+const condition = true;
+export const handler = qrl(() => import("./test_qrl_ternary.tsx_handler_1_mOTT0ekKnYQ.js"), "handler_1_mOTT0ekKnYQ");
+
+
+None
+============================= ./test_qrl_ternary.tsx_handler_0qMTsQPqS0Y.js (ENTRY POINT)==
+
+export const handler_0qMTsQPqS0Y = () => console.log("true branch");
+
+
+None
+/*
+{
+  "origin": "test_qrl_ternary.tsx",
+  "name": "handler_0qMTsQPqS0Y",
+  "entry": null,
+  "displayName": "test_qrl_ternary.tsx_handler",
+  "hash": "0qMTsQPqS0Y",
+  "canonicalFilename": "test_qrl_ternary.tsx_handler_0qMTsQPqS0Y",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "handler_0qMTsQPqS0Y",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

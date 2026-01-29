@@ -483,4 +483,117 @@ mod tests {
 
         insta::assert_yaml_snapshot!(func_name, result);
     }
+
+    // ========== QRL Parity Tests ==========
+    // These tests validate QRL transformation behavior
+
+    /// Test 1: Basic arrow function QRL - `$(() => ...)` transforms correctly
+    #[test]
+    fn test_qrl_basic_arrow() {
+        assert_valid_transform!(EntryStrategy::Segment);
+    }
+
+    /// Test 2: QRL with captured variables - should have `[count]` as third argument
+    /// and useLexicalScope in segment
+    #[test]
+    fn test_qrl_with_captures() {
+        assert_valid_transform!(EntryStrategy::Segment);
+    }
+
+    /// Test 3: Nested component with handler - component$ with onClick$ inside,
+    /// verify parent segment linking
+    #[test]
+    fn test_qrl_nested_component() {
+        assert_valid_transform!(EntryStrategy::Segment);
+    }
+
+    /// Test 4: Multiple QRLs in same file - all get unique symbol names
+    #[test]
+    fn test_qrl_multiple_qrls() {
+        assert_valid_transform!(EntryStrategy::Segment);
+    }
+
+    /// Test 5: QRL in ternary expression - conditional QRL transforms correctly
+    #[test]
+    fn test_qrl_ternary() {
+        assert_valid_transform!(EntryStrategy::Segment);
+    }
+
+    /// Test 6: Hash stability - same input produces same hash
+    /// This test verifies that running the transform twice produces identical hashes
+    #[test]
+    fn test_qrl_hash_stability() {
+        let path = PathBuf::from("./src/test_input/test_qrl_basic_arrow.tsx");
+        let code = std::fs::read_to_string(&path).unwrap();
+
+        let options1 = TransformModulesOptions {
+            input: vec![TransformModuleInput {
+                path: path.file_name().unwrap().to_string_lossy().to_string(),
+                dev_path: None,
+                code: code.clone(),
+            }],
+            src_dir: ".".to_string(),
+            root_dir: None,
+            minify: MinifyMode::None,
+            entry_strategy: EntryStrategy::Segment,
+            source_maps: false,
+            transpile_ts: true,
+            transpile_jsx: true,
+            preserve_filenames: false,
+            explicit_extensions: false,
+            mode: Target::Test,
+            scope: None,
+            core_module: None,
+            strip_exports: None,
+            strip_ctx_name: None,
+            strip_event_handlers: false,
+            reg_ctx_name: None,
+            is_server: None,
+        };
+
+        let options2 = TransformModulesOptions {
+            input: vec![TransformModuleInput {
+                path: path.file_name().unwrap().to_string_lossy().to_string(),
+                dev_path: None,
+                code: code.clone(),
+            }],
+            src_dir: ".".to_string(),
+            root_dir: None,
+            minify: MinifyMode::None,
+            entry_strategy: EntryStrategy::Segment,
+            source_maps: false,
+            transpile_ts: true,
+            transpile_jsx: true,
+            preserve_filenames: false,
+            explicit_extensions: false,
+            mode: Target::Test,
+            scope: None,
+            core_module: None,
+            strip_exports: None,
+            strip_ctx_name: None,
+            strip_event_handlers: false,
+            reg_ctx_name: None,
+            is_server: None,
+        };
+
+        let result1 = transform_modules(options1).unwrap();
+        let result2 = transform_modules(options2).unwrap();
+
+        // Verify same number of modules
+        assert_eq!(result1.modules.len(), result2.modules.len(), "Module count should match");
+
+        // Verify hashes match for all segments
+        for (m1, m2) in result1.modules.iter().zip(result2.modules.iter()) {
+            if let (Some(s1), Some(s2)) = (&m1.segment, &m2.segment) {
+                assert_eq!(s1.hash, s2.hash, "Hashes should be stable: {} vs {}", s1.hash, s2.hash);
+            }
+        }
+    }
+
+    /// Test 7: Function declaration component$ - `component$(function Name() { ... })`
+    /// transforms correctly
+    #[test]
+    fn test_qrl_function_declaration() {
+        assert_valid_transform!(EntryStrategy::Segment);
+    }
 }

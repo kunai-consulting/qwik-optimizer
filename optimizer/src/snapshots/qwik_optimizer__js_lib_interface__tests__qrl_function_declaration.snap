@@ -1,0 +1,57 @@
+---
+source: optimizer/src/js_lib_interface.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+
+// Function declaration component$ - transforms correctly
+export const Counter = component$(function Counter() {
+    return (
+        <div>
+            Counter component
+        </div>
+    );
+});
+
+============================= ./test_qrl_function_declaration.tsx_Counter_component_87M60GhSi7M.js (ENTRY POINT)==
+
+import { _jsxSorted } from "@qwik.dev/core";
+export const Counter_component_87M60GhSi7M = function Counter() {
+	return /* @__PURE__ */ _jsxSorted("div", {}, {}, ["Counter component"], 1, null);
+};
+
+
+None
+/*
+{
+  "origin": "test_qrl_function_declaration.tsx",
+  "name": "Counter_component_87M60GhSi7M",
+  "entry": null,
+  "displayName": "test_qrl_function_declaration.tsx_Counter_component",
+  "hash": "87M60GhSi7M",
+  "canonicalFilename": "test_qrl_function_declaration.tsx_Counter_component_87M60GhSi7M",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Counter_component_87M60GhSi7M",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= test_qrl_function_declaration.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+// Function declaration component$ - transforms correctly
+export const Counter = componentQrl(qrl(() => import("./test_qrl_function_declaration.tsx_Counter_component_87M60GhSi7M.js"), "Counter_component_87M60GhSi7M"));
+
+
+None
+== DIAGNOSTICS ==
+
+[]

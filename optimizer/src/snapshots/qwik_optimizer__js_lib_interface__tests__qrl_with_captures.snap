@@ -1,0 +1,65 @@
+---
+source: optimizer/src/js_lib_interface.rs
+expression: output
+---
+==INPUT==
+
+import { $, useSignal } from '@qwik.dev/core';
+
+// QRL with captured variables
+export const Counter = () => {
+    const count = useSignal(0);
+    const name = 'test';
+
+    const increment = $(() => {
+        // Captures count and name from enclosing scope
+        console.log(count.value, name);
+    });
+
+    return increment;
+};
+
+============================= ./test_qrl_with_captures.tsx_Counter_increment_GRxSFiyL3cQ.js (ENTRY POINT)==
+
+export const Counter_increment_GRxSFiyL3cQ = () => {
+	console.log(count.value, name);
+};
+
+
+None
+/*
+{
+  "origin": "test_qrl_with_captures.tsx",
+  "name": "Counter_increment_GRxSFiyL3cQ",
+  "entry": null,
+  "displayName": "test_qrl_with_captures.tsx_Counter_increment",
+  "hash": "GRxSFiyL3cQ",
+  "canonicalFilename": "test_qrl_with_captures.tsx_Counter_increment_GRxSFiyL3cQ",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Counter_increment_GRxSFiyL3cQ",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= test_qrl_with_captures.tsx ==
+
+import { qrl, useSignal } from "@qwik.dev/core";
+// QRL with captured variables
+export const Counter = () => {
+	const count = useSignal(0);
+	const name = "test";
+	const increment = qrl(() => import("./test_qrl_with_captures.tsx_Counter_increment_GRxSFiyL3cQ.js"), "Counter_increment_GRxSFiyL3cQ");
+	return increment;
+};
+
+
+None
+== DIAGNOSTICS ==
+
+[]

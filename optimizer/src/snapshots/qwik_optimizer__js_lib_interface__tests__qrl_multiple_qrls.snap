@@ -1,0 +1,118 @@
+---
+source: optimizer/src/js_lib_interface.rs
+expression: output
+---
+==INPUT==
+
+import { $ } from '@qwik.dev/core';
+
+// Multiple QRLs in same file - all get unique symbol names
+export const handler1 = $(() => {
+    console.log('handler1');
+});
+
+export const handler2 = $(() => {
+    console.log('handler2');
+});
+
+export const handler3 = $(() => {
+    console.log('handler3');
+});
+
+============================= ./test_qrl_multiple_qrls.tsx_handler1_Cd6L8bqdkhc.js (ENTRY POINT)==
+
+export const handler1_Cd6L8bqdkhc = () => {
+	console.log("handler1");
+};
+
+
+None
+/*
+{
+  "origin": "test_qrl_multiple_qrls.tsx",
+  "name": "handler1_Cd6L8bqdkhc",
+  "entry": null,
+  "displayName": "test_qrl_multiple_qrls.tsx_handler1",
+  "hash": "Cd6L8bqdkhc",
+  "canonicalFilename": "test_qrl_multiple_qrls.tsx_handler1_Cd6L8bqdkhc",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "handler1_Cd6L8bqdkhc",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= test_qrl_multiple_qrls.tsx ==
+
+import { qrl } from "@qwik.dev/core";
+// Multiple QRLs in same file - all get unique symbol names
+export const handler1 = qrl(() => import("./test_qrl_multiple_qrls.tsx_handler1_Cd6L8bqdkhc.js"), "handler1_Cd6L8bqdkhc");
+export const handler2 = qrl(() => import("./test_qrl_multiple_qrls.tsx_handler2_Af0RK0AWQpU.js"), "handler2_Af0RK0AWQpU");
+export const handler3 = qrl(() => import("./test_qrl_multiple_qrls.tsx_handler3_lMHDaYO5yf8.js"), "handler3_lMHDaYO5yf8");
+
+
+None
+============================= ./test_qrl_multiple_qrls.tsx_handler2_Af0RK0AWQpU.js (ENTRY POINT)==
+
+export const handler2_Af0RK0AWQpU = () => {
+	console.log("handler2");
+};
+
+
+None
+/*
+{
+  "origin": "test_qrl_multiple_qrls.tsx",
+  "name": "handler2_Af0RK0AWQpU",
+  "entry": null,
+  "displayName": "test_qrl_multiple_qrls.tsx_handler2",
+  "hash": "Af0RK0AWQpU",
+  "canonicalFilename": "test_qrl_multiple_qrls.tsx_handler2_Af0RK0AWQpU",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "handler2_Af0RK0AWQpU",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./test_qrl_multiple_qrls.tsx_handler3_lMHDaYO5yf8.js (ENTRY POINT)==
+
+export const handler3_lMHDaYO5yf8 = () => {
+	console.log("handler3");
+};
+
+
+None
+/*
+{
+  "origin": "test_qrl_multiple_qrls.tsx",
+  "name": "handler3_lMHDaYO5yf8",
+  "entry": null,
+  "displayName": "test_qrl_multiple_qrls.tsx_handler3",
+  "hash": "lMHDaYO5yf8",
+  "canonicalFilename": "test_qrl_multiple_qrls.tsx_handler3_lMHDaYO5yf8",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "handler3_lMHDaYO5yf8",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]
