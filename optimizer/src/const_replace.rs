@@ -558,4 +558,76 @@ if (isServer) { console.log('local var'); }
             "Local isServer should not be replaced"
         );
     }
+
+    // Edge case tests
+
+    #[test]
+    fn test_nested_expression() {
+        // isServer in nested expression context (ternary)
+        let code = r#"
+import { isServer } from '@qwik.dev/core/build';
+const x = isServer ? 'server' : 'client';
+"#;
+        let output = replace_consts(code, true, false);
+        assert!(
+            output.contains("true ?"),
+            "Ternary condition should have true, got: {}",
+            output
+        );
+    }
+
+    #[test]
+    fn test_logical_expression() {
+        let code = r#"
+import { isServer, isDev } from '@qwik.dev/core/build';
+const x = isServer && isDev;
+"#;
+        let output = replace_consts(code, true, true);
+        assert!(
+            output.contains("true && true"),
+            "Both should be true, got: {}",
+            output
+        );
+    }
+
+    #[test]
+    fn test_both_import_sources() {
+        // Test that both @qwik.dev/core and @qwik.dev/core/build work together
+        let code = r#"
+import { isServer } from '@qwik.dev/core';
+import { isDev } from '@qwik.dev/core/build';
+const a = isServer;
+const b = isDev;
+"#;
+        let output = replace_consts(code, true, true);
+        assert!(
+            output.contains("const a = true"),
+            "isServer from core should work, got: {}",
+            output
+        );
+        assert!(
+            output.contains("const b = true"),
+            "isDev from core/build should work, got: {}",
+            output
+        );
+    }
+
+    #[test]
+    fn test_no_replacement_without_import() {
+        // Variables with same names but not imported should not be replaced
+        let code = r#"
+function test() {
+    const isServer = computeIsServer();
+    const isBrowser = !isServer;
+    return { isServer, isBrowser };
+}
+"#;
+        let output = replace_consts(code, true, false);
+        // These are local variables, not imports - should remain unchanged
+        assert!(
+            output.contains("computeIsServer()"),
+            "Local variables should not be touched, got: {}",
+            output
+        );
+    }
 }
