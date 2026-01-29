@@ -1,5 +1,5 @@
 use crate::code_move::transform_function_expr;
-use crate::collector::Id as CollectorId;
+use crate::collector::{ExportInfo, Id as CollectorId};
 use crate::component::*;
 use crate::segment::Segment;
 use crate::transform::TransformOptions;
@@ -50,8 +50,28 @@ impl QrlComponent {
             .map(|d| d.scoped_idents.clone())
             .unwrap_or_default();
 
-        // Create Qrl with scoped_idents for capture array generation
-        let qrl = Qrl::new(&id.local_file_name, &id.symbol_name, qrl_type, scoped_idents.clone());
+        // Extract referenced_exports for segment file import generation
+        let referenced_exports: Vec<ExportInfo> = segment_data
+            .as_ref()
+            .map(|d| d.referenced_exports.clone())
+            .unwrap_or_default();
+
+        // Create Qrl with scoped_idents and referenced_exports
+        let qrl = Qrl::new_with_exports(
+            &id.local_file_name,
+            &id.symbol_name,
+            qrl_type,
+            scoped_idents.clone(),
+            referenced_exports.clone(),
+        );
+
+        // Generate imports from referenced exports
+        // These import from the source file (e.g., "./test")
+        let source_file_imports = Self::generate_source_file_imports(&referenced_exports, source_info);
+
+        // Merge third-party imports with source file imports
+        let mut all_imports = imports;
+        all_imports.extend(source_file_imports);
 
         let source_type: SourceType = language.into();
 
@@ -59,7 +79,7 @@ impl QrlComponent {
             options,
             &id,
             exported_expression,
-            imports,
+            all_imports,
             &source_type,
             source_info,
             &scoped_idents,
@@ -72,6 +92,51 @@ impl QrlComponent {
             qrl,
             segment_data,
         }
+    }
+
+    /// Generates Import statements for referenced exports from source file.
+    ///
+    /// Each export in the source file that's referenced by the QRL body needs
+    /// to be imported in the segment file. The import path is relative to the
+    /// segment file (e.g., "./test" for "test.tsx").
+    fn generate_source_file_imports(
+        referenced_exports: &[ExportInfo],
+        source_info: &SourceInfo,
+    ) -> Vec<Import> {
+        if referenced_exports.is_empty() {
+            return Vec::new();
+        }
+
+        // Get source file name without extension for the import path
+        // e.g., "test.tsx" -> "./test"
+        let source_file_name = source_info
+            .rel_path
+            .file_stem()
+            .and_then(|s| s.to_str())
+            .unwrap_or("index");
+        let source_path = format!("./{}", source_file_name);
+
+        // Generate one import per referenced export for clarity
+        // (ImportCleanUp will merge them if needed)
+        referenced_exports
+            .iter()
+            .map(|export| {
+                let import_id = if export.is_default {
+                    // Default export: import { default as LocalName } from "./source"
+                    ImportId::NamedWithAlias("default".to_string(), export.local_name.clone())
+                } else if export.exported_name != export.local_name {
+                    // Aliased export: export { internal as expr2 }
+                    // Import as: import { expr2 as internal } from "./source"
+                    // (exported_name is the public name, local_name is what we use in code)
+                    ImportId::NamedWithAlias(export.exported_name.clone(), export.local_name.clone())
+                } else {
+                    // Direct export: import { name } from "./source"
+                    ImportId::Named(export.local_name.clone())
+                };
+
+                Import::new(vec![import_id], &source_path)
+            })
+            .collect()
     }
 
     fn gen(
