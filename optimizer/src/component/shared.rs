@@ -40,6 +40,12 @@ pub const BIND_PREFIX: &str = "bind:";
 pub const BIND_VALUE: &str = "bind:value";
 pub const BIND_CHECKED: &str = "bind:checked";
 
+/// Import source for jsx-runtime (Fragment import)
+pub const JSX_RUNTIME_SOURCE: &str = "@qwik.dev/core/jsx-runtime";
+
+/// Fragment identifier for implicit fragments (<></>)
+pub const _FRAGMENT: &str = "_Fragment";
+
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum ImportId {
     Named(String),
