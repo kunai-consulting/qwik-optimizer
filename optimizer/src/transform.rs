@@ -186,6 +186,11 @@ pub struct TransformGenerator<'gen> {
     /// Each scope level contains the identifiers declared at that level.
     /// Used by compute_scoped_idents to determine which variables need to be captured.
     decl_stack: Vec<Vec<IdPlusType>>,
+
+    /// Stack tracking whether each JSX element is a native HTML element.
+    /// Native elements (lowercase first char like `<div>`, `<button>`) get event name transformation.
+    /// Component elements (uppercase first char like `<MyButton>`) keep original attribute names.
+    jsx_element_is_native: Vec<bool>,
 }
 
 impl<'gen> TransformGenerator<'gen> {
@@ -220,6 +225,7 @@ impl<'gen> TransformGenerator<'gen> {
             expr_is_const_stack: Vec::new(),
             replace_expr: None,
             decl_stack: vec![Vec::new()],
+            jsx_element_is_native: Vec::new(),
         }
     }
 
@@ -810,6 +816,18 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
     }
 
     fn enter_jsx_element(&mut self, node: &mut JSXElement<'a>, ctx: &mut TraverseCtx<'a, ()>) {
+        // Determine if this is a native element (lowercase first char)
+        let is_native = match &node.opening_element.name {
+            JSXElementName::Identifier(_) => true,  // lowercase native HTML
+            JSXElementName::IdentifierReference(id) => {
+                id.name.chars().next().map(|c| c.is_ascii_lowercase()).unwrap_or(false)
+            }
+            JSXElementName::MemberExpression(_) => false,  // Foo.Bar = component
+            JSXElementName::NamespacedName(_) => true,     // svg:rect = native
+            JSXElementName::ThisExpression(_) => false,    // this = component
+        };
+        self.jsx_element_is_native.push(is_native);
+
         let (segment, is_fn, is_text_only) =
             if let Some(id) = node.opening_element.name.get_identifier() {
                 (Some(self.new_segment(id.name)), true, false)
@@ -986,6 +1004,10 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                 let popped = self.segment_stack.pop();
             }
         }
+
+        // Pop native element tracking
+        self.jsx_element_is_native.pop();
+
         self.debug("EXIT: JSXElementName", ctx);
         self.descend();
     }
