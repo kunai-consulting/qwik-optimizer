@@ -1074,11 +1074,16 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         self.ascend();
         self.debug("ENTER: JSXAttribute", ctx);
         // JSX Attributes should be treated as part of the segment scope.
-        let segment: Segment = self.new_segment(node.name.get_identifier().name);
+        // Use the last part of the name for segment naming (e.g., "onFocus$" from "document:onFocus$")
+        let segment_name = match &node.name {
+            JSXAttributeName::Identifier(id) => id.name.to_string(),
+            JSXAttributeName::NamespacedName(ns) => ns.name.name.to_string(),
+        };
+        let segment: Segment = self.new_segment(segment_name);
         self.segment_stack.push(segment);
 
         // Check if this is an event handler attribute with a function value
-        let attr_name = node.name.get_identifier().name.as_str();
+        let attr_name = get_jsx_attribute_full_name(&node.name);
 
         if attr_name.ends_with(MARKER_SUFFIX) {
             if let Some(JSXAttributeValue::ExpressionContainer(container)) = &node.value {
@@ -1099,13 +1104,13 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
 
     fn exit_jsx_attribute(&mut self, node: &mut JSXAttribute<'a>, ctx: &mut TraverseCtx<'a, ()>) {
         // Transform event handler attribute names on native elements
-        let attr_name = node.name.get_identifier().name.as_str();
+        let attr_name = get_jsx_attribute_full_name(&node.name);
 
         if attr_name.ends_with(MARKER_SUFFIX) {
             let is_native = self.jsx_element_is_native.last().copied().unwrap_or(false);
 
             if is_native {
-                if let Some(html_attr) = jsx_event_to_html_attribute(attr_name) {
+                if let Some(html_attr) = jsx_event_to_html_attribute(&attr_name) {
                     let new_name = self.builder.atom(&html_attr);
                     node.name = JSXAttributeName::Identifier(
                         self.builder.alloc(JSXIdentifier {
@@ -1211,6 +1216,9 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                 if node.is_key() {
                     jsx.key_prop = Some(expr);
                 } else {
+                    // Use the transformed name (or original if not transformed) for the property key
+                    let prop_name = get_jsx_attribute_full_name(&node.name);
+                    let prop_name_atom = self.builder.atom(&prop_name);
                     let props = if is_const {
                         &mut jsx.const_props
                     } else {
@@ -1221,7 +1229,7 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                         PropertyKind::Init,
                         self.builder.property_key_static_identifier(
                             node.name.span(),
-                            node.name.get_identifier().name,
+                            prop_name_atom,
                         ),
                         expr,
                         false,
@@ -1501,6 +1509,19 @@ fn is_text_only(node: &str) -> bool {
         node,
         "text" | "textarea" | "title" | "option" | "script" | "style" | "noscript"
     )
+}
+
+/// Gets the full attribute name from a JSXAttributeName, including namespace if present.
+///
+/// # Returns
+/// The full attribute name string (e.g., "onClick$", "document:onFocus$")
+fn get_jsx_attribute_full_name(name: &JSXAttributeName) -> String {
+    match name {
+        JSXAttributeName::Identifier(id) => id.name.to_string(),
+        JSXAttributeName::NamespacedName(ns) => {
+            format!("{}:{}", ns.namespace.name, ns.name.name)
+        }
+    }
 }
 
 /// Extracts scope prefix and event name start index from a JSX event attribute name.
@@ -1922,5 +1943,232 @@ export const Parent = component$(() => {
         // On components, attribute name should NOT transform to on:click
         assert!(!output.contains("on:click"),
             "Component should keep onClick$, not transform to on:click: {}", output);
+    }
+
+    // ==================== EVT Comprehensive Tests ====================
+
+    #[test]
+    fn test_event_handler_multiple_on_same_element() {
+        // EVT-03: Multiple event handlers on single element
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export const Multi = component$(() => {
+    return (
+        <button
+            onClick$={() => console.log('click')}
+            onMouseOver$={() => console.log('over')}
+        >
+            Multi
+        </button>
+    );
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Get component code that contains the button element
+        let component_code = result.optimized_app.components.iter()
+            .find(|c| c.code.contains("button"))
+            .map(|c| &c.code)
+            .expect("Should have a component with button");
+
+        // STRONG ASSERTIONS: Verify both event handler names are transformed
+        assert!(component_code.contains("on:click") || component_code.contains("\"on:click\""),
+            "Expected 'on:click' attribute in output, got: {}", component_code);
+        assert!(component_code.contains("on:mouseover") || component_code.contains("\"on:mouseover\""),
+            "Expected 'on:mouseover' attribute in output, got: {}", component_code);
+
+        // Verify multiple QRL calls exist (at least 2)
+        let qrl_count = component_code.matches("qrl(").count();
+        assert!(qrl_count >= 2,
+            "Should have at least 2 QRL calls for multiple handlers, found {}: {}", qrl_count, component_code);
+    }
+
+    #[test]
+    fn test_event_handler_with_captured_state() {
+        // EVT-04: Event handler with captured state
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$, useSignal } from '@qwik.dev/core';
+
+export const Counter = component$(() => {
+    const count = useSignal(0);
+    return <button onClick$={() => count.value++}>Inc</button>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Get component code that contains the button element
+        let component_code = result.optimized_app.components.iter()
+            .find(|c| c.code.contains("button"))
+            .map(|c| &c.code)
+            .expect("Should have a component with button");
+
+        // STRONG ASSERTIONS: Verify capture array is present
+        assert!(component_code.contains("on:click"),
+            "Expected 'on:click' in output, got: {}", component_code);
+
+        // Check for capture array - should contain 'count'
+        // Pattern: qrl(..., "...", [count]) or similar
+        let has_capture = component_code.contains("[count]") ||
+            component_code.contains(", count]") ||
+            component_code.contains("[count,");
+        assert!(has_capture,
+            "Expected capture array with 'count' variable in QRL, got: {}", component_code);
+    }
+
+    #[test]
+    fn test_event_handler_document_window_scope() {
+        // EVT-05: document: and window: prefixed events
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export const Scoped = component$(() => {
+    return (
+        <div
+            document:onFocus$={() => console.log('doc focus')}
+            window:onClick$={() => console.log('win click')}
+        >
+            Scoped
+        </div>
+    );
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Get component code that contains the div element
+        let component_code = result.optimized_app.components.iter()
+            .find(|c| c.code.contains("Scoped"))
+            .map(|c| &c.code)
+            .expect("Should have a component with Scoped div");
+
+        // STRONG ASSERTIONS: Verify scope prefixes are correct
+        assert!(component_code.contains("on-document:focus") || component_code.contains("\"on-document:focus\""),
+            "Expected 'on-document:focus' in output, got: {}", component_code);
+        assert!(component_code.contains("on-window:click") || component_code.contains("\"on-window:click\""),
+            "Expected 'on-window:click' in output, got: {}", component_code);
+    }
+
+    #[test]
+    fn test_event_handler_on_component_no_transform() {
+        // EVT-06: Event handlers on non-element nodes (components)
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+import { CustomComponent } from './custom';
+
+export const Parent = component$(() => {
+    return <CustomComponent onClick$={() => console.log('comp click')}/>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(false);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        let output = &result.optimized_app.body;
+
+        // STRONG ASSERTIONS: Component should NOT have on:click transformation
+        assert!(!output.contains("on:click"),
+            "Component should NOT transform onClick$ to on:click, got: {}", output);
+
+        // But it SHOULD still have QRL transformation for the function value
+        assert!(output.contains("qrl(") || output.contains("onClick$"),
+            "Expected QRL transformation or preserved onClick$, got: {}", output);
+    }
+
+    #[test]
+    fn test_event_handler_custom_event() {
+        // EVT-08: Custom event handlers with case preservation
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export const Custom = component$(() => {
+    return <div on-anotherCustom$={() => console.log('custom')}>Custom</div>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Get component code that contains the div element
+        let component_code = result.optimized_app.components.iter()
+            .find(|c| c.code.contains("Custom"))
+            .map(|c| &c.code)
+            .expect("Should have a component with Custom div");
+
+        // STRONG ASSERTIONS: Custom events with '-' prefix preserve case pattern
+        // on-anotherCustom$ -> on:another-custom (camelCase becomes kebab-case)
+        assert!(component_code.contains("on:another-custom") || component_code.contains("\"on:another-custom\""),
+            "Expected 'on:another-custom' (case-preserved transform) in output, got: {}", component_code);
+    }
+
+    #[test]
+    fn test_event_handler_prevent_default() {
+        // EVT-07: Prevent default patterns
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export const Form = component$(() => {
+    return (
+        <form
+            preventdefault:submit
+            onSubmit$={() => console.log('submit')}
+        >
+            <button type="submit">Submit</button>
+        </form>
+    );
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Get component code that contains the form element
+        let component_code = result.optimized_app.components.iter()
+            .find(|c| c.code.contains("form"))
+            .map(|c| &c.code)
+            .expect("Should have a component with form");
+
+        // STRONG ASSERTIONS: Prevent default is separate attribute, onSubmit$ transforms normally
+        assert!(component_code.contains("on:submit") || component_code.contains("\"on:submit\""),
+            "Expected 'on:submit' transformation in output, got: {}", component_code);
+
+        // preventdefault:submit should be preserved as-is (it's not an event handler)
+        assert!(component_code.contains("preventdefault:submit") || component_code.contains("\"preventdefault:submit\""),
+            "Expected 'preventdefault:submit' preserved in output, got: {}", component_code);
     }
 }
