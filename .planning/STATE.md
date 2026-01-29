@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** All 162 tests from qwik-core pass with exact output parity to the SWC implementation.
-**Current focus:** Phase 7 - Entry Strategies (In Progress)
+**Current focus:** Phase 7 - Entry Strategies (COMPLETE)
 
 ## Current Position
 
 Phase: 7 of 11 (Entry Strategies)
-Plan: 2 of 3 in Phase 7 COMPLETE
-Status: In Progress
-Last activity: 2026-01-29 - Completed 07-02-PLAN.md
+Plan: 3 of 3 in Phase 7 COMPLETE
+Status: Phase Complete
+Last activity: 2026-01-29 - Completed 07-03-PLAN.md
 
-Progress: [============        ] 61.4% (6/11 phases complete, 27/44 total plans)
+Progress: [=============       ] 63.6% (7/11 phases complete, 28/44 total plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 27
-- Average duration: 7.5 min
-- Total execution time: 3.4 hours
+- Total plans completed: 28
+- Average duration: 7.4 min
+- Total execution time: 3.5 hours
 
 **By Phase:**
 
@@ -33,11 +33,11 @@ Progress: [============        ] 61.4% (6/11 phases complete, 27/44 total plans)
 | 04-props-signals | 5/5 | 36 min | 7.2 min |
 | 05-jsx-transformation | 4/4 | 37 min | 9.3 min |
 | 06-imports-exports | 4/4 | 45 min | 11.3 min |
-| 07-entry-strategies | 2/3 | 23 min | 11.5 min |
+| 07-entry-strategies | 3/3 | 29 min | 9.7 min |
 
 **Recent Trend:**
-- Last 5 plans: 06-02 (18 min), 06-03 (not tracked), 06-04 (12 min), 07-01 (15 min), 07-02 (8 min)
-- Phase 7 Entry Strategies in progress
+- Last 5 plans: 06-04 (12 min), 07-01 (15 min), 07-02 (8 min), 07-03 (6 min)
+- Phase 7 Entry Strategies COMPLETE
 
 *Updated after each plan completion*
 
@@ -113,6 +113,9 @@ Recent decisions affecting current work:
 - [07-02]: PerComponentStrategy returns entry_segments for top-level QRLs (empty context)
 - [07-02]: SmartStrategy checks scoped_idents.is_empty() AND ctx_kind for event handler detection
 - [07-02]: Entry grouping format: {origin}_entry_{root} for component-grouped segments
+- [07-03]: Entry field added to QrlComponent struct, not SegmentData, for proper serialization
+- [07-03]: Entry computed at QRL extraction time using entry_policy.get_entry_for_sym(stack_ctxt, segment_data)
+- [07-03]: JSX event handlers (onClick$) don't produce segments - only component$() calls do
 
 ### Pending Todos
 
@@ -125,7 +128,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed 07-02-PLAN.md (Strategy Implementations)
+Stopped at: Completed 07-03-PLAN.md (Integration & Validation)
 Resume file: None
 
 ## Phase 2 QRL Core Summary
@@ -285,9 +288,9 @@ Phase 6 Imports & Exports COMPLETE with all 4 plans executed:
 
 **Requirements satisfied:** IMP-01 through IMP-08 (8/8)
 
-## Phase 7 Entry Strategies Progress
+## Phase 7 Entry Strategies Summary (COMPLETE)
 
-Phase 7 Entry Strategies in progress:
+Phase 7 Entry Strategies COMPLETE with all 3 plans executed:
 
 1. **07-01:** Context Stack Infrastructure - COMPLETE (15 min)
    - stack_ctxt: Vec<String> field added to TransformGenerator
@@ -303,10 +306,17 @@ Phase 7 Entry Strategies in progress:
    - 11 unit tests covering all 5 entry strategies (ENT-01 through ENT-05)
    - 168 total tests passing
 
-3. **07-03:** Integration & Validation - PENDING
+3. **07-03:** Integration & Validation - COMPLETE (6 min)
+   - entry_policy integration in TransformGenerator
+   - entry field in QrlComponent and SegmentAnalysis
+   - Entry flows from TransformOptions through segment output
+   - 9 integration tests verifying all strategies
+   - 177 total tests passing
 
-**Key Deliverables (07-01, 07-02):**
+**Key Deliverables:**
 - stack_ctxt field tracks component hierarchy for entry strategy grouping
 - EntryPolicy::get_entry_for_sym accepts SegmentData for full QRL metadata access
-- All visitor methods updated with push/pop following SWC patterns
-- All 5 entry strategies implemented and tested
+- All 5 entry strategies implemented and integration tested
+- Entry value flows from TransformOptions to SegmentAnalysis output
+
+**Requirements satisfied:** ENT-01 through ENT-05 (5/5)
