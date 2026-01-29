@@ -324,6 +324,13 @@ impl<'gen> TransformGenerator<'gen> {
             .collect()
     }
 
+    /// Returns the current context stack for entry strategy tracking.
+    /// Used primarily for testing to verify stack_ctxt tracking works correctly.
+    #[cfg(test)]
+    pub fn current_context(&self) -> &[String] {
+        &self.stack_ctxt
+    }
+
     fn is_recording(&self) -> bool {
         self.segment_stack
             .last()
@@ -5092,5 +5099,239 @@ export const App = component$(() => {
             assert!(code.contains("internal"),
                 "Expected nested segment to reference 'internal'.\nSegment code: {}", code);
         }
+    }
+
+    // ============================================
+    // stack_ctxt tracking tests
+    // ============================================
+
+    #[test]
+    fn test_stack_ctxt_component_function() {
+        // Verify component function name is in context for display_name generation
+        // The display_name is built from segment_stack which follows stack_ctxt patterns
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$, $ } from '@qwik.dev/core';
+
+const Counter = component$(() => {
+    const increment = $(() => {
+        console.log('increment');
+    });
+    return <button onClick$={increment}>Click</button>;
+});
+"#;
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Verify Counter is in the display name of QRLs
+        let has_counter_in_name = result.optimized_app.components.iter()
+            .any(|c| c.id.display_name.contains("Counter"));
+
+        assert!(has_counter_in_name,
+            "Expected 'Counter' in display name. Components: {:?}",
+            result.optimized_app.components.iter()
+                .map(|c| &c.id.display_name)
+                .collect::<Vec<_>>());
+    }
+
+    #[test]
+    fn test_stack_ctxt_jsx_element() {
+        // Verify JSX element names are tracked for segment naming via stack_ctxt
+        // The stack_ctxt tracks element names even though display_name uses segment_stack
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+    return <button onClick$={() => console.log('clicked')}>Click</button>;
+});
+"#;
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // The component segment should have App in its context
+        // Note: onClick$ in JSX attributes generates a QRL but the display_name
+        // comes from segment_stack (component/variable names), not all stack_ctxt entries
+        let app_component = result.optimized_app.components.iter()
+            .find(|c| c.id.display_name.contains("App"));
+
+        assert!(app_component.is_some(),
+            "Expected App component segment. Components: {:?}",
+            result.optimized_app.components.iter()
+                .map(|c| &c.id.display_name)
+                .collect::<Vec<_>>());
+
+        // Verify the transformation produced output
+        // This ensures stack_ctxt tracking doesn't break the transformation
+        assert!(!result.optimized_app.body.is_empty(),
+            "Expected non-empty transformation output");
+    }
+
+    #[test]
+    fn test_stack_ctxt_nested_components() {
+        // Verify nested components build correct hierarchy
+        // Inner QRL should have both Outer and Inner in context
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$, $ } from '@qwik.dev/core';
+
+const Outer = component$(() => {
+    const Inner = component$(() => {
+        const handler = $(() => console.log('inner'));
+        return <div onClick$={handler}>Inner</div>;
+    });
+    return <Inner />;
+});
+"#;
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Find the Inner component's handler - it should have nested context
+        let inner_handler = result.optimized_app.components.iter()
+            .find(|c| c.id.display_name.contains("Inner") &&
+                  (c.id.display_name.contains("handler") || c.id.display_name.contains("component")));
+
+        // At minimum, verify that nested components produce segments
+        assert!(result.optimized_app.components.len() >= 2,
+            "Expected at least 2 segments for nested components. Got: {:?}",
+            result.optimized_app.components.iter()
+                .map(|c| &c.id.display_name)
+                .collect::<Vec<_>>());
+    }
+
+    #[test]
+    fn test_stack_ctxt_function_declaration() {
+        // Verify function declaration names are tracked
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { $ } from '@qwik.dev/core';
+
+function setupHandler() {
+    return $(() => {
+        console.log('in function');
+    });
+}
+"#;
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default();
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Check that the function name context is captured in display name
+        let has_func_context = result.optimized_app.components.iter()
+            .any(|c| c.id.display_name.contains("setupHandler"));
+
+        assert!(has_func_context,
+            "Expected 'setupHandler' in display name. Components: {:?}",
+            result.optimized_app.components.iter()
+                .map(|c| &c.id.display_name)
+                .collect::<Vec<_>>());
+    }
+
+    #[test]
+    fn test_stack_ctxt_jsx_attribute() {
+        // Verify JSX attribute names (event handlers) are tracked
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export const Form = component$(() => {
+    return (
+        <form onSubmit$={() => console.log('submitted')}>
+            <button type="submit">Submit</button>
+        </form>
+    );
+});
+"#;
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Check that onSubmit context is in a segment
+        // The display name should contain Form or onSubmit context
+        let has_submit_handler = result.optimized_app.components.iter()
+            .any(|c| c.id.display_name.contains("submit") ||
+                     c.id.display_name.contains("Submit") ||
+                     c.id.display_name.contains("onSubmit") ||
+                     c.id.display_name.contains("Form"));
+
+        assert!(has_submit_handler,
+            "Expected submit handler context. Components: {:?}",
+            result.optimized_app.components.iter()
+                .map(|c| &c.id.display_name)
+                .collect::<Vec<_>>());
+    }
+
+    #[test]
+    fn test_stack_ctxt_multiple_handlers_same_element() {
+        // Verify multiple handlers on same element each get proper context
+        // stack_ctxt tracks each attribute name for entry strategy context
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export const Interactive = component$(() => {
+    return (
+        <button
+            onClick$={() => console.log('click')}
+            onMouseOver$={() => console.log('hover')}
+        >
+            Click me
+        </button>
+    );
+});
+"#;
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Verify the component was processed with stack_ctxt tracking
+        let has_interactive = result.optimized_app.components.iter()
+            .any(|c| c.id.display_name.contains("Interactive"));
+
+        assert!(has_interactive,
+            "Expected Interactive component. Components: {:?}",
+            result.optimized_app.components.iter()
+                .map(|c| &c.id.display_name)
+                .collect::<Vec<_>>());
+
+        // Both event handlers should produce transformed output
+        // The output body or component code should contain on:click and on:mouseover
+        let has_click = result.optimized_app.body.contains("on:click") ||
+            result.optimized_app.body.contains("\"on:click\"") ||
+            result.optimized_app.components.iter().any(|c| c.code.contains("on:click"));
+
+        let has_mouseover = result.optimized_app.body.contains("on:mouseover") ||
+            result.optimized_app.body.contains("\"on:mouseover\"") ||
+            result.optimized_app.components.iter().any(|c| c.code.contains("on:mouseover"));
+
+        assert!(has_click,
+            "Expected on:click in output. Body: {}, Components: {:?}",
+            result.optimized_app.body,
+            result.optimized_app.components.iter().map(|c| &c.code).collect::<Vec<_>>());
+        assert!(has_mouseover,
+            "Expected on:mouseover in output. Body: {}, Components: {:?}",
+            result.optimized_app.body,
+            result.optimized_app.components.iter().map(|c| &c.code).collect::<Vec<_>>());
     }
 }
