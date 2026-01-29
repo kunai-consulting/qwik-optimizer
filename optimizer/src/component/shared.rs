@@ -43,7 +43,8 @@ impl From<&ImportDeclarationSpecifier<'_>> for ImportId {
         match value {
             ImportDeclarationSpecifier::ImportSpecifier(specifier) => {
                 let imported = replace_marker_with_qrl(specifier.imported.name());
-                let local_name = replace_marker_with_qrl(specifier.local.name);
+                let local_atom: Atom<'_> = specifier.local.name.clone().into();
+                let local_name = replace_marker_with_qrl(local_atom);
 
                 if imported == local_name {
                     ImportId::Named(imported)

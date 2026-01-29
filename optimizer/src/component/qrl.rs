@@ -153,7 +153,7 @@ impl Qrl {
             SPAN,
             FormalParameterKind::ArrowFormalParameters,
             OxcVec::with_capacity_in(0, ast_builder.allocator),
-            None::<OxcBox<BindingRestElement>>,
+            None::<OxcBox<FormalParameterRest>>,
         );
 
         //  Arrow Function Expression ////////

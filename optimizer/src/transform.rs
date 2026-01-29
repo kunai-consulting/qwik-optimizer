@@ -12,7 +12,7 @@ use oxc_allocator::{
     Vec as OxcVec,
 };
 use oxc_ast::ast::*;
-use oxc_ast::{match_member_expression, AstBuilder, AstType, Comment, CommentKind};
+use oxc_ast::{match_member_expression, AstBuilder, AstType, Comment};
 use oxc_ast_visit::{Visit, VisitMut};
 use oxc_codegen::{Codegen, CodegenOptions, Context, Gen};
 use oxc_index::Idx;
@@ -1087,7 +1087,7 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         // If so, we store on the current import stack so that it can be used later in the `exit_expression`
         // logic that ends up creating a new module/component.
         let ref_id = id_ref.reference_id();
-        if let Some(symbol_id) = ctx.scoping.scoping().get_reference(ref_id).symbol_id() {
+        if let Some(symbol_id) = ctx.scoping().get_reference(ref_id).symbol_id() {
             if let Some(import) = self.import_by_symbol.get(&symbol_id) {
                 let import = import.clone();
                 if !id_ref.name.ends_with(MARKER_SUFFIX) {

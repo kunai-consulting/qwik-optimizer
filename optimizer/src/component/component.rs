@@ -62,21 +62,14 @@ impl QrlComponent {
 
         let ast_builder = AstBuilder::new(allocator);
 
-        let id = OxcBox::new_in(
-            ast_builder.binding_identifier(SPAN, name.as_str()),
-            allocator,
-        );
-        let bind_pat = ast_builder.binding_pattern(
-            BindingPatternKind::BindingIdentifier(id),
-            None::<OxcBox<'_, TSTypeAnnotation<'_>>>,
-            false,
-        );
+        let bind_pat = ast_builder.binding_pattern_binding_identifier(SPAN, name.as_str());
         let mut var_declarator = OxcVec::new_in(allocator);
 
         var_declarator.push(ast_builder.variable_declarator(
             SPAN,
             VariableDeclarationKind::Const,
             bind_pat,
+            None::<OxcBox<'_, TSTypeAnnotation<'_>>>,
             Some(exported_expression),
             false,
         ));

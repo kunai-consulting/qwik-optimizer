@@ -1,6 +1,6 @@
 use crate::component::*;
-use oxc_allocator::{Allocator, Box as OxcBox, FromIn};
-use oxc_ast::ast::{BindingIdentifier, BindingPattern, BindingPatternKind, TSTypeAnnotation};
+use oxc_allocator::{Allocator, FromIn};
+use oxc_ast::ast::{BindingIdentifier, BindingPattern};
 use oxc_ast::AstBuilder;
 use oxc_span::SPAN;
 use std::collections::HashMap;
@@ -188,12 +188,8 @@ impl Segment {
 
     fn into_binding_pattern<'a>(&self, allocator: &'a Allocator) -> BindingPattern<'a> {
         let ast_builder = AstBuilder::new(allocator);
-        let id = OxcBox::new_in(self.into_binding_identifier(allocator), allocator);
-        ast_builder.binding_pattern(
-            BindingPatternKind::BindingIdentifier(id),
-            None::<OxcBox<'a, TSTypeAnnotation<'a>>>,
-            false,
-        )
+        let binding_id = self.into_binding_identifier(allocator);
+        ast_builder.binding_pattern_binding_identifier(binding_id.span, binding_id.name)
     }
 }
 
