@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** All 162 tests from qwik-core pass with exact output parity to the SWC implementation.
-**Current focus:** Phase 4 - Props & Signals (In Progress)
+**Current focus:** Phase 4 - Props & Signals (COMPLETE)
 
 ## Current Position
 
-Phase: 4 of 11 (Props & Signals)
-Plan: 4 of 5 in Phase 4
-Status: In progress - completed 04-04-PLAN.md
-Last activity: 2026-01-29 - Completed 04-04-PLAN.md (_fnSignal Generation)
+Phase: 4 of 11 (Props & Signals) - COMPLETE
+Plan: 5 of 5 in Phase 4 COMPLETE
+Status: Phase complete - all 5 plans executed
+Last activity: 2026-01-29 - Completed 04-05-PLAN.md (Bind Directives)
 
-Progress: [=======             ] 36.4% (3/11 phases complete, 16/44 total plans)
+Progress: [========            ] 38.6% (4/11 phases complete, 17/44 total plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 16
-- Average duration: 6.3 min
-- Total execution time: 1.8 hours
+- Total plans completed: 17
+- Average duration: 6.4 min
+- Total execution time: 1.9 hours
 
 **By Phase:**
 
@@ -30,11 +30,11 @@ Progress: [=======             ] 36.4% (3/11 phases complete, 16/44 total plans)
 | 01-oxc-foundation | 2/2 | 15 min | 7.5 min |
 | 02-qrl-core | 7/7 | 51 min | 7.3 min |
 | 03-event-handlers | 3/3 | 15 min | 5.0 min |
-| 04-props-signals | 4/5 | 28 min | 7.0 min |
+| 04-props-signals | 5/5 | 36 min | 7.2 min |
 
 **Recent Trend:**
-- Last 5 plans: 03-02 (8 min), 03-03 (4 min), 04-01 (7 min), 04-02 (5 min), 04-04 (8 min)
-- Phase 4 props & signals nearing completion
+- Last 5 plans: 03-03 (4 min), 04-01 (7 min), 04-02 (5 min), 04-04 (8 min), 04-05 (8 min)
+- Phase 4 Props & Signals COMPLETE
 
 *Updated after each plan completion*
 
@@ -79,6 +79,9 @@ Recent decisions affecting current work:
 - [04-04]: Filter call expressions from _fnSignal wrapping (can't serialize function calls)
 - [04-04]: Use IdentifierReplacer visitor for AST-level identifier transformation
 - [04-04]: MAX_EXPR_LENGTH 150 chars for _fnSignal wrapping threshold
+- [04-05]: Process bind directives in exit_jsx_attribute for proper prop insertion
+- [04-05]: Check existing on:input in const_props for order-independent handler merging
+- [04-05]: Unknown bind: directives (not value/checked) pass through unchanged
 
 ### Pending Todos
 
@@ -91,7 +94,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed 04-04-PLAN.md (_fnSignal Generation)
+Stopped at: Completed 04-05-PLAN.md (Bind Directives) - Phase 4 COMPLETE
 Resume file: None
 
 ## Phase 2 QRL Core Summary
@@ -151,25 +154,25 @@ Phase 3 Event Handlers complete with all 3 plans executed:
 
 **Requirements satisfied:** EVT-01 through EVT-08 (8/8)
 
-## Phase 4 Props & Signals Progress
+## Phase 4 Props & Signals Summary
 
-Phase 4 Props & Signals in progress:
+Phase 4 Props & Signals COMPLETE with all 5 plans executed:
 
-1. **04-01:** Props destructuring detection - COMPLETE
+1. **04-01:** Props destructuring detection - COMPLETE (7 min)
    - PropsDestructuring struct with component_ident tracking and identifiers HashMap
    - transform_component_props detects ObjectPattern and replaces with _rawProps
    - Integration into TransformGenerator enter/exit_call_expression
    - props_identifiers map populated with prop name -> key mappings
    - 82 total tests passing (5 new props tests)
 
-2. **04-02:** Rest props and aliasing - COMPLETE
+2. **04-02:** Rest props and aliasing - COMPLETE (5 min)
    - rest_id and omit_keys fields added to PropsDestructuring
    - generate_rest_stmt creates _restProps call with omit array
    - Statement injection at function body start
    - _restProps import added when rest pattern present
    - 86 total tests passing (4 new rest props tests)
 
-3. **04-03:** Identifier replacement with _wrapProp - COMPLETE
+3. **04-03:** Identifier replacement with _wrapProp - COMPLETE (8 min)
    - _WRAP_PROP constant added to shared.rs
    - should_wrap_prop and should_wrap_signal_value helpers
    - Props_identifiers populated in enter_call_expression (critical fix)
@@ -177,13 +180,21 @@ Phase 4 Props & Signals in progress:
    - _wrapProp(signal) for signal.value access
    - 108 total tests passing (6 new _wrapProp tests)
 
-4. **04-04:** _fnSignal generation - COMPLETE
+4. **04-04:** _fnSignal generation - COMPLETE (8 min)
    - inlined_fn.rs module with should_wrap_in_fn_signal, convert_inlined_fn
    - ObjectUsageChecker, IdentifierReplacer for AST traversal
    - TransformGenerator integration with hoisted_fns tracking
-   - 16 new _fnSignal tests, 102 total tests passing
+   - 108 total tests passing
 
-**Key Deliverables so far:**
+5. **04-05:** Bind directives - COMPLETE (8 min)
+   - is_bind_directive, create_bind_handler, merge_event_handlers methods
+   - bind:value -> value prop + on:input with inlinedQrl(_val)
+   - bind:checked -> checked prop + on:input with inlinedQrl(_chk)
+   - Handler merging for existing onInput$ (order-independent)
+   - _val, _chk, inlinedQrl import generation
+   - 115 total tests passing (7 new bind directive tests)
+
+**Key Deliverables:**
 - Props parameter transformation: `({ message, id })` -> `(_rawProps)`
 - Rest props: `({ message, ...rest })` -> `const rest = _restProps(_rawProps, ["message"])`
 - Rest-only: `({ ...props })` -> `const props = _restProps(_rawProps)`
@@ -192,5 +203,9 @@ Phase 4 Props & Signals in progress:
 - _wrapProp for signals: `{count.value}` -> `_wrapProp(count)`
 - _fnSignal infrastructure: hoisted functions with positional params (p0, p1, ...)
 - Member access detection for computed expression wrapping
+- bind:value/bind:checked two-way binding transformation
+- Handler merging with existing event handlers
 
-**Ready for:** Plan 05 (Computed Signal Integration)
+**Requirements satisfied:** PROP-01 through PROP-08 (estimated 8/8)
+
+**Ready for:** Phase 05 (Advanced Patterns)
