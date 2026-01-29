@@ -53,6 +53,37 @@ pub enum IdentType {
 
 /// Identifier plus its type for scope tracking
 pub type IdPlusType = (Id, IdentType);
+
+/// Tracks imported identifiers by source module.
+/// Maps (source, specifier) -> local_name for finding aliased imports.
+#[derive(Debug, Default)]
+pub struct ImportTracker {
+    /// Maps (source, imported_name) -> local_name
+    /// e.g., ("@qwik.dev/core/build", "isServer") -> "s" for `import { isServer as s }`
+    imports: HashMap<(String, String), String>,
+}
+
+impl ImportTracker {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    /// Record an import: import { specifier as local } from 'source'
+    pub fn add_import(&mut self, source: &str, specifier: &str, local: &str) {
+        self.imports.insert(
+            (source.to_string(), specifier.to_string()),
+            local.to_string(),
+        );
+    }
+
+    /// Get the local name for an imported specifier from a source.
+    /// Returns None if not imported.
+    pub fn get_imported_local(&self, specifier: &str, source: &str) -> Option<&String> {
+        self.imports
+            .get(&(source.to_string(), specifier.to_string()))
+    }
+}
+
 use std::iter::Sum;
 use std::ops::Deref;
 use std::path::{Components, PathBuf};
@@ -258,6 +289,10 @@ pub struct TransformGenerator<'gen> {
     /// Entry policy for determining how segments are grouped for bundling.
     /// Parsed from TransformOptions.entry_strategy at initialization.
     entry_policy: Box<dyn EntryPolicy>,
+
+    /// Tracks imported identifiers for const replacement.
+    /// Used to find aliased imports like `import { isServer as s }` from @qwik.dev/core/build.
+    import_tracker: ImportTracker,
 }
 
 impl<'gen> TransformGenerator<'gen> {
@@ -309,6 +344,7 @@ impl<'gen> TransformGenerator<'gen> {
             synthesized_imports: HashMap::new(),
             stack_ctxt: Vec::with_capacity(16),
             entry_policy,
+            import_tracker: ImportTracker::new(),
         }
     }
 
@@ -2461,7 +2497,27 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         self.debug(format!("{:?}", node), ctx);
 
         if let Some(specifiers) = &mut node.specifiers {
+            let source_str = node.source.value.to_string();
+
             for specifier in specifiers.iter_mut() {
+                // Track imports for const replacement (isServer, isBrowser, isDev from @qwik.dev/core/build)
+                match specifier {
+                    ImportDeclarationSpecifier::ImportSpecifier(spec) => {
+                        let imported = spec.imported.name().to_string();
+                        let local = spec.local.name.to_string();
+                        self.import_tracker
+                            .add_import(&source_str, &imported, &local);
+                    }
+                    ImportDeclarationSpecifier::ImportDefaultSpecifier(spec) => {
+                        let local = spec.local.name.to_string();
+                        self.import_tracker.add_import(&source_str, "default", &local);
+                    }
+                    ImportDeclarationSpecifier::ImportNamespaceSpecifier(spec) => {
+                        let local = spec.local.name.to_string();
+                        self.import_tracker.add_import(&source_str, "*", &local);
+                    }
+                }
+
                 // Recording each import by its SymbolId will allow CallExpressions within newly-created modules to
                 // determine if they need to add this import to their import_stack.
                 if let Some(symbol_id) = specifier.local().symbol_id.get() {
@@ -5360,5 +5416,78 @@ export const Interactive = component$(() => {
             "Expected on:mouseover in output. Body: {}, Components: {:?}",
             result.optimized_app.body,
             result.optimized_app.components.iter().map(|c| &c.code).collect::<Vec<_>>());
+    }
+
+    #[test]
+    fn test_import_tracker_basic() {
+        // Test ImportTracker basic add and get functionality
+        let mut tracker = ImportTracker::new();
+
+        // Add some imports
+        tracker.add_import("@qwik.dev/core/build", "isServer", "isServer");
+        tracker.add_import("@qwik.dev/core/build", "isBrowser", "isBrowser");
+
+        // Test get_imported_local
+        assert_eq!(
+            tracker.get_imported_local("isServer", "@qwik.dev/core/build"),
+            Some(&"isServer".to_string())
+        );
+        assert_eq!(
+            tracker.get_imported_local("isBrowser", "@qwik.dev/core/build"),
+            Some(&"isBrowser".to_string())
+        );
+
+        // Test non-existent returns None
+        assert_eq!(
+            tracker.get_imported_local("isDev", "@qwik.dev/core/build"),
+            None
+        );
+        assert_eq!(
+            tracker.get_imported_local("isServer", "@qwik.dev/core"),
+            None
+        );
+    }
+
+    #[test]
+    fn test_import_tracker_aliased() {
+        // Test ImportTracker with aliased imports: import { isServer as s }
+        let mut tracker = ImportTracker::new();
+
+        tracker.add_import("@qwik.dev/core/build", "isServer", "s");
+        tracker.add_import("@qwik.dev/core/build", "isBrowser", "b");
+        tracker.add_import("@qwik.dev/core/build", "isDev", "isDev");
+
+        // Aliased import returns the local name
+        assert_eq!(
+            tracker.get_imported_local("isServer", "@qwik.dev/core/build"),
+            Some(&"s".to_string())
+        );
+        assert_eq!(
+            tracker.get_imported_local("isBrowser", "@qwik.dev/core/build"),
+            Some(&"b".to_string())
+        );
+        // Non-aliased still works
+        assert_eq!(
+            tracker.get_imported_local("isDev", "@qwik.dev/core/build"),
+            Some(&"isDev".to_string())
+        );
+    }
+
+    #[test]
+    fn test_import_tracker_default_and_namespace() {
+        // Test ImportTracker with default and namespace imports
+        let mut tracker = ImportTracker::new();
+
+        tracker.add_import("some-lib", "default", "DefaultExport");
+        tracker.add_import("utils", "*", "Utils");
+
+        assert_eq!(
+            tracker.get_imported_local("default", "some-lib"),
+            Some(&"DefaultExport".to_string())
+        );
+        assert_eq!(
+            tracker.get_imported_local("*", "utils"),
+            Some(&"Utils".to_string())
+        );
     }
 }
