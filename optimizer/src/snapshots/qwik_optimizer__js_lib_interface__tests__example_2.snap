@@ -84,7 +84,7 @@ None
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 export const renderHeader_hMRKEFfLPuk = () => {
-	return /* @__PURE__ */ _jsxSorted("div", { onClick: qrl(() => import("./test_example_2.tsx_renderHeader_div_onClick_ZYP8O0EEogs.js"), "renderHeader_div_onClick_ZYP8O0EEogs") }, null, [], 1, null);
+	return /* @__PURE__ */ _jsxSorted("div", { onClick: qrl(() => import("./test_example_2.tsx_renderHeader_div_onClick_ZYP8O0EEogs.js"), "renderHeader_div_onClick_ZYP8O0EEogs") }, null, [], 3, null);
 };
 
 

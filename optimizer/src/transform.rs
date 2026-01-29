@@ -130,6 +130,9 @@ struct JsxState<'gen> {
     var_props: OxcVec<'gen, ObjectPropertyKind<'gen>>,
     const_props: OxcVec<'gen, ObjectPropertyKind<'gen>>,
     children: OxcVec<'gen, ArrayExpressionElement<'gen>>,
+    /// Spread expression for _getVarProps/_getConstProps generation.
+    /// Set when encountering spread attribute, used in exit_jsx_element.
+    spread_expr: Option<Expression<'gen>>,
 }
 
 pub struct TransformGenerator<'gen> {
@@ -1222,6 +1225,7 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             var_props: OxcVec::new_in(self.builder.allocator),
             const_props: OxcVec::new_in(self.builder.allocator),
             children: OxcVec::new_in(self.builder.allocator),
+            spread_expr: None,
         });
         if let Some(segment) = segment {
             self.debug(format!("ENTER: JSXElementName {segment}"), ctx);
@@ -1324,15 +1328,16 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                         self.builder
                             .expression_array(node.span(), jsx.children)
                             .into(),
-                        // flags
+                        // flags: bit 0 = static_listeners, bit 1 = static_subtree (per SWC reference)
+                        // Values: 3 = both static, 2 = static_subtree only, 1 = static_listeners only, 0 = neither
                         self.builder
                             .expression_numeric_literal(
                                 node.span(),
-                                ((if jsx.static_subtree { 0b1 } else { 0 })
-                                    | (if jsx.static_listeners { 0b01 } else { 0 }))
+                                ((if jsx.static_listeners { 0b1 } else { 0 })
+                                    | (if jsx.static_subtree { 0b10 } else { 0 }))
                                 .into(),
                                 None,
-                                NumberBase::Binary,
+                                NumberBase::Decimal,
                             )
                             .into(),
                         // key
@@ -1376,6 +1381,11 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                 ));
                 if let Some(imports) = self.import_stack.last_mut() {
                     imports.insert(Import::new(vec![callee.into()], QWIK_CORE_SOURCE));
+                    // Add spread helper imports when _jsxSplit is used
+                    if jsx.should_runtime_sort {
+                        imports.insert(Import::new(vec![_GET_VAR_PROPS.into()], QWIK_CORE_SOURCE));
+                        imports.insert(Import::new(vec![_GET_CONST_PROPS.into()], QWIK_CORE_SOURCE));
+                    }
                 }
             }
             if jsx.is_segment {
@@ -1450,9 +1460,9 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                     }
                 });
 
-                // Calculate flags: static_subtree | static_listeners
-                let flags = ((if jsx.static_subtree { 0b1 } else { 0 })
-                    | (if jsx.static_listeners { 0b10 } else { 0 })) as f64;
+                // Calculate flags: bit 0 = static_listeners, bit 1 = static_subtree (per SWC reference)
+                let flags = ((if jsx.static_listeners { 0b1 } else { 0 })
+                    | (if jsx.static_subtree { 0b10 } else { 0 })) as f64;
 
                 let args: OxcVec<Argument<'a>> = OxcVec::from_array_in(
                     [

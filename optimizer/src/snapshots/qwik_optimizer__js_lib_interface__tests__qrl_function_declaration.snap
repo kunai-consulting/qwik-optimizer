@@ -19,7 +19,7 @@ export const Counter = component$(function Counter() {
 
 import { _jsxSorted } from "@qwik.dev/core";
 export const Counter_component_87M60GhSi7M = function Counter() {
-	return /* @__PURE__ */ _jsxSorted("div", null, null, ["Counter component"], 1, null);
+	return /* @__PURE__ */ _jsxSorted("div", null, null, ["Counter component"], 3, null);
 };
 
 

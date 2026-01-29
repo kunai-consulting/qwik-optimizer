@@ -81,18 +81,18 @@ export const Foo_component_1_Za18NfgUnDQ = () => {
 	const [props] = useLexicalScope();
 	return /* @__PURE__ */ _jsxSorted("div", null, null, [
 		/* @__PURE__ */ _jsxSorted(_Fragment, null, null, [
-			/* @__PURE__ */ _jsxSorted("div", null, { class: "class" }, [], 1, null),
-			/* @__PURE__ */ _jsxSorted("div", null, { class: "class" }, [], 1, null),
-			/* @__PURE__ */ _jsxSorted("div", null, { class: "class" }, ["12"], 1, null)
+			/* @__PURE__ */ _jsxSorted("div", null, { class: "class" }, [], 3, null),
+			/* @__PURE__ */ _jsxSorted("div", null, { class: "class" }, [], 3, null),
+			/* @__PURE__ */ _jsxSorted("div", null, { class: "class" }, ["12"], 3, null)
 		], 3, null),
-		/* @__PURE__ */ _jsxSorted("div", null, { class: "class" }, [_jsxSplit(Lightweight, { ...props }, null, [], 0, null)], 1, null),
+		/* @__PURE__ */ _jsxSorted("div", null, { class: "class" }, [_jsxSplit(Lightweight, { ...props }, null, [], 0, null)], 3, null),
 		/* @__PURE__ */ _jsxSorted("div", null, { class: "class" }, [
-			/* @__PURE__ */ _jsxSorted("div", null, null, [], 1, null),
-			/* @__PURE__ */ _jsxSorted("div", null, null, [], 1, null),
-			/* @__PURE__ */ _jsxSorted("div", null, null, [], 1, null)
-		], 1, null),
+			/* @__PURE__ */ _jsxSorted("div", null, null, [], 3, null),
+			/* @__PURE__ */ _jsxSorted("div", null, null, [], 3, null),
+			/* @__PURE__ */ _jsxSorted("div", null, null, [], 3, null)
+		], 3, null),
 		/* @__PURE__ */ _jsxSorted("div", null, { class: "class" }, [children], 1, null)
-	], 1, null);
+	], 3, null);
 };
 
 
@@ -122,7 +122,7 @@ None
 import { _jsxSorted, _jsxSplit, componentQrl, qrl } from "@qwik.dev/core";
 import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
 export const Lightweight = (props) => {
-	return /* @__PURE__ */ _jsxSorted("div", null, null, [/* @__PURE__ */ _jsxSorted(_Fragment, null, null, [/* @__PURE__ */ _jsxSorted("div", null, null, [], 1, null), /* @__PURE__ */ _jsxSplit("button", { ...props }, null, [], 0, null)], 3, null)], 1, null);
+	return /* @__PURE__ */ _jsxSorted("div", null, null, [/* @__PURE__ */ _jsxSorted(_Fragment, null, null, [/* @__PURE__ */ _jsxSorted("div", null, null, [], 3, null), /* @__PURE__ */ _jsxSplit("button", { ...props }, null, [], 0, null)], 3, null)], 3, null);
 };
 export const Foo = componentQrl(qrl(() => import("./test_example_jsx.jsx_Foo_component_pGZPkYSFNjQ.js"), "Foo_component_pGZPkYSFNjQ"));
 
