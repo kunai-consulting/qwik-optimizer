@@ -46,6 +46,12 @@ pub const JSX_RUNTIME_SOURCE: &str = "@qwik.dev/core/jsx-runtime";
 /// Fragment identifier for implicit fragments (<></>)
 pub const _FRAGMENT: &str = "_Fragment";
 
+/// Import for _getVarProps helper (spread props runtime)
+pub const _GET_VAR_PROPS: &str = "_getVarProps";
+
+/// Import for _getConstProps helper (spread props runtime)
+pub const _GET_CONST_PROPS: &str = "_getConstProps";
+
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum ImportId {
     Named(String),
