@@ -878,6 +878,32 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                         .filter(|(name, _)| !imported_names.contains(name))
                         .collect();
 
+                    // Collect referenced exports - identifiers in QRL body that are source exports
+                    // These need to be imported in segment files from the source file
+                    let referenced_exports: Vec<ExportInfo> = descendent_idents
+                        .iter()
+                        .filter_map(|(name, _)| {
+                            // Skip if it's an import (will be handled via imports)
+                            if imported_names.contains(name) {
+                                return None;
+                            }
+                            // Skip if it's a captured variable (handled via useLexicalScope)
+                            if scoped_idents.iter().any(|(n, _)| n == name) {
+                                return None;
+                            }
+                            // Check if it's a source export
+                            self.export_by_name.get(name).cloned()
+                        })
+                        .collect();
+
+                    // Log referenced exports for debugging
+                    if DEBUG && !referenced_exports.is_empty() {
+                        println!(
+                            "QRL references exports: {:?}",
+                            referenced_exports.iter().map(|e| &e.local_name).collect::<Vec<_>>()
+                        );
+                    }
+
                     // Log captured variables for debugging
                     if DEBUG && !scoped_idents.is_empty() {
                         println!(
@@ -905,8 +931,8 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                         }
                     });
 
-                    // Create SegmentData with all collected metadata
-                    let segment_data = SegmentData::new(
+                    // Create SegmentData with all collected metadata including referenced exports
+                    let segment_data = SegmentData::new_with_exports(
                         &ctx_name,
                         display_name,
                         hash,
@@ -914,6 +940,7 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                         scoped_idents,
                         descendent_idents, // local_idents are all identifiers used in segment
                         parent_segment,
+                        referenced_exports,
                     );
 
                     QrlComponent::from_call_expression_argument(
@@ -1889,13 +1916,24 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                         let scoped_idents: Vec<Id> = scoped_idents.into_iter()
                             .filter(|(name, _)| !imported_names.contains(name)).collect();
 
+                        // Collect referenced exports for segment file imports
+                        let referenced_exports: Vec<ExportInfo> = descendent_idents
+                            .iter()
+                            .filter_map(|(name, _)| {
+                                if imported_names.contains(name) { return None; }
+                                if scoped_idents.iter().any(|(n, _)| n == name) { return None; }
+                                self.export_by_name.get(name).cloned()
+                            })
+                            .collect();
+
                         // 4. Create Qrl and transform
                         let display_name = self.current_display_name();
-                        let qrl = Qrl::new(
+                        let qrl = Qrl::new_with_exports(
                             self.source_info.rel_path.clone(),
                             &display_name,
                             QrlType::Qrl,
                             scoped_idents,
+                            referenced_exports,
                         );
 
                         let call_expr = qrl.into_call_expression(
@@ -4601,5 +4639,52 @@ export const App = component$(({ msg, count }) => {
         assert!(core_imports.len() <= 1,
             "Expected at most one @qwik.dev/core import statement, got {}:\n{:?}",
             core_imports.len(), core_imports);
+    }
+
+    // ==================== Side-Effect Import Tests (06-04) ====================
+
+    #[test]
+    fn test_side_effect_imports_preserved() {
+        // Test that side-effect imports (imports with no specifiers) are preserved
+        // These are imports like: import './styles.css'; import './polyfill.js';
+        use crate::import_clean_up::ImportCleanUp;
+        use oxc_allocator::Allocator;
+        use oxc_codegen::Codegen;
+        use oxc_parser::Parser;
+        use oxc_span::SourceType;
+
+        let allocator = Allocator::new();
+        let source = r#"
+            import './side-effect.js';
+            import './styles.css';
+            import { used } from './module';
+
+            used();
+        "#;
+
+        let parse_return = Parser::new(&allocator, source, SourceType::tsx()).parse();
+        let mut program = parse_return.program;
+        ImportCleanUp::clean_up(&mut program, &allocator);
+
+        let codegen = Codegen::default();
+        let raw = codegen.build(&program).code;
+
+        // STRONG ASSERTIONS:
+        // 1. Side-effect imports should be preserved
+        assert!(raw.contains("import \"./side-effect.js\"") || raw.contains("import './side-effect.js'"),
+            "Expected side-effect import './side-effect.js' to be preserved, got: {}", raw);
+        assert!(raw.contains("import \"./styles.css\"") || raw.contains("import './styles.css'"),
+            "Expected side-effect import './styles.css' to be preserved, got: {}", raw);
+
+        // 2. Used import should also be preserved
+        assert!(raw.contains("used") && raw.contains("./module"),
+            "Expected used import from './module' to be preserved, got: {}", raw);
+
+        // 3. Should have all 3 imports plus the used() call
+        let import_count = raw.lines()
+            .filter(|line| line.trim().starts_with("import"))
+            .count();
+        assert_eq!(import_count, 3,
+            "Expected 3 imports (2 side-effect + 1 used), got {}: {}", import_count, raw);
     }
 }
