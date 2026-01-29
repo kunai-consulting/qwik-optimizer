@@ -34,10 +34,17 @@ pub struct PropsDestructuring<'a> {
     pub identifiers: HashMap<Id, String>,
 
     /// Allocator reference for AST building
+    #[allow(dead_code)]
     allocator: &'a Allocator,
 
     /// Name of the _rawProps parameter (for uniqueness if needed)
     raw_props_name: &'static str,
+
+    /// Rest identifier if pattern has ...rest
+    pub rest_id: Option<Id>,
+
+    /// List of prop keys to omit from rest (all explicit props)
+    pub omit_keys: Vec<String>,
 }
 
 impl<'a> PropsDestructuring<'a> {
@@ -52,6 +59,8 @@ impl<'a> PropsDestructuring<'a> {
             identifiers: HashMap::new(),
             allocator,
             raw_props_name: "_rawProps",
+            rest_id: None,
+            omit_keys: Vec::new(),
         }
     }
 
@@ -111,7 +120,20 @@ impl<'a> PropsDestructuring<'a> {
                 let local_name = self.extract_binding_name(&prop.value);
                 if let (Some(key), Some(local)) = (prop_key, local_name) {
                     // Store: local_name -> prop_key for later lookup
-                    self.identifiers.insert(local, key);
+                    self.identifiers.insert(local, key.clone());
+                    // Add to omit keys for rest props
+                    self.omit_keys.push(key);
+                }
+            }
+
+            // Check for rest element: { ...rest }
+            if let Some(rest) = &obj_pat.rest {
+                // rest.argument is a BindingPattern enum
+                if let BindingPattern::BindingIdentifier(ident) = &rest.argument {
+                    self.rest_id = Some((
+                        ident.name.to_string(),
+                        oxc_semantic::ScopeId::new(0), // Use ScopeId 0 since we match by name later
+                    ));
                 }
             }
 
@@ -192,6 +214,65 @@ impl<'a> PropsDestructuring<'a> {
             }
             _ => None,
         }
+    }
+
+    /// Generate: const rest = _restProps(_rawProps, ["prop1", "prop2", ...])
+    /// Or if no omit keys: const rest = _restProps(_rawProps)
+    ///
+    /// # Returns
+    /// `Some(Statement)` if rest pattern is present, `None` otherwise.
+    pub fn generate_rest_stmt<'b>(&self, builder: &AstBuilder<'b>) -> Option<Statement<'b>> {
+        let rest_id = self.rest_id.as_ref()?;
+
+        // Build: _restProps(_rawProps) or _restProps(_rawProps, ["prop1", ...])
+        let raw_props_arg = Argument::from(builder.expression_identifier(SPAN, self.raw_props_name));
+
+        let args = if self.omit_keys.is_empty() {
+            // No omit array: _restProps(_rawProps)
+            builder.vec1(raw_props_arg)
+        } else {
+            // Build omit array: ["prop1", "prop2", ...]
+            let omit_elements: oxc_allocator::Vec<'b, ArrayExpressionElement<'b>> = builder.vec_from_iter(
+                self.omit_keys.iter().map(|key| {
+                    ArrayExpressionElement::from(
+                        builder.expression_string_literal(SPAN, builder.atom(key.as_str()), None)
+                    )
+                })
+            );
+
+            let omit_array = builder.expression_array(SPAN, omit_elements);
+
+            builder.vec_from_array([
+                raw_props_arg,
+                Argument::from(omit_array),
+            ])
+        };
+
+        let call_expr = builder.expression_call(
+            SPAN,
+            builder.expression_identifier(SPAN, "_restProps"),
+            None::<oxc_allocator::Box<'b, TSTypeParameterInstantiation<'b>>>,
+            args,
+            false,
+        );
+
+        // Build: const rest = _restProps(...)
+        // variable_declarator(span, kind, id, type_annotation, init, definite)
+        let decl = builder.variable_declaration(
+            SPAN,
+            VariableDeclarationKind::Const,
+            builder.vec1(builder.variable_declarator(
+                SPAN,
+                VariableDeclarationKind::Const,
+                builder.binding_pattern_binding_identifier(SPAN, builder.atom(&rest_id.0)),
+                oxc_ast::NONE, // type_annotation
+                Some(call_expr),
+                false,
+            )),
+            false,
+        );
+
+        Some(Statement::VariableDeclaration(builder.alloc(decl)))
     }
 }
 
