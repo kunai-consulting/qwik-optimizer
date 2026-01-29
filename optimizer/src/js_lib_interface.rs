@@ -597,4 +597,351 @@ mod tests {
     fn test_qrl_function_declaration() {
         assert_valid_transform!(EntryStrategy::Segment);
     }
+
+    // ========== Entry Strategy Integration Tests ==========
+    // These tests validate the entry strategy integration with segment generation
+
+    /// Helper function to transform code with a specific entry strategy
+    fn transform_with_strategy(code: &str, strategy: EntryStrategy) -> TransformOutput {
+        transform_modules(TransformModulesOptions {
+            input: vec![TransformModuleInput {
+                path: "test.tsx".to_string(),
+                dev_path: None,
+                code: code.to_string(),
+            }],
+            src_dir: ".".to_string(),
+            root_dir: None,
+            minify: MinifyMode::None,
+            entry_strategy: strategy,
+            source_maps: false,
+            transpile_ts: true,
+            transpile_jsx: true,
+            preserve_filenames: false,
+            explicit_extensions: false,
+            mode: Target::Dev,
+            scope: None,
+            core_module: None,
+            strip_exports: None,
+            strip_ctx_name: None,
+            strip_event_handlers: false,
+            reg_ctx_name: None,
+            is_server: None,
+        })
+        .unwrap()
+    }
+
+    /// Test InlineStrategy groups all segments into "entry_segments"
+    #[test]
+    fn test_entry_strategy_inline() {
+        let code = r#"
+            import { component$ } from "@qwik.dev/core";
+            export const Counter = component$(() => {
+                return <button onClick$={() => console.log("click")}>Click</button>;
+            });
+        "#;
+
+        let result = transform_with_strategy(code, EntryStrategy::Inline);
+
+        // Verify all segments have entry = Some("entry_segments")
+        let segments: Vec<_> = result
+            .modules
+            .iter()
+            .filter_map(|m| m.segment.as_ref())
+            .collect();
+
+        assert!(!segments.is_empty(), "Should have segments");
+        for segment in segments {
+            assert_eq!(
+                segment.entry,
+                Some("entry_segments".to_string()),
+                "InlineStrategy should group all to entry_segments, got {:?}",
+                segment.entry
+            );
+        }
+    }
+
+    /// Test SingleStrategy groups all segments into "entry_segments"
+    #[test]
+    fn test_entry_strategy_single() {
+        let code = r#"
+            import { component$ } from "@qwik.dev/core";
+            export const Counter = component$(() => {
+                return <button onClick$={() => console.log("click")}>Click</button>;
+            });
+        "#;
+
+        let result = transform_with_strategy(code, EntryStrategy::Single);
+
+        // Verify all segments have entry = Some("entry_segments")
+        let segments: Vec<_> = result
+            .modules
+            .iter()
+            .filter_map(|m| m.segment.as_ref())
+            .collect();
+
+        assert!(!segments.is_empty(), "Should have segments");
+        for segment in segments {
+            assert_eq!(
+                segment.entry,
+                Some("entry_segments".to_string()),
+                "SingleStrategy should group all to entry_segments, got {:?}",
+                segment.entry
+            );
+        }
+    }
+
+    /// Test PerSegmentStrategy creates separate files (entry = None)
+    #[test]
+    fn test_entry_strategy_segment() {
+        let code = r#"
+            import { component$ } from "@qwik.dev/core";
+            export const Counter = component$(() => {
+                return <button onClick$={() => console.log("click")}>Click</button>;
+            });
+        "#;
+
+        let result = transform_with_strategy(code, EntryStrategy::Segment);
+
+        // Verify all segments have entry = None (separate files)
+        let segments: Vec<_> = result
+            .modules
+            .iter()
+            .filter_map(|m| m.segment.as_ref())
+            .collect();
+
+        assert!(!segments.is_empty(), "Should have segments");
+        for segment in segments {
+            assert_eq!(
+                segment.entry, None,
+                "PerSegmentStrategy should produce separate files (None), got {:?}",
+                segment.entry
+            );
+        }
+    }
+
+    /// Test HookStrategy (alias for PerSegment) creates separate files
+    #[test]
+    fn test_entry_strategy_hook() {
+        let code = r#"
+            import { component$ } from "@qwik.dev/core";
+            export const Counter = component$(() => {
+                return <button onClick$={() => console.log("click")}>Click</button>;
+            });
+        "#;
+
+        let result = transform_with_strategy(code, EntryStrategy::Hook);
+
+        // Verify all segments have entry = None (separate files)
+        let segments: Vec<_> = result
+            .modules
+            .iter()
+            .filter_map(|m| m.segment.as_ref())
+            .collect();
+
+        assert!(!segments.is_empty(), "Should have segments");
+        for segment in segments {
+            assert_eq!(
+                segment.entry, None,
+                "HookStrategy should produce separate files (None), got {:?}",
+                segment.entry
+            );
+        }
+    }
+
+    /// Test PerComponentStrategy groups by component name
+    #[test]
+    fn test_entry_strategy_component() {
+        let code = r#"
+            import { component$ } from "@qwik.dev/core";
+            export const Counter = component$(() => {
+                return <button onClick$={() => console.log("click")}>Click</button>;
+            });
+        "#;
+
+        let result = transform_with_strategy(code, EntryStrategy::Component);
+
+        // Verify segments have entry = Some("{origin}_entry_{component}")
+        let segments: Vec<_> = result
+            .modules
+            .iter()
+            .filter_map(|m| m.segment.as_ref())
+            .collect();
+
+        assert!(!segments.is_empty(), "Should have segments");
+        for segment in segments {
+            assert!(
+                segment.entry.is_some(),
+                "PerComponentStrategy should have entry value"
+            );
+            let entry = segment.entry.as_ref().unwrap();
+            assert!(
+                entry.contains("_entry_"),
+                "PerComponentStrategy entry should contain '_entry_', got {}",
+                entry
+            );
+        }
+    }
+
+    /// Test SmartStrategy behavior for component$ segments
+    /// Note: JSX event handlers (onClick$={() => ...}) don't produce separate segment files
+    /// in this implementation - they're inlined QRLs. Only component$() calls produce segments.
+    #[test]
+    fn test_entry_strategy_smart() {
+        let code = r#"
+            import { component$ } from "@qwik.dev/core";
+            export const Counter = component$(() => {
+                const count = 0;
+                return (
+                    <div>
+                        <button onClick$={() => console.log("no capture")}>A</button>
+                        <button onClick$={() => console.log(count)}>B</button>
+                    </div>
+                );
+            });
+        "#;
+
+        let result = transform_with_strategy(code, EntryStrategy::Smart);
+
+        let segments: Vec<_> = result
+            .modules
+            .iter()
+            .filter_map(|m| m.segment.as_ref())
+            .collect();
+
+        // Only the component$ call produces a segment
+        assert!(!segments.is_empty(), "Should have segments");
+
+        // SmartStrategy for component$ segments:
+        // - component$ functions with context -> entry = Some(grouped by component)
+        // - JSX event handlers are inlined and don't produce segments
+        for segment in &segments {
+            // component$ with context gets grouped
+            if segment.ctx_name.contains("component") {
+                assert!(
+                    segment.entry.is_some(),
+                    "component$ segment should have grouped entry"
+                );
+            }
+        }
+    }
+
+    /// Test SmartStrategy with multiple components
+    /// Each component$ produces a segment, grouped by its component context
+    #[test]
+    fn test_entry_strategy_smart_multiple_components() {
+        let code = r#"
+            import { component$ } from "@qwik.dev/core";
+
+            export const CompA = component$(() => {
+                const stateA = "A";
+                return <button onClick$={() => console.log(stateA)}>A</button>;
+            });
+
+            export const CompB = component$(() => {
+                return <button onClick$={() => console.log("stateless")}>B</button>;
+            });
+        "#;
+
+        let result = transform_with_strategy(code, EntryStrategy::Smart);
+
+        let segments: Vec<_> = result
+            .modules
+            .iter()
+            .filter_map(|m| m.segment.as_ref())
+            .collect();
+
+        // Should have 2 segments (one per component$)
+        assert_eq!(
+            segments.len(), 2,
+            "Should have 2 segments (one per component), got {}",
+            segments.len()
+        );
+
+        // Both component$ calls produce grouped entries (with component context)
+        for segment in &segments {
+            assert!(
+                segment.entry.is_some(),
+                "component$ segment {} should have grouped entry",
+                segment.name
+            );
+            let entry = segment.entry.as_ref().unwrap();
+            assert!(
+                entry.contains("_entry_"),
+                "Entry should contain component grouping, got {}",
+                entry
+            );
+        }
+    }
+
+    /// Test SmartStrategy with named QRL (has context from variable name)
+    /// Named QRLs get grouped by their variable name context
+    #[test]
+    fn test_entry_strategy_smart_named_qrl() {
+        let code = r#"
+            import { $ } from "@qwik.dev/core";
+            export const handler = $(() => console.log("named qrl"));
+        "#;
+
+        let result = transform_with_strategy(code, EntryStrategy::Smart);
+
+        let segments: Vec<_> = result
+            .modules
+            .iter()
+            .filter_map(|m| m.segment.as_ref())
+            .collect();
+
+        assert_eq!(segments.len(), 1, "Should have 1 segment");
+
+        // Named QRL has context from variable name "handler"
+        // SmartStrategy groups QRLs with context
+        assert!(
+            segments[0].entry.is_some(),
+            "Named QRL should have grouped entry (context from variable name)"
+        );
+        let entry = segments[0].entry.as_ref().unwrap();
+        assert!(
+            entry.contains("_entry_handler"),
+            "Entry should reference the variable name, got {}",
+            entry
+        );
+    }
+
+    /// Test that SmartStrategy behavior matches PerComponentStrategy for component$ QRLs
+    #[test]
+    fn test_entry_strategy_smart_vs_component() {
+        let code = r#"
+            import { component$ } from "@qwik.dev/core";
+            export const Counter = component$(() => {
+                return <div>Hello</div>;
+            });
+        "#;
+
+        let smart_result = transform_with_strategy(code, EntryStrategy::Smart);
+        let component_result = transform_with_strategy(code, EntryStrategy::Component);
+
+        let smart_segments: Vec<_> = smart_result
+            .modules
+            .iter()
+            .filter_map(|m| m.segment.as_ref())
+            .collect();
+
+        let component_segments: Vec<_> = component_result
+            .modules
+            .iter()
+            .filter_map(|m| m.segment.as_ref())
+            .collect();
+
+        assert_eq!(smart_segments.len(), component_segments.len(), "Same number of segments");
+
+        // For component$ QRLs, both strategies should produce grouped entries
+        // (Smart delegates to component grouping for non-stateless segments)
+        for (smart, comp) in smart_segments.iter().zip(component_segments.iter()) {
+            assert!(smart.entry.is_some(), "Smart entry should exist");
+            assert!(comp.entry.is_some(), "Component entry should exist");
+            assert_eq!(
+                smart.entry, comp.entry,
+                "Smart and Component strategies should produce same entry for component$ QRLs"
+            );
+        }
+    }
 }
