@@ -280,7 +280,7 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
                     segment: Some(SegmentAnalysis {
                         origin: relative_path.clone(),
                         name: c.id.symbol_name.clone(),
-                        entry: None,
+                        entry: c.entry.clone(),
                         display_name: c.id.display_name,
                         hash: c.id.hash,
                         canonical_filename: PathBuf::from(&c.id.local_file_name)

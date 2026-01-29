@@ -14,7 +14,7 @@ modules:
     segment:
       origin: "./src/test_input/test_project_1/src/routes/layout.tsx"
       name: component_e0ZOSHqXHEo
-      entry: ~
+      entry: "././src/test_input/test_project_1/src/routes/layout.tsx_entry_component$"
       displayName: layout.tsx_component
       hash: e0ZOSHqXHEo
       canonicalFilename: layout.tsx_component_e0ZOSHqXHEo
@@ -44,7 +44,7 @@ modules:
     segment:
       origin: "./src/test_input/test_project_1/src/root.tsx"
       name: component_fZ4L0pYApnM
-      entry: ~
+      entry: "././src/test_input/test_project_1/src/root.tsx_entry_component$"
       displayName: root.tsx_component
       hash: fZ4L0pYApnM
       canonicalFilename: root.tsx_component_fZ4L0pYApnM
@@ -89,7 +89,7 @@ modules:
     segment:
       origin: "./src/test_input/test_project_1/src/components/router-head/router-head.tsx"
       name: RouterHead_component_VtXR96RQWfE
-      entry: ~
+      entry: "././src/test_input/test_project_1/src/components/router-head/router-head.tsx_entry_RouterHead"
       displayName: router-head.tsx_RouterHead_component
       hash: VtXR96RQWfE
       canonicalFilename: router-head.tsx_RouterHead_component_VtXR96RQWfE
@@ -109,7 +109,7 @@ modules:
     segment:
       origin: "./src/test_input/test_project_1/src/routes/index.tsx"
       name: component_4HLI2RMDcP8
-      entry: ~
+      entry: "././src/test_input/test_project_1/src/routes/index.tsx_entry_component$"
       displayName: index.tsx_component
       hash: 4HLI2RMDcP8
       canonicalFilename: index.tsx_component_4HLI2RMDcP8
