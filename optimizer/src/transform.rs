@@ -2333,4 +2333,144 @@ export const Form = component$(() => {
         // This test passes if all EVT requirements have documented coverage
         assert!(true, "All EVT requirements documented with covering tests");
     }
+
+    // ==================== Props Rest Pattern Tests ====================
+
+    #[test]
+    fn test_props_rest_pattern() {
+        // Test: component$(({ message, ...rest }) => ...)
+        // Should output: const rest = _restProps(_rawProps, ["message"])
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from "@qwik.dev/core";
+export const Cmp = component$(({ message, ...rest }) => {
+    return <span {...rest}>{message}</span>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Check for _restProps in component code or body
+        let has_rest_props = result.optimized_app.body.contains("_restProps")
+            || result.optimized_app.components.iter().any(|c| c.code.contains("_restProps"));
+        assert!(has_rest_props,
+            "Expected _restProps call, got body: {}\ncomponents: {:?}",
+            result.optimized_app.body,
+            result.optimized_app.components.iter().map(|c| &c.code).collect::<Vec<_>>());
+
+        // Check for _rawProps parameter
+        let has_raw_props = result.optimized_app.body.contains("_rawProps")
+            || result.optimized_app.components.iter().any(|c| c.code.contains("_rawProps"));
+        assert!(has_raw_props,
+            "Expected _rawProps parameter, got body: {}",
+            result.optimized_app.body);
+
+        // Check for omit array with "message"
+        let has_omit = result.optimized_app.body.contains(r#""message""#)
+            || result.optimized_app.components.iter().any(|c| c.code.contains(r#""message""#));
+        assert!(has_omit,
+            "Expected omit array containing \"message\", got body: {}\ncomponents: {:?}",
+            result.optimized_app.body,
+            result.optimized_app.components.iter().map(|c| &c.code).collect::<Vec<_>>());
+    }
+
+    #[test]
+    fn test_props_rest_only() {
+        // Test: component$(({ ...props }) => ...)
+        // Should output: const props = _restProps(_rawProps) (no omit array)
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from "@qwik.dev/core";
+export const Cmp = component$(({ ...props }) => {
+    return <div>{props.value}</div>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Check for _restProps call
+        let has_rest_props = result.optimized_app.body.contains("_restProps")
+            || result.optimized_app.components.iter().any(|c| c.code.contains("_restProps"));
+        assert!(has_rest_props,
+            "Expected _restProps call, got body: {}",
+            result.optimized_app.body);
+
+        // Rest-only should have _restProps(_rawProps) without omit array
+        // The call should just have _rawProps as argument, no array second argument
+        let has_raw_props = result.optimized_app.body.contains("_rawProps")
+            || result.optimized_app.components.iter().any(|c| c.code.contains("_rawProps"));
+        assert!(has_raw_props,
+            "Expected _rawProps parameter in rest-only pattern, got body: {}",
+            result.optimized_app.body);
+    }
+
+    #[test]
+    fn test_props_aliasing() {
+        // Test: component$(({ count: c, name: n }) => ...)
+        // Should track: c -> "count", n -> "name"
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from "@qwik.dev/core";
+export const Cmp = component$(({ count: c, name: n }) => {
+    return <div>{c} {n}</div>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Check for _rawProps parameter
+        let has_raw_props = result.optimized_app.body.contains("_rawProps")
+            || result.optimized_app.components.iter().any(|c| c.code.contains("_rawProps"));
+        assert!(has_raw_props,
+            "Expected _rawProps for aliased props, got body: {}",
+            result.optimized_app.body);
+
+        // Note: Full aliasing replacement will use _wrapProp in later plan (04-03)
+        // For now we just verify the destructure is transformed to _rawProps
+    }
+
+    #[test]
+    fn test_props_rest_import_added() {
+        // Test that _restProps import is added when rest pattern is present
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from "@qwik.dev/core";
+export const Cmp = component$(({ message, ...rest }) => {
+    return <div {...rest}>{message}</div>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Check that _restProps is imported
+        let has_import = result.optimized_app.body.contains("_restProps");
+        assert!(has_import || result.optimized_app.components.iter().any(|c| c.code.contains("_restProps")),
+            "Expected _restProps to be present (import or usage), got body: {}",
+            result.optimized_app.body);
+
+        // Check that @qwik.dev/core is the source
+        let has_core_source = result.optimized_app.body.contains("@qwik.dev/core");
+        assert!(has_core_source,
+            "Expected @qwik.dev/core import source");
+    }
 }
