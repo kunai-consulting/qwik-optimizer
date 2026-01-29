@@ -147,12 +147,12 @@ Plans:
   3. PerSegmentStrategy produces multiple segment files
   4. PerComponentStrategy groups by component
   5. SmartStrategy optimizes based on analysis
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 07-01: InlineStrategy implementation
-- [ ] 07-02: SingleStrategy and PerSegmentStrategy
-- [ ] 07-03: PerComponentStrategy and SmartStrategy
+- [ ] 07-01-PLAN.md — Stack context infrastructure and EntryPolicy trait update
+- [ ] 07-02-PLAN.md — PerComponentStrategy and SmartStrategy implementation
+- [ ] 07-03-PLAN.md — Entry strategy wiring and integration tests
 
 ### Phase 8: SSR & Build Modes
 **Goal**: Server/client code handling and build modes work correctly
@@ -243,4 +243,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-29 (Phase 6 complete)*
+*Last updated: 2026-01-29 (Phase 7 planned)*
