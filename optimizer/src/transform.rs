@@ -1076,6 +1076,25 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         // JSX Attributes should be treated as part of the segment scope.
         let segment: Segment = self.new_segment(node.name.get_identifier().name);
         self.segment_stack.push(segment);
+
+        // Check if this is an event handler attribute with a function value
+        let attr_name = node.name.get_identifier().name.as_str();
+
+        if attr_name.ends_with(MARKER_SUFFIX) {
+            if let Some(JSXAttributeValue::ExpressionContainer(container)) = &node.value {
+                if let Some(expr) = container.expression.as_expression() {
+                    let is_fn = matches!(
+                        expr,
+                        Expression::ArrowFunctionExpression(_) | Expression::FunctionExpression(_)
+                    );
+
+                    if is_fn {
+                        // Push new import stack frame for this QRL (mirrors enter_call_expression)
+                        self.import_stack.push(BTreeSet::new());
+                    }
+                }
+            }
+        }
     }
 
     fn exit_jsx_attribute(&mut self, node: &mut JSXAttribute<'a>, ctx: &mut TraverseCtx<'a, ()>) {
@@ -1094,6 +1113,74 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                             name: new_name,
                         })
                     );
+                }
+            }
+        }
+
+        // Handle QRL transformation for event handler function values
+        if attr_name.ends_with(MARKER_SUFFIX) {
+            if let Some(JSXAttributeValue::ExpressionContainer(container)) = &mut node.value {
+                if let Some(expr) = container.expression.as_expression() {
+                    let is_fn = matches!(
+                        expr,
+                        Expression::ArrowFunctionExpression(_) | Expression::FunctionExpression(_)
+                    );
+
+                    if is_fn {
+                        // Create QRL using existing infrastructure (mirrors exit_call_expression)
+                        // 1. Collect identifiers
+                        let descendent_idents = {
+                            use crate::collector::IdentCollector;
+                            let mut collector = IdentCollector::new();
+                            use oxc_ast_visit::Visit;
+                            collector.visit_expression(expr);
+                            collector.get_words()
+                        };
+
+                        // 2. Get declarations and compute captures
+                        let all_decl: Vec<IdPlusType> = self.decl_stack.iter()
+                            .flat_map(|v| v.iter()).cloned().collect();
+                        let (decl_collect, _): (Vec<_>, Vec<_>) = all_decl.into_iter()
+                            .partition(|(_, t)| matches!(t, IdentType::Var(_)));
+                        let (scoped_idents, _) = compute_scoped_idents(&descendent_idents, &decl_collect);
+
+                        // 3. Filter imported identifiers
+                        let imports = self.import_stack.pop().unwrap_or_default();
+                        let imported_names: HashSet<String> = imports.iter()
+                            .flat_map(|import| import.names.iter())
+                            .filter_map(|id| match id {
+                                ImportId::Named(name) | ImportId::Default(name) => Some(name.clone()),
+                                ImportId::NamedWithAlias(_, local) => Some(local.clone()),
+                                ImportId::Namespace(_) => None,
+                            }).collect();
+                        let scoped_idents: Vec<Id> = scoped_idents.into_iter()
+                            .filter(|(name, _)| !imported_names.contains(name)).collect();
+
+                        // 4. Create Qrl and transform
+                        let display_name = self.current_display_name();
+                        let qrl = Qrl::new(
+                            self.source_info.rel_path.clone(),
+                            &display_name,
+                            QrlType::Qrl,
+                            scoped_idents,
+                        );
+
+                        let call_expr = qrl.into_call_expression(
+                            ctx,
+                            &mut self.symbol_by_name,
+                            &mut self.import_by_symbol,
+                        );
+
+                        // 5. Replace expression with QRL call
+                        container.expression = JSXExpression::from(
+                            Expression::CallExpression(ctx.ast.alloc(call_expr))
+                        );
+
+                        // 6. Add qrl import
+                        if let Some(import_set) = self.import_stack.last_mut() {
+                            import_set.insert(Import::qrl());
+                        }
+                    }
                 }
             }
         }
