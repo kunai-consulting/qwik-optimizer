@@ -493,4 +493,58 @@ mod tests {
         let result = render_expression(&expr);
         assert_eq!(result, "42");
     }
+
+    #[test]
+    fn test_convert_inlined_fn_basic() {
+        let scoped_idents = vec![("store".to_string(), ScopeId::new(0))];
+
+        // Parse store.count
+        let (allocator, expr) = parse_expr("store.count");
+
+        let builder = AstBuilder::new(&allocator);
+        let result = convert_inlined_fn(&expr, &scoped_idents, 0, &builder, &allocator);
+
+        assert!(result.is_some(), "convert_inlined_fn should succeed");
+        let result = result.unwrap();
+
+        // Check hoisted name
+        assert_eq!(result.hoisted_name, "_hf0");
+
+        // Check that captures contains the scoped ident
+        assert_eq!(result.captures.len(), 1);
+        assert_eq!(result.captures[0].0, "store");
+
+        // Check that hoisted_str contains p0 (the replacement)
+        assert!(
+            result.hoisted_str.contains("p0"),
+            "Expected p0 in hoisted_str, got: {}",
+            result.hoisted_str
+        );
+    }
+
+    #[test]
+    fn test_convert_inlined_fn_skips_call() {
+        let scoped_idents = vec![("signal".to_string(), ScopeId::new(0))];
+
+        // Parse signal.value() - has call expression
+        let (allocator, expr) = parse_expr("signal.value()");
+
+        let builder = AstBuilder::new(&allocator);
+        let result = convert_inlined_fn(&expr, &scoped_idents, 0, &builder, &allocator);
+
+        assert!(result.is_none(), "convert_inlined_fn should return None for call expressions");
+    }
+
+    #[test]
+    fn test_convert_inlined_fn_skips_arrow() {
+        let scoped_idents = vec![("store".to_string(), ScopeId::new(0))];
+
+        // Parse arrow function
+        let (allocator, expr) = parse_expr("() => store.count");
+
+        let builder = AstBuilder::new(&allocator);
+        let result = convert_inlined_fn(&expr, &scoped_idents, 0, &builder, &allocator);
+
+        assert!(result.is_none(), "convert_inlined_fn should return None for arrow functions");
+    }
 }
