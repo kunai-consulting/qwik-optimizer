@@ -46,14 +46,16 @@ Plans:
 **Goal**: QRL extraction works for all function types with correct hash generation
 **Depends on**: Phase 1
 **Requirements**: QRL-01, QRL-02, QRL-03, QRL-04, QRL-05, QRL-06, QRL-07, QRL-08, QRL-09, QRL-10
-**Plans**: 5 plans
+**Plans**: 7 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Port IdentCollector for variable usage collection
-- [ ] 02-02-PLAN.md — Implement compute_scoped_idents and decl_stack tracking
-- [ ] 02-03-PLAN.md — Create SegmentData structure for segment metadata
-- [ ] 02-04-PLAN.md — Port code_move.rs for useLexicalScope injection
-- [ ] 02-05-PLAN.md — Wire QRL transformation and validate parity
+- [x] 02-01-PLAN.md — Port IdentCollector for variable usage collection
+- [x] 02-02-PLAN.md — Implement compute_scoped_idents and decl_stack tracking
+- [x] 02-03-PLAN.md — Create SegmentData structure for segment metadata
+- [x] 02-04-PLAN.md — Port code_move.rs for useLexicalScope injection
+- [x] 02-05-PLAN.md — Wire QRL transformation and validate parity
+- [ ] 02-06-PLAN.md — Fix capture detection ScopeId mismatch (gap closure)
+- [ ] 02-07-PLAN.md — Verify hash stability and SWC parity (human verification)
 
 **Success Criteria** (what must be TRUE):
   1. QRL extracts correctly from arrow functions and function declarations
@@ -228,7 +230,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. OXC Foundation | 2/2 | Complete | 2026-01-29 |
-| 2. QRL Core | 0/5 | In Progress | - |
+| 2. QRL Core | 5/7 | Gap Closure | - |
 | 3. Event Handlers | 0/4 | Not started | - |
 | 4. Props & Signals | 0/5 | Not started | - |
 | 5. JSX Transformation | 0/4 | Not started | - |
