@@ -35,6 +35,23 @@ use oxc_traverse::{traverse_mut, Ancestor, Traverse, TraverseCtx};
 use serde::{Deserialize, Serialize};
 use std::cell::{Cell, RefCell};
 use std::fmt::{write, Display, Pointer};
+
+use crate::collector::Id;
+
+/// Type of declaration for tracking captured variables.
+/// Used in compute_scoped_idents to determine if captured variables are const.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub enum IdentType {
+    /// Variable declaration - bool indicates is_const
+    Var(bool),
+    /// Function declaration
+    Fn,
+    /// Class declaration
+    Class,
+}
+
+/// Identifier plus its type for scope tracking
+pub type IdPlusType = (Id, IdentType);
 use std::iter::Sum;
 use std::ops::Deref;
 use std::path::{Components, PathBuf};
@@ -164,6 +181,11 @@ pub struct TransformGenerator<'gen> {
     /// type of expression (e.g., `exit_jsx_element`); this will be picked up in `exit_expression`,
     /// which will replace the entire expression with the contents of this field.
     replace_expr: Option<Expression<'gen>>,
+
+    /// Stack of declaration scopes for tracking variable captures.
+    /// Each scope level contains the identifiers declared at that level.
+    /// Used by compute_scoped_idents to determine which variables need to be captured.
+    decl_stack: Vec<Vec<IdPlusType>>,
 }
 
 impl<'gen> TransformGenerator<'gen> {
@@ -197,6 +219,7 @@ impl<'gen> TransformGenerator<'gen> {
             jsx_key_counter: 0,
             expr_is_const_stack: Vec::new(),
             replace_expr: None,
+            decl_stack: vec![Vec::new()],
         }
     }
 
@@ -392,11 +415,83 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             .unwrap_or(self.new_segment("$"));
         println!("push segment: {segment}");
         self.segment_stack.push(segment);
+
+        // Track function name as Fn declaration in parent scope
+        if let Some(name) = node.name() {
+            if let Some(current_scope) = self.decl_stack.last_mut() {
+                let scope_id = ctx.current_scope_id();
+                current_scope.push(((name.to_string(), scope_id), IdentType::Fn));
+            }
+        }
+
+        // Push new scope for function body
+        self.decl_stack.push(Vec::new());
+
+        // Track function parameters in the new scope
+        if let Some(current_scope) = self.decl_stack.last_mut() {
+            for param in &node.params.items {
+                if let Some(ident) = param.pattern.get_binding_identifier() {
+                    let scope_id = ctx.current_scope_id();
+                    // Parameters are always treated as non-const for capture purposes
+                    current_scope.push(((ident.name.to_string(), scope_id), IdentType::Var(false)));
+                }
+            }
+        }
     }
 
     fn exit_function(&mut self, node: &mut Function<'a>, ctx: &mut TraverseCtx<'a, ()>) {
         let popped = self.segment_stack.pop();
         println!("pop segment: {popped:?}");
+
+        // Pop function scope from decl_stack
+        self.decl_stack.pop();
+    }
+
+    fn enter_class(&mut self, node: &mut Class<'a>, ctx: &mut TraverseCtx<'a, ()>) {
+        // Track class name as Class declaration in parent scope
+        if let Some(ident) = &node.id {
+            if let Some(current_scope) = self.decl_stack.last_mut() {
+                let scope_id = ctx.current_scope_id();
+                current_scope.push(((ident.name.to_string(), scope_id), IdentType::Class));
+            }
+        }
+
+        // Push new scope for class body
+        self.decl_stack.push(Vec::new());
+    }
+
+    fn exit_class(&mut self, node: &mut Class<'a>, ctx: &mut TraverseCtx<'a, ()>) {
+        // Pop class scope from decl_stack
+        self.decl_stack.pop();
+    }
+
+    fn enter_arrow_function_expression(
+        &mut self,
+        node: &mut ArrowFunctionExpression<'a>,
+        ctx: &mut TraverseCtx<'a, ()>,
+    ) {
+        // Push new scope for arrow function body
+        self.decl_stack.push(Vec::new());
+
+        // Track arrow function parameters in the new scope
+        if let Some(current_scope) = self.decl_stack.last_mut() {
+            for param in &node.params.items {
+                if let Some(ident) = param.pattern.get_binding_identifier() {
+                    let scope_id = ctx.current_scope_id();
+                    // Parameters are always treated as non-const for capture purposes
+                    current_scope.push(((ident.name.to_string(), scope_id), IdentType::Var(false)));
+                }
+            }
+        }
+    }
+
+    fn exit_arrow_function_expression(
+        &mut self,
+        node: &mut ArrowFunctionExpression<'a>,
+        ctx: &mut TraverseCtx<'a, ()>,
+    ) {
+        // Pop arrow function scope from decl_stack
+        self.decl_stack.pop();
     }
 
     fn exit_argument(&mut self, node: &mut Argument<'a>, ctx: &mut TraverseCtx<'a, ()>) {
@@ -433,11 +528,19 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
 
         let s: Segment = self.new_segment(segment_name);
         self.segment_stack.push(s);
-        if (self.options.transpile_jsx) {
-            self.expr_is_const_stack.push(match node.kind {
-                VariableDeclarationKind::Const => true,
-                _ => false,
-            });
+
+        let is_const = node.kind == VariableDeclarationKind::Const;
+
+        if self.options.transpile_jsx {
+            self.expr_is_const_stack.push(is_const);
+        }
+
+        // Track variable declaration in decl_stack for scope capture
+        if let Some(current_scope) = self.decl_stack.last_mut() {
+            if let Some(ident) = id.get_binding_identifier() {
+                let scope_id = ctx.current_scope_id();
+                current_scope.push(((ident.name.to_string(), scope_id), IdentType::Var(is_const)));
+            }
         }
 
         if let Some(name) = id.get_identifier_name() {
