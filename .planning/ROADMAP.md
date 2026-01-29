@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: OXC Foundation** - Update all OXC crates to 0.111.0 and fix breaking API changes
 - [x] **Phase 2: QRL Core** - Implement complete QRL extraction and transformation
 - [x] **Phase 3: Event Handlers** - Transform onClick$, onInput$, and custom event handlers
-- [ ] **Phase 4: Props & Signals** - Handle component props destructuring and signal reactivity
+- [x] **Phase 4: Props & Signals** - Handle component props destructuring and signal reactivity
 - [ ] **Phase 5: JSX Transformation** - Complete JSX element and attribute handling
 - [ ] **Phase 6: Imports & Exports** - Module system completeness including dynamic imports
 - [ ] **Phase 7: Entry Strategies** - Code-splitting control (Inline, Single, PerSegment, etc.)
@@ -95,11 +95,11 @@ Plans:
 **Plans**: 5 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — Props destructuring detection and _rawProps parameter replacement
-- [ ] 04-02-PLAN.md — Rest props (_restProps), defaults, and prop aliasing
-- [ ] 04-03-PLAN.md — _wrapProp generation for prop and signal.value access
-- [ ] 04-04-PLAN.md — _fnSignal generation for computed expressions
-- [ ] 04-05-PLAN.md — Bind directives (bind:value, bind:checked) transformation
+- [x] 04-01-PLAN.md — Props destructuring detection and _rawProps parameter replacement
+- [x] 04-02-PLAN.md — Rest props (_restProps), defaults, and prop aliasing
+- [x] 04-03-PLAN.md — _wrapProp generation for prop and signal.value access
+- [x] 04-04-PLAN.md — _fnSignal generation for computed expressions
+- [x] 04-05-PLAN.md — Bind directives (bind:value, bind:checked) transformation
 
 ### Phase 5: JSX Transformation
 **Goal**: All JSX patterns transform correctly to _jsxSorted output
@@ -232,7 +232,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 | 1. OXC Foundation | 2/2 | Complete | 2026-01-29 |
 | 2. QRL Core | 7/7 | Complete | 2026-01-29 |
 | 3. Event Handlers | 3/3 | Complete | 2026-01-29 |
-| 4. Props & Signals | 0/5 | Planned | - |
+| 4. Props & Signals | 5/5 | Complete | 2026-01-29 |
 | 5. JSX Transformation | 0/4 | Not started | - |
 | 6. Imports & Exports | 0/4 | Not started | - |
 | 7. Entry Strategies | 0/3 | Not started | - |
@@ -243,4 +243,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-29 (Phase 4 planning complete)*
+*Last updated: 2026-01-29 (Phase 4 execution complete)*
