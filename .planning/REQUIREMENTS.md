@@ -9,14 +9,14 @@ Requirements for achieving test parity with qwik-core SWC optimizer.
 
 ### OXC Update
 
-- [ ] **OXC-01**: Update oxc_parser to 0.111.0
-- [ ] **OXC-02**: Update oxc_ast to 0.111.0
-- [ ] **OXC-03**: Update oxc_semantic to 0.111.0
-- [ ] **OXC-04**: Update oxc_transformer to 0.111.0
-- [ ] **OXC-05**: Update oxc_codegen to 0.111.0
-- [ ] **OXC-06**: Update oxc_index to latest compatible version
-- [ ] **OXC-07**: Fix all breaking API changes from version update
-- [ ] **OXC-08**: Existing 19 tests pass after update
+- [x] **OXC-01**: Update oxc_parser to 0.111.0
+- [x] **OXC-02**: Update oxc_ast to 0.111.0
+- [x] **OXC-03**: Update oxc_semantic to 0.111.0
+- [x] **OXC-04**: Update oxc_transformer to 0.111.0
+- [x] **OXC-05**: Update oxc_codegen to 0.111.0
+- [x] **OXC-06**: Update oxc_index to latest compatible version
+- [x] **OXC-07**: Fix all breaking API changes from version update
+- [x] **OXC-08**: Existing 31 tests pass after update
 
 ### Core QRL & Components
 
@@ -161,14 +161,14 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| OXC-01 | Phase 1 | Pending |
-| OXC-02 | Phase 1 | Pending |
-| OXC-03 | Phase 1 | Pending |
-| OXC-04 | Phase 1 | Pending |
-| OXC-05 | Phase 1 | Pending |
-| OXC-06 | Phase 1 | Pending |
-| OXC-07 | Phase 1 | Pending |
-| OXC-08 | Phase 1 | Pending |
+| OXC-01 | Phase 1 | Complete |
+| OXC-02 | Phase 1 | Complete |
+| OXC-03 | Phase 1 | Complete |
+| OXC-04 | Phase 1 | Complete |
+| OXC-05 | Phase 1 | Complete |
+| OXC-06 | Phase 1 | Complete |
+| OXC-07 | Phase 1 | Complete |
+| OXC-08 | Phase 1 | Complete |
 | QRL-01 | Phase 2 | Pending |
 | QRL-02 | Phase 2 | Pending |
 | QRL-03 | Phase 2 | Pending |
@@ -253,4 +253,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-29*
-*Last updated: 2026-01-29 after roadmap creation*
+*Last updated: 2026-01-29 Phase 1 complete*

@@ -12,7 +12,7 @@ This roadmap delivers test parity between the OXC-based Qwik optimizer and the p
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: OXC Foundation** - Update all OXC crates to 0.111.0 and fix breaking API changes
+- [x] **Phase 1: OXC Foundation** - Update all OXC crates to 0.111.0 and fix breaking API changes
 - [ ] **Phase 2: QRL Core** - Implement complete QRL extraction and transformation
 - [ ] **Phase 3: Event Handlers** - Transform onClick$, onInput$, and custom event handlers
 - [ ] **Phase 4: Props & Signals** - Handle component props destructuring and signal reactivity
@@ -33,8 +33,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 2 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Update OXC versions and fix compilation errors
-- [ ] 01-02-PLAN.md — Verify tests pass and document upgrade completion
+- [x] 01-01-PLAN.md — Update OXC versions and fix compilation errors
+- [x] 01-02-PLAN.md — Verify tests pass and document upgrade completion
 
 **Success Criteria** (what must be TRUE):
   1. All OXC crates updated to 0.111.0 in Cargo.toml
@@ -226,7 +226,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. OXC Foundation | 0/2 | Planning complete | - |
+| 1. OXC Foundation | 2/2 | ✓ Complete | 2026-01-29 |
 | 2. QRL Core | 0/5 | Not started | - |
 | 3. Event Handlers | 0/4 | Not started | - |
 | 4. Props & Signals | 0/5 | Not started | - |
@@ -240,4 +240,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-29*
+*Last updated: 2026-01-29 (Phase 1 complete)*
