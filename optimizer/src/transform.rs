@@ -1375,6 +1375,31 @@ fn is_text_only(node: &str) -> bool {
     )
 }
 
+/// Extracts scope prefix and event name start index from a JSX event attribute name.
+///
+/// # Returns
+/// A tuple of (prefix, start_index) where:
+/// - prefix: "on:", "on-document:", or "on-window:"
+/// - start_index: index where the event name begins (after "on", "document:on", or "window:on")
+/// - If not an event, returns ("", usize::MAX)
+///
+/// # Examples
+/// - "onClick$" -> ("on:", 2)
+/// - "document:onFocus$" -> ("on-document:", 11)
+/// - "window:onClick$" -> ("on-window:", 9)
+/// - "custom$" -> ("", usize::MAX)
+fn get_event_scope_data_from_jsx_event(jsx_event: &str) -> (&'static str, usize) {
+    if jsx_event.starts_with("window:on") {
+        ("on-window:", 9)
+    } else if jsx_event.starts_with("document:on") {
+        ("on-document:", 11)
+    } else if jsx_event.starts_with("on") {
+        ("on:", 2)
+    } else {
+        ("", usize::MAX)
+    }
+}
+
 /// Compute which identifiers from parent scopes are captured by a QRL.
 ///
 /// Takes all identifiers referenced in the QRL body and all declarations from parent scopes,
