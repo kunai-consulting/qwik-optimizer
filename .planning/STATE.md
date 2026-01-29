@@ -73,6 +73,8 @@ Recent decisions affecting current work:
 - [04-02]: Use ScopeId::new(0) for rest_id since we match by name later
 - [04-02]: Handle arrow.expression flag to determine if body is expression or block statement
 - [04-02]: OXC 0.111.0 expression_identifier() not expression_identifier_reference()
+- [04-03]: Populate props_identifiers in enter_call_expression (not exit_) so JSX processing has the mapping
+- [04-03]: Match props by name only since scope_id from different traversal phases may differ
 - [04-04]: Use is_used_as_object_or_call for dual detection of member access and call patterns
 - [04-04]: Filter call expressions from _fnSignal wrapping (can't serialize function calls)
 - [04-04]: Use IdentifierReplacer visitor for AST-level identifier transformation
@@ -167,9 +169,13 @@ Phase 4 Props & Signals in progress:
    - _restProps import added when rest pattern present
    - 86 total tests passing (4 new rest props tests)
 
-3. **04-03:** Identifier replacement with _wrapProp - IN PROGRESS (parallel)
+3. **04-03:** Identifier replacement with _wrapProp - COMPLETE
    - _WRAP_PROP constant added to shared.rs
-   - Implementation in progress
+   - should_wrap_prop and should_wrap_signal_value helpers
+   - Props_identifiers populated in enter_call_expression (critical fix)
+   - _wrapProp(_rawProps, "propKey") for prop access
+   - _wrapProp(signal) for signal.value access
+   - 108 total tests passing (6 new _wrapProp tests)
 
 4. **04-04:** _fnSignal generation - COMPLETE
    - inlined_fn.rs module with should_wrap_in_fn_signal, convert_inlined_fn
@@ -182,6 +188,8 @@ Phase 4 Props & Signals in progress:
 - Rest props: `({ message, ...rest })` -> `const rest = _restProps(_rawProps, ["message"])`
 - Rest-only: `({ ...props })` -> `const props = _restProps(_rawProps)`
 - Aliased props tracked: c -> "count" for later replacement
+- _wrapProp for prop access: `{message}` -> `_wrapProp(_rawProps, "message")`
+- _wrapProp for signals: `{count.value}` -> `_wrapProp(count)`
 - _fnSignal infrastructure: hoisted functions with positional params (p0, p1, ...)
 - Member access detection for computed expression wrapping
 
