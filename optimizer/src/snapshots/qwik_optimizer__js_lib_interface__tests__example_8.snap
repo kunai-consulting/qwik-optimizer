@@ -61,7 +61,7 @@ export const Header_component_1_hAK7mEQYxrg = (hola) => {
 	const hola = this;
 	const { something, styff } = hola;
 	const hello = hola.nothere.stuff[global];
-	return _jsxSorted(Header, null, null, [], 3, null);
+	return _jsxSorted(Header, null, null, null, 3, null);
 };
 
 

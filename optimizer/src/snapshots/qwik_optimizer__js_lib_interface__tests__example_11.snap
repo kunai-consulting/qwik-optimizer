@@ -29,7 +29,7 @@ import { foo } from "../state";
 import { Header } from "./test_example_11";
 import { _jsxSorted } from "@qwik.dev/core";
 export const App_component_Sjj92bgB1iA = () => {
-	return _jsxSorted(Header, null, null, [foo()], 1, null);
+	return _jsxSorted(Header, null, null, foo(), 1, null);
 };
 
 

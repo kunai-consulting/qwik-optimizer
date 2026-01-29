@@ -57,7 +57,7 @@ None
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 export const App_Header_component_sugl04P0hM8 = () => {
 	console.log("mount");
-	return /* @__PURE__ */ _jsxSorted("div", { onClick: qrl(() => import("./test_example_3.tsx_App_Header_component_div_onClick_PHteWc0iLkc.js"), "App_Header_component_div_onClick_PHteWc0iLkc") }, null, [], 3, null);
+	return /* @__PURE__ */ _jsxSorted("div", { onClick: qrl(() => import("./test_example_3.tsx_App_Header_component_div_onClick_PHteWc0iLkc.js"), "App_Header_component_div_onClick_PHteWc0iLkc") }, null, null, 3, null);
 };
 
 
