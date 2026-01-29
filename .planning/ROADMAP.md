@@ -18,7 +18,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 4: Props & Signals** - Handle component props destructuring and signal reactivity
 - [x] **Phase 5: JSX Transformation** - Complete JSX element and attribute handling
 - [x] **Phase 6: Imports & Exports** - Module system completeness including dynamic imports
-- [ ] **Phase 7: Entry Strategies** - Code-splitting control (Inline, Single, PerSegment, etc.)
+- [x] **Phase 7: Entry Strategies** - Code-splitting control (Inline, Single, PerSegment, etc.)
 - [ ] **Phase 8: SSR & Build Modes** - Server/client code handling and dev/prod modes
 - [ ] **Phase 9: TypeScript Support** - TSX parsing, type annotations, and generics
 - [ ] **Phase 10: Edge Cases** - Nested loops, illegal code detection, and regression fixes
@@ -150,9 +150,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 07-01-PLAN.md — Stack context infrastructure and EntryPolicy trait update
-- [ ] 07-02-PLAN.md — PerComponentStrategy and SmartStrategy implementation
-- [ ] 07-03-PLAN.md — Entry strategy wiring and integration tests
+- [x] 07-01-PLAN.md — Stack context infrastructure and EntryPolicy trait update
+- [x] 07-02-PLAN.md — PerComponentStrategy and SmartStrategy implementation
+- [x] 07-03-PLAN.md — Entry strategy wiring and integration tests
 
 ### Phase 8: SSR & Build Modes
 **Goal**: Server/client code handling and build modes work correctly
@@ -235,7 +235,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 | 4. Props & Signals | 5/5 | Complete | 2026-01-29 |
 | 5. JSX Transformation | 4/4 | Complete | 2026-01-29 |
 | 6. Imports & Exports | 4/4 | Complete | 2026-01-29 |
-| 7. Entry Strategies | 0/3 | Not started | - |
+| 7. Entry Strategies | 3/3 | Complete | 2026-01-29 |
 | 8. SSR & Build Modes | 0/3 | Not started | - |
 | 9. TypeScript Support | 0/3 | Not started | - |
 | 10. Edge Cases | 0/5 | Not started | - |
@@ -243,4 +243,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-29 (Phase 7 planned)*
+*Last updated: 2026-01-29 (Phase 7 complete)*

@@ -77,22 +77,22 @@ Requirements for achieving test parity with qwik-core SWC optimizer.
 
 ### Imports & Exports
 
-- [ ] **IMP-01**: Import capture for QRL scope
-- [ ] **IMP-02**: Unused import cleanup
-- [ ] **IMP-03**: Synthesized imports (qrl, component$)
-- [ ] **IMP-04**: Named exports
-- [ ] **IMP-05**: Default exports
-- [ ] **IMP-06**: Re-exports
-- [ ] **IMP-07**: Side-effect imports preservation
-- [ ] **IMP-08**: Dynamic import generation
+- [x] **IMP-01**: Import capture for QRL scope
+- [x] **IMP-02**: Unused import cleanup
+- [x] **IMP-03**: Synthesized imports (qrl, component$)
+- [x] **IMP-04**: Named exports
+- [x] **IMP-05**: Default exports
+- [x] **IMP-06**: Re-exports
+- [x] **IMP-07**: Side-effect imports preservation
+- [x] **IMP-08**: Dynamic import generation
 
 ### Entry Strategies
 
-- [ ] **ENT-01**: InlineStrategy implementation
-- [ ] **ENT-02**: SingleStrategy implementation
-- [ ] **ENT-03**: PerSegmentStrategy implementation
-- [ ] **ENT-04**: PerComponentStrategy implementation
-- [ ] **ENT-05**: SmartStrategy implementation
+- [x] **ENT-01**: InlineStrategy implementation
+- [x] **ENT-02**: SingleStrategy implementation
+- [x] **ENT-03**: PerSegmentStrategy implementation
+- [x] **ENT-04**: PerComponentStrategy implementation
+- [x] **ENT-05**: SmartStrategy implementation
 
 ### SSR & Build Modes
 
@@ -211,19 +211,19 @@ Which phases cover which requirements. Updated during roadmap creation.
 | JSX-06 | Phase 5 | Complete |
 | JSX-07 | Phase 5 | Complete |
 | JSX-08 | Phase 5 | Complete |
-| IMP-01 | Phase 6 | Pending |
-| IMP-02 | Phase 6 | Pending |
-| IMP-03 | Phase 6 | Pending |
-| IMP-04 | Phase 6 | Pending |
-| IMP-05 | Phase 6 | Pending |
-| IMP-06 | Phase 6 | Pending |
-| IMP-07 | Phase 6 | Pending |
-| IMP-08 | Phase 6 | Pending |
-| ENT-01 | Phase 7 | Pending |
-| ENT-02 | Phase 7 | Pending |
-| ENT-03 | Phase 7 | Pending |
-| ENT-04 | Phase 7 | Pending |
-| ENT-05 | Phase 7 | Pending |
+| IMP-01 | Phase 6 | Complete |
+| IMP-02 | Phase 6 | Complete |
+| IMP-03 | Phase 6 | Complete |
+| IMP-04 | Phase 6 | Complete |
+| IMP-05 | Phase 6 | Complete |
+| IMP-06 | Phase 6 | Complete |
+| IMP-07 | Phase 6 | Complete |
+| IMP-08 | Phase 6 | Complete |
+| ENT-01 | Phase 7 | Complete |
+| ENT-02 | Phase 7 | Complete |
+| ENT-03 | Phase 7 | Complete |
+| ENT-04 | Phase 7 | Complete |
+| ENT-05 | Phase 7 | Complete |
 | SSR-01 | Phase 8 | Pending |
 | SSR-02 | Phase 8 | Pending |
 | SSR-03 | Phase 8 | Pending |
@@ -253,4 +253,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-29*
-*Last updated: 2026-01-29 Phase 5 complete*
+*Last updated: 2026-01-29 Phase 7 complete*
