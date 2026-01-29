@@ -12,7 +12,7 @@ use oxc_allocator::{
     Vec as OxcVec,
 };
 use oxc_ast::ast::*;
-use oxc_ast::{match_member_expression, AstBuilder, AstType, Comment};
+use oxc_ast::{match_member_expression, AstBuilder, AstType, Comment, NONE};
 use oxc_ast_visit::{Visit, VisitMut};
 use oxc_codegen::{Codegen, CodegenOptions, Context, Gen};
 use oxc_index::Idx;
@@ -200,6 +200,10 @@ pub struct TransformGenerator<'gen> {
     /// Flag indicating we're inside a component$ that needs props transformation.
     /// Set to true when entering a component$ with destructured props, cleared on exit.
     in_component_props: bool,
+
+    /// Flag indicating _wrapProp import needs to be added.
+    /// Set when any prop identifier or signal.value access is wrapped.
+    needs_wrap_prop_import: bool,
 }
 
 impl<'gen> TransformGenerator<'gen> {
@@ -237,6 +241,7 @@ impl<'gen> TransformGenerator<'gen> {
             jsx_element_is_native: Vec::new(),
             props_identifiers: HashMap::new(),
             in_component_props: false,
+            needs_wrap_prop_import: false,
         }
     }
 
@@ -350,6 +355,31 @@ impl<'gen> TransformGenerator<'gen> {
             .encode(hash.to_le_bytes())
             .replace(['-', '_'], "0")
     }
+
+    /// Check if this expression is a prop identifier that needs _wrapProp wrapping.
+    /// Returns Some((raw_props_name, prop_key)) if wrapping is needed.
+    fn should_wrap_prop(&self, expr: &Expression) -> Option<(String, String)> {
+        if let Expression::Identifier(ident) = expr {
+            // Match by name only since props_identifiers uses scope from declaration
+            for ((name, _scope_id), prop_key) in &self.props_identifiers {
+                if name == &ident.name.to_string() {
+                    return Some(("_rawProps".to_string(), prop_key.clone()));
+                }
+            }
+        }
+        None
+    }
+
+    /// Check if this expression is a signal.value access that needs _wrapProp wrapping.
+    fn should_wrap_signal_value(&self, expr: &Expression) -> bool {
+        if let Expression::StaticMemberExpression(static_member) = expr {
+            if static_member.property.name == "value" {
+                // Wrap any .value access - runtime will determine if it's actually a signal
+                return true;
+            }
+        }
+        false
+    }
 }
 
 fn move_expression<'gen>(
@@ -370,6 +400,17 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
 
     fn exit_program(&mut self, node: &mut Program<'a>, ctx: &mut TraverseCtx<'a, ()>) {
         println!("EXITING PROGRAM {}", self.source_info.file_name);
+
+        // Add _wrapProp import if needed
+        if self.needs_wrap_prop_import {
+            if let Some(imports) = self.import_stack.last_mut() {
+                imports.insert(Import::new(
+                    vec![ImportId::Named("_wrapProp".into())],
+                    QWIK_CORE_SOURCE,
+                ));
+            }
+        }
+
         if let Some(tree) = self.import_stack.pop() {
             tree.iter().for_each(|import| {
                 node.body.insert(0, import.into_in(ctx.ast.allocator));
@@ -1275,6 +1316,33 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         }
 
         if (self.options.transpile_jsx) {
+            // Pre-compute wrap info before mutable borrow of jsx_stack
+            // Check for prop identifier that needs wrapping
+            let prop_wrap_key: Option<String> = if let Some(JSXAttributeValue::ExpressionContainer(container)) = &node.value {
+                if let Some(expr) = container.expression.as_expression() {
+                    self.should_wrap_prop(expr).map(|(_, key)| key)
+                } else {
+                    None
+                }
+            } else {
+                None
+            };
+
+            // Check for signal.value wrapping
+            let needs_signal_wrap: bool = if prop_wrap_key.is_none() {
+                if let Some(JSXAttributeValue::ExpressionContainer(container)) = &node.value {
+                    if let Some(expr) = container.expression.as_expression() {
+                        self.should_wrap_signal_value(expr)
+                    } else {
+                        false
+                    }
+                } else {
+                    false
+                }
+            } else {
+                false
+            };
+
             if let Some(jsx) = self.jsx_stack.last_mut() {
                 let expr: Expression<'a> = {
                     let v = &mut node.value;
@@ -1292,7 +1360,44 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                             .builder
                             .expression_string_literal((*b).span, (*b).value, Some((*b).value)),
                         Some(JSXAttributeValue::ExpressionContainer(b)) => {
-                            move_expression(&self.builder, (*b).expression.to_expression_mut())
+                            let inner_expr = (*b).expression.to_expression_mut();
+                            let span = inner_expr.span();
+
+                            // Check for prop that needs _wrapProp
+                            if let Some(prop_key) = &prop_wrap_key {
+                                self.needs_wrap_prop_import = true;
+                                // Build _wrapProp(_rawProps, "propKey") inline
+                                let prop_key_str: &'a str = ctx.ast.allocator.alloc_str(prop_key);
+                                ctx.ast.expression_call(
+                                    span,
+                                    ctx.ast.expression_identifier(SPAN, "_wrapProp"),
+                                    NONE,
+                                    ctx.ast.vec_from_array([
+                                        Argument::from(ctx.ast.expression_identifier(SPAN, "_rawProps")),
+                                        Argument::from(ctx.ast.expression_string_literal(SPAN, prop_key_str, None)),
+                                    ]),
+                                    false,
+                                )
+                            }
+                            // Check for signal.value that needs _wrapProp
+                            else if needs_signal_wrap {
+                                self.needs_wrap_prop_import = true;
+                                if let Expression::StaticMemberExpression(static_member) = inner_expr {
+                                    let signal_expr = static_member.object.clone_in(ctx.ast.allocator);
+                                    // Build _wrapProp(signal) inline
+                                    ctx.ast.expression_call(
+                                        span,
+                                        ctx.ast.expression_identifier(SPAN, "_wrapProp"),
+                                        NONE,
+                                        ctx.ast.vec1(Argument::from(signal_expr)),
+                                        false,
+                                    )
+                                } else {
+                                    move_expression(&self.builder, inner_expr)
+                                }
+                            } else {
+                                move_expression(&self.builder, inner_expr)
+                            }
                         }
                     }
                 };
@@ -1351,6 +1456,32 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             return;
         }
         self.debug("EXIT: JSX child", ctx);
+
+        // Pre-compute wrap info before mutable borrow of jsx_stack
+        let prop_wrap_key: Option<String> = if let JSXChild::ExpressionContainer(container) = node {
+            if let Some(expr) = container.expression.as_expression() {
+                self.should_wrap_prop(expr).map(|(_, key)| key)
+            } else {
+                None
+            }
+        } else {
+            None
+        };
+
+        let needs_signal_wrap: bool = if prop_wrap_key.is_none() {
+            if let JSXChild::ExpressionContainer(container) = node {
+                if let Some(expr) = container.expression.as_expression() {
+                    self.should_wrap_signal_value(expr)
+                } else {
+                    false
+                }
+            } else {
+                false
+            }
+        } else {
+            false
+        };
+
         if let Some(jsx) = self.jsx_stack.last_mut() {
             let maybe_child = match node {
                 JSXChild::Text(b) => {
@@ -1375,7 +1506,44 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                 }
                 JSXChild::ExpressionContainer(b) => {
                     jsx.static_subtree = false;
-                    Some(move_expression(&self.builder, (*b).expression.to_expression_mut()).into())
+                    let expr = (*b).expression.to_expression_mut();
+                    let span = expr.span();
+
+                    // Check for prop that needs _wrapProp
+                    if let Some(prop_key) = &prop_wrap_key {
+                        self.needs_wrap_prop_import = true;
+                        // Build _wrapProp(_rawProps, "propKey") inline
+                        let prop_key_str: &'a str = ctx.ast.allocator.alloc_str(prop_key);
+                        Some(ctx.ast.expression_call(
+                            span,
+                            ctx.ast.expression_identifier(SPAN, "_wrapProp"),
+                            NONE,
+                            ctx.ast.vec_from_array([
+                                Argument::from(ctx.ast.expression_identifier(SPAN, "_rawProps")),
+                                Argument::from(ctx.ast.expression_string_literal(SPAN, prop_key_str, None)),
+                            ]),
+                            false,
+                        ).into())
+                    }
+                    // Check for signal.value that needs _wrapProp
+                    else if needs_signal_wrap {
+                        self.needs_wrap_prop_import = true;
+                        if let Expression::StaticMemberExpression(static_member) = expr {
+                            let signal_expr = static_member.object.clone_in(ctx.ast.allocator);
+                            // Build _wrapProp(signal) inline
+                            Some(ctx.ast.expression_call(
+                                span,
+                                ctx.ast.expression_identifier(SPAN, "_wrapProp"),
+                                NONE,
+                                ctx.ast.vec1(Argument::from(signal_expr)),
+                                false,
+                            ).into())
+                        } else {
+                            Some(move_expression(&self.builder, expr).into())
+                        }
+                    } else {
+                        Some(move_expression(&self.builder, expr).into())
+                    }
                 }
                 JSXChild::Spread(b) => {
                     jsx.static_subtree = false;
