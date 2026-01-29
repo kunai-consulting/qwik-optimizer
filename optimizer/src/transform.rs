@@ -1326,6 +1326,26 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                 } else {
                     self.builder.expression_object(node.span(), jsx.const_props)
                 };
+                // Children argument: null for empty, direct for single, array for multiple
+                let children_arg: Expression<'a> = if jsx.children.is_empty() {
+                    self.builder.expression_null_literal(node.span())
+                } else if jsx.children.len() == 1 {
+                    // Single child - pass directly (unwrap from ArrayExpressionElement)
+                    let child = jsx.children.pop().unwrap();
+                    if let Some(expr) = child.as_expression() {
+                        expr.clone_in(self.builder.allocator)
+                    } else if let ArrayExpressionElement::SpreadElement(spread) = child {
+                        // Wrap spread in array (spread must be in array context)
+                        let mut children = OxcVec::new_in(self.builder.allocator);
+                        children.push(ArrayExpressionElement::SpreadElement(spread));
+                        self.builder.expression_array(node.span(), children)
+                    } else {
+                        // Elision case
+                        self.builder.expression_null_literal(node.span())
+                    }
+                } else {
+                    self.builder.expression_array(node.span(), jsx.children)
+                };
                 let args: OxcVec<Argument<'a>> = OxcVec::from_array_in(
                     [
                         // type
@@ -1335,9 +1355,7 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                         // constProps
                         const_props_arg.into(),
                         // children
-                        self.builder
-                            .expression_array(node.span(), jsx.children)
-                            .into(),
+                        children_arg.into(),
                         // flags: bit 0 = static_listeners, bit 1 = static_subtree (per SWC reference)
                         // Values: 3 = both static, 2 = static_subtree only, 1 = static_listeners only, 0 = neither
                         self.builder
@@ -4000,6 +4018,114 @@ export const App = component$(() => {
         // 5. Should import the helper functions
         assert!(component_code.contains("_getVarProps") && component_code.contains("_getConstProps"),
             "Expected _getVarProps and _getConstProps to be imported, got: {}", component_code);
+    }
+
+    // ==================== Single Child Optimization Tests ====================
+
+    #[test]
+    fn test_single_child_not_wrapped_in_array() {
+        // Test that single child is passed directly without array wrapper
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+    return (
+        <div class="parent">
+            <span>Only child</span>
+        </div>
+    );
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Get component code
+        let component_code = result.optimized_app.components.iter()
+            .find(|c| c.code.contains("Only child"))
+            .map(|c| &c.code)
+            .expect("Should have a component with Only child");
+
+        // STRONG ASSERTIONS:
+        // Single child should NOT be wrapped in array brackets
+        // Pattern: _jsxSorted("div", ..., _jsxSorted("span", ...), flags, key)
+        // NOT: _jsxSorted("div", ..., [_jsxSorted("span", ...)], flags, key)
+        assert!(!component_code.contains("[/*"),
+            "Single child should NOT be wrapped in array, got: {}", component_code);
+    }
+
+    #[test]
+    fn test_empty_children_output_null() {
+        // Test that empty children output as null, not empty array
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+    return <div class="empty" />;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Get component code
+        let component_code = result.optimized_app.components.iter()
+            .find(|c| c.code.contains("empty"))
+            .map(|c| &c.code)
+            .expect("Should have a component with empty div");
+
+        // STRONG ASSERTIONS:
+        // Children arg should be null, not []
+        // Pattern: _jsxSorted("div", null, { class: "empty" }, null, 3, ...)
+        assert!(!component_code.contains(", []"),
+            "Empty children should be null, not empty array, got: {}", component_code);
+    }
+
+    #[test]
+    fn test_multiple_children_in_array() {
+        // Test that multiple children are wrapped in array
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+    return (
+        <div>
+            <span>First</span>
+            <span>Second</span>
+        </div>
+    );
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Get component code
+        let component_code = result.optimized_app.components.iter()
+            .find(|c| c.code.contains("First") && c.code.contains("Second"))
+            .map(|c| &c.code)
+            .expect("Should have a component with First and Second");
+
+        // STRONG ASSERTIONS:
+        // Multiple children should be wrapped in array
+        // Pattern: _jsxSorted("div", ..., [_jsxSorted("span"...), _jsxSorted("span"...)], ...)
+        assert!(component_code.contains("[/*"),
+            "Multiple children should be wrapped in array, got: {}", component_code);
     }
 
     // ==================== Conditional/List Rendering Tests ====================
