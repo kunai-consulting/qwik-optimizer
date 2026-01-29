@@ -1,3 +1,4 @@
+use crate::code_move::transform_function_expr;
 use crate::collector::Id as CollectorId;
 use crate::component::*;
 use crate::segment::Segment;
@@ -46,6 +47,12 @@ impl QrlComponent {
 
         let source_type: SourceType = language.into();
 
+        // Extract scoped_idents for transform_function_expr
+        let scoped_idents: Vec<CollectorId> = segment_data
+            .as_ref()
+            .map(|d| d.scoped_idents.clone())
+            .unwrap_or_default();
+
         let code = Self::gen(
             options,
             &id,
@@ -53,6 +60,7 @@ impl QrlComponent {
             imports,
             &source_type,
             source_info,
+            &scoped_idents,
             &Allocator::default(),
         );
         QrlComponent {
@@ -71,11 +79,19 @@ impl QrlComponent {
         imports: Vec<Import>,
         source_type: &SourceType,
         _source_info: &SourceInfo,
+        scoped_idents: &[CollectorId],
         allocator: &Allocator,
     ) -> String {
         let name = &id.symbol_name;
 
         let ast_builder = AstBuilder::new(allocator);
+
+        // Apply useLexicalScope injection if there are captured variables
+        let transformed_expression = if !scoped_idents.is_empty() {
+            transform_function_expr(exported_expression, scoped_idents, allocator)
+        } else {
+            exported_expression
+        };
 
         let bind_pat = ast_builder.binding_pattern_binding_identifier(SPAN, name.as_str());
         let mut var_declarator = OxcVec::new_in(allocator);
@@ -85,7 +101,7 @@ impl QrlComponent {
             VariableDeclarationKind::Const,
             bind_pat,
             None::<OxcBox<'_, TSTypeAnnotation<'_>>>,
-            Some(exported_expression),
+            Some(transformed_expression),
             false,
         ));
 
