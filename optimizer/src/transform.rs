@@ -1208,6 +1208,38 @@ fn is_text_only(node: &str) -> bool {
     )
 }
 
+/// Compute which identifiers from parent scopes are captured by a QRL.
+///
+/// Takes all identifiers referenced in the QRL body and all declarations from parent scopes,
+/// returning the intersection (sorted for deterministic output) and whether all captured
+/// variables are const.
+///
+/// # Arguments
+/// * `all_idents` - All identifiers referenced in the QRL body (from IdentCollector)
+/// * `all_decl` - All declarations from parent scopes (flattened decl_stack)
+///
+/// # Returns
+/// A tuple of:
+/// * `Vec<Id>` - Sorted list of captured identifiers
+/// * `bool` - True if all captured variables are const
+fn compute_scoped_idents(all_idents: &[Id], all_decl: &[IdPlusType]) -> (Vec<Id>, bool) {
+    let mut set: HashSet<Id> = HashSet::new();
+    let mut is_const = true;
+
+    for ident in all_idents {
+        if let Some(item) = all_decl.iter().find(|item| item.0 == *ident) {
+            set.insert(ident.clone());
+            if !matches!(item.1, IdentType::Var(true)) {
+                is_const = false;
+            }
+        }
+    }
+
+    let mut output: Vec<Id> = set.into_iter().collect();
+    output.sort(); // Deterministic ordering for stable output
+    (output, is_const)
+}
+
 pub struct TransformOptions {
     pub minify: bool,
     pub target: Target,
@@ -1286,4 +1318,108 @@ pub fn transform(script_source: Source, options: TransformOptions) -> Result<Opt
 
     let TransformGenerator { app, errors, .. } = transform;
     Ok(OptimizationResult::new(app, errors))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use oxc_semantic::ScopeId;
+
+    #[test]
+    fn test_compute_scoped_idents_basic() {
+        // Test basic intersection of idents with declarations
+        let idents: Vec<Id> = vec![
+            ("a".to_string(), ScopeId::new(0)),
+            ("b".to_string(), ScopeId::new(0)),
+            ("c".to_string(), ScopeId::new(0)),
+        ];
+        let decls: Vec<IdPlusType> = vec![
+            (("a".to_string(), ScopeId::new(0)), IdentType::Var(true)),
+            (("b".to_string(), ScopeId::new(0)), IdentType::Var(false)),
+        ];
+
+        let (scoped, is_const) = compute_scoped_idents(&idents, &decls);
+
+        // Should only contain a and b (c is not declared in parent scope)
+        assert_eq!(scoped.len(), 2);
+        assert!(scoped.contains(&("a".to_string(), ScopeId::new(0))));
+        assert!(scoped.contains(&("b".to_string(), ScopeId::new(0))));
+        // is_const should be false because b is not const
+        assert!(!is_const);
+    }
+
+    #[test]
+    fn test_compute_scoped_idents_all_const() {
+        // Test when all captured variables are const
+        let idents: Vec<Id> = vec![
+            ("x".to_string(), ScopeId::new(0)),
+            ("y".to_string(), ScopeId::new(0)),
+        ];
+        let decls: Vec<IdPlusType> = vec![
+            (("x".to_string(), ScopeId::new(0)), IdentType::Var(true)),
+            (("y".to_string(), ScopeId::new(0)), IdentType::Var(true)),
+        ];
+
+        let (scoped, is_const) = compute_scoped_idents(&idents, &decls);
+
+        assert_eq!(scoped.len(), 2);
+        assert!(is_const);
+    }
+
+    #[test]
+    fn test_compute_scoped_idents_fn_class_not_const() {
+        // Function and class declarations are not considered const
+        let idents: Vec<Id> = vec![
+            ("myFn".to_string(), ScopeId::new(0)),
+            ("MyClass".to_string(), ScopeId::new(0)),
+        ];
+        let decls: Vec<IdPlusType> = vec![
+            (("myFn".to_string(), ScopeId::new(0)), IdentType::Fn),
+            (("MyClass".to_string(), ScopeId::new(0)), IdentType::Class),
+        ];
+
+        let (scoped, is_const) = compute_scoped_idents(&idents, &decls);
+
+        assert_eq!(scoped.len(), 2);
+        assert!(!is_const); // Fn and Class are not const
+    }
+
+    #[test]
+    fn test_compute_scoped_idents_sorted_output() {
+        // Test that output is sorted for deterministic hashes
+        let idents: Vec<Id> = vec![
+            ("z".to_string(), ScopeId::new(0)),
+            ("a".to_string(), ScopeId::new(0)),
+            ("m".to_string(), ScopeId::new(0)),
+        ];
+        let decls: Vec<IdPlusType> = vec![
+            (("z".to_string(), ScopeId::new(0)), IdentType::Var(true)),
+            (("a".to_string(), ScopeId::new(0)), IdentType::Var(true)),
+            (("m".to_string(), ScopeId::new(0)), IdentType::Var(true)),
+        ];
+
+        let (scoped, _) = compute_scoped_idents(&idents, &decls);
+
+        // Verify output is sorted
+        assert_eq!(
+            scoped,
+            vec![
+                ("a".to_string(), ScopeId::new(0)),
+                ("m".to_string(), ScopeId::new(0)),
+                ("z".to_string(), ScopeId::new(0)),
+            ]
+        );
+    }
+
+    #[test]
+    fn test_compute_scoped_idents_empty() {
+        // Test with no matching declarations
+        let idents: Vec<Id> = vec![("a".to_string(), ScopeId::new(0))];
+        let decls: Vec<IdPlusType> = vec![];
+
+        let (scoped, is_const) = compute_scoped_idents(&idents, &decls);
+
+        assert!(scoped.is_empty());
+        assert!(is_const); // Default is true when nothing captured
+    }
 }
