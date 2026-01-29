@@ -4527,4 +4527,79 @@ export const App = component$(() => {
         assert!(!reexport.is_default);
         assert_eq!(reexport.source, Some("./other".to_string()));
     }
+
+    #[test]
+    fn test_synthesized_import_deduplication() {
+        // Test that multiple QRLs don't produce duplicate imports
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$, $ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+    return $(() => {
+        return $(() => <div>nested</div>);
+    });
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        let output = &result.optimized_app.body;
+
+        // Count import statements from @qwik.dev/core
+        let import_count = output.lines()
+            .filter(|line| line.contains("import") && line.contains("@qwik.dev/core"))
+            .count();
+
+        // Should have single merged import, not multiple separate ones
+        assert!(import_count <= 1,
+            "Expected single merged import from @qwik.dev/core, got {} imports. Output:\n{}",
+            import_count, output);
+
+        // Verify qrl is imported (multiple QRLs should still only import once)
+        assert!(output.contains("qrl") || output.contains("componentQrl"),
+            "Expected qrl or componentQrl in output, got:\n{}", output);
+    }
+
+    #[test]
+    fn test_multiple_helper_imports() {
+        // Test that multiple helpers from same source are merged
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export const App = component$(({ msg, count }) => {
+    return <input value={msg} bind:value={count} />;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        let output = &result.optimized_app.body;
+
+        // Count import statements
+        let import_lines: Vec<&str> = output.lines()
+            .filter(|line| line.contains("import {"))
+            .collect();
+
+        // All @qwik.dev/core imports should be merged into at most 2 statements
+        // (one for core, one for jsx-runtime potentially)
+        let core_imports: Vec<&&str> = import_lines.iter()
+            .filter(|line| line.contains("@qwik.dev/core") && !line.contains("jsx-runtime"))
+            .collect();
+
+        assert!(core_imports.len() <= 1,
+            "Expected at most one @qwik.dev/core import statement, got {}:\n{:?}",
+            core_imports.len(), core_imports);
+    }
 }
