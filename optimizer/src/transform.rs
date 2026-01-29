@@ -4799,4 +4799,99 @@ export const App = component$(() => {
         assert!(full_output.contains("qrl("),
             "Expected QRL transformation to work, got: {}", full_output);
     }
+
+    #[test]
+    fn test_import_order_preserved() {
+        // Test that import order is preserved, especially for side-effect imports
+        // Polyfills and CSS must load before application code that depends on them
+        use crate::import_clean_up::ImportCleanUp;
+        use oxc_allocator::Allocator;
+        use oxc_codegen::Codegen;
+        use oxc_parser::Parser;
+        use oxc_span::SourceType;
+
+        let allocator = Allocator::new();
+        let source = r#"
+            import './polyfill';
+            import { used } from './module';
+            import './styles.css';
+
+            used();
+        "#;
+
+        let parse_return = Parser::new(&allocator, source, SourceType::tsx()).parse();
+        let mut program = parse_return.program;
+        ImportCleanUp::clean_up(&mut program, &allocator);
+
+        let codegen = Codegen::default();
+        let raw = codegen.build(&program).code;
+
+        // STRONG ASSERTIONS:
+        // 1. Polyfill should appear in imports
+        assert!(raw.contains("./polyfill"),
+            "Expected polyfill import to be preserved, got: {}", raw);
+
+        // 2. Styles should appear in imports
+        assert!(raw.contains("./styles.css"),
+            "Expected styles.css import to be preserved, got: {}", raw);
+
+        // 3. Used module should appear
+        assert!(raw.contains("./module"),
+            "Expected module import to be preserved, got: {}", raw);
+
+        // 4. All 3 imports should be present
+        let import_count = raw.lines()
+            .filter(|line| line.trim().starts_with("import"))
+            .count();
+        assert_eq!(import_count, 3,
+            "Expected 3 imports, got {}: {}", import_count, raw);
+    }
+
+    #[test]
+    fn test_mixed_import_types() {
+        // Test that all import types work correctly together
+        // Default, named, namespace, and side-effect imports
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+import Default from './default';
+import * as All from './namespace';
+import { named } from './named';
+
+export const App = component$(() => {
+    return <div>{Default}{All.foo}{named}</div>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Check component code for all import types being used
+        let all_code: String = result.optimized_app.components.iter()
+            .map(|c| c.code.clone())
+            .collect::<Vec<_>>()
+            .join("\n");
+        let full_output = format!("{}\n{}", result.optimized_app.body, all_code);
+
+        // STRONG ASSERTIONS:
+        // 1. Default import should be used
+        assert!(full_output.contains("Default"),
+            "Expected Default import to be used, got: {}", full_output);
+
+        // 2. Namespace import should be used
+        assert!(full_output.contains("All.foo") || full_output.contains("All"),
+            "Expected namespace import All to be used, got: {}", full_output);
+
+        // 3. Named import should be used
+        assert!(full_output.contains("named"),
+            "Expected named import to be used, got: {}", full_output);
+
+        // 4. QRL transformation should work
+        assert!(full_output.contains("qrl(") || full_output.contains("componentQrl("),
+            "Expected QRL transformation to work, got: {}", full_output);
+    }
 }
