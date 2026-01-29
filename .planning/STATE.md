@@ -10,17 +10,17 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 ## Current Position
 
 Phase: 5 of 11 (JSX Transformation) - In progress
-Plan: 2 of 5 in Phase 5 COMPLETE
-Status: In progress - 2/5 plans executed
-Last activity: 2026-01-29 - Completed 05-02-PLAN.md (Fragment Handling)
+Plan: 1 of 5 in Phase 5 COMPLETE
+Status: In progress - 1/5 plans executed
+Last activity: 2026-01-29 - Completed 05-01-PLAN.md (Prop Constness Detection)
 
-Progress: [=========           ] 43.2% (4/11 phases complete, 19/44 total plans)
+Progress: [========            ] 40.9% (4/11 phases complete, 18/44 total plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 19
-- Average duration: 6.2 min
+- Total plans completed: 18
+- Average duration: 6.3 min
 - Total execution time: 2.0 hours
 
 **By Phase:**
@@ -31,10 +31,10 @@ Progress: [=========           ] 43.2% (4/11 phases complete, 19/44 total plans)
 | 02-qrl-core | 7/7 | 51 min | 7.3 min |
 | 03-event-handlers | 3/3 | 15 min | 5.0 min |
 | 04-props-signals | 5/5 | 36 min | 7.2 min |
-| 05-jsx-transformation | 2/5 | 8 min | 4.0 min |
+| 05-jsx-transformation | 1/5 | 7 min | 7.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 04-02 (5 min), 04-04 (8 min), 04-05 (8 min), 05-01 (~4 min), 05-02 (4 min)
+- Last 5 plans: 04-02 (5 min), 04-04 (8 min), 04-05 (8 min), 05-01 (7 min)
 - Phase 5 JSX Transformation in progress
 
 *Updated after each plan completion*
@@ -83,9 +83,9 @@ Recent decisions affecting current work:
 - [04-05]: Process bind directives in exit_jsx_attribute for proper prop insertion
 - [04-05]: Check existing on:input in const_props for order-independent handler merging
 - [04-05]: Unknown bind: directives (not value/checked) pass through unchanged
-- [05-02]: is_fn=true for fragments to enable key generation inside components
-- [05-02]: Single child passed directly, multiple children as array (matching SWC)
-- [05-02]: Explicit <Fragment> uses user-imported identifier, implicit uses _Fragment
+- [05-01]: Use HashSet<String> for import names instead of full GlobalCollect
+- [05-01]: Pre-compute is_const before mutable jsx_stack borrow to avoid borrow conflicts
+- [05-01]: stack_is_const guards is_const_expr call (respects should_runtime_sort)
 
 ### Pending Todos
 
@@ -98,7 +98,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed 05-02-PLAN.md (Fragment Handling)
+Stopped at: Completed 05-01-PLAN.md (Prop Constness Detection)
 Resume file: None
 
 ## Phase 2 QRL Core Summary
