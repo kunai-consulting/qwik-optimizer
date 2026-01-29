@@ -4687,4 +4687,42 @@ export const App = component$(({ msg, count }) => {
         assert_eq!(import_count, 3,
             "Expected 3 imports (2 side-effect + 1 used), got {}: {}", import_count, raw);
     }
+
+    #[test]
+    fn test_reexports_unchanged() {
+        // Test that re-exports pass through transformation unchanged
+        // Re-exports should NOT be processed by QRL transformation
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export { foo } from './other';
+export { bar as baz } from './another';
+export * from './all';
+
+export const App = component$(() => <div>test</div>);
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        let output = &result.optimized_app.body;
+
+        // STRONG ASSERTIONS:
+        // 1. Re-exports should be preserved unchanged
+        assert!(output.contains("export { foo } from") || output.contains("export {foo} from"),
+            "Expected 'export {{ foo }} from' re-export to be preserved, got: {}", output);
+        assert!(output.contains("export { bar as baz } from") || output.contains("export {bar as baz} from"),
+            "Expected 'export {{ bar as baz }} from' re-export to be preserved, got: {}", output);
+        assert!(output.contains("export * from"),
+            "Expected 'export * from' re-export to be preserved, got: {}", output);
+
+        // 2. The component QRL transformation should still work
+        assert!(output.contains("componentQrl") || output.contains("qrl("),
+            "Expected QRL transformation to still work, got: {}", output);
+    }
 }
