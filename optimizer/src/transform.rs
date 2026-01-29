@@ -272,6 +272,67 @@ impl<'gen> TransformGenerator<'gen> {
     fn new_segment<T: AsRef<str>>(&mut self, input: T) -> Segment {
         self.segment_builder.new_segment(input, &self.segment_stack)
     }
+
+    /// Builds the display name from the current segment stack.
+    ///
+    /// Joins segment names with underscores, handling special cases for named QRLs
+    /// and indexed QRLs.
+    fn current_display_name(&self) -> String {
+        let mut display_name = String::new();
+
+        for segment in &self.segment_stack {
+            let segment_str: String = match segment {
+                Segment::Named(name) => name.clone(),
+                Segment::NamedQrl(name, 0) => name.clone(),
+                Segment::NamedQrl(name, index) => format!("{}_{}", name, index),
+                Segment::IndexQrl(0) => continue, // Skip zero-indexed QRLs
+                Segment::IndexQrl(index) => index.to_string(),
+            };
+
+            if segment_str.is_empty() {
+                continue;
+            }
+
+            if display_name.is_empty() {
+                // Prefix with underscore if starts with digit
+                if segment_str.chars().next().map(|c| c.is_ascii_digit()).unwrap_or(false) {
+                    display_name = format!("_{}", segment_str);
+                } else {
+                    display_name = segment_str;
+                }
+            } else {
+                display_name = format!("{}_{}", display_name, segment_str);
+            }
+        }
+
+        display_name
+    }
+
+    /// Calculates the hash for the current context.
+    ///
+    /// Uses the source file path, display name, and scope to generate a stable hash.
+    fn current_hash(&self) -> String {
+        use base64::{engine, Engine};
+        use std::hash::{DefaultHasher, Hasher};
+
+        let display_name = self.current_display_name();
+        let local_file_name = self.source_info.rel_path.to_string_lossy();
+        let normalized_local_file_name = local_file_name
+            .strip_prefix("./")
+            .unwrap_or(&local_file_name);
+
+        let mut hasher = DefaultHasher::new();
+        if let Some(scope) = &self.scope {
+            hasher.write(scope.as_bytes());
+        }
+        hasher.write(normalized_local_file_name.as_bytes());
+        hasher.write(display_name.as_bytes());
+        let hash = hasher.finish();
+
+        engine::general_purpose::URL_SAFE_NO_PAD
+            .encode(hash.to_le_bytes())
+            .replace(['-', '_'], "0")
+    }
 }
 
 fn move_expression<'gen>(
@@ -399,8 +460,36 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                     let (scoped_idents, _is_const) =
                         compute_scoped_idents(&descendent_idents, &decl_collect);
 
-                    // Store scoped_idents for later use in SegmentData (Plan 04)
-                    // For now, just log them for debugging
+                    // Get imports collected for this QRL
+                    // These are identifiers that will be imported, so we should exclude them from scoped_idents
+                    let imports: Vec<Import> = self
+                        .import_stack
+                        .pop()
+                        .unwrap_or_default()
+                        .iter()
+                        .cloned()
+                        .collect();
+
+                    // Collect imported identifier names to filter from scoped_idents
+                    // Identifiers that are imported should not be captured via useLexicalScope
+                    let imported_names: HashSet<String> = imports
+                        .iter()
+                        .flat_map(|import| import.names.iter())
+                        .filter_map(|id| match id {
+                            ImportId::Named(name) => Some(name.clone()),
+                            ImportId::Default(name) => Some(name.clone()),
+                            ImportId::NamedWithAlias(_, local) => Some(local.clone()),
+                            ImportId::Namespace(_) => None, // Namespace imports are accessed via member expr
+                        })
+                        .collect();
+
+                    // Filter out identifiers that will be imported
+                    let scoped_idents: Vec<Id> = scoped_idents
+                        .into_iter()
+                        .filter(|(name, _)| !imported_names.contains(name))
+                        .collect();
+
+                    // Log captured variables for debugging
                     if DEBUG && !scoped_idents.is_empty() {
                         println!(
                             "QRL captures: {:?}",
@@ -408,13 +497,35 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                         );
                     }
 
-                    let imports = self
-                        .import_stack
-                        .pop()
-                        .unwrap_or_default()
-                        .iter()
-                        .cloned()
-                        .collect();
+                    // Build ctx_name from the callee name (e.g., "component$", "onClick$", "$")
+                    let ctx_name = node.callee_name().unwrap_or("$").to_string();
+
+                    // Build display_name from segment stack
+                    let display_name = self.current_display_name();
+
+                    // Get hash from source_info and segments (calculated during Id::new)
+                    let hash = self.current_hash();
+
+                    // Determine parent segment (for nested QRLs)
+                    // Look for the first QRL segment in the stack before the current one
+                    let parent_segment = self.segment_stack.iter().rev().skip(1).find_map(|s| {
+                        if s.is_qrl() {
+                            Some(s.to_string())
+                        } else {
+                            None
+                        }
+                    });
+
+                    // Create SegmentData with all collected metadata
+                    let segment_data = SegmentData::new(
+                        &ctx_name,
+                        display_name,
+                        hash,
+                        self.source_info.rel_path.clone(),
+                        scoped_idents,
+                        descendent_idents, // local_idents are all identifiers used in segment
+                        parent_segment,
+                    );
 
                     QrlComponent::from_call_expression_argument(
                         arg0,
@@ -423,7 +534,7 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                         &self.scope,
                         &self.options,
                         self.source_info,
-                        None, // TODO: Create SegmentData in Plan 03/04
+                        Some(segment_data),
                         ctx.ast.allocator,
                     )
                 });

@@ -103,7 +103,7 @@ impl<'a> FromIn<'a, ImportId> for ImportDeclarationSpecifier<'a> {
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Import {
-    names: Vec<ImportId>,
+    pub names: Vec<ImportId>,
     source: PathBuf,
 }
 

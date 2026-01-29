@@ -77,6 +77,7 @@ None
 import { Lightweight } from "./test_example_jsx.jsx";
 import { _jsxSorted, _jsxSplit } from "@qwik.dev/core";
 export const Foo_component_1_Za18NfgUnDQ = () => {
+	const [props] = useLexicalScope();
 	return /* @__PURE__ */ _jsxSorted("div", {}, {}, [
 		[
 			/* @__PURE__ */ _jsxSorted("div", {}, { class: "class" }, [], 1, null),
