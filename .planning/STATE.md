@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** All 162 tests from qwik-core pass with exact output parity to the SWC implementation.
-**Current focus:** Phase 6 - Imports & Exports (COMPLETE)
+**Current focus:** Phase 7 - Entry Strategies (In Progress)
 
 ## Current Position
 
-Phase: 6 of 11 (Imports & Exports)
-Plan: 4 of 4 in Phase 6 COMPLETE
-Status: Phase 6 Complete
-Last activity: 2026-01-29 - Completed 06-04-PLAN.md
+Phase: 7 of 11 (Entry Strategies)
+Plan: 1 of 3 in Phase 7 COMPLETE
+Status: In Progress
+Last activity: 2026-01-29 - Completed 07-01-PLAN.md
 
-Progress: [============        ] 56.8% (6/11 phases complete, 25/44 total plans)
+Progress: [============        ] 59.1% (6/11 phases complete, 26/44 total plans)
 
 ## Performance Metrics
 
@@ -33,10 +33,11 @@ Progress: [============        ] 56.8% (6/11 phases complete, 25/44 total plans)
 | 04-props-signals | 5/5 | 36 min | 7.2 min |
 | 05-jsx-transformation | 4/4 | 37 min | 9.3 min |
 | 06-imports-exports | 4/4 | 45 min | 11.3 min |
+| 07-entry-strategies | 1/3 | 15 min | 15.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 05-04 (13 min), 06-01 (15 min), 06-02 (18 min), 06-03 (not tracked), 06-04 (12 min)
-- Phase 6 Imports & Exports COMPLETE
+- Last 5 plans: 06-01 (15 min), 06-02 (18 min), 06-03 (not tracked), 06-04 (12 min), 07-01 (15 min)
+- Phase 7 Entry Strategies in progress
 
 *Updated after each plan completion*
 
@@ -107,6 +108,9 @@ Recent decisions affecting current work:
 - [06-04]: Re-exports pass through unchanged (source field present)
 - [06-04]: Dynamic import generation verified via () => import('./segment.js') pattern
 - [06-04]: Import order maintained for polyfill/CSS dependencies
+- [07-01]: Added stacked_ctxt flag to JsxState to track whether JSX element pushed to stack_ctxt
+- [07-01]: EntryPolicy::get_entry_for_sym takes &SegmentData instead of &Segment
+- [07-01]: PerComponentStrategy and SmartStrategy marked with panic! for 07-02 implementation
 
 ### Pending Todos
 
@@ -119,7 +123,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed 06-04-PLAN.md (Side-effects & re-exports)
+Stopped at: Completed 07-01-PLAN.md (Context Stack Infrastructure)
 Resume file: None
 
 ## Phase 2 QRL Core Summary
@@ -278,3 +282,23 @@ Phase 6 Imports & Exports COMPLETE with all 4 plans executed:
 - Dynamic import generation for QRL lazy-loading verified
 
 **Requirements satisfied:** IMP-01 through IMP-08 (8/8)
+
+## Phase 7 Entry Strategies Progress
+
+Phase 7 Entry Strategies in progress:
+
+1. **07-01:** Context Stack Infrastructure - COMPLETE (15 min)
+   - stack_ctxt: Vec<String> field added to TransformGenerator
+   - Push/pop in enter/exit_variable_declarator, enter/exit_function, enter/exit_class
+   - Push/pop in enter/exit_jsx_element, enter/exit_jsx_attribute
+   - Push/pop in enter/exit_call_expression for marker functions
+   - EntryPolicy trait updated to use &SegmentData
+   - 6 stack_ctxt tests added, 157 total tests passing
+
+2. **07-02:** Strategy Implementations - PENDING
+3. **07-03:** Integration & Validation - PENDING
+
+**Key Deliverables (07-01):**
+- stack_ctxt field tracks component hierarchy for entry strategy grouping
+- EntryPolicy::get_entry_for_sym accepts SegmentData for full QRL metadata access
+- All visitor methods updated with push/pop following SWC patterns
