@@ -1,6 +1,7 @@
 pub mod code_move;
 pub mod collector;
 pub mod component;
+pub mod const_replace;
 pub(crate) mod error;
 pub(crate) mod ext;
 pub mod is_const;
