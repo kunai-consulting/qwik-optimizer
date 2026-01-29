@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** All 162 tests from qwik-core pass with exact output parity to the SWC implementation.
-**Current focus:** Phase 4 - Props & Signals (COMPLETE)
+**Current focus:** Phase 5 - JSX Transformation (In progress)
 
 ## Current Position
 
-Phase: 4 of 11 (Props & Signals) - COMPLETE
-Plan: 5 of 5 in Phase 4 COMPLETE
-Status: Phase complete - all 5 plans executed
-Last activity: 2026-01-29 - Completed 04-05-PLAN.md (Bind Directives)
+Phase: 5 of 11 (JSX Transformation) - In progress
+Plan: 2 of 5 in Phase 5 COMPLETE
+Status: In progress - 2/5 plans executed
+Last activity: 2026-01-29 - Completed 05-02-PLAN.md (Fragment Handling)
 
-Progress: [========            ] 38.6% (4/11 phases complete, 17/44 total plans)
+Progress: [=========           ] 43.2% (4/11 phases complete, 19/44 total plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 17
-- Average duration: 6.4 min
-- Total execution time: 1.9 hours
+- Total plans completed: 19
+- Average duration: 6.2 min
+- Total execution time: 2.0 hours
 
 **By Phase:**
 
@@ -31,10 +31,11 @@ Progress: [========            ] 38.6% (4/11 phases complete, 17/44 total plans)
 | 02-qrl-core | 7/7 | 51 min | 7.3 min |
 | 03-event-handlers | 3/3 | 15 min | 5.0 min |
 | 04-props-signals | 5/5 | 36 min | 7.2 min |
+| 05-jsx-transformation | 2/5 | 8 min | 4.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 03-03 (4 min), 04-01 (7 min), 04-02 (5 min), 04-04 (8 min), 04-05 (8 min)
-- Phase 4 Props & Signals COMPLETE
+- Last 5 plans: 04-02 (5 min), 04-04 (8 min), 04-05 (8 min), 05-01 (~4 min), 05-02 (4 min)
+- Phase 5 JSX Transformation in progress
 
 *Updated after each plan completion*
 
@@ -82,6 +83,9 @@ Recent decisions affecting current work:
 - [04-05]: Process bind directives in exit_jsx_attribute for proper prop insertion
 - [04-05]: Check existing on:input in const_props for order-independent handler merging
 - [04-05]: Unknown bind: directives (not value/checked) pass through unchanged
+- [05-02]: is_fn=true for fragments to enable key generation inside components
+- [05-02]: Single child passed directly, multiple children as array (matching SWC)
+- [05-02]: Explicit <Fragment> uses user-imported identifier, implicit uses _Fragment
 
 ### Pending Todos
 
@@ -94,7 +98,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed 04-05-PLAN.md (Bind Directives) - Phase 4 COMPLETE
+Stopped at: Completed 05-02-PLAN.md (Fragment Handling)
 Resume file: None
 
 ## Phase 2 QRL Core Summary
