@@ -1371,7 +1371,7 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
 
     fn enter_jsx_fragment(&mut self, node: &mut JSXFragment<'a>, ctx: &mut TraverseCtx<'a, ()>) {
         self.jsx_stack.push(JsxState {
-            is_fn: false,
+            is_fn: true, // Fragments generate keys like component elements
             is_text_only: false,
             is_segment: false,
             should_runtime_sort: false,
@@ -1388,7 +1388,90 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
     fn exit_jsx_fragment(&mut self, node: &mut JSXFragment<'a>, ctx: &mut TraverseCtx<'a, ()>) {
         if let Some(mut jsx) = self.jsx_stack.pop() {
             if (self.options.transpile_jsx) {
-                self.replace_expr = Some(self.builder.expression_array(node.span(), jsx.children));
+                // Generate _jsxSorted(_Fragment, null, null, children, flags, key)
+                // Prepare children argument - single child or array
+                let children_arg: Expression<'a> = if jsx.children.len() == 1 {
+                    // Single child - pass directly (unwrap from ArrayExpressionElement)
+                    let child = jsx.children.pop().unwrap();
+                    if let Some(expr) = child.as_expression() {
+                        expr.clone_in(self.builder.allocator)
+                    } else if let ArrayExpressionElement::SpreadElement(spread) = child {
+                        // Wrap spread in array
+                        let mut children = OxcVec::new_in(self.builder.allocator);
+                        children.push(ArrayExpressionElement::SpreadElement(spread));
+                        self.builder.expression_array(node.span, children)
+                    } else {
+                        // Elision case
+                        self.builder.expression_null_literal(node.span)
+                    }
+                } else if jsx.children.is_empty() {
+                    self.builder.expression_null_literal(node.span)
+                } else {
+                    self.builder.expression_array(node.span, jsx.children)
+                };
+
+                // Generate key for fragment inside component
+                let key_arg: Expression<'a> = jsx.key_prop.unwrap_or_else(|| {
+                    if let Some(cmp) = self.component_stack.last() {
+                        let new_key = format!(
+                            "{}_{}",
+                            cmp.id.hash.chars().take(2).collect::<String>(),
+                            self.jsx_key_counter
+                        );
+                        self.jsx_key_counter += 1;
+                        self.builder.expression_string_literal(
+                            Span::default(),
+                            self.builder.atom(&new_key),
+                            None,
+                        )
+                    } else {
+                        self.builder.expression_null_literal(Span::default())
+                    }
+                });
+
+                // Calculate flags: static_subtree | static_listeners
+                let flags = ((if jsx.static_subtree { 0b1 } else { 0 })
+                    | (if jsx.static_listeners { 0b10 } else { 0 })) as f64;
+
+                let args: OxcVec<Argument<'a>> = OxcVec::from_array_in(
+                    [
+                        // type: _Fragment identifier
+                        self.builder
+                            .expression_identifier(node.span, _FRAGMENT)
+                            .into(),
+                        // varProps: null (fragments have no props)
+                        self.builder.expression_null_literal(node.span).into(),
+                        // constProps: null (fragments have no props)
+                        self.builder.expression_null_literal(node.span).into(),
+                        // children
+                        children_arg.into(),
+                        // flags
+                        self.builder
+                            .expression_numeric_literal(node.span, flags, None, NumberBase::Decimal)
+                            .into(),
+                        // key
+                        key_arg.into(),
+                    ],
+                    self.builder.allocator,
+                );
+
+                self.replace_expr = Some(self.builder.expression_call_with_pure(
+                    node.span,
+                    self.builder.expression_identifier(node.span, JSX_SORTED_NAME),
+                    None::<OxcBox<TSTypeParameterInstantiation<'a>>>,
+                    args,
+                    false,
+                    true, // pure annotation
+                ));
+
+                // Add imports: _jsxSorted from @qwik.dev/core, Fragment as _Fragment from jsx-runtime
+                if let Some(imports) = self.import_stack.last_mut() {
+                    imports.insert(Import::new(vec![JSX_SORTED_NAME.into()], QWIK_CORE_SOURCE));
+                    imports.insert(Import::new(
+                        vec![ImportId::NamedWithAlias("Fragment".to_string(), _FRAGMENT.to_string())],
+                        JSX_RUNTIME_SOURCE,
+                    ));
+                }
             }
         }
         self.debug("EXIT: JSXFragment", ctx);
