@@ -10,17 +10,17 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 ## Current Position
 
 Phase: 8 of 11 (SSR & Build Modes)
-Plan: 1 of 3 in Phase 8 COMPLETE
+Plan: 2 of 3 in Phase 8 COMPLETE
 Status: In Progress
-Last activity: 2026-01-29 - Completed 08-01-PLAN.md
+Last activity: 2026-01-29 - Completed 08-02-PLAN.md
 
-Progress: [==============      ] 65.9% (7/11 phases complete + 1 plan, 29/44 total plans)
+Progress: [==============      ] 68.2% (7/11 phases complete + 2 plans, 30/44 total plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 29
-- Average duration: 7.2 min
+- Total plans completed: 30
+- Average duration: 7.1 min
 - Total execution time: 3.5 hours
 
 **By Phase:**
@@ -34,10 +34,10 @@ Progress: [==============      ] 65.9% (7/11 phases complete + 1 plan, 29/44 tot
 | 05-jsx-transformation | 4/4 | 37 min | 9.3 min |
 | 06-imports-exports | 4/4 | 45 min | 11.3 min |
 | 07-entry-strategies | 3/3 | 29 min | 9.7 min |
-| 08-ssr-build-modes | 1/3 | 5 min | 5.0 min |
+| 08-ssr-build-modes | 2/3 | 9 min | 4.5 min |
 
 **Recent Trend:**
-- Last 5 plans: 07-01 (15 min), 07-02 (8 min), 07-03 (6 min), 08-01 (5 min)
+- Last 5 plans: 07-02 (8 min), 07-03 (6 min), 08-01 (5 min), 08-02 (4 min)
 - Phase 8 SSR & Build Modes IN PROGRESS
 
 *Updated after each plan completion*
@@ -120,6 +120,9 @@ Recent decisions affecting current work:
 - [08-01]: is_server defaults to true (safe default - server code is safer)
 - [08-01]: is_dev derived from target (not stored separately) matching SWC implementation
 - [08-01]: ImportTracker uses (source, specifier) tuple as key for efficient lookup
+- [08-02]: Used manual visitor pattern with allocator instead of VisitMut trait for OXC BooleanLiteral creation
+- [08-02]: OXC Expression variants StaticMemberExpression/ComputedMemberExpression accessed directly (not via MemberExpression wrapper)
+- [08-02]: isBrowser value is inverse of is_server (!is_server) matching SWC behavior
 
 ### Pending Todos
 
@@ -131,8 +134,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-29 23:46:30Z
-Stopped at: Completed 08-01-PLAN.md (Infrastructure)
+Last session: 2026-01-29 23:54:51Z
+Stopped at: Completed 08-02-PLAN.md (Const Replacement)
 Resume file: None
 
 ## Phase 2 QRL Core Summary
@@ -337,7 +340,17 @@ Phase 8 SSR & Build Modes in progress:
    - get_imported_local() method for const replacement lookup
    - 180 total tests passing (177 existing + 3 new)
 
+2. **08-02:** Const Replacement - COMPLETE (4 min)
+   - ConstReplacerVisitor for SSR/build mode const replacement
+   - isServer replaced with is_server boolean literal
+   - isBrowser replaced with !is_server (inverse)
+   - isDev replaced with is_dev boolean literal
+   - Aliased imports handled (import { isServer as s })
+   - Both @qwik.dev/core and @qwik.dev/core/build sources supported
+   - 12 unit tests, 192 total tests passing
+
 **Key Deliverables so far:**
 - Build mode constants defined for @qwik.dev/core/build imports
 - TransformOptions extended with SSR/build mode configuration
 - ImportTracker ready to find isServer/isBrowser/isDev imports
+- ConstReplacerVisitor replaces imported consts with boolean literals
