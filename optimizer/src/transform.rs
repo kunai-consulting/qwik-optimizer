@@ -2322,6 +2322,7 @@ fn compute_scoped_idents(all_idents: &[Id], all_decl: &[IdPlusType]) -> (Vec<Id>
     (output, is_const)
 }
 
+#[derive(Clone)]
 pub struct TransformOptions {
     pub minify: bool,
     pub target: Target,
@@ -3371,5 +3372,239 @@ export const Cmp = component$(({ count: c }) => {
             "Expected _wrapProp(_rawProps, \"count\") for aliased prop, got body: {}\ncomponents: {:?}",
             result.optimized_app.body,
             result.optimized_app.components.iter().map(|c| &c.code).collect::<Vec<_>>());
+    }
+
+    // ==================== Bind Directive Tests ====================
+
+    #[test]
+    fn test_bind_value_basic() {
+        // Test: bind:value transforms to value prop + on:input with _val
+        use crate::component::Language;
+        use crate::source::Source;
+
+        let source_code = r#"
+import { component$ } from "@qwik.dev/core";
+export const Cmp = component$(() => {
+    const value = useSignal("");
+    return <input bind:value={value} />;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        let output = &result.optimized_app.body;
+        let component_code: String = result.optimized_app.components.iter()
+            .map(|c| c.code.clone())
+            .collect::<Vec<_>>()
+            .join("\n");
+        let all_code = format!("{}\n{}", output, component_code);
+
+        // Should have value prop (as property name in object, could be shorthand or quoted)
+        // Look for patterns like: value, or "value": or value:
+        assert!(all_code.contains("value") && !all_code.contains("bind:value"),
+            "Expected value prop without bind: prefix, got: {}", all_code);
+        // Should have on:input handler with _val
+        assert!(all_code.contains("on:input") && all_code.contains("_val"),
+            "Expected on:input with _val, got: {}", all_code);
+        // Should have inlinedQrl wrapping _val
+        assert!(all_code.contains("inlinedQrl") && all_code.contains("_val"),
+            "Expected inlinedQrl(_val, ...), got: {}", all_code);
+    }
+
+    #[test]
+    fn test_bind_checked_basic() {
+        // Test: bind:checked transforms to checked prop + on:input with _chk
+        use crate::component::Language;
+        use crate::source::Source;
+
+        let source_code = r#"
+import { component$ } from "@qwik.dev/core";
+export const Cmp = component$(() => {
+    const checked = useSignal(false);
+    return <input type="checkbox" bind:checked={checked} />;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        let output = &result.optimized_app.body;
+        let component_code: String = result.optimized_app.components.iter()
+            .map(|c| c.code.clone())
+            .collect::<Vec<_>>()
+            .join("\n");
+        let all_code = format!("{}\n{}", output, component_code);
+
+        // Should have checked prop (as property name, not bind:checked)
+        assert!(all_code.contains("checked") && !all_code.contains("bind:checked"),
+            "Expected checked prop without bind: prefix, got: {}", all_code);
+        // Should have on:input handler with _chk
+        assert!(all_code.contains("on:input") && all_code.contains("_chk"),
+            "Expected on:input with _chk, got: {}", all_code);
+        // Should have inlinedQrl wrapping _chk
+        assert!(all_code.contains("inlinedQrl") && all_code.contains("_chk"),
+            "Expected inlinedQrl(_chk, ...), got: {}", all_code);
+    }
+
+    #[test]
+    fn test_bind_value_imports() {
+        // Test: bind:value adds _val and inlinedQrl imports
+        use crate::component::Language;
+        use crate::source::Source;
+
+        let source_code = r#"
+import { component$ } from "@qwik.dev/core";
+export const Cmp = component$(() => {
+    const value = useSignal("");
+    return <input bind:value={value} />;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        let output = &result.optimized_app.body;
+        let component_code: String = result.optimized_app.components.iter()
+            .map(|c| c.code.clone())
+            .collect::<Vec<_>>()
+            .join("\n");
+        let all_code = format!("{}\n{}", output, component_code);
+
+        // Should have _val used somewhere (either imported or referenced)
+        assert!(all_code.contains("_val"),
+            "Expected _val import/usage, got: {}", all_code);
+        // Should have inlinedQrl
+        assert!(all_code.contains("inlinedQrl"),
+            "Expected inlinedQrl import/usage, got: {}", all_code);
+    }
+
+    #[test]
+    fn test_bind_unknown_passes_through() {
+        // Test: unknown bind directive passes through unchanged
+        use crate::component::Language;
+        use crate::source::Source;
+
+        let source_code = r#"
+import { component$ } from "@qwik.dev/core";
+export const Cmp = component$(() => {
+    const stuff = useSignal();
+    return <input bind:stuff={stuff} />;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        let output = &result.optimized_app.body;
+        let component_code: String = result.optimized_app.components.iter()
+            .map(|c| c.code.clone())
+            .collect::<Vec<_>>()
+            .join("\n");
+        let all_code = format!("{}\n{}", output, component_code);
+
+        // Should keep bind:stuff unchanged (not value or checked)
+        assert!(all_code.contains("bind:stuff"),
+            "Expected bind:stuff to pass through, got: {}", all_code);
+    }
+
+    #[test]
+    fn test_bind_value_merge_with_on_input() {
+        // Test: existing onInput$ merges with bind:value handler
+        use crate::component::Language;
+        use crate::source::Source;
+
+        let source_code = r#"
+import { component$ } from "@qwik.dev/core";
+export const Cmp = component$(() => {
+    const value = useSignal("");
+    return (
+        <input
+            onInput$={() => console.log("test")}
+            bind:value={value}
+        />
+    );
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        let output = &result.optimized_app.body;
+        let component_code: String = result.optimized_app.components.iter()
+            .map(|c| c.code.clone())
+            .collect::<Vec<_>>()
+            .join("\n");
+        let all_code = format!("{}\n{}", output, component_code);
+
+        // Should have array with both handlers (merged)
+        // on:input: [originalHandler, inlinedQrl(_val, ...)]
+        assert!(all_code.contains("[") && all_code.contains("_val"),
+            "Expected merged handlers array with _val, got: {}", all_code);
+    }
+
+    #[test]
+    fn test_bind_value_merge_order_independence() {
+        // Test: order of onInput$ and bind:value doesn't matter
+        use crate::component::Language;
+        use crate::source::Source;
+
+        // Order 1: bind:value first, onInput$ second
+        let source_code1 = r#"
+import { component$ } from "@qwik.dev/core";
+export const Cmp = component$(() => {
+    const value = useSignal("");
+    return <input bind:value={value} onInput$={() => log()} />;
+});
+"#;
+
+        // Order 2: onInput$ first, bind:value second
+        let source_code2 = r#"
+import { component$ } from "@qwik.dev/core";
+export const Cmp = component$(() => {
+    const value = useSignal("");
+    return <input onInput$={() => log()} bind:value={value} />;
+});
+"#;
+
+        let source1 = Source::from_source(source_code1, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let source2 = Source::from_source(source_code2, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+
+        let result1 = transform(source1, options.clone()).expect("Transform should succeed");
+        let result2 = transform(source2, options).expect("Transform should succeed");
+
+        let all_code1 = format!("{}\n{}", result1.optimized_app.body,
+            result1.optimized_app.components.iter().map(|c| c.code.clone()).collect::<Vec<_>>().join("\n"));
+        let all_code2 = format!("{}\n{}", result2.optimized_app.body,
+            result2.optimized_app.components.iter().map(|c| c.code.clone()).collect::<Vec<_>>().join("\n"));
+
+        // Both should merge handlers into array
+        assert!(all_code1.contains("[") && all_code1.contains("_val"),
+            "Expected merged handlers (order 1), got: {}", all_code1);
+        assert!(all_code2.contains("[") && all_code2.contains("_val"),
+            "Expected merged handlers (order 2), got: {}", all_code2);
+    }
+
+    #[test]
+    fn test_is_bind_directive_helper() {
+        // Unit test for is_bind_directive helper function
+        assert_eq!(TransformGenerator::is_bind_directive("bind:value"), Some(false));
+        assert_eq!(TransformGenerator::is_bind_directive("bind:checked"), Some(true));
+        assert_eq!(TransformGenerator::is_bind_directive("bind:stuff"), None);
+        assert_eq!(TransformGenerator::is_bind_directive("onClick$"), None);
+        assert_eq!(TransformGenerator::is_bind_directive("value"), None);
     }
 }
