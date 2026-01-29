@@ -27,7 +27,7 @@ import { _jsxSorted } from "@qwik.dev/core";
 export const App_component_1_sEJrlBvQHzk = () => {
 	hola();
 	new Thing();
-	return /* @__PURE__ */ _jsxSorted("div", {}, {}, [], 1, null);
+	return /* @__PURE__ */ _jsxSorted("div", null, null, [], 1, null);
 };
 
 

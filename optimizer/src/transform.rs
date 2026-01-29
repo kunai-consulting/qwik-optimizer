@@ -1287,18 +1287,25 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                         (self.builder.expression_this((*b).span), false)
                     }
                 };
+                // Output null instead of empty object for varProps/constProps
+                let var_props_arg: Expression<'a> = if jsx.var_props.is_empty() {
+                    self.builder.expression_null_literal(node.span())
+                } else {
+                    self.builder.expression_object(node.span(), jsx.var_props)
+                };
+                let const_props_arg: Expression<'a> = if jsx.const_props.is_empty() {
+                    self.builder.expression_null_literal(node.span())
+                } else {
+                    self.builder.expression_object(node.span(), jsx.const_props)
+                };
                 let args: OxcVec<Argument<'a>> = OxcVec::from_array_in(
                     [
                         // type
                         jsx_type.into(),
                         // varProps
-                        self.builder
-                            .expression_object(node.span(), jsx.var_props)
-                            .into(),
+                        var_props_arg.into(),
                         // constProps
-                        self.builder
-                            .expression_object(node.span(), jsx.const_props)
-                            .into(),
+                        const_props_arg.into(),
                         // children
                         self.builder
                             .expression_array(node.span(), jsx.children)

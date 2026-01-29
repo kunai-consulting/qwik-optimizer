@@ -25,7 +25,7 @@ export const Header = component$(() => {
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 export const Header_component_xTg8ybJIykU = () => {
 	console.log("mount");
-	return /* @__PURE__ */ _jsxSorted("div", { onClick: qrl(() => import("./test_example_7.tsx_Header_component_div_onClick_Ax6FIlRjtFQ.js"), "Header_component_div_onClick_Ax6FIlRjtFQ") }, {}, [], 1, null);
+	return /* @__PURE__ */ _jsxSorted("div", { onClick: qrl(() => import("./test_example_7.tsx_Header_component_div_onClick_Ax6FIlRjtFQ.js"), "Header_component_div_onClick_Ax6FIlRjtFQ") }, null, [], 1, null);
 };
 
 
@@ -89,7 +89,7 @@ None
 import { Header } from "./test_example_7";
 import { _jsxSorted } from "@qwik.dev/core";
 export const App_component_kMTyqu9vcH4 = () => {
-	return _jsxSorted(Header, {}, {}, [], 1, null);
+	return _jsxSorted(Header, null, null, [], 1, null);
 };
 
 
