@@ -1079,6 +1079,25 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
     }
 
     fn exit_jsx_attribute(&mut self, node: &mut JSXAttribute<'a>, ctx: &mut TraverseCtx<'a, ()>) {
+        // Transform event handler attribute names on native elements
+        let attr_name = node.name.get_identifier().name.as_str();
+
+        if attr_name.ends_with(MARKER_SUFFIX) {
+            let is_native = self.jsx_element_is_native.last().copied().unwrap_or(false);
+
+            if is_native {
+                if let Some(html_attr) = jsx_event_to_html_attribute(attr_name) {
+                    let new_name = self.builder.atom(&html_attr);
+                    node.name = JSXAttributeName::Identifier(
+                        self.builder.alloc(JSXIdentifier {
+                            span: node.name.span(),
+                            name: new_name,
+                        })
+                    );
+                }
+            }
+        }
+
         if (self.options.transpile_jsx) {
             if let Some(jsx) = self.jsx_stack.last_mut() {
                 let expr: Expression<'a> = {
