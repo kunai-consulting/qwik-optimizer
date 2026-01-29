@@ -54,8 +54,8 @@ Plans:
 - [x] 02-03-PLAN.md — Create SegmentData structure for segment metadata
 - [x] 02-04-PLAN.md — Port code_move.rs for useLexicalScope injection
 - [x] 02-05-PLAN.md — Wire QRL transformation and validate parity
-- [ ] 02-06-PLAN.md — Fix capture detection ScopeId mismatch (gap closure)
-- [ ] 02-07-PLAN.md — Verify hash stability and SWC parity (human verification)
+- [x] 02-06-PLAN.md — Fix capture detection ScopeId mismatch (gap closure)
+- [x] 02-07-PLAN.md — Verify hash stability and SWC parity (human verification)
 
 **Success Criteria** (what must be TRUE):
   1. QRL extracts correctly from arrow functions and function declarations
@@ -68,19 +68,19 @@ Plans:
 **Goal**: All Qwik event handlers transform correctly for interactive components
 **Depends on**: Phase 2
 **Requirements**: EVT-01, EVT-02, EVT-03, EVT-04, EVT-05, EVT-06, EVT-07, EVT-08
+**Plans**: 3 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — Event name transformation utilities (onClick$ -> on:click)
+- [ ] 03-02-PLAN.md — Native element detection and JSX attribute QRL transformation
+- [ ] 03-03-PLAN.md — Comprehensive testing for all EVT requirements
+
 **Success Criteria** (what must be TRUE):
   1. onClick$ and onInput$ transform into QRL-wrapped handlers
   2. Multiple event handlers on a single element work correctly
   3. Event handlers capture state variables correctly
   4. Custom event handlers (onCustomEvent$) transform correctly
   5. Non-element nodes skip event handler transformation
-**Plans**: TBD
-
-Plans:
-- [ ] 03-01: Core event handler transformation (onClick$, onInput$)
-- [ ] 03-02: Multiple handlers and state capture
-- [ ] 03-03: Custom events and prevent default patterns
-- [ ] 03-04: Edge cases (non-element nodes, JSX transpile bypass)
 
 ### Phase 4: Props & Signals
 **Goal**: Component props and signals handle correctly for reactive data flow
@@ -231,7 +231,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 |-------|----------------|--------|-----------|
 | 1. OXC Foundation | 2/2 | Complete | 2026-01-29 |
 | 2. QRL Core | 7/7 | Complete | 2026-01-29 |
-| 3. Event Handlers | 0/4 | Not started | - |
+| 3. Event Handlers | 0/3 | Planning complete | - |
 | 4. Props & Signals | 0/5 | Not started | - |
 | 5. JSX Transformation | 0/4 | Not started | - |
 | 6. Imports & Exports | 0/4 | Not started | - |
@@ -243,4 +243,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-29 (Phase 2 complete)*
+*Last updated: 2026-01-29 (Phase 3 planning complete)*
