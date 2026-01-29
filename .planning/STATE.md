@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** All 162 tests from qwik-core pass with exact output parity to the SWC implementation.
-**Current focus:** Phase 3 - Event Handlers (COMPLETE)
+**Current focus:** Phase 4 - Props & Signals (In Progress)
 
 ## Current Position
 
-Phase: 3 of 11 (Event Handlers) - COMPLETE
-Plan: 3 of 3 in Phase 3
-Status: Phase 03 complete, ready for Phase 04
-Last activity: 2026-01-29 - Completed 03-03-PLAN.md (Edge Cases and Validation)
+Phase: 4 of 11 (Props & Signals)
+Plan: 1 of 5 in Phase 4
+Status: In progress - completed 04-01-PLAN.md
+Last activity: 2026-01-29 - Completed 04-01-PLAN.md (Props Destructuring Detection)
 
-Progress: [======              ] 27.3% (3/11 phases complete, 12/44 total plans)
+Progress: [======              ] 29.5% (3/11 phases complete, 13/44 total plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 12
-- Average duration: 6.4 min
-- Total execution time: 1.4 hours
+- Total plans completed: 13
+- Average duration: 6.5 min
+- Total execution time: 1.5 hours
 
 **By Phase:**
 
@@ -30,10 +30,11 @@ Progress: [======              ] 27.3% (3/11 phases complete, 12/44 total plans)
 | 01-oxc-foundation | 2/2 | 15 min | 7.5 min |
 | 02-qrl-core | 7/7 | 51 min | 7.3 min |
 | 03-event-handlers | 3/3 | 15 min | 5.0 min |
+| 04-props-signals | 1/5 | 7 min | 7.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 02-06 (5 min), 02-07 (2 min), 03-01 (3 min), 03-02 (8 min), 03-03 (4 min)
-- Phase 3 event handlers complete
+- Last 5 plans: 02-07 (2 min), 03-01 (3 min), 03-02 (8 min), 03-03 (4 min), 04-01 (7 min)
+- Phase 4 props & signals started
 
 *Updated after each plan completion*
 
@@ -66,6 +67,9 @@ Recent decisions affecting current work:
 - [03-02]: Using container.expression.as_expression() for OXC 0.111.0 API compatibility
 - [03-03]: Namespaced JSX attributes (document:onFocus$) require full name helper function
 - [03-03]: Property keys use transformed names after event handler processing
+- [04-01]: Props transformation must occur BEFORE QRL component extraction
+- [04-01]: Use in_component_props flag for detection in enter_ and apply in exit_
+- [04-01]: OXC 0.111.0 FormalParameter has 10 fields including initializer, optional, type_annotation
 
 ### Pending Todos
 
@@ -78,7 +82,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed 03-03-PLAN.md (Event Handler Edge Cases and Validation)
+Stopped at: Completed 04-01-PLAN.md (Props Destructuring Detection)
 Resume file: None
 
 ## Phase 2 QRL Core Summary
@@ -138,4 +142,19 @@ Phase 3 Event Handlers complete with all 3 plans executed:
 
 **Requirements satisfied:** EVT-01 through EVT-08 (8/8)
 
-**Ready for:** Phase 4 (Task System)
+## Phase 4 Props & Signals Progress
+
+Phase 4 Props & Signals in progress:
+
+1. **04-01:** Props destructuring detection - COMPLETE
+   - PropsDestructuring struct with component_ident tracking and identifiers HashMap
+   - transform_component_props detects ObjectPattern and replaces with _rawProps
+   - Integration into TransformGenerator enter/exit_call_expression
+   - props_identifiers map populated with prop name -> key mappings
+   - 82 total tests passing (5 new props tests)
+
+**Key Deliverables so far:**
+- Props parameter transformation: `({ message, id })` -> `(_rawProps)`
+- Prop mappings tracked: local_name -> prop_key for later identifier replacement
+
+**Ready for:** Plan 02 (Identifier Replacement)
