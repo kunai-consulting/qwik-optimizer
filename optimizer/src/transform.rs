@@ -1394,8 +1394,13 @@ fn compute_scoped_idents(all_idents: &[Id], all_decl: &[IdPlusType]) -> (Vec<Id>
     let mut is_const = true;
 
     for ident in all_idents {
-        if let Some(item) = all_decl.iter().find(|item| item.0 == *ident) {
-            set.insert(ident.clone());
+        // Compare by name only - ScopeId differences between IdentCollector (uses 0)
+        // and decl_stack (uses actual scope) should not prevent capture detection.
+        // For QRL capture purposes, name matching is sufficient since we're comparing
+        // within a single file's scope hierarchy.
+        if let Some(item) = all_decl.iter().find(|item| item.0.0 == ident.0) {
+            // Use the declaration's full Id (with correct scope) rather than collector's Id
+            set.insert(item.0.clone());
             if !matches!(item.1, IdentType::Var(true)) {
                 is_const = false;
             }
