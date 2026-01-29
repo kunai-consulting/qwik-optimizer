@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 ## Current Position
 
 Phase: 4 of 11 (Props & Signals)
-Plan: 1 of 5 in Phase 4
-Status: In progress - completed 04-01-PLAN.md
-Last activity: 2026-01-29 - Completed 04-01-PLAN.md (Props Destructuring Detection)
+Plan: 2 of 5 in Phase 4
+Status: In progress - completed 04-02-PLAN.md
+Last activity: 2026-01-29 - Completed 04-02-PLAN.md (Rest Props & Aliasing)
 
-Progress: [======              ] 29.5% (3/11 phases complete, 13/44 total plans)
+Progress: [======              ] 31.8% (3/11 phases complete, 14/44 total plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 13
-- Average duration: 6.5 min
-- Total execution time: 1.5 hours
+- Total plans completed: 14
+- Average duration: 6.3 min
+- Total execution time: 1.6 hours
 
 **By Phase:**
 
@@ -30,11 +30,11 @@ Progress: [======              ] 29.5% (3/11 phases complete, 13/44 total plans)
 | 01-oxc-foundation | 2/2 | 15 min | 7.5 min |
 | 02-qrl-core | 7/7 | 51 min | 7.3 min |
 | 03-event-handlers | 3/3 | 15 min | 5.0 min |
-| 04-props-signals | 1/5 | 7 min | 7.0 min |
+| 04-props-signals | 2/5 | 12 min | 6.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 02-07 (2 min), 03-01 (3 min), 03-02 (8 min), 03-03 (4 min), 04-01 (7 min)
-- Phase 4 props & signals started
+- Last 5 plans: 03-01 (3 min), 03-02 (8 min), 03-03 (4 min), 04-01 (7 min), 04-02 (5 min)
+- Phase 4 props & signals continuing
 
 *Updated after each plan completion*
 
@@ -70,6 +70,9 @@ Recent decisions affecting current work:
 - [04-01]: Props transformation must occur BEFORE QRL component extraction
 - [04-01]: Use in_component_props flag for detection in enter_ and apply in exit_
 - [04-01]: OXC 0.111.0 FormalParameter has 10 fields including initializer, optional, type_annotation
+- [04-02]: Use ScopeId::new(0) for rest_id since we match by name later
+- [04-02]: Handle arrow.expression flag to determine if body is expression or block statement
+- [04-02]: OXC 0.111.0 expression_identifier() not expression_identifier_reference()
 
 ### Pending Todos
 
@@ -82,7 +85,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed 04-01-PLAN.md (Props Destructuring Detection)
+Stopped at: Completed 04-02-PLAN.md (Rest Props & Aliasing)
 Resume file: None
 
 ## Phase 2 QRL Core Summary
@@ -153,8 +156,17 @@ Phase 4 Props & Signals in progress:
    - props_identifiers map populated with prop name -> key mappings
    - 82 total tests passing (5 new props tests)
 
+2. **04-02:** Rest props and aliasing - COMPLETE
+   - rest_id and omit_keys fields added to PropsDestructuring
+   - generate_rest_stmt creates _restProps call with omit array
+   - Statement injection at function body start
+   - _restProps import added when rest pattern present
+   - 86 total tests passing (4 new rest props tests)
+
 **Key Deliverables so far:**
 - Props parameter transformation: `({ message, id })` -> `(_rawProps)`
-- Prop mappings tracked: local_name -> prop_key for later identifier replacement
+- Rest props: `({ message, ...rest })` -> `const rest = _restProps(_rawProps, ["message"])`
+- Rest-only: `({ ...props })` -> `const props = _restProps(_rawProps)`
+- Aliased props tracked: c -> "count" for later replacement
 
-**Ready for:** Plan 02 (Identifier Replacement)
+**Ready for:** Plan 03 (Identifier Replacement with _wrapProp)
