@@ -4001,4 +4001,185 @@ export const App = component$(() => {
         assert!(component_code.contains("_getVarProps") && component_code.contains("_getConstProps"),
             "Expected _getVarProps and _getConstProps to be imported, got: {}", component_code);
     }
+
+    // ==================== Conditional/List Rendering Tests ====================
+
+    #[test]
+    fn test_conditional_ternary_rendering() {
+        // Test that ternary expressions preserve both branches with transformed JSX
+        // Per JSX-05: Conditional rendering (ternary) preserves both branches
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+    const show = true;
+    return <div>{show ? <p>Yes</p> : <span>No</span>}</div>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        let component_code = result.optimized_app.components.iter()
+            .find(|c| c.code.contains("div") && c.code.contains("Yes"))
+            .map(|c| &c.code)
+            .expect("Should have a component with conditional rendering");
+
+        // STRONG ASSERTIONS:
+        assert!(component_code.contains("_jsxSorted(\"p\""),
+            "Expected transformed <p> element, got: {}", component_code);
+        assert!(component_code.contains("_jsxSorted(\"span\""),
+            "Expected transformed <span> element, got: {}", component_code);
+        assert!(component_code.contains("?") && component_code.contains(":"),
+            "Expected ternary operator preserved, got: {}", component_code);
+        assert!(component_code.contains("_jsxSorted(\"div\""),
+            "Expected transformed <div> element, got: {}", component_code);
+        assert!(component_code.contains("\"Yes\"") && component_code.contains("\"No\""),
+            "Expected text content preserved, got: {}", component_code);
+    }
+
+    #[test]
+    fn test_conditional_logical_and_rendering() {
+        // Test that logical AND expressions preserve transformed JSX
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+    const show = true;
+    return <div>{show && <p>Shown</p>}</div>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        let component_code = result.optimized_app.components.iter()
+            .find(|c| c.code.contains("div") && c.code.contains("Shown"))
+            .map(|c| &c.code)
+            .expect("Should have a component with && rendering");
+
+        // STRONG ASSERTIONS:
+        assert!(component_code.contains("_jsxSorted(\"p\""),
+            "Expected transformed <p> element, got: {}", component_code);
+        assert!(component_code.contains("&&"),
+            "Expected && operator preserved, got: {}", component_code);
+    }
+
+    #[test]
+    fn test_list_rendering_with_map() {
+        // Test that .map() expressions work correctly with JSX children
+        // Per JSX-06: List rendering (.map) children handled correctly
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+    const items = ["a", "b", "c"];
+    return <ul>{items.map(item => <li>{item}</li>)}</ul>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        let component_code = result.optimized_app.components.iter()
+            .find(|c| c.code.contains("ul"))
+            .map(|c| &c.code)
+            .expect("Should have a component with list rendering");
+
+        // STRONG ASSERTIONS:
+        assert!(component_code.contains("_jsxSorted(\"ul\""),
+            "Expected transformed <ul> element, got: {}", component_code);
+        assert!(component_code.contains("_jsxSorted(\"li\""),
+            "Expected transformed <li> element, got: {}", component_code);
+        assert!(component_code.contains(".map("),
+            "Expected .map() call preserved, got: {}", component_code);
+    }
+
+    #[test]
+    fn test_text_nodes_trimmed() {
+        // Test that text nodes are trimmed and empty ones skipped
+        // Per JSX-07: Text nodes trimmed and empty ones skipped
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+    return <div>   Hello World   </div>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        let component_code = result.optimized_app.components.iter()
+            .find(|c| c.code.contains("Hello"))
+            .map(|c| &c.code)
+            .expect("Should have a component with text");
+
+        // STRONG ASSERTIONS:
+        assert!(component_code.contains("\"Hello World\""),
+            "Expected trimmed text content, got: {}", component_code);
+        assert!(!component_code.contains("\"   Hello World   \""),
+            "Text should be trimmed, got: {}", component_code);
+    }
+
+    #[test]
+    fn test_flags_static_vs_dynamic() {
+        // Test that flags are calculated correctly
+        // Per JSX-08: Flags calculation matches SWC (static_subtree, static_listeners)
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+    const dynamic = "hello";
+    return (
+        <div>
+            <p>Static content</p>
+            <span>{dynamic}</span>
+        </div>
+    );
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        let component_code = result.optimized_app.components.iter()
+            .find(|c| c.code.contains("Static content"))
+            .map(|c| &c.code)
+            .expect("Should have a component");
+
+        // STRONG ASSERTIONS:
+        // Static <p> should have flags=3 (both static_listeners and static_subtree)
+        assert!(component_code.contains("\"p\"") && component_code.contains(", 3,"),
+            "Expected <p> with flags=3 (static), got: {}", component_code);
+
+        // <span> with dynamic child should have flags=1 (static_listeners only)
+        assert!(component_code.contains("\"span\"") && component_code.contains(", 1,"),
+            "Expected <span> with flags=1 (dynamic subtree), got: {}", component_code);
+    }
 }
