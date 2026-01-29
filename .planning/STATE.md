@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** All 162 tests from qwik-core pass with exact output parity to the SWC implementation.
-**Current focus:** Phase 5 - JSX Transformation (COMPLETE)
+**Current focus:** Phase 6 - Imports & Exports (IN PROGRESS)
 
 ## Current Position
 
-Phase: 5 of 11 (JSX Transformation) - COMPLETE
-Plan: 4 of 4 in Phase 5 COMPLETE
-Status: Phase complete - all 4 plans executed
-Last activity: 2026-01-29 - Completed Phase 5 (JSX Transformation)
+Phase: 6 of 11 (Imports & Exports)
+Plan: 1 of 4 in Phase 6 COMPLETE
+Status: In progress - Plan 06-01 complete
+Last activity: 2026-01-29 - Completed 06-01-PLAN.md
 
-Progress: [==========          ] 45.5% (5/11 phases complete, 21/44 total plans)
+Progress: [==========          ] 50.0% (5/11 phases complete, 22/44 total plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 21
+- Total plans completed: 22
 - Average duration: 7.4 min
-- Total execution time: 2.6 hours
+- Total execution time: 2.8 hours
 
 **By Phase:**
 
@@ -32,10 +32,11 @@ Progress: [==========          ] 45.5% (5/11 phases complete, 21/44 total plans)
 | 03-event-handlers | 3/3 | 15 min | 5.0 min |
 | 04-props-signals | 5/5 | 36 min | 7.2 min |
 | 05-jsx-transformation | 4/4 | 37 min | 9.3 min |
+| 06-imports-exports | 1/4 | 15 min | 15.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 05-01 (7 min), 05-02 (4 min), 05-03 (13 min), 05-04 (13 min)
-- Phase 5 JSX Transformation COMPLETE
+- Last 5 plans: 05-02 (4 min), 05-03 (13 min), 05-04 (13 min), 06-01 (15 min)
+- Phase 6 Imports & Exports IN PROGRESS
 
 *Updated after each plan completion*
 
@@ -92,6 +93,9 @@ Recent decisions affecting current work:
 - [05-04]: Flags bit order: bit 0 = static_listeners (1), bit 1 = static_subtree (2) per SWC
 - [05-04]: Single child passed directly without array wrapper
 - [05-04]: Empty children output as null, not empty array
+- [06-01]: export_by_name keyed by local name for lookup during QRL body analysis
+- [06-01]: ExportInfo includes source field for re-exports tracking
+- [06-01]: Duplicate local name exports overwrite (latest wins)
 
 ### Pending Todos
 
@@ -104,7 +108,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed Phase 5 (JSX Transformation) - VERIFIED
+Stopped at: Completed 06-01-PLAN.md (Export tracking for segment file import generation)
 Resume file: None
 
 ## Phase 2 QRL Core Summary
@@ -223,4 +227,19 @@ Phase 5 JSX Transformation COMPLETE with all 4 plans executed:
 **Requirements satisfied:** JSX-01 through JSX-08 (8/8)
 **Verification:** 17/17 must-haves passed
 
-**Ready for:** Phase 6 (Imports & Exports)
+## Phase 6 Imports & Exports Summary (In Progress)
+
+Phase 6 Imports & Exports in progress with 1/4 plans complete:
+
+1. **06-01:** Export Tracking - COMPLETE (15 min)
+   - ExportInfo struct with local_name, exported_name, is_default, source
+   - collect_exports function for AST export collection
+   - export_by_name HashMap in TransformGenerator
+   - enter_export_named_declaration and enter_export_default_declaration hooks
+   - 140 total tests passing
+
+**Key Deliverables:**
+- Export tracking infrastructure ready for segment import generation
+- Plan 03 will use export_by_name.get(name) for QRL body analysis
+
+**Ready for:** Plan 06-02 (Import tracking) and Plan 06-03 (Segment import generation)
