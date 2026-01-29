@@ -1863,4 +1863,64 @@ mod tests {
         assert_eq!(get_event_scope_data_from_jsx_event("window:onClick$"), ("on-window:", 9));
         assert_eq!(get_event_scope_data_from_jsx_event("custom$"), ("", usize::MAX));
     }
+
+    #[test]
+    fn test_event_handler_transformation() {
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export const Button = component$(() => {
+    return <button onClick$={() => console.log('clicked')}>Click</button>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // The event handler transformation appears in the extracted component code
+        // Get component code that contains the button element
+        let component_code = result.optimized_app.components.iter()
+            .find(|c| c.code.contains("button"))
+            .map(|c| &c.code)
+            .expect("Should have a component with button");
+
+        // Verify attribute name transformed in component
+        assert!(component_code.contains("on:click") || component_code.contains("\"on:click\""),
+            "Expected 'on:click' in component output, got: {}", component_code);
+
+        // Verify QRL is generated for the event handler (should have qrl function call)
+        assert!(component_code.contains("qrl("),
+            "Expected QRL call in component output, got: {}", component_code);
+    }
+
+    #[test]
+    fn test_event_handler_on_component_no_name_transform() {
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+import { CustomButton } from './custom';
+
+export const Parent = component$(() => {
+    return <CustomButton onClick$={() => console.log('click')}/>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(false);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        let output = &result.optimized_app.body;
+
+        // On components, attribute name should NOT transform to on:click
+        assert!(!output.contains("on:click"),
+            "Component should keep onClick$, not transform to on:click: {}", output);
+    }
 }
