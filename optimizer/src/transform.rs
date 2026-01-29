@@ -4416,4 +4416,115 @@ export const App = component$(() => {
         assert!(component_code.contains("\"span\"") && component_code.contains(", 1,"),
             "Expected <span> with flags=1 (dynamic subtree), got: {}", component_code);
     }
+
+    #[test]
+    fn test_export_tracking() {
+        // Test that export tracking correctly identifies all export types
+        use crate::collector::{collect_exports, ExportInfo};
+        use oxc_allocator::Allocator;
+        use oxc_parser::Parser;
+        use oxc_span::SourceType;
+
+        let source = r#"
+            import { component$ } from '@qwik.dev/core';
+
+            export const foo = 1;
+            export function bar() {}
+            export class Baz {}
+            // aliased export tested separately
+            export default function DefaultFn() {}
+        "#;
+
+        let allocator = Allocator::default();
+        let source_type = SourceType::tsx();
+        let parse_result = Parser::new(&allocator, source, source_type).parse();
+        assert!(parse_result.errors.is_empty(), "Parse errors: {:?}", parse_result.errors);
+
+        let exports = collect_exports(&parse_result.program);
+
+        // Verify all exports are tracked
+        // export const foo = 1
+        assert!(exports.contains_key("foo"), "Should track 'foo' export");
+        let foo_export = exports.get("foo").unwrap();
+        assert_eq!(foo_export.local_name, "foo");
+        assert_eq!(foo_export.exported_name, "foo");
+        assert!(!foo_export.is_default);
+
+        // export function bar() {}
+        assert!(exports.contains_key("bar"), "Should track 'bar' function export");
+        let bar_export = exports.get("bar").unwrap();
+        assert_eq!(bar_export.local_name, "bar");
+        assert_eq!(bar_export.exported_name, "bar");
+        assert!(!bar_export.is_default);
+
+        // export class Baz {}
+        assert!(exports.contains_key("Baz"), "Should track 'Baz' class export");
+        let baz_export = exports.get("Baz").unwrap();
+        assert_eq!(baz_export.local_name, "Baz");
+        assert_eq!(baz_export.exported_name, "Baz");
+        assert!(!baz_export.is_default);
+
+        // export default function DefaultFn() {}
+        assert!(exports.contains_key("DefaultFn"), "Should track default export");
+        let default_export = exports.get("DefaultFn").unwrap();
+        assert_eq!(default_export.local_name, "DefaultFn");
+        assert_eq!(default_export.exported_name, "default");
+        assert!(default_export.is_default);
+    }
+
+    #[test]
+    fn test_export_tracking_aliased() {
+        // Test aliased exports: export { x as y }
+        use crate::collector::{collect_exports, ExportInfo};
+        use oxc_allocator::Allocator;
+        use oxc_parser::Parser;
+        use oxc_span::SourceType;
+
+        let source = r#"
+            const original = 1;
+            export { original as aliased };
+        "#;
+
+        let allocator = Allocator::default();
+        let source_type = SourceType::tsx();
+        let parse_result = Parser::new(&allocator, source, source_type).parse();
+        assert!(parse_result.errors.is_empty(), "Parse errors: {:?}", parse_result.errors);
+
+        let exports = collect_exports(&parse_result.program);
+
+        // export { original as aliased }
+        assert!(exports.contains_key("original"), "Should track aliased export by local name");
+        let aliased_export = exports.get("original").unwrap();
+        assert_eq!(aliased_export.local_name, "original");
+        assert_eq!(aliased_export.exported_name, "aliased");
+        assert!(!aliased_export.is_default);
+    }
+
+    #[test]
+    fn test_export_tracking_reexport() {
+        // Test re-exports: export { foo } from './other'
+        use crate::collector::{collect_exports, ExportInfo};
+        use oxc_allocator::Allocator;
+        use oxc_parser::Parser;
+        use oxc_span::SourceType;
+
+        let source = r#"
+            export { external } from './other';
+        "#;
+
+        let allocator = Allocator::default();
+        let source_type = SourceType::tsx();
+        let parse_result = Parser::new(&allocator, source, source_type).parse();
+        assert!(parse_result.errors.is_empty(), "Parse errors: {:?}", parse_result.errors);
+
+        let exports = collect_exports(&parse_result.program);
+
+        // export { external } from './other'
+        assert!(exports.contains_key("external"), "Should track re-export");
+        let reexport = exports.get("external").unwrap();
+        assert_eq!(reexport.local_name, "external");
+        assert_eq!(reexport.exported_name, "external");
+        assert!(!reexport.is_default);
+        assert_eq!(reexport.source, Some("./other".to_string()));
+    }
 }
