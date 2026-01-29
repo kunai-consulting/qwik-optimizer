@@ -161,24 +161,96 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| OXC-01 through OXC-08 | Phase 1 | Pending |
-| QRL-01 through QRL-10 | Phase 2 | Pending |
-| EVT-01 through EVT-08 | Phase 2 | Pending |
-| PRP-01 through PRP-10 | Phase 3 | Pending |
-| SIG-01 through SIG-06 | Phase 3 | Pending |
-| JSX-01 through JSX-08 | Phase 4 | Pending |
-| IMP-01 through IMP-08 | Phase 4 | Pending |
-| ENT-01 through ENT-05 | Phase 5 | Pending |
-| SSR-01 through SSR-05 | Phase 5 | Pending |
-| TSX-01 through TSX-04 | Phase 6 | Pending |
-| EDG-01 through EDG-09 | Phase 6 | Pending |
-| TST-01 through TST-03 | Phase 7 | Pending |
+| OXC-01 | Phase 1 | Pending |
+| OXC-02 | Phase 1 | Pending |
+| OXC-03 | Phase 1 | Pending |
+| OXC-04 | Phase 1 | Pending |
+| OXC-05 | Phase 1 | Pending |
+| OXC-06 | Phase 1 | Pending |
+| OXC-07 | Phase 1 | Pending |
+| OXC-08 | Phase 1 | Pending |
+| QRL-01 | Phase 2 | Pending |
+| QRL-02 | Phase 2 | Pending |
+| QRL-03 | Phase 2 | Pending |
+| QRL-04 | Phase 2 | Pending |
+| QRL-05 | Phase 2 | Pending |
+| QRL-06 | Phase 2 | Pending |
+| QRL-07 | Phase 2 | Pending |
+| QRL-08 | Phase 2 | Pending |
+| QRL-09 | Phase 2 | Pending |
+| QRL-10 | Phase 2 | Pending |
+| EVT-01 | Phase 3 | Pending |
+| EVT-02 | Phase 3 | Pending |
+| EVT-03 | Phase 3 | Pending |
+| EVT-04 | Phase 3 | Pending |
+| EVT-05 | Phase 3 | Pending |
+| EVT-06 | Phase 3 | Pending |
+| EVT-07 | Phase 3 | Pending |
+| EVT-08 | Phase 3 | Pending |
+| PRP-01 | Phase 4 | Pending |
+| PRP-02 | Phase 4 | Pending |
+| PRP-03 | Phase 4 | Pending |
+| PRP-04 | Phase 4 | Pending |
+| PRP-05 | Phase 4 | Pending |
+| PRP-06 | Phase 4 | Pending |
+| PRP-07 | Phase 4 | Pending |
+| PRP-08 | Phase 4 | Pending |
+| PRP-09 | Phase 4 | Pending |
+| PRP-10 | Phase 4 | Pending |
+| SIG-01 | Phase 4 | Pending |
+| SIG-02 | Phase 4 | Pending |
+| SIG-03 | Phase 4 | Pending |
+| SIG-04 | Phase 4 | Pending |
+| SIG-05 | Phase 4 | Pending |
+| SIG-06 | Phase 4 | Pending |
+| JSX-01 | Phase 5 | Pending |
+| JSX-02 | Phase 5 | Pending |
+| JSX-03 | Phase 5 | Pending |
+| JSX-04 | Phase 5 | Pending |
+| JSX-05 | Phase 5 | Pending |
+| JSX-06 | Phase 5 | Pending |
+| JSX-07 | Phase 5 | Pending |
+| JSX-08 | Phase 5 | Pending |
+| IMP-01 | Phase 6 | Pending |
+| IMP-02 | Phase 6 | Pending |
+| IMP-03 | Phase 6 | Pending |
+| IMP-04 | Phase 6 | Pending |
+| IMP-05 | Phase 6 | Pending |
+| IMP-06 | Phase 6 | Pending |
+| IMP-07 | Phase 6 | Pending |
+| IMP-08 | Phase 6 | Pending |
+| ENT-01 | Phase 7 | Pending |
+| ENT-02 | Phase 7 | Pending |
+| ENT-03 | Phase 7 | Pending |
+| ENT-04 | Phase 7 | Pending |
+| ENT-05 | Phase 7 | Pending |
+| SSR-01 | Phase 8 | Pending |
+| SSR-02 | Phase 8 | Pending |
+| SSR-03 | Phase 8 | Pending |
+| SSR-04 | Phase 8 | Pending |
+| SSR-05 | Phase 8 | Pending |
+| TSX-01 | Phase 9 | Pending |
+| TSX-02 | Phase 9 | Pending |
+| TSX-03 | Phase 9 | Pending |
+| TSX-04 | Phase 9 | Pending |
+| EDG-01 | Phase 10 | Pending |
+| EDG-02 | Phase 10 | Pending |
+| EDG-03 | Phase 10 | Pending |
+| EDG-04 | Phase 10 | Pending |
+| EDG-05 | Phase 10 | Pending |
+| EDG-06 | Phase 10 | Pending |
+| EDG-07 | Phase 10 | Pending |
+| EDG-08 | Phase 10 | Pending |
+| EDG-09 | Phase 10 | Pending |
+| TST-01 | Phase 11 | Pending |
+| TST-02 | Phase 11 | Pending |
+| TST-03 | Phase 11 | Pending |
 
 **Coverage:**
-- v1 requirements: 76 total
-- Mapped to phases: 76
-- Unmapped: 0 ✓
+- v1 requirements: 84 total
+- Mapped to phases: 84
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-01-29*
-*Last updated: 2026-01-29 after initial definition*
+*Last updated: 2026-01-29 after roadmap creation*
