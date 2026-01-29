@@ -1,4 +1,4 @@
-use crate::collector::Id;
+use crate::collector::{ExportInfo, Id};
 use crate::component::{Import, QRL, QRL_SUFFIX, QWIK_CORE_SOURCE};
 use crate::ext::AstBuilderExt;
 use oxc_allocator::{Allocator, Box as OxcBox, CloneIn, FromIn, Vec as OxcVec};
@@ -42,6 +42,11 @@ pub struct Qrl {
     /// Captured variables from enclosing scope (sorted for deterministic output)
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub scoped_idents: Vec<Id>,
+    /// Source file exports referenced in the QRL body.
+    /// These need to be imported in the segment file from the source file.
+    /// Contains: (local_name, exported_name, is_default)
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub referenced_exports: Vec<ExportInfo>,
 }
 
 impl Qrl {
@@ -56,6 +61,24 @@ impl Qrl {
             display_name: display_name.into(),
             qrl_type,
             scoped_idents,
+            referenced_exports: Vec::new(),
+        }
+    }
+
+    /// Creates a new Qrl with referenced exports for segment file import generation.
+    pub fn new_with_exports<T: Into<PathBuf>>(
+        rel_path: T,
+        display_name: &str,
+        qrl_type: QrlType,
+        scoped_idents: Vec<Id>,
+        referenced_exports: Vec<ExportInfo>,
+    ) -> Self {
+        Self {
+            rel_path: rel_path.into(),
+            display_name: display_name.into(),
+            qrl_type,
+            scoped_idents,
+            referenced_exports,
         }
     }
 

@@ -22,7 +22,7 @@ pub type Id = (String, ScopeId);
 /// Used for segment file import generation - when QRL segment files
 /// reference symbols that are exports from the source file, those
 /// segments need to import from the source file.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, serde::Serialize)]
 pub struct ExportInfo {
     /// The local identifier name (the variable name in the source file)
     pub local_name: String,
