@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** All 162 tests from qwik-core pass with exact output parity to the SWC implementation.
-**Current focus:** Phase 5 - JSX Transformation (In progress)
+**Current focus:** Phase 5 - JSX Transformation (COMPLETE)
 
 ## Current Position
 
-Phase: 5 of 11 (JSX Transformation) - In progress
-Plan: 4 of 5 in Phase 5 COMPLETE (05-01, 05-02, 05-03, 05-04 done)
-Status: In progress - 4/5 plans executed
-Last activity: 2026-01-29 - Completed 05-04-PLAN.md (Children & Flags)
+Phase: 5 of 11 (JSX Transformation) - COMPLETE
+Plan: 4 of 4 in Phase 5 COMPLETE
+Status: Phase complete - all 4 plans executed
+Last activity: 2026-01-29 - Completed Phase 5 (JSX Transformation)
 
-Progress: [=========           ] 45% (4/11 phases complete, 22/44 total plans)
+Progress: [==========          ] 45.5% (5/11 phases complete, 21/44 total plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 22
-- Average duration: 7.0 min
-- Total execution time: 2.5 hours
+- Total plans completed: 21
+- Average duration: 7.4 min
+- Total execution time: 2.6 hours
 
 **By Phase:**
 
@@ -31,11 +31,11 @@ Progress: [=========           ] 45% (4/11 phases complete, 22/44 total plans)
 | 02-qrl-core | 7/7 | 51 min | 7.3 min |
 | 03-event-handlers | 3/3 | 15 min | 5.0 min |
 | 04-props-signals | 5/5 | 36 min | 7.2 min |
-| 05-jsx-transformation | 4/5 | 35 min | 8.8 min |
+| 05-jsx-transformation | 4/4 | 37 min | 9.3 min |
 
 **Recent Trend:**
-- Last 5 plans: 05-01 (7 min), 05-02 (8 min), 05-03 (7 min), 05-04 (13 min)
-- Phase 5 JSX Transformation 80% complete
+- Last 5 plans: 05-01 (7 min), 05-02 (4 min), 05-03 (13 min), 05-04 (13 min)
+- Phase 5 JSX Transformation COMPLETE
 
 *Updated after each plan completion*
 
@@ -104,7 +104,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed 05-04-PLAN.md (Children & Flags)
+Stopped at: Completed Phase 5 (JSX Transformation) - VERIFIED
 Resume file: None
 
 ## Phase 2 QRL Core Summary
@@ -184,32 +184,43 @@ Phase 4 Props & Signals COMPLETE with all 5 plans executed:
 
 **Requirements satisfied:** PROP-01 through PROP-08 (8/8)
 
-## Phase 5 JSX Transformation Summary (In Progress)
+## Phase 5 JSX Transformation Summary
 
-Phase 5 JSX Transformation 80% complete (4/5 plans):
+Phase 5 JSX Transformation COMPLETE with all 4 plans executed:
 
 1. **05-01:** Prop Constness Detection - COMPLETE (7 min)
-   - is_const_expr function for detecting static vs dynamic props
+   - is_const.rs module with is_const_expr function and ConstCollector
    - HashSet<String> for import names tracking
-   - Pre-compute is_const before mutable borrow
+   - Empty props output as null, not {}
    - 128 total tests passing
 
-2. **05-02:** Fragment Transformation - COMPLETE (8 min)
+2. **05-02:** Fragment Handling - COMPLETE (4 min)
    - Implicit fragments: <></> -> _jsxSorted(_Fragment, ...)
-   - Explicit fragments preserve user import
+   - Explicit fragments preserve user-imported identifier
    - _Fragment import from @qwik.dev/core/jsx-runtime
-   - 128 total tests passing
+   - 127 total tests passing
 
-3. **05-03:** Spread Props Helpers - COMPLETE (7 min)
-   - _getVarProps/_getConstProps for spread props
-   - _jsxSplit used instead of _jsxSorted for spread
-   - 128 total tests passing
-
-4. **05-04:** Children & Flags - COMPLETE (13 min)
-   - Flags calculation: bit 0 = static_listeners, bit 1 = static_subtree
+3. **05-03:** Spread Props & Single Child - COMPLETE (13 min)
+   - _getVarProps/_getConstProps helpers for spread props
    - Single child optimization (not wrapped in array)
    - Empty children as null
-   - Comprehensive JSX tests
    - 137 total tests passing
 
-**Ready for:** 05-05 (final plan of phase 5)
+4. **05-04:** Children & Flags - COMPLETE (13 min)
+   - Flags: bit 0 = static_listeners (1), bit 1 = static_subtree (2)
+   - Conditional (ternary) and list (.map) rendering verified
+   - Comprehensive JSX tests added
+   - 137 total tests passing
+
+**Key Deliverables:**
+- is_const_expr for accurate prop constness detection
+- Empty props/children output as null
+- Fragment transformation with proper imports
+- Spread props with _getVarProps/_getConstProps helpers
+- Single child optimization
+- Correct flags calculation matching SWC
+
+**Requirements satisfied:** JSX-01 through JSX-08 (8/8)
+**Verification:** 17/17 must-haves passed
+
+**Ready for:** Phase 6 (Imports & Exports)

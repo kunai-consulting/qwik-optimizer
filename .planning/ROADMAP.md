@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: QRL Core** - Implement complete QRL extraction and transformation
 - [x] **Phase 3: Event Handlers** - Transform onClick$, onInput$, and custom event handlers
 - [x] **Phase 4: Props & Signals** - Handle component props destructuring and signal reactivity
-- [ ] **Phase 5: JSX Transformation** - Complete JSX element and attribute handling
+- [x] **Phase 5: JSX Transformation** - Complete JSX element and attribute handling
 - [ ] **Phase 6: Imports & Exports** - Module system completeness including dynamic imports
 - [ ] **Phase 7: Entry Strategies** - Code-splitting control (Inline, Single, PerSegment, etc.)
 - [ ] **Phase 8: SSR & Build Modes** - Server/client code handling and dev/prod modes
@@ -114,10 +114,10 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 05-01-PLAN.md — Prop constness detection (is_const_expr) and null output format
-- [ ] 05-02-PLAN.md — Fragment handling (_Fragment import from jsx-runtime)
-- [ ] 05-03-PLAN.md — Spread props helpers (_getVarProps/_getConstProps) and single child optimization
-- [ ] 05-04-PLAN.md — Conditional/list rendering and comprehensive JSX tests
+- [x] 05-01-PLAN.md — Prop constness detection (is_const_expr) and null output format
+- [x] 05-02-PLAN.md — Fragment handling (_Fragment import from jsx-runtime)
+- [x] 05-03-PLAN.md — Spread props helpers (_getVarProps/_getConstProps) and single child optimization
+- [x] 05-04-PLAN.md — Conditional/list rendering and comprehensive JSX tests
 
 ### Phase 6: Imports & Exports
 **Goal**: Module system transforms correctly with proper import cleanup
@@ -233,7 +233,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 | 2. QRL Core | 7/7 | Complete | 2026-01-29 |
 | 3. Event Handlers | 3/3 | Complete | 2026-01-29 |
 | 4. Props & Signals | 5/5 | Complete | 2026-01-29 |
-| 5. JSX Transformation | 0/4 | Planned | - |
+| 5. JSX Transformation | 4/4 | Complete | 2026-01-29 |
 | 6. Imports & Exports | 0/4 | Not started | - |
 | 7. Entry Strategies | 0/3 | Not started | - |
 | 8. SSR & Build Modes | 0/3 | Not started | - |
@@ -243,4 +243,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-29 (Phase 5 planning complete)*
+*Last updated: 2026-01-29 (Phase 5 complete)*

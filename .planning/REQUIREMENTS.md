@@ -44,36 +44,36 @@ Requirements for achieving test parity with qwik-core SWC optimizer.
 
 ### Props Handling
 
-- [ ] **PRP-01**: Props destructuring in component signature
-- [ ] **PRP-02**: Props spread handling
-- [ ] **PRP-03**: Immutable props optimization
-- [ ] **PRP-04**: bind:value directive
-- [ ] **PRP-05**: bind:checked directive
-- [ ] **PRP-06**: Props in variable declarations
-- [ ] **PRP-07**: Destructured args reconstruction
-- [ ] **PRP-08**: Props with default values
-- [ ] **PRP-09**: Rest props (...rest)
-- [ ] **PRP-10**: Props aliasing
+- [x] **PRP-01**: Props destructuring in component signature
+- [x] **PRP-02**: Props spread handling
+- [x] **PRP-03**: Immutable props optimization
+- [x] **PRP-04**: bind:value directive
+- [x] **PRP-05**: bind:checked directive
+- [x] **PRP-06**: Props in variable declarations
+- [x] **PRP-07**: Destructured args reconstruction
+- [x] **PRP-08**: Props with default values
+- [x] **PRP-09**: Rest props (...rest)
+- [x] **PRP-10**: Props aliasing
 
 ### Signals & Reactivity
 
-- [ ] **SIG-01**: useSignal$ extraction
-- [ ] **SIG-02**: useStore$ extraction
-- [ ] **SIG-03**: useComputed$ extraction
-- [ ] **SIG-04**: Signal access in JSX
-- [ ] **SIG-05**: Store mutations
-- [ ] **SIG-06**: Derived signals
+- [x] **SIG-01**: useSignal$ extraction
+- [x] **SIG-02**: useStore$ extraction
+- [x] **SIG-03**: useComputed$ extraction
+- [x] **SIG-04**: Signal access in JSX
+- [x] **SIG-05**: Store mutations
+- [x] **SIG-06**: Derived signals
 
 ### JSX Transformation
 
-- [ ] **JSX-01**: Basic JSX element transformation
-- [ ] **JSX-02**: JSX with dynamic children
-- [ ] **JSX-03**: JSX fragment handling
-- [ ] **JSX-04**: JSX spread attributes
-- [ ] **JSX-05**: JSX conditional rendering
-- [ ] **JSX-06**: JSX list rendering (map)
-- [ ] **JSX-07**: _jsxSorted output format
-- [ ] **JSX-08**: Immutable props in JSX
+- [x] **JSX-01**: Basic JSX element transformation
+- [x] **JSX-02**: JSX with dynamic children
+- [x] **JSX-03**: JSX fragment handling
+- [x] **JSX-04**: JSX spread attributes
+- [x] **JSX-05**: JSX conditional rendering
+- [x] **JSX-06**: JSX list rendering (map)
+- [x] **JSX-07**: _jsxSorted output format
+- [x] **JSX-08**: Immutable props in JSX
 
 ### Imports & Exports
 
@@ -187,30 +187,30 @@ Which phases cover which requirements. Updated during roadmap creation.
 | EVT-06 | Phase 3 | Complete |
 | EVT-07 | Phase 3 | Complete |
 | EVT-08 | Phase 3 | Complete |
-| PRP-01 | Phase 4 | Pending |
-| PRP-02 | Phase 4 | Pending |
-| PRP-03 | Phase 4 | Pending |
-| PRP-04 | Phase 4 | Pending |
-| PRP-05 | Phase 4 | Pending |
-| PRP-06 | Phase 4 | Pending |
-| PRP-07 | Phase 4 | Pending |
-| PRP-08 | Phase 4 | Pending |
-| PRP-09 | Phase 4 | Pending |
-| PRP-10 | Phase 4 | Pending |
-| SIG-01 | Phase 4 | Pending |
-| SIG-02 | Phase 4 | Pending |
-| SIG-03 | Phase 4 | Pending |
-| SIG-04 | Phase 4 | Pending |
-| SIG-05 | Phase 4 | Pending |
-| SIG-06 | Phase 4 | Pending |
-| JSX-01 | Phase 5 | Pending |
-| JSX-02 | Phase 5 | Pending |
-| JSX-03 | Phase 5 | Pending |
-| JSX-04 | Phase 5 | Pending |
-| JSX-05 | Phase 5 | Pending |
-| JSX-06 | Phase 5 | Pending |
-| JSX-07 | Phase 5 | Pending |
-| JSX-08 | Phase 5 | Pending |
+| PRP-01 | Phase 4 | Complete |
+| PRP-02 | Phase 4 | Complete |
+| PRP-03 | Phase 4 | Complete |
+| PRP-04 | Phase 4 | Complete |
+| PRP-05 | Phase 4 | Complete |
+| PRP-06 | Phase 4 | Complete |
+| PRP-07 | Phase 4 | Complete |
+| PRP-08 | Phase 4 | Complete |
+| PRP-09 | Phase 4 | Complete |
+| PRP-10 | Phase 4 | Complete |
+| SIG-01 | Phase 4 | Complete |
+| SIG-02 | Phase 4 | Complete |
+| SIG-03 | Phase 4 | Complete |
+| SIG-04 | Phase 4 | Complete |
+| SIG-05 | Phase 4 | Complete |
+| SIG-06 | Phase 4 | Complete |
+| JSX-01 | Phase 5 | Complete |
+| JSX-02 | Phase 5 | Complete |
+| JSX-03 | Phase 5 | Complete |
+| JSX-04 | Phase 5 | Complete |
+| JSX-05 | Phase 5 | Complete |
+| JSX-06 | Phase 5 | Complete |
+| JSX-07 | Phase 5 | Complete |
+| JSX-08 | Phase 5 | Complete |
 | IMP-01 | Phase 6 | Pending |
 | IMP-02 | Phase 6 | Pending |
 | IMP-03 | Phase 6 | Pending |
@@ -253,4 +253,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-29*
-*Last updated: 2026-01-29 Phase 3 complete*
+*Last updated: 2026-01-29 Phase 5 complete*
