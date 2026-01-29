@@ -27,21 +27,20 @@ Decimal phases appear between their surrounding integers in numeric order.
 ## Phase Details
 
 ### Phase 1: OXC Foundation
-**Goal**: Codebase compiles on OXC 0.111.0 with all existing 19 tests passing
+**Goal**: Codebase compiles on OXC 0.111.0 with all existing 31 tests passing
 **Depends on**: Nothing (first phase)
 **Requirements**: OXC-01, OXC-02, OXC-03, OXC-04, OXC-05, OXC-06, OXC-07, OXC-08
+**Plans**: 2 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Update OXC versions and fix compilation errors
+- [ ] 01-02-PLAN.md — Verify tests pass and document upgrade completion
+
 **Success Criteria** (what must be TRUE):
   1. All OXC crates updated to 0.111.0 in Cargo.toml
   2. Codebase compiles without errors after API migration
-  3. All 19 existing snapshot tests pass unchanged
+  3. All 31 existing tests pass unchanged
   4. CI builds succeed on all platforms (Linux, macOS, Windows)
-**Plans**: TBD
-
-Plans:
-- [ ] 01-01: Incremental version update (0.94 -> 0.100 -> 0.105 -> 0.111)
-- [ ] 01-02: Fix Scoping API changes (combined SymbolTable/ScopeTree)
-- [ ] 01-03: Fix traverse pattern changes (State type parameter)
-- [ ] 01-04: Validate existing tests and CI
 
 ### Phase 2: QRL Core
 **Goal**: QRL extraction works for all function types with correct hash generation
@@ -227,7 +226,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. OXC Foundation | 0/4 | Not started | - |
+| 1. OXC Foundation | 0/2 | Planning complete | - |
 | 2. QRL Core | 0/5 | Not started | - |
 | 3. Event Handlers | 0/4 | Not started | - |
 | 4. Props & Signals | 0/5 | Not started | - |
