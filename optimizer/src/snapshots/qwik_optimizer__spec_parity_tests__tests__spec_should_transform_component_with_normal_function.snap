@@ -41,7 +41,7 @@ None
 */
 ============================= ./should_transform_component_with_normal_function.tsx_Foo_component_Inner_component_0OVQjU18qVI.js (ENTRY POINT)==
 
-import{_fnSignal,_jsxSorted,qrl}from"@qwik.dev/core";export const Foo_component_Inner_component_0OVQjU18qVI=function(props){let[data]=useLexicalScope(),data=props.data;return/* @__PURE__ */ _jsxSorted(`div`,null,null,data.value.map(item=>/* @__PURE__ */ _jsxSorted(`p`,{on:click:qrl(()=>import(`./should_transform_component_with_normal_function.tsx.js`),`Foo_component_1_Inner_component_1_div_map_p_onClick`)},null,_fnSignal(p0=>p0.value.id,[item],`p0.value.id`),1,null)),1,null)};
+import{_fnSignal,_jsxSorted,qrl}from"@qwik.dev/core";export const Foo_component_Inner_component_0OVQjU18qVI=function(props){let[data]=useLexicalScope(),data=props.data;return/* @__PURE__ */ _jsxSorted(`div`,null,null,data.value.map(item=>/* @__PURE__ */ _jsxSorted(`p`,{on:click:qrl(()=>import(`./should_transform_component_with_normal_function.tsx_Foo_component_Inner_component_div_map_p_onClick_aGRFeTx4Lfo.js`),`Foo_component_Inner_component_div_map_p_onClick_aGRFeTx4Lfo`)},null,_fnSignal(p0=>p0.value.id,[item],`p0.value.id`),1,null)),1,null)};
 
 None
 /*
@@ -69,6 +69,31 @@ None
 import{componentQrl,qrl}from"@qwik.dev/core";componentQrl(qrl(()=>import(`./should_transform_component_with_normal_function.tsx_Foo_component_cwC20JPJrUs.js`),`Foo_component_cwC20JPJrUs`));
 
 None
+============================= ./should_transform_component_with_normal_function.tsx_Foo_component_Inner_component_div_map_p_onClick_aGRFeTx4Lfo.js (ENTRY POINT)==
+
+export const Foo_component_Inner_component_div_map_p_onClick_aGRFeTx4Lfo=(_,_1,item)=>console.log(item.value.id);
+
+None
+/*
+{
+  "origin": "should_transform_component_with_normal_function.tsx",
+  "name": "Foo_component_Inner_component_div_map_p_onClick_aGRFeTx4Lfo",
+  "entry": null,
+  "displayName": "should_transform_component_with_normal_function.tsx_Foo_component_Inner_component_div_map_p_onClick",
+  "hash": "aGRFeTx4Lfo",
+  "canonicalFilename": "should_transform_component_with_normal_function.tsx_Foo_component_Inner_component_div_map_p_onClick_aGRFeTx4Lfo",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Foo_component_Inner_component_div_map_p_onClick_aGRFeTx4Lfo",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
 == DIAGNOSTICS ==
 
 []

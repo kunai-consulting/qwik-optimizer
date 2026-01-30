@@ -67,6 +67,12 @@ impl QrlComponent {
         let mut all_imports = imports;
         all_imports.extend(source_file_imports);
 
+        // Add useLexicalScope import only for loop-extracted handlers with outer captures
+        // (these have iteration_params and scoped_idents)
+        if !scoped_idents.is_empty() && !iteration_params.is_empty() {
+            all_imports.push(Import::use_lexical_scope());
+        }
+
         let source_type: SourceType = language.into();
 
         let code = Self::gen(
@@ -243,6 +249,23 @@ impl QrlComponent {
 
         let id = Id::new(source_info, segments, &options.target, scope);
 
+        QrlComponent::new(options, source_info, id, expr, imports, qrl_type, segment_data, entry)
+    }
+
+    /// Creates a QrlComponent with explicit QrlType (for event handlers in loops).
+    #[allow(clippy::too_many_arguments)]
+    pub(crate) fn from_expression_with_qrl_type(
+        expr: Expression<'_>,
+        imports: Vec<Import>,
+        segments: &Vec<Segment>,
+        scope: &Option<String>,
+        options: &TransformOptions,
+        source_info: &SourceInfo,
+        segment_data: Option<SegmentData>,
+        entry: Option<String>,
+        qrl_type: QrlType,
+    ) -> QrlComponent {
+        let id = Id::new(source_info, segments, &options.target, scope);
         QrlComponent::new(options, source_info, id, expr, imports, qrl_type, segment_data, entry)
     }
 

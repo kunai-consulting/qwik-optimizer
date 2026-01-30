@@ -148,6 +148,11 @@ impl Import {
         let names = vec![QRL.into()];
         Self::new(names, QWIK_CORE_SOURCE)
     }
+
+    pub fn use_lexical_scope() -> Self {
+        let names = vec![ImportId::Named("useLexicalScope".to_string())];
+        Self::new(names, QWIK_CORE_SOURCE)
+    }
 }
 
 impl<'a> FromIn<'a, &Import> for Statement<'a> {

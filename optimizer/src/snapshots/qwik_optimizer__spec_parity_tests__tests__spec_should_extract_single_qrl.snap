@@ -49,14 +49,64 @@ export const App = component$(() => {
       );
     });
 
+============================= ./should_extract_single_qrl.tsx_App_component_div_map_tr_td_a_onClick_Tpa0ws6BR1s.js (ENTRY POINT)==
+
+import{useLexicalScope}from"@qwik.dev/core";export const App_component_div_map_tr_td_a_onClick_Tpa0ws6BR1s=(_,_1,row)=>{let[selectedItem]=useLexicalScope();selectedItem.value&&(selectedItem.value.selected.value=!1),selectedItem.value=row.value,row.value.selected.value=!0};
+
+None
+/*
+{
+  "origin": "should_extract_single_qrl.tsx",
+  "name": "App_component_div_map_tr_td_a_onClick_Tpa0ws6BR1s",
+  "entry": null,
+  "displayName": "should_extract_single_qrl.tsx_App_component_div_map_tr_td_a_onClick",
+  "hash": "Tpa0ws6BR1s",
+  "canonicalFilename": "should_extract_single_qrl.tsx_App_component_div_map_tr_td_a_onClick_Tpa0ws6BR1s",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_div_map_tr_td_a_onClick_Tpa0ws6BR1s",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
 ============================= should_extract_single_qrl.tsx ==
 
 import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./should_extract_single_qrl.tsx_App_component_nrUmNRSfAfw.js`),`App_component_nrUmNRSfAfw`));
 
 None
+============================= ./should_extract_single_qrl.tsx_App_component_div_map_tr_td_a_onClick_1_zZhyIRep0bs.js (ENTRY POINT)==
+
+import{useLexicalScope}from"@qwik.dev/core";export const App_component_div_map_tr_td_a_onClick_1_zZhyIRep0bs=(_,_1,row)=>{let[data]=useLexicalScope(),dataValue=untrack(()=>data.value);data.value=dataValue.toSpliced(dataValue.findIndex(d=>d.value.id===row.value.id),1)};
+
+None
+/*
+{
+  "origin": "should_extract_single_qrl.tsx",
+  "name": "App_component_div_map_tr_td_a_onClick_1_zZhyIRep0bs",
+  "entry": null,
+  "displayName": "should_extract_single_qrl.tsx_App_component_div_map_tr_td_a_onClick_1",
+  "hash": "zZhyIRep0bs",
+  "canonicalFilename": "should_extract_single_qrl.tsx_App_component_div_map_tr_td_a_onClick_1_zZhyIRep0bs",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_div_map_tr_td_a_onClick_1_zZhyIRep0bs",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
 ============================= ./should_extract_single_qrl.tsx_App_component_nrUmNRSfAfw.js (ENTRY POINT)==
 
-import{_fnSignal,_jsxSorted,qrl,useSignal}from"@qwik.dev/core";export const App_component_nrUmNRSfAfw=()=>{let data=useSignal([]),selectedItem=useSignal(null);return/* @__PURE__ */ _jsxSorted(`div`,null,null,data.value.map(row=>/* @__PURE__ */ _jsxSorted(`tr`,{class:_fnSignal(p0=>p0.value.selected.value?`danger`:``,[row],"p0.value.selected.value?`danger`:``")},null,[/* @__PURE__ */ _jsxSorted(`td`,null,{class:`col-md-1`},_fnSignal(p0=>p0.value.id,[row],`p0.value.id`),1,null),/* @__PURE__ */ _jsxSorted(`td`,null,{class:`col-md-4`},/* @__PURE__ */ _jsxSorted(`a`,{on:click:qrl(()=>import(`./should_extract_single_qrl.tsx.js`),`App_component_div_map_tr_td_a_onClick`,[selectedItem])},null,_wrapProp(row.value.label),1,null),3,null),/* @__PURE__ */ _jsxSorted(`td`,null,{class:`col-md-1`},/* @__PURE__ */ _jsxSorted(`a`,{on:click:qrl(()=>import(`./should_extract_single_qrl.tsx.js`),`App_component_div_map_tr_td_a_onClick_1`,[data])},null,/* @__PURE__ */ _jsxSorted(`span`,null,{aria-hidden:`true`},`x`,3,null),3,null),3,null),/* @__PURE__ */ _jsxSorted(`td`,null,{class:`col-md-6`},null,3,null)],3,untrack(()=>row.value.id))),1,null)};
+import{_fnSignal,_jsxSorted,qrl,useSignal}from"@qwik.dev/core";export const App_component_nrUmNRSfAfw=()=>{let data=useSignal([]),selectedItem=useSignal(null);return/* @__PURE__ */ _jsxSorted(`div`,null,null,data.value.map(row=>/* @__PURE__ */ _jsxSorted(`tr`,{class:_fnSignal(p0=>p0.value.selected.value?`danger`:``,[row],"p0.value.selected.value?`danger`:``")},null,[/* @__PURE__ */ _jsxSorted(`td`,null,{class:`col-md-1`},_fnSignal(p0=>p0.value.id,[row],`p0.value.id`),1,null),/* @__PURE__ */ _jsxSorted(`td`,null,{class:`col-md-4`},/* @__PURE__ */ _jsxSorted(`a`,{on:click:qrl(()=>import(`./should_extract_single_qrl.tsx_App_component_div_map_tr_td_a_onClick_Tpa0ws6BR1s.js`),`App_component_div_map_tr_td_a_onClick_Tpa0ws6BR1s`,[selectedItem])},null,_wrapProp(row.value.label),1,null),3,null),/* @__PURE__ */ _jsxSorted(`td`,null,{class:`col-md-1`},/* @__PURE__ */ _jsxSorted(`a`,{on:click:qrl(()=>import(`./should_extract_single_qrl.tsx_App_component_div_map_tr_td_a_onClick_1_zZhyIRep0bs.js`),`App_component_div_map_tr_td_a_onClick_1_zZhyIRep0bs`,[data])},null,/* @__PURE__ */ _jsxSorted(`span`,null,{aria-hidden:`true`},`x`,3,null),3,null),3,null),/* @__PURE__ */ _jsxSorted(`td`,null,{class:`col-md-6`},null,3,null)],3,untrack(()=>row.value.id))),1,null)};
 
 None
 /*

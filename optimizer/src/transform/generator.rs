@@ -95,7 +95,7 @@ pub struct TransformGenerator<'gen> {
 
     pub(crate) source_info: &'gen SourceInfo,
 
-    scope: Option<String>,
+    pub(crate) scope: Option<String>,
 
     pub(crate) jsx_stack: Vec<JsxState<'gen>>,
 

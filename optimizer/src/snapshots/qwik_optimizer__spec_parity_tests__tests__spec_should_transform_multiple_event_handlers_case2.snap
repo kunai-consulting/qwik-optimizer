@@ -23,7 +23,7 @@ import{componentQrl,qrl}from"@qwik.dev/core";componentQrl(qrl(()=>import(`./shou
 None
 ============================= ./should_transform_multiple_event_handlers_case2.tsx_Foo_component_tKi05vCbbQ4.js (ENTRY POINT)==
 
-import{_jsxSorted,qrl,useSignal}from"@qwik.dev/core";export const Foo_component_tKi05vCbbQ4=function(){return/* @__PURE__ */ _jsxSorted(`div`,null,null,useSignal([]).value.map((row,idx)=>/* @__PURE__ */ _jsxSorted(`div`,{on:click:qrl(()=>import(`./should_transform_multiple_event_handlers_case2.tsx.js`),`Foo_component_1_div_map_div_onClick`),on:mouseover:qrl(()=>import(`./should_transform_multiple_event_handlers_case2.tsx.js`),`Foo_component_1_div_map_div_onMouseOver`)},null,/* @__PURE__ */ _jsxSorted(`p`,{on:click:qrl(()=>import(`./should_transform_multiple_event_handlers_case2.tsx.js`),`Foo_component_1_div_map_div_p_onClick`)},null,item.value.id,1,null),3,null)),1,null)};
+import{_jsxSorted,qrl,useSignal}from"@qwik.dev/core";export const Foo_component_tKi05vCbbQ4=function(){return/* @__PURE__ */ _jsxSorted(`div`,null,null,useSignal([]).value.map((row,idx)=>/* @__PURE__ */ _jsxSorted(`div`,{on:click:qrl(()=>import(`./should_transform_multiple_event_handlers_case2.tsx_Foo_component_div_map_div_onClick_0WoyeGT07yM.js`),`Foo_component_div_map_div_onClick_0WoyeGT07yM`),on:mouseover:qrl(()=>import(`./should_transform_multiple_event_handlers_case2.tsx_Foo_component_div_map_div_onMouseOver_563Hs8HyFRc.js`),`Foo_component_div_map_div_onMouseOver_563Hs8HyFRc`)},null,/* @__PURE__ */ _jsxSorted(`p`,{on:click:qrl(()=>import(`./should_transform_multiple_event_handlers_case2.tsx_Foo_component_div_map_div_p_onClick_PsMziaJSHuM.js`),`Foo_component_div_map_div_p_onClick_PsMziaJSHuM`)},null,item.value.id,1,null),3,null)),1,null)};
 
 None
 /*
@@ -39,6 +39,81 @@ None
   "parent": null,
   "ctxKind": "function",
   "ctxName": "Foo_component_tKi05vCbbQ4",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./should_transform_multiple_event_handlers_case2.tsx_Foo_component_div_map_div_onMouseOver_563Hs8HyFRc.js (ENTRY POINT)==
+
+export const Foo_component_div_map_div_onMouseOver_563Hs8HyFRc=(_,_1,row)=>console.log(`over`+row.value.id);
+
+None
+/*
+{
+  "origin": "should_transform_multiple_event_handlers_case2.tsx",
+  "name": "Foo_component_div_map_div_onMouseOver_563Hs8HyFRc",
+  "entry": null,
+  "displayName": "should_transform_multiple_event_handlers_case2.tsx_Foo_component_div_map_div_onMouseOver",
+  "hash": "563Hs8HyFRc",
+  "canonicalFilename": "should_transform_multiple_event_handlers_case2.tsx_Foo_component_div_map_div_onMouseOver_563Hs8HyFRc",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Foo_component_div_map_div_onMouseOver_563Hs8HyFRc",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./should_transform_multiple_event_handlers_case2.tsx_Foo_component_div_map_div_onClick_0WoyeGT07yM.js (ENTRY POINT)==
+
+export const Foo_component_div_map_div_onClick_0WoyeGT07yM=(_,_1,idx,row)=>console.log(row.value.id,idx);
+
+None
+/*
+{
+  "origin": "should_transform_multiple_event_handlers_case2.tsx",
+  "name": "Foo_component_div_map_div_onClick_0WoyeGT07yM",
+  "entry": null,
+  "displayName": "should_transform_multiple_event_handlers_case2.tsx_Foo_component_div_map_div_onClick",
+  "hash": "0WoyeGT07yM",
+  "canonicalFilename": "should_transform_multiple_event_handlers_case2.tsx_Foo_component_div_map_div_onClick_0WoyeGT07yM",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Foo_component_div_map_div_onClick_0WoyeGT07yM",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./should_transform_multiple_event_handlers_case2.tsx_Foo_component_div_map_div_p_onClick_PsMziaJSHuM.js (ENTRY POINT)==
+
+export const Foo_component_div_map_div_p_onClick_PsMziaJSHuM=(_,_1,row)=>console.log(`inner`+row.value.id);
+
+None
+/*
+{
+  "origin": "should_transform_multiple_event_handlers_case2.tsx",
+  "name": "Foo_component_div_map_div_p_onClick_PsMziaJSHuM",
+  "entry": null,
+  "displayName": "should_transform_multiple_event_handlers_case2.tsx_Foo_component_div_map_div_p_onClick",
+  "hash": "PsMziaJSHuM",
+  "canonicalFilename": "should_transform_multiple_event_handlers_case2.tsx_Foo_component_div_map_div_p_onClick_PsMziaJSHuM",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Foo_component_div_map_div_p_onClick_PsMziaJSHuM",
   "captures": false,
   "loc": [
     0,

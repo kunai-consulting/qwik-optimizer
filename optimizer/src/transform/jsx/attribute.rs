@@ -6,7 +6,7 @@ use oxc_span::{GetSpan, SPAN};
 use oxc_traverse::TraverseCtx;
 
 use crate::collector::IdentCollector;
-use crate::component::{Import, Qrl, QrlType, MARKER_SUFFIX};
+use crate::component::{Import, QrlComponent, Qrl, QrlType, SegmentData, MARKER_SUFFIX};
 use crate::is_const::is_const_expr;
 use crate::transform::generator::{IdentType, IdPlusType, TransformGenerator};
 use crate::transform::qrl as qrl_module;
@@ -238,23 +238,72 @@ pub fn exit_jsx_attribute<'a>(
                     };
 
                     let display_name = gen.current_display_name();
-                    let qrl = Qrl::new_with_iteration_params(
-                        gen.source_info.rel_path.clone(),
-                        &display_name,
-                        QrlType::Qrl,
-                        lexical_captures,
-                        referenced_exports,
-                        iteration_params,
-                    );
 
-                    let call_expr = qrl.into_call_expression(
-                        ctx,
-                        &mut gen.symbol_by_name,
-                        &mut gen.import_by_symbol,
-                    );
+                    // When inside a loop, extract the handler to a separate segment file
+                    if gen.loop_depth > 0 {
+                        let ctx_name = attr_name.clone();
+                        let hash = qrl_module::compute_hash(
+                            &gen.source_info.rel_path,
+                            &display_name,
+                            gen.scope.as_deref(),
+                        );
 
-                    container.expression =
-                        JSXExpression::from(Expression::CallExpression(ctx.ast.alloc(call_expr)));
+                        let segment_data = SegmentData::new_with_iteration_params(
+                            &ctx_name,
+                            display_name.clone(),
+                            hash,
+                            gen.source_info.rel_path.clone(),
+                            lexical_captures.clone(),
+                            descendent_idents.clone(),
+                            None,
+                            referenced_exports.clone(),
+                            iteration_params.clone(),
+                        );
+
+                        let handler_expr = expr.clone_in(ctx.ast.allocator);
+                        let comp = QrlComponent::from_expression_with_qrl_type(
+                            handler_expr,
+                            imports_vec.clone(),
+                            &gen.segment_stack,
+                            &gen.scope,
+                            &gen.options,
+                            gen.source_info,
+                            Some(segment_data),
+                            None,
+                            QrlType::Qrl,  // Use plain qrl() for extracted handlers
+                        );
+
+                        // Create QRL that imports from the extracted segment file
+                        let qrl = comp.qrl.clone();
+                        gen.components.push(comp);
+
+                        let call_expr = qrl.into_call_expression(
+                            ctx,
+                            &mut gen.symbol_by_name,
+                            &mut gen.import_by_symbol,
+                        );
+
+                        container.expression =
+                            JSXExpression::from(Expression::CallExpression(ctx.ast.alloc(call_expr)));
+                    } else {
+                        let qrl = Qrl::new_with_iteration_params(
+                            gen.source_info.rel_path.clone(),
+                            &display_name,
+                            QrlType::Qrl,
+                            lexical_captures,
+                            referenced_exports,
+                            iteration_params,
+                        );
+
+                        let call_expr = qrl.into_call_expression(
+                            ctx,
+                            &mut gen.symbol_by_name,
+                            &mut gen.import_by_symbol,
+                        );
+
+                        container.expression =
+                            JSXExpression::from(Expression::CallExpression(ctx.ast.alloc(call_expr)));
+                    }
 
                     if let Some(import_set) = gen.import_stack.last_mut() {
                         import_set.insert(Import::qrl());
