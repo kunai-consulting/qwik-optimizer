@@ -40,7 +40,7 @@ use crate::is_const::is_const_expr;
 
 // Import types from sibling modules
 use super::jsx;
-use super::options::TransformOptions;
+use super::options::{OptimizationResult, OptimizedApp, TransformOptions};
 use super::qrl as qrl_module;
 use super::scope as scope_module;
 use super::state::{ImportTracker, JsxState};
@@ -71,63 +71,9 @@ use std::fs;
 use std::path::Path;
 use std::str;
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Default, Serialize)]
-pub struct OptimizedApp {
-    pub body: String,
-    pub components: Vec<QrlComponent>,
-}
-
 use crate::ext::*;
 use crate::illegal_code::{IllegalCode, IllegalCodeType};
 use crate::processing_failure::ProcessingFailure;
-
-impl OptimizedApp {
-    fn get_component(&self, name: String) -> Option<&QrlComponent> {
-        self.components
-            .iter()
-            .find(|comp| comp.id.symbol_name == name)
-    }
-}
-
-impl Display for OptimizedApp {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let component_count = self.components.len();
-        let comp_heading = format!(
-            "------------------- COMPONENTS[{}] ------------------\n",
-            component_count
-        );
-
-        let sep = format!("{}\n", "-".repeat(comp_heading.len()));
-        let all_comps = self.components.iter().fold(String::new(), |acc, comp| {
-            let heading = format!("-------- COMPONENT: {}", comp.id.symbol_name);
-
-            let body = &comp.code;
-            format!("{}\n{}\n{}\n{}", acc, heading, body, sep)
-        });
-
-        let body_heading = "------------------------ BODY -----------------------\n".to_string();
-
-        write!(
-            f,
-            "{}{}{}{}",
-            comp_heading, all_comps, body_heading, self.body
-        )
-    }
-}
-
-pub struct OptimizationResult {
-    pub optimized_app: OptimizedApp,
-    pub errors: Vec<ProcessingFailure>,
-}
-
-impl OptimizationResult {
-    pub fn new(optimized_app: OptimizedApp, errors: Vec<ProcessingFailure>) -> Self {
-        Self {
-            optimized_app,
-            errors,
-        }
-    }
-}
 
 // JsxState is defined in super::state
 

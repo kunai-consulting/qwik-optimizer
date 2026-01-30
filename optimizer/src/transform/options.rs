@@ -3,24 +3,96 @@
 //! This module contains:
 //! - `TransformOptions`: Configuration for the transformation
 //! - `transform()`: Main entry point for transforming source code
+//! - `OptimizedApp`: Result of optimization containing body and components
+//! - `OptimizationResult`: Wrapper for optimization result and errors
 
-use crate::component::Target;
+use std::fmt::Display;
+
+use serde::Serialize;
+
+use crate::component::{QrlComponent, Target};
 use crate::const_replace::ConstReplacerVisitor;
 use crate::entry_strategy::EntryStrategy;
 use crate::prelude::*;
+use crate::processing_failure::ProcessingFailure;
 use crate::source::Source;
 
 use super::generator::TransformGenerator;
 use super::state::ImportTracker;
-use super::OptimizationResult;
 
 use oxc_allocator::Allocator;
 use oxc_ast::ast::{ImportDeclarationSpecifier, Statement};
-use oxc_ast_visit::VisitMut;
 use oxc_parser::Parser;
 use oxc_semantic::{SemanticBuilder, SemanticBuilderReturn};
 use oxc_transformer::{JsxOptions, TransformOptions as OxcTransformOptions, Transformer, TypeScriptOptions};
 use oxc_traverse::traverse_mut;
+
+// =============================================================================
+// Output Types
+// =============================================================================
+
+/// Result of optimizing a Qwik source file.
+///
+/// Contains the transformed body code and all extracted QRL components.
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Default, Serialize)]
+pub struct OptimizedApp {
+    pub body: String,
+    pub components: Vec<QrlComponent>,
+}
+
+impl OptimizedApp {
+    /// Find a component by its symbol name.
+    pub fn get_component(&self, name: String) -> Option<&QrlComponent> {
+        self.components
+            .iter()
+            .find(|comp| comp.id.symbol_name == name)
+    }
+}
+
+impl Display for OptimizedApp {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let component_count = self.components.len();
+        let comp_heading = format!(
+            "------------------- COMPONENTS[{}] ------------------\n",
+            component_count
+        );
+
+        let sep = format!("{}\n", "-".repeat(comp_heading.len()));
+        let all_comps = self.components.iter().fold(String::new(), |acc, comp| {
+            let heading = format!("-------- COMPONENT: {}", comp.id.symbol_name);
+
+            let body = &comp.code;
+            format!("{}\n{}\n{}\n{}", acc, heading, body, sep)
+        });
+
+        let body_heading = "------------------------ BODY -----------------------\n".to_string();
+
+        write!(
+            f,
+            "{}{}{}{}",
+            comp_heading, all_comps, body_heading, self.body
+        )
+    }
+}
+
+/// Wrapper for optimization result containing the optimized app and any errors.
+pub struct OptimizationResult {
+    pub optimized_app: OptimizedApp,
+    pub errors: Vec<ProcessingFailure>,
+}
+
+impl OptimizationResult {
+    pub fn new(optimized_app: OptimizedApp, errors: Vec<ProcessingFailure>) -> Self {
+        Self {
+            optimized_app,
+            errors,
+        }
+    }
+}
+
+// =============================================================================
+// Configuration
+// =============================================================================
 
 /// Configuration options for the Qwik optimizer transformation.
 #[derive(Clone)]
