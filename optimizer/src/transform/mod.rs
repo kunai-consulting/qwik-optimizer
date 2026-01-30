@@ -10,6 +10,7 @@
 //! - `generator`: Core AST transformation logic
 
 pub mod generator;
+pub mod jsx;
 pub mod options;
 pub mod state;
 
@@ -20,6 +21,6 @@ pub use state::{ImportTracker, JsxState};
 
 // Re-export crate-internal items (used by is_const.rs, transform_tests.rs)
 #[allow(unused_imports)]
-pub(crate) use generator::{
-    compute_scoped_idents, get_event_scope_data_from_jsx_event, jsx_event_to_html_attribute, Target,
-};
+pub(crate) use generator::{compute_scoped_idents, Target};
+#[allow(unused_imports)]
+pub(crate) use jsx::{get_event_scope_data_from_jsx_event, jsx_event_to_html_attribute};

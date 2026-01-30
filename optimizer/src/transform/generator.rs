@@ -137,70 +137,70 @@ pub struct TransformGenerator<'gen> {
 
     pub errors: Vec<ProcessingFailure>,
 
-    builder: AstBuilder<'gen>,
+    pub(crate) builder: AstBuilder<'gen>,
 
     depth: usize,
 
-    segment_stack: Vec<Segment>,
+    pub(crate) segment_stack: Vec<Segment>,
 
     segment_builder: SegmentBuilder,
 
-    symbol_by_name: HashMap<String, SymbolId>,
+    pub(crate) symbol_by_name: HashMap<String, SymbolId>,
 
-    component_stack: Vec<QrlComponent>,
+    pub(crate) component_stack: Vec<QrlComponent>,
 
-    qrl_stack: Vec<Qrl>,
+    pub(crate) qrl_stack: Vec<Qrl>,
 
-    import_stack: Vec<BTreeSet<Import>>,
+    pub(crate) import_stack: Vec<BTreeSet<Import>>,
 
     const_stack: Vec<BTreeSet<SymbolId>>,
 
-    import_by_symbol: HashMap<SymbolId, Import>,
+    pub(crate) import_by_symbol: HashMap<SymbolId, Import>,
 
     removed: HashMap<SymbolId, IllegalCodeType>,
 
-    source_info: &'gen SourceInfo,
+    pub(crate) source_info: &'gen SourceInfo,
 
     scope: Option<String>,
 
-    jsx_stack: Vec<JsxState<'gen>>,
+    pub(crate) jsx_stack: Vec<JsxState<'gen>>,
 
-    jsx_key_counter: u32,
+    pub(crate) jsx_key_counter: u32,
 
     /// Marks whether each JSX attribute in the stack is var (false) or const (true).
     /// An attribute is considered var if it:
     /// - calls a function
     /// - accesses a member
     /// - is a variable that is not an import, an export, or in the const stack
-    expr_is_const_stack: Vec<bool>,
+    pub(crate) expr_is_const_stack: Vec<bool>,
 
     /// Used to replace the current expression in the AST. Should be set when exiting a specific
     /// type of expression (e.g., `exit_jsx_element`); this will be picked up in `exit_expression`,
     /// which will replace the entire expression with the contents of this field.
-    replace_expr: Option<Expression<'gen>>,
+    pub(crate) replace_expr: Option<Expression<'gen>>,
 
     /// Stack of declaration scopes for tracking variable captures.
     /// Each scope level contains the identifiers declared at that level.
     /// Used by compute_scoped_idents to determine which variables need to be captured.
-    decl_stack: Vec<Vec<IdPlusType>>,
+    pub(crate) decl_stack: Vec<Vec<IdPlusType>>,
 
     /// Stack tracking whether each JSX element is a native HTML element.
     /// Native elements (lowercase first char like `<div>`, `<button>`) get event name transformation.
     /// Component elements (uppercase first char like `<MyButton>`) keep original attribute names.
-    jsx_element_is_native: Vec<bool>,
+    pub(crate) jsx_element_is_native: Vec<bool>,
 
     /// Props destructuring state for current component.
     /// Maps local variable names to their original property keys for _rawProps.key access.
     /// Key: (local_name, scope_id), Value: property key string
-    props_identifiers: HashMap<Id, String>,
+    pub(crate) props_identifiers: HashMap<Id, String>,
 
     /// Flag indicating we're inside a component$ that needs props transformation.
     /// Set to true when entering a component$ with destructured props, cleared on exit.
-    in_component_props: bool,
+    pub(crate) in_component_props: bool,
 
     /// Flag indicating _wrapProp import needs to be added.
     /// Set when any prop identifier or signal.value access is wrapped.
-    needs_wrap_prop_import: bool,
+    pub(crate) needs_wrap_prop_import: bool,
 
     /// Hoisted functions for _fnSignal (hoisted_name, hoisted_fn_expr, hoisted_str).
     /// These are emitted at module top before the component code.
@@ -214,27 +214,27 @@ pub struct TransformGenerator<'gen> {
 
     /// Pending bind directives for current element: (is_checked, signal_expr)
     /// Collected during attribute processing and applied at element exit.
-    pending_bind_directives: Vec<(bool, Expression<'gen>)>,
+    pub(crate) pending_bind_directives: Vec<(bool, Expression<'gen>)>,
 
     /// Pending on:input handlers for current element.
     /// Used to merge with bind handlers when both exist on same element.
     pending_on_input_handlers: Vec<Expression<'gen>>,
 
     /// Flag indicating _val import needs to be added (bind:value).
-    needs_val_import: bool,
+    pub(crate) needs_val_import: bool,
 
     /// Flag indicating _chk import needs to be added (bind:checked).
-    needs_chk_import: bool,
+    pub(crate) needs_chk_import: bool,
 
     /// Flag indicating inlinedQrl import needs to be added.
-    needs_inlined_qrl_import: bool,
+    pub(crate) needs_inlined_qrl_import: bool,
 
     /// Tracks all module exports for segment file import generation.
     /// When QRL segment files reference symbols that are exports from the source file,
     /// those segments need to import from the source file (e.g., "./test").
     /// Key: local name of the exported symbol
     /// Value: ExportInfo with local_name, exported_name, is_default, source
-    export_by_name: HashMap<String, ExportInfo>,
+    pub(crate) export_by_name: HashMap<String, ExportInfo>,
 
     /// Synthesized imports to be emitted at module top during finalization.
     /// Maps source path to set of import names for deduplication and merging.
@@ -244,7 +244,7 @@ pub struct TransformGenerator<'gen> {
     /// Context stack for entry strategy component grouping.
     /// Tracks names as AST is traversed (file name, function names, component names,
     /// JSX elements, attributes) for PerComponentStrategy and SmartStrategy.
-    stack_ctxt: Vec<String>,
+    pub(crate) stack_ctxt: Vec<String>,
 
     /// Entry policy for determining how segments are grouped for bundling.
     /// Parsed from TransformOptions.entry_strategy at initialization.
@@ -372,17 +372,17 @@ impl<'gen> TransformGenerator<'gen> {
         ss.concat()
     }
 
-    fn descend(&mut self) {
+    pub(crate) fn descend(&mut self) {
         if self.depth > 0 {
             self.depth -= 1;
         }
     }
 
-    fn ascend(&mut self) {
+    pub(crate) fn ascend(&mut self) {
         self.depth += 1;
     }
 
-    fn debug<T: AsRef<str>>(&self, s: T, traverse_ctx: &TraverseCtx<'_, ()>) {
+    pub(crate) fn debug<T: AsRef<str>>(&self, s: T, traverse_ctx: &TraverseCtx<'_, ()>) {
         if DEBUG {
             let scope_id = traverse_ctx.current_scope_id();
             let indent = "--".repeat(scope_id.index());
@@ -397,7 +397,7 @@ impl<'gen> TransformGenerator<'gen> {
         }
     }
 
-    fn new_segment<T: AsRef<str>>(&mut self, input: T) -> Segment {
+    pub(crate) fn new_segment<T: AsRef<str>>(&mut self, input: T) -> Segment {
         self.segment_builder.new_segment(input, &self.segment_stack)
     }
 
@@ -405,7 +405,7 @@ impl<'gen> TransformGenerator<'gen> {
     ///
     /// Joins segment names with underscores, handling special cases for named QRLs
     /// and indexed QRLs.
-    fn current_display_name(&self) -> String {
+    pub(crate) fn current_display_name(&self) -> String {
         let mut display_name = String::new();
 
         for segment in &self.segment_stack {
@@ -489,7 +489,7 @@ impl<'gen> TransformGenerator<'gen> {
     }
 
     /// Get all imported symbol names for is_const_expr checking.
-    fn get_imported_names(&self) -> HashSet<String> {
+    pub(crate) fn get_imported_names(&self) -> HashSet<String> {
         self.import_by_symbol
             .values()
             .flat_map(|import| import.names.iter())
@@ -503,7 +503,7 @@ impl<'gen> TransformGenerator<'gen> {
 
     /// Check if this expression is a prop identifier that needs _wrapProp wrapping.
     /// Returns Some((raw_props_name, prop_key)) if wrapping is needed.
-    fn should_wrap_prop(&self, expr: &Expression) -> Option<(String, String)> {
+    pub(crate) fn should_wrap_prop(&self, expr: &Expression) -> Option<(String, String)> {
         if let Expression::Identifier(ident) = expr {
             // Match by name only since props_identifiers uses scope from declaration
             for ((name, _scope_id), prop_key) in &self.props_identifiers {
@@ -516,7 +516,7 @@ impl<'gen> TransformGenerator<'gen> {
     }
 
     /// Check if this expression is a signal.value access that needs _wrapProp wrapping.
-    fn should_wrap_signal_value(&self, expr: &Expression) -> bool {
+    pub(crate) fn should_wrap_signal_value(&self, expr: &Expression) -> bool {
         if let Expression::StaticMemberExpression(static_member) = expr {
             if static_member.property.name == "value" {
                 // Wrap any .value access - runtime will determine if it's actually a signal
@@ -541,7 +541,7 @@ impl<'gen> TransformGenerator<'gen> {
     /// Create inlinedQrl for bind handler.
     /// inlinedQrl(_val, "_val", [signal]) for bind:value
     /// inlinedQrl(_chk, "_chk", [signal]) for bind:checked
-    fn create_bind_handler<'b>(
+    pub(crate) fn create_bind_handler<'b>(
         builder: &AstBuilder<'b>,
         is_checked: bool,
         signal_expr: Expression<'b>,
@@ -566,7 +566,7 @@ impl<'gen> TransformGenerator<'gen> {
 
     /// Merge bind handler with existing on:input handler.
     /// Returns array expression: [existingHandler, bindHandler]
-    fn merge_event_handlers<'b>(
+    pub(crate) fn merge_event_handlers<'b>(
         builder: &AstBuilder<'b>,
         existing: Expression<'b>,
         bind_handler: Expression<'b>,
