@@ -24,7 +24,6 @@ impl SourceInfo {
     /// # Arguments
     /// - src - source file.  e.g. `./app.js`
     pub fn new<P: AsRef<Path>>(path: P) -> Result<SourceInfo> {
-        // let path = Path::new(src);
         let path = path.as_ref();
         let rel_dir = path.parent().map(|p| p.to_path_buf()).ok_or_else(|| {
             Error::StringConversion(

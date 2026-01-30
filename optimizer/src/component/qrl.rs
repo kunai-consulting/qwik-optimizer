@@ -93,8 +93,6 @@ impl Qrl {
     ) -> ReferenceId {
         match qrl_type {
             QrlType::Qrl | QrlType::IndexedQrl(_) => {
-                // `qrl` is ALWAYS part of newly created expression, even if `$` was not used in the initial script.
-                // If `qrl` was not explicitly imported in the original script, we need to synthesize both a SymbolId and an Import.
                 let qrl_symbol_id = if !symbols_by_name.contains_key(QRL) {
                     let symbol_id = ctx.scoping_mut().create_symbol(
                         SPAN,
@@ -178,7 +176,6 @@ impl Qrl {
             self.rel_path.file_name().unwrap().to_string_lossy()
         );
 
-        // Function Body /////////
         let mut statements = ast_builder.vec_with_capacity(1);
         statements.push(ast_builder.create_simple_import(filename.as_ref()));
         let function_body = ast_builder.function_body(SPAN, ast_builder.vec(), statements);
@@ -189,7 +186,6 @@ impl Qrl {
             None::<OxcBox<FormalParameterRest>>,
         );
 
-        //  Arrow Function Expression ////////
         ast_builder.arrow_function_expression(
             SPAN,
             true,
@@ -204,17 +200,14 @@ impl Qrl {
     fn into_arguments<'a>(&self, ast_builder: &AstBuilder<'a>) -> OxcVec<'a, Argument<'a>> {
         let allocator = ast_builder.allocator;
 
-        // ARG 1: Lazy import arrow function
         let arrow_function = self.into_arrow_function(ast_builder);
 
-        // ARG 2: Display name string literal
         let raw = ast_builder.atom(&format!(r#""{}""#, &self.display_name));
         let display_name_arg = OxcBox::new_in(
             ast_builder.string_literal(SPAN, ast_builder.atom(&self.display_name), Some(raw)),
             allocator,
         );
 
-        // Determine capacity based on whether we have captures
         let capacity = if self.scoped_idents.is_empty() { 2 } else { 3 };
         let mut args = ast_builder.vec_with_capacity(capacity);
 
@@ -224,12 +217,9 @@ impl Qrl {
         )));
         args.push(Argument::StringLiteral(display_name_arg));
 
-        // ARG 3: Captured variables array (only if non-empty)
-        // Format: [a, b, c] - array of identifier references
         if !self.scoped_idents.is_empty() {
             let mut elements = ast_builder.vec_with_capacity(self.scoped_idents.len());
             for (name, _scope_id) in &self.scoped_idents {
-                // Create identifier reference for each captured variable
                 let ident_ref = ast_builder.expression_identifier(SPAN, ast_builder.atom(name.as_str()));
                 elements.push(ArrayExpressionElement::from(ident_ref));
             }

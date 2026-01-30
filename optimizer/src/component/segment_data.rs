@@ -49,11 +49,7 @@ impl SegmentKind {
     /// assert_eq!(SegmentKind::from_ctx_name("$"), SegmentKind::Function);
     /// ```
     pub fn from_ctx_name(ctx_name: &str) -> Self {
-        // Event handlers start with "on" followed by uppercase letter
-        // e.g., onClick$, onInput$, onKeyDown$
         if ctx_name.starts_with("on") {
-            // Check if the third character is uppercase (indicating an event handler)
-            // This distinguishes "onClick" from hypothetical "once$" or similar
             if let Some(third_char) = ctx_name.chars().nth(2) {
                 if third_char.is_ascii_uppercase() {
                     return SegmentKind::EventHandler;
@@ -249,7 +245,6 @@ mod tests {
         assert_eq!(SegmentKind::from_ctx_name("$"), SegmentKind::Function);
         assert_eq!(SegmentKind::from_ctx_name("useTask$"), SegmentKind::Function);
         assert_eq!(SegmentKind::from_ctx_name("useVisibleTask$"), SegmentKind::Function);
-        // "once$" should be Function, not EventHandler (no uppercase after "on")
         assert_eq!(SegmentKind::from_ctx_name("once$"), SegmentKind::Function);
     }
 

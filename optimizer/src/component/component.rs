@@ -51,19 +51,16 @@ impl QrlComponent {
     ) -> QrlComponent {
         let language = source_info.language.clone();
 
-        // Extract scoped_idents for both Qrl and transform_function_expr
         let scoped_idents: Vec<CollectorId> = segment_data
             .as_ref()
             .map(|d| d.scoped_idents.clone())
             .unwrap_or_default();
 
-        // Extract referenced_exports for segment file import generation
         let referenced_exports: Vec<ExportInfo> = segment_data
             .as_ref()
             .map(|d| d.referenced_exports.clone())
             .unwrap_or_default();
 
-        // Create Qrl with scoped_idents and referenced_exports
         let qrl = Qrl::new_with_exports(
             &id.local_file_name,
             &id.symbol_name,
@@ -72,11 +69,8 @@ impl QrlComponent {
             referenced_exports.clone(),
         );
 
-        // Generate imports from referenced exports
-        // These import from the source file (e.g., "./test")
         let source_file_imports = Self::generate_source_file_imports(&referenced_exports, source_info);
 
-        // Merge third-party imports with source file imports
         let mut all_imports = imports;
         all_imports.extend(source_file_imports);
 
@@ -115,8 +109,6 @@ impl QrlComponent {
             return Vec::new();
         }
 
-        // Get source file name without extension for the import path
-        // e.g., "test.tsx" -> "./test"
         let source_file_name = source_info
             .rel_path
             .file_stem()
@@ -124,21 +116,14 @@ impl QrlComponent {
             .unwrap_or("index");
         let source_path = format!("./{}", source_file_name);
 
-        // Generate one import per referenced export for clarity
-        // (ImportCleanUp will merge them if needed)
         referenced_exports
             .iter()
             .map(|export| {
                 let import_id = if export.is_default {
-                    // Default export: import { default as LocalName } from "./source"
                     ImportId::NamedWithAlias("default".to_string(), export.local_name.clone())
                 } else if export.exported_name != export.local_name {
-                    // Aliased export: export { internal as expr2 }
-                    // Import as: import { expr2 as internal } from "./source"
-                    // (exported_name is the public name, local_name is what we use in code)
                     ImportId::NamedWithAlias(export.exported_name.clone(), export.local_name.clone())
                 } else {
-                    // Direct export: import { name } from "./source"
                     ImportId::Named(export.local_name.clone())
                 };
 
@@ -162,7 +147,6 @@ impl QrlComponent {
 
         let ast_builder = AstBuilder::new(allocator);
 
-        // Apply useLexicalScope injection if there are captured variables
         let transformed_expression = if !scoped_idents.is_empty() {
             transform_function_expr(exported_expression, scoped_idents, allocator)
         } else {
@@ -232,7 +216,6 @@ impl QrlComponent {
             let ops = MinifierOptions {
                 compress: Some(CompressOptions::default()),
                 mangle: None,
-                // mangle: Some(MangleOptions::default()),
             };
             let minifier = Minifier::new(ops);
             let ret = minifier.minify(allocator, &mut new_pgm);
@@ -288,8 +271,6 @@ impl QrlComponent {
         let init = arg.clone_in(allocator).into_expression();
         Self::from_expression(init, imports, segments, scope, options, source_info, segment_data, entry)
     }
-
-    // --- Segment data accessors ---
 
     /// Returns the captured variable identifiers (scoped_idents).
     ///

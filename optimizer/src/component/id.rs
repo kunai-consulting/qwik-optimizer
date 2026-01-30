@@ -26,7 +26,6 @@ impl Id {
                     acc.push(c);
                     (acc, false)
                 } else if uscore {
-                    // Never push consecutive underscores.
                     (acc, true)
                 } else {
                     acc.push('_');
@@ -250,11 +249,9 @@ mod tests {
             &Target::Prod,
             &scope1,
         );
-        // Leading  segments that are digits are prefixed with an additional underscore.
         let (sort_order, hash1) = Id::calculate_hash("app.js", "_1_b_c", &scope1);
         let expected1 = Id {
             display_name: "app.js__1_b_c".to_string(),
-            // When Target is neither "Dev" nor "Test", the symbol name is set to "s_{hash}".
             symbol_name: format!("s_{}", hash1),
             local_file_name: "app.js_s_bQ4D62Vr0Zg".to_string(),
             hash: hash1,
