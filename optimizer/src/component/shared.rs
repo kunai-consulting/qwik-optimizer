@@ -16,10 +16,6 @@ pub const IS_SERVER: &str = "isServer";
 pub const IS_BROWSER: &str = "isBrowser";
 pub const IS_DEV: &str = "isDev";
 
-#[allow(dead_code)]
-pub const JSX_SORTED_NAME: &str = "_jsxSorted";
-#[allow(dead_code)]
-pub const JSX_SPLIT_NAME: &str = "_jsxSplit";
 pub const MARKER_SUFFIX: &str = "$";
 pub const QRL: &str = "qrl";
 pub const QRL_SUFFIX: &str = "Qrl";
@@ -30,16 +26,6 @@ pub const _FN_SIGNAL: &str = "_fnSignal";
 pub const _VAL: &str = "_val";
 pub const _CHK: &str = "_chk";
 
-#[allow(dead_code)]
-pub const INLINED_QRL: &str = "inlinedQrl";
-#[allow(dead_code)]
-pub const BIND_PREFIX: &str = "bind:";
-#[allow(dead_code)]
-pub const BIND_VALUE: &str = "bind:value";
-#[allow(dead_code)]
-pub const BIND_CHECKED: &str = "bind:checked";
-#[allow(dead_code)]
-pub const JSX_RUNTIME_SOURCE: &str = "@qwik.dev/core/jsx-runtime";
 pub const _FRAGMENT: &str = "_Fragment";
 pub const _GET_VAR_PROPS: &str = "_getVarProps";
 pub const _GET_CONST_PROPS: &str = "_getConstProps";

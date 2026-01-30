@@ -120,11 +120,6 @@ pub fn create_use_lexical_scope<'a>(
     Statement::VariableDeclaration(ast.alloc(var_decl))
 }
 
-#[allow(dead_code)]
-pub fn create_return_stmt<'a>(expr: Expression<'a>, ast: &AstBuilder<'a>) -> Statement<'a> {
-    ast.statement_return(SPAN, Some(expr))
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
