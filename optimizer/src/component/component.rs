@@ -234,8 +234,11 @@ impl QrlComponent {
         } else {
             codegen.with_options(codegen_options).build(&new_pgm).code
         };
-        // Post-process PURE annotations to match qwik-core format
-        code.replace("/* @__PURE__ */", "/*#__PURE__*/")
+        // Post-process to match qwik-core format:
+        // 1. PURE annotations: /* @__PURE__ */ -> /*#__PURE__*/
+        // 2. Arrow function spacing: ) => -> )=>
+        let code = code.replace("/* @__PURE__ */", "/*#__PURE__*/");
+        code.replace(") => ", ")=>")
     }
 
     #[allow(clippy::too_many_arguments)]

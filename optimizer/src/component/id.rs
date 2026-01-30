@@ -127,7 +127,8 @@ impl Id {
 
         let display_name = format!("{}_{}", &source_info.file_name, display_name);
 
-        let local_file_name = format!("{}_{}", local_file_name, symbol_name);
+        // Use normalized path (without ./ prefix) for local_file_name
+        let local_file_name = format!("{}_{}", normalized_local_file_name, symbol_name);
         Id {
             display_name,
             symbol_name,

@@ -121,8 +121,9 @@ pub struct TransformGenerator<'gen> {
 
     pub(crate) needs_fn_signal_import: bool,
 
-    /// Hoisted import functions for QRLs: (identifier_name, filename)
-    pub(crate) hoisted_imports: Vec<(String, String)>,
+    /// Stack of hoisted import functions for QRLs, one level per nested QRL scope
+    /// Each entry is a Vec of (identifier_name, filename) pairs
+    pub(crate) hoisted_imports_stack: Vec<Vec<(String, String)>>,
 
     pub(crate) pending_bind_directives: Vec<(bool, Expression<'gen>)>,
 
@@ -191,7 +192,7 @@ impl<'gen> TransformGenerator<'gen> {
             hoisted_fns: Vec::new(),
             hoisted_fn_counter: 0,
             needs_fn_signal_import: false,
-            hoisted_imports: Vec::new(),
+            hoisted_imports_stack: vec![Vec::new()],
             pending_bind_directives: Vec::new(),
             pending_on_input_handlers: Vec::new(),
             needs_val_import: false,
@@ -491,7 +492,11 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
 
         // Emit hoisted import functions at module level
         // Format: const i_{name} = () => import("./file.js");
-        for (name, filename) in self.hoisted_imports.drain(..).rev() {
+        // Use the root level of the stack (index 0)
+        let hoisted_imports = self.hoisted_imports_stack.first_mut()
+            .map(|v| std::mem::take(v))
+            .unwrap_or_default();
+        for (name, filename) in hoisted_imports.into_iter().rev() {
             let import_stmt = Statement::VariableDeclaration(ctx.ast.alloc(ctx.ast.variable_declaration(
                 SPAN,
                 VariableDeclarationKind::Const,
@@ -555,8 +560,11 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         let codegen = Codegen::new().with_options(codegen_options);
 
         let body = codegen.build(node).code;
-        // Post-process PURE annotations to match qwik-core format
+        // Post-process to match qwik-core format:
+        // 1. PURE annotations: /* @__PURE__ */ -> /*#__PURE__*/
+        // 2. Arrow function spacing: ) => -> )=>
         let body = body.replace("/* @__PURE__ */", "/*#__PURE__*/");
+        let body = body.replace(") => ", ")=>");
 
         self.app = OptimizedApp {
             body,
@@ -585,6 +593,7 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
 
         if name.ends_with(MARKER_SUFFIX) {
             self.import_stack.push(BTreeSet::new());
+            self.hoisted_imports_stack.push(Vec::new());
             self.stack_ctxt.push(name.clone());
         }
 
@@ -707,11 +716,16 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             if let Some(comp) = &comp {
                 let qrl = &comp.qrl;
                 let qrl = qrl.clone();
+                // Get the parent hoisted imports level (second-to-last)
+                // The hoisted import for this QRL should be in the parent scope
+                let parent_idx = self.hoisted_imports_stack.len().saturating_sub(2);
+                let hoisted_imports = self.hoisted_imports_stack.get_mut(parent_idx)
+                    .expect("hoisted_imports_stack should have parent level");
                 *node = qrl.into_call_expression(
                     ctx,
                     &mut self.symbol_by_name,
                     &mut self.import_by_symbol,
-                    &mut self.hoisted_imports,
+                    hoisted_imports,
                 );
             }
 
@@ -885,7 +899,9 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                     &mut self.symbol_by_name,
                     &mut self.import_by_symbol,
                 );
-                let args: OxcVec<'a, Argument<'a>> = qrl.into_arguments(&ctx.ast, &mut self.hoisted_imports);
+                let hoisted_imports = self.hoisted_imports_stack.last_mut()
+                    .expect("hoisted_imports_stack should not be empty");
+                let args: OxcVec<'a, Argument<'a>> = qrl.into_arguments(&ctx.ast, hoisted_imports);
 
                 call_expr.callee = Expression::Identifier(OxcBox::new_in(idr, ctx.ast.allocator));
                 call_expr.arguments = args
@@ -949,11 +965,13 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         if let Some(init) = &mut node.init {
             let qrl = self.qrl_stack.pop();
             if let Some(qrl) = qrl {
+                let hoisted_imports = self.hoisted_imports_stack.last_mut()
+                    .expect("hoisted_imports_stack should not be empty");
                 node.init = Some(qrl.into_expression(
                     ctx,
                     &mut self.symbol_by_name,
                     &mut self.import_by_symbol,
-                    &mut self.hoisted_imports,
+                    hoisted_imports,
                 ));
             }
         }
@@ -1074,11 +1092,13 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             if expr.is_qrl_replaceable() {
                 let qrl = self.qrl_stack.pop();
                 if let Some(qrl) = qrl {
+                    let hoisted_imports = self.hoisted_imports_stack.last_mut()
+                        .expect("hoisted_imports_stack should not be empty");
                     let expression = qrl.into_expression(
                         ctx,
                         &mut self.symbol_by_name,
                         &mut self.import_by_symbol,
-                        &mut self.hoisted_imports,
+                        hoisted_imports,
                     );
                     node.argument = Some(expression);
                 }

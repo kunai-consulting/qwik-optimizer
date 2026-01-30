@@ -88,15 +88,23 @@ impl Qrl {
         }
     }
 
-    /// Generate the hoisted import identifier name (e.g., "i_App_component_abc123")
+    /// Generate the hoisted import identifier name (e.g., "i_abc123")
+    /// Uses just the hash portion to match qwik-core format
     pub fn hoisted_import_name(&self) -> String {
-        format!("i_{}", self.display_name)
+        // Extract hash from display_name (format: name_hash)
+        // e.g., "renderHeader_div_onClick_fV2uzAL99u4" -> "fV2uzAL99u4"
+        let hash = self.display_name
+            .rsplit('_')
+            .next()
+            .unwrap_or(&self.display_name);
+        format!("i_{}", hash)
     }
 
-    /// Generate the filename for the dynamic import (e.g., "./app_component_abc123.js")
+    /// Generate the filename for the dynamic import (e.g., "./test.tsx_component_abc123")
+    /// Note: No extension on import paths - bundlers resolve these
     pub fn import_filename(&self) -> String {
         format!(
-            "./{}.js",
+            "./{}",
             self.rel_path.file_name().unwrap().to_string_lossy()
         )
     }
