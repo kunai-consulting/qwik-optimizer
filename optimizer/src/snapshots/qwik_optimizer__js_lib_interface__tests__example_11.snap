@@ -98,6 +98,7 @@ import { bar as bbar } from "../state";
 import { Header } from "./test_example_11";
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 import * as dep2 from "dep2";
+const i_YvUbMIjc9kI = ()=>import("./test_example_11.tsx_Header_component_Header_onClick_YvUbMIjc9kI");
 export const Header_component_r6bL70De5aU = ()=>{
 	return _jsxSorted(Header, { onClick: qrl(i_YvUbMIjc9kI, "Header_component_Header_onClick_YvUbMIjc9kI") }, null, [dep2.stuff(), bbar()], 1, null);
 };

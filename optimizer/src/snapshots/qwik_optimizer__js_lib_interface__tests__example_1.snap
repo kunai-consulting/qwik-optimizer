@@ -51,6 +51,7 @@ None
 ============================= test_example_1.tsx_renderHeader_ZgC5rsivXF0.tsx (ENTRY POINT)==
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
+const i_vU0qgjVefds = ()=>import("./test_example_1.tsx_renderHeader_div_onClick_vU0qgjVefds");
 export const renderHeader_ZgC5rsivXF0 = ()=>{
 	return /*#__PURE__*/ _jsxSorted("div", { onClick: qrl(i_vU0qgjVefds, "renderHeader_div_onClick_vU0qgjVefds") }, null, null, 3, null);
 };

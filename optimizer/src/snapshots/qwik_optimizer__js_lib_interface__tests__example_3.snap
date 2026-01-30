@@ -57,6 +57,7 @@ None
 ============================= test_example_3.tsx_App_Header_component_sugl04P0hM8.tsx (ENTRY POINT)==
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
+const i_PHteWc0iLkc = ()=>import("./test_example_3.tsx_App_Header_component_div_onClick_PHteWc0iLkc");
 export const App_Header_component_sugl04P0hM8 = ()=>{
 	console.log("mount");
 	return /*#__PURE__*/ _jsxSorted("div", { onClick: qrl(i_PHteWc0iLkc, "App_Header_component_div_onClick_PHteWc0iLkc") }, null, null, 3, null);

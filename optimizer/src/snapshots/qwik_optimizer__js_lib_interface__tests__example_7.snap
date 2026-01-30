@@ -23,6 +23,7 @@ export const Header = component$(() => {
 ============================= test_example_7.tsx_Header_component_xTg8ybJIykU.tsx (ENTRY POINT)==
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
+const i_Ax6FIlRjtFQ = ()=>import("./test_example_7.tsx_Header_component_div_onClick_Ax6FIlRjtFQ");
 export const Header_component_xTg8ybJIykU = ()=>{
 	console.log("mount");
 	return /*#__PURE__*/ _jsxSorted("div", { onClick: qrl(i_Ax6FIlRjtFQ, "Header_component_div_onClick_Ax6FIlRjtFQ") }, null, null, 3, null);
