@@ -22,7 +22,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 8: SSR & Build Modes** - Server/client code handling and dev/prod modes
 - [x] **Phase 9: TypeScript Support** - TSX parsing, type annotations, and generics
 - [x] **Phase 10: Edge Cases** - Nested loops, illegal code detection, and regression fixes
-- [ ] **Phase 11: Research & Code Cleanup** - OXC API adoption, ecosystem research, modularization
+- [x] **Phase 11: Research & Code Cleanup** - OXC API adoption, ecosystem research, modularization
 
 ## Phase Details
 
@@ -218,11 +218,11 @@ Plans:
 **Plans**: 5 plans
 
 Plans:
-- [ ] 11-01-PLAN.md — Move tests to transform_tests.rs (-4500 lines)
-- [ ] 11-02-PLAN.md — Extract state structs and options to transform/ modules
-- [ ] 11-03-PLAN.md — Create jsx.rs module with dispatcher pattern
-- [ ] 11-04-PLAN.md — Extract qrl.rs and scope.rs modules
-- [ ] 11-05-PLAN.md — Final cleanup and verification
+- [x] 11-01-PLAN.md — Move tests to transform_tests.rs (-4500 lines)
+- [x] 11-02-PLAN.md — Extract state structs and options to transform/ modules
+- [x] 11-03-PLAN.md — Create jsx.rs module with dispatcher pattern
+- [x] 11-04-PLAN.md — Extract qrl.rs and scope.rs modules
+- [x] 11-05-PLAN.md — Final cleanup and verification
 
 ## Progress
 
@@ -241,8 +241,8 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 | 8. SSR & Build Modes | 3/3 | Complete | 2026-01-29 |
 | 9. TypeScript Support | 2/2 | Complete | 2026-01-29 |
 | 10. Edge Cases | 5/5 | Complete | 2026-01-29 |
-| 11. Research & Code Cleanup | 0/5 | Planned | - |
+| 11. Research & Code Cleanup | 5/5 | Complete | 2026-01-29 |
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-30 (Phase 11 planned)*
+*Last updated: 2026-01-29 (Milestone complete)*
