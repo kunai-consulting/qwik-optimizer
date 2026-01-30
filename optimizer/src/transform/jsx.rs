@@ -21,7 +21,8 @@ use crate::collector::{ExportInfo, Id, IdentCollector};
 use crate::component::{Import, ImportId, Qrl, QrlType, MARKER_SUFFIX, QWIK_CORE_SOURCE};
 use crate::is_const::is_const_expr;
 
-use super::generator::{compute_scoped_idents, IdentType, IdPlusType, TransformGenerator};
+use super::generator::{IdentType, IdPlusType, TransformGenerator};
+use super::qrl::compute_scoped_idents;
 use super::state::JsxState;
 
 // JSX constants

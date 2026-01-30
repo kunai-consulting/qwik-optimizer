@@ -41,6 +41,7 @@ use crate::is_const::is_const_expr;
 // Import types from sibling modules
 use super::jsx;
 use super::options::TransformOptions;
+use super::qrl as qrl_module;
 use super::state::{ImportTracker, JsxState};
 
 // Re-export types needed by tests in transform_tests.rs
@@ -407,60 +408,19 @@ impl<'gen> TransformGenerator<'gen> {
     /// Joins segment names with underscores, handling special cases for named QRLs
     /// and indexed QRLs.
     pub(crate) fn current_display_name(&self) -> String {
-        let mut display_name = String::new();
-
-        for segment in &self.segment_stack {
-            let segment_str: String = match segment {
-                Segment::Named(name) => name.clone(),
-                Segment::NamedQrl(name, 0) => name.clone(),
-                Segment::NamedQrl(name, index) => format!("{}_{}", name, index),
-                Segment::IndexQrl(0) => continue, // Skip zero-indexed QRLs
-                Segment::IndexQrl(index) => index.to_string(),
-            };
-
-            if segment_str.is_empty() {
-                continue;
-            }
-
-            if display_name.is_empty() {
-                // Prefix with underscore if starts with digit
-                if segment_str.chars().next().map(|c| c.is_ascii_digit()).unwrap_or(false) {
-                    display_name = format!("_{}", segment_str);
-                } else {
-                    display_name = segment_str;
-                }
-            } else {
-                display_name = format!("{}_{}", display_name, segment_str);
-            }
-        }
-
-        display_name
+        qrl_module::build_display_name(&self.segment_stack)
     }
 
     /// Calculates the hash for the current context.
     ///
     /// Uses the source file path, display name, and scope to generate a stable hash.
     fn current_hash(&self) -> String {
-        use base64::{engine, Engine};
-        use std::hash::{DefaultHasher, Hasher};
-
         let display_name = self.current_display_name();
-        let local_file_name = self.source_info.rel_path.to_string_lossy();
-        let normalized_local_file_name = local_file_name
-            .strip_prefix("./")
-            .unwrap_or(&local_file_name);
-
-        let mut hasher = DefaultHasher::new();
-        if let Some(scope) = &self.scope {
-            hasher.write(scope.as_bytes());
-        }
-        hasher.write(normalized_local_file_name.as_bytes());
-        hasher.write(display_name.as_bytes());
-        let hash = hasher.finish();
-
-        engine::general_purpose::URL_SAFE_NO_PAD
-            .encode(hash.to_le_bytes())
-            .replace(['-', '_'], "0")
+        qrl_module::compute_hash(
+            &self.source_info.rel_path,
+            &display_name,
+            self.scope.as_deref(),
+        )
     }
 
     /// Create _fnSignal call: _fnSignal(_hfN, [captures], _hfN_str)
@@ -975,7 +935,7 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
 
                     // Compute captured variables (scoped_idents)
                     let (scoped_idents, _is_const) =
-                        compute_scoped_idents(&descendent_idents, &decl_collect);
+                        qrl_module::compute_scoped_idents(&descendent_idents, &decl_collect);
 
                     // Get imports collected for this QRL
                     // These are identifiers that will be imported, so we should exclude them from scoped_idents
@@ -1765,41 +1725,7 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
 // get_event_scope_data_from_jsx_event, create_event_name, jsx_event_to_html_attribute).
 // Re-exported via crate::transform::jsx.
 
-/// Compute which identifiers from parent scopes are captured by a QRL.
-///
-/// Takes all identifiers referenced in the QRL body and all declarations from parent scopes,
-/// returning the intersection (sorted for deterministic output) and whether all captured
-/// variables are const.
-///
-/// # Arguments
-/// * `all_idents` - All identifiers referenced in the QRL body (from IdentCollector)
-/// * `all_decl` - All declarations from parent scopes (flattened decl_stack)
-///
-/// # Returns
-/// A tuple of:
-/// * `Vec<Id>` - Sorted list of captured identifiers
-/// * `bool` - True if all captured variables are const
-pub(crate) fn compute_scoped_idents(all_idents: &[Id], all_decl: &[IdPlusType]) -> (Vec<Id>, bool) {
-    let mut set: HashSet<Id> = HashSet::new();
-    let mut is_const = true;
-
-    for ident in all_idents {
-        // Compare by name only - ScopeId differences between IdentCollector (uses 0)
-        // and decl_stack (uses actual scope) should not prevent capture detection.
-        // For QRL capture purposes, name matching is sufficient since we're comparing
-        // within a single file's scope hierarchy.
-        if let Some(item) = all_decl.iter().find(|item| item.0.0 == ident.0) {
-            // Use the declaration's full Id (with correct scope) rather than collector's Id
-            set.insert(item.0.clone());
-            if !matches!(item.1, IdentType::Var(true)) {
-                is_const = false;
-            }
-        }
-    }
-
-    let mut output: Vec<Id> = set.into_iter().collect();
-    output.sort(); // Deterministic ordering for stable output
-    (output, is_const)
-}
+// QRL helper functions moved to qrl.rs module (compute_scoped_idents, build_display_name,
+// compute_hash). Re-exported via crate::transform::qrl.
 
 // TransformOptions and transform() are defined in super::options
