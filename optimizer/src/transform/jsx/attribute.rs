@@ -353,14 +353,8 @@ pub fn exit_jsx_attribute<'a>(
                 let v = &mut node.value;
                 match v {
                     None => gen.builder.expression_boolean_literal(node.span, true),
-                    Some(JSXAttributeValue::Element(_)) => {
-                        println!("Replacing JSX attribute element on exit");
-                        gen.replace_expr.take().unwrap()
-                    }
-                    Some(JSXAttributeValue::Fragment(_)) => {
-                        println!("Replacing JSX attribute fragment on exit");
-                        gen.replace_expr.take().unwrap()
-                    }
+                    Some(JSXAttributeValue::Element(_)) => gen.replace_expr.take().unwrap(),
+                    Some(JSXAttributeValue::Fragment(_)) => gen.replace_expr.take().unwrap(),
                     Some(JSXAttributeValue::StringLiteral(b)) => gen
                         .builder
                         .expression_string_literal((*b).span, (*b).value, Some((*b).value)),

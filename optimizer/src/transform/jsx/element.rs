@@ -21,7 +21,7 @@ use super::{is_text_only, JSX_SORTED_NAME, JSX_SPLIT_NAME, _GET_CONST_PROPS, _GE
 pub fn enter_jsx_element<'a>(
     gen: &mut TransformGenerator<'a>,
     node: &mut JSXElement<'a>,
-    ctx: &mut TraverseCtx<'a, ()>,
+    _ctx: &mut TraverseCtx<'a, ()>,
 ) {
     // Determine if this is a native element (lowercase first char)
     let is_native = match &node.opening_element.name {
@@ -74,8 +74,6 @@ pub fn enter_jsx_element<'a>(
         stacked_ctxt: jsx_element_name.is_some(),
     });
     if let Some(segment) = segment {
-        gen.debug(format!("ENTER: JSXElementName {segment}"), ctx);
-        println!("push segment: {segment}");
         gen.segment_stack.push(segment);
     }
 }

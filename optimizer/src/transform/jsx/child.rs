@@ -62,14 +62,8 @@ pub fn exit_jsx_child<'a>(
                     )
                 }
             }
-            JSXChild::Element(_) => {
-                println!("Replacing JSX child element on exit");
-                Some(gen.replace_expr.take().unwrap().into())
-            }
-            JSXChild::Fragment(_) => {
-                println!("Replacing JSX child fragment on exit");
-                Some(gen.replace_expr.take().unwrap().into())
-            }
+            JSXChild::Element(_) => Some(gen.replace_expr.take().unwrap().into()),
+            JSXChild::Fragment(_) => Some(gen.replace_expr.take().unwrap().into()),
             JSXChild::ExpressionContainer(b) => {
                 jsx.static_subtree = false;
                 let expr = (*b).expression.to_expression_mut();

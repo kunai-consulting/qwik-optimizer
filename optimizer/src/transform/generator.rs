@@ -331,19 +331,8 @@ impl<'gen> TransformGenerator<'gen> {
         self.depth += 1;
     }
 
-    pub(crate) fn debug<T: AsRef<str>>(&self, s: T, traverse_ctx: &TraverseCtx<'_, ()>) {
-        if DEBUG {
-            let scope_id = traverse_ctx.current_scope_id();
-            let indent = "--".repeat(scope_id.index());
-            let prefix = format!("|{}", indent);
-            println!(
-                "{prefix}[SCOPE {:?}, RECORDING: {}]{}. Segments: {}",
-                scope_id,
-                self.is_recording(),
-                s.as_ref(),
-                self.render_segments()
-            );
-        }
+    pub(crate) fn debug<T: AsRef<str>>(&self, _s: T, _traverse_ctx: &TraverseCtx<'_, ()>) {
+        // Debug output removed in Phase 12 code reduction
     }
 
     pub(crate) fn new_segment<T: AsRef<str>>(&mut self, input: T) -> Segment {
@@ -418,16 +407,12 @@ fn move_expression<'gen>(
     std::mem::replace(expr, builder.expression_null_literal(span))
 }
 
-const DEBUG: bool = true;
-const DUMP_FINAL_AST: bool = false;
 
 impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
-    fn enter_program(&mut self, node: &mut Program<'a>, ctx: &mut TraverseCtx<'a, ()>) {
-        println!("ENTERING PROGRAM {}", self.source_info.file_name);
+    fn enter_program(&mut self, _node: &mut Program<'a>, _ctx: &mut TraverseCtx<'a, ()>) {
     }
 
     fn exit_program(&mut self, node: &mut Program<'a>, ctx: &mut TraverseCtx<'a, ()>) {
-        println!("EXITING PROGRAM {}", self.source_info.file_name);
 
         // Collect synthesized imports based on transformation flags
         if self.needs_wrap_prop_import {
@@ -512,13 +497,6 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             body,
             components: self.components.clone(),
         };
-
-        if DEBUG && DUMP_FINAL_AST {
-            println!(
-                "-------------------FINAL AST DUMP--------------------\n{:#?}",
-                node
-            );
-        }
     }
 
     fn enter_call_expression(
@@ -527,7 +505,6 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         ctx: &mut TraverseCtx<'a, ()>,
     ) {
         self.ascend();
-        self.debug(format!("ENTER: CallExpression, {:?}", node), ctx);
 
         if let Some(mut is_const) = self.expr_is_const_stack.last_mut() {
             *is_const = false;
@@ -538,13 +515,9 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         // Check if this is an aliased $ marker function that should skip QRL transformation
         // e.g., `import { component$ as Component }` - calls to `Component(...)` skip transform
         if self.skip_transform_names.contains(&name) {
-            if DEBUG {
-                println!("Skipping QRL transform for aliased call: {}", name);
-            }
             // Don't push to import_stack or stack_ctxt - this is not a QRL call
             // Just push a regular segment for tracking
             let segment: Segment = self.new_segment(&name);
-            println!("push segment (skip transform): {segment}");
             self.segment_stack.push(segment);
             return;
         }
@@ -587,9 +560,6 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                                     // Store mapping: (local_name, scope_id) -> prop_key
                                     let scope_id = ctx.current_scope_id();
                                     self.props_identifiers.insert((local_name.clone(), scope_id), prop_key.clone());
-                                    if DEBUG {
-                                        println!("Registered prop: {} -> key {:?}", local_name, prop_key);
-                                    }
                                 }
                             }
                         }
@@ -602,17 +572,9 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         if let Some(vars) = scope_module::check_map_iteration_vars(node) {
             self.loop_depth += 1;
             self.iteration_var_stack.push(vars);
-            if DEBUG {
-                println!(
-                    "Entered .map() loop context, depth: {}, iteration vars: {:?}",
-                    self.loop_depth,
-                    self.iteration_var_stack.last()
-                );
-            }
         }
 
         let segment: Segment = self.new_segment(name);
-        println!("push segment: {segment}");
         self.segment_stack.push(segment);
     }
 
@@ -625,9 +587,6 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         if scope_module::is_map_with_function_callback(node) && self.loop_depth > 0 {
             self.iteration_var_stack.pop();
             self.loop_depth -= 1;
-            if DEBUG {
-                println!("Exited .map() loop context, depth: {}", self.loop_depth);
-            }
         }
 
         // Handle component$ props destructuring BEFORE QRL extraction
@@ -710,27 +669,9 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                         .collect();
 
                     // Partition into valid (Var) and invalid (Fn, Class)
-                    let (decl_collect, invalid_decl): (Vec<_>, Vec<_>) = all_decl
+                    let (decl_collect, _invalid_decl): (Vec<_>, Vec<_>) = all_decl
                         .into_iter()
                         .partition(|(_, t)| matches!(t, IdentType::Var(_)));
-
-                    // Check for invalid function/class references
-                    for (id, ident_type) in &invalid_decl {
-                        if descendent_idents.iter().any(|ident| ident == id) {
-                            let type_name = match ident_type {
-                                IdentType::Fn => "function",
-                                IdentType::Class => "class",
-                                IdentType::Var(_) => unreachable!(),
-                            };
-                            // Log warning for now - full error integration in later plan
-                            if DEBUG {
-                                println!(
-                                    "Warning: Reference to {} '{}' cannot be used inside a QRL scope",
-                                    type_name, id.0
-                                );
-                            }
-                        }
-                    }
 
                     // Compute captured variables (scoped_idents)
                     let (scoped_idents, _is_const) =
@@ -756,22 +697,6 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                         &scoped_idents,
                         &self.export_by_name,
                     );
-
-                    // Log referenced exports for debugging
-                    if DEBUG && !referenced_exports.is_empty() {
-                        println!(
-                            "QRL references exports: {:?}",
-                            referenced_exports.iter().map(|e| &e.local_name).collect::<Vec<_>>()
-                        );
-                    }
-
-                    // Log captured variables for debugging
-                    if DEBUG && !scoped_idents.is_empty() {
-                        println!(
-                            "QRL captures: {:?}",
-                            scoped_idents.iter().map(|(name, _)| name).collect::<Vec<_>>()
-                        );
-                    }
 
                     // Build ctx_name from the callee name (e.g., "component$", "onClick$", "$")
                     let ctx_name = node.callee_name().unwrap_or("$").to_string();
@@ -868,7 +793,6 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             .name()
             .map(|n| self.new_segment(n))
             .unwrap_or(self.new_segment("$"));
-        println!("push segment: {segment}");
         self.segment_stack.push(segment);
 
         // Delegate scope tracking to scope module
@@ -876,8 +800,7 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
     }
 
     fn exit_function(&mut self, node: &mut Function<'a>, ctx: &mut TraverseCtx<'a, ()>) {
-        let popped = self.segment_stack.pop();
-        println!("pop segment: {popped:?}");
+        self.segment_stack.pop();
 
         // Delegate scope tracking to scope module
         scope_module::exit_function(self, node, ctx);
@@ -1113,8 +1036,7 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             self.stack_ctxt.pop();
         }
 
-        let popped = self.segment_stack.pop();
-        println!("pop segment: {popped:?}");
+        self.segment_stack.pop();
     }
 
     fn enter_block_statement(
@@ -1155,9 +1077,8 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         self.descend();
     }
 
-    fn exit_expression(&mut self, node: &mut Expression<'a>, ctx: &mut TraverseCtx<'a, ()>) {
+    fn exit_expression(&mut self, node: &mut Expression<'a>, _ctx: &mut TraverseCtx<'a, ()>) {
         if let Some(expr) = self.replace_expr.take() {
-            println!("Replacing expression on exit");
             *node = expr;
         }
     }
@@ -1315,9 +1236,6 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                         // When we see a call to `Component(...)`, we won't transform it as QRL
                         if imported.ends_with(MARKER_SUFFIX) && imported != local {
                             self.skip_transform_names.insert(local.clone());
-                            if DEBUG {
-                                println!("Skip transform: {} (aliased from {})", local, imported);
-                            }
                         }
                     }
                     ImportDeclarationSpecifier::ImportDefaultSpecifier(spec) => {
