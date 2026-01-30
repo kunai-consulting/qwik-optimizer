@@ -23,6 +23,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 9: TypeScript Support** - TSX parsing, type annotations, and generics
 - [x] **Phase 10: Edge Cases** - Nested loops, illegal code detection, and regression fixes
 - [x] **Phase 11: Research & Code Cleanup** - OXC API adoption, ecosystem research, modularization
+- [ ] **Phase 12: Code Reduction** - Leverage OXC APIs, eliminate unnecessary code, remove comments
 
 ## Phase Details
 
@@ -224,10 +225,27 @@ Plans:
 - [x] 11-04-PLAN.md — Extract qrl.rs and scope.rs modules
 - [x] 11-05-PLAN.md — Final cleanup and verification
 
+### Phase 12: Code Reduction
+**Goal**: Reduce code through OXC API adoption, early returns, dead code removal, and comment cleanup
+**Depends on**: Phase 11
+**Requirements**: RED-01, RED-02, RED-03, RED-04, RED-05
+**Success Criteria** (what must be TRUE):
+  1. Identify and adopt underutilized OXC APIs that reduce manual code
+  2. Add early returns where they simplify control flow
+  3. Remove code that exists only for SWC parity but isn't functionally necessary
+  4. Remove all comments (code should be self-documenting)
+  5. All 239 tests still pass after reduction
+**Plans**: 3 plans
+
+Plans:
+- [ ] 12-01-PLAN.md — Remove debug code and adopt OXC NONE API
+- [ ] 12-02-PLAN.md — Remove comments from core modules (generator, options, state, qrl, scope)
+- [ ] 12-03-PLAN.md — Remove comments from JSX modules and final verification
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
+Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 12
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -242,7 +260,8 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 | 9. TypeScript Support | 2/2 | Complete | 2026-01-29 |
 | 10. Edge Cases | 5/5 | Complete | 2026-01-29 |
 | 11. Research & Code Cleanup | 5/5 | Complete | 2026-01-29 |
+| 12. Code Reduction | 0/3 | Not Started | - |
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-29 (Milestone complete)*
+*Last updated: 2026-01-30 (Phase 12 planned)*
