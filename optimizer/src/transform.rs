@@ -2723,7 +2723,9 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             .and_then(|refr| refr.symbol_id())
             .and_then(|symbol_id| self.removed.get(&symbol_id))
         {
-            self.errors.push(illegal_code_type.into());
+            // Create ProcessingFailure with file path for proper C02 diagnostic
+            let file_name = self.source_info.file_name.to_string();
+            self.errors.push(ProcessingFailure::illegal_code(illegal_code_type, &file_name));
         }
 
         // Whilst visiting each identifier reference, we check if that references refers to an import.
@@ -6922,5 +6924,192 @@ export const Komponent = component$(() => {
             .any(|c| !c.id.hash.is_empty());
         assert!(has_valid_hash,
             "Components should have valid hashes generated.\nAll segments:\n{}", segment_code);
+    }
+
+    // ==================== Nested Loop Detection Tests (10-01) ====================
+
+    #[test]
+    fn test_nested_loop_detection() {
+        // Test that nested .map() loops properly track loop depth and iteration variables
+        // This verifies the loop_depth and iteration_var_stack infrastructure
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+
+const Foo = component$(() => {
+  const data = [];
+  return <div>
+    {data.map(row => (
+      <div onClick$={() => console.log(row)}>
+        {data.map(item => (
+          <p onClick$={() => console.log(row, item)}></p>
+        ))}
+      </div>
+    ))}
+  </div>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Get all segment code for debugging
+        let segment_code: String = result.optimized_app.components.iter()
+            .map(|c| format!("{}: {}", c.id.symbol_name, c.code))
+            .collect::<Vec<_>>()
+            .join("\n---\n");
+
+        // Find the Foo component segment
+        let foo_segment = result.optimized_app.components.iter()
+            .find(|c| c.id.symbol_name.contains("Foo"))
+            .map(|c| &c.code);
+
+        // Verify the component segment exists and contains the map calls
+        if let Some(code) = foo_segment {
+            // Should have at least one .map() call in the component body
+            assert!(code.contains(".map("),
+                "Expected Foo component to contain .map() calls.\nSegment code:\n{}\n\nAll segments:\n{}",
+                code, segment_code);
+
+            // Verify event handlers have QRL calls with proper captures
+            // Outer handler should capture [row]
+            assert!(code.contains("on:click"),
+                "Expected on:click event handlers in component.\nSegment code:\n{}", code);
+
+            // Verify nested iteration variable handling:
+            // Outer handler captures row, inner handler captures both item and row
+            assert!(code.contains("[row]") || code.contains("row"),
+                "Expected outer handler to capture 'row' iteration variable.\nSegment code:\n{}", code);
+
+            // Inner handler should capture both item and row (in some order)
+            assert!(code.contains("item") && code.contains("row"),
+                "Expected inner handler to reference both 'item' and 'row' variables.\nSegment code:\n{}", code);
+        } else {
+            panic!("Expected Foo segment to exist.\nAll segments:\n{}", segment_code);
+        }
+
+        // No errors should be present
+        assert!(result.errors.is_empty(),
+            "Nested loops should not cause errors, got: {:?}",
+            result.errors);
+    }
+
+    #[test]
+    fn test_simple_map_loop_detection() {
+        // Test that a simple .map() callback is detected as loop context
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export const List = component$(() => {
+  const items = ['a', 'b', 'c'];
+  return <ul>
+    {items.map(item => (
+      <li onClick$={() => console.log(item)}>{item}</li>
+    ))}
+  </ul>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Get all segment code for debugging
+        let segment_code: String = result.optimized_app.components.iter()
+            .map(|c| format!("{}: {}", c.id.symbol_name, c.code))
+            .collect::<Vec<_>>()
+            .join("\n---\n");
+
+        // Should have the List component
+        let list_segment = result.optimized_app.components.iter()
+            .find(|c| c.id.symbol_name.contains("List"))
+            .map(|c| &c.code);
+
+        assert!(list_segment.is_some(),
+            "Expected List segment to exist.\nAll segments:\n{}", segment_code);
+
+        // Verify onClick event handler has QRL with iteration variable captured
+        if let Some(code) = list_segment {
+            // Should have .map() call
+            assert!(code.contains(".map("),
+                "Expected List component to contain .map() call.\nSegment code:\n{}", code);
+
+            // Should have on:click event handler
+            assert!(code.contains("on:click"),
+                "Expected on:click event handler.\nSegment code:\n{}", code);
+
+            // Should have qrl() call with item in capture array
+            assert!(code.contains("qrl("),
+                "Expected qrl() call for onClick handler.\nSegment code:\n{}", code);
+
+            // The iteration variable 'item' should be captured
+            assert!(code.contains("[item]"),
+                "Expected 'item' to be captured in QRL.\nSegment code:\n{}", code);
+        }
+
+        // No errors should be present
+        assert!(result.errors.is_empty(),
+            "Map loops should not cause errors, got: {:?}",
+            result.errors);
+    }
+
+    #[test]
+    fn test_map_with_function_expression() {
+        // Test that .map(function (v, idx) {...}) is also detected as loop context
+        // Issue 5008: Map with function expression instead of arrow function
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export const Grid = component$(() => {
+  const rows = [1, 2, 3];
+  return <div>
+    {rows.map(function(v, idx) {
+      return <div key={idx} onClick$={() => console.log(v, idx)}>Row {idx}</div>;
+    })}
+  </div>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Get all segment code for debugging
+        let segment_code: String = result.optimized_app.components.iter()
+            .map(|c| format!("{}: {}", c.id.symbol_name, c.code))
+            .collect::<Vec<_>>()
+            .join("\n---\n");
+
+        // Should have the Grid component
+        let grid_segment = result.optimized_app.components.iter()
+            .find(|c| c.id.symbol_name.contains("Grid") && !c.id.symbol_name.contains("onClick"))
+            .map(|c| &c.code);
+
+        assert!(grid_segment.is_some(),
+            "Expected Grid segment to exist.\nAll segments:\n{}", segment_code);
+
+        // Should have onClick handler extracted
+        let click_handler = result.optimized_app.components.iter()
+            .find(|c| c.id.symbol_name.contains("onClick") || c.id.symbol_name.contains("click"));
+
+        assert!(click_handler.is_some(),
+            "Expected onClick handler to be extracted from function expression map callback.\nAll segments:\n{}", segment_code);
+
+        // No errors should be present
+        assert!(result.errors.is_empty(),
+            "Map with function expression should not cause errors, got: {:?}",
+            result.errors);
     }
 }

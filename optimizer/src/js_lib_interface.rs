@@ -194,22 +194,27 @@ pub enum DiagnosticScope {
     Optimizer,
 }
 
-fn error_to_diagnostic(error: ProcessingFailure, path: &Path) -> Diagnostic {
-    let message = match error {
-        ProcessingFailure::IllegalCode(code) =>
-            format!(
-                "Reference to identifier '{id}' can not be used inside a Qrl($) scope because it's a {expr_type}",
-                id = code.identifier(), expr_type = code.expression_type()
-            )
+fn error_to_diagnostic(error: ProcessingFailure, _path: &Path) -> Diagnostic {
+    // ProcessingFailure now contains all diagnostic fields directly
+    let category = match error.category.as_str() {
+        "error" => DiagnosticCategory::Error,
+        "warning" => DiagnosticCategory::Warning,
+        _ => DiagnosticCategory::Error,
     };
+
+    let scope = match error.scope.as_str() {
+        "optimizer" => DiagnosticScope::Optimizer,
+        _ => DiagnosticScope::Optimizer,
+    };
+
     Diagnostic {
-        category: DiagnosticCategory::Error,
-        code: None,
-        file: path.to_string_lossy().to_string(),
-        message,
+        category,
+        code: Some(error.code),
+        file: error.file,
+        message: error.message,
         highlights: None,
         suggestions: None,
-        scope: DiagnosticScope::Optimizer,
+        scope,
     }
 }
 
