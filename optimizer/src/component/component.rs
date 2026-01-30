@@ -204,13 +204,20 @@ impl QrlComponent {
 
         ImportCleanUp::clean_up(&mut new_pgm, allocator);
 
+        // format_output overrides minify for whitespace purposes
+        let should_minify = if options.format_output {
+            false // Readable output when format_output is true
+        } else {
+            options.minify
+        };
+
         let codegen = Codegen::new();
         let codegen_options = CodegenOptions {
-            minify: options.minify,
+            minify: should_minify,
             ..Default::default()
         };
 
-        if options.minify {
+        if options.minify && !options.format_output {
             let ops = MinifierOptions {
                 compress: Some(CompressOptions::default()),
                 mangle: None,

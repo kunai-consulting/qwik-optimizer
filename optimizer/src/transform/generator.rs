@@ -486,8 +486,15 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
 
         ImportCleanUp::clean_up(node, ctx.ast.allocator);
 
+        // format_output overrides minify for whitespace purposes
+        let should_minify = if self.options.format_output {
+            false // Readable output when format_output is true
+        } else {
+            self.options.minify
+        };
+
         let codegen_options = CodegenOptions {
-            minify: self.options.minify,
+            minify: should_minify,
             ..Default::default()
         };
         let codegen = Codegen::new().with_options(codegen_options);
