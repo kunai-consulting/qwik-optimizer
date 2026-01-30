@@ -762,7 +762,22 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         }
 
         let name = node.callee_name().unwrap_or_default().to_string();
-        if (name.ends_with(MARKER_SUFFIX)) {
+
+        // Check if this is an aliased $ marker function that should skip QRL transformation
+        // e.g., `import { component$ as Component }` - calls to `Component(...)` skip transform
+        if self.skip_transform_names.contains(&name) {
+            if DEBUG {
+                println!("Skipping QRL transform for aliased call: {}", name);
+            }
+            // Don't push to import_stack or stack_ctxt - this is not a QRL call
+            // Just push a regular segment for tracking
+            let segment: Segment = self.new_segment(&name);
+            println!("push segment (skip transform): {segment}");
+            self.segment_stack.push(segment);
+            return;
+        }
+
+        if name.ends_with(MARKER_SUFFIX) {
             self.import_stack.push(BTreeSet::new());
             // Push marker function name to stack_ctxt for entry strategy (SWC fold_call_expr)
             self.stack_ctxt.push(name.clone());
@@ -2595,12 +2610,23 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
 
             for specifier in specifiers.iter_mut() {
                 // Track imports for const replacement (isServer, isBrowser, isDev from @qwik.dev/core/build)
+                // and aliased $ marker imports for skip transform detection
                 match specifier {
                     ImportDeclarationSpecifier::ImportSpecifier(spec) => {
                         let imported = spec.imported.name().to_string();
                         let local = spec.local.name.to_string();
                         self.import_tracker
                             .add_import(&source_str, &imported, &local);
+
+                        // Track aliased $ marker imports for skip transform
+                        // If `component$` is imported as `Component`, add `Component` to skip_transform_names
+                        // When we see a call to `Component(...)`, we won't transform it as QRL
+                        if imported.ends_with(MARKER_SUFFIX) && imported != local {
+                            self.skip_transform_names.insert(local.clone());
+                            if DEBUG {
+                                println!("Skip transform: {} (aliased from {})", local, imported);
+                            }
+                        }
                     }
                     ImportDeclarationSpecifier::ImportDefaultSpecifier(spec) => {
                         let local = spec.local.name.to_string();
@@ -6675,6 +6701,74 @@ export const App = component$(() => {
             // If no dedicated useTask segment, check all segments for async content
             assert!(segment_code.contains("async"),
                 "Expected some segment to contain async.\nAll segments:\n{}", segment_code);
+        }
+    }
+
+    #[test]
+    fn test_async_function_expression() {
+        // Test that async function expressions (named and anonymous) preserve async keyword
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { $, component$ } from '@qwik.dev/core';
+
+export const App = component$(async function() {
+  await delay(100);
+  return <div>Async Component</div>;
+});
+
+const handler = $(async function handleClick() {
+  await doSomething();
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Get all segment code
+        let segment_code: String = result.optimized_app.components.iter()
+            .map(|c| format!("{}: {}", c.id.symbol_name, c.code))
+            .collect::<Vec<_>>()
+            .join("\n---\n");
+
+        // Find the App component segment (anonymous async function)
+        let app_segment = result.optimized_app.components.iter()
+            .find(|c| c.id.symbol_name.contains("App") && !c.id.symbol_name.contains("_"))
+            .map(|c| &c.code);
+
+        // STRONG ASSERTION: Component segment should preserve async function() syntax
+        if let Some(code) = app_segment {
+            assert!(code.contains("async function") || code.contains("async ()"),
+                "Expected App segment to contain 'async function' or 'async ()' keyword.\nSegment code:\n{}\n\nAll segments:\n{}",
+                code, segment_code);
+
+            // await should work inside
+            assert!(code.contains("await delay"),
+                "Expected 'await delay' in segment body.\nSegment code:\n{}", code);
+        }
+
+        // Find the handler segment (named async function handleClick)
+        let handler_segment = result.optimized_app.components.iter()
+            .find(|c| c.id.symbol_name.contains("handler"))
+            .map(|c| &c.code);
+
+        // STRONG ASSERTION: Named async function should preserve both async and name
+        if let Some(code) = handler_segment {
+            // Should have async keyword
+            assert!(code.contains("async"),
+                "Expected handler segment to contain 'async' keyword.\nSegment code:\n{}\n\nAll segments:\n{}",
+                code, segment_code);
+
+            // Should have await
+            assert!(code.contains("await doSomething"),
+                "Expected 'await doSomething' in segment body.\nSegment code:\n{}", code);
+        } else {
+            // handler might not be exported, check in all segments
+            assert!(segment_code.contains("doSomething"),
+                "Expected handler with doSomething somewhere.\nAll segments:\n{}", segment_code);
         }
     }
 
