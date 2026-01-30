@@ -1128,11 +1128,18 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
 
                     if let Some(local_name) = local_name {
                         let scope_id = ctx.current_scope_id();
-                        ctx.scoping_mut().rename_symbol(
-                            symbol_id,
-                            scope_id,
-                            local_name.as_str(),
-                        );
+
+                        let existing_binding = ctx.scoping().get_binding(scope_id, &local_name);
+                        let can_rename = existing_binding.is_none()
+                            || existing_binding == Some(symbol_id);
+
+                        if can_rename {
+                            ctx.scoping_mut().rename_symbol(
+                                symbol_id,
+                                scope_id,
+                                local_name.as_str(),
+                            );
+                        }
 
                         let local_name = if local_name == QRL_SUFFIX {
                             QRL.to_string()
