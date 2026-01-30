@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 ## Current Position
 
 Phase: 11 of 11 (Research & Code Cleanup)
-Plan: 2 of 6 in Phase 11 COMPLETE
+Plan: 3 of 6 in Phase 11 COMPLETE
 Status: In Progress
-Last activity: 2026-01-30 - Completed 11-02-PLAN.md (Transform Module Extraction)
+Last activity: 2026-01-30 - Completed 11-03-PLAN.md (JSX Extraction)
 
-Progress: [===================.] 90.9% (10/11 phases complete, 40/44 total plans)
+Progress: [===================.] 93.2% (10/11 phases complete, 41/44 total plans)
 
 ## Performance Metrics
 
@@ -39,11 +39,11 @@ Progress: [===================.] 90.9% (10/11 phases complete, 40/44 total plans
 | 09-typescript-support | 2/2 | 8 min | 4.0 min |
 | 10-edge-cases | 5/5 | 43 min | 8.6 min |
 
-| 11-research-code-cleanup | 2/6 | 14 min | 7.0 min |
+| 11-research-code-cleanup | 3/6 | 25 min | 8.3 min |
 
 **Recent Trend:**
-- Last 5 plans: 10-03 (10 min), 10-04 (10 min), 10-05 (3 min), 11-01 (4 min), 11-02 (10 min)
-- Phase 11 Research & Code Cleanup IN PROGRESS (2/6 plans)
+- Last 5 plans: 10-04 (10 min), 10-05 (3 min), 11-01 (4 min), 11-02 (10 min), 11-03 (11 min)
+- Phase 11 Research & Code Cleanup IN PROGRESS (3/6 plans)
 
 *Updated after each plan completion*
 
@@ -151,6 +151,9 @@ Recent decisions affecting current work:
 - [11-02]: TransformOptions and transform() grouped in options.rs as configuration layer
 - [11-02]: TransformGenerator kept in generator.rs as core transformation logic
 - [11-02]: Use pub(crate) for internal helper functions, pub for public API
+- [11-03]: Dispatcher pattern: Traverse impl methods delegate to domain::function(self, node, ctx)
+- [11-03]: JSX helpers take &mut TransformGenerator as first parameter for field access
+- [11-03]: TransformGenerator fields and methods use pub(crate) for domain module access
 
 ### Pending Todos
 
@@ -162,8 +165,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-30T03:21:36Z
-Stopped at: Completed 11-02-PLAN.md (Transform Module Extraction)
+Last session: 2026-01-30T03:36:26Z
+Stopped at: Completed 11-03-PLAN.md (JSX Extraction)
 Resume file: None
 
 ## Phase 2 QRL Core Summary
