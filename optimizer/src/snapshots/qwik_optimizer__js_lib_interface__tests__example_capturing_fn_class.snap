@@ -93,8 +93,8 @@ None
 [
   {
     "category": "error",
-    "code": null,
-    "file": "test_example_capturing_fn_class.js",
+    "code": "C02",
+    "file": "test_example_capturing_fn_class.jsx",
     "message": "Reference to identifier 'hola' can not be used inside a Qrl($) scope because it's a function",
     "highlights": null,
     "suggestions": null,
@@ -102,8 +102,8 @@ None
   },
   {
     "category": "error",
-    "code": null,
-    "file": "test_example_capturing_fn_class.js",
+    "code": "C02",
+    "file": "test_example_capturing_fn_class.jsx",
     "message": "Reference to identifier 'Thing' can not be used inside a Qrl($) scope because it's a class",
     "highlights": null,
     "suggestions": null,

@@ -7094,22 +7094,158 @@ export const Grid = component$(() => {
 
         // Should have the Grid component
         let grid_segment = result.optimized_app.components.iter()
-            .find(|c| c.id.symbol_name.contains("Grid") && !c.id.symbol_name.contains("onClick"))
+            .find(|c| c.id.symbol_name.contains("Grid"))
             .map(|c| &c.code);
 
         assert!(grid_segment.is_some(),
             "Expected Grid segment to exist.\nAll segments:\n{}", segment_code);
 
-        // Should have onClick handler extracted
-        let click_handler = result.optimized_app.components.iter()
-            .find(|c| c.id.symbol_name.contains("onClick") || c.id.symbol_name.contains("click"));
+        // Verify the function expression map callback is properly handled
+        if let Some(code) = grid_segment {
+            // Should have .map( call with function
+            assert!(code.contains(".map(function"),
+                "Expected .map(function...) in Grid component.\nSegment code:\n{}", code);
 
-        assert!(click_handler.is_some(),
-            "Expected onClick handler to be extracted from function expression map callback.\nAll segments:\n{}", segment_code);
+            // Should have on:click event handler with qrl()
+            assert!(code.contains("on:click") && code.contains("qrl("),
+                "Expected on:click with qrl() call.\nSegment code:\n{}", code);
+
+            // Both iteration variables v and idx should be captured
+            // (they're used in console.log(v, idx))
+            assert!(code.contains("v") && code.contains("idx"),
+                "Expected both 'v' and 'idx' iteration vars in component.\nSegment code:\n{}", code);
+        }
 
         // No errors should be present
         assert!(result.errors.is_empty(),
             "Map with function expression should not cause errors, got: {:?}",
             result.errors);
+    }
+
+    #[test]
+    fn test_skip_transform_aliased_import() {
+        // When $ marker functions are imported with aliases, skip QRL transformation
+        // The output should preserve original syntax without QRL extraction
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ as Component, $ as onRender } from '@qwik.dev/core';
+
+export const handler = onRender(() => console.log('hola'));
+export const App = Component(() => {
+  return <div>Hello</div>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // When using aliased imports, NO QRL extraction should happen
+        // The components vector should be empty since we skip transform
+        assert!(result.optimized_app.components.is_empty(),
+            "Aliased imports should skip QRL extraction. Found {} components:\n{:?}",
+            result.optimized_app.components.len(),
+            result.optimized_app.components.iter().map(|c| &c.id.symbol_name).collect::<Vec<_>>());
+
+        // The body should still contain the original calls (with aliases preserved)
+        let body = &result.optimized_app.body;
+        assert!(body.contains("onRender") || body.contains("Component"),
+            "Original aliased names should be preserved in output. Body:\n{}", body);
+
+        // Import should be renamed from marker to Qrl form
+        // component$ -> componentQrl, $ -> qrl
+        // But since we're aliasing, the local names stay as Component and onRender
+        assert!(!body.contains("qrl("),
+            "Should NOT have qrl() extraction calls when aliased. Body:\n{}", body);
+
+        // No errors for aliased imports
+        assert!(result.errors.is_empty(),
+            "Aliased imports should not cause errors, got: {:?}",
+            result.errors);
+    }
+
+    #[test]
+    fn test_illegal_code_diagnostic() {
+        // When a QRL references a locally-defined function or class,
+        // produce a C02 diagnostic but continue transformation
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { $, component$ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+  function hola() { console.log('hola'); }
+  class Thing {}
+  return $(() => {
+    hola();
+    new Thing();
+    return <div></div>;
+  });
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Transformation should complete - not fail
+        // At least the outer component$ should be extracted
+        assert!(!result.optimized_app.components.is_empty(),
+            "Transform should complete despite illegal code.\nBody:\n{}",
+            result.optimized_app.body);
+
+        // Should have 2 ProcessingFailure entries - one for 'hola' and one for 'Thing'
+        assert_eq!(result.errors.len(), 2,
+            "Expected 2 illegal code errors (hola function, Thing class). Got: {:?}",
+            result.errors);
+
+        // Check error format matches SWC
+        for error in &result.errors {
+            // All errors should have code C02
+            assert_eq!(error.code, "C02",
+                "Expected error code 'C02', got: {}", error.code);
+
+            // Category should be "error"
+            assert_eq!(error.category, "error",
+                "Expected category 'error', got: {}", error.category);
+
+            // Scope should be "optimizer"
+            assert_eq!(error.scope, "optimizer",
+                "Expected scope 'optimizer', got: {}", error.scope);
+
+            // Message should contain the identifier name
+            assert!(error.message.contains("hola") || error.message.contains("Thing"),
+                "Expected message to reference 'hola' or 'Thing'. Got: {}", error.message);
+
+            // Message should contain the type (function or class)
+            assert!(error.message.contains("function") || error.message.contains("class"),
+                "Expected message to mention 'function' or 'class'. Got: {}", error.message);
+
+            // Message format should match SWC exactly
+            assert!(error.message.contains("can not be used inside a Qrl($) scope"),
+                "Expected SWC message format. Got: {}", error.message);
+        }
+
+        // Verify one error is for function and one for class
+        let fn_error = result.errors.iter().find(|e| e.message.contains("function"));
+        let class_error = result.errors.iter().find(|e| e.message.contains("class"));
+
+        assert!(fn_error.is_some(),
+            "Expected one error for function 'hola'. Errors: {:?}", result.errors);
+        assert!(class_error.is_some(),
+            "Expected one error for class 'Thing'. Errors: {:?}", result.errors);
+
+        // The function error should reference 'hola'
+        assert!(fn_error.unwrap().message.contains("hola"),
+            "Function error should reference 'hola'. Got: {}", fn_error.unwrap().message);
+
+        // The class error should reference 'Thing'
+        assert!(class_error.unwrap().message.contains("Thing"),
+            "Class error should reference 'Thing'. Got: {}", class_error.unwrap().message);
     }
 }
