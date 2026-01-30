@@ -1,0 +1,153 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useTask$, useStore, useStyles$ } from '@qwik.dev/core';
+import mongo from 'mongodb';
+import redis from 'redis';
+
+export const Parent = component$(() => {
+	const state = useStore({
+		text: ''
+	});
+
+	// Double count watch
+	useTask$(async () => {
+		state.text = await mongo.users();
+		redis.set(state.text);
+	});
+
+	return (
+		<div onClick$={() => console.log('parent')}>
+			{state.text}
+		</div>
+	);
+});
+
+export const Child = component$(() => {
+	const state = useStore({
+		text: ''
+	});
+
+	// Double count watch
+	useTask$(async () => {
+		state.text = await mongo.users();
+	});
+
+	return (
+		<div onClick$={() => console.log('child')}>
+			{state.text}
+		</div>
+	);
+});
+
+============================= ./example_manual_chunks.tsx_Parent_component_useTask_95A7dV6HqnI.js (ENTRY POINT)==
+
+import mongo from"mongodb";import redis from"redis";export const Parent_component_useTask_95A7dV6HqnI=async()=>{let[state]=useLexicalScope();state.text=await mongo.users(),redis.set(state.text)};
+
+None
+/*
+{
+  "origin": "example_manual_chunks.tsx",
+  "name": "Parent_component_useTask_95A7dV6HqnI",
+  "entry": "./example_manual_chunks.tsx_entry_Parent",
+  "displayName": "example_manual_chunks.tsx_Parent_component_useTask",
+  "hash": "95A7dV6HqnI",
+  "canonicalFilename": "example_manual_chunks.tsx_Parent_component_useTask_95A7dV6HqnI",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Parent_component_useTask_95A7dV6HqnI",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_manual_chunks.tsx_Child_component_j4HyVQeRtoU.js (ENTRY POINT)==
+
+import{_jsxSorted}from"@qwik.dev/core";export const Child_component_j4HyVQeRtoU=()=>{let state=useStore({text:``});return useTaskQrl(qrl(()=>import(`./example_manual_chunks.tsx_Child_component_useTask_OL000WqWc0k.js`),`Child_component_useTask_OL000WqWc0k`,[state])),/* @__PURE__ */ _jsxSorted(`div`,{on:click:useTaskQrl(qrl(()=>import(`./example_manual_chunks.tsx_Child_component_useTask_OL000WqWc0k.js`),`Child_component_useTask_OL000WqWc0k`,[state]))},null,state.text,1,null)};
+
+None
+/*
+{
+  "origin": "example_manual_chunks.tsx",
+  "name": "Child_component_j4HyVQeRtoU",
+  "entry": "./example_manual_chunks.tsx_entry_Parent",
+  "displayName": "example_manual_chunks.tsx_Child_component",
+  "hash": "j4HyVQeRtoU",
+  "canonicalFilename": "example_manual_chunks.tsx_Child_component_j4HyVQeRtoU",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Child_component_j4HyVQeRtoU",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_manual_chunks.tsx_Parent_component_ok6MmANKRtw.js (ENTRY POINT)==
+
+import{_jsxSorted}from"@qwik.dev/core";export const Parent_component_ok6MmANKRtw=()=>{let state=useStore({text:``});return useTaskQrl(qrl(()=>import(`./example_manual_chunks.tsx_Parent_component_useTask_95A7dV6HqnI.js`),`Parent_component_useTask_95A7dV6HqnI`,[state])),/* @__PURE__ */ _jsxSorted(`div`,{on:click:useTaskQrl(qrl(()=>import(`./example_manual_chunks.tsx_Parent_component_useTask_95A7dV6HqnI.js`),`Parent_component_useTask_95A7dV6HqnI`,[state]))},null,state.text,1,null)};
+
+None
+/*
+{
+  "origin": "example_manual_chunks.tsx",
+  "name": "Parent_component_ok6MmANKRtw",
+  "entry": "./example_manual_chunks.tsx_entry_Parent",
+  "displayName": "example_manual_chunks.tsx_Parent_component",
+  "hash": "ok6MmANKRtw",
+  "canonicalFilename": "example_manual_chunks.tsx_Parent_component_ok6MmANKRtw",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Parent_component_ok6MmANKRtw",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_manual_chunks.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const Parent=componentQrl(qrl(()=>import(`./example_manual_chunks.tsx_Parent_component_ok6MmANKRtw.js`),`Parent_component_ok6MmANKRtw`));export const Child=componentQrl(qrl(()=>import(`./example_manual_chunks.tsx_Child_component_j4HyVQeRtoU.js`),`Child_component_j4HyVQeRtoU`));
+
+None
+============================= ./example_manual_chunks.tsx_Child_component_useTask_OL000WqWc0k.js (ENTRY POINT)==
+
+import mongo from"mongodb";export const Child_component_useTask_OL000WqWc0k=async()=>{let[state]=useLexicalScope();state.text=await mongo.users()};
+
+None
+/*
+{
+  "origin": "example_manual_chunks.tsx",
+  "name": "Child_component_useTask_OL000WqWc0k",
+  "entry": "./example_manual_chunks.tsx_entry_Parent",
+  "displayName": "example_manual_chunks.tsx_Child_component_useTask",
+  "hash": "OL000WqWc0k",
+  "canonicalFilename": "example_manual_chunks.tsx_Child_component_useTask_OL000WqWc0k",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Child_component_useTask_OL000WqWc0k",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

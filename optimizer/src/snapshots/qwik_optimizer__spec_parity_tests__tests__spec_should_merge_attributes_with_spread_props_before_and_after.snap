@@ -1,0 +1,45 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+
+export default component$((props) => {
+	return <div {...props} class={[props.class, 'component']} {...props} />;
+});
+
+============================= should_merge_attributes_with_spread_props_before_and_after.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./should_merge_attributes_with_spread_props_before_and_after.tsx_component_lIIsCU6UqXw.js`),`component_lIIsCU6UqXw`));
+
+None
+============================= ./should_merge_attributes_with_spread_props_before_and_after.tsx_component_lIIsCU6UqXw.js (ENTRY POINT)==
+
+import{_getConstProps,_getVarProps,_jsxSplit}from"@qwik.dev/core";export const component_lIIsCU6UqXw=props=>/* @__PURE__ */ _jsxSplit(`div`,{..._getVarProps(props),class:[props.class,`component`],..._getVarProps(props)},_getConstProps(props),null,0,null);
+
+None
+/*
+{
+  "origin": "should_merge_attributes_with_spread_props_before_and_after.tsx",
+  "name": "component_lIIsCU6UqXw",
+  "entry": null,
+  "displayName": "should_merge_attributes_with_spread_props_before_and_after.tsx_component",
+  "hash": "lIIsCU6UqXw",
+  "canonicalFilename": "should_merge_attributes_with_spread_props_before_and_after.tsx_component_lIIsCU6UqXw",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component_lIIsCU6UqXw",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

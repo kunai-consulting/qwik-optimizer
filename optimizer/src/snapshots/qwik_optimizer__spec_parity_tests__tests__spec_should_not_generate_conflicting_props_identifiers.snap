@@ -1,0 +1,101 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useComputed$, useTask$ } from '@qwik.dev/core'
+
+export default component$(({ color, ...props }) => {
+useComputed$(() => color)
+
+useTask$(() => {
+	props.checked
+})
+
+return 'hi'
+})
+
+============================= ./should_not_generate_conflicting_props_identifiers.tsx_component_UMFYvVLY3Ag.js (ENTRY POINT)==
+
+import{qrl,useComputedQrl,useTaskQrl}from"@qwik.dev/core";export const component_UMFYvVLY3Ag=({color,...props})=>(useComputedQrl(qrl(()=>import(`./should_not_generate_conflicting_props_identifiers.tsx_component_useComputed_j8lk3YMX3JM.js`),`component_useComputed_j8lk3YMX3JM`)),useTaskQrl(qrl(()=>import(`./should_not_generate_conflicting_props_identifiers.tsx_component_useTask_oXN0dRzaV0w.js`),`component_useTask_oXN0dRzaV0w`)),`hi`);
+
+None
+/*
+{
+  "origin": "should_not_generate_conflicting_props_identifiers.tsx",
+  "name": "component_UMFYvVLY3Ag",
+  "entry": "entry_segments",
+  "displayName": "should_not_generate_conflicting_props_identifiers.tsx_component",
+  "hash": "UMFYvVLY3Ag",
+  "canonicalFilename": "should_not_generate_conflicting_props_identifiers.tsx_component_UMFYvVLY3Ag",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component_UMFYvVLY3Ag",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./should_not_generate_conflicting_props_identifiers.tsx_component_useTask_oXN0dRzaV0w.js (ENTRY POINT)==
+
+export const component_useTask_oXN0dRzaV0w=()=>{props.checked};
+
+None
+/*
+{
+  "origin": "should_not_generate_conflicting_props_identifiers.tsx",
+  "name": "component_useTask_oXN0dRzaV0w",
+  "entry": "entry_segments",
+  "displayName": "should_not_generate_conflicting_props_identifiers.tsx_component_useTask",
+  "hash": "oXN0dRzaV0w",
+  "canonicalFilename": "should_not_generate_conflicting_props_identifiers.tsx_component_useTask_oXN0dRzaV0w",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component_useTask_oXN0dRzaV0w",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./should_not_generate_conflicting_props_identifiers.tsx_component_useComputed_j8lk3YMX3JM.js (ENTRY POINT)==
+
+export const component_useComputed_j8lk3YMX3JM=()=>color;
+
+None
+/*
+{
+  "origin": "should_not_generate_conflicting_props_identifiers.tsx",
+  "name": "component_useComputed_j8lk3YMX3JM",
+  "entry": "entry_segments",
+  "displayName": "should_not_generate_conflicting_props_identifiers.tsx_component_useComputed",
+  "hash": "j8lk3YMX3JM",
+  "canonicalFilename": "should_not_generate_conflicting_props_identifiers.tsx_component_useComputed_j8lk3YMX3JM",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component_useComputed_j8lk3YMX3JM",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= should_not_generate_conflicting_props_identifiers.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./should_not_generate_conflicting_props_identifiers.tsx_component_UMFYvVLY3Ag.js`),`component_UMFYvVLY3Ag`));
+
+None
+== DIAGNOSTICS ==
+
+[]

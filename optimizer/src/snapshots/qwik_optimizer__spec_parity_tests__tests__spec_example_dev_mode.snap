@@ -1,0 +1,49 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useStore } from '@qwik.dev/core';
+
+export const App = component$(() => {
+	return (
+		<Cmp>
+			<p class="stuff" onClick$={() => console.log('warn')}>Hello Qwik</p>
+		</Cmp>
+	);
+});
+
+============================= ./example_dev_mode.tsx_App_component_PPy19YXOujg.js (ENTRY POINT)==
+
+import{_jsxSorted,qrl}from"@qwik.dev/core";export const App_component_PPy19YXOujg=()=>_jsxSorted(Cmp,null,null,/* @__PURE__ */ _jsxSorted(`p`,{on:click:qrl(()=>import(`./example_dev_mode.tsx.js`),`App_component_Cmp_p_onClick`)},{class:`stuff`},`Hello Qwik`,3,null),3,null);
+
+None
+/*
+{
+  "origin": "example_dev_mode.tsx",
+  "name": "App_component_PPy19YXOujg",
+  "entry": null,
+  "displayName": "example_dev_mode.tsx_App_component",
+  "hash": "PPy19YXOujg",
+  "canonicalFilename": "example_dev_mode.tsx_App_component_PPy19YXOujg",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_PPy19YXOujg",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_dev_mode.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./example_dev_mode.tsx_App_component_PPy19YXOujg.js`),`App_component_PPy19YXOujg`));
+
+None
+== DIAGNOSTICS ==
+
+[]

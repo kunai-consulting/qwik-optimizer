@@ -1,0 +1,49 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useStore } from '@qwik.dev/core';
+
+export const App = component$((props) => {
+	return (
+		<Cmp>
+			<p class="stuff" onClick$={() => console.log('warn')}>Hello Qwik</p>
+		</Cmp>
+	);
+});
+
+============================= ./example_preserve_filenames.tsx_App_component_ZZp3CBmB0mk.js (ENTRY POINT)==
+
+import{_jsxSorted,qrl}from"@qwik.dev/core";export const App_component_ZZp3CBmB0mk=props=>_jsxSorted(Cmp,null,null,/* @__PURE__ */ _jsxSorted(`p`,{on:click:qrl(()=>import(`./example_preserve_filenames.tsx.js`),`App_component_Cmp_p_onClick`)},{class:`stuff`},`Hello Qwik`,3,null),3,null);
+
+None
+/*
+{
+  "origin": "example_preserve_filenames.tsx",
+  "name": "App_component_ZZp3CBmB0mk",
+  "entry": "entry_segments",
+  "displayName": "example_preserve_filenames.tsx_App_component",
+  "hash": "ZZp3CBmB0mk",
+  "canonicalFilename": "example_preserve_filenames.tsx_App_component_ZZp3CBmB0mk",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_ZZp3CBmB0mk",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_preserve_filenames.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./example_preserve_filenames.tsx_App_component_ZZp3CBmB0mk.js`),`App_component_ZZp3CBmB0mk`));
+
+None
+== DIAGNOSTICS ==
+
+[]

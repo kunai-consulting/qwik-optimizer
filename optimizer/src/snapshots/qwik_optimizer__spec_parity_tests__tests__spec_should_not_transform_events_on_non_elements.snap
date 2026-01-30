@@ -1,0 +1,57 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, $ } from '@qwik.dev/core';
+import { CustomComponent } from './custom-component';
+import { AnotherComponent } from './another-component';
+
+export const Greeter = component$(() => {
+	return (
+		<div>
+			<CustomComponent onClick$={() => {}}/>
+			{array.map(item => (
+				<AnotherComponent onClick$={() => {}}/>
+			))}
+		</div>
+	)
+});
+
+============================= ./should_not_transform_events_on_non_elements.tsx_Greeter_component_Gr0lcO18sKw.js (ENTRY POINT)==
+
+import{AnotherComponent}from"./another-component";import{CustomComponent}from"./custom-component";import{qrl}from"@qwik.dev/core";export const Greeter_component_Gr0lcO18sKw=()=><div>
+			<CustomComponent onClick$={qrl(()=>import(`./should_not_transform_events_on_non_elements.tsx.js`),`Greeter_component_div_CustomComponent_onClick`)}/>
+			{array.map(item=><AnotherComponent onClick$={qrl(()=>import(`./should_not_transform_events_on_non_elements.tsx.js`),`Greeter_component_div_map_AnotherComponent_onClick`)}/>)}
+		</div>;
+
+None
+/*
+{
+  "origin": "should_not_transform_events_on_non_elements.tsx",
+  "name": "Greeter_component_Gr0lcO18sKw",
+  "entry": null,
+  "displayName": "should_not_transform_events_on_non_elements.tsx_Greeter_component",
+  "hash": "Gr0lcO18sKw",
+  "canonicalFilename": "should_not_transform_events_on_non_elements.tsx_Greeter_component_Gr0lcO18sKw",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Greeter_component_Gr0lcO18sKw",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= should_not_transform_events_on_non_elements.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const Greeter=componentQrl(qrl(()=>import(`./should_not_transform_events_on_non_elements.tsx_Greeter_component_Gr0lcO18sKw.js`),`Greeter_component_Gr0lcO18sKw`));
+
+None
+== DIAGNOSTICS ==
+
+[]

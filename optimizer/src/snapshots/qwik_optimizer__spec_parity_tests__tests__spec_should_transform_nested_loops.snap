@@ -1,0 +1,54 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useSignal, Signal } from '@qwik.dev/core';
+const Foo = component$(function() {
+  const data = useSignal<Signal<any>[]>([]);
+  const data2 = useSignal<Signal<any>[]>([]);
+  return <div>
+	{data.value.map(row => (
+	  <div onClick$={() => console.log(row.value.id)}>
+		{data2.value.map(item => (
+		  <p onClick$={() => console.log(row.value.id, item.value.id)}>{row.value.id}-{item.value.id}</p>
+		))}
+	  </div>
+	))}
+  </div>;
+})
+
+============================= ./should_transform_nested_loops.tsx_Foo_component_Cz0TozV0aEg.js (ENTRY POINT)==
+
+import{_jsxSorted,qrl,useSignal}from"@qwik.dev/core";export const Foo_component_Cz0TozV0aEg=function(){let data=useSignal([]),data2=useSignal([]);return/* @__PURE__ */ _jsxSorted(`div`,null,null,data.value.map(row=>/* @__PURE__ */ _jsxSorted(`div`,{on:click:qrl(()=>import(`./should_transform_nested_loops.tsx.js`),`Foo_component_1_div_map_div_onClick`,[row])},null,data2.value.map(item=>/* @__PURE__ */ _jsxSorted(`p`,{on:click:qrl(()=>import(`./should_transform_nested_loops.tsx.js`),`Foo_component_1_div_map_div_map_p_onClick`,[item,row])},null,[row.value.id,`-`,item.value.id],1,null)),1,null)),1,null)};
+
+None
+/*
+{
+  "origin": "should_transform_nested_loops.tsx",
+  "name": "Foo_component_Cz0TozV0aEg",
+  "entry": null,
+  "displayName": "should_transform_nested_loops.tsx_Foo_component",
+  "hash": "Cz0TozV0aEg",
+  "canonicalFilename": "should_transform_nested_loops.tsx_Foo_component_Cz0TozV0aEg",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Foo_component_Cz0TozV0aEg",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= should_transform_nested_loops.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";componentQrl(qrl(()=>import(`./should_transform_nested_loops.tsx_Foo_component_Cz0TozV0aEg.js`),`Foo_component_Cz0TozV0aEg`));
+
+None
+== DIAGNOSTICS ==
+
+[]

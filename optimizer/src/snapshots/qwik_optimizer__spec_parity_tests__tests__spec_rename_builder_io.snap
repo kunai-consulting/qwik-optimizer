@@ -1,0 +1,110 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$ } from "@builder.io/qwik";
+import { isDev } from "@builder.io/qwik/build";
+import { stuff } from "@builder.io/qwik-city";
+import { moreStuff } from "@builder.io/qwik-city/more/here";
+import { qwikify$ } from "@builder.io/qwik-react";
+import sdk from "@builder.io/sdk";
+
+export const Foo = qwikify$(MyReactComponent);
+
+export const Bar = $("a thing");
+
+export const App = component$(() => {
+	sdk.hello();
+	if (isDev) {
+		stuff()
+	} else {
+		moreStuff()
+	}
+	return "hi";
+});
+
+============================= rename_builder_io.tsx ==
+
+import{componentQrl,qrl,qwikifyQrl}from"@qwik.dev/core";import{qwikifyQrl}from"@qwik.dev/react";export const Foo=qwikifyQrl(qrl(()=>import(`./rename_builder_io.tsx_Foo_qwikify_U5lLZVnmtMA.js`),`Foo_qwikify_U5lLZVnmtMA`));export const Bar=qrl(()=>import(`./rename_builder_io.tsx_Bar_U473xAuLEi0.js`),`Bar_U473xAuLEi0`);export const App=componentQrl(qrl(()=>import(`./rename_builder_io.tsx_App_component_8SDollUUhT0.js`),`App_component_8SDollUUhT0`));
+
+None
+============================= ./rename_builder_io.tsx_Bar_U473xAuLEi0.js (ENTRY POINT)==
+
+export const Bar_U473xAuLEi0=`a thing`;
+
+None
+/*
+{
+  "origin": "rename_builder_io.tsx",
+  "name": "Bar_U473xAuLEi0",
+  "entry": null,
+  "displayName": "rename_builder_io.tsx_Bar",
+  "hash": "U473xAuLEi0",
+  "canonicalFilename": "rename_builder_io.tsx_Bar_U473xAuLEi0",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Bar_U473xAuLEi0",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./rename_builder_io.tsx_App_component_8SDollUUhT0.js (ENTRY POINT)==
+
+import sdk from"@builder.io/sdk";import{isDev}from"@qwik.dev/core/build";import{stuff}from"@qwik.dev/router";import{moreStuff}from"@qwik.dev/router/more/here";export const App_component_8SDollUUhT0=()=>(sdk.hello(),isDev?stuff():moreStuff(),`hi`);
+
+None
+/*
+{
+  "origin": "rename_builder_io.tsx",
+  "name": "App_component_8SDollUUhT0",
+  "entry": null,
+  "displayName": "rename_builder_io.tsx_App_component",
+  "hash": "8SDollUUhT0",
+  "canonicalFilename": "rename_builder_io.tsx_App_component_8SDollUUhT0",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_8SDollUUhT0",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./rename_builder_io.tsx_Foo_qwikify_U5lLZVnmtMA.js (ENTRY POINT)==
+
+export const Foo_qwikify_U5lLZVnmtMA=MyReactComponent;
+
+None
+/*
+{
+  "origin": "rename_builder_io.tsx",
+  "name": "Foo_qwikify_U5lLZVnmtMA",
+  "entry": null,
+  "displayName": "rename_builder_io.tsx_Foo_qwikify",
+  "hash": "U5lLZVnmtMA",
+  "canonicalFilename": "rename_builder_io.tsx_Foo_qwikify_U5lLZVnmtMA",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Foo_qwikify_U5lLZVnmtMA",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

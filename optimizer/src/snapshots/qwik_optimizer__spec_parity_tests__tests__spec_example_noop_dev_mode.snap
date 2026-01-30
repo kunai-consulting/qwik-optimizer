@@ -1,0 +1,113 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useStore, serverStuff$, $ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+	const stuff = useStore();
+	serverStuff$(async () => {
+		// should be removed but keep scope
+		console.log(stuff.count)
+	})
+	serverStuff$(async () => {
+		// should be removed
+	})
+
+	return (
+		<Cmp>
+			<p class="stuff"
+				shouldRemove$={() => stuff.count}
+				onClick$={() => console.log('warn')}
+			>
+				Hello Qwik
+			</p>
+		</Cmp>
+	);
+});
+
+============================= ./example_noop_dev_mode.tsx_App_component_serverStuff_nmX08tX3gCM.js (ENTRY POINT)==
+
+export const App_component_serverStuff_nmX08tX3gCM=async()=>{let[stuff]=useLexicalScope();console.log(stuff.count)};
+
+None
+/*
+{
+  "origin": "example_noop_dev_mode.tsx",
+  "name": "App_component_serverStuff_nmX08tX3gCM",
+  "entry": null,
+  "displayName": "example_noop_dev_mode.tsx_App_component_serverStuff",
+  "hash": "nmX08tX3gCM",
+  "canonicalFilename": "example_noop_dev_mode.tsx_App_component_serverStuff_nmX08tX3gCM",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_serverStuff_nmX08tX3gCM",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_noop_dev_mode.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./example_noop_dev_mode.tsx_App_component_BaANpMtVD1s.js`),`App_component_BaANpMtVD1s`));
+
+None
+============================= ./example_noop_dev_mode.tsx_App_component_BaANpMtVD1s.js (ENTRY POINT)==
+
+import{_jsxSorted}from"@qwik.dev/core";export const App_component_BaANpMtVD1s=()=>{let stuff=useStore();return serverStuffQrl(qrl(()=>import(`./example_noop_dev_mode.tsx_App_component_serverStuff_nmX08tX3gCM.js`),`App_component_serverStuff_nmX08tX3gCM`,[stuff])),serverStuffQrl(qrl(()=>import(`./example_noop_dev_mode.tsx_App_component_serverStuff_1_tr0kky31M4E.js`),`App_component_serverStuff_1_tr0kky31M4E`)),_jsxSorted(Cmp,null,null,/* @__PURE__ */ _jsxSorted(`p`,{shouldRemove$:serverStuffQrl(qrl(()=>import(`./example_noop_dev_mode.tsx_App_component_serverStuff_1_tr0kky31M4E.js`),`App_component_serverStuff_1_tr0kky31M4E`)),on:click:serverStuffQrl(qrl(()=>import(`./example_noop_dev_mode.tsx_App_component_serverStuff_nmX08tX3gCM.js`),`App_component_serverStuff_nmX08tX3gCM`,[stuff]))},{class:`stuff`},`Hello Qwik`,3,null),3,null)};
+
+None
+/*
+{
+  "origin": "example_noop_dev_mode.tsx",
+  "name": "App_component_BaANpMtVD1s",
+  "entry": null,
+  "displayName": "example_noop_dev_mode.tsx_App_component",
+  "hash": "BaANpMtVD1s",
+  "canonicalFilename": "example_noop_dev_mode.tsx_App_component_BaANpMtVD1s",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_BaANpMtVD1s",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_noop_dev_mode.tsx_App_component_serverStuff_1_tr0kky31M4E.js (ENTRY POINT)==
+
+export const App_component_serverStuff_1_tr0kky31M4E=async()=>{};
+
+None
+/*
+{
+  "origin": "example_noop_dev_mode.tsx",
+  "name": "App_component_serverStuff_1_tr0kky31M4E",
+  "entry": null,
+  "displayName": "example_noop_dev_mode.tsx_App_component_serverStuff_1",
+  "hash": "tr0kky31M4E",
+  "canonicalFilename": "example_noop_dev_mode.tsx_App_component_serverStuff_1_tr0kky31M4E",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_serverStuff_1_tr0kky31M4E",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

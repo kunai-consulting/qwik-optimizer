@@ -1,0 +1,45 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+
+export default component$((props) => {
+	return <div {...props} class={[props.class, 'component']} />;
+});
+
+============================= should_merge_attributes_with_spread_props.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./should_merge_attributes_with_spread_props.tsx_component_vzxIEOJhuqA.js`),`component_vzxIEOJhuqA`));
+
+None
+============================= ./should_merge_attributes_with_spread_props.tsx_component_vzxIEOJhuqA.js (ENTRY POINT)==
+
+import{_getConstProps,_getVarProps,_jsxSplit}from"@qwik.dev/core";export const component_vzxIEOJhuqA=props=>/* @__PURE__ */ _jsxSplit(`div`,{..._getVarProps(props),class:[props.class,`component`]},_getConstProps(props),null,0,null);
+
+None
+/*
+{
+  "origin": "should_merge_attributes_with_spread_props.tsx",
+  "name": "component_vzxIEOJhuqA",
+  "entry": null,
+  "displayName": "should_merge_attributes_with_spread_props.tsx_component",
+  "hash": "vzxIEOJhuqA",
+  "canonicalFilename": "should_merge_attributes_with_spread_props.tsx_component_vzxIEOJhuqA",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component_vzxIEOJhuqA",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

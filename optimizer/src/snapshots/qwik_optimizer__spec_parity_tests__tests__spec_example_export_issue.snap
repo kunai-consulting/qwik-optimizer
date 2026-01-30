@@ -1,0 +1,84 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+
+const App = component$(() => {
+	return (
+		<div>hola</div>
+	);
+});
+
+
+export const Root = component$((props: Stuff) => {
+	return (
+		<App/>
+	);
+});
+
+const Other = 12;
+export { Other as App };
+
+export default App;
+
+============================= example_export_issue.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";const App=componentQrl(qrl(()=>import(`./example_export_issue.tsx_App_component_2SvcE6PQwpI.js`),`App_component_2SvcE6PQwpI`));export const Root=componentQrl(qrl(()=>import(`./example_export_issue.tsx_Root_component_4IIe4SsgkuI.js`),`Root_component_4IIe4SsgkuI`,[App]));const Other=12;export{Other as App};export default App;
+
+None
+============================= ./example_export_issue.tsx_App_component_2SvcE6PQwpI.js (ENTRY POINT)==
+
+import{_jsxSorted}from"@qwik.dev/core";export const App_component_2SvcE6PQwpI=()=>/* @__PURE__ */ _jsxSorted(`div`,null,null,`hola`,3,null);
+
+None
+/*
+{
+  "origin": "example_export_issue.tsx",
+  "name": "App_component_2SvcE6PQwpI",
+  "entry": null,
+  "displayName": "example_export_issue.tsx_App_component",
+  "hash": "2SvcE6PQwpI",
+  "canonicalFilename": "example_export_issue.tsx_App_component_2SvcE6PQwpI",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_2SvcE6PQwpI",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_export_issue.tsx_Root_component_4IIe4SsgkuI.js (ENTRY POINT)==
+
+import{_jsxSorted}from"@qwik.dev/core";export const Root_component_4IIe4SsgkuI=props=>{let[App]=useLexicalScope();return _jsxSorted(App,null,null,null,3,null)};
+
+None
+/*
+{
+  "origin": "example_export_issue.tsx",
+  "name": "Root_component_4IIe4SsgkuI",
+  "entry": null,
+  "displayName": "example_export_issue.tsx_Root_component",
+  "hash": "4IIe4SsgkuI",
+  "canonicalFilename": "example_export_issue.tsx_Root_component_4IIe4SsgkuI",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Root_component_4IIe4SsgkuI",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

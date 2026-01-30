@@ -1,0 +1,57 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useStore } from '@qwik.dev/core';
+
+export enum Thing {
+	A,
+	B
+}
+
+export const App = component$(() => {
+	console.log(Thing.A);
+	return (
+		<>
+			<p class="stuff">Hello Qwik</p>
+		</>
+	);
+});
+
+============================= example_ts_enums_no_transpile.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export enum Thing {A,B}export const App=componentQrl(qrl(()=>import(`./example_ts_enums_no_transpile.tsx_App_component_44DUIPFt5o4.js`),`App_component_44DUIPFt5o4`));
+
+None
+============================= ./example_ts_enums_no_transpile.tsx_App_component_44DUIPFt5o4.js (ENTRY POINT)==
+
+export const App_component_44DUIPFt5o4=()=>(console.log(Thing.A),<>
+			<p class="stuff">Hello Qwik</p>
+		</>);
+
+None
+/*
+{
+  "origin": "example_ts_enums_no_transpile.tsx",
+  "name": "App_component_44DUIPFt5o4",
+  "entry": null,
+  "displayName": "example_ts_enums_no_transpile.tsx_App_component",
+  "hash": "44DUIPFt5o4",
+  "canonicalFilename": "example_ts_enums_no_transpile.tsx_App_component_44DUIPFt5o4",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_44DUIPFt5o4",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

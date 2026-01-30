@@ -1,0 +1,234 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useStore, Slot, Fragment } from '@qwik.dev/core';
+import Image from './image.jpg?jsx';
+
+export function Fn1(props: Stuff) {
+	return (
+		<>
+			<div>{prop < 2 ? <p>1</p> : <Stuff>2</Stuff>}</div>
+		</>
+	);
+}
+
+export function Fn2(props: Stuff) {
+	return (
+		<div>{prop.value && <Stuff></Stuff>}<div></div></div>
+	);
+}
+
+export function Fn3(props: Stuff) {
+	if (prop.value) {
+		return (
+			<Stuff></Stuff>
+		);
+	}
+	return (
+		<div></div>
+	);
+}
+
+export function Fn4(props: Stuff) {
+	if (prop.value) {
+		return (
+			<div></div>
+		);
+	}
+	return (
+		<Stuff></Stuff>
+	);
+}
+
+export const Arrow = (props: Stuff) => <div>{prop < 2 ? <p>1</p> : <Stuff>2</Stuff>}</div>;
+
+export const AppDynamic1 = component$((props: Stuff) => {
+	return (
+		<>
+			<div>{prop < 2 ? <p>1</p> : <Stuff>2</Stuff>}</div>
+		</>
+	);
+});
+export const AppDynamic2 = component$((props: Stuff) => {
+	return (
+		<div>{prop.value && <Stuff></Stuff>}<div></div></div>
+	);
+});
+
+export const AppDynamic3 = component$((props: Stuff) => {
+	if (prop.value) {
+		return (
+			<Stuff></Stuff>
+		);
+	}
+	return (
+		<div></div>
+	);
+});
+
+export const AppDynamic4 = component$((props: Stuff) => {
+	if (prop.value) {
+		return (
+			<div></div>
+		);
+	}
+	return (
+		<Stuff></Stuff>
+	);
+});
+
+export const AppStatic = component$((props: Stuff) => {
+	return (
+		<>
+			<div>Static {f ? 1 : 3}</div>
+			<div>{prop < 2 ? <p>1</p> : <p>2</p>}</div>
+
+			<div>{prop.value && <div></div>}</div>
+			<div>{prop.value && <Fragment><Slot></Slot></Fragment>}</div>
+			<div>{prop.value && <><div></div></>}</div>
+			<div>{prop.value && <Image/>}</div>
+			<div>Static {f ? 1 : 3}</div>
+			<div>Static</div>
+			<div>Static {props.value}</div>
+			<div>Static {stuff()}</div>
+			<div>Static {stuff()}</div>
+		</>
+	);
+});
+
+============================= ./example_mutable_children.tsx_AppStatic_component_ZCpDNRE1GDw.js (ENTRY POINT)==
+
+import Image from"./image.jpg?jsx";import{Fragment,Slot,_jsxSorted}from"@qwik.dev/core";import{Fragment as _Fragment}from"@qwik.dev/core/jsx-runtime";export const AppStatic_component_ZCpDNRE1GDw=props=>/* @__PURE__ */ _jsxSorted(_Fragment,null,null,[/* @__PURE__ */ _jsxSorted(`div`,null,null,[`Static`,f?1:3],1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,prop<2?/* @__PURE__ */ _jsxSorted(`p`,null,null,`1`,3,null):/* @__PURE__ */ _jsxSorted(`p`,null,null,`2`,3,null),1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,prop.value&&/* @__PURE__ */ _jsxSorted(`div`,null,null,null,3,null),1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,prop.value&&_jsxSorted(Fragment,null,null,_jsxSorted(Slot,null,null,null,3,null),3,null),1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,prop.value&&/* @__PURE__ */ _jsxSorted(_Fragment,null,null,/* @__PURE__ */ _jsxSorted(`div`,null,null,null,3,null),3,null),1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,prop.value&&_jsxSorted(Image,null,null,null,3,null),1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,[`Static`,f?1:3],1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,`Static`,3,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,[`Static`,_wrapProp(props)],1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,[`Static`,stuff()],1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,[`Static`,stuff()],1,null)],3,null);
+
+None
+/*
+{
+  "origin": "example_mutable_children.tsx",
+  "name": "AppStatic_component_ZCpDNRE1GDw",
+  "entry": "entry_segments",
+  "displayName": "example_mutable_children.tsx_AppStatic_component",
+  "hash": "ZCpDNRE1GDw",
+  "canonicalFilename": "example_mutable_children.tsx_AppStatic_component_ZCpDNRE1GDw",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "AppStatic_component_ZCpDNRE1GDw",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_mutable_children.tsx_AppDynamic4_component_zMYszYyy0F8.js (ENTRY POINT)==
+
+import{_jsxSorted}from"@qwik.dev/core";export const AppDynamic4_component_zMYszYyy0F8=props=>prop.value?/* @__PURE__ */ _jsxSorted(`div`,null,null,null,3,null):_jsxSorted(Stuff,null,null,null,3,null);
+
+None
+/*
+{
+  "origin": "example_mutable_children.tsx",
+  "name": "AppDynamic4_component_zMYszYyy0F8",
+  "entry": "entry_segments",
+  "displayName": "example_mutable_children.tsx_AppDynamic4_component",
+  "hash": "zMYszYyy0F8",
+  "canonicalFilename": "example_mutable_children.tsx_AppDynamic4_component_zMYszYyy0F8",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "AppDynamic4_component_zMYszYyy0F8",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_mutable_children.tsx_AppDynamic2_component_rca4PeUCr5g.js (ENTRY POINT)==
+
+import{_jsxSorted}from"@qwik.dev/core";export const AppDynamic2_component_rca4PeUCr5g=props=>/* @__PURE__ */ _jsxSorted(`div`,null,null,[prop.value&&_jsxSorted(Stuff,null,null,null,3,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,null,3,null)],1,null);
+
+None
+/*
+{
+  "origin": "example_mutable_children.tsx",
+  "name": "AppDynamic2_component_rca4PeUCr5g",
+  "entry": "entry_segments",
+  "displayName": "example_mutable_children.tsx_AppDynamic2_component",
+  "hash": "rca4PeUCr5g",
+  "canonicalFilename": "example_mutable_children.tsx_AppDynamic2_component_rca4PeUCr5g",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "AppDynamic2_component_rca4PeUCr5g",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_mutable_children.tsx_AppDynamic3_component_BWoPg01quak.js (ENTRY POINT)==
+
+import{_jsxSorted}from"@qwik.dev/core";export const AppDynamic3_component_BWoPg01quak=props=>prop.value?_jsxSorted(Stuff,null,null,null,3,null):/* @__PURE__ */ _jsxSorted(`div`,null,null,null,3,null);
+
+None
+/*
+{
+  "origin": "example_mutable_children.tsx",
+  "name": "AppDynamic3_component_BWoPg01quak",
+  "entry": "entry_segments",
+  "displayName": "example_mutable_children.tsx_AppDynamic3_component",
+  "hash": "BWoPg01quak",
+  "canonicalFilename": "example_mutable_children.tsx_AppDynamic3_component_BWoPg01quak",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "AppDynamic3_component_BWoPg01quak",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_mutable_children.tsx ==
+
+import{_jsxSorted,componentQrl,qrl}from"@qwik.dev/core";import{Fragment as _Fragment}from"@qwik.dev/core/jsx-runtime";export function Fn1(props){return/* @__PURE__ */ _jsxSorted(_Fragment,null,null,/* @__PURE__ */ _jsxSorted(`div`,null,null,prop<2?/* @__PURE__ */ _jsxSorted(`p`,null,null,`1`,3,null):_jsxSorted(Stuff,null,null,`2`,3,null),1,null),3,null)}export function Fn2(props){return/* @__PURE__ */ _jsxSorted(`div`,null,null,[prop.value&&_jsxSorted(Stuff,null,null,null,3,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,null,3,null)],1,null)}export function Fn3(props){if(prop.value){return _jsxSorted(Stuff,null,null,null,3,null)}return/* @__PURE__ */ _jsxSorted(`div`,null,null,null,3,null)}export function Fn4(props){if(prop.value){return/* @__PURE__ */ _jsxSorted(`div`,null,null,null,3,null)}return _jsxSorted(Stuff,null,null,null,3,null)}export const Arrow=props=>/* @__PURE__ */ _jsxSorted(`div`,null,null,prop<2?/* @__PURE__ */ _jsxSorted(`p`,null,null,`1`,3,null):_jsxSorted(Stuff,null,null,`2`,3,null),1,null);export const AppDynamic1=componentQrl(qrl(()=>import(`./example_mutable_children.tsx_AppDynamic1_component_PYtt0ArTNuQ.js`),`AppDynamic1_component_PYtt0ArTNuQ`));export const AppDynamic2=componentQrl(qrl(()=>import(`./example_mutable_children.tsx_AppDynamic2_component_rca4PeUCr5g.js`),`AppDynamic2_component_rca4PeUCr5g`));export const AppDynamic3=componentQrl(qrl(()=>import(`./example_mutable_children.tsx_AppDynamic3_component_BWoPg01quak.js`),`AppDynamic3_component_BWoPg01quak`));export const AppDynamic4=componentQrl(qrl(()=>import(`./example_mutable_children.tsx_AppDynamic4_component_zMYszYyy0F8.js`),`AppDynamic4_component_zMYszYyy0F8`));export const AppStatic=componentQrl(qrl(()=>import(`./example_mutable_children.tsx_AppStatic_component_ZCpDNRE1GDw.js`),`AppStatic_component_ZCpDNRE1GDw`));
+
+None
+============================= ./example_mutable_children.tsx_AppDynamic1_component_PYtt0ArTNuQ.js (ENTRY POINT)==
+
+import{_jsxSorted}from"@qwik.dev/core";import{Fragment as _Fragment}from"@qwik.dev/core/jsx-runtime";export const AppDynamic1_component_PYtt0ArTNuQ=props=>/* @__PURE__ */ _jsxSorted(_Fragment,null,null,/* @__PURE__ */ _jsxSorted(`div`,null,null,prop<2?/* @__PURE__ */ _jsxSorted(`p`,null,null,`1`,3,null):_jsxSorted(Stuff,null,null,`2`,3,null),1,null),3,null);
+
+None
+/*
+{
+  "origin": "example_mutable_children.tsx",
+  "name": "AppDynamic1_component_PYtt0ArTNuQ",
+  "entry": "entry_segments",
+  "displayName": "example_mutable_children.tsx_AppDynamic1_component",
+  "hash": "PYtt0ArTNuQ",
+  "canonicalFilename": "example_mutable_children.tsx_AppDynamic1_component_PYtt0ArTNuQ",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "AppDynamic1_component_PYtt0ArTNuQ",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

@@ -1,0 +1,46 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, $ } from '@qwik.dev/core';
+import json from "./foo.json" assert { type: "json" };
+
+export const Greeter = component$(() => {
+	return json;
+});
+
+============================= example_import_assertion.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const Greeter=componentQrl(qrl(()=>import(`./example_import_assertion.tsx_Greeter_component_BwZKGIhqyug.js`),`Greeter_component_BwZKGIhqyug`));
+
+None
+============================= ./example_import_assertion.tsx_Greeter_component_BwZKGIhqyug.js (ENTRY POINT)==
+
+import json from"./foo.json";export const Greeter_component_BwZKGIhqyug=()=>json;
+
+None
+/*
+{
+  "origin": "example_import_assertion.tsx",
+  "name": "Greeter_component_BwZKGIhqyug",
+  "entry": null,
+  "displayName": "example_import_assertion.tsx_Greeter_component",
+  "hash": "BwZKGIhqyug",
+  "canonicalFilename": "example_import_assertion.tsx_Greeter_component_BwZKGIhqyug",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Greeter_component_BwZKGIhqyug",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

@@ -1,0 +1,183 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$, useStore, useSignal } from '@qwik.dev/core';
+export const App = component$(() => {
+      const cart = useStore<string[]>([]);
+      const results = useSignal(['foo']);
+      function loopArrowFn(results: string[]) {
+        return results.map((item) => (
+          <span
+            onClick$={() => {
+              cart.push(item);
+            }}
+          >
+            {item}
+          </span>
+        ));
+      }
+      function loopForI(results: string[]) {
+        const items = [];
+        for (let i = 0; i < results.length; i++) {
+          items.push(
+            <span
+              onClick$={() => {
+                cart.push(results[i]);
+              }}
+            >
+              {results[i]}
+            </span>
+          );
+        }
+        return items;
+      }
+      function loopForOf(results: string[]) {
+        const items = [];
+        for (const item of results) {
+          items.push(
+            <span
+              onClick$={() => {
+                cart.push(item);
+              }}
+            >
+              {item}
+            </span>
+          );
+        }
+        return items;
+      }
+      function loopForIn(results: string[]) {
+        const items = [];
+        for (const key in results) {
+          items.push(
+            <span
+              onClick$={() => {
+                cart.push(results[key]);
+              }}
+            >
+              {results[key]}
+            </span>
+          );
+        }
+        return items;
+      }
+      function loopWhile(results: string[]) {
+        const items = [];
+        let i = 0;
+        while (i < results.length) {
+          items.push(
+            <span
+              onClick$={() => {
+                cart.push(results[i]);
+              }}
+            >
+              {results[i]}
+            </span>
+          );
+          i++;
+        }
+        return items;
+      }
+      return (
+        <div>
+          {results.value.map((item) => (
+            <button
+              id="second"
+              onClick$={() => {
+                cart.push(item);
+              }}
+            >
+              {item}
+            </button>
+          ))}
+          {loopArrowFn(results.value)}
+          {loopForI(results.value)}
+          {loopForOf(results.value)}
+          {loopForIn(results.value)}
+          {loopWhile(results.value)}
+        </div>
+      );
+    });
+
+============================= example_component_with_event_listeners_inside_loop.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./example_component_with_event_listeners_inside_loop.tsx_App_component_004xzQS1Mu4.js`),`App_component_004xzQS1Mu4`));
+
+None
+============================= ./example_component_with_event_listeners_inside_loop.tsx_App_component_004xzQS1Mu4.js (ENTRY POINT)==
+
+import{_jsxSorted,qrl,useSignal,useStore}from"@qwik.dev/core";export const App_component_004xzQS1Mu4=()=>{let cart=useStore([]),results=useSignal([`foo`]);return/* @__PURE__ */ _jsxSorted(`div`,null,null,[results.value.map(item=>/* @__PURE__ */ _jsxSorted(`button`,{on:click:qrl(()=>import(`./example_component_with_event_listeners_inside_loop.tsx.js`),`App_component_div_map_button_onClick`,[cart,item])},{id:`second`},item,1,null)),loopArrowFn(results.value),loopForI(results.value),loopForOf(results.value),loopForIn(results.value),loopWhile(results.value)],1,null)};
+
+None
+/*
+{
+  "origin": "example_component_with_event_listeners_inside_loop.tsx",
+  "name": "App_component_004xzQS1Mu4",
+  "entry": null,
+  "displayName": "example_component_with_event_listeners_inside_loop.tsx_App_component",
+  "hash": "004xzQS1Mu4",
+  "canonicalFilename": "example_component_with_event_listeners_inside_loop.tsx_App_component_004xzQS1Mu4",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_004xzQS1Mu4",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[
+  {
+    "category": "error",
+    "code": "C02",
+    "file": "example_component_with_event_listeners_inside_loop.tsx",
+    "message": "Reference to identifier 'loopArrowFn' can not be used inside a Qrl($) scope because it's a function",
+    "highlights": null,
+    "suggestions": null,
+    "scope": "optimizer"
+  },
+  {
+    "category": "error",
+    "code": "C02",
+    "file": "example_component_with_event_listeners_inside_loop.tsx",
+    "message": "Reference to identifier 'loopForI' can not be used inside a Qrl($) scope because it's a function",
+    "highlights": null,
+    "suggestions": null,
+    "scope": "optimizer"
+  },
+  {
+    "category": "error",
+    "code": "C02",
+    "file": "example_component_with_event_listeners_inside_loop.tsx",
+    "message": "Reference to identifier 'loopForOf' can not be used inside a Qrl($) scope because it's a function",
+    "highlights": null,
+    "suggestions": null,
+    "scope": "optimizer"
+  },
+  {
+    "category": "error",
+    "code": "C02",
+    "file": "example_component_with_event_listeners_inside_loop.tsx",
+    "message": "Reference to identifier 'loopForIn' can not be used inside a Qrl($) scope because it's a function",
+    "highlights": null,
+    "suggestions": null,
+    "scope": "optimizer"
+  },
+  {
+    "category": "error",
+    "code": "C02",
+    "file": "example_component_with_event_listeners_inside_loop.tsx",
+    "message": "Reference to identifier 'loopWhile' can not be used inside a Qrl($) scope because it's a function",
+    "highlights": null,
+    "suggestions": null,
+    "scope": "optimizer"
+  }
+]

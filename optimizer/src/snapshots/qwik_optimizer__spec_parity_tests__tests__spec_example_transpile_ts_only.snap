@@ -1,0 +1,51 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useStore } from '@qwik.dev/core';
+
+export const App = component$((props: Stuff) => {
+	return (
+		<Cmp>
+			<p class="stuff" onClick$={() => console.log('warn')}>Hello Qwik</p>
+		</Cmp>
+	);
+});
+
+============================= ./example_transpile_ts_only.tsx_App_component_DZnnkDGy8EQ.js (ENTRY POINT)==
+
+import{qrl}from"@qwik.dev/core";export const App_component_DZnnkDGy8EQ=props=><Cmp>
+			<p class="stuff" on:click={qrl(()=>import(`./example_transpile_ts_only.tsx.js`),`App_component_Cmp_p_onClick`)}>Hello Qwik</p>
+		</Cmp>;
+
+None
+/*
+{
+  "origin": "example_transpile_ts_only.tsx",
+  "name": "App_component_DZnnkDGy8EQ",
+  "entry": "entry_segments",
+  "displayName": "example_transpile_ts_only.tsx_App_component",
+  "hash": "DZnnkDGy8EQ",
+  "canonicalFilename": "example_transpile_ts_only.tsx_App_component_DZnnkDGy8EQ",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_DZnnkDGy8EQ",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_transpile_ts_only.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./example_transpile_ts_only.tsx_App_component_DZnnkDGy8EQ.js`),`App_component_DZnnkDGy8EQ`));
+
+None
+== DIAGNOSTICS ==
+
+[]

@@ -1,0 +1,91 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useStore, mutable } from '@qwik.dev/core';
+
+import {dep} from './file';
+import styles from './styles.module.css';
+
+export const App = component$((props) => {
+	const signal = useSignal(0);
+	const store = useStore({});
+	const count = props.counter.count;
+
+	return (
+		<div
+			class={{
+				even: count % 2 === 0,
+				odd: count % 2 === 1,
+				stable0: true,
+				hidden: false,
+			}}
+			staticClass={styles.foo}
+			staticDocument={window.document}
+			staticText="text"
+			staticText2={`text`}
+			staticNumber={1}
+			staticBoolean={true}
+			staticExpr={`text${12}`}
+			staticExpr2={typeof `text${12}` === 'string' ? 12 : 43}
+
+			signal={signal}
+			signalValue={signal.value}
+			signalComputedValue={12 + signal.value}
+
+			store={store.address.city.name}
+			storeComputed={store.address.city.name ? 'true' : 'false'}
+
+			dep={dep}
+			depAccess={dep.thing}
+			depComputed={dep.thing + 'stuff'}
+
+			global={globalThing}
+			globalAccess={globalThing.thing}
+			globalComputed={globalThing.thing + 'stuff'}
+
+
+			noInline={signal.value()}
+			noInline2={signal.value + unknown()}
+			noInline3={mutable(signal)}
+			noInline4={signal.value + dep}
+		/>
+
+	);
+});
+
+============================= example_derived_signals_div.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./example_derived_signals_div.tsx_App_component_lqTjl2rpomE.js`),`App_component_lqTjl2rpomE`));
+
+None
+============================= ./example_derived_signals_div.tsx_App_component_lqTjl2rpomE.js (ENTRY POINT)==
+
+import{dep}from"./file";import styles from"./styles.module.css";import{_jsxSorted,mutable,useStore}from"@qwik.dev/core";export const App_component_lqTjl2rpomE=props=>{let signal=useSignal(0),store=useStore({}),count=props.counter.count;return/* @__PURE__ */ _jsxSorted(`div`,{staticClass:styles.foo,staticDocument:window.document,signalValue:_wrapProp(signal),signalComputedValue:12+signal.value,store:store.address.city.name,storeComputed:store.address.city.name?`true`:`false`,depAccess:dep.thing,depComputed:dep.thing+`stuff`,global:globalThing,globalAccess:globalThing.thing,globalComputed:globalThing.thing+`stuff`,noInline:signal.value(),noInline2:signal.value+unknown(),noInline3:mutable(signal),noInline4:signal.value+dep},{class:{even:count%2==0,odd:count%2==1,stable0:!0,hidden:!1},staticText:`text`,staticText2:`text`,staticNumber:1,staticBoolean:!0,staticExpr:`text12`,staticExpr2:12,signal,dep},null,3,null)};
+
+None
+/*
+{
+  "origin": "example_derived_signals_div.tsx",
+  "name": "App_component_lqTjl2rpomE",
+  "entry": "entry_segments",
+  "displayName": "example_derived_signals_div.tsx_App_component",
+  "hash": "lqTjl2rpomE",
+  "canonicalFilename": "example_derived_signals_div.tsx_App_component_lqTjl2rpomE",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_lqTjl2rpomE",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

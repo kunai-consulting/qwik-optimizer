@@ -1,0 +1,58 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$, useStore, useSignal } from '@qwik.dev/core';
+export default component$((props: { id: number }) => {
+      const renders = useStore(
+        {
+          count: 0,
+        },
+        { reactive: false }
+      );
+      renders.count++;
+      const rerenders = renders.count + 0;
+      const Id = (props: any) => <div>Id: {props.id}</div>;
+      return (
+        <>
+          <Id id={props.id} />
+          {rerenders}
+        </>
+      );
+    });
+
+============================= ./should_wrap_inner_inline_component_prop.tsx_component_KLKKMDeygxU.js (ENTRY POINT)==
+
+import{_jsxSorted,useStore}from"@qwik.dev/core";import{Fragment as _Fragment}from"@qwik.dev/core/jsx-runtime";export const component_KLKKMDeygxU=props=>{let renders=useStore({count:0},{reactive:!1});renders.count++;let rerenders=renders.count+0;return/* @__PURE__ */ _jsxSorted(_Fragment,null,null,[_jsxSorted(props=>/* @__PURE__ */ _jsxSorted(`div`,null,null,[`Id:`,props.id],1,null),{id:props.id},null,null,3,null),rerenders],1,null)};
+
+None
+/*
+{
+  "origin": "should_wrap_inner_inline_component_prop.tsx",
+  "name": "component_KLKKMDeygxU",
+  "entry": null,
+  "displayName": "should_wrap_inner_inline_component_prop.tsx_component",
+  "hash": "KLKKMDeygxU",
+  "canonicalFilename": "should_wrap_inner_inline_component_prop.tsx_component_KLKKMDeygxU",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component_KLKKMDeygxU",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= should_wrap_inner_inline_component_prop.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./should_wrap_inner_inline_component_prop.tsx_component_KLKKMDeygxU.js`),`component_KLKKMDeygxU`));
+
+None
+== DIAGNOSTICS ==
+
+[]

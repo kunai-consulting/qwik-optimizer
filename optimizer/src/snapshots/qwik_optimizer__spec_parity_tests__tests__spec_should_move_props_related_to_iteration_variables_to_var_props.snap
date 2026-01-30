@@ -1,0 +1,66 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useSignal } from "@qwik.dev/core";
+import { TestComponent } from "./testComponent";
+
+export const Child = component$(() => {
+  const propCounterWithNested = useSignal(() => {
+  return {
+      data: [
+        { attributeInArray: { counter: globalThis.propsCounter++ } },
+        { attributeInArray: { counter: globalThis.propsCounter } },
+      ],
+    };
+  })
+  return (
+    <div>
+        {propCounterWithNested.value.data.map((item, index) => {
+          return (
+            <TestComponent
+              counter={item.attributeInArray.counter}
+              logString="Nested read through array"
+              key={index}
+            />
+          );
+        })}
+    </div>
+  );
+})
+
+============================= should_move_props_related_to_iteration_variables_to_var_props.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const Child=componentQrl(qrl(()=>import(`./should_move_props_related_to_iteration_variables_to_var_props.tsx_Child_component_mqGppPl3Vsw.js`),`Child_component_mqGppPl3Vsw`));
+
+None
+============================= ./should_move_props_related_to_iteration_variables_to_var_props.tsx_Child_component_mqGppPl3Vsw.js (ENTRY POINT)==
+
+import{TestComponent}from"./testComponent";import{_jsxSorted,useSignal}from"@qwik.dev/core";export const Child_component_mqGppPl3Vsw=()=>/* @__PURE__ */ _jsxSorted(`div`,null,null,useSignal(()=>({data:[{attributeInArray:{counter:globalThis.propsCounter++}},{attributeInArray:{counter:globalThis.propsCounter}}]})).value.data.map((item,index)=>_jsxSorted(TestComponent,{counter:item.attributeInArray.counter},{logString:`Nested read through array`},null,3,index)),1,null);
+
+None
+/*
+{
+  "origin": "should_move_props_related_to_iteration_variables_to_var_props.tsx",
+  "name": "Child_component_mqGppPl3Vsw",
+  "entry": null,
+  "displayName": "should_move_props_related_to_iteration_variables_to_var_props.tsx_Child_component",
+  "hash": "mqGppPl3Vsw",
+  "canonicalFilename": "should_move_props_related_to_iteration_variables_to_var_props.tsx_Child_component_mqGppPl3Vsw",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Child_component_mqGppPl3Vsw",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

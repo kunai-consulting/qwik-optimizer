@@ -1,0 +1,57 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useSignal } from '@qwik.dev/core';
+
+
+export default component$(() => {
+const toggle = useSignal(true);
+const t = (key: string) => key;
+return (
+	<button
+		type="button"
+		title={
+		toggle.value !== ''
+			? t('app.message.exists@@there is a message for you')
+			: t('app.message.not_exists@@click to get a message!')
+		}
+	></button>
+);
+});
+
+============================= ./should_not_wrap_ternary_function_operator_with_fn.tsx_component_nWh6ksvJtT4.js (ENTRY POINT)==
+
+import{_jsxSorted,useSignal}from"@qwik.dev/core";export const component_nWh6ksvJtT4=()=>{let toggle=useSignal(!0),t=key=>key;return/* @__PURE__ */ _jsxSorted(`button`,{title:toggle.value===``?t(`app.message.not_exists@@click to get a message!`):t(`app.message.exists@@there is a message for you`)},{type:`button`},null,3,null)};
+
+None
+/*
+{
+  "origin": "should_not_wrap_ternary_function_operator_with_fn.tsx",
+  "name": "component_nWh6ksvJtT4",
+  "entry": null,
+  "displayName": "should_not_wrap_ternary_function_operator_with_fn.tsx_component",
+  "hash": "nWh6ksvJtT4",
+  "canonicalFilename": "should_not_wrap_ternary_function_operator_with_fn.tsx_component_nWh6ksvJtT4",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component_nWh6ksvJtT4",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= should_not_wrap_ternary_function_operator_with_fn.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./should_not_wrap_ternary_function_operator_with_fn.tsx_component_nWh6ksvJtT4.js`),`component_nWh6ksvJtT4`));
+
+None
+== DIAGNOSTICS ==
+
+[]

@@ -1,0 +1,64 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+  const data = { value: [
+    { value: { id: 1, selected: { value: true } } },
+    { value: { id: 2, selected: { value: false } } },
+    { value: { id: 3, selected: { value: true } } }
+  ]};
+  
+  return (
+    <table>
+      {data.value.map((row) => {
+        return (
+          <tr
+            key={row.value.id}
+            class={row.value.selected.value ? "danger" : ""}
+          >
+            <td>{row.value.id}</td>
+          </tr>
+        );
+      })}
+    </table>
+  );
+});
+
+============================= ./hoisted_fn_signal_in_loop.tsx_App_component_0Uh5oJsjbyw.js (ENTRY POINT)==
+
+import{_jsxSorted}from"@qwik.dev/core";export const App_component_0Uh5oJsjbyw=()=>/* @__PURE__ */ _jsxSorted(`table`,null,null,{value:[{value:{id:1,selected:{value:!0}}},{value:{id:2,selected:{value:!1}}},{value:{id:3,selected:{value:!0}}}]}.value.map(row=>/* @__PURE__ */ _jsxSorted(`tr`,{class:row.value.selected.value?`danger`:``},null,/* @__PURE__ */ _jsxSorted(`td`,null,null,row.value.id,1,null),3,row.value.id)),1,null);
+
+None
+/*
+{
+  "origin": "hoisted_fn_signal_in_loop.tsx",
+  "name": "App_component_0Uh5oJsjbyw",
+  "entry": null,
+  "displayName": "hoisted_fn_signal_in_loop.tsx_App_component",
+  "hash": "0Uh5oJsjbyw",
+  "canonicalFilename": "hoisted_fn_signal_in_loop.tsx_App_component_0Uh5oJsjbyw",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_0Uh5oJsjbyw",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= hoisted_fn_signal_in_loop.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./hoisted_fn_signal_in_loop.tsx_App_component_0Uh5oJsjbyw.js`),`App_component_0Uh5oJsjbyw`));
+
+None
+== DIAGNOSTICS ==
+
+[]

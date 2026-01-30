@@ -1,0 +1,22 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+export default ({ data }: { data: any }) =>
+    <div
+      data-is-active={data.selectedOutputDetail === 'options'}
+      onClick$={() => {
+        data.selectedOutputDetail = 'options';
+      }}
+    />;
+
+============================= destructure_args_inline_cmp_expr_stmt.tsx ==
+
+import{_jsxSorted,qrl}from"@qwik.dev/core";export default ({data})=>/* @__PURE__ */ _jsxSorted(`div`,{data-is-active:data.selectedOutputDetail===`options`,on:click:qrl(()=>import(`./destructure_args_inline_cmp_expr_stmt.tsx.js`),`div_onClick`)},null,null,3,null);
+
+None
+== DIAGNOSTICS ==
+
+[]

@@ -1,0 +1,73 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useStore, mutable } from '@qwik.dev/core';
+
+import {dep} from './file';
+
+export const App = component$(() => {
+	const signal = useSignal(0);
+	const store = useStore({});
+	return (
+		<>
+			<div>First text</div>
+			<div>First {`text`}</div>
+			<div>First {1}</div>
+			<div>First {true}</div>
+			<div>First {`text${12}`}</div>
+			<div>First {typeof `text${12}` === 'string' ? 12 : 43}</div>
+			<div>First {signal}</div>
+			<div>First {signal.value}</div>
+			<div>First {12 + signal.value}</div>
+			<div>First {store.address.city.name}</div>
+			<div>First {store.address.city.name ? 'true' : 'false'}</div>
+			<div>First {dep}</div>
+			<div>First {dep.thing}</div>
+			<div>First {dep.thing + 'stuff'}</div>
+			<div>First {globalThing}</div>
+			<div>First {globalThing.thing}</div>
+			<div>First {globalThing.thing + 'stuff'}</div>
+			<div>First {signal.value()}</div>
+			<div>First {signal.value + unknown()}</div>
+			<div>First {mutable(signal)}</div>
+			<div>First {signal.value + dep}</div>
+		</>
+	);
+});
+
+============================= example_derived_signals_multiple_children.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./example_derived_signals_multiple_children.tsx_App_component_tkqb3FpAnc4.js`),`App_component_tkqb3FpAnc4`));
+
+None
+============================= ./example_derived_signals_multiple_children.tsx_App_component_tkqb3FpAnc4.js (ENTRY POINT)==
+
+import{dep}from"./file";import{_jsxSorted,mutable,useStore}from"@qwik.dev/core";import{Fragment as _Fragment}from"@qwik.dev/core/jsx-runtime";export const App_component_tkqb3FpAnc4=()=>{let signal=useSignal(0),store=useStore({});return/* @__PURE__ */ _jsxSorted(_Fragment,null,null,[/* @__PURE__ */ _jsxSorted(`div`,null,null,`First text`,3,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,[`First`,`text`],1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,[`First`,1],1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,[`First`,!0],1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,[`First`,`text12`],1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,[`First`,12],1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,[`First`,signal],1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,[`First`,_wrapProp(signal)],1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,[`First`,12+signal.value],1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,[`First`,store.address.city.name],1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,[`First`,store.address.city.name?`true`:`false`],1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,[`First`,dep],1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,[`First`,dep.thing],1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,[`First`,dep.thing+`stuff`],1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,[`First`,globalThing],1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,[`First`,globalThing.thing],1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,[`First`,globalThing.thing+`stuff`],1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,[`First`,signal.value()],1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,[`First`,signal.value+unknown()],1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,[`First`,mutable(signal)],1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,[`First`,signal.value+dep],1,null)],3,null)};
+
+None
+/*
+{
+  "origin": "example_derived_signals_multiple_children.tsx",
+  "name": "App_component_tkqb3FpAnc4",
+  "entry": "entry_segments",
+  "displayName": "example_derived_signals_multiple_children.tsx_App_component",
+  "hash": "tkqb3FpAnc4",
+  "canonicalFilename": "example_derived_signals_multiple_children.tsx_App_component_tkqb3FpAnc4",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_tkqb3FpAnc4",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

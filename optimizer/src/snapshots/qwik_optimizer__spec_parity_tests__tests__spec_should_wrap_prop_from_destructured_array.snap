@@ -1,0 +1,136 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useStore, useTask$ } from '@qwik.dev/core';
+import { useForm, useForm2 } from './some-file.ts';
+
+export const Input = component$<{error: string, error2: string, error3: string}>(
+	(props) => {
+		useTask$(({ track }) => {
+			track(() => props.error);
+			track(() => props.error2);
+			track(() => props.error3);
+		});
+
+		return (
+			<>
+			</>
+		);
+	}
+);
+
+export default component$(() => {
+	const [store, math] = [useStore({errors: {}}), Math.random()];
+	const [[store2]] = [[useStore({errors: {}})]];
+	const { store3, math4 } = { store3: useStore({errors: {}}), math4: Math.random() };
+	const math2 = [Math.random()];
+	const { math3 } = { math3: Math.random() };
+	const [store4] = useForm();
+	const {store5} = useForm2();
+
+	return (
+		<div>
+			<button onClick$={() => {
+				store.errors.test = store.errors.test ? undefined : 'ERROR TEST';
+			}}>click</button>
+			<Input 
+				error={store.errors.test}
+				error2={store2.errors.test}
+				error3={store3.errors.test}
+				error4={store4.errors.test}
+				error5={store5.errors.test}
+				math={math}
+				math2={math2}
+				math3={math3}
+				math4={math4}
+			/>
+		</div>
+	);
+});
+
+============================= ./should_wrap_prop_from_destructured_array.tsx_Input_component_useTask_pMW7HsLg8kg.js (ENTRY POINT)==
+
+export const Input_component_useTask_pMW7HsLg8kg=({track})=>{let[props]=useLexicalScope();track(()=>props.error),track(()=>props.error2),track(()=>props.error3)};
+
+None
+/*
+{
+  "origin": "should_wrap_prop_from_destructured_array.tsx",
+  "name": "Input_component_useTask_pMW7HsLg8kg",
+  "entry": null,
+  "displayName": "should_wrap_prop_from_destructured_array.tsx_Input_component_useTask",
+  "hash": "pMW7HsLg8kg",
+  "canonicalFilename": "should_wrap_prop_from_destructured_array.tsx_Input_component_useTask_pMW7HsLg8kg",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Input_component_useTask_pMW7HsLg8kg",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= should_wrap_prop_from_destructured_array.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const Input=componentQrl(qrl(()=>import(`./should_wrap_prop_from_destructured_array.tsx_Input_component_uwZxYXBMLYk.js`),`Input_component_uwZxYXBMLYk`));export default componentQrl(qrl(()=>import(`./should_wrap_prop_from_destructured_array.tsx_component_71WERelSC4U.js`),`component_71WERelSC4U`));
+
+None
+============================= ./should_wrap_prop_from_destructured_array.tsx_component_71WERelSC4U.js (ENTRY POINT)==
+
+import{Input}from"./should_wrap_prop_from_destructured_array";import{useForm,useForm2}from"./some-file.ts";import{_jsxSorted,qrl,useStore}from"@qwik.dev/core";export const component_71WERelSC4U=()=>{useTaskQrl(qrl(()=>import(`./should_wrap_prop_from_destructured_array.tsx_Input_component_useTask_pMW7HsLg8kg.js`),`Input_component_useTask_pMW7HsLg8kg`,[props]));let[[store2]]=[[useStore({errors:{}})]],{store3,math4}={store3:useStore({errors:{}}),math4:Math.random()},math2=[Math.random()],{math3}={math3:Math.random()},[store4]=useForm(),{store5}=useForm2();return/* @__PURE__ */ _jsxSorted(`div`,null,null,[/* @__PURE__ */ _jsxSorted(`button`,{on:click:qrl(()=>import(`./should_wrap_prop_from_destructured_array.tsx.js`),`component_div_button_onClick`)},null,`click`,3,null),_jsxSorted(Input,{error:store.errors.test,error2:store2.errors.test,error3:store3.errors.test,error4:store4.errors.test,error5:store5.errors.test,math,math3,math4},{math2},null,3,null)],3,null)};
+
+None
+/*
+{
+  "origin": "should_wrap_prop_from_destructured_array.tsx",
+  "name": "component_71WERelSC4U",
+  "entry": null,
+  "displayName": "should_wrap_prop_from_destructured_array.tsx_component",
+  "hash": "71WERelSC4U",
+  "canonicalFilename": "should_wrap_prop_from_destructured_array.tsx_component_71WERelSC4U",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component_71WERelSC4U",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./should_wrap_prop_from_destructured_array.tsx_Input_component_uwZxYXBMLYk.js (ENTRY POINT)==
+
+import{_jsxSorted,qrl,useTaskQrl}from"@qwik.dev/core";import{Fragment as _Fragment}from"@qwik.dev/core/jsx-runtime";export const Input_component_uwZxYXBMLYk=props=>(useTaskQrl(qrl(()=>import(`./should_wrap_prop_from_destructured_array.tsx_Input_component_useTask_pMW7HsLg8kg.js`),`Input_component_useTask_pMW7HsLg8kg`,[props])),/* @__PURE__ */ _jsxSorted(_Fragment,null,null,null,3,null));
+
+None
+/*
+{
+  "origin": "should_wrap_prop_from_destructured_array.tsx",
+  "name": "Input_component_uwZxYXBMLYk",
+  "entry": null,
+  "displayName": "should_wrap_prop_from_destructured_array.tsx_Input_component",
+  "hash": "uwZxYXBMLYk",
+  "canonicalFilename": "should_wrap_prop_from_destructured_array.tsx_Input_component_uwZxYXBMLYk",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Input_component_uwZxYXBMLYk",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

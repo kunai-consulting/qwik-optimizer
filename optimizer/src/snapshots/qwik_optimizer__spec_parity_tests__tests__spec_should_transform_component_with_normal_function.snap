@@ -1,0 +1,74 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$, useSignal, Signal } from '@qwik.dev/core';
+const Foo = component$(function() {
+  const data = useSignal<Signal<any>[]>([]);
+  const Inner = component$(function(props) {
+    const data = props.data
+    return <div>{data.value.map(item => <p onClick$={() => console.log(item.value.id)}>{item.value.id}</p>)}</div>
+  })
+  return <Inner data={data} />
+})
+
+============================= ./should_transform_component_with_normal_function.tsx_Foo_component_cwC20JPJrUs.js (ENTRY POINT)==
+
+import{_jsxSorted,componentQrl,qrl,useSignal}from"@qwik.dev/core";export const Foo_component_cwC20JPJrUs=function(){let data=useSignal([]);return _jsxSorted(componentQrl(qrl(()=>import(`./should_transform_component_with_normal_function.tsx_Foo_component_Inner_component_0OVQjU18qVI.js`),`Foo_component_Inner_component_0OVQjU18qVI`,[data])),null,{data},null,3,null)};
+
+None
+/*
+{
+  "origin": "should_transform_component_with_normal_function.tsx",
+  "name": "Foo_component_cwC20JPJrUs",
+  "entry": null,
+  "displayName": "should_transform_component_with_normal_function.tsx_Foo_component",
+  "hash": "cwC20JPJrUs",
+  "canonicalFilename": "should_transform_component_with_normal_function.tsx_Foo_component_cwC20JPJrUs",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Foo_component_cwC20JPJrUs",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./should_transform_component_with_normal_function.tsx_Foo_component_Inner_component_0OVQjU18qVI.js (ENTRY POINT)==
+
+import{_jsxSorted,qrl}from"@qwik.dev/core";export const Foo_component_Inner_component_0OVQjU18qVI=function(props){let[data]=useLexicalScope(),data=props.data;return/* @__PURE__ */ _jsxSorted(`div`,null,null,data.value.map(item=>/* @__PURE__ */ _jsxSorted(`p`,{on:click:qrl(()=>import(`./should_transform_component_with_normal_function.tsx.js`),`Foo_component_1_Inner_component_1_div_map_p_onClick`,[item])},null,item.value.id,1,null)),1,null)};
+
+None
+/*
+{
+  "origin": "should_transform_component_with_normal_function.tsx",
+  "name": "Foo_component_Inner_component_0OVQjU18qVI",
+  "entry": null,
+  "displayName": "should_transform_component_with_normal_function.tsx_Foo_component_Inner_component",
+  "hash": "0OVQjU18qVI",
+  "canonicalFilename": "should_transform_component_with_normal_function.tsx_Foo_component_Inner_component_0OVQjU18qVI",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Foo_component_Inner_component_0OVQjU18qVI",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= should_transform_component_with_normal_function.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";componentQrl(qrl(()=>import(`./should_transform_component_with_normal_function.tsx_Foo_component_cwC20JPJrUs.js`),`Foo_component_cwC20JPJrUs`));
+
+None
+== DIAGNOSTICS ==
+
+[]

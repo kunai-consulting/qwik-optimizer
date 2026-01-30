@@ -1,0 +1,98 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { componentQrl, inlinedQrl, useStore, jsxs, jsx, useLexicalScope } from '@qwik.dev/core';
+
+export const App = /*#__PURE__*/ componentQrl(inlinedQrl(()=>{
+	useStyles$(inlinedQrl(STYLES, "STYLES_odz7dfdfdM"));
+	useStyles$(inlinedQrl(STYLES, "STYLES_odzdfdfdM"));
+
+	const store = useStore({
+		count: 0
+	});
+	return /*#__PURE__*/ jsxs("div", {
+		children: [
+			/*#__PURE__*/ jsxs("p", {
+				children: [
+					"Count: ",
+					store.count
+				]
+			}),
+			/*#__PURE__*/ jsx("p", {
+				children: /*#__PURE__*/ jsx("button", {
+					onClick$: inlinedQrl(()=>{
+						const [store] = useLexicalScope();
+						return store.count++;
+					}, "App_component_div_p_button_onClick_odz7eidI4GM", [
+						store
+					]),
+					children: "Click"
+				})
+			})
+		]
+	});
+}, "App_component_Fh88JClhbC0"));
+
+export const STYLES = ".red { color: red; }";
+
+============================= ./example_parsed_inlined_qrls.jsx_s_eJlvJbFbzx0.js (ENTRY POINT)==
+
+export const s_eJlvJbFbzx0=useStylesQrl(()=>import(`./example_parsed_inlined_qrls.jsx_s_hXu8whnC3PA.js`),`s_hXu8whnC3PA`);
+
+None
+/*
+{
+  "origin": "example_parsed_inlined_qrls.js",
+  "name": "s_eJlvJbFbzx0",
+  "entry": "entry_segments",
+  "displayName": "example_parsed_inlined_qrls.jsx_App_componentQrl_inlinedQrl_useStyles_1",
+  "hash": "eJlvJbFbzx0",
+  "canonicalFilename": "example_parsed_inlined_qrls.jsx_s_eJlvJbFbzx0",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "s_eJlvJbFbzx0",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_parsed_inlined_qrls.js ==
+
+import{componentQrl,inlinedQrl,jsx,jsxs,qrl,useLexicalScope,useStylesQrl}from"@qwik.dev/core";export const App=/* @__PURE__ */ componentQrl(inlinedQrl(()=>{useStylesQrl(qrl(()=>import(`./example_parsed_inlined_qrls.jsx_s_hXu8whnC3PA.js`),`s_hXu8whnC3PA`));useStylesQrl(qrl(()=>import(`./example_parsed_inlined_qrls.jsx_s_eJlvJbFbzx0.js`),`s_eJlvJbFbzx0`));const store=useStylesQrl(qrl(()=>import(`./example_parsed_inlined_qrls.jsx_s_eJlvJbFbzx0.js`),`s_eJlvJbFbzx0`));return/* @__PURE__ */ jsxs(`div`,{children:[/* @__PURE__ */ jsxs(`p`,{children:[`Count: `,store.count]}),/* @__PURE__ */ jsx(`p`,{children:/* @__PURE__ */ jsx(`button`,{onClick$:inlinedQrl(()=>{const[store]=useLexicalScope();return store.count++},`App_component_div_p_button_onClick_odz7eidI4GM`,[store]),children:`Click`})})]})},`App_component_Fh88JClhbC0`));export const STYLES=`.red { color: red; }`;
+
+None
+============================= ./example_parsed_inlined_qrls.jsx_s_hXu8whnC3PA.js (ENTRY POINT)==
+
+import{inlinedQrl}from"@qwik.dev/core";export const s_hXu8whnC3PA=inlinedQrl(STYLES,`STYLES_odz7dfdfdM`);
+
+None
+/*
+{
+  "origin": "example_parsed_inlined_qrls.js",
+  "name": "s_hXu8whnC3PA",
+  "entry": "entry_segments",
+  "displayName": "example_parsed_inlined_qrls.jsx_App_componentQrl_inlinedQrl_useStyles",
+  "hash": "hXu8whnC3PA",
+  "canonicalFilename": "example_parsed_inlined_qrls.jsx_s_hXu8whnC3PA",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "s_hXu8whnC3PA",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

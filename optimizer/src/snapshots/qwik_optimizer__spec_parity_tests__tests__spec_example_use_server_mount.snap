@@ -1,0 +1,153 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useTask$, useStore, useStyles$ } from '@qwik.dev/core';
+import mongo from 'mongodb';
+import redis from 'redis';
+
+export const Parent = component$(() => {
+	const state = useStore({
+		text: ''
+	});
+
+	// Double count watch
+	useTask$(async () => {
+		state.text = await mongo.users();
+		redis.set(state.text);
+	});
+
+	return (
+		<div onClick$={() => console.log('parent')}>
+			{state.text}
+		</div>
+	);
+});
+
+export const Child = component$(() => {
+	const state = useStore({
+		text: ''
+	});
+
+	// Double count watch
+	useTask$(async () => {
+		state.text = await mongo.users();
+	});
+
+	return (
+		<div onClick$={() => console.log('child')}>
+			{state.text}
+		</div>
+	);
+});
+
+============================= ./example_use_server_mount.tsx_Child_component_RSCyc0CPmVg.js (ENTRY POINT)==
+
+import{_jsxSorted}from"@qwik.dev/core";export const Child_component_RSCyc0CPmVg=()=>{let state=useStore({text:``});return useTaskQrl(qrl(()=>import(`./example_use_server_mount.tsx_Child_component_useTask_RDJKyYpRp6I.js`),`Child_component_useTask_RDJKyYpRp6I`,[state])),/* @__PURE__ */ _jsxSorted(`div`,{on:click:useTaskQrl(qrl(()=>import(`./example_use_server_mount.tsx_Child_component_useTask_RDJKyYpRp6I.js`),`Child_component_useTask_RDJKyYpRp6I`,[state]))},null,state.text,1,null)};
+
+None
+/*
+{
+  "origin": "example_use_server_mount.tsx",
+  "name": "Child_component_RSCyc0CPmVg",
+  "entry": "./example_use_server_mount.tsx_entry_Parent",
+  "displayName": "example_use_server_mount.tsx_Child_component",
+  "hash": "RSCyc0CPmVg",
+  "canonicalFilename": "example_use_server_mount.tsx_Child_component_RSCyc0CPmVg",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Child_component_RSCyc0CPmVg",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_use_server_mount.tsx_Child_component_useTask_RDJKyYpRp6I.js (ENTRY POINT)==
+
+import mongo from"mongodb";export const Child_component_useTask_RDJKyYpRp6I=async()=>{let[state]=useLexicalScope();state.text=await mongo.users()};
+
+None
+/*
+{
+  "origin": "example_use_server_mount.tsx",
+  "name": "Child_component_useTask_RDJKyYpRp6I",
+  "entry": "./example_use_server_mount.tsx_entry_Parent",
+  "displayName": "example_use_server_mount.tsx_Child_component_useTask",
+  "hash": "RDJKyYpRp6I",
+  "canonicalFilename": "example_use_server_mount.tsx_Child_component_useTask_RDJKyYpRp6I",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Child_component_useTask_RDJKyYpRp6I",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_use_server_mount.tsx_Parent_component_jEuAfXGpKMI.js (ENTRY POINT)==
+
+import{_jsxSorted}from"@qwik.dev/core";export const Parent_component_jEuAfXGpKMI=()=>{let state=useStore({text:``});return useTaskQrl(qrl(()=>import(`./example_use_server_mount.tsx_Parent_component_useTask_4OGc0bJoOeo.js`),`Parent_component_useTask_4OGc0bJoOeo`,[state])),/* @__PURE__ */ _jsxSorted(`div`,{on:click:useTaskQrl(qrl(()=>import(`./example_use_server_mount.tsx_Parent_component_useTask_4OGc0bJoOeo.js`),`Parent_component_useTask_4OGc0bJoOeo`,[state]))},null,state.text,1,null)};
+
+None
+/*
+{
+  "origin": "example_use_server_mount.tsx",
+  "name": "Parent_component_jEuAfXGpKMI",
+  "entry": "./example_use_server_mount.tsx_entry_Parent",
+  "displayName": "example_use_server_mount.tsx_Parent_component",
+  "hash": "jEuAfXGpKMI",
+  "canonicalFilename": "example_use_server_mount.tsx_Parent_component_jEuAfXGpKMI",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Parent_component_jEuAfXGpKMI",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_use_server_mount.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const Parent=componentQrl(qrl(()=>import(`./example_use_server_mount.tsx_Parent_component_jEuAfXGpKMI.js`),`Parent_component_jEuAfXGpKMI`));export const Child=componentQrl(qrl(()=>import(`./example_use_server_mount.tsx_Child_component_RSCyc0CPmVg.js`),`Child_component_RSCyc0CPmVg`));
+
+None
+============================= ./example_use_server_mount.tsx_Parent_component_useTask_4OGc0bJoOeo.js (ENTRY POINT)==
+
+import mongo from"mongodb";import redis from"redis";export const Parent_component_useTask_4OGc0bJoOeo=async()=>{let[state]=useLexicalScope();state.text=await mongo.users(),redis.set(state.text)};
+
+None
+/*
+{
+  "origin": "example_use_server_mount.tsx",
+  "name": "Parent_component_useTask_4OGc0bJoOeo",
+  "entry": "./example_use_server_mount.tsx_entry_Parent",
+  "displayName": "example_use_server_mount.tsx_Parent_component_useTask",
+  "hash": "4OGc0bJoOeo",
+  "canonicalFilename": "example_use_server_mount.tsx_Parent_component_useTask_4OGc0bJoOeo",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Parent_component_useTask_4OGc0bJoOeo",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

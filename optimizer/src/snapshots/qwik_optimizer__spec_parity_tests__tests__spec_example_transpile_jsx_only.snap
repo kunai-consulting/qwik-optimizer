@@ -1,0 +1,49 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useStore } from '@qwik.dev/core';
+
+export const App = component$((props) => {
+	return (
+		<Cmp>
+			<p class="stuff" onClick$={() => console.log('warn')}>Hello Qwik</p>
+		</Cmp>
+	);
+});
+
+============================= ./example_transpile_jsx_only.tsx_App_component_Qk2mU66h51I.js (ENTRY POINT)==
+
+import{_jsxSorted,qrl}from"@qwik.dev/core";export const App_component_Qk2mU66h51I=props=>_jsxSorted(Cmp,null,null,/* @__PURE__ */ _jsxSorted(`p`,{on:click:qrl(()=>import(`./example_transpile_jsx_only.tsx.js`),`App_component_Cmp_p_onClick`)},{class:`stuff`},`Hello Qwik`,3,null),3,null);
+
+None
+/*
+{
+  "origin": "example_transpile_jsx_only.tsx",
+  "name": "App_component_Qk2mU66h51I",
+  "entry": null,
+  "displayName": "example_transpile_jsx_only.tsx_App_component",
+  "hash": "Qk2mU66h51I",
+  "canonicalFilename": "example_transpile_jsx_only.tsx_App_component_Qk2mU66h51I",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_Qk2mU66h51I",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_transpile_jsx_only.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./example_transpile_jsx_only.tsx_App_component_Qk2mU66h51I.js`),`App_component_Qk2mU66h51I`));
+
+None
+== DIAGNOSTICS ==
+
+[]

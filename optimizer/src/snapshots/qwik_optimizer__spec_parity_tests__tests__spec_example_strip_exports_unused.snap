@@ -1,0 +1,55 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+import mongodb from 'mongodb';
+
+export const onGet = () => {
+	const data = mongodb.collection.whatever;
+	return {
+		body: {
+		data
+		}
+	}
+};
+
+export default component$(()=> {
+	return <div>cmp</div>
+});
+
+============================= example_strip_exports_unused.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";import mongodb from"mongodb";export const onGet=()=>{const data=mongodb.collection.whatever;return{body:{data}}};export default componentQrl(qrl(()=>import(`./example_strip_exports_unused.tsx_component_P0VfB0aGF34.js`),`component_P0VfB0aGF34`));
+
+None
+============================= ./example_strip_exports_unused.tsx_component_P0VfB0aGF34.js (ENTRY POINT)==
+
+export const component_P0VfB0aGF34=()=><div>cmp</div>;
+
+None
+/*
+{
+  "origin": "example_strip_exports_unused.tsx",
+  "name": "component_P0VfB0aGF34",
+  "entry": null,
+  "displayName": "example_strip_exports_unused.tsx_component",
+  "hash": "P0VfB0aGF34",
+  "canonicalFilename": "example_strip_exports_unused.tsx_component_P0VfB0aGF34",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component_P0VfB0aGF34",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

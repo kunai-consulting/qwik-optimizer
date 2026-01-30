@@ -1,0 +1,47 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+
+export default component$((props) => {
+	return (
+		<div test="test" {...props}></div>
+	);
+});
+
+============================= should_split_spread_props_with_additional_prop2.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./should_split_spread_props_with_additional_prop2.tsx_component_Cfroz8hlVp8.js`),`component_Cfroz8hlVp8`));
+
+None
+============================= ./should_split_spread_props_with_additional_prop2.tsx_component_Cfroz8hlVp8.js (ENTRY POINT)==
+
+import{_getConstProps,_getVarProps,_jsxSplit}from"@qwik.dev/core";export const component_Cfroz8hlVp8=props=>/* @__PURE__ */ _jsxSplit(`div`,{test:`test`,..._getVarProps(props)},_getConstProps(props),null,0,null);
+
+None
+/*
+{
+  "origin": "should_split_spread_props_with_additional_prop2.tsx",
+  "name": "component_Cfroz8hlVp8",
+  "entry": null,
+  "displayName": "should_split_spread_props_with_additional_prop2.tsx_component",
+  "hash": "Cfroz8hlVp8",
+  "canonicalFilename": "should_split_spread_props_with_additional_prop2.tsx_component_Cfroz8hlVp8",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component_Cfroz8hlVp8",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

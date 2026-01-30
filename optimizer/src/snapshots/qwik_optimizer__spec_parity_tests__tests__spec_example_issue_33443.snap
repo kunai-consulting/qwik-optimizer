@@ -1,0 +1,55 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useSignal } from '@qwik.dev/core';
+
+export const Issue3742 = component$(({description = '', other}: any) => {
+	const counter = useSignal(0);
+	return (
+		<div
+		title={(description && 'description' in other) ? `Hello ${counter.value}` : `Bye ${counter.value}`}
+		>
+		Issue3742
+		<button onClick$={() => counter.value++}>
+			Increment
+		</button>
+		</div>
+	)
+	});
+
+============================= example_issue_33443.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const Issue3742=componentQrl(qrl(()=>import(`./example_issue_33443.tsx_Issue3742_component_PQ3njr4eKr4.js`),`Issue3742_component_PQ3njr4eKr4`));
+
+None
+============================= ./example_issue_33443.tsx_Issue3742_component_PQ3njr4eKr4.js (ENTRY POINT)==
+
+import{_jsxSorted,qrl,useSignal}from"@qwik.dev/core";export const Issue3742_component_PQ3njr4eKr4=({description=``,other})=>{let counter=useSignal(0);return/* @__PURE__ */ _jsxSorted(`div`,{title:description&&`description`in other?`Hello ${counter.value}`:`Bye ${counter.value}`},null,[`Issue3742`,/* @__PURE__ */ _jsxSorted(`button`,{on:click:qrl(()=>import(`./example_issue_33443.tsx.js`),`Issue3742_component_div_button_onClick`,[counter])},null,`Increment`,3,null)],3,null)};
+
+None
+/*
+{
+  "origin": "example_issue_33443.tsx",
+  "name": "Issue3742_component_PQ3njr4eKr4",
+  "entry": "entry_segments",
+  "displayName": "example_issue_33443.tsx_Issue3742_component",
+  "hash": "PQ3njr4eKr4",
+  "canonicalFilename": "example_issue_33443.tsx_Issue3742_component_PQ3njr4eKr4",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Issue3742_component_PQ3njr4eKr4",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

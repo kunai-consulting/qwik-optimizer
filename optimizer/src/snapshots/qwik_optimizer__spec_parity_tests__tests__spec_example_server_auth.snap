@@ -1,0 +1,103 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import GitHub from '@auth/core/providers/github'
+import Facebook from 'next-auth/providers/facebook'
+import Google from 'next-auth/providers/google'
+import {serverAuth$, auth$} from '@auth/qwik';
+
+export const { onRequest, logout, getSession, signup } = serverAuth$({
+	providers: [
+	GitHub({
+		clientId: process.env.GITHUB_ID,
+		clientSecret: process.env.GITHUB_SECRET
+	}),
+	Facebook({
+		clientId: import.meta.env.FACEBOOK_ID,
+		clientSecret: import.meta.env.FACEBOOK_SECRET
+	}),
+	Google({
+		clientId: process.env.GOOGLE_ID,
+		clientSecret: process.env.GOOGLE_SECRET
+	})
+	]
+});
+
+export const { onRequest, logout, getSession, signup } = auth$({
+	providers: [
+	GitHub({
+		clientId: process.env.GITHUB_ID,
+		clientSecret: process.env.GITHUB_SECRET
+	}),
+	Facebook({
+		clientId: process.env.FACEBOOK_ID,
+		clientSecret: process.env.FACEBOOK_SECRET
+	}),
+	Google({
+		clientId: process.env.GOOGLE_ID,
+		clientSecret: process.env.GOOGLE_SECRET
+	})
+	]
+});
+
+============================= example_server_auth.tsx ==
+
+import{authQrl,serverAuthQrl}from"@auth/qwik";import{authQrl,qrl,serverAuthQrl}from"@qwik.dev/core";export const{onRequest,logout,getSession,signup}=serverAuthQrl(qrl(()=>import(`./example_server_auth.tsx_serverAuth_6S7kgHWOnfs.js`),`serverAuth_6S7kgHWOnfs`));export const{onRequest,logout,getSession,signup}=authQrl(qrl(()=>import(`./example_server_auth.tsx_auth_C08UXkFpuKM.js`),`auth_C08UXkFpuKM`));
+
+None
+============================= ./example_server_auth.tsx_auth_C08UXkFpuKM.js (ENTRY POINT)==
+
+import GitHub from"@auth/core/providers/github";import Facebook from"next-auth/providers/facebook";import Google from"next-auth/providers/google";export const auth_C08UXkFpuKM={providers:[GitHub({clientId:process.env.GITHUB_ID,clientSecret:process.env.GITHUB_SECRET}),Facebook({clientId:process.env.FACEBOOK_ID,clientSecret:process.env.FACEBOOK_SECRET}),Google({clientId:process.env.GOOGLE_ID,clientSecret:process.env.GOOGLE_SECRET})]};
+
+None
+/*
+{
+  "origin": "example_server_auth.tsx",
+  "name": "auth_C08UXkFpuKM",
+  "entry": null,
+  "displayName": "example_server_auth.tsx_auth",
+  "hash": "C08UXkFpuKM",
+  "canonicalFilename": "example_server_auth.tsx_auth_C08UXkFpuKM",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "auth_C08UXkFpuKM",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_server_auth.tsx_serverAuth_6S7kgHWOnfs.js (ENTRY POINT)==
+
+import GitHub from"@auth/core/providers/github";import Facebook from"next-auth/providers/facebook";import Google from"next-auth/providers/google";export const serverAuth_6S7kgHWOnfs={providers:[GitHub({clientId:process.env.GITHUB_ID,clientSecret:process.env.GITHUB_SECRET}),Facebook({clientId:import.meta.env.FACEBOOK_ID,clientSecret:import.meta.env.FACEBOOK_SECRET}),Google({clientId:process.env.GOOGLE_ID,clientSecret:process.env.GOOGLE_SECRET})]};
+
+None
+/*
+{
+  "origin": "example_server_auth.tsx",
+  "name": "serverAuth_6S7kgHWOnfs",
+  "entry": null,
+  "displayName": "example_server_auth.tsx_serverAuth",
+  "hash": "6S7kgHWOnfs",
+  "canonicalFilename": "example_server_auth.tsx_serverAuth_6S7kgHWOnfs",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "serverAuth_6S7kgHWOnfs",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

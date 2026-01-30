@@ -1,0 +1,81 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useComputed$ } from '@qwik.dev/core';
+import { inlineTranslate } from 'translate-lib';
+
+export default component$(() => {
+	const t = inlineTranslate();
+
+	const productTitle = useComputed$(() => {
+		return 'Test title';
+	});
+
+	return (
+		<img 
+			attr={t('home.imageAlt.founded-product:')}
+			alt={`${t('home.imageAlt.founded-product:')} ${productTitle.value}`} />
+	);
+});
+
+============================= should_not_wrap_var_template_string.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./should_not_wrap_var_template_string.tsx_component_t8YaDkmgCZs.js`),`component_t8YaDkmgCZs`));
+
+None
+============================= ./should_not_wrap_var_template_string.tsx_component_t8YaDkmgCZs.js (ENTRY POINT)==
+
+import{_jsxSorted,qrl,useComputedQrl}from"@qwik.dev/core";import{inlineTranslate}from"translate-lib";export const component_t8YaDkmgCZs=()=>{let t=inlineTranslate(),productTitle=useComputedQrl(qrl(()=>import(`./should_not_wrap_var_template_string.tsx_component_productTitle_useComputed_EKd81xgCo8Q.js`),`component_productTitle_useComputed_EKd81xgCo8Q`));return/* @__PURE__ */ _jsxSorted(`img`,{attr:t(`home.imageAlt.founded-product:`),alt:`${t(`home.imageAlt.founded-product:`)} ${productTitle.value}`},null,null,3,null)};
+
+None
+/*
+{
+  "origin": "should_not_wrap_var_template_string.tsx",
+  "name": "component_t8YaDkmgCZs",
+  "entry": null,
+  "displayName": "should_not_wrap_var_template_string.tsx_component",
+  "hash": "t8YaDkmgCZs",
+  "canonicalFilename": "should_not_wrap_var_template_string.tsx_component_t8YaDkmgCZs",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component_t8YaDkmgCZs",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./should_not_wrap_var_template_string.tsx_component_productTitle_useComputed_EKd81xgCo8Q.js (ENTRY POINT)==
+
+export const component_productTitle_useComputed_EKd81xgCo8Q=()=>`Test title`;
+
+None
+/*
+{
+  "origin": "should_not_wrap_var_template_string.tsx",
+  "name": "component_productTitle_useComputed_EKd81xgCo8Q",
+  "entry": null,
+  "displayName": "should_not_wrap_var_template_string.tsx_component_productTitle_useComputed",
+  "hash": "EKd81xgCo8Q",
+  "canonicalFilename": "should_not_wrap_var_template_string.tsx_component_productTitle_useComputed_EKd81xgCo8Q",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component_productTitle_useComputed_EKd81xgCo8Q",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

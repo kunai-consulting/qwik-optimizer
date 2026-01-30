@@ -1,0 +1,45 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+
+export default component$((props: any) => {
+	return <button {...props} onClick$={() => props.onClick$()}></button>;
+});
+
+============================= ./should_split_spread_props_with_additional_prop4.tsx_component_hixG0wlDWLY.js (ENTRY POINT)==
+
+import{_getConstProps,_getVarProps,_jsxSplit,qrl}from"@qwik.dev/core";export const component_hixG0wlDWLY=props=>/* @__PURE__ */ _jsxSplit(`button`,{..._getVarProps(props),on:click:qrl(()=>import(`./should_split_spread_props_with_additional_prop4.tsx.js`),`component_button_onClick`,[props])},_getConstProps(props),null,0,null);
+
+None
+/*
+{
+  "origin": "should_split_spread_props_with_additional_prop4.tsx",
+  "name": "component_hixG0wlDWLY",
+  "entry": null,
+  "displayName": "should_split_spread_props_with_additional_prop4.tsx_component",
+  "hash": "hixG0wlDWLY",
+  "canonicalFilename": "should_split_spread_props_with_additional_prop4.tsx_component_hixG0wlDWLY",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component_hixG0wlDWLY",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= should_split_spread_props_with_additional_prop4.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./should_split_spread_props_with_additional_prop4.tsx_component_hixG0wlDWLY.js`),`component_hixG0wlDWLY`));
+
+None
+== DIAGNOSTICS ==
+
+[]

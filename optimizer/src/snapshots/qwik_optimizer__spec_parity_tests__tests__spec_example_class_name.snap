@@ -1,0 +1,59 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+
+export const App2 = component$(() => {
+	const signal = useSignal();
+	const computed = signal.value + 'foo';
+	return (
+		<>
+			<div className="hola"></div>
+			<div className={signal.value}></div>
+			<div className={signal}></div>
+			<div className={computed}></div>
+
+			<Foo className="hola"></Foo>
+			<Foo className={signal.value}></Foo>
+			<Foo className={signal}></Foo>
+			<Foo className={computed}></Foo>
+		</>
+	);
+});
+
+============================= example_class_name.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const App2=componentQrl(qrl(()=>import(`./example_class_name.tsx_App2_component_iBsO60fS07g.js`),`App2_component_iBsO60fS07g`));
+
+None
+============================= ./example_class_name.tsx_App2_component_iBsO60fS07g.js (ENTRY POINT)==
+
+import{_jsxSorted}from"@qwik.dev/core";import{Fragment as _Fragment}from"@qwik.dev/core/jsx-runtime";export const App2_component_iBsO60fS07g=()=>{let signal=useSignal(),computed=signal.value+`foo`;return/* @__PURE__ */ _jsxSorted(_Fragment,null,null,[/* @__PURE__ */ _jsxSorted(`div`,null,{className:`hola`},null,3,null),/* @__PURE__ */ _jsxSorted(`div`,{className:_wrapProp(signal)},null,null,3,null),/* @__PURE__ */ _jsxSorted(`div`,null,{className:signal},null,3,null),/* @__PURE__ */ _jsxSorted(`div`,null,{className:computed},null,3,null),_jsxSorted(Foo,null,{className:`hola`},null,3,null),_jsxSorted(Foo,{className:_wrapProp(signal)},null,null,3,null),_jsxSorted(Foo,null,{className:signal},null,3,null),_jsxSorted(Foo,null,{className:computed},null,3,null)],3,null)};
+
+None
+/*
+{
+  "origin": "example_class_name.tsx",
+  "name": "App2_component_iBsO60fS07g",
+  "entry": null,
+  "displayName": "example_class_name.tsx_App2_component",
+  "hash": "iBsO60fS07g",
+  "canonicalFilename": "example_class_name.tsx_App2_component_iBsO60fS07g",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App2_component_iBsO60fS07g",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

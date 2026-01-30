@@ -1,0 +1,47 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+
+export default component$((props) => {
+	return (
+		<div {...props}></div>
+	);
+});
+
+============================= ./should_split_spread_props.tsx_component_HplvOUfWbqo.js (ENTRY POINT)==
+
+import{_getConstProps,_getVarProps,_jsxSplit}from"@qwik.dev/core";export const component_HplvOUfWbqo=props=>/* @__PURE__ */ _jsxSplit(`div`,{..._getVarProps(props)},_getConstProps(props),null,0,null);
+
+None
+/*
+{
+  "origin": "should_split_spread_props.tsx",
+  "name": "component_HplvOUfWbqo",
+  "entry": null,
+  "displayName": "should_split_spread_props.tsx_component",
+  "hash": "HplvOUfWbqo",
+  "canonicalFilename": "should_split_spread_props.tsx_component_HplvOUfWbqo",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component_HplvOUfWbqo",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= should_split_spread_props.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./should_split_spread_props.tsx_component_HplvOUfWbqo.js`),`component_HplvOUfWbqo`));
+
+None
+== DIAGNOSTICS ==
+
+[]

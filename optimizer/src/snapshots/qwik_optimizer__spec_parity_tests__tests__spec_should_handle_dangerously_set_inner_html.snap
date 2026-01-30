@@ -1,0 +1,62 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from "@qwik.dev/core";
+const Cmp = component$(() => {
+	const htmlSignal = useSignal("<h2><span>I'm a signal value!</span></h2>");
+	return (
+		<div>
+			<div>
+				<span id="first" dangerouslySetInnerHTML="vanilla HTML here" />
+			</div>
+			<div>
+				<span id="second" dangerouslySetInnerHTML="<h1>I'm an h1!</h1>" class="after" />
+			</div>
+			<div>
+				<span id="third" dangerouslySetInnerHTML={htmlSignal.value} class="after" />
+				<button
+					onClick$={() =>
+						(htmlSignal.value = "<h2><span>I'm a updated signal value!</span></h2>")
+					}
+				></button>
+			</div>
+		</div>
+	);
+});
+
+============================= should_handle_dangerously_set_inner_html.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";componentQrl(qrl(()=>import(`./should_handle_dangerously_set_inner_html.tsx_Cmp_component_EQ0oObQaGng.js`),`Cmp_component_EQ0oObQaGng`));
+
+None
+============================= ./should_handle_dangerously_set_inner_html.tsx_Cmp_component_EQ0oObQaGng.js (ENTRY POINT)==
+
+import{_jsxSorted,qrl}from"@qwik.dev/core";export const Cmp_component_EQ0oObQaGng=()=>{let htmlSignal=useSignal(`<h2><span>I'm a signal value!</span></h2>`);return/* @__PURE__ */ _jsxSorted(`div`,null,null,[/* @__PURE__ */ _jsxSorted(`div`,null,null,/* @__PURE__ */ _jsxSorted(`span`,null,{id:`first`,dangerouslySetInnerHTML:`vanilla HTML here`},null,3,null),3,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,/* @__PURE__ */ _jsxSorted(`span`,null,{id:`second`,dangerouslySetInnerHTML:`<h1>I'm an h1!</h1>`,class:`after`},null,3,null),3,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,[/* @__PURE__ */ _jsxSorted(`span`,{dangerouslySetInnerHTML:_wrapProp(htmlSignal)},{id:`third`,class:`after`},null,3,null),/* @__PURE__ */ _jsxSorted(`button`,{on:click:qrl(()=>import(`./should_handle_dangerously_set_inner_html.tsx.js`),`Cmp_component_div_div_button_onClick`,[htmlSignal])},null,null,3,null)],3,null)],3,null)};
+
+None
+/*
+{
+  "origin": "should_handle_dangerously_set_inner_html.tsx",
+  "name": "Cmp_component_EQ0oObQaGng",
+  "entry": null,
+  "displayName": "should_handle_dangerously_set_inner_html.tsx_Cmp_component",
+  "hash": "EQ0oObQaGng",
+  "canonicalFilename": "should_handle_dangerously_set_inner_html.tsx_Cmp_component_EQ0oObQaGng",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Cmp_component_EQ0oObQaGng",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

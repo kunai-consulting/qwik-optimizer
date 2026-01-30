@@ -1,0 +1,49 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useStore, Slot } from '@qwik.dev/core';
+
+export const App = component$((props: Stuff) => {
+	return (
+		<div>
+			<Slot/>
+		</div>
+	);
+});
+
+============================= ./example_immutable_function_components.tsx_App_component_JSjeGHs3sWk.js (ENTRY POINT)==
+
+import{Slot,_jsxSorted}from"@qwik.dev/core";export const App_component_JSjeGHs3sWk=props=>/* @__PURE__ */ _jsxSorted(`div`,null,null,_jsxSorted(Slot,null,null,null,3,null),3,null);
+
+None
+/*
+{
+  "origin": "example_immutable_function_components.tsx",
+  "name": "App_component_JSjeGHs3sWk",
+  "entry": "entry_segments",
+  "displayName": "example_immutable_function_components.tsx_App_component",
+  "hash": "JSjeGHs3sWk",
+  "canonicalFilename": "example_immutable_function_components.tsx_App_component_JSjeGHs3sWk",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_JSjeGHs3sWk",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_immutable_function_components.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./example_immutable_function_components.tsx_App_component_JSjeGHs3sWk.js`),`App_component_JSjeGHs3sWk`));
+
+None
+== DIAGNOSTICS ==
+
+[]

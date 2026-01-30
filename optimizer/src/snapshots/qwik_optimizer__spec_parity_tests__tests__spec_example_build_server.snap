@@ -1,0 +1,99 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useStore, isDev, isServer as isServer2 } from '@qwik.dev/core';
+import { isServer, isBrowser as isb } from '@qwik.dev/core/build';
+import { mongodb } from 'mondodb';
+import { threejs } from 'threejs';
+
+import L from 'leaflet';
+
+export const functionThatNeedsWindow = () => {
+  if (isb) {
+    console.log('l', L);
+    console.log('hey');
+    window.alert('hey');
+  }
+};
+
+export const App = component$(() => {
+	useMount$(() => {
+		if (isServer) {
+			console.log('server', mongodb());
+		}
+		if (isb) {
+			console.log('browser', new threejs());
+		}
+	});
+	return (
+		<Cmp>
+			{isServer2 && <p>server</p>}
+			{isb && <p>server</p>}
+		</Cmp>
+	);
+});
+
+============================= ./example_build_server.tsx_s_3D0YgbD0qkQ.js (ENTRY POINT)==
+
+import{mongodb}from"mondodb";import{threejs}from"threejs";export const s_3D0YgbD0qkQ=()=>{console.log(`server`,mongodb())};
+
+None
+/*
+{
+  "origin": "example_build_server.tsx",
+  "name": "s_3D0YgbD0qkQ",
+  "entry": null,
+  "displayName": "example_build_server.tsx_App_component_useMount",
+  "hash": "3D0YgbD0qkQ",
+  "canonicalFilename": "example_build_server.tsx_s_3D0YgbD0qkQ",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "s_3D0YgbD0qkQ",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_build_server.tsx_s_9s2ykyaFR5c.js (ENTRY POINT)==
+
+import{qrl,useMountQrl,isServer as isServer2}from"@qwik.dev/core";import{isBrowser as isb}from"@qwik.dev/core/build";export const s_9s2ykyaFR5c=()=>(useMountQrl(qrl(()=>import(`./example_build_server.tsx_s_3D0YgbD0qkQ.js`),`s_3D0YgbD0qkQ`)),<Cmp>
+			{isServer2&&<p>server</p>}
+			{isb&&<p>server</p>}
+		</Cmp>);
+
+None
+/*
+{
+  "origin": "example_build_server.tsx",
+  "name": "s_9s2ykyaFR5c",
+  "entry": null,
+  "displayName": "example_build_server.tsx_App_component",
+  "hash": "9s2ykyaFR5c",
+  "canonicalFilename": "example_build_server.tsx_s_9s2ykyaFR5c",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "s_9s2ykyaFR5c",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_build_server.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";import L from"leaflet";export const functionThatNeedsWindow=()=>{if(false){console.log(`l`,L);console.log(`hey`);window.alert(`hey`)}};export const App=componentQrl(qrl(()=>import(`./example_build_server.tsx_s_9s2ykyaFR5c.js`),`s_9s2ykyaFR5c`));
+
+None
+== DIAGNOSTICS ==
+
+[]

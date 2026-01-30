@@ -1,0 +1,109 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, $ } from '@qwik.dev/core';
+import { hola } from 'sdfds';
+
+export const Greeter = component$(() => {
+	const stuff = useStore();
+	return $(() => {
+		return (
+			<div
+				class={{
+					'foo': true,
+					'bar': stuff.condition,
+					'baz': hola ? 'true' : 'false',
+				}}
+			/>
+		)
+	});
+});
+
+const d = $(()=>console.log('thing'));
+
+============================= ./issue_150.tsx_d_Yo0xzleSvW0.js (ENTRY POINT)==
+
+export const d_Yo0xzleSvW0=()=>console.log(`thing`);
+
+None
+/*
+{
+  "origin": "issue_150.tsx",
+  "name": "d_Yo0xzleSvW0",
+  "entry": null,
+  "displayName": "issue_150.tsx_d",
+  "hash": "Yo0xzleSvW0",
+  "canonicalFilename": "issue_150.tsx_d_Yo0xzleSvW0",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "d_Yo0xzleSvW0",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./issue_150.tsx_Greeter_component_lyGL4gamaYY.js (ENTRY POINT)==
+
+import{qrl}from"@qwik.dev/core";export const Greeter_component_lyGL4gamaYY=()=>qrl(()=>import(`./issue_150.tsx_Greeter_component_1_n0fwlO3BxZ4.js`),`Greeter_component_1_n0fwlO3BxZ4`,[useStore()]);
+
+None
+/*
+{
+  "origin": "issue_150.tsx",
+  "name": "Greeter_component_lyGL4gamaYY",
+  "entry": null,
+  "displayName": "issue_150.tsx_Greeter_component",
+  "hash": "lyGL4gamaYY",
+  "canonicalFilename": "issue_150.tsx_Greeter_component_lyGL4gamaYY",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Greeter_component_lyGL4gamaYY",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./issue_150.tsx_Greeter_component_1_n0fwlO3BxZ4.js (ENTRY POINT)==
+
+import{_jsxSorted}from"@qwik.dev/core";import{hola}from"sdfds";export const Greeter_component_1_n0fwlO3BxZ4=()=>{let[stuff]=useLexicalScope();return/* @__PURE__ */ _jsxSorted(`div`,{class:{foo:!0,bar:stuff.condition,baz:hola?`true`:`false`}},null,null,3,null)};
+
+None
+/*
+{
+  "origin": "issue_150.tsx",
+  "name": "Greeter_component_1_n0fwlO3BxZ4",
+  "entry": null,
+  "displayName": "issue_150.tsx_Greeter_component_1",
+  "hash": "n0fwlO3BxZ4",
+  "canonicalFilename": "issue_150.tsx_Greeter_component_1_n0fwlO3BxZ4",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Greeter_component_1_n0fwlO3BxZ4",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= issue_150.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const Greeter=componentQrl(qrl(()=>import(`./issue_150.tsx_Greeter_component_lyGL4gamaYY.js`),`Greeter_component_lyGL4gamaYY`));qrl(()=>import(`./issue_150.tsx_d_Yo0xzleSvW0.js`),`d_Yo0xzleSvW0`);
+
+None
+== DIAGNOSTICS ==
+
+[]

@@ -1,0 +1,231 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, serverLoader$, serverStuff$, $, client$, useStore, useTask$ } from '@qwik.dev/core';
+import { isServer } from '@qwik.dev/core';
+import mongo from 'mongodb';
+import redis from 'redis';
+import { handler } from 'serverless';
+
+export const Parent = component$(() => {
+	const state = useStore({
+		text: ''
+	});
+
+	// Double count watch
+	useTask$(async () => {
+		if (!isServer) return;
+		state.text = await mongo.users();
+		redis.set(state.text);
+	});
+
+	serverStuff$(async () => {
+		// should be removed too
+		const a = $(() => {
+			// from $(), should not be removed
+		});
+		const b = client$(() => {
+			// from clien$(), should not be removed
+		});
+		return [a,b];
+	})
+
+	serverLoader$(handler);
+
+	useTask$(() => {
+		// Code
+	});
+
+	return (
+		<div onClick$={() => console.log('parent')}>
+			{state.text}
+		</div>
+	);
+});
+
+============================= ./example_strip_server_code.tsx_s_eJVbqUgUhAA.js (ENTRY POINT)==
+
+import{clientQrl,qrl}from"@qwik.dev/core";export const s_eJVbqUgUhAA=async()=>[qrl(()=>import(`./example_strip_server_code.tsx_s_NO0hLvAFuN4.js`),`s_NO0hLvAFuN4`),clientQrl(qrl(()=>import(`./example_strip_server_code.tsx_s_4a3uF6fSMYc.js`),`s_4a3uF6fSMYc`))];
+
+None
+/*
+{
+  "origin": "example_strip_server_code.tsx",
+  "name": "s_eJVbqUgUhAA",
+  "entry": null,
+  "displayName": "example_strip_server_code.tsx_Parent_component_serverStuff",
+  "hash": "eJVbqUgUhAA",
+  "canonicalFilename": "example_strip_server_code.tsx_s_eJVbqUgUhAA",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "s_eJVbqUgUhAA",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_strip_server_code.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const Parent=componentQrl(qrl(()=>import(`./example_strip_server_code.tsx_s_w5E0E9exVp0.js`),`s_w5E0E9exVp0`));
+
+None
+============================= ./example_strip_server_code.tsx_s_XK3uv08QoGk.js (ENTRY POINT)==
+
+import mongo from"mongodb";import redis from"redis";export const s_XK3uv08QoGk=async()=>{let[state]=useLexicalScope();state.text=await mongo.users(),redis.set(state.text)};
+
+None
+/*
+{
+  "origin": "example_strip_server_code.tsx",
+  "name": "s_XK3uv08QoGk",
+  "entry": null,
+  "displayName": "example_strip_server_code.tsx_Parent_component_useTask",
+  "hash": "XK3uv08QoGk",
+  "canonicalFilename": "example_strip_server_code.tsx_s_XK3uv08QoGk",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "s_XK3uv08QoGk",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_strip_server_code.tsx_s_4a3uF6fSMYc.js (ENTRY POINT)==
+
+export const s_4a3uF6fSMYc=()=>{};
+
+None
+/*
+{
+  "origin": "example_strip_server_code.tsx",
+  "name": "s_4a3uF6fSMYc",
+  "entry": null,
+  "displayName": "example_strip_server_code.tsx_Parent_component_serverStuff_b_client",
+  "hash": "4a3uF6fSMYc",
+  "canonicalFilename": "example_strip_server_code.tsx_s_4a3uF6fSMYc",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "s_4a3uF6fSMYc",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_strip_server_code.tsx_s_33lR4XqeKI4.js (ENTRY POINT)==
+
+export const s_33lR4XqeKI4=()=>{};
+
+None
+/*
+{
+  "origin": "example_strip_server_code.tsx",
+  "name": "s_33lR4XqeKI4",
+  "entry": null,
+  "displayName": "example_strip_server_code.tsx_Parent_component_useTask_1",
+  "hash": "33lR4XqeKI4",
+  "canonicalFilename": "example_strip_server_code.tsx_s_33lR4XqeKI4",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "s_33lR4XqeKI4",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_strip_server_code.tsx_s_w5E0E9exVp0.js (ENTRY POINT)==
+
+import{_jsxSorted}from"@qwik.dev/core";export const s_w5E0E9exVp0=()=>{let state=useStore({text:``});return useTaskQrl(qrl(()=>import(`./example_strip_server_code.tsx_s_XK3uv08QoGk.js`),`s_XK3uv08QoGk`,[state])),serverStuffQrl(qrl(()=>import(`./example_strip_server_code.tsx_s_eJVbqUgUhAA.js`),`s_eJVbqUgUhAA`)),serverLoaderQrl(qrl(()=>import(`./example_strip_server_code.tsx_s_QzLANtCpgqY.js`),`s_QzLANtCpgqY`)),useTaskQrl(qrl(()=>import(`./example_strip_server_code.tsx_s_33lR4XqeKI4.js`),`s_33lR4XqeKI4`)),/* @__PURE__ */ _jsxSorted(`div`,{on:click:useTaskQrl(qrl(()=>import(`./example_strip_server_code.tsx_s_33lR4XqeKI4.js`),`s_33lR4XqeKI4`))},null,state.text,1,null)};
+
+None
+/*
+{
+  "origin": "example_strip_server_code.tsx",
+  "name": "s_w5E0E9exVp0",
+  "entry": null,
+  "displayName": "example_strip_server_code.tsx_Parent_component",
+  "hash": "w5E0E9exVp0",
+  "canonicalFilename": "example_strip_server_code.tsx_s_w5E0E9exVp0",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "s_w5E0E9exVp0",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_strip_server_code.tsx_s_QzLANtCpgqY.js (ENTRY POINT)==
+
+import{handler}from"serverless";export const s_QzLANtCpgqY=handler;
+
+None
+/*
+{
+  "origin": "example_strip_server_code.tsx",
+  "name": "s_QzLANtCpgqY",
+  "entry": null,
+  "displayName": "example_strip_server_code.tsx_Parent_component_serverLoader",
+  "hash": "QzLANtCpgqY",
+  "canonicalFilename": "example_strip_server_code.tsx_s_QzLANtCpgqY",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "s_QzLANtCpgqY",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_strip_server_code.tsx_s_NO0hLvAFuN4.js (ENTRY POINT)==
+
+export const s_NO0hLvAFuN4=()=>{};
+
+None
+/*
+{
+  "origin": "example_strip_server_code.tsx",
+  "name": "s_NO0hLvAFuN4",
+  "entry": null,
+  "displayName": "example_strip_server_code.tsx_Parent_component_serverStuff_a",
+  "hash": "NO0hLvAFuN4",
+  "canonicalFilename": "example_strip_server_code.tsx_s_NO0hLvAFuN4",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "s_NO0hLvAFuN4",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

@@ -1,0 +1,51 @@
+import { component$, useStore, mutable } from '@qwik.dev/core';
+
+import {dep} from './file';
+import styles from './styles.module.css';
+
+export const App = component$((props) => {
+	const signal = useSignal(0);
+	const store = useStore({});
+	const count = props.counter.count;
+
+	return (
+		<div
+			class={{
+				even: count % 2 === 0,
+				odd: count % 2 === 1,
+				stable0: true,
+				hidden: false,
+			}}
+			staticClass={styles.foo}
+			staticDocument={window.document}
+			staticText="text"
+			staticText2={`text`}
+			staticNumber={1}
+			staticBoolean={true}
+			staticExpr={`text${12}`}
+			staticExpr2={typeof `text${12}` === 'string' ? 12 : 43}
+
+			signal={signal}
+			signalValue={signal.value}
+			signalComputedValue={12 + signal.value}
+
+			store={store.address.city.name}
+			storeComputed={store.address.city.name ? 'true' : 'false'}
+
+			dep={dep}
+			depAccess={dep.thing}
+			depComputed={dep.thing + 'stuff'}
+
+			global={globalThing}
+			globalAccess={globalThing.thing}
+			globalComputed={globalThing.thing + 'stuff'}
+
+
+			noInline={signal.value()}
+			noInline2={signal.value + unknown()}
+			noInline3={mutable(signal)}
+			noInline4={signal.value + dep}
+		/>
+
+	);
+});

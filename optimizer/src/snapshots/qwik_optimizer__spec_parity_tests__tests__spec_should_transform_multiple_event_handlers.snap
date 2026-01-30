@@ -1,0 +1,51 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useSignal, Signal } from '@qwik.dev/core';
+const Foo = component$(function() {
+  const data = useSignal<Signal<any>[]>([]);
+  return <div>
+	{data.value.map(row => (
+	  <div onClick$={() => console.log(row.value.id)} onMouseOver$={() => console.log('over' + row.value.id)}>
+		<p onClick$={() => console.log('inner' + row.value.id)}>{item.value.id}</p>
+	  </div>
+	))}
+  </div>;
+})
+
+============================= ./should_transform_multiple_event_handlers.tsx_Foo_component_9sC0K6gcHmk.js (ENTRY POINT)==
+
+import{_jsxSorted,qrl,useSignal}from"@qwik.dev/core";export const Foo_component_9sC0K6gcHmk=function(){return/* @__PURE__ */ _jsxSorted(`div`,null,null,useSignal([]).value.map(row=>/* @__PURE__ */ _jsxSorted(`div`,{on:click:qrl(()=>import(`./should_transform_multiple_event_handlers.tsx.js`),`Foo_component_1_div_map_div_onClick`,[row]),on:mouseover:qrl(()=>import(`./should_transform_multiple_event_handlers.tsx.js`),`Foo_component_1_div_map_div_onMouseOver`,[row])},null,/* @__PURE__ */ _jsxSorted(`p`,{on:click:qrl(()=>import(`./should_transform_multiple_event_handlers.tsx.js`),`Foo_component_1_div_map_div_p_onClick`,[row])},null,item.value.id,1,null),3,null)),1,null)};
+
+None
+/*
+{
+  "origin": "should_transform_multiple_event_handlers.tsx",
+  "name": "Foo_component_9sC0K6gcHmk",
+  "entry": null,
+  "displayName": "should_transform_multiple_event_handlers.tsx_Foo_component",
+  "hash": "9sC0K6gcHmk",
+  "canonicalFilename": "should_transform_multiple_event_handlers.tsx_Foo_component_9sC0K6gcHmk",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Foo_component_9sC0K6gcHmk",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= should_transform_multiple_event_handlers.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";componentQrl(qrl(()=>import(`./should_transform_multiple_event_handlers.tsx_Foo_component_9sC0K6gcHmk.js`),`Foo_component_9sC0K6gcHmk`));
+
+None
+== DIAGNOSTICS ==
+
+[]

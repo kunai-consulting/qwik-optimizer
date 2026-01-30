@@ -1,0 +1,61 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from "@qwik.dev/core";
+
+// the count results in _fnSignal because of the rename
+// would be nice to consider it a prop too
+export default component$(({ message, id, count: c, ...rest }: Record<string, any>) => {
+	const renders = useStore({ renders: 0 }, { reactive: false });
+	renders.renders++;
+	const rerenders = renders.renders + 0;
+	return (
+		<div id={id}>
+			<span {...rest}>
+			{message} {c}
+			</span>
+			<div class="renders">{rerenders}</div>
+		</div>
+	);
+}
+);
+
+============================= ./should_destructure_args.tsx_component_GlftmZLvuro.js (ENTRY POINT)==
+
+import{_getConstProps,_getVarProps,_jsxSorted,_jsxSplit}from"@qwik.dev/core";export const component_GlftmZLvuro=({message,id,count:c,...rest})=>{let renders=useStore({renders:0},{reactive:!1});renders.renders++;let rerenders=renders.renders+0;return/* @__PURE__ */ _jsxSorted(`div`,{id:_wrapProp(_rawProps,`id`)},null,[/* @__PURE__ */ _jsxSplit(`span`,{..._getVarProps(rest)},_getConstProps(rest),[_wrapProp(_rawProps,`message`),_wrapProp(_rawProps,`count`)],0,null),/* @__PURE__ */ _jsxSorted(`div`,null,{class:`renders`},rerenders,1,null)],3,null)};
+
+None
+/*
+{
+  "origin": "should_destructure_args.tsx",
+  "name": "component_GlftmZLvuro",
+  "entry": null,
+  "displayName": "should_destructure_args.tsx_component",
+  "hash": "GlftmZLvuro",
+  "canonicalFilename": "should_destructure_args.tsx_component_GlftmZLvuro",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component_GlftmZLvuro",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= should_destructure_args.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";
+// the count results in _fnSignal because of the rename
+// would be nice to consider it a prop too
+export default componentQrl(qrl(()=>import(`./should_destructure_args.tsx_component_GlftmZLvuro.js`),`component_GlftmZLvuro`));
+
+None
+== DIAGNOSTICS ==
+
+[]

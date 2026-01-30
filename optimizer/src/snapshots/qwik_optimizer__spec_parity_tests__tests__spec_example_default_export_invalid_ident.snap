@@ -1,0 +1,49 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+
+export default component$(() => {
+	return (
+		<div onClick$={() => console.log(mongodb)}>
+		</div>
+	);
+});
+
+============================= src/components/mongo/404.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./404.tsx_component_fw9Bo3UeA0o.js`),`component_fw9Bo3UeA0o`));
+
+None
+============================= ./src/components/mongo/404.tsx_component_fw9Bo3UeA0o.js (ENTRY POINT)==
+
+import{qrl}from"@qwik.dev/core";export const component_fw9Bo3UeA0o=()=><div on:click={qrl(()=>import(`./404.tsx.js`),`component_div_onClick`)}>
+		</div>;
+
+None
+/*
+{
+  "origin": "src/components/mongo/404.tsx",
+  "name": "component_fw9Bo3UeA0o",
+  "entry": null,
+  "displayName": "404.tsx_component",
+  "hash": "fw9Bo3UeA0o",
+  "canonicalFilename": "404.tsx_component_fw9Bo3UeA0o",
+  "path": "./src/components/mongo",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component_fw9Bo3UeA0o",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

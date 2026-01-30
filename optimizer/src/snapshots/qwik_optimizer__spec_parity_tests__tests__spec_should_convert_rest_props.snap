@@ -1,0 +1,74 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useTask$ } from '@qwik.dev/core'
+
+export default component$<any>(({ ...props }) => {
+useTask$(() => {
+	props.checked
+})
+
+return 'hi'
+})
+
+============================= ./should_convert_rest_props.tsx_component_useTask_hS42z9GVHwo.js (ENTRY POINT)==
+
+export const component_useTask_hS42z9GVHwo=()=>{props.checked};
+
+None
+/*
+{
+  "origin": "should_convert_rest_props.tsx",
+  "name": "component_useTask_hS42z9GVHwo",
+  "entry": null,
+  "displayName": "should_convert_rest_props.tsx_component_useTask",
+  "hash": "hS42z9GVHwo",
+  "canonicalFilename": "should_convert_rest_props.tsx_component_useTask_hS42z9GVHwo",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component_useTask_hS42z9GVHwo",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./should_convert_rest_props.tsx_component_QBqeH2eAIR0.js (ENTRY POINT)==
+
+import{qrl,useTaskQrl}from"@qwik.dev/core";export const component_QBqeH2eAIR0=({...props})=>(useTaskQrl(qrl(()=>import(`./should_convert_rest_props.tsx_component_useTask_hS42z9GVHwo.js`),`component_useTask_hS42z9GVHwo`)),`hi`);
+
+None
+/*
+{
+  "origin": "should_convert_rest_props.tsx",
+  "name": "component_QBqeH2eAIR0",
+  "entry": null,
+  "displayName": "should_convert_rest_props.tsx_component",
+  "hash": "QBqeH2eAIR0",
+  "canonicalFilename": "should_convert_rest_props.tsx_component_QBqeH2eAIR0",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component_QBqeH2eAIR0",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= should_convert_rest_props.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./should_convert_rest_props.tsx_component_QBqeH2eAIR0.js`),`component_QBqeH2eAIR0`));
+
+None
+== DIAGNOSTICS ==
+
+[]

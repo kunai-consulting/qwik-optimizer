@@ -1,0 +1,49 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from "@qwik.dev/core";
+export default component$((props) => {
+	const { 'bind:value': bindValue } = props;
+	return (
+		<>
+		{bindValue}
+		</>
+	);
+});
+
+============================= ./destructure_args_colon_props.tsx_component_0znSnzl9anI.js (ENTRY POINT)==
+
+import{_jsxSorted}from"@qwik.dev/core";import{Fragment as _Fragment}from"@qwik.dev/core/jsx-runtime";export const component_0znSnzl9anI=props=>{let{"bind:value":bindValue}=props;return/* @__PURE__ */ _jsxSorted(_Fragment,null,null,bindValue,1,null)};
+
+None
+/*
+{
+  "origin": "destructure_args_colon_props.tsx",
+  "name": "component_0znSnzl9anI",
+  "entry": null,
+  "displayName": "destructure_args_colon_props.tsx_component",
+  "hash": "0znSnzl9anI",
+  "canonicalFilename": "destructure_args_colon_props.tsx_component_0znSnzl9anI",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component_0znSnzl9anI",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= destructure_args_colon_props.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./destructure_args_colon_props.tsx_component_0znSnzl9anI.js`),`component_0znSnzl9anI`));
+
+None
+== DIAGNOSTICS ==
+
+[]

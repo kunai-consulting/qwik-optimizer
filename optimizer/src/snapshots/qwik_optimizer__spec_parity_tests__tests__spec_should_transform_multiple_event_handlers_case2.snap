@@ -1,0 +1,51 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useSignal, Signal } from '@qwik.dev/core';
+const Foo = component$(function() {
+  const data = useSignal<Signal<any>[]>([]);
+  return <div>
+	{data.value.map((row, idx) => (
+	  <div onClick$={() => console.log(row.value.id, idx)} onMouseOver$={() => console.log('over' + row.value.id)}>
+		<p onClick$={() => console.log('inner' + row.value.id)}>{item.value.id}</p>
+	  </div>
+	))}
+  </div>;
+})
+
+============================= should_transform_multiple_event_handlers_case2.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";componentQrl(qrl(()=>import(`./should_transform_multiple_event_handlers_case2.tsx_Foo_component_tKi05vCbbQ4.js`),`Foo_component_tKi05vCbbQ4`));
+
+None
+============================= ./should_transform_multiple_event_handlers_case2.tsx_Foo_component_tKi05vCbbQ4.js (ENTRY POINT)==
+
+import{_jsxSorted,qrl,useSignal}from"@qwik.dev/core";export const Foo_component_tKi05vCbbQ4=function(){return/* @__PURE__ */ _jsxSorted(`div`,null,null,useSignal([]).value.map((row,idx)=>/* @__PURE__ */ _jsxSorted(`div`,{on:click:qrl(()=>import(`./should_transform_multiple_event_handlers_case2.tsx.js`),`Foo_component_1_div_map_div_onClick`,[idx,row]),on:mouseover:qrl(()=>import(`./should_transform_multiple_event_handlers_case2.tsx.js`),`Foo_component_1_div_map_div_onMouseOver`,[row])},null,/* @__PURE__ */ _jsxSorted(`p`,{on:click:qrl(()=>import(`./should_transform_multiple_event_handlers_case2.tsx.js`),`Foo_component_1_div_map_div_p_onClick`,[row])},null,item.value.id,1,null),3,null)),1,null)};
+
+None
+/*
+{
+  "origin": "should_transform_multiple_event_handlers_case2.tsx",
+  "name": "Foo_component_tKi05vCbbQ4",
+  "entry": null,
+  "displayName": "should_transform_multiple_event_handlers_case2.tsx_Foo_component",
+  "hash": "tKi05vCbbQ4",
+  "canonicalFilename": "should_transform_multiple_event_handlers_case2.tsx_Foo_component_tKi05vCbbQ4",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Foo_component_tKi05vCbbQ4",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

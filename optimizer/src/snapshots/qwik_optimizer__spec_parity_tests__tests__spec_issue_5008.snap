@@ -1,0 +1,56 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useStore } from "@qwik.dev/core";
+
+export default component$(() => {
+const store = useStore([{ value: 0 }]);
+return (
+	<>
+	<button onClick$={() => store[0].value++}>+1</button>
+	{store.map(function (v, idx) {
+		return <div key={"fn_" + idx}>Function: {v.value}</div>;
+	})}
+	{store.map((v, idx) => (
+		<div key={"arrow_" + idx}>Arrow: {v.value}</div>
+	))}
+	</>
+);
+});
+
+============================= ./issue_5008.tsx_component_2ogCzLz0Cqo.js (ENTRY POINT)==
+
+import{_jsxSorted,qrl,useStore}from"@qwik.dev/core";import{Fragment as _Fragment}from"@qwik.dev/core/jsx-runtime";export const component_2ogCzLz0Cqo=()=>{let store=useStore([{value:0}]);return/* @__PURE__ */ _jsxSorted(_Fragment,null,null,[/* @__PURE__ */ _jsxSorted(`button`,{on:click:qrl(()=>import(`./issue_5008.tsx.js`),`component_button_onClick`,[store])},null,`+1`,3,null),store.map(function(v,idx){return/* @__PURE__ */ _jsxSorted(`div`,null,null,[`Function:`,_wrapProp(v)],1,`fn_`+idx)}),store.map((v,idx)=>/* @__PURE__ */ _jsxSorted(`div`,null,null,[`Arrow:`,_wrapProp(v)],1,`arrow_`+idx))],1,null)};
+
+None
+/*
+{
+  "origin": "issue_5008.tsx",
+  "name": "component_2ogCzLz0Cqo",
+  "entry": null,
+  "displayName": "issue_5008.tsx_component",
+  "hash": "2ogCzLz0Cqo",
+  "canonicalFilename": "issue_5008.tsx_component_2ogCzLz0Cqo",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component_2ogCzLz0Cqo",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= issue_5008.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./issue_5008.tsx_component_2ogCzLz0Cqo.js`),`component_2ogCzLz0Cqo`));
+
+None
+== DIAGNOSTICS ==
+
+[]

@@ -1,0 +1,63 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+
+const ManyEventsComponent = component$(() => {
+	return (
+		<div>
+			<button
+				onClick$={() => {}}
+				onDblClick$={() => {}}
+			>
+				click
+			</button>
+			<button
+				onClick$={() => {}}
+				onBlur$={() => {}}
+				on-anotherCustom$={() => {}}
+				document:onFocus$={() => {}}
+				window:onClick$={() => {}}
+			>
+				click
+			</button>
+		</div>
+	);
+});
+
+============================= should_convert_jsx_events.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";componentQrl(qrl(()=>import(`./should_convert_jsx_events.tsx_ManyEventsComponent_component_G4OWRG2dK5E.js`),`ManyEventsComponent_component_G4OWRG2dK5E`));
+
+None
+============================= ./should_convert_jsx_events.tsx_ManyEventsComponent_component_G4OWRG2dK5E.js (ENTRY POINT)==
+
+import{_jsxSorted,qrl}from"@qwik.dev/core";export const ManyEventsComponent_component_G4OWRG2dK5E=()=>/* @__PURE__ */ _jsxSorted(`div`,null,null,[/* @__PURE__ */ _jsxSorted(`button`,{on:click:qrl(()=>import(`./should_convert_jsx_events.tsx.js`),`ManyEventsComponent_component_div_button_onClick`),on:dblclick:qrl(()=>import(`./should_convert_jsx_events.tsx.js`),`ManyEventsComponent_component_div_button_onDblClick`)},null,`click`,3,null),/* @__PURE__ */ _jsxSorted(`button`,{on:click:qrl(()=>import(`./should_convert_jsx_events.tsx.js`),`ManyEventsComponent_component_div_button_onClick_1`),on:blur:qrl(()=>import(`./should_convert_jsx_events.tsx.js`),`ManyEventsComponent_component_div_button_onBlur`),on:another-custom:qrl(()=>import(`./should_convert_jsx_events.tsx.js`),`ManyEventsComponent_component_div_button_on-anotherCustom`),on-document:focus:qrl(()=>import(`./should_convert_jsx_events.tsx.js`),`ManyEventsComponent_component_div_button_onFocus`),on-window:click:qrl(()=>import(`./should_convert_jsx_events.tsx.js`),`ManyEventsComponent_component_div_button_onClick_2`)},null,`click`,3,null)],3,null);
+
+None
+/*
+{
+  "origin": "should_convert_jsx_events.tsx",
+  "name": "ManyEventsComponent_component_G4OWRG2dK5E",
+  "entry": null,
+  "displayName": "should_convert_jsx_events.tsx_ManyEventsComponent_component",
+  "hash": "G4OWRG2dK5E",
+  "canonicalFilename": "should_convert_jsx_events.tsx_ManyEventsComponent_component_G4OWRG2dK5E",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "ManyEventsComponent_component_G4OWRG2dK5E",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

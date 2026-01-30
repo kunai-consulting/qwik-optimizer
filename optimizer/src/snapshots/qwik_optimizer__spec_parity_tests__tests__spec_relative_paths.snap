@@ -1,0 +1,48 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, $ } from '@qwik.dev/core';
+import { state } from './sibling';
+
+export const Local = component$(() => {
+	return (
+		<div>{state}</div>
+	)
+});
+
+============================= relative_paths.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const Local=componentQrl(qrl(()=>import(`./relative_paths.tsx_Local_component_sWOiIooheYg.js`),`Local_component_sWOiIooheYg`));
+
+None
+============================= ./relative_paths.tsx_Local_component_sWOiIooheYg.js (ENTRY POINT)==
+
+import{state}from"./sibling";import{_jsxSorted}from"@qwik.dev/core";export const Local_component_sWOiIooheYg=()=>/* @__PURE__ */ _jsxSorted(`div`,null,null,state,1,null);
+
+None
+/*
+{
+  "origin": "relative_paths.tsx",
+  "name": "Local_component_sWOiIooheYg",
+  "entry": null,
+  "displayName": "relative_paths.tsx_Local_component",
+  "hash": "sWOiIooheYg",
+  "canonicalFilename": "relative_paths.tsx_Local_component_sWOiIooheYg",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Local_component_sWOiIooheYg",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

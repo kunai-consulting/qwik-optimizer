@@ -1,0 +1,49 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useStore } from '@qwik.dev/core';
+
+export const App = component$(() => {
+	return (
+		<Cmp>
+			<p class="stuff" onClick$={() => console.log('warn')}>Hello Qwik</p>
+		</Cmp>
+	);
+});
+
+============================= example_dev_mode_inlined.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./example_dev_mode_inlined.tsx_App_component_ZvFEL0CNj5M.js`),`App_component_ZvFEL0CNj5M`));
+
+None
+============================= ./example_dev_mode_inlined.tsx_App_component_ZvFEL0CNj5M.js (ENTRY POINT)==
+
+import{_jsxSorted,qrl}from"@qwik.dev/core";export const App_component_ZvFEL0CNj5M=()=>_jsxSorted(Cmp,null,null,/* @__PURE__ */ _jsxSorted(`p`,{on:click:qrl(()=>import(`./example_dev_mode_inlined.tsx.js`),`App_component_Cmp_p_onClick`)},{class:`stuff`},`Hello Qwik`,3,null),3,null);
+
+None
+/*
+{
+  "origin": "example_dev_mode_inlined.tsx",
+  "name": "App_component_ZvFEL0CNj5M",
+  "entry": "entry_segments",
+  "displayName": "example_dev_mode_inlined.tsx_App_component",
+  "hash": "ZvFEL0CNj5M",
+  "canonicalFilename": "example_dev_mode_inlined.tsx_App_component_ZvFEL0CNj5M",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_ZvFEL0CNj5M",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

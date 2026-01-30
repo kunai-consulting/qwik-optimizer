@@ -1,0 +1,54 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useSignal } from "@qwik.dev/core";
+
+export const FieldInput = component$(() => {
+  const localValue = useSignal(false);
+
+  return (
+    <input
+      bind:checked={localValue}
+      onInput$={() => {
+        console.log("test");
+      }}
+    />
+  );
+});
+
+============================= ./should_merge_on_input_and_bind_checked.tsx_FieldInput_component_vW5302DrkaM.js (ENTRY POINT)==
+
+import{_jsxSorted,qrl,useSignal}from"@qwik.dev/core";export const FieldInput_component_vW5302DrkaM=()=>{let localValue=useSignal(!1);return/* @__PURE__ */ _jsxSorted(`input`,null,{checked:localValue,on:input:[qrl(()=>import(`./should_merge_on_input_and_bind_checked.tsx.js`),`FieldInput_component_input_onInput`),inlinedQrl(_chk,`_chk`,[localValue])]},null,3,null)};
+
+None
+/*
+{
+  "origin": "should_merge_on_input_and_bind_checked.tsx",
+  "name": "FieldInput_component_vW5302DrkaM",
+  "entry": null,
+  "displayName": "should_merge_on_input_and_bind_checked.tsx_FieldInput_component",
+  "hash": "vW5302DrkaM",
+  "canonicalFilename": "should_merge_on_input_and_bind_checked.tsx_FieldInput_component_vW5302DrkaM",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "FieldInput_component_vW5302DrkaM",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= should_merge_on_input_and_bind_checked.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const FieldInput=componentQrl(qrl(()=>import(`./should_merge_on_input_and_bind_checked.tsx_FieldInput_component_vW5302DrkaM.js`),`FieldInput_component_vW5302DrkaM`));
+
+None
+== DIAGNOSTICS ==
+
+[]

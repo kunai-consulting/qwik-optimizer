@@ -1,0 +1,83 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useResource$ } from '@qwik.dev/core';
+import mongodb from 'mongodb';
+
+export const onGet = () => {
+	const data = mongodb.collection.whatever;
+	return {
+		body: {
+		data
+		}
+	}
+};
+
+export default component$(()=> {
+	useResource$(() => {
+		return onGet();
+	})
+	return <div>cmp</div>
+});
+
+============================= ./example_strip_exports_used.tsx_component_Eu43kjW71hU.js (ENTRY POINT)==
+
+import{qrl,useResourceQrl}from"@qwik.dev/core";export const component_Eu43kjW71hU=()=>(useResourceQrl(qrl(()=>import(`./example_strip_exports_used.tsx_component_useResource_4uRQV9gHG00.js`),`component_useResource_4uRQV9gHG00`)),<div>cmp</div>);
+
+None
+/*
+{
+  "origin": "example_strip_exports_used.tsx",
+  "name": "component_Eu43kjW71hU",
+  "entry": null,
+  "displayName": "example_strip_exports_used.tsx_component",
+  "hash": "Eu43kjW71hU",
+  "canonicalFilename": "example_strip_exports_used.tsx_component_Eu43kjW71hU",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component_Eu43kjW71hU",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_strip_exports_used.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";import mongodb from"mongodb";export const onGet=()=>{const data=mongodb.collection.whatever;return{body:{data}}};export default componentQrl(qrl(()=>import(`./example_strip_exports_used.tsx_component_Eu43kjW71hU.js`),`component_Eu43kjW71hU`));
+
+None
+============================= ./example_strip_exports_used.tsx_component_useResource_4uRQV9gHG00.js (ENTRY POINT)==
+
+import{onGet}from"./example_strip_exports_used";export const component_useResource_4uRQV9gHG00=()=>onGet();
+
+None
+/*
+{
+  "origin": "example_strip_exports_used.tsx",
+  "name": "component_useResource_4uRQV9gHG00",
+  "entry": null,
+  "displayName": "example_strip_exports_used.tsx_component_useResource",
+  "hash": "4uRQV9gHG00",
+  "canonicalFilename": "example_strip_exports_used.tsx_component_useResource_4uRQV9gHG00",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component_useResource_4uRQV9gHG00",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

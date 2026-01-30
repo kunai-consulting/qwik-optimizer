@@ -1,0 +1,49 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+	console.log(function*(lo: any, t: any) {
+	console.log(yield (yield lo)(t.href).then((r) => r.json()));
+	});
+
+	return <p>Hello Qwik</p>;
+});
+
+============================= ./issue_964.tsx_App_component_mGS56mGKM0E.js (ENTRY POINT)==
+
+import{_jsxSorted}from"@qwik.dev/core";export const App_component_mGS56mGKM0E=()=>(console.log(function*(lo,t){console.log(yield(yield lo)(t.href).then(r=>r.json()))}),/* @__PURE__ */ _jsxSorted(`p`,null,null,`Hello Qwik`,3,null));
+
+None
+/*
+{
+  "origin": "issue_964.tsx",
+  "name": "App_component_mGS56mGKM0E",
+  "entry": null,
+  "displayName": "issue_964.tsx_App_component",
+  "hash": "mGS56mGKM0E",
+  "canonicalFilename": "issue_964.tsx_App_component_mGS56mGKM0E",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_mGS56mGKM0E",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= issue_964.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./issue_964.tsx_App_component_mGS56mGKM0E.js`),`App_component_mGS56mGKM0E`));
+
+None
+== DIAGNOSTICS ==
+
+[]

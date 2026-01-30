@@ -1,0 +1,15 @@
+import { Counter } from "./counter.tsx";
+
+export const Root = () => {
+	return (
+		<html>
+			<head>
+				<meta charset="utf-8" />
+				<title>Qwik Blank App</title>
+			</head>
+			<body>
+				<Counter initial={3} />
+			</body>
+		</html>
+	);
+};
