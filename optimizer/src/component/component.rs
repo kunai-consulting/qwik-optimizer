@@ -38,6 +38,7 @@ pub struct QrlComponent {
 
 impl QrlComponent {
     /// Creates a new QrlComponent with optional segment data.
+    #[allow(clippy::too_many_arguments)]
     pub(crate) fn new(
         options: &TransformOptions,
         source_info: &SourceInfo,
@@ -146,6 +147,7 @@ impl QrlComponent {
             .collect()
     }
 
+    #[allow(clippy::too_many_arguments)]
     fn gen(
         options: &TransformOptions,
         id: &Id,
@@ -247,6 +249,7 @@ impl QrlComponent {
     }
 
     /// Create a QrlComponent from an `Expression`.
+    #[allow(clippy::too_many_arguments)]
     pub(crate) fn from_expression(
         expr: Expression<'_>,
         imports: Vec<Import>,
@@ -270,6 +273,7 @@ impl QrlComponent {
     }
 
     /// Create a QrlComponent from a call expression argument.
+    #[allow(clippy::too_many_arguments)]
     pub(crate) fn from_call_expression_argument(
         arg: &Argument,
         imports: Vec<Import>,

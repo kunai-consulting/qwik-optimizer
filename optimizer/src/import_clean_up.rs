@@ -69,6 +69,7 @@ impl ImportCleanUp<'_> {
     }
 }
 
+#[allow(dead_code)]
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 struct Key(String);
 

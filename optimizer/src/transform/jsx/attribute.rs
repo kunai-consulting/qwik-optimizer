@@ -33,7 +33,7 @@ pub fn enter_jsx_attribute<'a>(
         gen.expr_is_const_stack.push(
             gen.jsx_stack
                 .last()
-                .map_or(false, |jsx| !jsx.should_runtime_sort),
+                .is_some_and(|jsx| !jsx.should_runtime_sort),
         );
     }
     gen.ascend();

@@ -193,7 +193,7 @@ pub fn track_variable_declaration<'a>(
 
 /// Check if a call expression is a .map() call and extract iteration variables.
 ///
-/// Returns Some(Vec<Id>) with iteration variable names if this is a .map() call
+/// Returns `Some(Vec<Id>)` with iteration variable names if this is a .map() call
 /// with a function callback, None otherwise.
 pub fn check_map_iteration_vars(node: &oxc_ast::ast::CallExpression) -> Option<Vec<crate::collector::Id>> {
     use oxc_ast::ast::Expression;

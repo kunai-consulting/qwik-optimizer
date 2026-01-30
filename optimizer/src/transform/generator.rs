@@ -1354,7 +1354,7 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                         ctx.scoping_mut().rename_symbol(
                             symbol_id,
                             scope_id,
-                            local_name.as_str().into(),
+                            local_name.as_str(),
                         );
 
                         let local_name = if local_name == QRL_SUFFIX {

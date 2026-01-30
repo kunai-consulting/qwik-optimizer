@@ -22,7 +22,9 @@ pub const IS_BROWSER: &str = "isBrowser";
 /// isDev identifier - true in development mode
 pub const IS_DEV: &str = "isDev";
 
+#[allow(dead_code)]
 pub const JSX_SORTED_NAME: &str = "_jsxSorted";
+#[allow(dead_code)]
 pub const JSX_SPLIT_NAME: &str = "_jsxSplit";
 pub const MARKER_SUFFIX: &str = "$";
 pub const QRL: &str = "qrl";
@@ -44,16 +46,21 @@ pub const _VAL: &str = "_val";
 pub const _CHK: &str = "_chk";
 
 /// Import for inlinedQrl function (inline QRL creation)
+#[allow(dead_code)]
 pub const INLINED_QRL: &str = "inlinedQrl";
 
 /// Prefix for bind directives
+#[allow(dead_code)]
 pub const BIND_PREFIX: &str = "bind:";
 
 /// Bind directive constants
+#[allow(dead_code)]
 pub const BIND_VALUE: &str = "bind:value";
+#[allow(dead_code)]
 pub const BIND_CHECKED: &str = "bind:checked";
 
 /// Import source for jsx-runtime (Fragment import)
+#[allow(dead_code)]
 pub const JSX_RUNTIME_SOURCE: &str = "@qwik.dev/core/jsx-runtime";
 
 /// Fragment identifier for implicit fragments (<></>)

@@ -6,7 +6,7 @@
 //!
 //! A prop is considered variable if it:
 //! - Calls a function
-//! - Accesses a member (obj.prop or obj[key])
+//! - Accesses a member (obj.prop or obj\[key\])
 //! - References a variable that is not an import, export, or const variable
 
 use crate::transform::{IdPlusType, IdentType};
