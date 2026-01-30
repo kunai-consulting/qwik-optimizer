@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** All 162 tests from qwik-core pass with exact output parity to the SWC implementation.
-**Current focus:** Phase 9 - TypeScript Support (COMPLETE)
+**Current focus:** Phase 10 - Edge Cases (In Progress)
 
 ## Current Position
 
-Phase: 9 of 11 (TypeScript Support) - COMPLETE
-Plan: 2 of 2 in Phase 9 COMPLETE
-Status: Phase 9 Complete
-Last activity: 2026-01-30 - Completed 09-02-PLAN.md
+Phase: 10 of 11 (Edge Cases)
+Plan: 4 of 5 in Phase 10 COMPLETE
+Status: In Progress
+Last activity: 2026-01-30 - Completed 10-04-PLAN.md
 
-Progress: [=================   ] 81.8% (9/11 phases complete, 33/44 total plans)
+Progress: [==================  ] 84.1% (9/11 phases complete, 37/44 total plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 31
-- Average duration: 7.1 min
-- Total execution time: 3.6 hours
+- Total plans completed: 37
+- Average duration: 7.0 min
+- Total execution time: 4.3 hours
 
 **By Phase:**
 
@@ -37,10 +37,11 @@ Progress: [=================   ] 81.8% (9/11 phases complete, 33/44 total plans)
 | 08-ssr-build-modes | 3/3 | 16 min | 5.3 min |
 
 | 09-typescript-support | 2/2 | 8 min | 4.0 min |
+| 10-edge-cases | 4/5 | 40 min | 10.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 08-02 (4 min), 08-03 (7 min), 09-01 (3 min), 09-02 (5 min)
-- Phase 9 TypeScript Support COMPLETE
+- Last 5 plans: 09-01 (3 min), 09-02 (5 min), 10-01 (10 min), 10-02 (10 min), 10-03 (10 min), 10-04 (10 min)
+- Phase 10 Edge Cases in progress (4/5 plans complete)
 
 *Updated after each plan completion*
 
@@ -131,6 +132,8 @@ Recent decisions affecting current work:
 - [09-01]: Check import_kind.is_type() at declaration level first for early exit on 'import type { Foo }'
 - [09-01]: Check import_kind.is_type() at specifier level for mixed imports 'import { type Foo, bar }'
 - [09-01]: ImportDefaultSpecifier and ImportNamespaceSpecifier don't need type-only checks
+- [10-04]: Test async preservation by checking segment code contains "async" keyword
+- [10-04]: Use multiple assertion patterns (async () =>, async function) for flexibility
 
 ### Pending Todos
 
@@ -142,8 +145,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-30 00:56:02Z
-Stopped at: Completed 09-02-PLAN.md (TypeScript/TSX Integration Tests)
+Last session: 2026-01-30T01:33:01Z
+Stopped at: Completed 10-04-PLAN.md (Async/Await Preservation)
 Resume file: None
 
 ## Phase 2 QRL Core Summary
