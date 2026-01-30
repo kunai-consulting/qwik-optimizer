@@ -83,7 +83,7 @@ None
   "canonicalFilename": "test.tsx_App_component_1_w0t0o3QMovU",
   "path": "",
   "extension": "tsx",
-  "parent": null,
+  "parent": "component",
   "ctxKind": "function",
   "ctxName": "$",
   "captures": false,

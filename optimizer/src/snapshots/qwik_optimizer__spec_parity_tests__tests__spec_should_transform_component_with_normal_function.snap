@@ -68,7 +68,7 @@ None
   "canonicalFilename": "test.tsx_Foo_component_Inner_component_AuJ9mTBx5YA",
   "path": "",
   "extension": "tsx",
-  "parent": null,
+  "parent": "$1",
   "ctxKind": "function",
   "ctxName": "component$",
   "captures": true,

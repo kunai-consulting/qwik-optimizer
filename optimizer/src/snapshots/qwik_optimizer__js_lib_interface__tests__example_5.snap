@@ -29,7 +29,7 @@ None
   "canonicalFilename": "test_example_5.tsx_Header_component_div_onClick_fw2SWFXEVDc",
   "path": "",
   "extension": "tsx",
-  "parent": null,
+  "parent": "component",
   "ctxKind": "function",
   "ctxName": "$",
   "captures": false,

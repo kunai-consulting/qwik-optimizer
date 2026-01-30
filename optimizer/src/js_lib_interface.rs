@@ -338,6 +338,11 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
                     .map(|sd| sd.loc)
                     .unwrap_or((0, 0));
 
+                // Get parent segment from segment_data (not id.scope)
+                // parent_segment contains the enclosing QRL's hash/name for nested QRLs
+                let segment_parent = c.segment_data.as_ref()
+                    .and_then(|sd| sd.parent_segment.clone());
+
                 TransformModule {
                     path: format!("{}.{}", &c.id.local_file_name, &segment_extension),
                     code: c.code,
@@ -355,7 +360,7 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
                             .to_string(),
                         path: segment_path,
                         extension: segment_extension,
-                        parent: c.id.scope,
+                        parent: segment_parent,
                         ctx_kind: segment_ctx_kind,
                         ctx_name: segment_ctx_name,
                         captures: segment_captures,

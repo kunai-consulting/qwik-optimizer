@@ -107,7 +107,7 @@ None
   "canonicalFilename": "test_example_jsx.jsx_Foo_component_1_Za18NfgUnDQ",
   "path": "",
   "extension": "js",
-  "parent": null,
+  "parent": "component",
   "ctxKind": "function",
   "ctxName": "$",
   "captures": true,

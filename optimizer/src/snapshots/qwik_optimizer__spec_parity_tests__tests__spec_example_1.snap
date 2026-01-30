@@ -102,7 +102,7 @@ None
   "canonicalFilename": "test.tsx_renderHeader_div_onClick_fV2uzAL99u4",
   "path": "",
   "extension": "tsx",
-  "parent": null,
+  "parent": "$0",
   "ctxKind": "function",
   "ctxName": "$",
   "captures": false,

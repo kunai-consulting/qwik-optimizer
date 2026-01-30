@@ -65,7 +65,7 @@ None
   "canonicalFilename": "test.tsx_Foo_component_1_DvU6FitWglY",
   "path": "",
   "extension": "tsx",
-  "parent": null,
+  "parent": "component",
   "ctxKind": "function",
   "ctxName": "$",
   "captures": false,

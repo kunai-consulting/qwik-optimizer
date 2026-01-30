@@ -72,7 +72,7 @@ None
   "canonicalFilename": "test.tsx_Header_component_div_onClick_i7ekvWH3674",
   "path": "",
   "extension": "tsx",
-  "parent": null,
+  "parent": "component",
   "ctxKind": "function",
   "ctxName": "$",
   "captures": false,

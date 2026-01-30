@@ -62,7 +62,7 @@ None
   "canonicalFilename": "test.tsx_Cmp_component_Cmp_foo_iPpdemxi0uE",
   "path": "",
   "extension": "tsx",
-  "parent": null,
+  "parent": "component",
   "ctxKind": "function",
   "ctxName": "$",
   "captures": false,

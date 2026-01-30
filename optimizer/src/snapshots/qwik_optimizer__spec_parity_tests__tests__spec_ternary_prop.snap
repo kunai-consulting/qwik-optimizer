@@ -79,7 +79,7 @@ None
   "canonicalFilename": "test.tsx_Cmp_component_handleClick_1_3XP0LRiVj8c",
   "path": "",
   "extension": "tsx",
-  "parent": null,
+  "parent": "handleClick",
   "ctxKind": "function",
   "ctxName": "$",
   "captures": true,

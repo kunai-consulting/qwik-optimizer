@@ -61,7 +61,7 @@ None
   "canonicalFilename": "test.tsx_s_H8ViXD28YGQ",
   "path": "",
   "extension": "tsx",
-  "parent": null,
+  "parent": "component",
   "ctxKind": "function",
   "ctxName": "useMount$",
   "captures": false,

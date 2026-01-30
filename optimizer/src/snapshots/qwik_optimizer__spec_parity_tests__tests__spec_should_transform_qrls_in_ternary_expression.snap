@@ -46,7 +46,7 @@ None
   "canonicalFilename": "test.tsx_FieldInput_component_input_onInput_1_Zg4NvOwcLaM",
   "path": "",
   "extension": "tsx",
-  "parent": null,
+  "parent": "onInput",
   "ctxKind": "function",
   "ctxName": "$",
   "captures": true,

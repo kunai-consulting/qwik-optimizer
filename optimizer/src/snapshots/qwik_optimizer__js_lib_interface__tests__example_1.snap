@@ -94,7 +94,7 @@ None
   "canonicalFilename": "test_example_1.tsx_renderHeader_div_onClick_vU0qgjVefds",
   "path": "",
   "extension": "tsx",
-  "parent": null,
+  "parent": "$0",
   "ctxKind": "function",
   "ctxName": "$",
   "captures": false,

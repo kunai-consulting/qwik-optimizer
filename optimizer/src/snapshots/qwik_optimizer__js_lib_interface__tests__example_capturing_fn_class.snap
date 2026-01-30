@@ -42,7 +42,7 @@ None
   "canonicalFilename": "test_example_capturing_fn_class.jsx_App_component_1_sEJrlBvQHzk",
   "path": "",
   "extension": "js",
-  "parent": null,
+  "parent": "component",
   "ctxKind": "function",
   "ctxName": "$",
   "captures": false,

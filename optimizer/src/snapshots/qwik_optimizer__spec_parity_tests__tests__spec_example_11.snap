@@ -40,7 +40,7 @@ None
   "canonicalFilename": "test.tsx_Header_component_Header_onClick_KjD9TCNkNxY",
   "path": "project",
   "extension": "tsx",
-  "parent": null,
+  "parent": "component",
   "ctxKind": "function",
   "ctxName": "$",
   "captures": false,

@@ -69,7 +69,7 @@ None
   "canonicalFilename": "test.tsx_Foo_component_useMount_aaEQlcpxVis",
   "path": "",
   "extension": "tsx",
-  "parent": null,
+  "parent": "component",
   "ctxKind": "function",
   "ctxName": "useMount$",
   "captures": false,

@@ -135,7 +135,7 @@ None
   "canonicalFilename": "test.tsx_Input_component_useTask_Sbgs9Wtfkt0",
   "path": "",
   "extension": "tsx",
-  "parent": null,
+  "parent": "component",
   "ctxKind": "function",
   "ctxName": "useTask$",
   "captures": true,

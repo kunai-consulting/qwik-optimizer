@@ -40,7 +40,7 @@ None
   "canonicalFilename": "test.tsx_Works_component_div_onClick_server_OsNoEFc5SM4",
   "path": "",
   "extension": "tsx",
-  "parent": null,
+  "parent": "onClick",
   "ctxKind": "function",
   "ctxName": "server$",
   "captures": true,

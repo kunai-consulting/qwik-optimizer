@@ -32,7 +32,7 @@ None
   "canonicalFilename": "test_example_3.tsx_App_Header_component_div_onClick_PHteWc0iLkc",
   "path": "",
   "extension": "tsx",
-  "parent": null,
+  "parent": "component",
   "ctxKind": "function",
   "ctxName": "$",
   "captures": false,

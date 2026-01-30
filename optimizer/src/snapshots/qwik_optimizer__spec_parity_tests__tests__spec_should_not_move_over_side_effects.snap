@@ -30,7 +30,7 @@ None
   "canonicalFilename": "test.tsx_promoteToRoot_path_getObjectPath_ytJZPsFrXms",
   "path": "",
   "extension": "tsx",
-  "parent": null,
+  "parent": "promoteToRoot",
   "ctxKind": "function",
   "ctxName": "getObjectPath$",
   "captures": true,

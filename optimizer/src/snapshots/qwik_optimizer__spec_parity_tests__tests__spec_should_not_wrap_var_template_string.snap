@@ -84,7 +84,7 @@ None
   "canonicalFilename": "test.tsx_component_productTitle_useComputed_qyvYoxyiPuk",
   "path": "",
   "extension": "tsx",
-  "parent": null,
+  "parent": "component",
   "ctxKind": "function",
   "ctxName": "useComputed$",
   "captures": false,

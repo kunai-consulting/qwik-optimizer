@@ -75,7 +75,7 @@ None
   "canonicalFilename": "test.tsx_Greeter_component_1_krCndSwhX4U",
   "path": "",
   "extension": "tsx",
-  "parent": null,
+  "parent": "component",
   "ctxKind": "function",
   "ctxName": "$",
   "captures": true,

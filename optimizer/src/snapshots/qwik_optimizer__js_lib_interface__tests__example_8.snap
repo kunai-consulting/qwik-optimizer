@@ -78,7 +78,7 @@ None
   "canonicalFilename": "test_example_8.tsx_Header_component_1_hAK7mEQYxrg",
   "path": "",
   "extension": "tsx",
-  "parent": null,
+  "parent": "component",
   "ctxKind": "function",
   "ctxName": "$",
   "captures": false,

@@ -98,7 +98,7 @@ None
   "canonicalFilename": "test.tsx_Header_component_1_uWM1kg0IGO0",
   "path": "project",
   "extension": "tsx",
-  "parent": null,
+  "parent": "component",
   "ctxKind": "function",
   "ctxName": "$",
   "captures": true,
