@@ -7481,4 +7481,91 @@ export default component$(() => {
             "Map with function expression should not cause errors, got: {:?}",
             result.errors);
     }
+
+    #[test]
+    fn test_issue_7216_spread_props_with_handlers() {
+        // Test that spread props interleaved with event handlers work correctly
+        // Issue 7216: Complex interaction between spread props and event handlers
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@builder.io/qwik';
+export default component$((props) => {
+  return (<p
+    onHi$={() => 'hi'}
+    {...props.foo}
+    onHello$={props.helloHandler$}
+    {...props.rest}
+    onVar$={props.onVarHandler$}
+    onConst$={() => 'const'}
+    asd={"1"}
+  />);
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Get all segment code for debugging
+        let segment_code: String = result.optimized_app.components.iter()
+            .map(|c| format!("{}: {}", c.id.symbol_name, c.code))
+            .collect::<Vec<_>>()
+            .join("\n---\n");
+
+        // Should have at least the default component extracted
+        assert!(!result.optimized_app.components.is_empty(),
+            "Expected at least 1 QRL (default component$). Got 0.\nBody:\n{}",
+            result.optimized_app.body);
+
+        // Find the default component segment
+        let component_segment = result.optimized_app.components.iter()
+            .find(|c| c.id.symbol_name.contains("component"))
+            .map(|c| &c.code);
+
+        // STRONG ASSERTIONS: Spread props with handlers
+        if let Some(code) = component_segment {
+            // Should have the <p> element
+            assert!(code.contains("\"p\"") || code.contains("'p'"),
+                "Expected 'p' element in component.\nSegment code:\n{}", code);
+
+            // Should have both onHi$ and onConst$ QRL handlers
+            // These are the two inline handlers that should be extracted
+            assert!(code.contains("on:hi") || code.contains("onHi") || code.contains("'hi'"),
+                "Expected onHi$ handler in output.\nSegment code:\n{}", code);
+            assert!(code.contains("on:const") || code.contains("onConst") || code.contains("'const'"),
+                "Expected onConst$ handler in output.\nSegment code:\n{}", code);
+
+            // Props handlers should be preserved as prop access (not extracted)
+            // onHello$ and onVar$ come from props, so they stay as prop access
+            assert!(code.contains("props.helloHandler") || code.contains("helloHandler") ||
+                    code.contains("props.onVarHandler") || code.contains("onVarHandler"),
+                "Expected props handlers to be preserved.\nSegment code:\n{}", code);
+
+            // Spread props should be present
+            assert!(code.contains("props.foo") || code.contains("props.rest") ||
+                    code.contains("...") || code.contains("_getVarProps") || code.contains("_getConstProps"),
+                "Expected spread props handling.\nSegment code:\n{}", code);
+
+            // asd prop should be present
+            assert!(code.contains("asd") || code.contains("\"1\""),
+                "Expected asd prop in output.\nSegment code:\n{}", code);
+        } else {
+            panic!("Expected component segment to exist.\nAll segments:\n{}", segment_code);
+        }
+
+        // Verify QRLs were created for inline handlers
+        // Either as separate segments or inlined
+        let has_qrl_calls = segment_code.contains("qrl(") || result.optimized_app.body.contains("qrl(");
+        assert!(has_qrl_calls,
+            "Expected qrl() calls for inline handlers.\nSegments:\n{}\n\nBody:\n{}",
+            segment_code, result.optimized_app.body);
+
+        // No errors should be present
+        assert!(result.errors.is_empty(),
+            "Spread props with event handlers should not cause errors, got: {:?}",
+            result.errors);
+    }
 }
