@@ -137,6 +137,9 @@ Recent decisions affecting current work:
 - [10-02]: ProcessingFailure changed from enum to struct with SWC diagnostic fields
 - [10-02]: Skip transform check happens early in enter_call_expression before QRL processing
 - [10-02]: Illegal code continues transformation with diagnostic, does not fail
+- [10-01]: Use ScopeId::new(0) for iteration variables since we match by name later
+- [10-01]: Support both arrow functions and function expressions in .map() callback detection
+- [10-01]: Handlers inlined with qrl() rather than extracted as separate segments
 
 ### Pending Todos
 
@@ -148,8 +151,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-30T01:43:24Z
-Stopped at: Completed 10-02-PLAN.md (Skip Transform & Illegal Code Diagnostics)
+Last session: 2026-01-30T01:44:34Z
+Stopped at: Completed 10-01-PLAN.md (Loop Tracking Infrastructure)
 Resume file: None
 
 ## Phase 2 QRL Core Summary
@@ -411,9 +414,13 @@ Phase 9 TypeScript Support COMPLETE with all 2 plans executed:
 
 Phase 10 Edge Cases in progress with 4/5 plans complete:
 
-1. **10-01:** Loop/Iterator Detection - COMPLETE (10 min)
+1. **10-01:** Loop Tracking Infrastructure - COMPLETE (22 min)
    - loop_depth and iteration_var_stack fields added
-   - Infrastructure for q:p prop optimization
+   - .map() callback detection in enter/exit_call_expression
+   - Iteration variable extraction from arrow/function expression params
+   - 3 tests: nested loop, simple map, function expression
+   - Infrastructure ready for q:p prop optimization
+   - 229 total tests passing
 
 2. **10-02:** Skip Transform & Illegal Code Diagnostics - COMPLETE (20 min)
    - skip_transform_names HashSet for aliased imports
