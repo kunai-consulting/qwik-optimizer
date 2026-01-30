@@ -38,12 +38,15 @@ export const Foo = component$(() => {
 
 ============================= example_jsx_listeners.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const Foo=componentQrl(qrl(()=>import(`./example_jsx_listeners.tsx_Foo_component_PmQ0Y3BvS84.js`),`Foo_component_PmQ0Y3BvS84`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const Foo = componentQrl(qrl(() => import("./example_jsx_listeners.tsx_Foo_component_PmQ0Y3BvS84.js"), "Foo_component_PmQ0Y3BvS84"));
+
 
 None
 ============================= ./example_jsx_listeners.tsx_Foo_component_handler_qsIND80K9ow.js (ENTRY POINT)==
 
-export const Foo_component_handler_qsIND80K9ow=()=>console.log(`reused`);
+export const Foo_component_handler_qsIND80K9ow = () => console.log("reused");
+
 
 None
 /*
@@ -68,7 +71,27 @@ None
 */
 ============================= ./example_jsx_listeners.tsx_Foo_component_1_u3P4ZlOev6I.js (ENTRY POINT)==
 
-import{_jsxSorted,qrl}from"@qwik.dev/core";export const Foo_component_1_u3P4ZlOev6I=()=>{let handler=qrl(()=>import(`./example_jsx_listeners.tsx_Foo_component_handler_qsIND80K9ow.js`),`Foo_component_handler_qsIND80K9ow`);return/* @__PURE__ */ _jsxSorted(`div`,{on:click:qrl(()=>import(`./example_jsx_listeners.tsx.js`),`Foo_component_1_div_onClick`),on:documentscroll:qrl(()=>import(`./example_jsx_listeners.tsx.js`),`Foo_component_1_div_onDocumentScroll`),on:documentscroll:qrl(()=>import(`./example_jsx_listeners.tsx.js`),`Foo_component_1_div_onDocumentScroll_1`),on:c-lick:qrl(()=>import(`./example_jsx_listeners.tsx.js`),`Foo_component_1_div_on-cLick`),on:document-scroll:qrl(()=>import(`./example_jsx_listeners.tsx.js`),`Foo_component_1_div_onDocument-sCroll`),on:document-scroll:qrl(()=>import(`./example_jsx_listeners.tsx.js`),`Foo_component_1_div_onDocument-scroLL`),host:onClick$:qrl(()=>import(`./example_jsx_listeners.tsx.js`),`Foo_component_1_div_onClick_1`),host:onDocumentScroll$:qrl(()=>import(`./example_jsx_listeners.tsx.js`),`Foo_component_1_div_onDocumentScroll_2`),host:onDocumentScroll$:qrl(()=>import(`./example_jsx_listeners.tsx.js`),`Foo_component_1_div_onDocumentScroll_3`),custom$:qrl(()=>import(`./example_jsx_listeners.tsx.js`),`Foo_component_1_div_custom`)},{on:keyup:handler,on:document:keyup:handler,on:window:keyup:handler},null,3,null)};
+import { _jsxSorted, qrl } from "@qwik.dev/core";
+export const Foo_component_1_u3P4ZlOev6I = () => {
+	const handler = qrl(() => import("./example_jsx_listeners.tsx_Foo_component_handler_qsIND80K9ow.js"), "Foo_component_handler_qsIND80K9ow");
+	return /* @__PURE__ */ _jsxSorted("div", {
+		on:click: qrl(() => import("./example_jsx_listeners.tsx.js"), "Foo_component_1_div_onClick"),
+		on:documentscroll: qrl(() => import("./example_jsx_listeners.tsx.js"), "Foo_component_1_div_onDocumentScroll"),
+		on:documentscroll: qrl(() => import("./example_jsx_listeners.tsx.js"), "Foo_component_1_div_onDocumentScroll_1"),
+		on:c-lick: qrl(() => import("./example_jsx_listeners.tsx.js"), "Foo_component_1_div_on-cLick"),
+		on:document-scroll: qrl(() => import("./example_jsx_listeners.tsx.js"), "Foo_component_1_div_onDocument-sCroll"),
+		on:document-scroll: qrl(() => import("./example_jsx_listeners.tsx.js"), "Foo_component_1_div_onDocument-scroLL"),
+		host:onClick$: qrl(() => import("./example_jsx_listeners.tsx.js"), "Foo_component_1_div_onClick_1"),
+		host:onDocumentScroll$: qrl(() => import("./example_jsx_listeners.tsx.js"), "Foo_component_1_div_onDocumentScroll_2"),
+		host:onDocumentScroll$: qrl(() => import("./example_jsx_listeners.tsx.js"), "Foo_component_1_div_onDocumentScroll_3"),
+		custom$: qrl(() => import("./example_jsx_listeners.tsx.js"), "Foo_component_1_div_custom")
+	}, {
+		on:keyup: handler,
+		on:document:keyup: handler,
+		on:window:keyup: handler
+	}, null, 3, null);
+};
+
 
 None
 /*
@@ -93,7 +116,11 @@ None
 */
 ============================= ./example_jsx_listeners.tsx_Foo_component_PmQ0Y3BvS84.js (ENTRY POINT)==
 
-import{qrl}from"@qwik.dev/core";export const Foo_component_PmQ0Y3BvS84=()=>qrl(()=>import(`./example_jsx_listeners.tsx_Foo_component_1_u3P4ZlOev6I.js`),`Foo_component_1_u3P4ZlOev6I`);
+import { qrl } from "@qwik.dev/core";
+export const Foo_component_PmQ0Y3BvS84 = () => {
+	return qrl(() => import("./example_jsx_listeners.tsx_Foo_component_1_u3P4ZlOev6I.js"), "Foo_component_1_u3P4ZlOev6I");
+};
+
 
 None
 /*

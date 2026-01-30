@@ -27,12 +27,24 @@ export const Issue3561 = component$(() => {
 
 ============================= example_optimization_issue_3561.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const Issue3561=componentQrl(qrl(()=>import(`./example_optimization_issue_3561.tsx_Issue3561_component_x4NHJ9LLQ9U.js`),`Issue3561_component_x4NHJ9LLQ9U`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const Issue3561 = componentQrl(qrl(() => import("./example_optimization_issue_3561.tsx_Issue3561_component_x4NHJ9LLQ9U.js"), "Issue3561_component_x4NHJ9LLQ9U"));
+
 
 None
 ============================= ./example_optimization_issue_3561.tsx_Issue3561_component_x4NHJ9LLQ9U.js (ENTRY POINT)==
 
-export const Issue3561_component_x4NHJ9LLQ9U=()=>{let{currentVariant:{variantImage,variantNumber,setContents}={}}=useStore({product:{currentVariant:{variantImage:`image`,variantNumber:`number`,setContents:`contents`}}}).product;return console.log(variantImage,variantNumber,setContents),<p></p>};
+export const Issue3561_component_x4NHJ9LLQ9U = () => {
+	const props = useStore({ product: { currentVariant: {
+		variantImage: "image",
+		variantNumber: "number",
+		setContents: "contents"
+	} } });
+	const { currentVariant: { variantImage, variantNumber, setContents } = {} } = props.product;
+	console.log(variantImage, variantNumber, setContents);
+	return <p></p>;
+};
+
 
 None
 /*

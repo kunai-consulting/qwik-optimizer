@@ -14,12 +14,21 @@ export default component$((props) => {
 
 ============================= should_split_spread_props_with_additional_prop2.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./should_split_spread_props_with_additional_prop2.tsx_component_Cfroz8hlVp8.js`),`component_Cfroz8hlVp8`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export default componentQrl(qrl(() => import("./should_split_spread_props_with_additional_prop2.tsx_component_Cfroz8hlVp8.js"), "component_Cfroz8hlVp8"));
+
 
 None
 ============================= ./should_split_spread_props_with_additional_prop2.tsx_component_Cfroz8hlVp8.js (ENTRY POINT)==
 
-import{_getConstProps,_getVarProps,_jsxSplit}from"@qwik.dev/core";export const component_Cfroz8hlVp8=props=>/* @__PURE__ */ _jsxSplit(`div`,{test:`test`,..._getVarProps(props)},_getConstProps(props),null,0,null);
+import { _getConstProps, _getVarProps, _jsxSplit } from "@qwik.dev/core";
+export const component_Cfroz8hlVp8 = (props) => {
+	return /* @__PURE__ */ _jsxSplit("div", {
+		test: "test",
+		..._getVarProps(props)
+	}, _getConstProps(props), null, 0, null);
+};
+
 
 None
 /*

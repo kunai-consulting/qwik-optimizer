@@ -17,7 +17,9 @@ export const App = component$((props) => {
 
 ============================= ./example_skip_transform.tsx_App_component_1_qZcUZHIGdhQ.js (ENTRY POINT)==
 
-import{_jsxSorted}from"@qwik.dev/core";export const App_component_1_qZcUZHIGdhQ=()=>/* @__PURE__ */ _jsxSorted(`div`,null,null,state.thing,1,null);
+import { _jsxSorted } from "@qwik.dev/core";
+export const App_component_1_qZcUZHIGdhQ = () => /* @__PURE__ */ _jsxSorted("div", null, null, state.thing, 1, null);
+
 
 None
 /*
@@ -42,12 +44,20 @@ None
 */
 ============================= example_skip_transform.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const handler=qrl(()=>import(`./example_skip_transform.tsx_handler_6Z37Kj2oXcs.js`),`handler_6Z37Kj2oXcs`);export const App=componentQrl(qrl(()=>import(`./example_skip_transform.tsx_App_component_3RSS0v106FQ.js`),`App_component_3RSS0v106FQ`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const handler = qrl(() => import("./example_skip_transform.tsx_handler_6Z37Kj2oXcs.js"), "handler_6Z37Kj2oXcs");
+export const App = componentQrl(qrl(() => import("./example_skip_transform.tsx_App_component_3RSS0v106FQ.js"), "App_component_3RSS0v106FQ"));
+
 
 None
 ============================= ./example_skip_transform.tsx_App_component_3RSS0v106FQ.js (ENTRY POINT)==
 
-import{qrl,useStylesQrl}from"@qwik.dev/core";export const App_component_3RSS0v106FQ=props=>(useStylesQrl(qrl(()=>import(`./example_skip_transform.tsx_App_component_useStyles_cjcvMqPOO2c.js`),`App_component_useStyles_cjcvMqPOO2c`)),qrl(()=>import(`./example_skip_transform.tsx_App_component_1_qZcUZHIGdhQ.js`),`App_component_1_qZcUZHIGdhQ`));
+import { qrl, useStylesQrl } from "@qwik.dev/core";
+export const App_component_3RSS0v106FQ = (props) => {
+	useStylesQrl(qrl(() => import("./example_skip_transform.tsx_App_component_useStyles_cjcvMqPOO2c.js"), "App_component_useStyles_cjcvMqPOO2c"));
+	return qrl(() => import("./example_skip_transform.tsx_App_component_1_qZcUZHIGdhQ.js"), "App_component_1_qZcUZHIGdhQ");
+};
+
 
 None
 /*
@@ -72,7 +82,8 @@ None
 */
 ============================= ./example_skip_transform.tsx_App_component_useStyles_cjcvMqPOO2c.js (ENTRY POINT)==
 
-export const App_component_useStyles_cjcvMqPOO2c=`hola`;
+export const App_component_useStyles_cjcvMqPOO2c = "hola";
+
 
 None
 /*
@@ -97,7 +108,8 @@ None
 */
 ============================= ./example_skip_transform.tsx_handler_6Z37Kj2oXcs.js (ENTRY POINT)==
 
-export const handler_6Z37Kj2oXcs=()=>console.log(`hola`);
+export const handler_6Z37Kj2oXcs = () => console.log("hola");
+
 
 None
 /*

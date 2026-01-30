@@ -21,12 +21,22 @@ export const Works = component$((props) => {
 
 ============================= example_use_optimization.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const Works=componentQrl(qrl(()=>import(`./example_use_optimization.tsx_Works_component_GR9jralazbs.js`),`Works_component_GR9jralazbs`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const Works = componentQrl(qrl(() => import("./example_use_optimization.tsx_Works_component_GR9jralazbs.js"), "Works_component_GR9jralazbs"));
+
 
 None
 ============================= ./example_use_optimization.tsx_Works_component_GR9jralazbs.js (ENTRY POINT)==
 
-export const Works_component_GR9jralazbs=props=>{let{countNested}=useStore({value:{count:0}}).value,{hello}=countNested,{ciao}=hello.bye.italian;return<div ciao={ciao}>{foo}</div>};
+export const Works_component_GR9jralazbs = (props) => {
+	const { countNested } = useStore({ value: { count: 0 } }).value;
+	const countNested2 = countNested;
+	const { hello } = countNested2;
+	const bye = hello.bye;
+	const { ciao } = bye.italian;
+	return <div ciao={ciao}>{foo}</div>;
+};
+
 
 None
 /*

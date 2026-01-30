@@ -26,7 +26,15 @@ const Header = $((decl1, {decl2}, [decl3]) => {
 
 ============================= ./project/test.tsx_Header_WlR3xnI6u38.js (ENTRY POINT)==
 
-export const Header_WlR3xnI6u38=(decl1,{decl2},[decl3])=>(ident1.no,ident2,ident1+ident3,ident1+ident3,ident4(ident5,[ident6],{ident7},{key:ident8}),<div onClick={ident11=>ident11+ident12} required={!1}/>);
+export const Header_WlR3xnI6u38 = (decl1, { decl2 }, [decl3]) => {
+	const hola = ident1.no;
+	ident2;
+	const a = ident1 + ident3;
+	const b = ident1 + ident3;
+	ident4(ident5, [ident6], { ident7 }, { key: ident8 });
+	return <div onClick={(ident11) => ident11 + ident12} required={false} />;
+};
+
 
 None
 /*
@@ -51,7 +59,9 @@ None
 */
 ============================= project/test.tsx ==
 
-import{qrl}from"@qwik.dev/core";qrl(()=>import(`./test.tsx_Header_WlR3xnI6u38.js`),`Header_WlR3xnI6u38`);
+import { qrl } from "@qwik.dev/core";
+qrl(() => import("./test.tsx_Header_WlR3xnI6u38.js"), "Header_WlR3xnI6u38");
+
 
 None
 == DIAGNOSTICS ==

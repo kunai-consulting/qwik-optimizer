@@ -35,7 +35,11 @@ export default component$(() => {
 
 ============================= ./example_drop_side_effects.tsx_api_server_z2u5NPsRqoE.js (ENTRY POINT)==
 
-export const api_server_z2u5NPsRqoE=()=>{let[dfd,supabase]=useLexicalScope();supabase.from(`ffg`).do(dfd)};
+export const api_server_z2u5NPsRqoE = () => {
+	const [dfd, supabase] = useLexicalScope();
+	supabase.from("ffg").do(dfd);
+};
+
 
 None
 /*
@@ -60,12 +64,32 @@ None
 */
 ============================= example_drop_side_effects.tsx ==
 
-import{secret,sideEffect}from"./secret";import{componentQrl,qrl,serverQrl}from"@qwik.dev/core";import{serverQrl}from"@qwik.dev/router";import{Client}from"openai";import{clientSupabase}from"supabase";const supabase=clientSupabase();const dfd=new Client(secret);(function(){console.log(`run`)})();(()=>{console.log(`run`)})();sideEffect();export const api=serverQrl(qrl(()=>import(`./example_drop_side_effects.tsx_api_server_z2u5NPsRqoE.js`),`api_server_z2u5NPsRqoE`,[dfd,supabase]));export default componentQrl(qrl(()=>import(`./example_drop_side_effects.tsx_component_Iyb0rbIdi0U.js`),`component_Iyb0rbIdi0U`));
+import { secret, sideEffect } from "./secret";
+import { componentQrl, qrl, serverQrl } from "@qwik.dev/core";
+import { serverQrl } from "@qwik.dev/router";
+import { Client } from "openai";
+import { clientSupabase } from "supabase";
+const supabase = clientSupabase();
+const dfd = new Client(secret);
+(function() {
+	console.log("run");
+})();
+(() => {
+	console.log("run");
+})();
+sideEffect();
+export const api = serverQrl(qrl(() => import("./example_drop_side_effects.tsx_api_server_z2u5NPsRqoE.js"), "api_server_z2u5NPsRqoE", [dfd, supabase]));
+export default componentQrl(qrl(() => import("./example_drop_side_effects.tsx_component_Iyb0rbIdi0U.js"), "component_Iyb0rbIdi0U"));
+
 
 None
 ============================= ./example_drop_side_effects.tsx_component_Iyb0rbIdi0U.js (ENTRY POINT)==
 
-import{_jsxSorted,qrl}from"@qwik.dev/core";export const component_Iyb0rbIdi0U=()=>/* @__PURE__ */ _jsxSorted(`button`,{on:click:qrl(()=>import(`./example_drop_side_effects.tsx.js`),`component_button_onClick`)},null,null,3,null);
+import { _jsxSorted, qrl } from "@qwik.dev/core";
+export const component_Iyb0rbIdi0U = () => {
+	return /* @__PURE__ */ _jsxSorted("button", { on:click: qrl(() => import("./example_drop_side_effects.tsx.js"), "component_button_onClick") }, null, null, 3, null);
+};
+
 
 None
 /*

@@ -15,12 +15,19 @@ export const Local = component$(() => {
 
 ============================= relative_paths.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const Local=componentQrl(qrl(()=>import(`./relative_paths.tsx_Local_component_sWOiIooheYg.js`),`Local_component_sWOiIooheYg`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const Local = componentQrl(qrl(() => import("./relative_paths.tsx_Local_component_sWOiIooheYg.js"), "Local_component_sWOiIooheYg"));
+
 
 None
 ============================= ./relative_paths.tsx_Local_component_sWOiIooheYg.js (ENTRY POINT)==
 
-import{state}from"./sibling";import{_jsxSorted}from"@qwik.dev/core";export const Local_component_sWOiIooheYg=()=>/* @__PURE__ */ _jsxSorted(`div`,null,null,state,1,null);
+import { state } from "./sibling";
+import { _jsxSorted } from "@qwik.dev/core";
+export const Local_component_sWOiIooheYg = () => {
+	return /* @__PURE__ */ _jsxSorted("div", null, null, state, 1, null);
+};
+
 
 None
 /*

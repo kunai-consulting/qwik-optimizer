@@ -18,12 +18,20 @@ export default component$(() => {
 
 ============================= should_wrap_logical_expression_in_template.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./should_wrap_logical_expression_in_template.tsx_component_dtFkOVxWm2c.js`),`component_dtFkOVxWm2c`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export default componentQrl(qrl(() => import("./should_wrap_logical_expression_in_template.tsx_component_dtFkOVxWm2c.js"), "component_dtFkOVxWm2c"));
+
 
 None
 ============================= ./should_wrap_logical_expression_in_template.tsx_component_dtFkOVxWm2c.js (ENTRY POINT)==
 
-import{_jsxSorted,useSignal}from"@qwik.dev/core";export const component_dtFkOVxWm2c=()=>{let count=useSignal(0),count2=useSignal(0);return/* @__PURE__ */ _jsxSorted(`div`,null,null,_wrapProp(count||count2),1,null)};
+import { _jsxSorted, useSignal } from "@qwik.dev/core";
+export const component_dtFkOVxWm2c = () => {
+	const count = useSignal(0);
+	const count2 = useSignal(0);
+	return /* @__PURE__ */ _jsxSorted("div", null, null, _wrapProp(count || count2), 1, null);
+};
+
 
 None
 /*

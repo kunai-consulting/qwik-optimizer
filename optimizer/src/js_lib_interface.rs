@@ -55,6 +55,9 @@ pub struct TransformModulesOptions {
     pub strip_event_handlers: bool,
     pub reg_ctx_name: Option<Vec<String>>,
     pub is_server: Option<bool>,
+    /// When true, output is formatted with newlines and indentation for readability.
+    #[serde(default)]
+    pub format_output: bool,
 }
 
 #[derive(Debug, Serialize, Default)]
@@ -265,7 +268,7 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
                     transpile_jsx: config.transpile_jsx,
                     entry_strategy: config.entry_strategy,
                     is_server: true, // Default to server build
-                    format_output: false, // Production default - minified
+                    format_output: config.format_output,
                 },
             )?;
             let mut hasher = DefaultHasher::new();
@@ -476,6 +479,7 @@ mod tests {
             strip_event_handlers: false,
             reg_ctx_name: None,
             is_server: None,
+            format_output: false,
         })
         .unwrap();
 
@@ -544,6 +548,7 @@ mod tests {
             strip_event_handlers: false,
             reg_ctx_name: None,
             is_server: None,
+            format_output: false,
         };
 
         let options2 = TransformModulesOptions {
@@ -569,6 +574,7 @@ mod tests {
             strip_event_handlers: false,
             reg_ctx_name: None,
             is_server: None,
+            format_output: false,
         };
 
         let result1 = transform_modules(options1).unwrap();
@@ -615,6 +621,7 @@ mod tests {
             strip_event_handlers: false,
             reg_ctx_name: None,
             is_server: None,
+            format_output: false,
         })
         .unwrap()
     }

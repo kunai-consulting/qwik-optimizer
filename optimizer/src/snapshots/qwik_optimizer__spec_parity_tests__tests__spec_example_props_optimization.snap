@@ -47,7 +47,11 @@ export const NoWorks3 = component$(({count, stuff = hola()}) => {
 
 ============================= ./example_props_optimization.tsx_NoWorks3_component_useTask_7NRQyVhWhQw.js (ENTRY POINT)==
 
-export const NoWorks3_component_useTask_7NRQyVhWhQw=({track})=>{track(()=>count),console.log(count)};
+export const NoWorks3_component_useTask_7NRQyVhWhQw = ({ track }) => {
+	track(() => count);
+	console.log(count);
+};
+
 
 None
 /*
@@ -72,7 +76,20 @@ None
 */
 ============================= ./example_props_optimization.tsx_Works_component_YXmpS030zg8.js (ENTRY POINT)==
 
-import{_getConstProps,_getVarProps,_jsxSplit,qrl,useTaskQrl}from"@qwik.dev/core";import{CONST}from"const";export const Works_component_YXmpS030zg8=({count,some=3,hello=CONST,stuff:hey,stuffDefault:hey2=123,...rest})=>(console.log(hey,some),useTaskQrl(qrl(()=>import(`./example_props_optimization.tsx_Works_component_useTask_sh050pSHyds.js`),`Works_component_useTask_sh050pSHyds`)),/* @__PURE__ */ _jsxSplit(`div`,{some:useTaskQrl(qrl(()=>import(`./example_props_optimization.tsx_Works_component_useTask_sh050pSHyds.js`),`Works_component_useTask_sh050pSHyds`)),params:{some},class:_wrapProp(_rawProps,`count`),..._getVarProps(rest),override:!0},_getConstProps(rest),_wrapProp(_rawProps,`count`),0,null));
+import { _getConstProps, _getVarProps, _jsxSplit, qrl, useTaskQrl } from "@qwik.dev/core";
+import { CONST } from "const";
+export const Works_component_YXmpS030zg8 = ({ count, some = 1 + 2, hello = CONST, stuff: hey, stuffDefault: hey2 = 123, ...rest }) => {
+	console.log(hey, some);
+	useTaskQrl(qrl(() => import("./example_props_optimization.tsx_Works_component_useTask_sh050pSHyds.js"), "Works_component_useTask_sh050pSHyds"));
+	return /* @__PURE__ */ _jsxSplit("div", {
+		some: useTaskQrl(qrl(() => import("./example_props_optimization.tsx_Works_component_useTask_sh050pSHyds.js"), "Works_component_useTask_sh050pSHyds")),
+		params: { some },
+		class: _wrapProp(_rawProps, "count"),
+		..._getVarProps(rest),
+		override: true
+	}, _getConstProps(rest), _wrapProp(_rawProps, "count"), 0, null);
+};
+
 
 None
 /*
@@ -97,7 +114,11 @@ None
 */
 ============================= ./example_props_optimization.tsx_NoWorks2_component_useTask_QiEsWBQ2aBs.js (ENTRY POINT)==
 
-export const NoWorks2_component_useTask_QiEsWBQ2aBs=({track})=>{track(()=>count),console.log(count)};
+export const NoWorks2_component_useTask_QiEsWBQ2aBs = ({ track }) => {
+	track(() => count);
+	console.log(count);
+};
+
 
 None
 /*
@@ -122,12 +143,22 @@ None
 */
 ============================= example_props_optimization.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const Works=componentQrl(qrl(()=>import(`./example_props_optimization.tsx_Works_component_YXmpS030zg8.js`),`Works_component_YXmpS030zg8`));export const NoWorks2=componentQrl(qrl(()=>import(`./example_props_optimization.tsx_NoWorks2_component_rN1RMm0acbY.js`),`NoWorks2_component_rN1RMm0acbY`));export const NoWorks3=componentQrl(qrl(()=>import(`./example_props_optimization.tsx_NoWorks3_component_kAFUo0HAydI.js`),`NoWorks3_component_kAFUo0HAydI`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const Works = componentQrl(qrl(() => import("./example_props_optimization.tsx_Works_component_YXmpS030zg8.js"), "Works_component_YXmpS030zg8"));
+export const NoWorks2 = componentQrl(qrl(() => import("./example_props_optimization.tsx_NoWorks2_component_rN1RMm0acbY.js"), "NoWorks2_component_rN1RMm0acbY"));
+export const NoWorks3 = componentQrl(qrl(() => import("./example_props_optimization.tsx_NoWorks3_component_kAFUo0HAydI.js"), "NoWorks3_component_kAFUo0HAydI"));
+
 
 None
 ============================= ./example_props_optimization.tsx_NoWorks2_component_rN1RMm0acbY.js (ENTRY POINT)==
 
-import{_jsxSorted,qrl,useTaskQrl}from"@qwik.dev/core";export const NoWorks2_component_rN1RMm0acbY=({count,stuff:{hey}})=>(console.log(hey),useTaskQrl(qrl(()=>import(`./example_props_optimization.tsx_NoWorks2_component_useTask_QiEsWBQ2aBs.js`),`NoWorks2_component_useTask_QiEsWBQ2aBs`)),/* @__PURE__ */ _jsxSorted(`div`,{class:useTaskQrl(qrl(()=>import(`./example_props_optimization.tsx_NoWorks2_component_useTask_QiEsWBQ2aBs.js`),`NoWorks2_component_useTask_QiEsWBQ2aBs`))},null,_wrapProp(_rawProps,`count`),1,null));
+import { _jsxSorted, qrl, useTaskQrl } from "@qwik.dev/core";
+export const NoWorks2_component_rN1RMm0acbY = ({ count, stuff: { hey } }) => {
+	console.log(hey);
+	useTaskQrl(qrl(() => import("./example_props_optimization.tsx_NoWorks2_component_useTask_QiEsWBQ2aBs.js"), "NoWorks2_component_useTask_QiEsWBQ2aBs"));
+	return /* @__PURE__ */ _jsxSorted("div", { class: useTaskQrl(qrl(() => import("./example_props_optimization.tsx_NoWorks2_component_useTask_QiEsWBQ2aBs.js"), "NoWorks2_component_useTask_QiEsWBQ2aBs")) }, null, _wrapProp(_rawProps, "count"), 1, null);
+};
+
 
 None
 /*
@@ -152,7 +183,13 @@ None
 */
 ============================= ./example_props_optimization.tsx_NoWorks3_component_kAFUo0HAydI.js (ENTRY POINT)==
 
-import{_jsxSorted,qrl,useTaskQrl}from"@qwik.dev/core";export const NoWorks3_component_kAFUo0HAydI=({count,stuff=hola()})=>(console.log(stuff),useTaskQrl(qrl(()=>import(`./example_props_optimization.tsx_NoWorks3_component_useTask_7NRQyVhWhQw.js`),`NoWorks3_component_useTask_7NRQyVhWhQw`)),/* @__PURE__ */ _jsxSorted(`div`,{class:useTaskQrl(qrl(()=>import(`./example_props_optimization.tsx_NoWorks3_component_useTask_7NRQyVhWhQw.js`),`NoWorks3_component_useTask_7NRQyVhWhQw`))},null,_wrapProp(_rawProps,`count`),1,null));
+import { _jsxSorted, qrl, useTaskQrl } from "@qwik.dev/core";
+export const NoWorks3_component_kAFUo0HAydI = ({ count, stuff = hola() }) => {
+	console.log(stuff);
+	useTaskQrl(qrl(() => import("./example_props_optimization.tsx_NoWorks3_component_useTask_7NRQyVhWhQw.js"), "NoWorks3_component_useTask_7NRQyVhWhQw"));
+	return /* @__PURE__ */ _jsxSorted("div", { class: useTaskQrl(qrl(() => import("./example_props_optimization.tsx_NoWorks3_component_useTask_7NRQyVhWhQw.js"), "NoWorks3_component_useTask_7NRQyVhWhQw")) }, null, _wrapProp(_rawProps, "count"), 1, null);
+};
+
 
 None
 /*
@@ -177,7 +214,11 @@ None
 */
 ============================= ./example_props_optimization.tsx_Works_component_useTask_sh050pSHyds.js (ENTRY POINT)==
 
-export const Works_component_useTask_sh050pSHyds=({track})=>{track(()=>count),console.log(count,rest,hey,some,hey2)};
+export const Works_component_useTask_sh050pSHyds = ({ track }) => {
+	track(() => count);
+	console.log(count, rest, hey, some, hey2);
+};
+
 
 None
 /*

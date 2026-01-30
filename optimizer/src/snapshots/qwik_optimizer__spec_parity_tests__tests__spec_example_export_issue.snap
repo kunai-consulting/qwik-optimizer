@@ -26,12 +26,22 @@ export default App;
 
 ============================= example_export_issue.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";const App=componentQrl(qrl(()=>import(`./example_export_issue.tsx_App_component_2SvcE6PQwpI.js`),`App_component_2SvcE6PQwpI`));export const Root=componentQrl(qrl(()=>import(`./example_export_issue.tsx_Root_component_4IIe4SsgkuI.js`),`Root_component_4IIe4SsgkuI`,[App]));const Other=12;export{Other as App};export default App;
+import { componentQrl, qrl } from "@qwik.dev/core";
+const App = componentQrl(qrl(() => import("./example_export_issue.tsx_App_component_2SvcE6PQwpI.js"), "App_component_2SvcE6PQwpI"));
+export const Root = componentQrl(qrl(() => import("./example_export_issue.tsx_Root_component_4IIe4SsgkuI.js"), "Root_component_4IIe4SsgkuI", [App]));
+const Other = 12;
+export { Other as App };
+export default App;
+
 
 None
 ============================= ./example_export_issue.tsx_App_component_2SvcE6PQwpI.js (ENTRY POINT)==
 
-import{_jsxSorted}from"@qwik.dev/core";export const App_component_2SvcE6PQwpI=()=>/* @__PURE__ */ _jsxSorted(`div`,null,null,`hola`,3,null);
+import { _jsxSorted } from "@qwik.dev/core";
+export const App_component_2SvcE6PQwpI = () => {
+	return /* @__PURE__ */ _jsxSorted("div", null, null, "hola", 3, null);
+};
+
 
 None
 /*
@@ -56,7 +66,12 @@ None
 */
 ============================= ./example_export_issue.tsx_Root_component_4IIe4SsgkuI.js (ENTRY POINT)==
 
-import{_jsxSorted}from"@qwik.dev/core";export const Root_component_4IIe4SsgkuI=props=>{let[App]=useLexicalScope();return _jsxSorted(App,null,null,null,3,null)};
+import { _jsxSorted } from "@qwik.dev/core";
+export const Root_component_4IIe4SsgkuI = (props) => {
+	const [App] = useLexicalScope();
+	return _jsxSorted(App, null, null, null, 3, null);
+};
+
 
 None
 /*

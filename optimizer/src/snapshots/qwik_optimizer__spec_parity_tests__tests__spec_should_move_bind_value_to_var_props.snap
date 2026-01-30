@@ -26,12 +26,24 @@ export const FieldInput = component$(
 
 ============================= should_move_bind_value_to_var_props.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const FieldInput=componentQrl(qrl(()=>import(`./should_move_bind_value_to_var_props.tsx_FieldInput_component_jF56ghUqNi0.js`),`FieldInput_component_jF56ghUqNi0`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const FieldInput = componentQrl(qrl(() => import("./should_move_bind_value_to_var_props.tsx_FieldInput_component_jF56ghUqNi0.js"), "FieldInput_component_jF56ghUqNi0"));
+
 
 None
 ============================= ./should_move_bind_value_to_var_props.tsx_FieldInput_component_jF56ghUqNi0.js (ENTRY POINT)==
 
-import{destructureBindings}from"./destructure-bindings";import{_getConstProps,_getVarProps,_jsxSplit,qrl}from"@qwik.dev/core";export const FieldInput_component_jF56ghUqNi0=props=>{let rest=destructureBindings(props,{value:void 0});return/* @__PURE__ */ _jsxSplit(`input`,{..._getVarProps(rest),on:click:qrl(()=>import(`./should_move_bind_value_to_var_props.tsx.js`),`FieldInput_component_input_onClick`)},_getConstProps(rest),null,0,null)};
+import { destructureBindings } from "./destructure-bindings";
+import { _getConstProps, _getVarProps, _jsxSplit, qrl } from "@qwik.dev/core";
+export const FieldInput_component_jF56ghUqNi0 = (props) => {
+	const initialValues = { value: undefined };
+	const rest = destructureBindings(props, initialValues);
+	return /* @__PURE__ */ _jsxSplit("input", {
+		..._getVarProps(rest),
+		on:click: qrl(() => import("./should_move_bind_value_to_var_props.tsx.js"), "FieldInput_component_input_onClick")
+	}, _getConstProps(rest), null, 0, null);
+};
+
 
 None
 /*

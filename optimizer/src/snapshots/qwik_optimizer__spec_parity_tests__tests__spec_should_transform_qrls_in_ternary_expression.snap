@@ -29,12 +29,23 @@ export const FieldInput = component$(() => {
 
 ============================= should_transform_qrls_in_ternary_expression.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const FieldInput=componentQrl(qrl(()=>import(`./should_transform_qrls_in_ternary_expression.tsx_FieldInput_component_UpjUSe16JYE.js`),`FieldInput_component_UpjUSe16JYE`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const FieldInput = componentQrl(qrl(() => import("./should_transform_qrls_in_ternary_expression.tsx_FieldInput_component_UpjUSe16JYE.js"), "FieldInput_component_UpjUSe16JYE"));
+
 
 None
 ============================= ./should_transform_qrls_in_ternary_expression.tsx_FieldInput_component_UpjUSe16JYE.js (ENTRY POINT)==
 
-import{_jsxSorted,qrl,useSignal}from"@qwik.dev/core";export const FieldInput_component_UpjUSe16JYE=()=>{let enabled=useSignal(!1);return/* @__PURE__ */ _jsxSorted(`input`,{on:input:qrl(()=>import(`./should_transform_qrls_in_ternary_expression.tsx_FieldInput_component_input_onInput_1_nr72jKD0uZI.js`),`FieldInput_component_input_onInput_1_nr72jKD0uZI`,[useSignal(``)]),on:focus:qrl(()=>import(`./should_transform_qrls_in_ternary_expression.tsx.js`),`FieldInput_component_input_onFocus`,[enabled])},{id:`input`},null,3,null)};
+import { _jsxSorted, qrl, useSignal } from "@qwik.dev/core";
+export const FieldInput_component_UpjUSe16JYE = () => {
+	const enabled = useSignal(false);
+	const input = useSignal("");
+	return /* @__PURE__ */ _jsxSorted("input", {
+		on:input: qrl(() => import("./should_transform_qrls_in_ternary_expression.tsx_FieldInput_component_input_onInput_1_nr72jKD0uZI.js"), "FieldInput_component_input_onInput_1_nr72jKD0uZI", [input]),
+		on:focus: qrl(() => import("./should_transform_qrls_in_ternary_expression.tsx.js"), "FieldInput_component_input_onFocus", [enabled])
+	}, { id: "input" }, null, 3, null);
+};
+
 
 None
 /*
@@ -59,7 +70,11 @@ None
 */
 ============================= ./should_transform_qrls_in_ternary_expression.tsx_FieldInput_component_input_onInput_1_nr72jKD0uZI.js (ENTRY POINT)==
 
-export const FieldInput_component_input_onInput_1_nr72jKD0uZI=(ev,el)=>{let[input]=useLexicalScope();input.value=el.value};
+export const FieldInput_component_input_onInput_1_nr72jKD0uZI = (ev, el) => {
+	const [input] = useLexicalScope();
+	input.value = el.value;
+};
+
 
 None
 /*

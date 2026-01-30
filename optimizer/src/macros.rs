@@ -84,6 +84,7 @@ macro_rules! _assert_valid_transform {
             strip_event_handlers: false,
             reg_ctx_name: None,
             is_server: None,
+            format_output: false,
         };
 
         let result = transform_modules(options);

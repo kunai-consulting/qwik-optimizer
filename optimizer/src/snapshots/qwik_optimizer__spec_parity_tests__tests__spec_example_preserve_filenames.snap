@@ -16,7 +16,11 @@ export const App = component$((props) => {
 
 ============================= ./example_preserve_filenames.tsx_App_component_ZZp3CBmB0mk.js (ENTRY POINT)==
 
-import{_jsxSorted,qrl}from"@qwik.dev/core";export const App_component_ZZp3CBmB0mk=props=>_jsxSorted(Cmp,null,null,/* @__PURE__ */ _jsxSorted(`p`,{on:click:qrl(()=>import(`./example_preserve_filenames.tsx.js`),`App_component_Cmp_p_onClick`)},{class:`stuff`},`Hello Qwik`,3,null),3,null);
+import { _jsxSorted, qrl } from "@qwik.dev/core";
+export const App_component_ZZp3CBmB0mk = (props) => {
+	return _jsxSorted(Cmp, null, null, /* @__PURE__ */ _jsxSorted("p", { on:click: qrl(() => import("./example_preserve_filenames.tsx.js"), "App_component_Cmp_p_onClick") }, { class: "stuff" }, "Hello Qwik", 3, null), 3, null);
+};
+
 
 None
 /*
@@ -41,7 +45,9 @@ None
 */
 ============================= example_preserve_filenames.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./example_preserve_filenames.tsx_App_component_ZZp3CBmB0mk.js`),`App_component_ZZp3CBmB0mk`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const App = componentQrl(qrl(() => import("./example_preserve_filenames.tsx_App_component_ZZp3CBmB0mk.js"), "App_component_ZZp3CBmB0mk"));
+
 
 None
 == DIAGNOSTICS ==

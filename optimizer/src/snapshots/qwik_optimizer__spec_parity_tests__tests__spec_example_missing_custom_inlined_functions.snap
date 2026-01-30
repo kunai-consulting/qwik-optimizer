@@ -23,7 +23,12 @@ export const App = component$((props) => {
 
 ============================= ./example_missing_custom_inlined_functions.tsx_App_component_1_D70utzYiwQM.js (ENTRY POINT)==
 
-import{_jsxSorted}from"@qwik.dev/core";export const App_component_1_D70utzYiwQM=()=>{let[state]=useLexicalScope();return/* @__PURE__ */ _jsxSorted(`div`,null,null,state.count,1,null)};
+import { _jsxSorted } from "@qwik.dev/core";
+export const App_component_1_D70utzYiwQM = () => {
+	const [state] = useLexicalScope();
+	return /* @__PURE__ */ _jsxSorted("div", null, null, state.count, 1, null);
+};
+
 
 None
 /*
@@ -48,7 +53,11 @@ None
 */
 ============================= ./example_missing_custom_inlined_functions.tsx_App_component_useMemo_jvO9s7EZUaU.js (ENTRY POINT)==
 
-export const App_component_useMemo_jvO9s7EZUaU=()=>{let[state]=useLexicalScope();console.log(state.count)};
+export const App_component_useMemo_jvO9s7EZUaU = () => {
+	const [state] = useLexicalScope();
+	console.log(state.count);
+};
+
 
 None
 /*
@@ -73,12 +82,23 @@ None
 */
 ============================= example_missing_custom_inlined_functions.tsx ==
 
-import{componentQrl,qrl,useEffect}from"@qwik.dev/core";export const useMemo$=qrt=>{useEffect(qrt)};export const App=componentQrl(qrl(()=>import(`./example_missing_custom_inlined_functions.tsx_App_component_B8OmZlkJeO4.js`),`App_component_B8OmZlkJeO4`));
+import { componentQrl, qrl, useEffect } from "@qwik.dev/core";
+export const useMemo$ = (qrt) => {
+	useEffect(qrt);
+};
+export const App = componentQrl(qrl(() => import("./example_missing_custom_inlined_functions.tsx_App_component_B8OmZlkJeO4.js"), "App_component_B8OmZlkJeO4"));
+
 
 None
 ============================= ./example_missing_custom_inlined_functions.tsx_App_component_B8OmZlkJeO4.js (ENTRY POINT)==
 
-import{qrl,useMemoQrl,useStore}from"@qwik.dev/core";export const App_component_B8OmZlkJeO4=props=>{let state=useStore({count:0});return useMemoQrl(qrl(()=>import(`./example_missing_custom_inlined_functions.tsx_App_component_useMemo_jvO9s7EZUaU.js`),`App_component_useMemo_jvO9s7EZUaU`,[state])),qrl(()=>import(`./example_missing_custom_inlined_functions.tsx_App_component_1_D70utzYiwQM.js`),`App_component_1_D70utzYiwQM`,[state])};
+import { qrl, useMemoQrl, useStore } from "@qwik.dev/core";
+export const App_component_B8OmZlkJeO4 = (props) => {
+	const state = useStore({ count: 0 });
+	useMemoQrl(qrl(() => import("./example_missing_custom_inlined_functions.tsx_App_component_useMemo_jvO9s7EZUaU.js"), "App_component_useMemo_jvO9s7EZUaU", [state]));
+	return qrl(() => import("./example_missing_custom_inlined_functions.tsx_App_component_1_D70utzYiwQM.js"), "App_component_1_D70utzYiwQM", [state]);
+};
+
 
 None
 /*

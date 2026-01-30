@@ -22,10 +22,14 @@ export const Header = component$(() => {
 
 ============================= ./project/folder/test.tsx_Header_component_RGgm7Ks9QWI.js (ENTRY POINT)==
 
-import thing from"../state";export const Header_component_RGgm7Ks9QWI=()=><div>
-			{import(`../folder/state3`)}
+import thing from "../state";
+export const Header_component_RGgm7Ks9QWI = () => {
+	return <div>
+			{import("../folder/state3")}
 			{thing}
 		</div>;
+};
+
 
 None
 /*
@@ -50,7 +54,12 @@ None
 */
 ============================= project/folder/test.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export function foo(){return import(`../foo/state2`)}export const Header=componentQrl(qrl(()=>import(`./test.tsx_Header_component_RGgm7Ks9QWI.js`),`Header_component_RGgm7Ks9QWI`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export function foo() {
+	return import("../foo/state2");
+}
+export const Header = componentQrl(qrl(() => import("./test.tsx_Header_component_RGgm7Ks9QWI.js"), "Header_component_RGgm7Ks9QWI"));
+
 
 None
 == DIAGNOSTICS ==

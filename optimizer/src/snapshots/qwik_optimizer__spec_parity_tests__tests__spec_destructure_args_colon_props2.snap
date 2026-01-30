@@ -17,12 +17,21 @@ export default component$((props) => {
 
 ============================= destructure_args_colon_props2.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./destructure_args_colon_props2.tsx_component_6tfT94GHXNA.js`),`component_6tfT94GHXNA`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export default componentQrl(qrl(() => import("./destructure_args_colon_props2.tsx_component_6tfT94GHXNA.js"), "component_6tfT94GHXNA"));
+
 
 None
 ============================= ./destructure_args_colon_props2.tsx_component_6tfT94GHXNA.js (ENTRY POINT)==
 
-import{_jsxSorted,useSignal}from"@qwik.dev/core";import{Fragment as _Fragment}from"@qwik.dev/core/jsx-runtime";export const component_6tfT94GHXNA=props=>{let{"bind:value":bindValue}=props,test=useSignal(bindValue);return/* @__PURE__ */ _jsxSorted(_Fragment,null,null,_wrapProp(test),1,null)};
+import { _jsxSorted, useSignal } from "@qwik.dev/core";
+import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
+export const component_6tfT94GHXNA = (props) => {
+	const { "bind:value": bindValue } = props;
+	const test = useSignal(bindValue);
+	return /* @__PURE__ */ _jsxSorted(_Fragment, null, null, _wrapProp(test), 1, null);
+};
+
 
 None
 /*

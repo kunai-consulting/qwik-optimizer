@@ -16,7 +16,9 @@ export const App = component$(() => {
 
 ============================= ./example_capture_imports.tsx_App_component_useStyles_1_9LwUIzydJiQ.js (ENTRY POINT)==
 
-import css3 from"./style.css";export const App_component_useStyles_1_9LwUIzydJiQ=css3;
+import css3 from "./style.css";
+export const App_component_useStyles_1_9LwUIzydJiQ = css3;
+
 
 None
 /*
@@ -41,7 +43,12 @@ None
 */
 ============================= ./example_capture_imports.tsx_App_component_EHzZzwApBG8.js (ENTRY POINT)==
 
-import{qrl,useStylesQrl}from"@qwik.dev/core";export const App_component_EHzZzwApBG8=()=>{useStylesQrl(qrl(()=>import(`./example_capture_imports.tsx_App_component_useStyles_GQA9FLpe80g.js`),`App_component_useStyles_GQA9FLpe80g`)),useStylesQrl(qrl(()=>import(`./example_capture_imports.tsx_App_component_useStyles_1_9LwUIzydJiQ.js`),`App_component_useStyles_1_9LwUIzydJiQ`))};
+import { qrl, useStylesQrl } from "@qwik.dev/core";
+export const App_component_EHzZzwApBG8 = () => {
+	useStylesQrl(qrl(() => import("./example_capture_imports.tsx_App_component_useStyles_GQA9FLpe80g.js"), "App_component_useStyles_GQA9FLpe80g"));
+	useStylesQrl(qrl(() => import("./example_capture_imports.tsx_App_component_useStyles_1_9LwUIzydJiQ.js"), "App_component_useStyles_1_9LwUIzydJiQ"));
+};
+
 
 None
 /*
@@ -66,12 +73,17 @@ None
 */
 ============================= example_capture_imports.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./example_capture_imports.tsx_App_component_EHzZzwApBG8.js`),`App_component_EHzZzwApBG8`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const App = componentQrl(qrl(() => import("./example_capture_imports.tsx_App_component_EHzZzwApBG8.js"), "App_component_EHzZzwApBG8"));
+
 
 None
 ============================= ./example_capture_imports.tsx_App_component_useStyles_GQA9FLpe80g.js (ENTRY POINT)==
 
-import css1 from"./global.css";import css2 from"./style.css";export const App_component_useStyles_GQA9FLpe80g=`${css1}${css2}`;
+import css1 from "./global.css";
+import css2 from "./style.css";
+export const App_component_useStyles_GQA9FLpe80g = `${css1}${css2}`;
+
 
 None
 /*

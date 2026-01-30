@@ -26,12 +26,30 @@ export const App2 = component$(() => {
 
 ============================= example_class_name.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const App2=componentQrl(qrl(()=>import(`./example_class_name.tsx_App2_component_iBsO60fS07g.js`),`App2_component_iBsO60fS07g`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const App2 = componentQrl(qrl(() => import("./example_class_name.tsx_App2_component_iBsO60fS07g.js"), "App2_component_iBsO60fS07g"));
+
 
 None
 ============================= ./example_class_name.tsx_App2_component_iBsO60fS07g.js (ENTRY POINT)==
 
-import{_jsxSorted}from"@qwik.dev/core";import{Fragment as _Fragment}from"@qwik.dev/core/jsx-runtime";export const App2_component_iBsO60fS07g=()=>{let signal=useSignal(),computed=signal.value+`foo`;return/* @__PURE__ */ _jsxSorted(_Fragment,null,null,[/* @__PURE__ */ _jsxSorted(`div`,null,{className:`hola`},null,3,null),/* @__PURE__ */ _jsxSorted(`div`,{className:_wrapProp(signal)},null,null,3,null),/* @__PURE__ */ _jsxSorted(`div`,null,{className:signal},null,3,null),/* @__PURE__ */ _jsxSorted(`div`,null,{className:computed},null,3,null),_jsxSorted(Foo,null,{className:`hola`},null,3,null),_jsxSorted(Foo,{className:_wrapProp(signal)},null,null,3,null),_jsxSorted(Foo,null,{className:signal},null,3,null),_jsxSorted(Foo,null,{className:computed},null,3,null)],3,null)};
+import { _jsxSorted } from "@qwik.dev/core";
+import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
+export const App2_component_iBsO60fS07g = () => {
+	const signal = useSignal();
+	const computed = signal.value + "foo";
+	return /* @__PURE__ */ _jsxSorted(_Fragment, null, null, [
+		/* @__PURE__ */ _jsxSorted("div", null, { className: "hola" }, null, 3, null),
+		/* @__PURE__ */ _jsxSorted("div", { className: _wrapProp(signal) }, null, null, 3, null),
+		/* @__PURE__ */ _jsxSorted("div", null, { className: signal }, null, 3, null),
+		/* @__PURE__ */ _jsxSorted("div", null, { className: computed }, null, 3, null),
+		_jsxSorted(Foo, null, { className: "hola" }, null, 3, null),
+		_jsxSorted(Foo, { className: _wrapProp(signal) }, null, null, 3, null),
+		_jsxSorted(Foo, null, { className: signal }, null, 3, null),
+		_jsxSorted(Foo, null, { className: computed }, null, 3, null)
+	], 3, null);
+};
+
 
 None
 /*

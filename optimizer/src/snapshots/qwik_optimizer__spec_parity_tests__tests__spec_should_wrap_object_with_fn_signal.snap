@@ -17,12 +17,20 @@ export default component$((props) => {
 
 ============================= should_wrap_object_with_fn_signal.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./should_wrap_object_with_fn_signal.tsx_component_m0d6HKr04bo.js`),`component_m0d6HKr04bo`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export default componentQrl(qrl(() => import("./should_wrap_object_with_fn_signal.tsx_component_m0d6HKr04bo.js"), "component_m0d6HKr04bo"));
+
 
 None
 ============================= ./should_wrap_object_with_fn_signal.tsx_component_m0d6HKr04bo.js (ENTRY POINT)==
 
-import{_jsxSorted}from"@qwik.dev/core";import{Fragment as _Fragment}from"@qwik.dev/core/jsx-runtime";export const component_m0d6HKr04bo=props=>{let item=props.something.count;return/* @__PURE__ */ _jsxSorted(_Fragment,null,null,/* @__PURE__ */ _jsxSorted(`div`,{data-wrap:props.myobj.id+`test`},{data-no-wrap:item?item*2:null},null,3,null),3,null)};
+import { _jsxSorted } from "@qwik.dev/core";
+import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
+export const component_m0d6HKr04bo = (props) => {
+	const item = props.something.count;
+	return /* @__PURE__ */ _jsxSorted(_Fragment, null, null, /* @__PURE__ */ _jsxSorted("div", { data-wrap: props.myobj.id + "test" }, { data-no-wrap: item ? item * 2 : null }, null, 3, null), 3, null);
+};
+
 
 None
 /*

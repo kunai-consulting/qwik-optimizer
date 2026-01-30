@@ -19,7 +19,12 @@ const Header = $((decl1, {decl2}, [decl3]) => {
 
 ============================= ./example_9.tsx_Header_y6HLJ5DLjC4.js (ENTRY POINT)==
 
-export const Header_y6HLJ5DLjC4=(decl1,{decl2},[decl3])=>{let{decl4,key:decl5}=this,[decl6,...decl7]=stuff};
+export const Header_y6HLJ5DLjC4 = (decl1, { decl2 }, [decl3]) => {
+	const { decl4, key: decl5 } = this;
+	let [decl6, ...decl7] = stuff;
+	const decl8 = 1, decl9;
+};
+
 
 None
 /*
@@ -44,7 +49,9 @@ None
 */
 ============================= example_9.tsx ==
 
-import{qrl}from"@qwik.dev/core";qrl(()=>import(`./example_9.tsx_Header_y6HLJ5DLjC4.js`),`Header_y6HLJ5DLjC4`);
+import { qrl } from "@qwik.dev/core";
+qrl(() => import("./example_9.tsx_Header_y6HLJ5DLjC4.js"), "Header_y6HLJ5DLjC4");
+
 
 None
 == DIAGNOSTICS ==

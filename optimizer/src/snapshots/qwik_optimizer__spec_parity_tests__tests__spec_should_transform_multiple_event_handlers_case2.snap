@@ -18,12 +18,22 @@ const Foo = component$(function() {
 
 ============================= should_transform_multiple_event_handlers_case2.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";componentQrl(qrl(()=>import(`./should_transform_multiple_event_handlers_case2.tsx_Foo_component_tKi05vCbbQ4.js`),`Foo_component_tKi05vCbbQ4`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+componentQrl(qrl(() => import("./should_transform_multiple_event_handlers_case2.tsx_Foo_component_tKi05vCbbQ4.js"), "Foo_component_tKi05vCbbQ4"));
+
 
 None
 ============================= ./should_transform_multiple_event_handlers_case2.tsx_Foo_component_tKi05vCbbQ4.js (ENTRY POINT)==
 
-import{_jsxSorted,qrl,useSignal}from"@qwik.dev/core";export const Foo_component_tKi05vCbbQ4=function(){return/* @__PURE__ */ _jsxSorted(`div`,null,null,useSignal([]).value.map((row,idx)=>/* @__PURE__ */ _jsxSorted(`div`,{on:click:qrl(()=>import(`./should_transform_multiple_event_handlers_case2.tsx_Foo_component_div_map_div_onClick_0WoyeGT07yM.js`),`Foo_component_div_map_div_onClick_0WoyeGT07yM`),on:mouseover:qrl(()=>import(`./should_transform_multiple_event_handlers_case2.tsx_Foo_component_div_map_div_onMouseOver_563Hs8HyFRc.js`),`Foo_component_div_map_div_onMouseOver_563Hs8HyFRc`)},null,/* @__PURE__ */ _jsxSorted(`p`,{on:click:qrl(()=>import(`./should_transform_multiple_event_handlers_case2.tsx_Foo_component_div_map_div_p_onClick_PsMziaJSHuM.js`),`Foo_component_div_map_div_p_onClick_PsMziaJSHuM`)},null,item.value.id,1,null),3,null)),1,null)};
+import { _jsxSorted, qrl, useSignal } from "@qwik.dev/core";
+export const Foo_component_tKi05vCbbQ4 = function() {
+	const data = useSignal([]);
+	return /* @__PURE__ */ _jsxSorted("div", null, null, data.value.map((row, idx) => /* @__PURE__ */ _jsxSorted("div", {
+		on:click: qrl(() => import("./should_transform_multiple_event_handlers_case2.tsx_Foo_component_div_map_div_onClick_0WoyeGT07yM.js"), "Foo_component_div_map_div_onClick_0WoyeGT07yM"),
+		on:mouseover: qrl(() => import("./should_transform_multiple_event_handlers_case2.tsx_Foo_component_div_map_div_onMouseOver_563Hs8HyFRc.js"), "Foo_component_div_map_div_onMouseOver_563Hs8HyFRc")
+	}, null, /* @__PURE__ */ _jsxSorted("p", { on:click: qrl(() => import("./should_transform_multiple_event_handlers_case2.tsx_Foo_component_div_map_div_p_onClick_PsMziaJSHuM.js"), "Foo_component_div_map_div_p_onClick_PsMziaJSHuM") }, null, item.value.id, 1, null), 3, null)), 1, null);
+};
+
 
 None
 /*
@@ -48,7 +58,8 @@ None
 */
 ============================= ./should_transform_multiple_event_handlers_case2.tsx_Foo_component_div_map_div_onMouseOver_563Hs8HyFRc.js (ENTRY POINT)==
 
-export const Foo_component_div_map_div_onMouseOver_563Hs8HyFRc=(_,_1,row)=>console.log(`over`+row.value.id);
+export const Foo_component_div_map_div_onMouseOver_563Hs8HyFRc = (_, _1, row) => console.log("over" + row.value.id);
+
 
 None
 /*
@@ -73,7 +84,8 @@ None
 */
 ============================= ./should_transform_multiple_event_handlers_case2.tsx_Foo_component_div_map_div_onClick_0WoyeGT07yM.js (ENTRY POINT)==
 
-export const Foo_component_div_map_div_onClick_0WoyeGT07yM=(_,_1,idx,row)=>console.log(row.value.id,idx);
+export const Foo_component_div_map_div_onClick_0WoyeGT07yM = (_, _1, idx, row) => console.log(row.value.id, idx);
+
 
 None
 /*
@@ -98,7 +110,8 @@ None
 */
 ============================= ./should_transform_multiple_event_handlers_case2.tsx_Foo_component_div_map_div_p_onClick_PsMziaJSHuM.js (ENTRY POINT)==
 
-export const Foo_component_div_map_div_p_onClick_PsMziaJSHuM=(_,_1,row)=>console.log(`inner`+row.value.id);
+export const Foo_component_div_map_div_p_onClick_PsMziaJSHuM = (_, _1, row) => console.log("inner" + row.value.id);
+
 
 None
 /*

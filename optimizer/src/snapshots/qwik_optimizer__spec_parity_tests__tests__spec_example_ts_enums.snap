@@ -22,7 +22,14 @@ export const App = component$(() => {
 
 ============================= ./example_ts_enums.tsx_App_component_dJGwfeLInpY.js (ENTRY POINT)==
 
-import{Thing}from"./example_ts_enums";import{_jsxSorted}from"@qwik.dev/core";import{Fragment as _Fragment}from"@qwik.dev/core/jsx-runtime";export const App_component_dJGwfeLInpY=()=>(console.log(Thing.A),/* @__PURE__ */ _jsxSorted(_Fragment,null,null,/* @__PURE__ */ _jsxSorted(`p`,null,{class:`stuff`},`Hello Qwik`,3,null),3,null));
+import { Thing } from "./example_ts_enums";
+import { _jsxSorted } from "@qwik.dev/core";
+import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
+export const App_component_dJGwfeLInpY = () => {
+	console.log(Thing.A);
+	return /* @__PURE__ */ _jsxSorted(_Fragment, null, null, /* @__PURE__ */ _jsxSorted("p", null, { class: "stuff" }, "Hello Qwik", 3, null), 3, null);
+};
+
 
 None
 /*
@@ -47,7 +54,14 @@ None
 */
 ============================= example_ts_enums.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export let Thing=/* @__PURE__ */ function(Thing){Thing[Thing[`A`]=0]=`A`;Thing[Thing[`B`]=1]=`B`;return Thing}({});export const App=componentQrl(qrl(()=>import(`./example_ts_enums.tsx_App_component_dJGwfeLInpY.js`),`App_component_dJGwfeLInpY`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export let Thing = /* @__PURE__ */ function(Thing) {
+	Thing[Thing["A"] = 0] = "A";
+	Thing[Thing["B"] = 1] = "B";
+	return Thing;
+}({});
+export const App = componentQrl(qrl(() => import("./example_ts_enums.tsx_App_component_dJGwfeLInpY.js"), "App_component_dJGwfeLInpY"));
+
 
 None
 == DIAGNOSTICS ==

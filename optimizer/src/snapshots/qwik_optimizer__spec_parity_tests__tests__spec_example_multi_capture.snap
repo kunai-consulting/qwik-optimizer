@@ -30,9 +30,14 @@ export const Bar = component$(({bar}) => {
 
 ============================= ./example_multi_capture.tsx_Foo_component_1_Z6I1dV7lwB4.js (ENTRY POINT)==
 
-export const Foo_component_1_Z6I1dV7lwB4=()=>{let[arg0]=useLexicalScope(),fn=({aaa})=>aaa;return<div>
+export const Foo_component_1_Z6I1dV7lwB4 = () => {
+	const [arg0] = useLexicalScope();
+	const fn = ({ aaa }) => aaa;
+	return <div>
 				{foo}{fn()}{arg0}
-			</div>};
+			</div>;
+};
+
 
 None
 /*
@@ -57,7 +62,12 @@ None
 */
 ============================= ./example_multi_capture.tsx_Foo_component_gmofgG21D48.js (ENTRY POINT)==
 
-import{qrl}from"@qwik.dev/core";export const Foo_component_gmofgG21D48=({foo})=>qrl(()=>import(`./example_multi_capture.tsx_Foo_component_1_Z6I1dV7lwB4.js`),`Foo_component_1_Z6I1dV7lwB4`,[20]);
+import { qrl } from "@qwik.dev/core";
+export const Foo_component_gmofgG21D48 = ({ foo }) => {
+	const arg0 = 20;
+	return qrl(() => import("./example_multi_capture.tsx_Foo_component_1_Z6I1dV7lwB4.js"), "Foo_component_1_Z6I1dV7lwB4", [arg0]);
+};
+
 
 None
 /*
@@ -82,9 +92,12 @@ None
 */
 ============================= ./example_multi_capture.tsx_Bar_component_1_bQYUAMchFqU.js (ENTRY POINT)==
 
-export const Bar_component_1_bQYUAMchFqU=()=><div>
+export const Bar_component_1_bQYUAMchFqU = () => {
+	return <div>
 				{bar}
 			</div>;
+};
+
 
 None
 /*
@@ -109,7 +122,11 @@ None
 */
 ============================= ./example_multi_capture.tsx_Bar_component_5W0FDxOvMMQ.js (ENTRY POINT)==
 
-import{qrl}from"@qwik.dev/core";export const Bar_component_5W0FDxOvMMQ=({bar})=>qrl(()=>import(`./example_multi_capture.tsx_Bar_component_1_bQYUAMchFqU.js`),`Bar_component_1_bQYUAMchFqU`);
+import { qrl } from "@qwik.dev/core";
+export const Bar_component_5W0FDxOvMMQ = ({ bar }) => {
+	return qrl(() => import("./example_multi_capture.tsx_Bar_component_1_bQYUAMchFqU.js"), "Bar_component_1_bQYUAMchFqU");
+};
+
 
 None
 /*
@@ -134,7 +151,10 @@ None
 */
 ============================= example_multi_capture.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const Foo=componentQrl(qrl(()=>import(`./example_multi_capture.tsx_Foo_component_gmofgG21D48.js`),`Foo_component_gmofgG21D48`));export const Bar=componentQrl(qrl(()=>import(`./example_multi_capture.tsx_Bar_component_5W0FDxOvMMQ.js`),`Bar_component_5W0FDxOvMMQ`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const Foo = componentQrl(qrl(() => import("./example_multi_capture.tsx_Foo_component_gmofgG21D48.js"), "Foo_component_gmofgG21D48"));
+export const Bar = componentQrl(qrl(() => import("./example_multi_capture.tsx_Bar_component_5W0FDxOvMMQ.js"), "Bar_component_5W0FDxOvMMQ"));
+
 
 None
 == DIAGNOSTICS ==

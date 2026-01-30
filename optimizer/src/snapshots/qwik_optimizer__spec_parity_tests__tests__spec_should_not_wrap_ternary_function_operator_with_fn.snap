@@ -24,7 +24,13 @@ return (
 
 ============================= ./should_not_wrap_ternary_function_operator_with_fn.tsx_component_nWh6ksvJtT4.js (ENTRY POINT)==
 
-import{_jsxSorted,useSignal}from"@qwik.dev/core";export const component_nWh6ksvJtT4=()=>{let toggle=useSignal(!0),t=key=>key;return/* @__PURE__ */ _jsxSorted(`button`,{title:toggle.value===``?t(`app.message.not_exists@@click to get a message!`):t(`app.message.exists@@there is a message for you`)},{type:`button`},null,3,null)};
+import { _jsxSorted, useSignal } from "@qwik.dev/core";
+export const component_nWh6ksvJtT4 = () => {
+	const toggle = useSignal(true);
+	const t = (key) => key;
+	return /* @__PURE__ */ _jsxSorted("button", { title: toggle.value !== "" ? t("app.message.exists@@there is a message for you") : t("app.message.not_exists@@click to get a message!") }, { type: "button" }, null, 3, null);
+};
+
 
 None
 /*
@@ -49,7 +55,9 @@ None
 */
 ============================= should_not_wrap_ternary_function_operator_with_fn.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./should_not_wrap_ternary_function_operator_with_fn.tsx_component_nWh6ksvJtT4.js`),`component_nWh6ksvJtT4`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export default componentQrl(qrl(() => import("./should_not_wrap_ternary_function_operator_with_fn.tsx_component_nWh6ksvJtT4.js"), "component_nWh6ksvJtT4"));
+
 
 None
 == DIAGNOSTICS ==

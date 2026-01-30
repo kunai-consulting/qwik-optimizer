@@ -14,7 +14,12 @@ export const App = () => {
 
 ============================= special_jsx.js ==
 
-import{jsx}from"@qwik.dev/core";export const App=()=>{const props={};return jsx(`div`,props,`Hello Qwik`)};
+import { jsx } from "@qwik.dev/core";
+export const App = () => {
+	const props = {};
+	return jsx("div", props, "Hello Qwik");
+};
+
 
 None
 == DIAGNOSTICS ==

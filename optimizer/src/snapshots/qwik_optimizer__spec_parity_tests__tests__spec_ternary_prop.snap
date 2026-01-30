@@ -21,7 +21,13 @@ export const Cmp = component$(() => {
 
 ============================= ./ternary_prop.tsx_Cmp_component_wXRs53PuG1k.js (ENTRY POINT)==
 
-import{_jsxSorted,qrl,useSignal}from"@qwik.dev/core";export const Cmp_component_wXRs53PuG1k=()=>{let toggleSig=useSignal(!1),handleClick$=qrl(()=>import(`./ternary_prop.tsx_Cmp_component_handleClick_1_3TrHxsRcNoU.js`),`Cmp_component_handleClick_1_3TrHxsRcNoU`,[toggleSig]);return/* @__PURE__ */ _jsxSorted(`button`,{data-open:toggleSig.value?!0:void 0},{on:click:handleClick$},`Removing data-open re-renders`,3,null)};
+import { _jsxSorted, qrl, useSignal } from "@qwik.dev/core";
+export const Cmp_component_wXRs53PuG1k = () => {
+	const toggleSig = useSignal(false);
+	const handleClick$ = qrl(() => import("./ternary_prop.tsx_Cmp_component_handleClick_1_3TrHxsRcNoU.js"), "Cmp_component_handleClick_1_3TrHxsRcNoU", [toggleSig]);
+	return /* @__PURE__ */ _jsxSorted("button", { data-open: toggleSig.value ? true : undefined }, { on:click: handleClick$ }, "Removing data-open re-renders", 3, null);
+};
+
 
 None
 /*
@@ -46,7 +52,11 @@ None
 */
 ============================= ./ternary_prop.tsx_Cmp_component_handleClick_1_3TrHxsRcNoU.js (ENTRY POINT)==
 
-export const Cmp_component_handleClick_1_3TrHxsRcNoU=()=>{let[toggleSig]=useLexicalScope();toggleSig.value=!toggleSig.value};
+export const Cmp_component_handleClick_1_3TrHxsRcNoU = () => {
+	const [toggleSig] = useLexicalScope();
+	toggleSig.value = !toggleSig.value;
+};
+
 
 None
 /*
@@ -71,7 +81,9 @@ None
 */
 ============================= ternary_prop.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const Cmp=componentQrl(qrl(()=>import(`./ternary_prop.tsx_Cmp_component_wXRs53PuG1k.js`),`Cmp_component_wXRs53PuG1k`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const Cmp = componentQrl(qrl(() => import("./ternary_prop.tsx_Cmp_component_wXRs53PuG1k.js"), "Cmp_component_wXRs53PuG1k"));
+
 
 None
 == DIAGNOSTICS ==

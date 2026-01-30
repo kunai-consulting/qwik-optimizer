@@ -45,7 +45,14 @@ export const Child = component$(() => {
 
 ============================= ./example_manual_chunks.tsx_Parent_component_useTask_95A7dV6HqnI.js (ENTRY POINT)==
 
-import mongo from"mongodb";import redis from"redis";export const Parent_component_useTask_95A7dV6HqnI=async()=>{let[state]=useLexicalScope();state.text=await mongo.users(),redis.set(state.text)};
+import mongo from "mongodb";
+import redis from "redis";
+export const Parent_component_useTask_95A7dV6HqnI = async () => {
+	const [state] = useLexicalScope();
+	state.text = await mongo.users();
+	redis.set(state.text);
+};
+
 
 None
 /*
@@ -70,7 +77,13 @@ None
 */
 ============================= ./example_manual_chunks.tsx_Child_component_j4HyVQeRtoU.js (ENTRY POINT)==
 
-import{_jsxSorted}from"@qwik.dev/core";export const Child_component_j4HyVQeRtoU=()=>{let state=useStore({text:``});return useTaskQrl(qrl(()=>import(`./example_manual_chunks.tsx_Child_component_useTask_OL000WqWc0k.js`),`Child_component_useTask_OL000WqWc0k`,[state])),/* @__PURE__ */ _jsxSorted(`div`,{on:click:useTaskQrl(qrl(()=>import(`./example_manual_chunks.tsx_Child_component_useTask_OL000WqWc0k.js`),`Child_component_useTask_OL000WqWc0k`,[state]))},null,state.text,1,null)};
+import { _jsxSorted } from "@qwik.dev/core";
+export const Child_component_j4HyVQeRtoU = () => {
+	const state = useStore({ text: "" });
+	useTaskQrl(qrl(() => import("./example_manual_chunks.tsx_Child_component_useTask_OL000WqWc0k.js"), "Child_component_useTask_OL000WqWc0k", [state]));
+	return /* @__PURE__ */ _jsxSorted("div", { on:click: useTaskQrl(qrl(() => import("./example_manual_chunks.tsx_Child_component_useTask_OL000WqWc0k.js"), "Child_component_useTask_OL000WqWc0k", [state])) }, null, state.text, 1, null);
+};
+
 
 None
 /*
@@ -95,7 +108,13 @@ None
 */
 ============================= ./example_manual_chunks.tsx_Parent_component_ok6MmANKRtw.js (ENTRY POINT)==
 
-import{_jsxSorted}from"@qwik.dev/core";export const Parent_component_ok6MmANKRtw=()=>{let state=useStore({text:``});return useTaskQrl(qrl(()=>import(`./example_manual_chunks.tsx_Parent_component_useTask_95A7dV6HqnI.js`),`Parent_component_useTask_95A7dV6HqnI`,[state])),/* @__PURE__ */ _jsxSorted(`div`,{on:click:useTaskQrl(qrl(()=>import(`./example_manual_chunks.tsx_Parent_component_useTask_95A7dV6HqnI.js`),`Parent_component_useTask_95A7dV6HqnI`,[state]))},null,state.text,1,null)};
+import { _jsxSorted } from "@qwik.dev/core";
+export const Parent_component_ok6MmANKRtw = () => {
+	const state = useStore({ text: "" });
+	useTaskQrl(qrl(() => import("./example_manual_chunks.tsx_Parent_component_useTask_95A7dV6HqnI.js"), "Parent_component_useTask_95A7dV6HqnI", [state]));
+	return /* @__PURE__ */ _jsxSorted("div", { on:click: useTaskQrl(qrl(() => import("./example_manual_chunks.tsx_Parent_component_useTask_95A7dV6HqnI.js"), "Parent_component_useTask_95A7dV6HqnI", [state])) }, null, state.text, 1, null);
+};
+
 
 None
 /*
@@ -120,12 +139,20 @@ None
 */
 ============================= example_manual_chunks.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const Parent=componentQrl(qrl(()=>import(`./example_manual_chunks.tsx_Parent_component_ok6MmANKRtw.js`),`Parent_component_ok6MmANKRtw`));export const Child=componentQrl(qrl(()=>import(`./example_manual_chunks.tsx_Child_component_j4HyVQeRtoU.js`),`Child_component_j4HyVQeRtoU`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const Parent = componentQrl(qrl(() => import("./example_manual_chunks.tsx_Parent_component_ok6MmANKRtw.js"), "Parent_component_ok6MmANKRtw"));
+export const Child = componentQrl(qrl(() => import("./example_manual_chunks.tsx_Child_component_j4HyVQeRtoU.js"), "Child_component_j4HyVQeRtoU"));
+
 
 None
 ============================= ./example_manual_chunks.tsx_Child_component_useTask_OL000WqWc0k.js (ENTRY POINT)==
 
-import mongo from"mongodb";export const Child_component_useTask_OL000WqWc0k=async()=>{let[state]=useLexicalScope();state.text=await mongo.users()};
+import mongo from "mongodb";
+export const Child_component_useTask_OL000WqWc0k = async () => {
+	const [state] = useLexicalScope();
+	state.text = await mongo.users();
+};
+
 
 None
 /*

@@ -28,12 +28,31 @@ export const PANELS: ActivePanel[] = ['Examples', 'Input', 'Output', 'Console'];
 
 ============================= should_wrap_store_expression.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./should_wrap_store_expression.tsx_component_TR0O8wI8W8c.js`),`component_TR0O8wI8W8c`));export const PANELS=componentQrl(qrl(()=>import(`./should_wrap_store_expression.tsx_component_TR0O8wI8W8c.js`),`component_TR0O8wI8W8c`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export default componentQrl(qrl(() => import("./should_wrap_store_expression.tsx_component_TR0O8wI8W8c.js"), "component_TR0O8wI8W8c"));
+export const PANELS = componentQrl(qrl(() => import("./should_wrap_store_expression.tsx_component_TR0O8wI8W8c.js"), "component_TR0O8wI8W8c"));
+
 
 None
 ============================= ./should_wrap_store_expression.tsx_component_TR0O8wI8W8c.js (ENTRY POINT)==
 
-import{_jsxSorted,useStore}from"@qwik.dev/core";export const component_TR0O8wI8W8c=()=>{let panelStore=useStore(()=>({active:`Input`,list:PANELS}));return/* @__PURE__ */ _jsxSorted(`div`,{stuff:panelStore.active?`yes`:`no`,class:{"too-long-to-wrap":!0,"examples-panel-input":panelStore.active===`Input`,"examples-panel-output":panelStore.active===`Output`,"examples-panel-console":panelStore.active===`Console`}},null,null,3,null)};
+import { _jsxSorted, useStore } from "@qwik.dev/core";
+export const component_TR0O8wI8W8c = () => {
+	const panelStore = useStore(() => ({
+		active: "Input",
+		list: PANELS
+	}));
+	return /* @__PURE__ */ _jsxSorted("div", {
+		stuff: panelStore.active ? "yes" : "no",
+		class: {
+			"too-long-to-wrap": true,
+			"examples-panel-input": panelStore.active === "Input",
+			"examples-panel-output": panelStore.active === "Output",
+			"examples-panel-console": panelStore.active === "Console"
+		}
+	}, null, null, 3, null);
+};
+
 
 None
 /*

@@ -16,7 +16,10 @@ return 'hi'
 
 ============================= ./should_convert_rest_props.tsx_component_useTask_hS42z9GVHwo.js (ENTRY POINT)==
 
-export const component_useTask_hS42z9GVHwo=()=>{props.checked};
+export const component_useTask_hS42z9GVHwo = () => {
+	props.checked;
+};
+
 
 None
 /*
@@ -41,7 +44,12 @@ None
 */
 ============================= ./should_convert_rest_props.tsx_component_QBqeH2eAIR0.js (ENTRY POINT)==
 
-import{qrl,useTaskQrl}from"@qwik.dev/core";export const component_QBqeH2eAIR0=({...props})=>(useTaskQrl(qrl(()=>import(`./should_convert_rest_props.tsx_component_useTask_hS42z9GVHwo.js`),`component_useTask_hS42z9GVHwo`)),`hi`);
+import { qrl, useTaskQrl } from "@qwik.dev/core";
+export const component_QBqeH2eAIR0 = ({ ...props }) => {
+	useTaskQrl(qrl(() => import("./should_convert_rest_props.tsx_component_useTask_hS42z9GVHwo.js"), "component_useTask_hS42z9GVHwo"));
+	return "hi";
+};
+
 
 None
 /*
@@ -66,7 +74,9 @@ None
 */
 ============================= should_convert_rest_props.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./should_convert_rest_props.tsx_component_QBqeH2eAIR0.js`),`component_QBqeH2eAIR0`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export default componentQrl(qrl(() => import("./should_convert_rest_props.tsx_component_QBqeH2eAIR0.js"), "component_QBqeH2eAIR0"));
+
 
 None
 == DIAGNOSTICS ==

@@ -22,12 +22,22 @@ export default component$(()=> {
 
 ============================= example_strip_exports_unused.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";import mongodb from"mongodb";export const onGet=()=>{const data=mongodb.collection.whatever;return{body:{data}}};export default componentQrl(qrl(()=>import(`./example_strip_exports_unused.tsx_component_P0VfB0aGF34.js`),`component_P0VfB0aGF34`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+import mongodb from "mongodb";
+export const onGet = () => {
+	const data = mongodb.collection.whatever;
+	return { body: { data } };
+};
+export default componentQrl(qrl(() => import("./example_strip_exports_unused.tsx_component_P0VfB0aGF34.js"), "component_P0VfB0aGF34"));
+
 
 None
 ============================= ./example_strip_exports_unused.tsx_component_P0VfB0aGF34.js (ENTRY POINT)==
 
-export const component_P0VfB0aGF34=()=><div>cmp</div>;
+export const component_P0VfB0aGF34 = () => {
+	return <div>cmp</div>;
+};
+
 
 None
 /*

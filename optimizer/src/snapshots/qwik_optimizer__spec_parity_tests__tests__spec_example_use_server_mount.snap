@@ -45,7 +45,13 @@ export const Child = component$(() => {
 
 ============================= ./example_use_server_mount.tsx_Child_component_RSCyc0CPmVg.js (ENTRY POINT)==
 
-import{_jsxSorted}from"@qwik.dev/core";export const Child_component_RSCyc0CPmVg=()=>{let state=useStore({text:``});return useTaskQrl(qrl(()=>import(`./example_use_server_mount.tsx_Child_component_useTask_RDJKyYpRp6I.js`),`Child_component_useTask_RDJKyYpRp6I`,[state])),/* @__PURE__ */ _jsxSorted(`div`,{on:click:useTaskQrl(qrl(()=>import(`./example_use_server_mount.tsx_Child_component_useTask_RDJKyYpRp6I.js`),`Child_component_useTask_RDJKyYpRp6I`,[state]))},null,state.text,1,null)};
+import { _jsxSorted } from "@qwik.dev/core";
+export const Child_component_RSCyc0CPmVg = () => {
+	const state = useStore({ text: "" });
+	useTaskQrl(qrl(() => import("./example_use_server_mount.tsx_Child_component_useTask_RDJKyYpRp6I.js"), "Child_component_useTask_RDJKyYpRp6I", [state]));
+	return /* @__PURE__ */ _jsxSorted("div", { on:click: useTaskQrl(qrl(() => import("./example_use_server_mount.tsx_Child_component_useTask_RDJKyYpRp6I.js"), "Child_component_useTask_RDJKyYpRp6I", [state])) }, null, state.text, 1, null);
+};
+
 
 None
 /*
@@ -70,7 +76,12 @@ None
 */
 ============================= ./example_use_server_mount.tsx_Child_component_useTask_RDJKyYpRp6I.js (ENTRY POINT)==
 
-import mongo from"mongodb";export const Child_component_useTask_RDJKyYpRp6I=async()=>{let[state]=useLexicalScope();state.text=await mongo.users()};
+import mongo from "mongodb";
+export const Child_component_useTask_RDJKyYpRp6I = async () => {
+	const [state] = useLexicalScope();
+	state.text = await mongo.users();
+};
+
 
 None
 /*
@@ -95,7 +106,13 @@ None
 */
 ============================= ./example_use_server_mount.tsx_Parent_component_jEuAfXGpKMI.js (ENTRY POINT)==
 
-import{_jsxSorted}from"@qwik.dev/core";export const Parent_component_jEuAfXGpKMI=()=>{let state=useStore({text:``});return useTaskQrl(qrl(()=>import(`./example_use_server_mount.tsx_Parent_component_useTask_4OGc0bJoOeo.js`),`Parent_component_useTask_4OGc0bJoOeo`,[state])),/* @__PURE__ */ _jsxSorted(`div`,{on:click:useTaskQrl(qrl(()=>import(`./example_use_server_mount.tsx_Parent_component_useTask_4OGc0bJoOeo.js`),`Parent_component_useTask_4OGc0bJoOeo`,[state]))},null,state.text,1,null)};
+import { _jsxSorted } from "@qwik.dev/core";
+export const Parent_component_jEuAfXGpKMI = () => {
+	const state = useStore({ text: "" });
+	useTaskQrl(qrl(() => import("./example_use_server_mount.tsx_Parent_component_useTask_4OGc0bJoOeo.js"), "Parent_component_useTask_4OGc0bJoOeo", [state]));
+	return /* @__PURE__ */ _jsxSorted("div", { on:click: useTaskQrl(qrl(() => import("./example_use_server_mount.tsx_Parent_component_useTask_4OGc0bJoOeo.js"), "Parent_component_useTask_4OGc0bJoOeo", [state])) }, null, state.text, 1, null);
+};
+
 
 None
 /*
@@ -120,12 +137,22 @@ None
 */
 ============================= example_use_server_mount.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const Parent=componentQrl(qrl(()=>import(`./example_use_server_mount.tsx_Parent_component_jEuAfXGpKMI.js`),`Parent_component_jEuAfXGpKMI`));export const Child=componentQrl(qrl(()=>import(`./example_use_server_mount.tsx_Child_component_RSCyc0CPmVg.js`),`Child_component_RSCyc0CPmVg`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const Parent = componentQrl(qrl(() => import("./example_use_server_mount.tsx_Parent_component_jEuAfXGpKMI.js"), "Parent_component_jEuAfXGpKMI"));
+export const Child = componentQrl(qrl(() => import("./example_use_server_mount.tsx_Child_component_RSCyc0CPmVg.js"), "Child_component_RSCyc0CPmVg"));
+
 
 None
 ============================= ./example_use_server_mount.tsx_Parent_component_useTask_4OGc0bJoOeo.js (ENTRY POINT)==
 
-import mongo from"mongodb";import redis from"redis";export const Parent_component_useTask_4OGc0bJoOeo=async()=>{let[state]=useLexicalScope();state.text=await mongo.users(),redis.set(state.text)};
+import mongo from "mongodb";
+import redis from "redis";
+export const Parent_component_useTask_4OGc0bJoOeo = async () => {
+	const [state] = useLexicalScope();
+	state.text = await mongo.users();
+	redis.set(state.text);
+};
+
 
 None
 /*

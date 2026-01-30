@@ -21,12 +21,22 @@ export const FieldInput = component$(() => {
 
 ============================= should_merge_on_input_and_bind_value.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const FieldInput=componentQrl(qrl(()=>import(`./should_merge_on_input_and_bind_value.tsx_FieldInput_component_TeVdetEzCYQ.js`),`FieldInput_component_TeVdetEzCYQ`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const FieldInput = componentQrl(qrl(() => import("./should_merge_on_input_and_bind_value.tsx_FieldInput_component_TeVdetEzCYQ.js"), "FieldInput_component_TeVdetEzCYQ"));
+
 
 None
 ============================= ./should_merge_on_input_and_bind_value.tsx_FieldInput_component_TeVdetEzCYQ.js (ENTRY POINT)==
 
-import{_jsxSorted,qrl,useSignal}from"@qwik.dev/core";export const FieldInput_component_TeVdetEzCYQ=()=>{let localValue=useSignal(``);return/* @__PURE__ */ _jsxSorted(`input`,null,{value:localValue,on:input:[qrl(()=>import(`./should_merge_on_input_and_bind_value.tsx.js`),`FieldInput_component_input_onInput`),inlinedQrl(_val,`_val`,[localValue])]},null,3,null)};
+import { _jsxSorted, qrl, useSignal } from "@qwik.dev/core";
+export const FieldInput_component_TeVdetEzCYQ = () => {
+	const localValue = useSignal("");
+	return /* @__PURE__ */ _jsxSorted("input", null, {
+		value: localValue,
+		on:input: [qrl(() => import("./should_merge_on_input_and_bind_value.tsx.js"), "FieldInput_component_input_onInput"), inlinedQrl(_val, "_val", [localValue])]
+	}, null, 3, null);
+};
+
 
 None
 /*

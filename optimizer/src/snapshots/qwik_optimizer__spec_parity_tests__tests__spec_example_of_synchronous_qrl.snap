@@ -23,7 +23,10 @@ return (
 
 ============================= ./example_of_synchronous_qrl.tsx_component_input_onClick_sync_zaLuYPdgvBI.js (ENTRY POINT)==
 
-export const component_input_onClick_sync_zaLuYPdgvBI=function(event,target){event.preventDefault()};
+export const component_input_onClick_sync_zaLuYPdgvBI = function(event, target) {
+	event.preventDefault();
+};
+
 
 None
 /*
@@ -48,7 +51,16 @@ None
 */
 ============================= ./example_of_synchronous_qrl.tsx_component_0HQ00nGQJSY.js (ENTRY POINT)==
 
-import{_jsxSorted,qrl,syncQrl}from"@qwik.dev/core";import{Fragment as _Fragment}from"@qwik.dev/core/jsx-runtime";export const component_0HQ00nGQJSY=()=>/* @__PURE__ */ _jsxSorted(_Fragment,null,null,[/* @__PURE__ */ _jsxSorted(`input`,{on:click:syncQrl(qrl(()=>import(`./example_of_synchronous_qrl.tsx_component_input_onClick_sync_zaLuYPdgvBI.js`),`component_input_onClick_sync_zaLuYPdgvBI`))},null,null,3,null),/* @__PURE__ */ _jsxSorted(`input`,{on:click:syncQrl(qrl(()=>import(`./example_of_synchronous_qrl.tsx_component_input_onClick_1_sync_TiZKlkT45Po.js`),`component_input_onClick_1_sync_TiZKlkT45Po`))},null,null,3,null),/* @__PURE__ */ _jsxSorted(`input`,{on:click:syncQrl(qrl(()=>import(`./example_of_synchronous_qrl.tsx_component_input_onClick_2_sync_MOPM72osdnM.js`),`component_input_onClick_2_sync_MOPM72osdnM`))},null,null,3,null)],3,null);
+import { _jsxSorted, qrl, syncQrl } from "@qwik.dev/core";
+import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
+export const component_0HQ00nGQJSY = () => {
+	return /* @__PURE__ */ _jsxSorted(_Fragment, null, null, [
+		/* @__PURE__ */ _jsxSorted("input", { on:click: syncQrl(qrl(() => import("./example_of_synchronous_qrl.tsx_component_input_onClick_sync_zaLuYPdgvBI.js"), "component_input_onClick_sync_zaLuYPdgvBI")) }, null, null, 3, null),
+		/* @__PURE__ */ _jsxSorted("input", { on:click: syncQrl(qrl(() => import("./example_of_synchronous_qrl.tsx_component_input_onClick_1_sync_TiZKlkT45Po.js"), "component_input_onClick_1_sync_TiZKlkT45Po")) }, null, null, 3, null),
+		/* @__PURE__ */ _jsxSorted("input", { on:click: syncQrl(qrl(() => import("./example_of_synchronous_qrl.tsx_component_input_onClick_2_sync_MOPM72osdnM.js"), "component_input_onClick_2_sync_MOPM72osdnM")) }, null, null, 3, null)
+	], 3, null);
+};
+
 
 None
 /*
@@ -73,12 +85,15 @@ None
 */
 ============================= example_of_synchronous_qrl.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./example_of_synchronous_qrl.tsx_component_0HQ00nGQJSY.js`),`component_0HQ00nGQJSY`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export default componentQrl(qrl(() => import("./example_of_synchronous_qrl.tsx_component_0HQ00nGQJSY.js"), "component_0HQ00nGQJSY"));
+
 
 None
 ============================= ./example_of_synchronous_qrl.tsx_component_input_onClick_2_sync_MOPM72osdnM.js (ENTRY POINT)==
 
-export const component_input_onClick_2_sync_MOPM72osdnM=(event,target)=>event.preventDefault();
+export const component_input_onClick_2_sync_MOPM72osdnM = (event, target) => event.preventDefault();
+
 
 None
 /*
@@ -103,7 +118,10 @@ None
 */
 ============================= ./example_of_synchronous_qrl.tsx_component_input_onClick_1_sync_TiZKlkT45Po.js (ENTRY POINT)==
 
-export const component_input_onClick_1_sync_TiZKlkT45Po=(event,target)=>{event.preventDefault()};
+export const component_input_onClick_1_sync_TiZKlkT45Po = (event, target) => {
+	event.preventDefault();
+};
+
 
 None
 /*

@@ -27,12 +27,18 @@ export const App = component$(() => {
 
 ============================= rename_builder_io.tsx ==
 
-import{componentQrl,qrl,qwikifyQrl}from"@qwik.dev/core";import{qwikifyQrl}from"@qwik.dev/react";export const Foo=qwikifyQrl(qrl(()=>import(`./rename_builder_io.tsx_Foo_qwikify_U5lLZVnmtMA.js`),`Foo_qwikify_U5lLZVnmtMA`));export const Bar=qrl(()=>import(`./rename_builder_io.tsx_Bar_U473xAuLEi0.js`),`Bar_U473xAuLEi0`);export const App=componentQrl(qrl(()=>import(`./rename_builder_io.tsx_App_component_8SDollUUhT0.js`),`App_component_8SDollUUhT0`));
+import { componentQrl, qrl, qwikifyQrl } from "@qwik.dev/core";
+import { qwikifyQrl } from "@qwik.dev/react";
+export const Foo = qwikifyQrl(qrl(() => import("./rename_builder_io.tsx_Foo_qwikify_U5lLZVnmtMA.js"), "Foo_qwikify_U5lLZVnmtMA"));
+export const Bar = qrl(() => import("./rename_builder_io.tsx_Bar_U473xAuLEi0.js"), "Bar_U473xAuLEi0");
+export const App = componentQrl(qrl(() => import("./rename_builder_io.tsx_App_component_8SDollUUhT0.js"), "App_component_8SDollUUhT0"));
+
 
 None
 ============================= ./rename_builder_io.tsx_Bar_U473xAuLEi0.js (ENTRY POINT)==
 
-export const Bar_U473xAuLEi0=`a thing`;
+export const Bar_U473xAuLEi0 = "a thing";
+
 
 None
 /*
@@ -57,7 +63,20 @@ None
 */
 ============================= ./rename_builder_io.tsx_App_component_8SDollUUhT0.js (ENTRY POINT)==
 
-import sdk from"@builder.io/sdk";import{isDev}from"@qwik.dev/core/build";import{stuff}from"@qwik.dev/router";import{moreStuff}from"@qwik.dev/router/more/here";export const App_component_8SDollUUhT0=()=>(sdk.hello(),isDev?stuff():moreStuff(),`hi`);
+import sdk from "@builder.io/sdk";
+import { isDev } from "@qwik.dev/core/build";
+import { stuff } from "@qwik.dev/router";
+import { moreStuff } from "@qwik.dev/router/more/here";
+export const App_component_8SDollUUhT0 = () => {
+	sdk.hello();
+	if (isDev) {
+		stuff();
+	} else {
+		moreStuff();
+	}
+	return "hi";
+};
+
 
 None
 /*
@@ -82,7 +101,8 @@ None
 */
 ============================= ./rename_builder_io.tsx_Foo_qwikify_U5lLZVnmtMA.js (ENTRY POINT)==
 
-export const Foo_qwikify_U5lLZVnmtMA=MyReactComponent;
+export const Foo_qwikify_U5lLZVnmtMA = MyReactComponent;
+
 
 None
 /*

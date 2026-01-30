@@ -19,7 +19,19 @@ export default component$((props) => {
 
 ============================= ./issue_7216_add_test.tsx_component_I5K09rr6byg.js (ENTRY POINT)==
 
-import{_getConstProps,_getVarProps,_jsxSplit,qrl}from"@qwik.dev/core";export const component_I5K09rr6byg=props=>/* @__PURE__ */ _jsxSplit(`p`,{on:hi:qrl(()=>import(`./issue_7216_add_test.tsx.js`),`component_p_onHi`),..._getVarProps(props.foo),on:hello:props.helloHandler$,..._getVarProps(props.rest),on:var:props.onVarHandler$,on:const:qrl(()=>import(`./issue_7216_add_test.tsx.js`),`component_p_onConst`),asd:`1`},_getConstProps(props.rest),null,0,null);
+import { _getConstProps, _getVarProps, _jsxSplit, qrl } from "@qwik.dev/core";
+export const component_I5K09rr6byg = (props) => {
+	return /* @__PURE__ */ _jsxSplit("p", {
+		on:hi: qrl(() => import("./issue_7216_add_test.tsx.js"), "component_p_onHi"),
+		..._getVarProps(props.foo),
+		on:hello: props.helloHandler$,
+		..._getVarProps(props.rest),
+		on:var: props.onVarHandler$,
+		on:const: qrl(() => import("./issue_7216_add_test.tsx.js"), "component_p_onConst"),
+		asd: "1"
+	}, _getConstProps(props.rest), null, 0, null);
+};
+
 
 None
 /*
@@ -44,7 +56,9 @@ None
 */
 ============================= issue_7216_add_test.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./issue_7216_add_test.tsx_component_I5K09rr6byg.js`),`component_I5K09rr6byg`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export default componentQrl(qrl(() => import("./issue_7216_add_test.tsx_component_I5K09rr6byg.js"), "component_I5K09rr6byg"));
+
 
 None
 == DIAGNOSTICS ==

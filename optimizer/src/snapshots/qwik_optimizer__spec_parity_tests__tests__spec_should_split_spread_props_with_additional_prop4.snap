@@ -12,7 +12,14 @@ export default component$((props: any) => {
 
 ============================= ./should_split_spread_props_with_additional_prop4.tsx_component_hixG0wlDWLY.js (ENTRY POINT)==
 
-import{_getConstProps,_getVarProps,_jsxSplit,qrl}from"@qwik.dev/core";export const component_hixG0wlDWLY=props=>/* @__PURE__ */ _jsxSplit(`button`,{..._getVarProps(props),on:click:qrl(()=>import(`./should_split_spread_props_with_additional_prop4.tsx.js`),`component_button_onClick`,[props])},_getConstProps(props),null,0,null);
+import { _getConstProps, _getVarProps, _jsxSplit, qrl } from "@qwik.dev/core";
+export const component_hixG0wlDWLY = (props) => {
+	return /* @__PURE__ */ _jsxSplit("button", {
+		..._getVarProps(props),
+		on:click: qrl(() => import("./should_split_spread_props_with_additional_prop4.tsx.js"), "component_button_onClick", [props])
+	}, _getConstProps(props), null, 0, null);
+};
+
 
 None
 /*
@@ -37,7 +44,9 @@ None
 */
 ============================= should_split_spread_props_with_additional_prop4.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./should_split_spread_props_with_additional_prop4.tsx_component_hixG0wlDWLY.js`),`component_hixG0wlDWLY`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export default componentQrl(qrl(() => import("./should_split_spread_props_with_additional_prop4.tsx_component_hixG0wlDWLY.js"), "component_hixG0wlDWLY"));
+
 
 None
 == DIAGNOSTICS ==

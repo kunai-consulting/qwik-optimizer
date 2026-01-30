@@ -13,12 +13,18 @@ export const Greeter = component$(() => {
 
 ============================= example_import_assertion.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const Greeter=componentQrl(qrl(()=>import(`./example_import_assertion.tsx_Greeter_component_BwZKGIhqyug.js`),`Greeter_component_BwZKGIhqyug`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const Greeter = componentQrl(qrl(() => import("./example_import_assertion.tsx_Greeter_component_BwZKGIhqyug.js"), "Greeter_component_BwZKGIhqyug"));
+
 
 None
 ============================= ./example_import_assertion.tsx_Greeter_component_BwZKGIhqyug.js (ENTRY POINT)==
 
-import json from"./foo.json";export const Greeter_component_BwZKGIhqyug=()=>json;
+import json from "./foo.json";
+export const Greeter_component_BwZKGIhqyug = () => {
+	return json;
+};
+
 
 None
 /*

@@ -24,12 +24,34 @@ export const Greeter = component$(() => {
 
 ============================= example_input_bind.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const Greeter=componentQrl(qrl(()=>import(`./example_input_bind.tsx_s_T4d1JP9CGNM.js`),`s_T4d1JP9CGNM`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const Greeter = componentQrl(qrl(() => import("./example_input_bind.tsx_s_T4d1JP9CGNM.js"), "s_T4d1JP9CGNM"));
+
 
 None
 ============================= ./example_input_bind.tsx_s_T4d1JP9CGNM.js (ENTRY POINT)==
 
-import{_jsxSorted}from"@qwik.dev/core";import{Fragment as _Fragment}from"@qwik.dev/core/jsx-runtime";export const s_T4d1JP9CGNM=()=>{let value=useSignal(0),checked=useSignal(!1),stuff=useSignal();return/* @__PURE__ */ _jsxSorted(_Fragment,null,null,[/* @__PURE__ */ _jsxSorted(`input`,null,{value,on:input:inlinedQrl(_val,`_val`,[value])},null,3,null),/* @__PURE__ */ _jsxSorted(`input`,null,{checked,on:input:inlinedQrl(_chk,`_chk`,[checked])},null,3,null),/* @__PURE__ */ _jsxSorted(`input`,null,{bind:stuff:stuff},null,3,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,value,1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,_wrapProp(value),1,null)],3,null)};
+import { _jsxSorted } from "@qwik.dev/core";
+import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
+export const s_T4d1JP9CGNM = () => {
+	const value = useSignal(0);
+	const checked = useSignal(false);
+	const stuff = useSignal();
+	return /* @__PURE__ */ _jsxSorted(_Fragment, null, null, [
+		/* @__PURE__ */ _jsxSorted("input", null, {
+			value,
+			on:input: inlinedQrl(_val, "_val", [value])
+		}, null, 3, null),
+		/* @__PURE__ */ _jsxSorted("input", null, {
+			checked,
+			on:input: inlinedQrl(_chk, "_chk", [checked])
+		}, null, 3, null),
+		/* @__PURE__ */ _jsxSorted("input", null, { bind:stuff: stuff }, null, 3, null),
+		/* @__PURE__ */ _jsxSorted("div", null, null, value, 1, null),
+		/* @__PURE__ */ _jsxSorted("div", null, null, _wrapProp(value), 1, null)
+	], 3, null);
+};
+
 
 None
 /*

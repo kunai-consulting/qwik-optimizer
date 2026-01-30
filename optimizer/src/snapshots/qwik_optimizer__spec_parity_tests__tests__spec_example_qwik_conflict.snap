@@ -38,7 +38,15 @@ export const Root = component$(() => {
 
 ============================= ./example_qwik_conflict.tsx_Foo_component_bj6aWAb5AEM.js (ENTRY POINT)==
 
-import{_jsxSorted,useStylesQrl}from"@qwik.dev/core";export const Foo_component_bj6aWAb5AEM=()=>{useStylesQrl(qrl(()=>import(`./example_qwik_conflict.tsx_Foo_component_useStyles_uF9rJ0YgPYQ.js`),`Foo_component_useStyles_uF9rJ0YgPYQ`));let qwik=useStylesQrl(qrl(()=>import(`./example_qwik_conflict.tsx_Foo_component_useStyles_uF9rJ0YgPYQ.js`),`Foo_component_useStyles_uF9rJ0YgPYQ`));console.log(qwik);let qrl=23;return/* @__PURE__ */ _jsxSorted(`div`,{on:click:23(()=>import(`./example_qwik_conflict.tsx.js`),`Foo_component_div_onClick`,[23])},null,null,3,null)};
+import { _jsxSorted, useStylesQrl } from "@qwik.dev/core";
+export const Foo_component_bj6aWAb5AEM = () => {
+	useStylesQrl(qrl(() => import("./example_qwik_conflict.tsx_Foo_component_useStyles_uF9rJ0YgPYQ.js"), "Foo_component_useStyles_uF9rJ0YgPYQ"));
+	const qwik = useStylesQrl(qrl(() => import("./example_qwik_conflict.tsx_Foo_component_useStyles_uF9rJ0YgPYQ.js"), "Foo_component_useStyles_uF9rJ0YgPYQ"));
+	console.log(qwik);
+	const qrl = 23;
+	return /* @__PURE__ */ _jsxSorted("div", { on:click: qrl(() => import("./example_qwik_conflict.tsx.js"), "Foo_component_div_onClick", [qrl]) }, null, null, 3, null);
+};
+
 
 None
 /*
@@ -63,7 +71,12 @@ None
 */
 ============================= ./example_qwik_conflict.tsx_Root_component_B5WWYvGWkWA.js (ENTRY POINT)==
 
-import{qrl,useStyles}from"@qwik.dev/core";export const Root_component_B5WWYvGWkWA=()=>(useStyles(qrl(()=>import(`./example_qwik_conflict.tsx_Root_component_useStyles_CkDuf80QpXU.js`),`Root_component_useStyles_CkDuf80QpXU`)),qrl(()=>import(`./example_qwik_conflict.tsx_Root_component_1_wQlGTVuPwNk.js`),`Root_component_1_wQlGTVuPwNk`));
+import { qrl, useStyles } from "@qwik.dev/core";
+export const Root_component_B5WWYvGWkWA = () => {
+	useStyles(qrl(() => import("./example_qwik_conflict.tsx_Root_component_useStyles_CkDuf80QpXU.js"), "Root_component_useStyles_CkDuf80QpXU"));
+	return qrl(() => import("./example_qwik_conflict.tsx_Root_component_1_wQlGTVuPwNk.js"), "Root_component_1_wQlGTVuPwNk");
+};
+
 
 None
 /*
@@ -88,7 +101,8 @@ None
 */
 ============================= ./example_qwik_conflict.tsx_Root_component_useStyles_CkDuf80QpXU.js (ENTRY POINT)==
 
-export const Root_component_useStyles_CkDuf80QpXU=`thing`;
+export const Root_component_useStyles_CkDuf80QpXU = "thing";
+
 
 None
 /*
@@ -113,7 +127,8 @@ None
 */
 ============================= ./example_qwik_conflict.tsx_Foo_component_useStyles_uF9rJ0YgPYQ.js (ENTRY POINT)==
 
-export const Foo_component_useStyles_uF9rJ0YgPYQ=`thing`;
+export const Foo_component_useStyles_uF9rJ0YgPYQ = "thing";
+
 
 None
 /*
@@ -138,12 +153,24 @@ None
 */
 ============================= example_qwik_conflict.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";import{qrl}from"@qwik.dev/core/what";export const hW=12;export const handleWatch=42;const componentQrl=()=>console.log(`not this`,qrl());componentQrl();export const Foo=componentQrl(qrl(()=>import(`./example_qwik_conflict.tsx_Foo_component_bj6aWAb5AEM.js`),`Foo_component_bj6aWAb5AEM`));export const Root=componentQrl(qrl(()=>import(`./example_qwik_conflict.tsx_Root_component_B5WWYvGWkWA.js`),`Root_component_B5WWYvGWkWA`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core/what";
+export const hW = 12;
+export const handleWatch = 42;
+const componentQrl = () => console.log("not this", qrl());
+componentQrl();
+export const Foo = componentQrl(qrl(() => import("./example_qwik_conflict.tsx_Foo_component_bj6aWAb5AEM.js"), "Foo_component_bj6aWAb5AEM"));
+export const Root = componentQrl(qrl(() => import("./example_qwik_conflict.tsx_Root_component_B5WWYvGWkWA.js"), "Root_component_B5WWYvGWkWA"));
+
 
 None
 ============================= ./example_qwik_conflict.tsx_Root_component_1_wQlGTVuPwNk.js (ENTRY POINT)==
 
-import{_jsxSorted}from"@qwik.dev/core";export const Root_component_1_wQlGTVuPwNk=()=>/* @__PURE__ */ _jsxSorted(`div`,null,null,null,3,null);
+import { _jsxSorted } from "@qwik.dev/core";
+export const Root_component_1_wQlGTVuPwNk = () => {
+	return /* @__PURE__ */ _jsxSorted("div", null, null, null, 3, null);
+};
+
 
 None
 /*

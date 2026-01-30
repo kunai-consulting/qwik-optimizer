@@ -30,7 +30,11 @@ export const App = component$(() => {
 
 ============================= ./example_noop_dev_mode.tsx_App_component_serverStuff_nmX08tX3gCM.js (ENTRY POINT)==
 
-export const App_component_serverStuff_nmX08tX3gCM=async()=>{let[stuff]=useLexicalScope();console.log(stuff.count)};
+export const App_component_serverStuff_nmX08tX3gCM = async () => {
+	const [stuff] = useLexicalScope();
+	console.log(stuff.count);
+};
+
 
 None
 /*
@@ -55,12 +59,24 @@ None
 */
 ============================= example_noop_dev_mode.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./example_noop_dev_mode.tsx_App_component_BaANpMtVD1s.js`),`App_component_BaANpMtVD1s`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const App = componentQrl(qrl(() => import("./example_noop_dev_mode.tsx_App_component_BaANpMtVD1s.js"), "App_component_BaANpMtVD1s"));
+
 
 None
 ============================= ./example_noop_dev_mode.tsx_App_component_BaANpMtVD1s.js (ENTRY POINT)==
 
-import{_jsxSorted}from"@qwik.dev/core";export const App_component_BaANpMtVD1s=()=>{let stuff=useStore();return serverStuffQrl(qrl(()=>import(`./example_noop_dev_mode.tsx_App_component_serverStuff_nmX08tX3gCM.js`),`App_component_serverStuff_nmX08tX3gCM`,[stuff])),serverStuffQrl(qrl(()=>import(`./example_noop_dev_mode.tsx_App_component_serverStuff_1_tr0kky31M4E.js`),`App_component_serverStuff_1_tr0kky31M4E`)),_jsxSorted(Cmp,null,null,/* @__PURE__ */ _jsxSorted(`p`,{shouldRemove$:serverStuffQrl(qrl(()=>import(`./example_noop_dev_mode.tsx_App_component_serverStuff_1_tr0kky31M4E.js`),`App_component_serverStuff_1_tr0kky31M4E`)),on:click:serverStuffQrl(qrl(()=>import(`./example_noop_dev_mode.tsx_App_component_serverStuff_nmX08tX3gCM.js`),`App_component_serverStuff_nmX08tX3gCM`,[stuff]))},{class:`stuff`},`Hello Qwik`,3,null),3,null)};
+import { _jsxSorted } from "@qwik.dev/core";
+export const App_component_BaANpMtVD1s = () => {
+	const stuff = useStore();
+	serverStuffQrl(qrl(() => import("./example_noop_dev_mode.tsx_App_component_serverStuff_nmX08tX3gCM.js"), "App_component_serverStuff_nmX08tX3gCM", [stuff]));
+	serverStuffQrl(qrl(() => import("./example_noop_dev_mode.tsx_App_component_serverStuff_1_tr0kky31M4E.js"), "App_component_serverStuff_1_tr0kky31M4E"));
+	return _jsxSorted(Cmp, null, null, /* @__PURE__ */ _jsxSorted("p", {
+		shouldRemove$: serverStuffQrl(qrl(() => import("./example_noop_dev_mode.tsx_App_component_serverStuff_1_tr0kky31M4E.js"), "App_component_serverStuff_1_tr0kky31M4E")),
+		on:click: serverStuffQrl(qrl(() => import("./example_noop_dev_mode.tsx_App_component_serverStuff_nmX08tX3gCM.js"), "App_component_serverStuff_nmX08tX3gCM", [stuff]))
+	}, { class: "stuff" }, "Hello Qwik", 3, null), 3, null);
+};
+
 
 None
 /*
@@ -85,7 +101,8 @@ None
 */
 ============================= ./example_noop_dev_mode.tsx_App_component_serverStuff_1_tr0kky31M4E.js (ENTRY POINT)==
 
-export const App_component_serverStuff_1_tr0kky31M4E=async()=>{};
+export const App_component_serverStuff_1_tr0kky31M4E = async () => {};
+
 
 None
 /*

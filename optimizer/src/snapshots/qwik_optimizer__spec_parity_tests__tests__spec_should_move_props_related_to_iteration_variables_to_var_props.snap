@@ -33,12 +33,24 @@ export const Child = component$(() => {
 
 ============================= should_move_props_related_to_iteration_variables_to_var_props.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const Child=componentQrl(qrl(()=>import(`./should_move_props_related_to_iteration_variables_to_var_props.tsx_Child_component_mqGppPl3Vsw.js`),`Child_component_mqGppPl3Vsw`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const Child = componentQrl(qrl(() => import("./should_move_props_related_to_iteration_variables_to_var_props.tsx_Child_component_mqGppPl3Vsw.js"), "Child_component_mqGppPl3Vsw"));
+
 
 None
 ============================= ./should_move_props_related_to_iteration_variables_to_var_props.tsx_Child_component_mqGppPl3Vsw.js (ENTRY POINT)==
 
-import{TestComponent}from"./testComponent";import{_fnSignal,_jsxSorted,useSignal}from"@qwik.dev/core";export const Child_component_mqGppPl3Vsw=()=>/* @__PURE__ */ _jsxSorted(`div`,null,null,useSignal(()=>({data:[{attributeInArray:{counter:globalThis.propsCounter++}},{attributeInArray:{counter:globalThis.propsCounter}}]})).value.data.map((item,index)=>_jsxSorted(TestComponent,{counter:_fnSignal((p0,p1)=>p0.attributeInArray.counter,[item,index],`p0.attributeInArray.counter`)},{logString:`Nested read through array`},null,3,index)),1,null);
+import { TestComponent } from "./testComponent";
+import { _fnSignal, _jsxSorted, useSignal } from "@qwik.dev/core";
+export const Child_component_mqGppPl3Vsw = () => {
+	const propCounterWithNested = useSignal(() => {
+		return { data: [{ attributeInArray: { counter: globalThis.propsCounter++ } }, { attributeInArray: { counter: globalThis.propsCounter } }] };
+	});
+	return /* @__PURE__ */ _jsxSorted("div", null, null, propCounterWithNested.value.data.map((item, index) => {
+		return _jsxSorted(TestComponent, { counter: _fnSignal((p0, p1) => p0.attributeInArray.counter, [item, index], "p0.attributeInArray.counter") }, { logString: "Nested read through array" }, null, 3, index);
+	}), 1, null);
+};
+
 
 None
 /*

@@ -23,12 +23,18 @@ export const Greeter = component$(() => {
 
 ============================= should_transform_event_names_without_jsx_transpile.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const Greeter=componentQrl(qrl(()=>import(`./should_transform_event_names_without_jsx_transpile.tsx_Greeter_component_OWaBZxmH0c0.js`),`Greeter_component_OWaBZxmH0c0`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const Greeter = componentQrl(qrl(() => import("./should_transform_event_names_without_jsx_transpile.tsx_Greeter_component_OWaBZxmH0c0.js"), "Greeter_component_OWaBZxmH0c0"));
+
 
 None
 ============================= ./should_transform_event_names_without_jsx_transpile.tsx_Greeter_component_useTask_0b2K1gpiTXw.js (ENTRY POINT)==
 
-import mongo from"mongodb";export const Greeter_component_useTask_0b2K1gpiTXw=async()=>{await mongo.users()};
+import mongo from "mongodb";
+export const Greeter_component_useTask_0b2K1gpiTXw = async () => {
+	await mongo.users();
+};
+
 
 None
 /*
@@ -53,11 +59,16 @@ None
 */
 ============================= ./should_transform_event_names_without_jsx_transpile.tsx_Greeter_component_OWaBZxmH0c0.js (ENTRY POINT)==
 
-import{qrl}from"@qwik.dev/core";export const Greeter_component_OWaBZxmH0c0=()=>(useTaskQrl(qrl(()=>import(`./should_transform_event_names_without_jsx_transpile.tsx_Greeter_component_useTask_0b2K1gpiTXw.js`),`Greeter_component_useTask_0b2K1gpiTXw`)),<div>
-			<div on:click={useTaskQrl(qrl(()=>import(`./should_transform_event_names_without_jsx_transpile.tsx_Greeter_component_useTask_0b2K1gpiTXw.js`),`Greeter_component_useTask_0b2K1gpiTXw`))}/>
-			<div on:click={qrl(()=>import(`./should_transform_event_names_without_jsx_transpile.tsx.js`),`Greeter_component_div_div_onClick_1`)}/>
-			<div on:click={qrl(()=>import(`./should_transform_event_names_without_jsx_transpile.tsx.js`),`Greeter_component_div_div_onClick_2`)}/>
-		</div>);
+import { qrl } from "@qwik.dev/core";
+export const Greeter_component_OWaBZxmH0c0 = () => {
+	useTaskQrl(qrl(() => import("./should_transform_event_names_without_jsx_transpile.tsx_Greeter_component_useTask_0b2K1gpiTXw.js"), "Greeter_component_useTask_0b2K1gpiTXw"));
+	return <div>
+			<div on:click={useTaskQrl(qrl(() => import("./should_transform_event_names_without_jsx_transpile.tsx_Greeter_component_useTask_0b2K1gpiTXw.js"), "Greeter_component_useTask_0b2K1gpiTXw"))} />
+			<div on:click={qrl(() => import("./should_transform_event_names_without_jsx_transpile.tsx.js"), "Greeter_component_div_div_onClick_1")} />
+			<div on:click={qrl(() => import("./should_transform_event_names_without_jsx_transpile.tsx.js"), "Greeter_component_div_div_onClick_2")} />
+		</div>;
+};
+
 
 None
 /*

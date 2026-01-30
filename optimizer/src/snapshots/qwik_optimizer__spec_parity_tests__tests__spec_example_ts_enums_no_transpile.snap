@@ -22,14 +22,24 @@ export const App = component$(() => {
 
 ============================= example_ts_enums_no_transpile.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export enum Thing {A,B}export const App=componentQrl(qrl(()=>import(`./example_ts_enums_no_transpile.tsx_App_component_44DUIPFt5o4.js`),`App_component_44DUIPFt5o4`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export enum Thing {
+	A,
+	B
+}
+export const App = componentQrl(qrl(() => import("./example_ts_enums_no_transpile.tsx_App_component_44DUIPFt5o4.js"), "App_component_44DUIPFt5o4"));
+
 
 None
 ============================= ./example_ts_enums_no_transpile.tsx_App_component_44DUIPFt5o4.js (ENTRY POINT)==
 
-export const App_component_44DUIPFt5o4=()=>(console.log(Thing.A),<>
+export const App_component_44DUIPFt5o4 = () => {
+	console.log(Thing.A);
+	return <>
 			<p class="stuff">Hello Qwik</p>
-		</>);
+		</>;
+};
+
 
 None
 /*

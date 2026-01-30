@@ -30,12 +30,20 @@ export const Child = component$(() => {
 
 ============================= example_use_client_effect.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const Child=componentQrl(qrl(()=>import(`./example_use_client_effect.tsx_Child_component_Cd5C60xhKTg.js`),`Child_component_Cd5C60xhKTg`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const Child = componentQrl(qrl(() => import("./example_use_client_effect.tsx_Child_component_Cd5C60xhKTg.js"), "Child_component_Cd5C60xhKTg"));
+
 
 None
 ============================= ./example_use_client_effect.tsx_Child_component_Cd5C60xhKTg.js (ENTRY POINT)==
 
-import{_jsxSorted,qrl,useBrowserVisibleTaskQrl,useStore}from"@qwik.dev/core";export const Child_component_Cd5C60xhKTg=()=>{let state=useStore({count:0});return useBrowserVisibleTaskQrl(qrl(()=>import(`./example_use_client_effect.tsx_Child_component_useBrowserVisibleTask_4TrEsGZfnWY.js`),`Child_component_useBrowserVisibleTask_4TrEsGZfnWY`,[state])),/* @__PURE__ */ _jsxSorted(`div`,null,null,state.count,1,null)};
+import { _jsxSorted, qrl, useBrowserVisibleTaskQrl, useStore } from "@qwik.dev/core";
+export const Child_component_Cd5C60xhKTg = () => {
+	const state = useStore({ count: 0 });
+	useBrowserVisibleTaskQrl(qrl(() => import("./example_use_client_effect.tsx_Child_component_useBrowserVisibleTask_4TrEsGZfnWY.js"), "Child_component_useBrowserVisibleTask_4TrEsGZfnWY", [state]));
+	return /* @__PURE__ */ _jsxSorted("div", null, null, state.count, 1, null);
+};
+
 
 None
 /*
@@ -60,7 +68,16 @@ None
 */
 ============================= ./example_use_client_effect.tsx_Child_component_useBrowserVisibleTask_4TrEsGZfnWY.js (ENTRY POINT)==
 
-export const Child_component_useBrowserVisibleTask_4TrEsGZfnWY=()=>{let[state]=useLexicalScope(),timer=setInterval(()=>{state.count++},1e3);return()=>{clearInterval(timer)}};
+export const Child_component_useBrowserVisibleTask_4TrEsGZfnWY = () => {
+	const [state] = useLexicalScope();
+	const timer = setInterval(() => {
+		state.count++;
+	}, 1e3);
+	return () => {
+		clearInterval(timer);
+	};
+};
+
 
 None
 /*

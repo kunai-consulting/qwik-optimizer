@@ -9,12 +9,15 @@ export const sym1 = $((ctx) => console.log("1"));
 
 ============================= example_6.tsx ==
 
-import{qrl}from"@qwik.dev/core";export const sym1=qrl(()=>import(`./example_6.tsx_sym1_RcEqzwBgJ9Y.js`),`sym1_RcEqzwBgJ9Y`);
+import { qrl } from "@qwik.dev/core";
+export const sym1 = qrl(() => import("./example_6.tsx_sym1_RcEqzwBgJ9Y.js"), "sym1_RcEqzwBgJ9Y");
+
 
 None
 ============================= ./example_6.tsx_sym1_RcEqzwBgJ9Y.js (ENTRY POINT)==
 
-export const sym1_RcEqzwBgJ9Y=ctx=>console.log(`1`);
+export const sym1_RcEqzwBgJ9Y = (ctx) => console.log("1");
+
 
 None
 /*

@@ -48,7 +48,13 @@ export const Parent = component$(() => {
 
 ============================= ./example_strip_server_code.tsx_s_eJVbqUgUhAA.js (ENTRY POINT)==
 
-import{clientQrl,qrl}from"@qwik.dev/core";export const s_eJVbqUgUhAA=async()=>[qrl(()=>import(`./example_strip_server_code.tsx_s_NO0hLvAFuN4.js`),`s_NO0hLvAFuN4`),clientQrl(qrl(()=>import(`./example_strip_server_code.tsx_s_4a3uF6fSMYc.js`),`s_4a3uF6fSMYc`))];
+import { clientQrl, qrl } from "@qwik.dev/core";
+export const s_eJVbqUgUhAA = async () => {
+	const a = qrl(() => import("./example_strip_server_code.tsx_s_NO0hLvAFuN4.js"), "s_NO0hLvAFuN4");
+	const b = clientQrl(qrl(() => import("./example_strip_server_code.tsx_s_4a3uF6fSMYc.js"), "s_4a3uF6fSMYc"));
+	return [a, b];
+};
+
 
 None
 /*
@@ -73,12 +79,22 @@ None
 */
 ============================= example_strip_server_code.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const Parent=componentQrl(qrl(()=>import(`./example_strip_server_code.tsx_s_w5E0E9exVp0.js`),`s_w5E0E9exVp0`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const Parent = componentQrl(qrl(() => import("./example_strip_server_code.tsx_s_w5E0E9exVp0.js"), "s_w5E0E9exVp0"));
+
 
 None
 ============================= ./example_strip_server_code.tsx_s_XK3uv08QoGk.js (ENTRY POINT)==
 
-import mongo from"mongodb";import redis from"redis";export const s_XK3uv08QoGk=async()=>{let[state]=useLexicalScope();state.text=await mongo.users(),redis.set(state.text)};
+import mongo from "mongodb";
+import redis from "redis";
+export const s_XK3uv08QoGk = async () => {
+	const [state] = useLexicalScope();
+	if (!true) return;
+	state.text = await mongo.users();
+	redis.set(state.text);
+};
+
 
 None
 /*
@@ -103,7 +119,8 @@ None
 */
 ============================= ./example_strip_server_code.tsx_s_4a3uF6fSMYc.js (ENTRY POINT)==
 
-export const s_4a3uF6fSMYc=()=>{};
+export const s_4a3uF6fSMYc = () => {};
+
 
 None
 /*
@@ -128,7 +145,8 @@ None
 */
 ============================= ./example_strip_server_code.tsx_s_33lR4XqeKI4.js (ENTRY POINT)==
 
-export const s_33lR4XqeKI4=()=>{};
+export const s_33lR4XqeKI4 = () => {};
+
 
 None
 /*
@@ -153,7 +171,16 @@ None
 */
 ============================= ./example_strip_server_code.tsx_s_w5E0E9exVp0.js (ENTRY POINT)==
 
-import{_jsxSorted}from"@qwik.dev/core";export const s_w5E0E9exVp0=()=>{let state=useStore({text:``});return useTaskQrl(qrl(()=>import(`./example_strip_server_code.tsx_s_XK3uv08QoGk.js`),`s_XK3uv08QoGk`,[state])),serverStuffQrl(qrl(()=>import(`./example_strip_server_code.tsx_s_eJVbqUgUhAA.js`),`s_eJVbqUgUhAA`)),serverLoaderQrl(qrl(()=>import(`./example_strip_server_code.tsx_s_QzLANtCpgqY.js`),`s_QzLANtCpgqY`)),useTaskQrl(qrl(()=>import(`./example_strip_server_code.tsx_s_33lR4XqeKI4.js`),`s_33lR4XqeKI4`)),/* @__PURE__ */ _jsxSorted(`div`,{on:click:useTaskQrl(qrl(()=>import(`./example_strip_server_code.tsx_s_33lR4XqeKI4.js`),`s_33lR4XqeKI4`))},null,state.text,1,null)};
+import { _jsxSorted } from "@qwik.dev/core";
+export const s_w5E0E9exVp0 = () => {
+	const state = useStore({ text: "" });
+	useTaskQrl(qrl(() => import("./example_strip_server_code.tsx_s_XK3uv08QoGk.js"), "s_XK3uv08QoGk", [state]));
+	serverStuffQrl(qrl(() => import("./example_strip_server_code.tsx_s_eJVbqUgUhAA.js"), "s_eJVbqUgUhAA"));
+	serverLoaderQrl(qrl(() => import("./example_strip_server_code.tsx_s_QzLANtCpgqY.js"), "s_QzLANtCpgqY"));
+	useTaskQrl(qrl(() => import("./example_strip_server_code.tsx_s_33lR4XqeKI4.js"), "s_33lR4XqeKI4"));
+	return /* @__PURE__ */ _jsxSorted("div", { on:click: useTaskQrl(qrl(() => import("./example_strip_server_code.tsx_s_33lR4XqeKI4.js"), "s_33lR4XqeKI4")) }, null, state.text, 1, null);
+};
+
 
 None
 /*
@@ -178,7 +205,9 @@ None
 */
 ============================= ./example_strip_server_code.tsx_s_QzLANtCpgqY.js (ENTRY POINT)==
 
-import{handler}from"serverless";export const s_QzLANtCpgqY=handler;
+import { handler } from "serverless";
+export const s_QzLANtCpgqY = handler;
+
 
 None
 /*
@@ -203,7 +232,8 @@ None
 */
 ============================= ./example_strip_server_code.tsx_s_NO0hLvAFuN4.js (ENTRY POINT)==
 
-export const s_NO0hLvAFuN4=()=>{};
+export const s_NO0hLvAFuN4 = () => {};
+
 
 None
 /*

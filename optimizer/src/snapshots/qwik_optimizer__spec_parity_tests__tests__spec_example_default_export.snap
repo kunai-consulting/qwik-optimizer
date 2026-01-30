@@ -16,12 +16,18 @@ export default component$(() => {
 
 ============================= src/routes/_repl/[id]/[[...slug]].tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./[[...slug]].tsx_component_6n0k9fnD07Y.js`),`component_6n0k9fnD07Y`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export default componentQrl(qrl(() => import("./[[...slug]].tsx_component_6n0k9fnD07Y.js"), "component_6n0k9fnD07Y"));
+
 
 None
 ============================= ./src/routes/_repl/[id]/[[...slug]].tsx_component_6n0k9fnD07Y.js (ENTRY POINT)==
 
-import{_jsxSorted,qrl}from"@qwik.dev/core";export const component_6n0k9fnD07Y=()=>/* @__PURE__ */ _jsxSorted(`div`,{on:click:qrl(()=>import(`./[[...slug]].tsx.js`),`component_div_onClick`)},null,null,3,null);
+import { _jsxSorted, qrl } from "@qwik.dev/core";
+export const component_6n0k9fnD07Y = () => {
+	return /* @__PURE__ */ _jsxSorted("div", { on:click: qrl(() => import("./[[...slug]].tsx.js"), "component_div_onClick") }, null, null, 3, null);
+};
+
 
 None
 /*

@@ -21,7 +21,22 @@ export const Works = component$(({fromProps}) => {
 
 ============================= ./example_props_wrapping_children.tsx_Works_component_LrfB2f8y0FQ.js (ENTRY POINT)==
 
-import{_jsxSorted,useSignal}from"@qwik.dev/core";export const Works_component_LrfB2f8y0FQ=({fromProps})=>{let fromLocal=useSignal(0);return/* @__PURE__ */ _jsxSorted(`div`,null,null,[fromLocal,_wrapProp(_rawProps,`fromProps`),fromLocal+fromProps,{props:fromProps},{local:fromLocal},{props:fromProps,local:fromLocal}],1,null)};
+import { _jsxSorted, useSignal } from "@qwik.dev/core";
+export const Works_component_LrfB2f8y0FQ = ({ fromProps }) => {
+	let fromLocal = useSignal(0);
+	return /* @__PURE__ */ _jsxSorted("div", null, null, [
+		fromLocal,
+		_wrapProp(_rawProps, "fromProps"),
+		fromLocal + fromProps,
+		{ props: fromProps },
+		{ local: fromLocal },
+		{
+			props: fromProps,
+			local: fromLocal
+		}
+	], 1, null);
+};
+
 
 None
 /*
@@ -46,7 +61,9 @@ None
 */
 ============================= example_props_wrapping_children.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const Works=componentQrl(qrl(()=>import(`./example_props_wrapping_children.tsx_Works_component_LrfB2f8y0FQ.js`),`Works_component_LrfB2f8y0FQ`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const Works = componentQrl(qrl(() => import("./example_props_wrapping_children.tsx_Works_component_LrfB2f8y0FQ.js"), "Works_component_LrfB2f8y0FQ"));
+
 
 None
 == DIAGNOSTICS ==

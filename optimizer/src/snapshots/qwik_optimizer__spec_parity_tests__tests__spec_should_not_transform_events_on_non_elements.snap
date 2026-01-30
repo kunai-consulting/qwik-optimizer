@@ -21,7 +21,8 @@ export const Greeter = component$(() => {
 
 ============================= ./should_not_transform_events_on_non_elements.tsx_Greeter_component_div_map_AnotherComponent_onClick_z0vnRrU63Rk.js (ENTRY POINT)==
 
-export const Greeter_component_div_map_AnotherComponent_onClick_z0vnRrU63Rk=()=>{};
+export const Greeter_component_div_map_AnotherComponent_onClick_z0vnRrU63Rk = () => {};
+
 
 None
 /*
@@ -46,10 +47,16 @@ None
 */
 ============================= ./should_not_transform_events_on_non_elements.tsx_Greeter_component_Gr0lcO18sKw.js (ENTRY POINT)==
 
-import{AnotherComponent}from"./another-component";import{CustomComponent}from"./custom-component";import{qrl}from"@qwik.dev/core";export const Greeter_component_Gr0lcO18sKw=()=><div>
-			<CustomComponent onClick$={qrl(()=>import(`./should_not_transform_events_on_non_elements.tsx.js`),`Greeter_component_div_CustomComponent_onClick`)}/>
-			{array.map(item=><AnotherComponent onClick$={qrl(()=>import(`./should_not_transform_events_on_non_elements.tsx_Greeter_component_div_map_AnotherComponent_onClick_z0vnRrU63Rk.js`),`Greeter_component_div_map_AnotherComponent_onClick_z0vnRrU63Rk`)}/>)}
+import { AnotherComponent } from "./another-component";
+import { CustomComponent } from "./custom-component";
+import { qrl } from "@qwik.dev/core";
+export const Greeter_component_Gr0lcO18sKw = () => {
+	return <div>
+			<CustomComponent onClick$={qrl(() => import("./should_not_transform_events_on_non_elements.tsx.js"), "Greeter_component_div_CustomComponent_onClick")} />
+			{array.map((item) => <AnotherComponent onClick$={qrl(() => import("./should_not_transform_events_on_non_elements.tsx_Greeter_component_div_map_AnotherComponent_onClick_z0vnRrU63Rk.js"), "Greeter_component_div_map_AnotherComponent_onClick_z0vnRrU63Rk")} />)}
 		</div>;
+};
+
 
 None
 /*
@@ -74,7 +81,9 @@ None
 */
 ============================= should_not_transform_events_on_non_elements.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const Greeter=componentQrl(qrl(()=>import(`./should_not_transform_events_on_non_elements.tsx_Greeter_component_Gr0lcO18sKw.js`),`Greeter_component_Gr0lcO18sKw`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const Greeter = componentQrl(qrl(() => import("./should_not_transform_events_on_non_elements.tsx_Greeter_component_Gr0lcO18sKw.js"), "Greeter_component_Gr0lcO18sKw"));
+
 
 None
 == DIAGNOSTICS ==

@@ -19,7 +19,12 @@ export const foo = () => console.log('foo');
 
 ============================= ./example_preserve_filenames_segments.tsx_App_component_22Rj57rU0QQ.js (ENTRY POINT)==
 
-import{_jsxSorted,qrl}from"@qwik.dev/core";export const App_component_22Rj57rU0QQ=props=>(foo(),_jsxSorted(Cmp,null,null,/* @__PURE__ */ _jsxSorted(`p`,{on:click:qrl(()=>import(`./example_preserve_filenames_segments.tsx.js`),`App_component_Cmp_p_onClick`)},{class:`stuff`},`Hello Qwik`,3,null),3,null));
+import { _jsxSorted, qrl } from "@qwik.dev/core";
+export const App_component_22Rj57rU0QQ = (props) => {
+	foo();
+	return _jsxSorted(Cmp, null, null, /* @__PURE__ */ _jsxSorted("p", { on:click: qrl(() => import("./example_preserve_filenames_segments.tsx.js"), "App_component_Cmp_p_onClick") }, { class: "stuff" }, "Hello Qwik", 3, null), 3, null);
+};
+
 
 None
 /*
@@ -44,7 +49,10 @@ None
 */
 ============================= example_preserve_filenames_segments.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./example_preserve_filenames_segments.tsx_App_component_22Rj57rU0QQ.js`),`App_component_22Rj57rU0QQ`));export const foo=()=>console.log(`foo`);
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const App = componentQrl(qrl(() => import("./example_preserve_filenames_segments.tsx_App_component_22Rj57rU0QQ.js"), "App_component_22Rj57rU0QQ"));
+export const foo = () => console.log("foo");
+
 
 None
 == DIAGNOSTICS ==

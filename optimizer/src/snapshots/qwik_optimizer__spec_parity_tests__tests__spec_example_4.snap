@@ -17,7 +17,12 @@ export function App() {
 
 ============================= ./example_4.tsx_App_Header_component_fyc0O3FxmAw.js (ENTRY POINT)==
 
-import{qrl}from"@qwik.dev/core";export const App_Header_component_fyc0O3FxmAw=()=>(console.log(`mount`),<div onClick={qrl(()=>import(`./example_4.tsx_App_Header_component_div_onClick_BF5LfTjlx04.js`),`App_Header_component_div_onClick_BF5LfTjlx04`)}/>);
+import { qrl } from "@qwik.dev/core";
+export const App_Header_component_fyc0O3FxmAw = () => {
+	console.log("mount");
+	return <div onClick={qrl(() => import("./example_4.tsx_App_Header_component_div_onClick_BF5LfTjlx04.js"), "App_Header_component_div_onClick_BF5LfTjlx04")} />;
+};
+
 
 None
 /*
@@ -42,12 +47,18 @@ None
 */
 ============================= example_4.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export function App(){const Header=componentQrl(qrl(()=>import(`./example_4.tsx_App_Header_component_fyc0O3FxmAw.js`),`App_Header_component_fyc0O3FxmAw`));return Header}
+import { componentQrl, qrl } from "@qwik.dev/core";
+export function App() {
+	const Header = componentQrl(qrl(() => import("./example_4.tsx_App_Header_component_fyc0O3FxmAw.js"), "App_Header_component_fyc0O3FxmAw"));
+	return Header;
+}
+
 
 None
 ============================= ./example_4.tsx_App_Header_component_div_onClick_BF5LfTjlx04.js (ENTRY POINT)==
 
-export const App_Header_component_div_onClick_BF5LfTjlx04=ctx=>console.log(ctx);
+export const App_Header_component_div_onClick_BF5LfTjlx04 = (ctx) => console.log(ctx);
+
 
 None
 /*

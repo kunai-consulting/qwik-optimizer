@@ -16,12 +16,18 @@ export const App = component$(() => {
 
 ============================= example_dev_mode_inlined.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./example_dev_mode_inlined.tsx_App_component_ZvFEL0CNj5M.js`),`App_component_ZvFEL0CNj5M`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const App = componentQrl(qrl(() => import("./example_dev_mode_inlined.tsx_App_component_ZvFEL0CNj5M.js"), "App_component_ZvFEL0CNj5M"));
+
 
 None
 ============================= ./example_dev_mode_inlined.tsx_App_component_ZvFEL0CNj5M.js (ENTRY POINT)==
 
-import{_jsxSorted,qrl}from"@qwik.dev/core";export const App_component_ZvFEL0CNj5M=()=>_jsxSorted(Cmp,null,null,/* @__PURE__ */ _jsxSorted(`p`,{on:click:qrl(()=>import(`./example_dev_mode_inlined.tsx.js`),`App_component_Cmp_p_onClick`)},{class:`stuff`},`Hello Qwik`,3,null),3,null);
+import { _jsxSorted, qrl } from "@qwik.dev/core";
+export const App_component_ZvFEL0CNj5M = () => {
+	return _jsxSorted(Cmp, null, null, /* @__PURE__ */ _jsxSorted("p", { on:click: qrl(() => import("./example_dev_mode_inlined.tsx.js"), "App_component_Cmp_p_onClick") }, { class: "stuff" }, "Hello Qwik", 3, null), 3, null);
+};
+
 
 None
 /*

@@ -15,7 +15,9 @@ export const App = component$((props) => {
 
 ============================= ./example_explicit_ext_transpile.tsx_App_component_1_rtnhTYmM8yE.js (ENTRY POINT)==
 
-import{_jsxSorted}from"@qwik.dev/core";export const App_component_1_rtnhTYmM8yE=()=>/* @__PURE__ */ _jsxSorted(`div`,null,null,null,3,null);
+import { _jsxSorted } from "@qwik.dev/core";
+export const App_component_1_rtnhTYmM8yE = () => /* @__PURE__ */ _jsxSorted("div", null, null, null, 3, null);
+
 
 None
 /*
@@ -40,12 +42,19 @@ None
 */
 ============================= example_explicit_ext_transpile.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./example_explicit_ext_transpile.tsx_App_component_6JdNgn27xWU.js`),`App_component_6JdNgn27xWU`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const App = componentQrl(qrl(() => import("./example_explicit_ext_transpile.tsx_App_component_6JdNgn27xWU.js"), "App_component_6JdNgn27xWU"));
+
 
 None
 ============================= ./example_explicit_ext_transpile.tsx_App_component_6JdNgn27xWU.js (ENTRY POINT)==
 
-import{qrl,useStylesQrl}from"@qwik.dev/core";export const App_component_6JdNgn27xWU=props=>(useStylesQrl(qrl(()=>import(`./example_explicit_ext_transpile.tsx_App_component_useStyles_rDDeRqiE7XE.js`),`App_component_useStyles_rDDeRqiE7XE`)),qrl(()=>import(`./example_explicit_ext_transpile.tsx_App_component_1_rtnhTYmM8yE.js`),`App_component_1_rtnhTYmM8yE`));
+import { qrl, useStylesQrl } from "@qwik.dev/core";
+export const App_component_6JdNgn27xWU = (props) => {
+	useStylesQrl(qrl(() => import("./example_explicit_ext_transpile.tsx_App_component_useStyles_rDDeRqiE7XE.js"), "App_component_useStyles_rDDeRqiE7XE"));
+	return qrl(() => import("./example_explicit_ext_transpile.tsx_App_component_1_rtnhTYmM8yE.js"), "App_component_1_rtnhTYmM8yE");
+};
+
 
 None
 /*
@@ -70,7 +79,8 @@ None
 */
 ============================= ./example_explicit_ext_transpile.tsx_App_component_useStyles_rDDeRqiE7XE.js (ENTRY POINT)==
 
-export const App_component_useStyles_rDDeRqiE7XE=`hola`;
+export const App_component_useStyles_rDDeRqiE7XE = "hola";
+
 
 None
 /*

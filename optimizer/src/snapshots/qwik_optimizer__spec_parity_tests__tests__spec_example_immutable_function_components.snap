@@ -16,7 +16,11 @@ export const App = component$((props: Stuff) => {
 
 ============================= ./example_immutable_function_components.tsx_App_component_JSjeGHs3sWk.js (ENTRY POINT)==
 
-import{Slot,_jsxSorted}from"@qwik.dev/core";export const App_component_JSjeGHs3sWk=props=>/* @__PURE__ */ _jsxSorted(`div`,null,null,_jsxSorted(Slot,null,null,null,3,null),3,null);
+import { Slot, _jsxSorted } from "@qwik.dev/core";
+export const App_component_JSjeGHs3sWk = (props) => {
+	return /* @__PURE__ */ _jsxSorted("div", null, null, _jsxSorted(Slot, null, null, null, 3, null), 3, null);
+};
+
 
 None
 /*
@@ -41,7 +45,9 @@ None
 */
 ============================= example_immutable_function_components.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./example_immutable_function_components.tsx_App_component_JSjeGHs3sWk.js`),`App_component_JSjeGHs3sWk`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const App = componentQrl(qrl(() => import("./example_immutable_function_components.tsx_App_component_JSjeGHs3sWk.js"), "App_component_JSjeGHs3sWk"));
+
 
 None
 == DIAGNOSTICS ==

@@ -52,6 +52,7 @@ mod tests {
                 strip_event_handlers: false,
                 reg_ctx_name: None,
                 is_server: None,
+                format_output: false, // Will be overridden by SpecOptions default
             };
 
             // Apply provided option overrides
@@ -72,7 +73,6 @@ mod tests {
     }
 
     /// Options struct for spec tests
-    #[derive(Default)]
     struct SpecOptions {
         filename: Option<String>,
         entry_strategy: Option<EntryStrategy>,
@@ -87,6 +87,29 @@ mod tests {
         strip_event_handlers: Option<bool>,
         reg_ctx_name: Option<Vec<String>>,
         is_server: Option<bool>,
+        /// When true, output is formatted with readable indentation. Defaults to true for spec tests.
+        format_output: Option<bool>,
+    }
+
+    impl Default for SpecOptions {
+        fn default() -> Self {
+            Self {
+                filename: None,
+                entry_strategy: None,
+                minify: None,
+                transpile_ts: None,
+                transpile_jsx: None,
+                explicit_extensions: None,
+                preserve_filenames: None,
+                mode: None,
+                strip_exports: None,
+                strip_ctx_name: None,
+                strip_event_handlers: None,
+                reg_ctx_name: None,
+                is_server: None,
+                format_output: Some(true), // Enable formatted output by default for spec tests
+            }
+        }
     }
 
     fn apply_options(
@@ -131,6 +154,9 @@ mod tests {
         }
         if let Some(is_server) = overrides.is_server {
             options.is_server = Some(is_server);
+        }
+        if let Some(format_output) = overrides.format_output {
+            options.format_output = format_output;
         }
         options
     }

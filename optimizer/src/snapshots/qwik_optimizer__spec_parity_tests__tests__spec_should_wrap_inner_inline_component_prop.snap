@@ -25,7 +25,16 @@ export default component$((props: { id: number }) => {
 
 ============================= ./should_wrap_inner_inline_component_prop.tsx_component_KLKKMDeygxU.js (ENTRY POINT)==
 
-import{_jsxSorted,useStore}from"@qwik.dev/core";import{Fragment as _Fragment}from"@qwik.dev/core/jsx-runtime";export const component_KLKKMDeygxU=props=>{let renders=useStore({count:0},{reactive:!1});renders.count++;let rerenders=renders.count+0;return/* @__PURE__ */ _jsxSorted(_Fragment,null,null,[_jsxSorted(props=>/* @__PURE__ */ _jsxSorted(`div`,null,null,[`Id:`,props.id],1,null),{id:props.id},null,null,3,null),rerenders],1,null)};
+import { _jsxSorted, useStore } from "@qwik.dev/core";
+import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
+export const component_KLKKMDeygxU = (props) => {
+	const renders = useStore({ count: 0 }, { reactive: false });
+	renders.count++;
+	const rerenders = renders.count + 0;
+	const Id = (props) => /* @__PURE__ */ _jsxSorted("div", null, null, ["Id:", props.id], 1, null);
+	return /* @__PURE__ */ _jsxSorted(_Fragment, null, null, [_jsxSorted(Id, { id: props.id }, null, null, 3, null), rerenders], 1, null);
+};
+
 
 None
 /*
@@ -50,7 +59,9 @@ None
 */
 ============================= should_wrap_inner_inline_component_prop.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./should_wrap_inner_inline_component_prop.tsx_component_KLKKMDeygxU.js`),`component_KLKKMDeygxU`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export default componentQrl(qrl(() => import("./should_wrap_inner_inline_component_prop.tsx_component_KLKKMDeygxU.js"), "component_KLKKMDeygxU"));
+
 
 None
 == DIAGNOSTICS ==

@@ -27,7 +27,17 @@ export const FieldInput = component$((props) => {
 
 ============================= ./should_not_transform_bind_value_in_var_props_for_jsx_split.tsx_FieldInput_component_O7e736kxgiI.js (ENTRY POINT)==
 
-import{_getConstProps,_getVarProps,_jsxSorted,_jsxSplit,useSignal}from"@qwik.dev/core";import{Fragment as _Fragment}from"@qwik.dev/core/jsx-runtime";export const FieldInput_component_O7e736kxgiI=props=>{let input=useSignal(``);return/* @__PURE__ */ _jsxSorted(_Fragment,null,null,[/* @__PURE__ */ _jsxSplit(`input`,{value:input,on:input:inlinedQrl(_val,`_val`,[input]),..._getVarProps(props)},_getConstProps(props),null,0,null),/* @__PURE__ */ _jsxSplit(`input`,{..._getVarProps(props)},_getConstProps(props),null,0,null)],3,null)};
+import { _getConstProps, _getVarProps, _jsxSorted, _jsxSplit, useSignal } from "@qwik.dev/core";
+import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
+export const FieldInput_component_O7e736kxgiI = (props) => {
+	const input = useSignal("");
+	return /* @__PURE__ */ _jsxSorted(_Fragment, null, null, [/* @__PURE__ */ _jsxSplit("input", {
+		value: input,
+		on:input: inlinedQrl(_val, "_val", [input]),
+		..._getVarProps(props)
+	}, _getConstProps(props), null, 0, null), /* @__PURE__ */ _jsxSplit("input", { ..._getVarProps(props) }, _getConstProps(props), null, 0, null)], 3, null);
+};
+
 
 None
 /*
@@ -52,7 +62,9 @@ None
 */
 ============================= should_not_transform_bind_value_in_var_props_for_jsx_split.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const FieldInput=componentQrl(qrl(()=>import(`./should_not_transform_bind_value_in_var_props_for_jsx_split.tsx_FieldInput_component_O7e736kxgiI.js`),`FieldInput_component_O7e736kxgiI`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const FieldInput = componentQrl(qrl(() => import("./should_not_transform_bind_value_in_var_props_for_jsx_split.tsx_FieldInput_component_O7e736kxgiI.js"), "FieldInput_component_O7e736kxgiI"));
+
 
 None
 == DIAGNOSTICS ==

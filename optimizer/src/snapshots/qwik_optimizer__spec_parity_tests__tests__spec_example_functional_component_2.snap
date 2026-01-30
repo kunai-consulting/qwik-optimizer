@@ -35,7 +35,13 @@ export const App = component$((props) => {
 
 ============================= ./example_functional_component_2.tsx_App_component_div_map_button_onClick_sbIqTncz8UU.js (ENTRY POINT)==
 
-import{STEP}from"./example_functional_component_2";import{useLexicalScope}from"@qwik.dev/core";export const App_component_div_map_button_onClick_sbIqTncz8UU=(_,_1,btn)=>{let[STEP_2,props,state,thing]=useLexicalScope();return state.count+=btn.offset+thing+STEP+STEP_2+props.step};
+import { STEP } from "./example_functional_component_2";
+import { useLexicalScope } from "@qwik.dev/core";
+export const App_component_div_map_button_onClick_sbIqTncz8UU = (_, _1, btn) => {
+	const [STEP_2, props, state, thing] = useLexicalScope();
+	return state.count += btn.offset + thing + STEP + STEP_2 + props.step;
+};
+
 
 None
 /*
@@ -60,7 +66,21 @@ None
 */
 ============================= ./example_functional_component_2.tsx_App_component_p6uB2qXBgm4.js (ENTRY POINT)==
 
-import{useCounter}from"./example_functional_component_2";import{_fnSignal,_jsxSorted,qrl,useStore}from"@qwik.dev/core";export const App_component_p6uB2qXBgm4=props=>{let state=useCounter(),thing=useStore({thing:0});return/* @__PURE__ */ _jsxSorted(`div`,{on:click:qrl(()=>import(`./example_functional_component_2.tsx.js`),`App_component_div_onClick`,[state.count*2,state])},null,[/* @__PURE__ */ _jsxSorted(`span`,null,null,state.count,1,null),buttons.map(btn=>/* @__PURE__ */ _jsxSorted(`button`,{on:click:qrl(()=>import(`./example_functional_component_2.tsx_App_component_div_map_button_onClick_sbIqTncz8UU.js`),`App_component_div_map_button_onClick_sbIqTncz8UU`,[2,props,state,thing])},null,_fnSignal(p0=>p0.name,[btn],`p0.name`),1,null))],1,null)};
+import { useCounter } from "./example_functional_component_2";
+import { _fnSignal, _jsxSorted, qrl, useStore } from "@qwik.dev/core";
+export const App_component_p6uB2qXBgm4 = (props) => {
+	const state = useCounter();
+	const thing = useStore({ thing: 0 });
+	const STEP_2 = 2;
+	const count2 = state.count * 2;
+	return /* @__PURE__ */ _jsxSorted("div", { on:click: qrl(() => import("./example_functional_component_2.tsx.js"), "App_component_div_onClick", [count2, state]) }, null, [/* @__PURE__ */ _jsxSorted("span", null, null, state.count, 1, null), buttons.map((btn) => /* @__PURE__ */ _jsxSorted("button", { on:click: qrl(() => import("./example_functional_component_2.tsx_App_component_div_map_button_onClick_sbIqTncz8UU.js"), "App_component_div_map_button_onClick_sbIqTncz8UU", [
+		STEP_2,
+		props,
+		state,
+		thing
+	]) }, null, _fnSignal((p0) => p0.name, [btn], "p0.name"), 1, null))], 1, null);
+};
+
 
 None
 /*
@@ -85,7 +105,13 @@ None
 */
 ============================= example_functional_component_2.tsx ==
 
-import{componentQrl,qrl,useStore}from"@qwik.dev/core";export const useCounter=()=>{return useStore({count:0})};export const STEP=1;export const App=componentQrl(qrl(()=>import(`./example_functional_component_2.tsx_App_component_p6uB2qXBgm4.js`),`App_component_p6uB2qXBgm4`));
+import { componentQrl, qrl, useStore } from "@qwik.dev/core";
+export const useCounter = () => {
+	return useStore({ count: 0 });
+};
+export const STEP = 1;
+export const App = componentQrl(qrl(() => import("./example_functional_component_2.tsx_App_component_p6uB2qXBgm4.js"), "App_component_p6uB2qXBgm4"));
+
 
 None
 == DIAGNOSTICS ==

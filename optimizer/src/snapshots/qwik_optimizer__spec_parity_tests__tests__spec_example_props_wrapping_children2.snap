@@ -23,12 +23,31 @@ export const Works = component$((props) => {
 
 ============================= example_props_wrapping_children2.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const Works=componentQrl(qrl(()=>import(`./example_props_wrapping_children2.tsx_Works_component_X6FZK0kqFbo.js`),`Works_component_X6FZK0kqFbo`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const Works = componentQrl(qrl(() => import("./example_props_wrapping_children2.tsx_Works_component_X6FZK0kqFbo.js"), "Works_component_X6FZK0kqFbo"));
+
 
 None
 ============================= ./example_props_wrapping_children2.tsx_Works_component_X6FZK0kqFbo.js (ENTRY POINT)==
 
-import{_jsxSorted,useSignal}from"@qwik.dev/core";export const Works_component_X6FZK0kqFbo=props=>{let fromLocal=useSignal(0);return/* @__PURE__ */ _jsxSorted(`div`,null,null,[`before-`,fromLocal,props.fromProps,fromLocal+props.fromProps,{props:props.fromProps},{local:fromLocal},{props:props.fromProps,local:fromLocal},`-after`],1,null)};
+import { _jsxSorted, useSignal } from "@qwik.dev/core";
+export const Works_component_X6FZK0kqFbo = (props) => {
+	let fromLocal = useSignal(0);
+	return /* @__PURE__ */ _jsxSorted("div", null, null, [
+		"before-",
+		fromLocal,
+		props.fromProps,
+		fromLocal + props.fromProps,
+		{ props: props.fromProps },
+		{ local: fromLocal },
+		{
+			props: props.fromProps,
+			local: fromLocal
+		},
+		"-after"
+	], 1, null);
+};
+
 
 None
 /*

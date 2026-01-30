@@ -15,13 +15,19 @@ export default component$(() => {
 
 ============================= src/components/mongo/index.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./index.tsx_component_rKJvPlyphow.js`),`component_rKJvPlyphow`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export default componentQrl(qrl(() => import("./index.tsx_component_rKJvPlyphow.js"), "component_rKJvPlyphow"));
+
 
 None
 ============================= ./src/components/mongo/index.tsx_component_rKJvPlyphow.js (ENTRY POINT)==
 
-import{qrl}from"@qwik.dev/core";export const component_rKJvPlyphow=()=><div on:click={qrl(()=>import(`./index.tsx.js`),`component_div_onClick`)}>
+import { qrl } from "@qwik.dev/core";
+export const component_rKJvPlyphow = () => {
+	return <div on:click={qrl(() => import("./index.tsx.js"), "component_div_onClick")}>
 		</div>;
+};
+
 
 None
 /*

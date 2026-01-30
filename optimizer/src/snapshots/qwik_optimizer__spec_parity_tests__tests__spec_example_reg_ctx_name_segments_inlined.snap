@@ -14,12 +14,18 @@ export const Works = component$((props) => {
 
 ============================= example_reg_ctx_name_segments_inlined.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const Works=componentQrl(qrl(()=>import(`./example_reg_ctx_name_segments_inlined.tsx_Works_component_AROoLgAJDOE.js`),`Works_component_AROoLgAJDOE`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const Works = componentQrl(qrl(() => import("./example_reg_ctx_name_segments_inlined.tsx_Works_component_AROoLgAJDOE.js"), "Works_component_AROoLgAJDOE"));
+
 
 None
 ============================= ./example_reg_ctx_name_segments_inlined.tsx_Works_component_div_onClick_server_d8UBeO5neSY.js (ENTRY POINT)==
 
-export const Works_component_div_onClick_server_d8UBeO5neSY=()=>{let[text]=useLexicalScope();return console.log(`in server`,text)};
+export const Works_component_div_onClick_server_d8UBeO5neSY = () => {
+	const [text] = useLexicalScope();
+	return console.log("in server", text);
+};
+
 
 None
 /*
@@ -44,7 +50,12 @@ None
 */
 ============================= ./example_reg_ctx_name_segments_inlined.tsx_Works_component_AROoLgAJDOE.js (ENTRY POINT)==
 
-import{_jsxSorted,qrl,serverQrl}from"@qwik.dev/core";export const Works_component_AROoLgAJDOE=props=>/* @__PURE__ */ _jsxSorted(`div`,{on:click:serverQrl(qrl(()=>import(`./example_reg_ctx_name_segments_inlined.tsx_Works_component_div_onClick_server_d8UBeO5neSY.js`),`Works_component_div_onClick_server_d8UBeO5neSY`,[`hola`]))},null,null,3,null);
+import { _jsxSorted, qrl, serverQrl } from "@qwik.dev/core";
+export const Works_component_AROoLgAJDOE = (props) => {
+	const text = "hola";
+	return /* @__PURE__ */ _jsxSorted("div", { on:click: serverQrl(qrl(() => import("./example_reg_ctx_name_segments_inlined.tsx_Works_component_div_onClick_server_d8UBeO5neSY.js"), "Works_component_div_onClick_server_d8UBeO5neSY", [text])) }, null, null, 3, null);
+};
+
 
 None
 /*

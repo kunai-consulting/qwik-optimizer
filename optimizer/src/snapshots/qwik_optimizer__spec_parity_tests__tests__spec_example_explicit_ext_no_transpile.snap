@@ -15,7 +15,8 @@ export const App = component$((props) => {
 
 ============================= ./example_explicit_ext_no_transpile.tsx_App_component_useStyles_70K1c89YfDE.js (ENTRY POINT)==
 
-export const App_component_useStyles_70K1c89YfDE=`hola`;
+export const App_component_useStyles_70K1c89YfDE = "hola";
+
 
 None
 /*
@@ -40,12 +41,15 @@ None
 */
 ============================= example_explicit_ext_no_transpile.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./example_explicit_ext_no_transpile.tsx_App_component_6GDenKAsF8E.js`),`App_component_6GDenKAsF8E`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const App = componentQrl(qrl(() => import("./example_explicit_ext_no_transpile.tsx_App_component_6GDenKAsF8E.js"), "App_component_6GDenKAsF8E"));
+
 
 None
 ============================= ./example_explicit_ext_no_transpile.tsx_App_component_1_FNQb3qCnOYI.js (ENTRY POINT)==
 
-export const App_component_1_FNQb3qCnOYI=()=><div></div>;
+export const App_component_1_FNQb3qCnOYI = () => <div></div>;
+
 
 None
 /*
@@ -70,7 +74,12 @@ None
 */
 ============================= ./example_explicit_ext_no_transpile.tsx_App_component_6GDenKAsF8E.js (ENTRY POINT)==
 
-import{qrl,useStylesQrl}from"@qwik.dev/core";export const App_component_6GDenKAsF8E=props=>(useStylesQrl(qrl(()=>import(`./example_explicit_ext_no_transpile.tsx_App_component_useStyles_70K1c89YfDE.js`),`App_component_useStyles_70K1c89YfDE`)),qrl(()=>import(`./example_explicit_ext_no_transpile.tsx_App_component_1_FNQb3qCnOYI.js`),`App_component_1_FNQb3qCnOYI`));
+import { qrl, useStylesQrl } from "@qwik.dev/core";
+export const App_component_6GDenKAsF8E = (props) => {
+	useStylesQrl(qrl(() => import("./example_explicit_ext_no_transpile.tsx_App_component_useStyles_70K1c89YfDE.js"), "App_component_useStyles_70K1c89YfDE"));
+	return qrl(() => import("./example_explicit_ext_no_transpile.tsx_App_component_1_FNQb3qCnOYI.js"), "App_component_1_FNQb3qCnOYI");
+};
+
 
 None
 /*

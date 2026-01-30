@@ -28,8 +28,14 @@ export const Child = component$(() => {
 
 ============================= ./example_inlined_entry_strategy.tsx_Child_component_usUBninIuQc.js (ENTRY POINT)==
 
-export const Child_component_usUBninIuQc=()=>{useStylesQrl(qrl(()=>import(`./example_inlined_entry_strategy.tsx_Child_component_useStyles_u14sZsUq8xQ.js`),`Child_component_useStyles_u14sZsUq8xQ`));let state=useStylesQrl(qrl(()=>import(`./example_inlined_entry_strategy.tsx_Child_component_useStyles_u14sZsUq8xQ.js`),`Child_component_useStyles_u14sZsUq8xQ`));return useBrowserVisibleTaskQrl(qrl(()=>import(`./example_inlined_entry_strategy.tsx_Child_component_useBrowserVisibleTask_mguI2bCnQyY.js`),`Child_component_useBrowserVisibleTask_mguI2bCnQyY`,[state])),<div on:click={useBrowserVisibleTaskQrl(qrl(()=>import(`./example_inlined_entry_strategy.tsx_Child_component_useBrowserVisibleTask_mguI2bCnQyY.js`),`Child_component_useBrowserVisibleTask_mguI2bCnQyY`,[state]))}>
-		</div>};
+export const Child_component_usUBninIuQc = () => {
+	useStylesQrl(qrl(() => import("./example_inlined_entry_strategy.tsx_Child_component_useStyles_u14sZsUq8xQ.js"), "Child_component_useStyles_u14sZsUq8xQ"));
+	const state = useStylesQrl(qrl(() => import("./example_inlined_entry_strategy.tsx_Child_component_useStyles_u14sZsUq8xQ.js"), "Child_component_useStyles_u14sZsUq8xQ"));
+	useBrowserVisibleTaskQrl(qrl(() => import("./example_inlined_entry_strategy.tsx_Child_component_useBrowserVisibleTask_mguI2bCnQyY.js"), "Child_component_useBrowserVisibleTask_mguI2bCnQyY", [state]));
+	return <div on:click={useBrowserVisibleTaskQrl(qrl(() => import("./example_inlined_entry_strategy.tsx_Child_component_useBrowserVisibleTask_mguI2bCnQyY.js"), "Child_component_useBrowserVisibleTask_mguI2bCnQyY", [state]))}>
+		</div>;
+};
+
 
 None
 /*
@@ -54,7 +60,8 @@ None
 */
 ============================= ./example_inlined_entry_strategy.tsx_Child_component_useStyles_u14sZsUq8xQ.js (ENTRY POINT)==
 
-export const Child_component_useStyles_u14sZsUq8xQ=`somestring`;
+export const Child_component_useStyles_u14sZsUq8xQ = "somestring";
+
 
 None
 /*
@@ -79,7 +86,12 @@ None
 */
 ============================= ./example_inlined_entry_strategy.tsx_Child_component_useBrowserVisibleTask_mguI2bCnQyY.js (ENTRY POINT)==
 
-import{thing}from"./sibling";export const Child_component_useBrowserVisibleTask_mguI2bCnQyY=()=>{let[state]=useLexicalScope();state.count=thing.doStuff()+import(`./sibling`)};
+import { thing } from "./sibling";
+export const Child_component_useBrowserVisibleTask_mguI2bCnQyY = () => {
+	const [state] = useLexicalScope();
+	state.count = thing.doStuff() + import("./sibling");
+};
+
 
 None
 /*
@@ -104,7 +116,9 @@ None
 */
 ============================= example_inlined_entry_strategy.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const Child=componentQrl(qrl(()=>import(`./example_inlined_entry_strategy.tsx_Child_component_usUBninIuQc.js`),`Child_component_usUBninIuQc`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const Child = componentQrl(qrl(() => import("./example_inlined_entry_strategy.tsx_Child_component_usUBninIuQc.js"), "Child_component_usUBninIuQc"));
+
 
 None
 == DIAGNOSTICS ==

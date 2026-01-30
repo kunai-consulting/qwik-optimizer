@@ -21,8 +21,22 @@ export const AtomStatus = component$(({ctx,atom})=>{
 
 ============================= ./example_optimization_issue_3542.tsx_AtomStatus_component_25gjymXUvzA.js (ENTRY POINT)==
 
-import{qrl}from"@qwik.dev/core";export const AtomStatus_component_25gjymXUvzA=({ctx,atom})=>{let status=atom.status;return atom.real?JSON.stringify(atom.atom)==JSON.stringify(atom.real)&&(status=`WTFED`):status=`WILL-VANISH`,<span title={atom.ID} on:click={qrl(()=>import(`./example_optimization_issue_3542.tsx.js`),`AtomStatus_component_span_onClick`)} class={[`atom`,status,ctx.store[atom.ID]?`selected`:null]}>
-		</span>};
+import { qrl } from "@qwik.dev/core";
+export const AtomStatus_component_25gjymXUvzA = ({ ctx, atom }) => {
+	let status = atom.status;
+	if (!atom.real) {
+		status = "WILL-VANISH";
+	} else if (JSON.stringify(atom.atom) == JSON.stringify(atom.real)) {
+		status = "WTFED";
+	}
+	return <span title={atom.ID} on:click={qrl(() => import("./example_optimization_issue_3542.tsx.js"), "AtomStatus_component_span_onClick")} class={[
+		"atom",
+		status,
+		ctx.store[atom.ID] ? "selected" : null
+	]}>
+		</span>;
+};
+
 
 None
 /*
@@ -47,7 +61,9 @@ None
 */
 ============================= example_optimization_issue_3542.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const AtomStatus=componentQrl(qrl(()=>import(`./example_optimization_issue_3542.tsx_AtomStatus_component_25gjymXUvzA.js`),`AtomStatus_component_25gjymXUvzA`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const AtomStatus = componentQrl(qrl(() => import("./example_optimization_issue_3542.tsx_AtomStatus_component_25gjymXUvzA.js"), "AtomStatus_component_25gjymXUvzA"));
+
 
 None
 == DIAGNOSTICS ==

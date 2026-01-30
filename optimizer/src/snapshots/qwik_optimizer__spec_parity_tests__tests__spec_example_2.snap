@@ -14,7 +14,8 @@ export const Header = component$(() => {
 
 ============================= ./example_2.tsx_Header_component_div_onClick_00vaTLm0siE.js (ENTRY POINT)==
 
-export const Header_component_div_onClick_00vaTLm0siE=ctx=>console.log(ctx);
+export const Header_component_div_onClick_00vaTLm0siE = (ctx) => console.log(ctx);
+
 
 None
 /*
@@ -39,7 +40,12 @@ None
 */
 ============================= ./example_2.tsx_Header_component_l6Npo8g4T98.js (ENTRY POINT)==
 
-import{qrl}from"@qwik.dev/core";export const Header_component_l6Npo8g4T98=()=>(console.log(`mount`),<div onClick={qrl(()=>import(`./example_2.tsx_Header_component_div_onClick_00vaTLm0siE.js`),`Header_component_div_onClick_00vaTLm0siE`)}/>);
+import { qrl } from "@qwik.dev/core";
+export const Header_component_l6Npo8g4T98 = () => {
+	console.log("mount");
+	return <div onClick={qrl(() => import("./example_2.tsx_Header_component_div_onClick_00vaTLm0siE.js"), "Header_component_div_onClick_00vaTLm0siE")} />;
+};
+
 
 None
 /*
@@ -64,7 +70,9 @@ None
 */
 ============================= example_2.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const Header=componentQrl(qrl(()=>import(`./example_2.tsx_Header_component_l6Npo8g4T98.js`),`Header_component_l6Npo8g4T98`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const Header = componentQrl(qrl(() => import("./example_2.tsx_Header_component_l6Npo8g4T98.js"), "Header_component_l6Npo8g4T98"));
+
 
 None
 == DIAGNOSTICS ==

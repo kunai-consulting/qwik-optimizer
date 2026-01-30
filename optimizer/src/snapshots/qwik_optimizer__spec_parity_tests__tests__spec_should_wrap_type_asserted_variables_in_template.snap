@@ -17,12 +17,19 @@ export default component$(() => {
 
 ============================= should_wrap_type_asserted_variables_in_template.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./should_wrap_type_asserted_variables_in_template.tsx_component_GColZQ6KlD8.js`),`component_GColZQ6KlD8`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export default componentQrl(qrl(() => import("./should_wrap_type_asserted_variables_in_template.tsx_component_GColZQ6KlD8.js"), "component_GColZQ6KlD8"));
+
 
 None
 ============================= ./should_wrap_type_asserted_variables_in_template.tsx_component_GColZQ6KlD8.js (ENTRY POINT)==
 
-import{_jsxSorted,useSignal}from"@qwik.dev/core";export const component_GColZQ6KlD8=()=>{let count=useSignal(0);return/* @__PURE__ */ _jsxSorted(`div`,null,null,_wrapProp(count),1,null)};
+import { _jsxSorted, useSignal } from "@qwik.dev/core";
+export const component_GColZQ6KlD8 = () => {
+	const count = useSignal(0);
+	return /* @__PURE__ */ _jsxSorted("div", null, null, _wrapProp(count), 1, null);
+};
+
 
 None
 /*

@@ -16,7 +16,14 @@ export const App = component$(() => {
 
 ============================= ./issue_964.tsx_App_component_mGS56mGKM0E.js (ENTRY POINT)==
 
-import{_jsxSorted}from"@qwik.dev/core";export const App_component_mGS56mGKM0E=()=>(console.log(function*(lo,t){console.log(yield(yield lo)(t.href).then(r=>r.json()))}),/* @__PURE__ */ _jsxSorted(`p`,null,null,`Hello Qwik`,3,null));
+import { _jsxSorted } from "@qwik.dev/core";
+export const App_component_mGS56mGKM0E = () => {
+	console.log(function* (lo, t) {
+		console.log(yield (yield lo)(t.href).then((r) => r.json()));
+	});
+	return /* @__PURE__ */ _jsxSorted("p", null, null, "Hello Qwik", 3, null);
+};
+
 
 None
 /*
@@ -41,7 +48,9 @@ None
 */
 ============================= issue_964.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./issue_964.tsx_App_component_mGS56mGKM0E.js`),`App_component_mGS56mGKM0E`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const App = componentQrl(qrl(() => import("./issue_964.tsx_App_component_mGS56mGKM0E.js"), "App_component_mGS56mGKM0E"));
+
 
 None
 == DIAGNOSTICS ==

@@ -12,12 +12,22 @@ export default component$((props) => {
 
 ============================= should_merge_attributes_with_spread_props_before_and_after.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./should_merge_attributes_with_spread_props_before_and_after.tsx_component_lIIsCU6UqXw.js`),`component_lIIsCU6UqXw`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export default componentQrl(qrl(() => import("./should_merge_attributes_with_spread_props_before_and_after.tsx_component_lIIsCU6UqXw.js"), "component_lIIsCU6UqXw"));
+
 
 None
 ============================= ./should_merge_attributes_with_spread_props_before_and_after.tsx_component_lIIsCU6UqXw.js (ENTRY POINT)==
 
-import{_getConstProps,_getVarProps,_jsxSplit}from"@qwik.dev/core";export const component_lIIsCU6UqXw=props=>/* @__PURE__ */ _jsxSplit(`div`,{..._getVarProps(props),class:[props.class,`component`],..._getVarProps(props)},_getConstProps(props),null,0,null);
+import { _getConstProps, _getVarProps, _jsxSplit } from "@qwik.dev/core";
+export const component_lIIsCU6UqXw = (props) => {
+	return /* @__PURE__ */ _jsxSplit("div", {
+		..._getVarProps(props),
+		class: [props.class, "component"],
+		..._getVarProps(props)
+	}, _getConstProps(props), null, 0, null);
+};
+
 
 None
 /*

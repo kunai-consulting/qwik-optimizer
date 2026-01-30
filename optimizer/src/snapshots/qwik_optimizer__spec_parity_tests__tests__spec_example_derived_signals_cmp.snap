@@ -47,12 +47,45 @@ export const App = component$(() => {
 
 ============================= example_derived_signals_cmp.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./example_derived_signals_cmp.tsx_App_component_u6a3MBTlDr4.js`),`App_component_u6a3MBTlDr4`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const App = componentQrl(qrl(() => import("./example_derived_signals_cmp.tsx_App_component_u6a3MBTlDr4.js"), "App_component_u6a3MBTlDr4"));
+
 
 None
 ============================= ./example_derived_signals_cmp.tsx_App_component_u6a3MBTlDr4.js (ENTRY POINT)==
 
-import{Cmp}from"./cmp";import{dep}from"./file";import{_jsxSorted,mutable,useStore}from"@qwik.dev/core";export const App_component_u6a3MBTlDr4=()=>{let signal=useSignal(0),store=useStore({});return _jsxSorted(Cmp,{signalValue:_wrapProp(signal),signalComputedValue:12+signal.value,store:store.address.city.name,storeComputed:store.address.city.name?`true`:`false`,depAccess:dep.thing,depComputed:dep.thing+`stuff`,global:globalThing,globalAccess:globalThing.thing,globalComputed:globalThing.thing+`stuff`,noInline:signal.value(),noInline2:signal.value+unknown(),noInline3:mutable(signal),noInline4:signal.value+dep},{staticText:`text`,staticText2:`text`,staticNumber:1,staticBoolean:!0,staticExpr:`text12`,staticExpr2:12,signal,dep},null,3,null)};
+import { Cmp } from "./cmp";
+import { dep } from "./file";
+import { _jsxSorted, mutable, useStore } from "@qwik.dev/core";
+export const App_component_u6a3MBTlDr4 = () => {
+	const signal = useSignal(0);
+	const store = useStore({});
+	return _jsxSorted(Cmp, {
+		signalValue: _wrapProp(signal),
+		signalComputedValue: 12 + signal.value,
+		store: store.address.city.name,
+		storeComputed: store.address.city.name ? "true" : "false",
+		depAccess: dep.thing,
+		depComputed: dep.thing + "stuff",
+		global: globalThing,
+		globalAccess: globalThing.thing,
+		globalComputed: globalThing.thing + "stuff",
+		noInline: signal.value(),
+		noInline2: signal.value + unknown(),
+		noInline3: mutable(signal),
+		noInline4: signal.value + dep
+	}, {
+		staticText: "text",
+		staticText2: `text`,
+		staticNumber: 1,
+		staticBoolean: true,
+		staticExpr: `text${12}`,
+		staticExpr2: typeof `text${12}` === "string" ? 12 : 43,
+		signal,
+		dep
+	}, null, 3, null);
+};
+
 
 None
 /*

@@ -21,7 +21,21 @@ export const Works = component$((props: { fromProps: number }) => {
 
 ============================= ./example_props_wrapping2.tsx_Works_component_KaometRFDW8.js (ENTRY POINT)==
 
-import{_jsxSorted,useSignal}from"@qwik.dev/core";export const Works_component_KaometRFDW8=props=>{let fromLocal=useSignal(0);return/* @__PURE__ */ _jsxSorted(`div`,{computed:fromLocal+props.fromProps,local:fromLocal,props-wrap:props.fromProps,props-only:{props:props.fromProps},props:{props:props.fromProps,local:fromLocal}},null,null,3,null)};
+import { _jsxSorted, useSignal } from "@qwik.dev/core";
+export const Works_component_KaometRFDW8 = (props) => {
+	let fromLocal = useSignal(0);
+	return /* @__PURE__ */ _jsxSorted("div", {
+		computed: fromLocal + props.fromProps,
+		local: fromLocal,
+		props-wrap: props.fromProps,
+		props-only: { props: props.fromProps },
+		props: {
+			props: props.fromProps,
+			local: fromLocal
+		}
+	}, null, null, 3, null);
+};
+
 
 None
 /*
@@ -46,7 +60,9 @@ None
 */
 ============================= example_props_wrapping2.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const Works=componentQrl(qrl(()=>import(`./example_props_wrapping2.tsx_Works_component_KaometRFDW8.js`),`Works_component_KaometRFDW8`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const Works = componentQrl(qrl(() => import("./example_props_wrapping2.tsx_Works_component_KaometRFDW8.js"), "Works_component_KaometRFDW8"));
+
 
 None
 == DIAGNOSTICS ==

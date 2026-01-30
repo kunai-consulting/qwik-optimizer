@@ -26,12 +26,25 @@ export const App = component$(() => {
 
 ============================= example_derived_signals_complext_children.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./example_derived_signals_complext_children.tsx_App_component_yxEQp0XEDYE.js`),`App_component_yxEQp0XEDYE`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const App = componentQrl(qrl(() => import("./example_derived_signals_complext_children.tsx_App_component_yxEQp0XEDYE.js"), "App_component_yxEQp0XEDYE"));
+
 
 None
 ============================= ./example_derived_signals_complext_children.tsx_App_component_yxEQp0XEDYE.js (ENTRY POINT)==
 
-import{_jsxSorted,useStore}from"@qwik.dev/core";import{Fragment as _Fragment}from"@qwik.dev/core/jsx-runtime";export const App_component_yxEQp0XEDYE=()=>{useSignal(0);let store=useStore({});return/* @__PURE__ */ _jsxSorted(_Fragment,null,null,/* @__PURE__ */ _jsxSorted(`ul`,null,{id:`issue-2800-result`},Object.entries(store).map(([key,value])=>/* @__PURE__ */ _jsxSorted(`li`,null,null,[key,`-`,value],1,null)),1,null),3,null)};
+import { _jsxSorted, useStore } from "@qwik.dev/core";
+import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
+export const App_component_yxEQp0XEDYE = () => {
+	const signal = useSignal(0);
+	const store = useStore({});
+	return /* @__PURE__ */ _jsxSorted(_Fragment, null, null, /* @__PURE__ */ _jsxSorted("ul", null, { id: "issue-2800-result" }, Object.entries(store).map(([key, value]) => /* @__PURE__ */ _jsxSorted("li", null, null, [
+		key,
+		"-",
+		value
+	], 1, null)), 1, null), 3, null);
+};
+
 
 None
 /*

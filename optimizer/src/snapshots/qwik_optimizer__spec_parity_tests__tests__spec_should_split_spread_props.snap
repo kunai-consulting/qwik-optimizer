@@ -14,7 +14,11 @@ export default component$((props) => {
 
 ============================= ./should_split_spread_props.tsx_component_HplvOUfWbqo.js (ENTRY POINT)==
 
-import{_getConstProps,_getVarProps,_jsxSplit}from"@qwik.dev/core";export const component_HplvOUfWbqo=props=>/* @__PURE__ */ _jsxSplit(`div`,{..._getVarProps(props)},_getConstProps(props),null,0,null);
+import { _getConstProps, _getVarProps, _jsxSplit } from "@qwik.dev/core";
+export const component_HplvOUfWbqo = (props) => {
+	return /* @__PURE__ */ _jsxSplit("div", { ..._getVarProps(props) }, _getConstProps(props), null, 0, null);
+};
+
 
 None
 /*
@@ -39,7 +43,9 @@ None
 */
 ============================= should_split_spread_props.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./should_split_spread_props.tsx_component_HplvOUfWbqo.js`),`component_HplvOUfWbqo`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export default componentQrl(qrl(() => import("./should_split_spread_props.tsx_component_HplvOUfWbqo.js"), "component_HplvOUfWbqo"));
+
 
 None
 == DIAGNOSTICS ==

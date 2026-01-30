@@ -19,8 +19,11 @@ export const Foo = component$(() => {
 
 ============================= ./example_with_tagname.tsx_Foo_component_1_fOrH9o2dCAs.js (ENTRY POINT)==
 
-export const Foo_component_1_fOrH9o2dCAs=()=><div>
+export const Foo_component_1_fOrH9o2dCAs = () => {
+	return <div>
 			</div>;
+};
+
 
 None
 /*
@@ -45,7 +48,11 @@ None
 */
 ============================= ./example_with_tagname.tsx_Foo_component_zD2Kf7z5p2c.js (ENTRY POINT)==
 
-import{qrl}from"@qwik.dev/core";export const Foo_component_zD2Kf7z5p2c=()=>qrl(()=>import(`./example_with_tagname.tsx_Foo_component_1_fOrH9o2dCAs.js`),`Foo_component_1_fOrH9o2dCAs`);
+import { qrl } from "@qwik.dev/core";
+export const Foo_component_zD2Kf7z5p2c = () => {
+	return qrl(() => import("./example_with_tagname.tsx_Foo_component_1_fOrH9o2dCAs.js"), "Foo_component_1_fOrH9o2dCAs");
+};
+
 
 None
 /*
@@ -70,7 +77,9 @@ None
 */
 ============================= example_with_tagname.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const Foo=componentQrl(qrl(()=>import(`./example_with_tagname.tsx_Foo_component_zD2Kf7z5p2c.js`),`Foo_component_zD2Kf7z5p2c`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const Foo = componentQrl(qrl(() => import("./example_with_tagname.tsx_Foo_component_zD2Kf7z5p2c.js"), "Foo_component_zD2Kf7z5p2c"));
+
 
 None
 == DIAGNOSTICS ==

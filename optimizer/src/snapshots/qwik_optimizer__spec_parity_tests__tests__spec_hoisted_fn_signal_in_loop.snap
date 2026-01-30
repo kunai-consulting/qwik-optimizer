@@ -31,7 +31,27 @@ export const App = component$(() => {
 
 ============================= ./hoisted_fn_signal_in_loop.tsx_App_component_0Uh5oJsjbyw.js (ENTRY POINT)==
 
-import{_fnSignal,_jsxSorted}from"@qwik.dev/core";export const App_component_0Uh5oJsjbyw=()=>/* @__PURE__ */ _jsxSorted(`table`,null,null,{value:[{value:{id:1,selected:{value:!0}}},{value:{id:2,selected:{value:!1}}},{value:{id:3,selected:{value:!0}}}]}.value.map(row=>/* @__PURE__ */ _jsxSorted(`tr`,{class:_fnSignal(p0=>p0.value.selected.value?`danger`:``,[row],"p0.value.selected.value?`danger`:``")},null,/* @__PURE__ */ _jsxSorted(`td`,null,null,_fnSignal(p0=>p0.value.id,[row],`p0.value.id`),1,null),3,_fnSignal(p0=>p0.value.id,[row],`p0.value.id`))),1,null);
+import { _fnSignal, _jsxSorted } from "@qwik.dev/core";
+export const App_component_0Uh5oJsjbyw = () => {
+	const data = { value: [
+		{ value: {
+			id: 1,
+			selected: { value: true }
+		} },
+		{ value: {
+			id: 2,
+			selected: { value: false }
+		} },
+		{ value: {
+			id: 3,
+			selected: { value: true }
+		} }
+	] };
+	return /* @__PURE__ */ _jsxSorted("table", null, null, data.value.map((row) => {
+		return /* @__PURE__ */ _jsxSorted("tr", { class: _fnSignal((p0) => p0.value.selected.value ? "danger" : "", [row], "p0.value.selected.value?`danger`:``") }, null, /* @__PURE__ */ _jsxSorted("td", null, null, _fnSignal((p0) => p0.value.id, [row], "p0.value.id"), 1, null), 3, _fnSignal((p0) => p0.value.id, [row], "p0.value.id"));
+	}), 1, null);
+};
+
 
 None
 /*
@@ -56,7 +76,9 @@ None
 */
 ============================= hoisted_fn_signal_in_loop.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./hoisted_fn_signal_in_loop.tsx_App_component_0Uh5oJsjbyw.js`),`App_component_0Uh5oJsjbyw`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const App = componentQrl(qrl(() => import("./hoisted_fn_signal_in_loop.tsx_App_component_0Uh5oJsjbyw.js"), "App_component_0Uh5oJsjbyw"));
+
 
 None
 == DIAGNOSTICS ==

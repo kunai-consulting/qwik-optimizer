@@ -23,12 +23,24 @@ export default component$(() => {
 
 ============================= should_not_wrap_var_template_string.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./should_not_wrap_var_template_string.tsx_component_t8YaDkmgCZs.js`),`component_t8YaDkmgCZs`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export default componentQrl(qrl(() => import("./should_not_wrap_var_template_string.tsx_component_t8YaDkmgCZs.js"), "component_t8YaDkmgCZs"));
+
 
 None
 ============================= ./should_not_wrap_var_template_string.tsx_component_t8YaDkmgCZs.js (ENTRY POINT)==
 
-import{_jsxSorted,qrl,useComputedQrl}from"@qwik.dev/core";import{inlineTranslate}from"translate-lib";export const component_t8YaDkmgCZs=()=>{let t=inlineTranslate(),productTitle=useComputedQrl(qrl(()=>import(`./should_not_wrap_var_template_string.tsx_component_productTitle_useComputed_EKd81xgCo8Q.js`),`component_productTitle_useComputed_EKd81xgCo8Q`));return/* @__PURE__ */ _jsxSorted(`img`,{attr:t(`home.imageAlt.founded-product:`),alt:`${t(`home.imageAlt.founded-product:`)} ${productTitle.value}`},null,null,3,null)};
+import { _jsxSorted, qrl, useComputedQrl } from "@qwik.dev/core";
+import { inlineTranslate } from "translate-lib";
+export const component_t8YaDkmgCZs = () => {
+	const t = inlineTranslate();
+	const productTitle = useComputedQrl(qrl(() => import("./should_not_wrap_var_template_string.tsx_component_productTitle_useComputed_EKd81xgCo8Q.js"), "component_productTitle_useComputed_EKd81xgCo8Q"));
+	return /* @__PURE__ */ _jsxSorted("img", {
+		attr: t("home.imageAlt.founded-product:"),
+		alt: `${t("home.imageAlt.founded-product:")} ${productTitle.value}`
+	}, null, null, 3, null);
+};
+
 
 None
 /*
@@ -53,7 +65,10 @@ None
 */
 ============================= ./should_not_wrap_var_template_string.tsx_component_productTitle_useComputed_EKd81xgCo8Q.js (ENTRY POINT)==
 
-export const component_productTitle_useComputed_EKd81xgCo8Q=()=>`Test title`;
+export const component_productTitle_useComputed_EKd81xgCo8Q = () => {
+	return "Test title";
+};
+
 
 None
 /*

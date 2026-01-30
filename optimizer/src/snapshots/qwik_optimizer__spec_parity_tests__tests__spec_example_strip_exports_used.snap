@@ -25,7 +25,12 @@ export default component$(()=> {
 
 ============================= ./example_strip_exports_used.tsx_component_Eu43kjW71hU.js (ENTRY POINT)==
 
-import{qrl,useResourceQrl}from"@qwik.dev/core";export const component_Eu43kjW71hU=()=>(useResourceQrl(qrl(()=>import(`./example_strip_exports_used.tsx_component_useResource_4uRQV9gHG00.js`),`component_useResource_4uRQV9gHG00`)),<div>cmp</div>);
+import { qrl, useResourceQrl } from "@qwik.dev/core";
+export const component_Eu43kjW71hU = () => {
+	useResourceQrl(qrl(() => import("./example_strip_exports_used.tsx_component_useResource_4uRQV9gHG00.js"), "component_useResource_4uRQV9gHG00"));
+	return <div>cmp</div>;
+};
+
 
 None
 /*
@@ -50,12 +55,23 @@ None
 */
 ============================= example_strip_exports_used.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";import mongodb from"mongodb";export const onGet=()=>{const data=mongodb.collection.whatever;return{body:{data}}};export default componentQrl(qrl(()=>import(`./example_strip_exports_used.tsx_component_Eu43kjW71hU.js`),`component_Eu43kjW71hU`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+import mongodb from "mongodb";
+export const onGet = () => {
+	const data = mongodb.collection.whatever;
+	return { body: { data } };
+};
+export default componentQrl(qrl(() => import("./example_strip_exports_used.tsx_component_Eu43kjW71hU.js"), "component_Eu43kjW71hU"));
+
 
 None
 ============================= ./example_strip_exports_used.tsx_component_useResource_4uRQV9gHG00.js (ENTRY POINT)==
 
-import{onGet}from"./example_strip_exports_used";export const component_useResource_4uRQV9gHG00=()=>onGet();
+import { onGet } from "./example_strip_exports_used";
+export const component_useResource_4uRQV9gHG00 = () => {
+	return onGet();
+};
+
 
 None
 /*

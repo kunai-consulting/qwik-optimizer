@@ -17,7 +17,14 @@ export default component$((props) => {
 
 ============================= ./destructure_args_colon_props3.tsx_component_0RtHRgkBnzw.js (ENTRY POINT)==
 
-import{_jsxSorted,useSignal}from"@qwik.dev/core";import{Fragment as _Fragment}from"@qwik.dev/core/jsx-runtime";export const component_0RtHRgkBnzw=props=>{let{test,...rest}=props,test=useSignal(rest[`bind:value`]);return/* @__PURE__ */ _jsxSorted(_Fragment,null,null,_wrapProp(test),1,null)};
+import { _jsxSorted, useSignal } from "@qwik.dev/core";
+import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
+export const component_0RtHRgkBnzw = (props) => {
+	const { test, ...rest } = props;
+	const test = useSignal(rest["bind:value"]);
+	return /* @__PURE__ */ _jsxSorted(_Fragment, null, null, _wrapProp(test), 1, null);
+};
+
 
 None
 /*
@@ -42,7 +49,9 @@ None
 */
 ============================= destructure_args_colon_props3.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./destructure_args_colon_props3.tsx_component_0RtHRgkBnzw.js`),`component_0RtHRgkBnzw`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export default componentQrl(qrl(() => import("./destructure_args_colon_props3.tsx_component_0RtHRgkBnzw.js"), "component_0RtHRgkBnzw"));
+
 
 None
 == DIAGNOSTICS ==

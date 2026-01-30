@@ -18,7 +18,11 @@ export const Works = component$((props) => {
 
 ============================= ./example_reg_ctx_name_segments.tsx_Works_component_div_onClick_server_o0GS8LVQbck.js (ENTRY POINT)==
 
-export const Works_component_div_onClick_server_o0GS8LVQbck=()=>{let[text]=useLexicalScope();return console.log(`in server`,text)};
+export const Works_component_div_onClick_server_o0GS8LVQbck = () => {
+	const [text] = useLexicalScope();
+	return console.log("in server", text);
+};
+
 
 None
 /*
@@ -43,12 +47,20 @@ None
 */
 ============================= example_reg_ctx_name_segments.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const Works=componentQrl(qrl(()=>import(`./example_reg_ctx_name_segments.tsx_Works_component_tWKactae70E.js`),`Works_component_tWKactae70E`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const Works = componentQrl(qrl(() => import("./example_reg_ctx_name_segments.tsx_Works_component_tWKactae70E.js"), "Works_component_tWKactae70E"));
+
 
 None
 ============================= ./example_reg_ctx_name_segments.tsx_Works_component_tWKactae70E.js (ENTRY POINT)==
 
-import{_jsxSorted,qrl,serverQrl}from"@qwik.dev/core";import{Fragment as _Fragment}from"@qwik.dev/core/jsx-runtime";export const Works_component_tWKactae70E=props=>/* @__PURE__ */ _jsxSorted(_Fragment,null,null,[/* @__PURE__ */ _jsxSorted(`div`,{on:click:serverQrl(qrl(()=>import(`./example_reg_ctx_name_segments.tsx_Works_component_div_onClick_server_o0GS8LVQbck.js`),`Works_component_div_onClick_server_o0GS8LVQbck`,[`hola`]))},null,null,3,null),/* @__PURE__ */ _jsxSorted(`div`,{on:click:qrl(()=>import(`./example_reg_ctx_name_segments.tsx.js`),`Works_component_div_onClick_1`)},null,null,3,null)],3,null);
+import { _jsxSorted, qrl, serverQrl } from "@qwik.dev/core";
+import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
+export const Works_component_tWKactae70E = (props) => {
+	const text = "hola";
+	return /* @__PURE__ */ _jsxSorted(_Fragment, null, null, [/* @__PURE__ */ _jsxSorted("div", { on:click: serverQrl(qrl(() => import("./example_reg_ctx_name_segments.tsx_Works_component_div_onClick_server_o0GS8LVQbck.js"), "Works_component_div_onClick_server_o0GS8LVQbck", [text])) }, null, null, 3, null), /* @__PURE__ */ _jsxSorted("div", { on:click: qrl(() => import("./example_reg_ctx_name_segments.tsx.js"), "Works_component_div_onClick_1") }, null, null, 3, null)], 3, null);
+};
+
 
 None
 /*

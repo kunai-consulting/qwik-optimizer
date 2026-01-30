@@ -49,12 +49,45 @@ export const App = component$(() => {
 
 ============================= example_derived_signals_children.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const TextContent=componentQrl(qrl(()=>import(`./example_derived_signals_children.tsx_TextContent_component_YynkkqFx76A.js`),`TextContent_component_YynkkqFx76A`));export const App=componentQrl(qrl(()=>import(`./example_derived_signals_children.tsx_App_component_rpAUGz2wOYo.js`),`App_component_rpAUGz2wOYo`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const TextContent = componentQrl(qrl(() => import("./example_derived_signals_children.tsx_TextContent_component_YynkkqFx76A.js"), "TextContent_component_YynkkqFx76A"));
+export const App = componentQrl(qrl(() => import("./example_derived_signals_children.tsx_App_component_rpAUGz2wOYo.js"), "App_component_rpAUGz2wOYo"));
+
 
 None
 ============================= ./example_derived_signals_children.tsx_App_component_rpAUGz2wOYo.js (ENTRY POINT)==
 
-import{dep}from"./file";import{_jsxSorted,mutable,useStore}from"@qwik.dev/core";import{Fragment as _Fragment}from"@qwik.dev/core/jsx-runtime";export const App_component_rpAUGz2wOYo=()=>{let signal=useSignal(0),store=useStore({});return/* @__PURE__ */ _jsxSorted(_Fragment,null,null,[/* @__PURE__ */ _jsxSorted(`div`,null,null,`text`,3,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,`text`,1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,1,1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,!0,1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,`text12`,1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,12,1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,signal,1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,_wrapProp(signal),1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,12+signal.value,1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,store.address.city.name,1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,store.address.city.name?`true`:`false`,1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,dep,1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,dep.thing,1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,dep.thing+`stuff`,1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,globalThing,1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,globalThing.thing,1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,globalThing.thing+`stuff`,1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,signal.value(),1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,signal.value+unknown(),1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,mutable(signal),1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,signal.value+dep,1,null)],3,null)};
+import { dep } from "./file";
+import { _jsxSorted, mutable, useStore } from "@qwik.dev/core";
+import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
+export const App_component_rpAUGz2wOYo = () => {
+	const signal = useSignal(0);
+	const store = useStore({});
+	return /* @__PURE__ */ _jsxSorted(_Fragment, null, null, [
+		/* @__PURE__ */ _jsxSorted("div", null, null, "text", 3, null),
+		/* @__PURE__ */ _jsxSorted("div", null, null, `text`, 1, null),
+		/* @__PURE__ */ _jsxSorted("div", null, null, 1, 1, null),
+		/* @__PURE__ */ _jsxSorted("div", null, null, true, 1, null),
+		/* @__PURE__ */ _jsxSorted("div", null, null, `text${12}`, 1, null),
+		/* @__PURE__ */ _jsxSorted("div", null, null, typeof `text${12}` === "string" ? 12 : 43, 1, null),
+		/* @__PURE__ */ _jsxSorted("div", null, null, signal, 1, null),
+		/* @__PURE__ */ _jsxSorted("div", null, null, _wrapProp(signal), 1, null),
+		/* @__PURE__ */ _jsxSorted("div", null, null, 12 + signal.value, 1, null),
+		/* @__PURE__ */ _jsxSorted("div", null, null, store.address.city.name, 1, null),
+		/* @__PURE__ */ _jsxSorted("div", null, null, store.address.city.name ? "true" : "false", 1, null),
+		/* @__PURE__ */ _jsxSorted("div", null, null, dep, 1, null),
+		/* @__PURE__ */ _jsxSorted("div", null, null, dep.thing, 1, null),
+		/* @__PURE__ */ _jsxSorted("div", null, null, dep.thing + "stuff", 1, null),
+		/* @__PURE__ */ _jsxSorted("div", null, null, globalThing, 1, null),
+		/* @__PURE__ */ _jsxSorted("div", null, null, globalThing.thing, 1, null),
+		/* @__PURE__ */ _jsxSorted("div", null, null, globalThing.thing + "stuff", 1, null),
+		/* @__PURE__ */ _jsxSorted("div", null, null, signal.value(), 1, null),
+		/* @__PURE__ */ _jsxSorted("div", null, null, signal.value + unknown(), 1, null),
+		/* @__PURE__ */ _jsxSorted("div", null, null, mutable(signal), 1, null),
+		/* @__PURE__ */ _jsxSorted("div", null, null, signal.value + dep, 1, null)
+	], 3, null);
+};
+
 
 None
 /*
@@ -79,7 +112,12 @@ None
 */
 ============================= ./example_derived_signals_children.tsx_TextContent_component_YynkkqFx76A.js (ENTRY POINT)==
 
-import{_jsxSorted}from"@qwik.dev/core";import{Fragment as _Fragment}from"@qwik.dev/core/jsx-runtime";export const TextContent_component_YynkkqFx76A=props=>/* @__PURE__ */ _jsxSorted(_Fragment,null,null,[/* @__PURE__ */ _jsxSorted(`div`,null,null,[`data-nu:`,props[`data-nu`]],1,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,[`class:`,props.class],1,null)],3,null);
+import { _jsxSorted } from "@qwik.dev/core";
+import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
+export const TextContent_component_YynkkqFx76A = (props) => {
+	return /* @__PURE__ */ _jsxSorted(_Fragment, null, null, [/* @__PURE__ */ _jsxSorted("div", null, null, ["data-nu:", props["data-nu"]], 1, null), /* @__PURE__ */ _jsxSorted("div", null, null, ["class:", props.class], 1, null)], 3, null);
+};
+
 
 None
 /*

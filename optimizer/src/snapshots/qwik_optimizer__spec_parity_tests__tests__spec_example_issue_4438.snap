@@ -18,7 +18,13 @@ export const App = component$(() => {
 
 ============================= ./example_issue_4438.tsx_App_component_eGeaJB4BHI8.js (ENTRY POINT)==
 
-import{_jsxSorted,useSignal}from"@qwik.dev/core";import{Fragment as _Fragment}from"@qwik.dev/core/jsx-runtime";export const App_component_eGeaJB4BHI8=()=>{let toggle=useSignal(!1);return/* @__PURE__ */ _jsxSorted(_Fragment,null,null,[/* @__PURE__ */ _jsxSorted(`div`,{data-nu:toggle.value?$localize`singular`:`plural`},null,null,3,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,toggle.value?$localize`singular`:$localize`plural`,1,null)],3,null)};
+import { _jsxSorted, useSignal } from "@qwik.dev/core";
+import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
+export const App_component_eGeaJB4BHI8 = () => {
+	const toggle = useSignal(false);
+	return /* @__PURE__ */ _jsxSorted(_Fragment, null, null, [/* @__PURE__ */ _jsxSorted("div", { data-nu: toggle.value ? $localize`singular` : "plural" }, null, null, 3, null), /* @__PURE__ */ _jsxSorted("div", null, null, toggle.value ? $localize`singular` : $localize`plural`, 1, null)], 3, null);
+};
+
 
 None
 /*
@@ -43,7 +49,9 @@ None
 */
 ============================= example_issue_4438.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./example_issue_4438.tsx_App_component_eGeaJB4BHI8.js`),`App_component_eGeaJB4BHI8`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const App = componentQrl(qrl(() => import("./example_issue_4438.tsx_App_component_eGeaJB4BHI8.js"), "App_component_eGeaJB4BHI8"));
+
 
 None
 == DIAGNOSTICS ==

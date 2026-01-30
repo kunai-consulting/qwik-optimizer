@@ -23,7 +23,16 @@ export const Greeter = component$(() => {
 
 ============================= ./consistent_hashes.tsx_Greeter_component_hd1zjB8cngs.js (ENTRY POINT)==
 
-import{_jsxSorted,qrl}from"@qwik.dev/core";export const Greeter_component_hd1zjB8cngs=()=>(useTaskQrl(qrl(()=>import(`./consistent_hashes.tsx_Greeter_component_useTask_ttdoGmi3Fx4.js`),`Greeter_component_useTask_ttdoGmi3Fx4`)),/* @__PURE__ */ _jsxSorted(`div`,null,null,[/* @__PURE__ */ _jsxSorted(`div`,{on:click:useTaskQrl(qrl(()=>import(`./consistent_hashes.tsx_Greeter_component_useTask_ttdoGmi3Fx4.js`),`Greeter_component_useTask_ttdoGmi3Fx4`))},null,null,3,null),/* @__PURE__ */ _jsxSorted(`div`,{on:click:qrl(()=>import(`./consistent_hashes.tsx.js`),`Greeter_component_div_div_onClick_1`)},null,null,3,null),/* @__PURE__ */ _jsxSorted(`div`,{on:click:qrl(()=>import(`./consistent_hashes.tsx.js`),`Greeter_component_div_div_onClick_2`)},null,null,3,null)],3,null));
+import { _jsxSorted, qrl } from "@qwik.dev/core";
+export const Greeter_component_hd1zjB8cngs = () => {
+	useTaskQrl(qrl(() => import("./consistent_hashes.tsx_Greeter_component_useTask_ttdoGmi3Fx4.js"), "Greeter_component_useTask_ttdoGmi3Fx4"));
+	return /* @__PURE__ */ _jsxSorted("div", null, null, [
+		/* @__PURE__ */ _jsxSorted("div", { on:click: useTaskQrl(qrl(() => import("./consistent_hashes.tsx_Greeter_component_useTask_ttdoGmi3Fx4.js"), "Greeter_component_useTask_ttdoGmi3Fx4")) }, null, null, 3, null),
+		/* @__PURE__ */ _jsxSorted("div", { on:click: qrl(() => import("./consistent_hashes.tsx.js"), "Greeter_component_div_div_onClick_1") }, null, null, 3, null),
+		/* @__PURE__ */ _jsxSorted("div", { on:click: qrl(() => import("./consistent_hashes.tsx.js"), "Greeter_component_div_div_onClick_2") }, null, null, 3, null)
+	], 3, null);
+};
+
 
 None
 /*
@@ -48,7 +57,11 @@ None
 */
 ============================= ./consistent_hashes.tsx_Greeter_component_useTask_ttdoGmi3Fx4.js (ENTRY POINT)==
 
-import mongo from"mongodb";export const Greeter_component_useTask_ttdoGmi3Fx4=async()=>{await mongo.users()};
+import mongo from "mongodb";
+export const Greeter_component_useTask_ttdoGmi3Fx4 = async () => {
+	await mongo.users();
+};
+
 
 None
 /*
@@ -73,7 +86,9 @@ None
 */
 ============================= consistent_hashes.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const Greeter=componentQrl(qrl(()=>import(`./consistent_hashes.tsx_Greeter_component_hd1zjB8cngs.js`),`Greeter_component_hd1zjB8cngs`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const Greeter = componentQrl(qrl(() => import("./consistent_hashes.tsx_Greeter_component_hd1zjB8cngs.js"), "Greeter_component_hd1zjB8cngs"));
+
 
 None
 == DIAGNOSTICS ==

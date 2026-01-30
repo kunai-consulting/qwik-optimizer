@@ -31,15 +31,26 @@ export const ButtonArrow = ({text, color}) => {
 
 ============================= example_lightweight_functional.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const Foo=componentQrl(qrl(()=>import(`./example_lightweight_functional.tsx_Foo_component_PT5v7jM2PRg.js`),`Foo_component_PT5v7jM2PRg`));export function Button({text,color}){return<button on:color={color} on:click={qrl(()=>import(`./example_lightweight_functional.tsx.js`),`Button_button_onClick`)}>{text}</button>}export const ButtonArrow=({text,color})=>{return<button on:color={color} on:click={qrl(()=>import(`./example_lightweight_functional.tsx.js`),`ButtonArrow_button_onClick`)}>{text}</button>};
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const Foo = componentQrl(qrl(() => import("./example_lightweight_functional.tsx_Foo_component_PT5v7jM2PRg.js"), "Foo_component_PT5v7jM2PRg"));
+export function Button({ text, color }) {
+	return <button on:color={color} on:click={qrl(() => import("./example_lightweight_functional.tsx.js"), "Button_button_onClick")}>{text}</button>;
+}
+export const ButtonArrow = ({ text, color }) => {
+	return <button on:color={color} on:click={qrl(() => import("./example_lightweight_functional.tsx.js"), "ButtonArrow_button_onClick")}>{text}</button>;
+};
+
 
 None
 ============================= ./example_lightweight_functional.tsx_Foo_component_PT5v7jM2PRg.js (ENTRY POINT)==
 
-export const Foo_component_PT5v7jM2PRg=props=><div>
-			<Button{...props}/>
-			<ButtonArrow{...props}/>
+export const Foo_component_PT5v7jM2PRg = (props) => {
+	return <div>
+			<Button {...props} />
+			<ButtonArrow {...props} />
 		</div>;
+};
+
 
 None
 /*

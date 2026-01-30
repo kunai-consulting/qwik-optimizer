@@ -17,7 +17,12 @@ export const Foo = component$(() => {
 
 ============================= ./example_with_style.tsx_Foo_component_MeEvSrJ4EhA.js (ENTRY POINT)==
 
-import{qrl,useStylesQrl}from"@qwik.dev/core";export const Foo_component_MeEvSrJ4EhA=()=>(useStylesQrl(qrl(()=>import(`./example_with_style.tsx_Foo_component_useStyles_tL9m7IRQ0Cs.js`),`Foo_component_useStyles_tL9m7IRQ0Cs`)),<div class="class"/>);
+import { qrl, useStylesQrl } from "@qwik.dev/core";
+export const Foo_component_MeEvSrJ4EhA = () => {
+	useStylesQrl(qrl(() => import("./example_with_style.tsx_Foo_component_useStyles_tL9m7IRQ0Cs.js"), "Foo_component_useStyles_tL9m7IRQ0Cs"));
+	return <div class="class" />;
+};
+
 
 None
 /*
@@ -42,7 +47,8 @@ None
 */
 ============================= ./example_with_style.tsx_Foo_component_useStyles_tL9m7IRQ0Cs.js (ENTRY POINT)==
 
-export const Foo_component_useStyles_tL9m7IRQ0Cs=`.class {}`;
+export const Foo_component_useStyles_tL9m7IRQ0Cs = ".class {}";
+
 
 None
 /*
@@ -67,7 +73,9 @@ None
 */
 ============================= example_with_style.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const Foo=componentQrl(qrl(()=>import(`./example_with_style.tsx_Foo_component_MeEvSrJ4EhA.js`),`Foo_component_MeEvSrJ4EhA`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const Foo = componentQrl(qrl(() => import("./example_with_style.tsx_Foo_component_MeEvSrJ4EhA.js"), "Foo_component_MeEvSrJ4EhA"));
+
 
 None
 == DIAGNOSTICS ==

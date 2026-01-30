@@ -16,9 +16,13 @@ export const App = component$((props: Stuff) => {
 
 ============================= ./example_transpile_ts_only.tsx_App_component_DZnnkDGy8EQ.js (ENTRY POINT)==
 
-import{qrl}from"@qwik.dev/core";export const App_component_DZnnkDGy8EQ=props=><Cmp>
-			<p class="stuff" on:click={qrl(()=>import(`./example_transpile_ts_only.tsx.js`),`App_component_Cmp_p_onClick`)}>Hello Qwik</p>
+import { qrl } from "@qwik.dev/core";
+export const App_component_DZnnkDGy8EQ = (props) => {
+	return <Cmp>
+			<p class="stuff" on:click={qrl(() => import("./example_transpile_ts_only.tsx.js"), "App_component_Cmp_p_onClick")}>Hello Qwik</p>
 		</Cmp>;
+};
+
 
 None
 /*
@@ -43,7 +47,9 @@ None
 */
 ============================= example_transpile_ts_only.tsx ==
 
-import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./example_transpile_ts_only.tsx_App_component_DZnnkDGy8EQ.js`),`App_component_DZnnkDGy8EQ`));
+import { componentQrl, qrl } from "@qwik.dev/core";
+export const App = componentQrl(qrl(() => import("./example_transpile_ts_only.tsx_App_component_DZnnkDGy8EQ.js"), "App_component_DZnnkDGy8EQ"));
+
 
 None
 == DIAGNOSTICS ==
