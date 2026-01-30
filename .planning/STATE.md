@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 ## Current Position
 
 Phase: 11 of 11 (Research & Code Cleanup)
-Plan: 1 of 6 in Phase 11 COMPLETE
+Plan: 2 of 6 in Phase 11 COMPLETE
 Status: In Progress
-Last activity: 2026-01-30 - Completed 11-01-PLAN.md (Test Extraction)
+Last activity: 2026-01-30 - Completed 11-02-PLAN.md (Transform Module Extraction)
 
-Progress: [===================.] 88.6% (10/11 phases complete, 39/44 total plans)
+Progress: [===================.] 90.9% (10/11 phases complete, 40/44 total plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 38
+- Total plans completed: 40
 - Average duration: 6.9 min
-- Total execution time: 4.4 hours
+- Total execution time: 4.6 hours
 
 **By Phase:**
 
@@ -39,11 +39,11 @@ Progress: [===================.] 88.6% (10/11 phases complete, 39/44 total plans
 | 09-typescript-support | 2/2 | 8 min | 4.0 min |
 | 10-edge-cases | 5/5 | 43 min | 8.6 min |
 
-| 11-research-code-cleanup | 1/6 | 4 min | 4.0 min |
+| 11-research-code-cleanup | 2/6 | 14 min | 7.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 10-02 (10 min), 10-03 (10 min), 10-04 (10 min), 10-05 (3 min), 11-01 (4 min)
-- Phase 11 Research & Code Cleanup IN PROGRESS (1/6 plans)
+- Last 5 plans: 10-03 (10 min), 10-04 (10 min), 10-05 (3 min), 11-01 (4 min), 11-02 (10 min)
+- Phase 11 Research & Code Cleanup IN PROGRESS (2/6 plans)
 
 *Updated after each plan completion*
 
@@ -147,6 +147,10 @@ Recent decisions affecting current work:
 - [11-01]: Use pub(crate) visibility for test-accessed functions instead of pub
 - [11-01]: Keep small #[cfg(test)] helper methods in transform.rs (test utilities, not test module)
 - [11-01]: Import crate::collector::Id directly in tests rather than re-exporting from transform
+- [11-02]: JsxState and ImportTracker grouped in state.rs as tracking types
+- [11-02]: TransformOptions and transform() grouped in options.rs as configuration layer
+- [11-02]: TransformGenerator kept in generator.rs as core transformation logic
+- [11-02]: Use pub(crate) for internal helper functions, pub for public API
 
 ### Pending Todos
 
@@ -158,8 +162,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-30T03:08:05Z
-Stopped at: Completed 11-01-PLAN.md (Test Extraction)
+Last session: 2026-01-30T03:21:36Z
+Stopped at: Completed 11-02-PLAN.md (Transform Module Extraction)
 Resume file: None
 
 ## Phase 2 QRL Core Summary
