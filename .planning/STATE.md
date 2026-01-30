@@ -5,7 +5,7 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** All 162 tests from qwik-core pass with exact output parity to the SWC implementation.
-**Current focus:** Phase 11 - Full Parity (Ready)
+**Current focus:** Phase 11 - Research & Code Cleanup (Ready)
 
 ## Current Position
 

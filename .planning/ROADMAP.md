@@ -22,7 +22,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 8: SSR & Build Modes** - Server/client code handling and dev/prod modes
 - [x] **Phase 9: TypeScript Support** - TSX parsing, type annotations, and generics
 - [x] **Phase 10: Edge Cases** - Nested loops, illegal code detection, and regression fixes
-- [ ] **Phase 11: Test Infrastructure** - Port all 162 tests and validate parity
+- [ ] **Phase 11: Research & Code Cleanup** - OXC API adoption, ecosystem research, modularization
 
 ## Phase Details
 
@@ -205,21 +205,24 @@ Plans:
 - [x] 10-04-PLAN.md — Async/await preservation in QRL segments
 - [x] 10-05-PLAN.md — Issue regression tests (117, 150, 476, 964, 5008, 7216)
 
-### Phase 11: Test Infrastructure
-**Goal**: All 162 snapshot tests ported and passing with output parity
+### Phase 11: Research & Code Cleanup
+**Goal**: Reduce transform.rs from 7000+ lines through OXC API adoption and modularization
 **Depends on**: Phase 10
-**Requirements**: TST-01, TST-02, TST-03
+**Requirements**: CLN-01, CLN-02, CLN-03, CLN-04, CLN-05
 **Success Criteria** (what must be TRUE):
-  1. All 162 snapshot tests from qwik-core ported to OXC implementation
-  2. Snapshot format matches insta requirements
-  3. Test input files organized consistently with qwik-core structure
-  4. All 162 tests pass with exact output parity to SWC
+  1. OXC API research documented with identified underutilized APIs
+  2. OXC ecosystem projects analyzed and patterns documented
+  3. Rust ecosystem libraries evaluated for code reduction opportunities
+  4. transform.rs split into logical modules (<500 lines each)
+  5. All 233 tests still pass after refactoring
 **Plans**: TBD
 
 Plans:
-- [ ] 11-01: Port remaining snapshot tests
-- [ ] 11-02: Snapshot format and organization validation
-- [ ] 11-03: Final parity verification
+- [ ] 11-01: OXC API deep dive - study docs.rs/oxc extensively, document underutilized APIs
+- [ ] 11-02: OXC ecosystem research - analyze other OXC-based projects, document patterns
+- [ ] 11-03: Rust ecosystem research - identify libraries that could reduce code complexity
+- [ ] 11-04: Modularization plan - design module structure based on research findings
+- [ ] 11-05: Execute refactoring - split transform.rs, adopt better APIs, integrate libraries
 
 ## Progress
 
@@ -238,7 +241,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 | 8. SSR & Build Modes | 3/3 | Complete | 2026-01-29 |
 | 9. TypeScript Support | 2/2 | Complete | 2026-01-29 |
 | 10. Edge Cases | 5/5 | Complete | 2026-01-29 |
-| 11. Test Infrastructure | 0/3 | Not started | - |
+| 11. Research & Code Cleanup | 0/5 | Not started | - |
 
 ---
 *Created: 2026-01-29*
