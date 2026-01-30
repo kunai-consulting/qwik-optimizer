@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 ## Current Position
 
 Phase: 11 of 11 (Research & Code Cleanup)
-Plan: 3 of 6 in Phase 11 COMPLETE
+Plan: 4 of 6 in Phase 11 COMPLETE
 Status: In Progress
-Last activity: 2026-01-30 - Completed 11-03-PLAN.md (JSX Extraction)
+Last activity: 2026-01-30 - Completed 11-04-PLAN.md (QRL & Scope Extraction)
 
-Progress: [===================.] 93.2% (10/11 phases complete, 41/44 total plans)
+Progress: [===================.] 95.5% (10/11 phases complete, 42/44 total plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 40
+- Total plans completed: 42
 - Average duration: 6.9 min
-- Total execution time: 4.6 hours
+- Total execution time: 4.8 hours
 
 **By Phase:**
 
@@ -39,11 +39,11 @@ Progress: [===================.] 93.2% (10/11 phases complete, 41/44 total plans
 | 09-typescript-support | 2/2 | 8 min | 4.0 min |
 | 10-edge-cases | 5/5 | 43 min | 8.6 min |
 
-| 11-research-code-cleanup | 3/6 | 25 min | 8.3 min |
+| 11-research-code-cleanup | 4/6 | 37 min | 9.3 min |
 
 **Recent Trend:**
-- Last 5 plans: 10-04 (10 min), 10-05 (3 min), 11-01 (4 min), 11-02 (10 min), 11-03 (11 min)
-- Phase 11 Research & Code Cleanup IN PROGRESS (3/6 plans)
+- Last 5 plans: 10-05 (3 min), 11-01 (4 min), 11-02 (10 min), 11-03 (11 min), 11-04 (12 min)
+- Phase 11 Research & Code Cleanup IN PROGRESS (4/6 plans)
 
 *Updated after each plan completion*
 
@@ -154,6 +154,10 @@ Recent decisions affecting current work:
 - [11-03]: Dispatcher pattern: Traverse impl methods delegate to domain::function(self, node, ctx)
 - [11-03]: JSX helpers take &mut TransformGenerator as first parameter for field access
 - [11-03]: TransformGenerator fields and methods use pub(crate) for domain module access
+- [11-04]: Move bind directive helpers (is_bind_directive, create_bind_handler, merge_event_handlers) to jsx.rs
+- [11-04]: Move .map() iteration tracking (check_map_iteration_vars, is_map_with_function_callback) to scope.rs
+- [11-04]: Move QRL filtering helpers (collect_imported_names, filter_imported_from_scoped, collect_referenced_exports) to qrl.rs
+- [11-04]: Re-export functions via mod.rs for cross-module and test access
 
 ### Pending Todos
 
@@ -165,8 +169,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-30T03:36:26Z
-Stopped at: Completed 11-03-PLAN.md (JSX Extraction)
+Last session: 2026-01-30T03:51:00Z
+Stopped at: Completed 11-04-PLAN.md (QRL & Scope Extraction)
 Resume file: None
 
 ## Phase 2 QRL Core Summary
