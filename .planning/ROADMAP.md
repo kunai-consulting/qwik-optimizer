@@ -180,12 +180,11 @@ Plans:
   2. Type annotations preserved where semantically required
   3. Type-only imports handled correctly (not captured for QRL)
   4. Generic component types work correctly
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 09-01: TSX parsing and transformation
-- [ ] 09-02: Type annotation and import handling
-- [ ] 09-03: Generic component types
+- [ ] 09-01-PLAN.md — Filter type-only imports from QRL capture tracking
+- [ ] 09-02-PLAN.md — Add comprehensive TypeScript and TSX transformation tests
 
 ### Phase 10: Edge Cases
 **Goal**: All edge cases and regression tests pass
@@ -237,10 +236,10 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 | 6. Imports & Exports | 4/4 | Complete | 2026-01-29 |
 | 7. Entry Strategies | 3/3 | Complete | 2026-01-29 |
 | 8. SSR & Build Modes | 3/3 | Complete | 2026-01-29 |
-| 9. TypeScript Support | 0/3 | Not started | - |
+| 9. TypeScript Support | 0/2 | Not started | - |
 | 10. Edge Cases | 0/5 | Not started | - |
 | 11. Test Infrastructure | 0/3 | Not started | - |
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-29 (Phase 8 complete)*
+*Last updated: 2026-01-29 (Phase 9 planned)*
