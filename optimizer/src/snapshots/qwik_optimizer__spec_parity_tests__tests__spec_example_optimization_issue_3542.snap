@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-==INPUT==
+
 
 import { component$ } from '@qwik.dev/core';
 
@@ -19,55 +19,32 @@ export const AtomStatus = component$(({ctx,atom})=>{
 	);
 })
 
-============================= ./example_optimization_issue_3542.tsx_AtomStatus_component_25gjymXUvzA.js (ENTRY POINT)==
+============================= test.jsx ==
 
-import { qrl } from "@qwik.dev/core";
-export const AtomStatus_component_25gjymXUvzA = ({ ctx, atom }) => {
-	let status = atom.status;
-	if (!atom.real) {
-		status = "WILL-VANISH";
-	} else if (JSON.stringify(atom.atom) == JSON.stringify(atom.real)) {
-		status = "WTFED";
-	}
-	return <span title={atom.ID} on:click={qrl(i_AtomStatus_component_span_onClick, "AtomStatus_component_span_onClick")} class={[
-		"atom",
-		status,
-		ctx.store[atom.ID] ? "selected" : null
-	]}>
+import { componentQrl } from "@qwik.dev/core";
+import { useLexicalScope } from "@qwik.dev/core";
+import { inlinedQrl } from "@qwik.dev/core";
+export const AtomStatus = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl((_rawProps)=>{
+    let status = _rawProps.atom.status;
+    if (!_rawProps.atom.real) status = "WILL-VANISH";
+    else if (JSON.stringify(_rawProps.atom.atom) == JSON.stringify(_rawProps.atom.real)) status = "WTFED";
+    return <span title={_rawProps.atom.ID} on:click={/*#__PURE__*/ inlinedQrl((ev)=>{
+        const [_rawProps] = useLexicalScope();
+        return atomStatusClick(_rawProps.ctx, ev, [
+            _rawProps.atom
+        ]);
+    }, "AtomStatus_component_span_on_click_5d93rv80bw0", [
+        _rawProps
+    ])} class={[
+        "atom",
+        status,
+        _rawProps.ctx.store[_rawProps.atom.ID] ? "selected" : null
+    ]}>
 		</span>;
-};
+}, "AtomStatus_component_hdwpoUtydSA"));
 
 
-None
-/*
-{
-  "origin": "example_optimization_issue_3542.tsx",
-  "name": "AtomStatus_component_25gjymXUvzA",
-  "entry": "entry_segments",
-  "displayName": "example_optimization_issue_3542.tsx_AtomStatus_component",
-  "hash": "25gjymXUvzA",
-  "canonicalFilename": "example_optimization_issue_3542.tsx_AtomStatus_component_25gjymXUvzA",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "AtomStatus_component_25gjymXUvzA",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= example_optimization_issue_3542.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_AtomStatus_component_span_onClick = () => import("./example_optimization_issue_3542.tsx.js");
-const i_AtomStatus_component_25gjymXUvzA = () => import("./example_optimization_issue_3542.tsx_AtomStatus_component_25gjymXUvzA.js");
-export const AtomStatus = componentQrl(qrl(i_AtomStatus_component_25gjymXUvzA, "AtomStatus_component_25gjymXUvzA"));
-
-
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAGA,OAAO,MAAM,2BAAa,sCAAW;IACpC,IAAI,SAAS,UAD6B,KACxB,MAAM;IACxB,IAAG,CAAC,UAFsC,KAEjC,IAAI,EACZ,SAAO;SACD,IAAI,KAAK,SAAS,CAAC,UAJgB,KAIX,IAAI,KAAG,KAAK,SAAS,CAAC,UAJX,KAIgB,IAAI,GAC7D,SAAO;IAER,QACE,KAAK,OAAO,UAR4B,KAQvB,EAAE,EAAE,mCAAU,CAAC;;eAAK,0BARD,KAQqB,IAAG;sBARpB;SAQ0B;;;QAAG,OAAO;QAAC;QAAO;QAAO,UARvD,IAQ2D,KAAK,CAAC,UAR7D,KAQkE,EAAE,CAAC,GAAC,aAAW;KAAK,EAAE;EACjI,EAAE;AAEJ,wCAAE\"}")
 == DIAGNOSTICS ==
 
 []

@@ -4,59 +4,71 @@ expression: output
 ---
 ==INPUT==
 
-import { component$ } from '@qwik.dev/core';
 
-function Hola(props: any) {
-	return <div {...props}></div>;
+		import { component$ } from '@qwik.dev/core';
+
+		function Hola(props: any) {
+			return <div {...props}></div>;
+		}
+
+		export default component$(() => {
+		return <Hola>
+			<div>1</div>
+			<div>2</div>
+		</Hola>;
+		});
+		
+============================= test.js ==
+
+import { _getVarProps } from "@qwik.dev/core";
+import { _getConstProps } from "@qwik.dev/core";
+import { _jsxSplit } from "@qwik.dev/core";
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
+function Hola(props) {
+    return /*#__PURE__*/ _jsxSplit("div", {
+        ..._getVarProps(props)
+    }, _getConstProps(props), null, 0, "u6_0");
 }
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
+export { Hola as _auto_Hola };
 
-export default component$(() => {
-return <Hola>
-	<div>1</div>
-	<div>2</div>
-</Hola>;
-});
 
-============================= ./should_split_spread_props_with_additional_prop5.tsx_component_ADYPS3WuK14.js (ENTRY POINT)==
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;AAGE,SAAS,KAAK,KAAU;IACvB,qBAAO,UAAC;wBAAQ;sBAAA;AACjB;AAEA,6BAAe,6EAKZ\"}")
+============================= test.tsx_test_component_LUXeXe0DQrg.js (ENTRY POINT)==
 
+import { _auto_Hola as Hola } from "./test";
 import { _jsxSorted } from "@qwik.dev/core";
-export const component_ADYPS3WuK14 = () => {
-	return _jsxSorted(Hola, null, null, [/*#__PURE__*/ _jsxSorted("div", null, null, "1", 3, null), /*#__PURE__*/ _jsxSorted("div", null, null, "2", 3, null)], 3, null);
+export const test_component_LUXeXe0DQrg = ()=>{
+    return /*#__PURE__*/ _jsxSorted(Hola, null, null, [
+        /*#__PURE__*/ _jsxSorted("div", null, null, "1", 3, null),
+        /*#__PURE__*/ _jsxSorted("div", null, null, "2", 3, null)
+    ], 3, "u6_1");
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;0CAO4B;IAC1B,qBAAO,WAAC;sBACP,WAAC,mBAAI;sBACL,WAAC,mBAAI;;AAEN\"}")
 /*
 {
-  "origin": "should_split_spread_props_with_additional_prop5.tsx",
-  "name": "component_ADYPS3WuK14",
+  "origin": "test.tsx",
+  "name": "test_component_LUXeXe0DQrg",
   "entry": null,
-  "displayName": "should_split_spread_props_with_additional_prop5.tsx_component",
-  "hash": "ADYPS3WuK14",
-  "canonicalFilename": "should_split_spread_props_with_additional_prop5.tsx_component_ADYPS3WuK14",
-  "path": ".",
+  "displayName": "test.tsx_test_component",
+  "hash": "LUXeXe0DQrg",
+  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
+  "path": "",
   "extension": "js",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "component_ADYPS3WuK14",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    147,
+    217
   ]
 }
 */
-============================= should_split_spread_props_with_additional_prop5.tsx ==
-
-import { _getConstProps, _getVarProps, _jsxSplit, componentQrl, qrl } from "@qwik.dev/core";
-const i_component_ADYPS3WuK14 = () => import("./should_split_spread_props_with_additional_prop5.tsx_component_ADYPS3WuK14.js");
-function Hola(props) {
-	return /*#__PURE__*/ _jsxSplit("div", { ..._getVarProps(props) }, _getConstProps(props), null, 0, null);
-}
-export default componentQrl(qrl(i_component_ADYPS3WuK14, "component_ADYPS3WuK14"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

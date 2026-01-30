@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-==INPUT==
+
 
 import { component$ } from '@qwik.dev/core';
 
@@ -16,50 +16,129 @@ export const Foo = component$(() => {
 	);
 });
 
-============================= example_prod_node.tsx ==
+============================= test.tsx_Foo_component_div_div_on_click_1u04rzUKERk.tsx (ENTRY POINT)==
 
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Foo_component_div_div_onClick = () => import("./example_prod_node.tsx.js");
-const i_Foo_component_div_div_onClick_1 = () => import("./example_prod_node.tsx.js");
-const i_Foo_component_div_div_onClick_2 = () => import("./example_prod_node.tsx.js");
-const i_s_v10fFl9PWVg = () => import("./example_prod_node.tsx_s_v10fFl9PWVg.js");
-export const Foo = componentQrl(qrl(i_s_v10fFl9PWVg, "s_v10fFl9PWVg"));
+export const s_1u04rzUKERk = ()=>console.log('first');
 
 
-None
-============================= ./example_prod_node.tsx_s_v10fFl9PWVg.js (ENTRY POINT)==
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"6BAMkB,IAAM,QAAQ,GAAG,CAAC\"}")
+/*
+{
+  "origin": "test.tsx",
+  "name": "s_1u04rzUKERk",
+  "entry": null,
+  "displayName": "test.tsx_Foo_component_div_div_on_click",
+  "hash": "1u04rzUKERk",
+  "canonicalFilename": "test.tsx_Foo_component_div_div_on_click_1u04rzUKERk",
+  "path": "",
+  "extension": "tsx",
+  "parent": "s_HTDRsvUbLiE",
+  "ctxKind": "eventHandler",
+  "ctxName": "onClick$",
+  "captures": false,
+  "loc": [
+    122,
+    148
+  ]
+}
+*/
+============================= test.tsx_Foo_component_HTDRsvUbLiE.tsx (ENTRY POINT)==
 
 import { qrl } from "@qwik.dev/core";
-export const s_v10fFl9PWVg = () => {
-	return <div>
-			<div on:click={qrl(i_Foo_component_div_div_onClick, "Foo_component_div_div_onClick")} />
-			<div on:click={qrl(i_Foo_component_div_div_onClick_1, "Foo_component_div_div_onClick_1")} />
-			<div on:click={qrl(i_Foo_component_div_div_onClick_2, "Foo_component_div_div_onClick_2")} />
+const i_1u04rzUKERk = ()=>import("./test.tsx_Foo_component_div_div_on_click_1u04rzUKERk");
+const i_6j5QosWvK1I = ()=>import("./test.tsx_Foo_component_div_div_on_click_2_6j5QosWvK1I");
+const i_tghEYWwM2mM = ()=>import("./test.tsx_Foo_component_div_div_on_click_1_tghEYWwM2mM");
+export const s_HTDRsvUbLiE = ()=>{
+    return <div>
+			<div on:click={/*#__PURE__*/ qrl(i_1u04rzUKERk, "s_1u04rzUKERk")}/>
+			<div on:click={/*#__PURE__*/ qrl(i_tghEYWwM2mM, "s_tghEYWwM2mM")}/>
+			<div on:click={/*#__PURE__*/ qrl(i_6j5QosWvK1I, "s_6j5QosWvK1I")}/>
 		</div>;
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;6BAG8B;IAC7B,QACE,IAAI;GACJ,CAAC,IAAI,8DAAuC;GAC5C,CAAC,IAAI,8DAAwC;GAC7C,CAAC,IAAI,8DAAuC;EAC7C,EAAE;AAEJ\"}")
 /*
 {
-  "origin": "example_prod_node.tsx",
-  "name": "s_v10fFl9PWVg",
+  "origin": "test.tsx",
+  "name": "s_HTDRsvUbLiE",
   "entry": null,
-  "displayName": "example_prod_node.tsx_Foo_component",
-  "hash": "v10fFl9PWVg",
-  "canonicalFilename": "example_prod_node.tsx_s_v10fFl9PWVg",
-  "path": ".",
-  "extension": "js",
+  "displayName": "test.tsx_Foo_component",
+  "hash": "HTDRsvUbLiE",
+  "canonicalFilename": "test.tsx_Foo_component_HTDRsvUbLiE",
+  "path": "",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "s_v10fFl9PWVg",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    78,
+    263
   ]
 }
 */
+============================= test.tsx_Foo_component_div_div_on_click_2_6j5QosWvK1I.tsx (ENTRY POINT)==
+
+export const s_6j5QosWvK1I = ()=>console.log('third');
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"6BAQkB,IAAM,QAAQ,GAAG,CAAC\"}")
+/*
+{
+  "origin": "test.tsx",
+  "name": "s_6j5QosWvK1I",
+  "entry": null,
+  "displayName": "test.tsx_Foo_component_div_div_on_click_2",
+  "hash": "6j5QosWvK1I",
+  "canonicalFilename": "test.tsx_Foo_component_div_div_on_click_2_6j5QosWvK1I",
+  "path": "",
+  "extension": "tsx",
+  "parent": "s_HTDRsvUbLiE",
+  "ctxKind": "eventHandler",
+  "ctxName": "onClick$",
+  "captures": false,
+  "loc": [
+    219,
+    245
+  ]
+}
+*/
+============================= test.tsx_Foo_component_div_div_on_click_1_tghEYWwM2mM.tsx (ENTRY POINT)==
+
+export const s_tghEYWwM2mM = ()=>console.log('second');
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"6BAOkB,IAAM,QAAQ,GAAG,CAAC\"}")
+/*
+{
+  "origin": "test.tsx",
+  "name": "s_tghEYWwM2mM",
+  "entry": null,
+  "displayName": "test.tsx_Foo_component_div_div_on_click_1",
+  "hash": "tghEYWwM2mM",
+  "canonicalFilename": "test.tsx_Foo_component_div_div_on_click_1_tghEYWwM2mM",
+  "path": "",
+  "extension": "tsx",
+  "parent": "s_HTDRsvUbLiE",
+  "ctxKind": "eventHandler",
+  "ctxName": "onClick$",
+  "captures": false,
+  "loc": [
+    170,
+    197
+  ]
+}
+*/
+============================= test.tsx ==
+
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_HTDRsvUbLiE = ()=>import("./test.tsx_Foo_component_HTDRsvUbLiE");
+export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_HTDRsvUbLiE, "s_HTDRsvUbLiE"));
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAGA,OAAO,MAAM,oBAAM,gEAQhB\"}")
 == DIAGNOSTICS ==
 
 []

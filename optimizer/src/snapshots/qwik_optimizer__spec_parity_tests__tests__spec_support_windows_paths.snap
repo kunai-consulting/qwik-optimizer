@@ -4,44 +4,46 @@ expression: output
 ---
 ==INPUT==
 
+
 import { component$ } from '@qwik.dev/core';
 export const Greeter = component$(() => <div/>)
 
-============================= components\apps\apps.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Greeter_component_Q7eEoxaolmI = () => import("./components\\apps\\apps.tsx_Greeter_component_Q7eEoxaolmI.js");
-export const Greeter = componentQrl(qrl(i_Greeter_component_Q7eEoxaolmI, "Greeter_component_Q7eEoxaolmI"));
-
-
-None
-============================= ./components\apps\apps.tsx_Greeter_component_Q7eEoxaolmI.js (ENTRY POINT)==
+============================= components/apps/apps.tsx_Greeter_component_0jjOvx068y0.ts (ENTRY POINT)==
 
 import { _jsxSorted } from "@qwik.dev/core";
-export const Greeter_component_Q7eEoxaolmI = () => /*#__PURE__*/ _jsxSorted("div", null, null, null, 3, null);
+export const Greeter_component_0jjOvx068y0 = ()=>/*#__PURE__*/ _jsxSorted("div", null, null, null, 3, "KD_0");
 
 
-None
+Some("{\"version\":3,\"sources\":[\"C:\\\\users\\\\apps/components/apps/apps.tsx\"],\"names\":[],\"mappings\":\";6CAEkC,kBAAM,WAAC\"}")
 /*
 {
-  "origin": "components\\apps\\apps.tsx",
-  "name": "Greeter_component_Q7eEoxaolmI",
+  "origin": "components/apps/apps.tsx",
+  "name": "Greeter_component_0jjOvx068y0",
   "entry": null,
-  "displayName": "components\\apps\\apps.tsx_Greeter_component",
-  "hash": "Q7eEoxaolmI",
-  "canonicalFilename": "components\\apps\\apps.tsx_Greeter_component_Q7eEoxaolmI",
-  "path": ".",
-  "extension": "js",
+  "displayName": "apps.tsx_Greeter_component",
+  "hash": "0jjOvx068y0",
+  "canonicalFilename": "apps.tsx_Greeter_component_0jjOvx068y0",
+  "path": "components/apps",
+  "extension": "ts",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "Greeter_component_Q7eEoxaolmI",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    81,
+    93
   ]
 }
 */
+============================= components/apps/apps.ts ==
+
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_0jjOvx068y0 = ()=>import("./apps.tsx_Greeter_component_0jjOvx068y0");
+export const Greeter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_0jjOvx068y0, "Greeter_component_0jjOvx068y0"));
+
+
+Some("{\"version\":3,\"sources\":[\"C:\\\\users\\\\apps/components/apps/apps.tsx\"],\"names\":[],\"mappings\":\";;;AAEA,OAAO,MAAM,wBAAU,gFAAwB\"}")
 == DIAGNOSTICS ==
 
 []

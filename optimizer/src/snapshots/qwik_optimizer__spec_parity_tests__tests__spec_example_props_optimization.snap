@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-==INPUT==
+
 
 import { $, component$, useTask$ } from '@qwik.dev/core';
 import { CONST } from 'const';
@@ -45,208 +45,85 @@ export const NoWorks3 = component$(({count, stuff = hola()}) => {
 	);
 });
 
-============================= ./example_props_optimization.tsx_NoWorks3_component_useTask_7NRQyVhWhQw.js (ENTRY POINT)==
+============================= test.js ==
 
-export const NoWorks3_component_useTask_7NRQyVhWhQw = ({ track }) => {
-	track(() => count);
-	console.log(count);
-};
-
-
-None
-/*
-{
-  "origin": "example_props_optimization.tsx",
-  "name": "NoWorks3_component_useTask_7NRQyVhWhQw",
-  "entry": "entry_segments",
-  "displayName": "example_props_optimization.tsx_NoWorks3_component_useTask",
-  "hash": "7NRQyVhWhQw",
-  "canonicalFilename": "example_props_optimization.tsx_NoWorks3_component_useTask_7NRQyVhWhQw",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "NoWorks3_component_useTask_7NRQyVhWhQw",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= ./example_props_optimization.tsx_Works_component_YXmpS030zg8.js (ENTRY POINT)==
-
-import { _getConstProps, _getVarProps, _jsxSplit, qrl, useTaskQrl } from "@qwik.dev/core";
-import { CONST } from "const";
-export const Works_component_YXmpS030zg8 = ({ count, some = 1 + 2, hello = CONST, stuff: hey, stuffDefault: hey2 = 123, ...rest }) => {
-	console.log(hey, some);
-	useTaskQrl(qrl(i_Works_component_useTask_sh050pSHyds, "Works_component_useTask_sh050pSHyds"));
-	return /*#__PURE__*/ _jsxSplit("div", {
-		some: useTaskQrl(qrl(i_Works_component_useTask_sh050pSHyds, "Works_component_useTask_sh050pSHyds")),
-		params: { some },
-		class: _wrapProp(_rawProps, "count"),
-		..._getVarProps(rest),
-		override: true
-	}, _getConstProps(rest), _wrapProp(_rawProps, "count"), 0, null);
-};
-
-
-None
-/*
-{
-  "origin": "example_props_optimization.tsx",
-  "name": "Works_component_YXmpS030zg8",
-  "entry": "entry_segments",
-  "displayName": "example_props_optimization.tsx_Works_component",
-  "hash": "YXmpS030zg8",
-  "canonicalFilename": "example_props_optimization.tsx_Works_component_YXmpS030zg8",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "Works_component_YXmpS030zg8",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= ./example_props_optimization.tsx_NoWorks2_component_useTask_QiEsWBQ2aBs.js (ENTRY POINT)==
-
-export const NoWorks2_component_useTask_QiEsWBQ2aBs = ({ track }) => {
-	track(() => count);
-	console.log(count);
-};
-
-
-None
-/*
-{
-  "origin": "example_props_optimization.tsx",
-  "name": "NoWorks2_component_useTask_QiEsWBQ2aBs",
-  "entry": "entry_segments",
-  "displayName": "example_props_optimization.tsx_NoWorks2_component_useTask",
-  "hash": "QiEsWBQ2aBs",
-  "canonicalFilename": "example_props_optimization.tsx_NoWorks2_component_useTask_QiEsWBQ2aBs",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "NoWorks2_component_useTask_QiEsWBQ2aBs",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= example_props_optimization.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Works_component_useTask_sh050pSHyds = () => import("./example_props_optimization.tsx_Works_component_useTask_sh050pSHyds.js");
-const i_Works_component_YXmpS030zg8 = () => import("./example_props_optimization.tsx_Works_component_YXmpS030zg8.js");
-const i_NoWorks2_component_useTask_QiEsWBQ2aBs = () => import("./example_props_optimization.tsx_NoWorks2_component_useTask_QiEsWBQ2aBs.js");
-const i_NoWorks2_component_rN1RMm0acbY = () => import("./example_props_optimization.tsx_NoWorks2_component_rN1RMm0acbY.js");
-const i_NoWorks3_component_useTask_7NRQyVhWhQw = () => import("./example_props_optimization.tsx_NoWorks3_component_useTask_7NRQyVhWhQw.js");
-const i_NoWorks3_component_kAFUo0HAydI = () => import("./example_props_optimization.tsx_NoWorks3_component_kAFUo0HAydI.js");
-export const Works = componentQrl(qrl(i_Works_component_YXmpS030zg8, "Works_component_YXmpS030zg8"));
-export const NoWorks2 = componentQrl(qrl(i_NoWorks2_component_rN1RMm0acbY, "NoWorks2_component_rN1RMm0acbY"));
-export const NoWorks3 = componentQrl(qrl(i_NoWorks3_component_kAFUo0HAydI, "NoWorks3_component_kAFUo0HAydI"));
+import { _restProps } from "@qwik.dev/core";
+import { componentQrl } from "@qwik.dev/core";
+import { useTaskQrl } from "@qwik.dev/core";
+import { useLexicalScope } from "@qwik.dev/core";
+import { inlinedQrl } from "@qwik.dev/core";
+import { _fnSignal } from "@qwik.dev/core";
+import { _wrapProp } from "@qwik.dev/core";
+import { _getVarProps } from "@qwik.dev/core";
+import { _getConstProps } from "@qwik.dev/core";
+import { _jsxSplit } from "@qwik.dev/core";
+import { _jsxSorted } from "@qwik.dev/core";
+const _hf0 = (p0)=>p0.some ?? 3;
+const _hf0_str = "p0.some??1+2";
+const _hf1 = (p0)=>({
+        some: p0.some ?? 3
+    });
+const _hf1_str = "{some:p0.some??1+2}";
+export const Works = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl((_rawProps)=>{
+    const rest = _restProps(_rawProps, [
+        "count",
+        "some",
+        "hello",
+        "stuff",
+        "stuffDefault"
+    ]);
+    console.log(_rawProps.stuff, _rawProps.some ?? 3);
+    useTaskQrl(/*#__PURE__*/ inlinedQrl(({ track })=>{
+        const [_rawProps, rest] = useLexicalScope();
+        track(()=>_rawProps.count);
+        console.log(_rawProps.count, rest, _rawProps.stuff, _rawProps.some ?? 3, _rawProps.stuffDefault ?? 123);
+    }, "Works_component_useTask_pjo5U5Ikll0", [
+        _rawProps,
+        rest
+    ]));
+    return /*#__PURE__*/ _jsxSplit("div", {
+        some: _fnSignal(_hf0, [
+            _rawProps
+        ], _hf0_str),
+        params: _fnSignal(_hf1, [
+            _rawProps
+        ], _hf1_str),
+        class: _wrapProp(_rawProps, "count"),
+        ..._getVarProps(rest)
+    }, {
+        ..._getConstProps(rest),
+        override: true
+    }, _wrapProp(_rawProps, "count"), 0, "u6_0");
+}, "Works_component_t45qL4vNGv0"));
+export const NoWorks2 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(({ count, stuff: { hey } })=>{
+    console.log(hey);
+    useTaskQrl(/*#__PURE__*/ inlinedQrl(({ track })=>{
+        const [count] = useLexicalScope();
+        track(()=>count);
+        console.log(count);
+    }, "NoWorks2_component_useTask_lXiqwbxxjq0", [
+        count
+    ]));
+    return /*#__PURE__*/ _jsxSorted("div", {
+        class: count
+    }, null, count, 1, "u6_1");
+}, "NoWorks2_component_JPD9t2HyEKg"));
+export const NoWorks3 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(({ count, stuff = hola() })=>{
+    console.log(stuff);
+    useTaskQrl(/*#__PURE__*/ inlinedQrl(({ track })=>{
+        const [count] = useLexicalScope();
+        track(()=>count);
+        console.log(count);
+    }, "NoWorks3_component_useTask_3cQGU0s1VwU", [
+        count
+    ]));
+    return /*#__PURE__*/ _jsxSorted("div", {
+        class: count
+    }, null, count, 1, "u6_2");
+}, "NoWorks3_component_fc13h5yYn14"));
 
 
-None
-============================= ./example_props_optimization.tsx_NoWorks2_component_rN1RMm0acbY.js (ENTRY POINT)==
-
-import { _jsxSorted, qrl, useTaskQrl } from "@qwik.dev/core";
-export const NoWorks2_component_rN1RMm0acbY = ({ count, stuff: { hey } }) => {
-	console.log(hey);
-	useTaskQrl(qrl(i_NoWorks2_component_useTask_QiEsWBQ2aBs, "NoWorks2_component_useTask_QiEsWBQ2aBs"));
-	return /*#__PURE__*/ _jsxSorted("div", { class: useTaskQrl(qrl(i_NoWorks2_component_useTask_QiEsWBQ2aBs, "NoWorks2_component_useTask_QiEsWBQ2aBs")) }, null, _wrapProp(_rawProps, "count"), 1, null);
-};
-
-
-None
-/*
-{
-  "origin": "example_props_optimization.tsx",
-  "name": "NoWorks2_component_rN1RMm0acbY",
-  "entry": "entry_segments",
-  "displayName": "example_props_optimization.tsx_NoWorks2_component",
-  "hash": "rN1RMm0acbY",
-  "canonicalFilename": "example_props_optimization.tsx_NoWorks2_component_rN1RMm0acbY",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "NoWorks2_component_rN1RMm0acbY",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= ./example_props_optimization.tsx_NoWorks3_component_kAFUo0HAydI.js (ENTRY POINT)==
-
-import { _jsxSorted, qrl, useTaskQrl } from "@qwik.dev/core";
-export const NoWorks3_component_kAFUo0HAydI = ({ count, stuff = hola() }) => {
-	console.log(stuff);
-	useTaskQrl(qrl(i_NoWorks3_component_useTask_7NRQyVhWhQw, "NoWorks3_component_useTask_7NRQyVhWhQw"));
-	return /*#__PURE__*/ _jsxSorted("div", { class: useTaskQrl(qrl(i_NoWorks3_component_useTask_7NRQyVhWhQw, "NoWorks3_component_useTask_7NRQyVhWhQw")) }, null, _wrapProp(_rawProps, "count"), 1, null);
-};
-
-
-None
-/*
-{
-  "origin": "example_props_optimization.tsx",
-  "name": "NoWorks3_component_kAFUo0HAydI",
-  "entry": "entry_segments",
-  "displayName": "example_props_optimization.tsx_NoWorks3_component",
-  "hash": "kAFUo0HAydI",
-  "canonicalFilename": "example_props_optimization.tsx_NoWorks3_component_kAFUo0HAydI",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "NoWorks3_component_kAFUo0HAydI",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= ./example_props_optimization.tsx_Works_component_useTask_sh050pSHyds.js (ENTRY POINT)==
-
-export const Works_component_useTask_sh050pSHyds = ({ track }) => {
-	track(() => count);
-	console.log(count, rest, hey, some, hey2);
-};
-
-
-None
-/*
-{
-  "origin": "example_props_optimization.tsx",
-  "name": "Works_component_useTask_sh050pSHyds",
-  "entry": "entry_segments",
-  "displayName": "example_props_optimization.tsx_Works_component_useTask",
-  "hash": "sh050pSHyds",
-  "canonicalFilename": "example_props_optimization.tsx_Works_component_useTask_sh050pSHyds",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "Works_component_useTask_sh050pSHyds",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;;;;;;sBAKC,QAAO;;mBAWmB,CAAA;QAAE,IAAI,KAXhC,QAAO;IAW0B,CAAA;;AAblC,OAAO,MAAM,sBAAQ,sCAAW;;;;;;;;IAO/B,QAAQ,GAAG,WAHX,iBAFA,QAAO;IAMP,oCAAS,CAAC,EAAC,KAAK,EAAC;;QAChB,MAAM,cARP;QASC,QAAQ,GAAG,WATZ,OASoB,gBANpB,iBAFA,QAAO,aAGP,gBAAqB;;;;;IAOrB,qBACC,UAAC;QAAI,IAAI;;;QAAQ,MAAM;;;QAAY,KAAK;wBAAa;;0BAAA;QAAM,QAAQ;;AAErE,mCAAG;AAEH,OAAO,MAAM,yBAAW,sCAAW,CAAC,EAAC,KAAK,EAAE,OAAO,EAAC,GAAG,EAAC,EAAC;IACxD,QAAQ,GAAG,CAAC;IACZ,oCAAS,CAAC,EAAC,KAAK,EAAC;;QAChB,MAAM,IAAM;QACZ,QAAQ,GAAG,CAAC;;;;IAEb,qBACC,WAAC;QAAI,OAAO;aAAQ;AAEtB,sCAAG;AAEH,OAAO,MAAM,yBAAW,sCAAW,CAAC,EAAC,KAAK,EAAE,QAAQ,MAAM,EAAC;IAC1D,QAAQ,GAAG,CAAC;IACZ,oCAAS,CAAC,EAAC,KAAK,EAAC;;QAChB,MAAM,IAAM;QACZ,QAAQ,GAAG,CAAC;;;;IAEb,qBACC,WAAC;QAAI,OAAO;aAAQ;AAEtB,sCAAG\"}")
 == DIAGNOSTICS ==
 
 []

@@ -4,6 +4,7 @@ expression: output
 ---
 ==INPUT==
 
+
 import { $, component$ } from '@qwik.dev/core';
 const Header = $((decl1, {decl2}, [decl3]) => {
 
@@ -24,19 +25,31 @@ const Header = $((decl1, {decl2}, [decl3]) => {
 	)
 });
 
-============================= ./project/test.tsx_Header_WlR3xnI6u38.js (ENTRY POINT)==
+============================= project/test.tsx_Header_WlR3xnI6u38.tsx (ENTRY POINT)==
 
-export const Header_WlR3xnI6u38 = (decl1, { decl2 }, [decl3]) => {
-	const hola = ident1.no;
-	ident2;
-	const a = ident1 + ident3;
-	const b = ident1 + ident3;
-	ident4(ident5, [ident6], { ident7 }, { key: ident8 });
-	return <div onClick={(ident11) => ident11 + ident12} required={false} />;
+export const Header_WlR3xnI6u38 = (decl1, { decl2 }, [decl3])=>{
+    ident1.no;
+    ident2;
+    ident1, ident3;
+    ident1, ident3;
+    ident4(ident5, [
+        ident6
+    ], {
+        ident7
+    }, {
+        key: ident8
+    });
+    class Some {
+        prop = ident9;
+        method() {
+            return ident10;
+        }
+    }
+    return <div onClick={(ident11)=>ident11 + ident12} required={false}/>;
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/project/test.tsx\"],\"names\":[],\"mappings\":\"kCAEiB,CAAC,OAAO,EAAC,KAAK,EAAC,EAAE,CAAC,MAAM;IAE3B,OAAO,EAAE;IACtB;IACU,QAAS;IACT,QAAS;IACnB,OAAO,QAAQ;QAAC;KAAO,EAAE;QAAC;IAAM,GAAG;QAAC,KAAK;IAAM;IAC/C,MAAM;QACL,OAAO,OAAO;QACd,SAAS;YACR,OAAO;QACR;IACD;IAEA,QACE,IAAI,SAAS,CAAC,UAAY,UAAU,SAAS,UAAU;AAE1D\"}")
 /*
 {
   "origin": "project/test.tsx",
@@ -45,26 +58,31 @@ None
   "displayName": "test.tsx_Header",
   "hash": "WlR3xnI6u38",
   "canonicalFilename": "test.tsx_Header_WlR3xnI6u38",
-  "path": "./project",
-  "extension": "js",
+  "path": "project",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "Header_WlR3xnI6u38",
+  "ctxName": "$",
   "captures": false,
   "loc": [
-    0,
-    0
+    67,
+    393
+  ],
+  "paramNames": [
+    "decl1",
+    "{decl2}",
+    "[decl3]"
   ]
 }
 */
 ============================= project/test.tsx ==
 
 import { qrl } from "@qwik.dev/core";
-const i_Header_WlR3xnI6u38 = () => import("./test.tsx_Header_WlR3xnI6u38.js");
-qrl(i_Header_WlR3xnI6u38, "Header_WlR3xnI6u38");
+const i_WlR3xnI6u38 = ()=>import("./test.tsx_Header_WlR3xnI6u38");
+/*#__PURE__*/ qrl(i_WlR3xnI6u38, "Header_WlR3xnI6u38");
 
 
-None
+Some("{\"version\":3,\"sources\":[],\"names\":[],\"mappings\":\"\"}")
 == DIAGNOSTICS ==
 
 []

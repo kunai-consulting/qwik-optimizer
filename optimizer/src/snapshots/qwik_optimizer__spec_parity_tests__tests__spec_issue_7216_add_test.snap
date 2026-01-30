@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-==INPUT==
+
 
 import { component$ } from '@builder.io/qwik';
 export default component$((props) => {
@@ -17,53 +17,111 @@ export default component$((props) => {
 	/>);
 });
 
-============================= ./issue_7216_add_test.tsx_component_I5K09rr6byg.js (ENTRY POINT)==
+============================= test.tsx_test_component_p_on_const_i552ahxj0Ag.js (ENTRY POINT)==
 
-import { _getConstProps, _getVarProps, _jsxSplit, qrl } from "@qwik.dev/core";
-export const component_I5K09rr6byg = (props) => {
-	return /*#__PURE__*/ _jsxSplit("p", {
-		on:hi: qrl(i_component_p_onHi, "component_p_onHi"),
-		..._getVarProps(props.foo),
-		on:hello: props.helloHandler$,
-		..._getVarProps(props.rest),
-		on:var: props.onVarHandler$,
-		on:const: qrl(i_component_p_onConst, "component_p_onConst"),
-		asd: "1"
-	}, _getConstProps(props.rest), null, 0, null);
-};
+export const test_component_p_on_const_i552ahxj0Ag = ()=>'const';
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"qDASY,IAAM\"}")
 /*
 {
-  "origin": "issue_7216_add_test.tsx",
-  "name": "component_I5K09rr6byg",
+  "origin": "test.tsx",
+  "name": "test_component_p_on_const_i552ahxj0Ag",
   "entry": null,
-  "displayName": "issue_7216_add_test.tsx_component",
-  "hash": "I5K09rr6byg",
-  "canonicalFilename": "issue_7216_add_test.tsx_component_I5K09rr6byg",
-  "path": ".",
+  "displayName": "test.tsx_test_component_p_on_const",
+  "hash": "i552ahxj0Ag",
+  "canonicalFilename": "test.tsx_test_component_p_on_const_i552ahxj0Ag",
+  "path": "",
   "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "component_I5K09rr6byg",
+  "parent": "test_component_LUXeXe0DQrg",
+  "ctxKind": "eventHandler",
+  "ctxName": "onConst$",
   "captures": false,
   "loc": [
-    0,
-    0
+    239,
+    252
   ]
 }
 */
-============================= issue_7216_add_test.tsx ==
+============================= test.js ==
 
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_component_p_onHi = () => import("./issue_7216_add_test.tsx.js");
-const i_component_p_onConst = () => import("./issue_7216_add_test.tsx.js");
-const i_component_I5K09rr6byg = () => import("./issue_7216_add_test.tsx_component_I5K09rr6byg.js");
-export default componentQrl(qrl(i_component_I5K09rr6byg, "component_I5K09rr6byg"));
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAEA,6BAAe,6EAUZ\"}")
+============================= test.tsx_test_component_p_on_hi_UJAnjrKiyXk.js (ENTRY POINT)==
+
+export const test_component_p_on_hi_UJAnjrKiyXk = ()=>'hi';
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"kDAIS,IAAM\"}")
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_component_p_on_hi_UJAnjrKiyXk",
+  "entry": null,
+  "displayName": "test.tsx_test_component_p_on_hi",
+  "hash": "UJAnjrKiyXk",
+  "canonicalFilename": "test.tsx_test_component_p_on_hi_UJAnjrKiyXk",
+  "path": "",
+  "extension": "js",
+  "parent": "test_component_LUXeXe0DQrg",
+  "ctxKind": "eventHandler",
+  "ctxName": "onHi$",
+  "captures": false,
+  "loc": [
+    111,
+    121
+  ]
+}
+*/
+============================= test.tsx_test_component_LUXeXe0DQrg.js (ENTRY POINT)==
+
+import { _jsxSplit } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_UJAnjrKiyXk = ()=>import("./test.tsx_test_component_p_on_hi_UJAnjrKiyXk");
+const i_i552ahxj0Ag = ()=>import("./test.tsx_test_component_p_on_const_i552ahxj0Ag");
+export const test_component_LUXeXe0DQrg = (props)=>{
+    return /*#__PURE__*/ _jsxSplit("p", {
+        "on:hi": /*#__PURE__*/ qrl(i_UJAnjrKiyXk, "test_component_p_on_hi_UJAnjrKiyXk"),
+        ...props.foo,
+        "on:hello": props.helloHandler$,
+        ...props.rest,
+        "on:var": props.onVarHandler$
+    }, {
+        "on:const": /*#__PURE__*/ qrl(i_i552ahxj0Ag, "test_component_p_on_const_i552ahxj0Ag"),
+        asd: "1"
+    }, null, 0, "u6_0");
+};
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;0CAE0B,CAAC;IACzB,qBAAQ,UAAC;QACT,OAAK;QACJ,GAAG,MAAM,GAAG;QACb,YAAU,MAAM,aAAa;QAC5B,GAAG,MAAM,IAAI;QACd,UAAQ,MAAM,aAAa;;QAC3B,UAAQ;QACR,KAAK;;AAEP\"}")
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_component_LUXeXe0DQrg",
+  "entry": null,
+  "displayName": "test.tsx_test_component",
+  "hash": "LUXeXe0DQrg",
+  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    75,
+    274
+  ],
+  "paramNames": [
+    "props"
+  ]
+}
+*/
 == DIAGNOSTICS ==
 
 []

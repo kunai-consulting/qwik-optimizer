@@ -4,6 +4,7 @@ expression: output
 ---
 ==INPUT==
 
+
 import { component$, $ } from '@qwik.dev/core';
 import json from "./foo.json" assert { type: "json" };
 
@@ -11,40 +12,43 @@ export const Greeter = component$(() => {
 	return json;
 });
 
-============================= example_import_assertion.tsx ==
+============================= test.js ==
 
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Greeter_component_BwZKGIhqyug = () => import("./example_import_assertion.tsx_Greeter_component_BwZKGIhqyug.js");
-export const Greeter = componentQrl(qrl(i_Greeter_component_BwZKGIhqyug, "Greeter_component_BwZKGIhqyug"));
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_n7HuG2hhU0Q = ()=>import("./test.tsx_Greeter_component_n7HuG2hhU0Q");
+export const Greeter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_n7HuG2hhU0Q, "Greeter_component_n7HuG2hhU0Q"));
 
 
-None
-============================= ./example_import_assertion.tsx_Greeter_component_BwZKGIhqyug.js (ENTRY POINT)==
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAIA,OAAO,MAAM,wBAAU,gFAEpB\"}")
+============================= test.tsx_Greeter_component_n7HuG2hhU0Q.js (ENTRY POINT)==
 
-import json from "./foo.json";
-export const Greeter_component_BwZKGIhqyug = () => {
-	return json;
+import json from "./foo.json" with {
+    type: "json"
+};
+export const Greeter_component_n7HuG2hhU0Q = ()=>{
+    return json;
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"mCAEqC;IAAE,MAAM;AAAO;6CAElB;IACjC,OAAO;AACR\"}")
 /*
 {
-  "origin": "example_import_assertion.tsx",
-  "name": "Greeter_component_BwZKGIhqyug",
+  "origin": "test.tsx",
+  "name": "Greeter_component_n7HuG2hhU0Q",
   "entry": null,
-  "displayName": "example_import_assertion.tsx_Greeter_component",
-  "hash": "BwZKGIhqyug",
-  "canonicalFilename": "example_import_assertion.tsx_Greeter_component_BwZKGIhqyug",
-  "path": ".",
+  "displayName": "test.tsx_Greeter_component",
+  "hash": "n7HuG2hhU0Q",
+  "canonicalFilename": "test.tsx_Greeter_component_n7HuG2hhU0Q",
+  "path": "",
   "extension": "js",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "Greeter_component_BwZKGIhqyug",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    140,
+    163
   ]
 }
 */

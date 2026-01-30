@@ -4,6 +4,7 @@ expression: output
 ---
 ==INPUT==
 
+
 import { component$ } from '@qwik.dev/core';
 
 export const Issue3561 = component$(() => {
@@ -25,49 +26,27 @@ export const Issue3561 = component$(() => {
 	return <p></p>;
 	});
 
-============================= example_optimization_issue_3561.tsx ==
+============================= test.jsx ==
 
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Issue3561_component_x4NHJ9LLQ9U = () => import("./example_optimization_issue_3561.tsx_Issue3561_component_x4NHJ9LLQ9U.js");
-export const Issue3561 = componentQrl(qrl(i_Issue3561_component_x4NHJ9LLQ9U, "Issue3561_component_x4NHJ9LLQ9U"));
-
-
-None
-============================= ./example_optimization_issue_3561.tsx_Issue3561_component_x4NHJ9LLQ9U.js (ENTRY POINT)==
-
-export const Issue3561_component_x4NHJ9LLQ9U = () => {
-	const props = useStore({ product: { currentVariant: {
-		variantImage: "image",
-		variantNumber: "number",
-		setContents: "contents"
-	} } });
-	const { currentVariant: { variantImage, variantNumber, setContents } = {} } = props.product;
-	console.log(variantImage, variantNumber, setContents);
-	return <p></p>;
-};
+import { componentQrl } from "@qwik.dev/core";
+import { inlinedQrl } from "@qwik.dev/core";
+export const Issue3561 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(()=>{
+    const props = useStore({
+        product: {
+            currentVariant: {
+                variantImage: 'image',
+                variantNumber: 'number',
+                setContents: 'contents'
+            }
+        }
+    });
+    const { currentVariant: { variantImage, variantNumber, setContents } = {} } = props.product;
+    console.log(variantImage, variantNumber, setContents);
+    return <p></p>;
+}, "Issue3561_component_hHTw654BZB8"));
 
 
-None
-/*
-{
-  "origin": "example_optimization_issue_3561.tsx",
-  "name": "Issue3561_component_x4NHJ9LLQ9U",
-  "entry": "entry_segments",
-  "displayName": "example_optimization_issue_3561.tsx_Issue3561_component",
-  "hash": "x4NHJ9LLQ9U",
-  "canonicalFilename": "example_optimization_issue_3561.tsx_Issue3561_component_x4NHJ9LLQ9U",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "Issue3561_component_x4NHJ9LLQ9U",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;AAGA,OAAO,MAAM,0BAAY,sCAAW;IACnC,MAAM,QAAQ,SAAS;QACtB,SAAS;YACT,gBAAgB;gBACf,cAAc;gBACd,eAAe;gBACf,aAAa;YACd;QACA;IACD;IACA,MAAM,EACL,gBAAgB,EAAE,YAAY,EAAE,aAAa,EAAE,WAAW,EAAE,GAAG,CAAC,CAAC,EACjE,GAAG,MAAM,OAAO;IAEjB,QAAQ,GAAG,CAAC,cAAc,eAAe;IAEzC,QAAQ,IAAI;AACZ,uCAAG\"}")
 == DIAGNOSTICS ==
 
 []

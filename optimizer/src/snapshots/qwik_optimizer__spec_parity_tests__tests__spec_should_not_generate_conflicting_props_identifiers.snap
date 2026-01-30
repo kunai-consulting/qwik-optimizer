@@ -4,113 +4,51 @@ expression: output
 ---
 ==INPUT==
 
-import { component$, useComputed$, useTask$ } from '@qwik.dev/core'
 
-export default component$(({ color, ...props }) => {
-useComputed$(() => color)
+		import { component$, useComputed$, useTask$ } from '@qwik.dev/core'
 
-useTask$(() => {
-	props.checked
-})
+		export default component$(({ color, ...props }) => {
+		useComputed$(() => color)
 
-return 'hi'
-})
+		useTask$(() => {
+			props.checked
+		})
 
-============================= ./should_not_generate_conflicting_props_identifiers.tsx_component_UMFYvVLY3Ag.js (ENTRY POINT)==
+		return 'hi'
+		})
+		
+============================= test.js ==
 
-import { qrl, useComputedQrl, useTaskQrl } from "@qwik.dev/core";
-export const component_UMFYvVLY3Ag = ({ color, ...props }) => {
-	useComputedQrl(qrl(i_component_useComputed_j8lk3YMX3JM, "component_useComputed_j8lk3YMX3JM"));
-	useTaskQrl(qrl(i_component_useTask_oXN0dRzaV0w, "component_useTask_oXN0dRzaV0w"));
-	return "hi";
+import { _restProps } from "@qwik.dev/core";
+import { componentQrl } from "@qwik.dev/core";
+import { useComputedQrl } from "@qwik.dev/core";
+import { useLexicalScope } from "@qwik.dev/core";
+import { inlinedQrl } from "@qwik.dev/core";
+import { useTaskQrl } from "@qwik.dev/core";
+const test_component_useComputed_PYU291PvidQ = ()=>{
+    const [_rawProps] = useLexicalScope();
+    return _rawProps.color;
 };
-
-
-None
-/*
-{
-  "origin": "should_not_generate_conflicting_props_identifiers.tsx",
-  "name": "component_UMFYvVLY3Ag",
-  "entry": "entry_segments",
-  "displayName": "should_not_generate_conflicting_props_identifiers.tsx_component",
-  "hash": "UMFYvVLY3Ag",
-  "canonicalFilename": "should_not_generate_conflicting_props_identifiers.tsx_component_UMFYvVLY3Ag",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "component_UMFYvVLY3Ag",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= ./should_not_generate_conflicting_props_identifiers.tsx_component_useTask_oXN0dRzaV0w.js (ENTRY POINT)==
-
-export const component_useTask_oXN0dRzaV0w = () => {
-	props.checked;
+const test_component_useTask_jewzFYh3XmQ = ()=>{
+    const [props] = useLexicalScope();
+    props.checked;
 };
+const test_component_LUXeXe0DQrg = (_rawProps)=>{
+    const props = _restProps(_rawProps, [
+        "color"
+    ]);
+    useComputedQrl(/*#__PURE__*/ inlinedQrl(test_component_useComputed_PYU291PvidQ, "test_component_useComputed_PYU291PvidQ", [
+        _rawProps
+    ]));
+    useTaskQrl(/*#__PURE__*/ inlinedQrl(test_component_useTask_jewzFYh3XmQ, "test_component_useTask_jewzFYh3XmQ", [
+        props
+    ]));
+    return 'hi';
+};
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(test_component_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
 
 
-None
-/*
-{
-  "origin": "should_not_generate_conflicting_props_identifiers.tsx",
-  "name": "component_useTask_oXN0dRzaV0w",
-  "entry": "entry_segments",
-  "displayName": "should_not_generate_conflicting_props_identifiers.tsx_component_useTask",
-  "hash": "oXN0dRzaV0w",
-  "canonicalFilename": "should_not_generate_conflicting_props_identifiers.tsx_component_useTask_oXN0dRzaV0w",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "component_useTask_oXN0dRzaV0w",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= ./should_not_generate_conflicting_props_identifiers.tsx_component_useComputed_j8lk3YMX3JM.js (ENTRY POINT)==
-
-export const component_useComputed_j8lk3YMX3JM = () => color;
-
-
-None
-/*
-{
-  "origin": "should_not_generate_conflicting_props_identifiers.tsx",
-  "name": "component_useComputed_j8lk3YMX3JM",
-  "entry": "entry_segments",
-  "displayName": "should_not_generate_conflicting_props_identifiers.tsx_component_useComputed",
-  "hash": "j8lk3YMX3JM",
-  "canonicalFilename": "should_not_generate_conflicting_props_identifiers.tsx_component_useComputed_j8lk3YMX3JM",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "component_useComputed_j8lk3YMX3JM",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= should_not_generate_conflicting_props_identifiers.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_component_useComputed_j8lk3YMX3JM = () => import("./should_not_generate_conflicting_props_identifiers.tsx_component_useComputed_j8lk3YMX3JM.js");
-const i_component_useTask_oXN0dRzaV0w = () => import("./should_not_generate_conflicting_props_identifiers.tsx_component_useTask_oXN0dRzaV0w.js");
-const i_component_UMFYvVLY3Ag = () => import("./should_not_generate_conflicting_props_identifiers.tsx_component_UMFYvVLY3Ag.js");
-export default componentQrl(qrl(i_component_UMFYvVLY3Ag, "component_UMFYvVLY3Ag"));
-
-
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;+CAIe;;qBADgB;;2CAGpB;;IACR,MAAM,OAAO;;mCAJY;;;;IAC1B;;;IAEA;;;IAIA,OAAO;AACP;AARA,6BAAe,iGAQb\"}")
 == DIAGNOSTICS ==
 
 []

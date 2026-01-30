@@ -4,6 +4,7 @@ expression: output
 ---
 ==INPUT==
 
+
 import { component$, useResource$ } from '@qwik.dev/core';
 import mongodb from 'mongodb';
 
@@ -23,76 +24,76 @@ export default component$(()=> {
 	return <div>cmp</div>
 });
 
-============================= ./example_strip_exports_used.tsx_component_Eu43kjW71hU.js (ENTRY POINT)==
+============================= test.tsx_test_component_useResource_4a8wVY7wh38.tsx (ENTRY POINT)==
 
-import { qrl, useResourceQrl } from "@qwik.dev/core";
-export const component_Eu43kjW71hU = () => {
-	useResourceQrl(qrl(i_component_useResource_4uRQV9gHG00, "component_useResource_4uRQV9gHG00"));
-	return <div>cmp</div>;
+import { onGet } from "./test";
+export const test_component_useResource_4a8wVY7wh38 = ()=>{
+    return onGet();
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";sDAcc;IACZ,OAAO;AACR\"}")
 /*
 {
-  "origin": "example_strip_exports_used.tsx",
-  "name": "component_Eu43kjW71hU",
+  "origin": "test.tsx",
+  "name": "test_component_useResource_4a8wVY7wh38",
   "entry": null,
-  "displayName": "example_strip_exports_used.tsx_component",
-  "hash": "Eu43kjW71hU",
-  "canonicalFilename": "example_strip_exports_used.tsx_component_Eu43kjW71hU",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
+  "displayName": "test.tsx_test_component_useResource",
+  "hash": "4a8wVY7wh38",
+  "canonicalFilename": "test.tsx_test_component_useResource_4a8wVY7wh38",
+  "path": "",
+  "extension": "tsx",
+  "parent": "test_component_LUXeXe0DQrg",
   "ctxKind": "function",
-  "ctxName": "component_Eu43kjW71hU",
+  "ctxName": "useResource$",
   "captures": false,
   "loc": [
-    0,
-    0
+    250,
+    278
   ]
 }
 */
-============================= example_strip_exports_used.tsx ==
+============================= test.tsx ==
 
-import { componentQrl, qrl } from "@qwik.dev/core";
-import mongodb from "mongodb";
-const i_component_useResource_4uRQV9gHG00 = () => import("./example_strip_exports_used.tsx_component_useResource_4uRQV9gHG00.js");
-const i_component_Eu43kjW71hU = () => import("./example_strip_exports_used.tsx_component_Eu43kjW71hU.js");
-export const onGet = () => {
-	const data = mongodb.collection.whatever;
-	return { body: { data } };
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
+export const onGet = ()=>{
+    throw "Symbol removed by Qwik Optimizer, it can not be called from current platform";
 };
-export default componentQrl(qrl(i_component_Eu43kjW71hU, "component_Eu43kjW71hU"));
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
 
 
-None
-============================= ./example_strip_exports_used.tsx_component_useResource_4uRQV9gHG00.js (ENTRY POINT)==
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;aAIa;;;AASb,6BAAe,6EAKZ\"}")
+============================= test.tsx_test_component_LUXeXe0DQrg.tsx (ENTRY POINT)==
 
-import { onGet } from "./example_strip_exports_used";
-export const component_useResource_4uRQV9gHG00 = () => {
-	return onGet();
+import { qrl } from "@qwik.dev/core";
+import { useResourceQrl } from "@qwik.dev/core";
+const i_4a8wVY7wh38 = ()=>import("./test.tsx_test_component_useResource_4a8wVY7wh38");
+export const test_component_LUXeXe0DQrg = ()=>{
+    useResourceQrl(/*#__PURE__*/ qrl(i_4a8wVY7wh38, "test_component_useResource_4a8wVY7wh38"));
+    return <div>cmp</div>;
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;0CAa0B;IACzB;IAGA,QAAQ,IAAI,GAAG,EAAE;AAClB\"}")
 /*
 {
-  "origin": "example_strip_exports_used.tsx",
-  "name": "component_useResource_4uRQV9gHG00",
+  "origin": "test.tsx",
+  "name": "test_component_LUXeXe0DQrg",
   "entry": null,
-  "displayName": "example_strip_exports_used.tsx_component_useResource",
-  "hash": "4uRQV9gHG00",
-  "canonicalFilename": "example_strip_exports_used.tsx_component_useResource_4uRQV9gHG00",
-  "path": ".",
-  "extension": "js",
+  "displayName": "test.tsx_test_component",
+  "hash": "LUXeXe0DQrg",
+  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
+  "path": "",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "component_useResource_4uRQV9gHG00",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    229,
+    304
   ]
 }
 */

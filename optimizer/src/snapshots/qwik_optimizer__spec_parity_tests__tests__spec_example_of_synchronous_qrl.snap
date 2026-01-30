@@ -2,149 +2,77 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-==INPUT==
-
-import { sync$, component$ } from "@qwik.dev/core";
-
-export default component$(() => {
-return (
-	<>
-		<input onClick$={sync$(function(event, target) {
-			// comment should be removed
-			event.preventDefault();
-		})}/>
-		<input onClick$={sync$((event, target) => {
-			event.preventDefault();
-		})}/>
-		<input onClick$={sync$((event, target) => event.preventDefault())}/>
-	</>
-);
-});
-
-============================= ./example_of_synchronous_qrl.tsx_component_input_onClick_sync_zaLuYPdgvBI.js (ENTRY POINT)==
-
-export const component_input_onClick_sync_zaLuYPdgvBI = function(event, target) {
-	event.preventDefault();
-};
 
 
-None
-/*
-{
-  "origin": "example_of_synchronous_qrl.tsx",
-  "name": "component_input_onClick_sync_zaLuYPdgvBI",
-  "entry": null,
-  "displayName": "example_of_synchronous_qrl.tsx_component_input_onClick_sync",
-  "hash": "zaLuYPdgvBI",
-  "canonicalFilename": "example_of_synchronous_qrl.tsx_component_input_onClick_sync_zaLuYPdgvBI",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "component_input_onClick_sync_zaLuYPdgvBI",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= ./example_of_synchronous_qrl.tsx_component_0HQ00nGQJSY.js (ENTRY POINT)==
+		import { sync$, component$ } from "@qwik.dev/core";
 
-import { _jsxSorted, qrl, syncQrl } from "@qwik.dev/core";
+		export default component$(() => {
+		return (
+			<>
+				<input onClick$={sync$(function(event, target) {
+					// comment should be removed
+					event.preventDefault();
+				})}/>
+				<input onClick$={sync$((event, target) => {
+					event.preventDefault();
+				})}/>
+				<input onClick$={sync$((event, target) => event.preventDefault())}/>
+			</>
+		);
+		});
+		
+============================= test.js ==
+
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAGE,6BAAe,6EAaZ\"}")
+============================= test.tsx_test_component_LUXeXe0DQrg.js (ENTRY POINT)==
+
 import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
-export const component_0HQ00nGQJSY = () => {
-	return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [
-		/*#__PURE__*/ _jsxSorted("input", { on:click: syncQrl(qrl(i_component_input_onClick_sync_zaLuYPdgvBI, "component_input_onClick_sync_zaLuYPdgvBI")) }, null, null, 3, null),
-		/*#__PURE__*/ _jsxSorted("input", { on:click: syncQrl(qrl(i_component_input_onClick_1_sync_TiZKlkT45Po, "component_input_onClick_1_sync_TiZKlkT45Po")) }, null, null, 3, null),
-		/*#__PURE__*/ _jsxSorted("input", { on:click: syncQrl(qrl(i_component_input_onClick_2_sync_MOPM72osdnM, "component_input_onClick_2_sync_MOPM72osdnM")) }, null, null, 3, null)
-	], 3, null);
+import { _jsxSorted } from "@qwik.dev/core";
+import { _qrlSync } from "@qwik.dev/core";
+export const test_component_LUXeXe0DQrg = ()=>{
+    return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [
+        /*#__PURE__*/ _jsxSorted("input", {
+            "on:click": _qrlSync(function(event, target) {
+                // comment should be removed
+                event.preventDefault();
+            }, "function(event,target){event.preventDefault();}")
+        }, null, null, 2, null),
+        /*#__PURE__*/ _jsxSorted("input", {
+            "on:click": _qrlSync((event, target)=>{
+                event.preventDefault();
+            }, "(event,target)=>{event.preventDefault();}")
+        }, null, null, 2, null),
+        /*#__PURE__*/ _jsxSorted("input", {
+            "on:click": _qrlSync((event, target)=>event.preventDefault(), "(event,target)=>event.preventDefault()")
+        }, null, null, 2, null)
+    ], 1, "u6_0");
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;0CAG4B;IAC1B,qBACC;sBACC,WAAC;YAAM,UAAQ,WAAQ,SAAS,KAAK,EAAE,MAAM;gBAC5C,4BAA4B;gBAC5B,MAAM,cAAc;YACrB;;sBACA,WAAC;YAAM,UAAQ,WAAQ,CAAC,OAAO;gBAC9B,MAAM,cAAc;YACrB;;sBACA,WAAC;YAAM,UAAQ,WAAQ,CAAC,OAAO,SAAW,MAAM,cAAc;;;AAGhE\"}")
 /*
 {
-  "origin": "example_of_synchronous_qrl.tsx",
-  "name": "component_0HQ00nGQJSY",
+  "origin": "test.tsx",
+  "name": "test_component_LUXeXe0DQrg",
   "entry": null,
-  "displayName": "example_of_synchronous_qrl.tsx_component",
-  "hash": "0HQ00nGQJSY",
-  "canonicalFilename": "example_of_synchronous_qrl.tsx_component_0HQ00nGQJSY",
-  "path": ".",
+  "displayName": "test.tsx_test_component",
+  "hash": "LUXeXe0DQrg",
+  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
+  "path": "",
   "extension": "js",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "component_0HQ00nGQJSY",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= example_of_synchronous_qrl.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_component_input_onClick_sync_zaLuYPdgvBI = () => import("./example_of_synchronous_qrl.tsx_component_input_onClick_sync_zaLuYPdgvBI.js");
-const i_component_input_onClick_1_sync_TiZKlkT45Po = () => import("./example_of_synchronous_qrl.tsx_component_input_onClick_1_sync_TiZKlkT45Po.js");
-const i_component_input_onClick_2_sync_MOPM72osdnM = () => import("./example_of_synchronous_qrl.tsx_component_input_onClick_2_sync_MOPM72osdnM.js");
-const i_component_0HQ00nGQJSY = () => import("./example_of_synchronous_qrl.tsx_component_0HQ00nGQJSY.js");
-export default componentQrl(qrl(i_component_0HQ00nGQJSY, "component_0HQ00nGQJSY"));
-
-
-None
-============================= ./example_of_synchronous_qrl.tsx_component_input_onClick_2_sync_MOPM72osdnM.js (ENTRY POINT)==
-
-export const component_input_onClick_2_sync_MOPM72osdnM = (event, target) => event.preventDefault();
-
-
-None
-/*
-{
-  "origin": "example_of_synchronous_qrl.tsx",
-  "name": "component_input_onClick_2_sync_MOPM72osdnM",
-  "entry": null,
-  "displayName": "example_of_synchronous_qrl.tsx_component_input_onClick_2_sync",
-  "hash": "MOPM72osdnM",
-  "canonicalFilename": "example_of_synchronous_qrl.tsx_component_input_onClick_2_sync_MOPM72osdnM",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "component_input_onClick_2_sync_MOPM72osdnM",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= ./example_of_synchronous_qrl.tsx_component_input_onClick_1_sync_TiZKlkT45Po.js (ENTRY POINT)==
-
-export const component_input_onClick_1_sync_TiZKlkT45Po = (event, target) => {
-	event.preventDefault();
-};
-
-
-None
-/*
-{
-  "origin": "example_of_synchronous_qrl.tsx",
-  "name": "component_input_onClick_1_sync_TiZKlkT45Po",
-  "entry": null,
-  "displayName": "example_of_synchronous_qrl.tsx_component_input_onClick_1_sync",
-  "hash": "TiZKlkT45Po",
-  "canonicalFilename": "example_of_synchronous_qrl.tsx_component_input_onClick_1_sync_TiZKlkT45Po",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "component_input_onClick_1_sync_TiZKlkT45Po",
-  "captures": false,
-  "loc": [
-    0,
-    0
+    85,
+    411
   ]
 }
 */

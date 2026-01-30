@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-==INPUT==
+
 
 import { $, component$, server$ } from '@qwik.dev/core';
 export const Works = component$((props) => {
@@ -12,74 +12,21 @@ export const Works = component$((props) => {
 	);
 });
 
-============================= example_reg_ctx_name_segments_inlined.tsx ==
+============================= test.js ==
 
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Works_component_div_onClick_server_d8UBeO5neSY = () => import("./example_reg_ctx_name_segments_inlined.tsx_Works_component_div_onClick_server_d8UBeO5neSY.js");
-const i_Works_component_AROoLgAJDOE = () => import("./example_reg_ctx_name_segments_inlined.tsx_Works_component_AROoLgAJDOE.js");
-export const Works = componentQrl(qrl(i_Works_component_AROoLgAJDOE, "Works_component_AROoLgAJDOE"));
-
-
-None
-============================= ./example_reg_ctx_name_segments_inlined.tsx_Works_component_div_onClick_server_d8UBeO5neSY.js (ENTRY POINT)==
-
-export const Works_component_div_onClick_server_d8UBeO5neSY = () => {
-	const [text] = useLexicalScope();
-	return console.log("in server", text);
-};
+import { componentQrl } from "@qwik.dev/core";
+import { serverQrl } from "@qwik.dev/core";
+import { _regSymbol } from "@qwik.dev/core";
+import { inlinedQrl } from "@qwik.dev/core";
+import { _jsxSorted } from "@qwik.dev/core";
+export const Works = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl((props)=>{
+    return /*#__PURE__*/ _jsxSorted("div", {
+        "on:click": serverQrl(/*#__PURE__*/ inlinedQrl(/*#__PURE__*/ _regSymbol(()=>console.log('in server', 'hola'), "I0KQOua02KE"), "Works_component_div_on_click_server_I0KQOua02KE"))
+    }, null, null, 2, "u6_0");
+}, "Works_component_t45qL4vNGv0"));
 
 
-None
-/*
-{
-  "origin": "example_reg_ctx_name_segments_inlined.tsx",
-  "name": "Works_component_div_onClick_server_d8UBeO5neSY",
-  "entry": "entry_segments",
-  "displayName": "example_reg_ctx_name_segments_inlined.tsx_Works_component_div_onClick_server",
-  "hash": "d8UBeO5neSY",
-  "canonicalFilename": "example_reg_ctx_name_segments_inlined.tsx_Works_component_div_onClick_server_d8UBeO5neSY",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "Works_component_div_onClick_server_d8UBeO5neSY",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= ./example_reg_ctx_name_segments_inlined.tsx_Works_component_AROoLgAJDOE.js (ENTRY POINT)==
-
-import { _jsxSorted, qrl, serverQrl } from "@qwik.dev/core";
-export const Works_component_AROoLgAJDOE = (props) => {
-	const text = "hola";
-	return /*#__PURE__*/ _jsxSorted("div", { on:click: serverQrl(qrl(i_Works_component_div_onClick_server_d8UBeO5neSY, "Works_component_div_onClick_server_d8UBeO5neSY", [text])) }, null, null, 3, null);
-};
-
-
-None
-/*
-{
-  "origin": "example_reg_ctx_name_segments_inlined.tsx",
-  "name": "Works_component_AROoLgAJDOE",
-  "entry": "entry_segments",
-  "displayName": "example_reg_ctx_name_segments_inlined.tsx_Works_component",
-  "hash": "AROoLgAJDOE",
-  "canonicalFilename": "example_reg_ctx_name_segments_inlined.tsx_Works_component_AROoLgAJDOE",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "Works_component_AROoLgAJDOE",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;AAEA,OAAO,MAAM,sBAAQ,sCAAW,CAAC;IAEhC,qBACC,WAAC;QAAI,YAAU,4DAAQ,IAAM,QAAQ,GAAG,CAAC,aAF7B;;AAId,mCAAG\"}")
 == DIAGNOSTICS ==
 
 []

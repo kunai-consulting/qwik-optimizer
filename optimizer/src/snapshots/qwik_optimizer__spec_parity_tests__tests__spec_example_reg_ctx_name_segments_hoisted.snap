@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-==INPUT==
+
 
 import { $, component$, server$, useStyle$ } from '@qwik.dev/core';
 
@@ -16,103 +16,27 @@ export const Works = component$((props) => {
 
 const STYLES = '.class {}';
 
-============================= ./example_reg_ctx_name_segments_hoisted.tsx_Works_component_useStyle_5r3kDX9lHSI.js (ENTRY POINT)==
+============================= test.js ==
 
-export const Works_component_useStyle_5r3kDX9lHSI = STYLES;
-
-
-None
-/*
-{
-  "origin": "example_reg_ctx_name_segments_hoisted.tsx",
-  "name": "Works_component_useStyle_5r3kDX9lHSI",
-  "entry": "entry_segments",
-  "displayName": "example_reg_ctx_name_segments_hoisted.tsx_Works_component_useStyle",
-  "hash": "5r3kDX9lHSI",
-  "canonicalFilename": "example_reg_ctx_name_segments_hoisted.tsx_Works_component_useStyle_5r3kDX9lHSI",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "Works_component_useStyle_5r3kDX9lHSI",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= ./example_reg_ctx_name_segments_hoisted.tsx_Works_component_div_onClick_server_ljLO32E0X1w.js (ENTRY POINT)==
-
-export const Works_component_div_onClick_server_ljLO32E0X1w = () => {
-	const [text] = useLexicalScope();
-	return console.log("in server", text);
+import { componentQrl } from "@qwik.dev/core";
+import { useStyleQrl } from "@qwik.dev/core";
+import { inlinedQrl } from "@qwik.dev/core";
+import { serverQrl } from "@qwik.dev/core";
+import { _regSymbol } from "@qwik.dev/core";
+import { _jsxSorted } from "@qwik.dev/core";
+const Works_component_div_on_click_server_I0KQOua02KE = /*#__PURE__*/ _regSymbol(()=>console.log('in server', 'hola'), "I0KQOua02KE");
+const Works_component_t45qL4vNGv0 = (props)=>{
+    useStyleQrl(/*#__PURE__*/ inlinedQrl(STYLES, "Works_component_useStyle_i40UL9JyQpg"));
+    return /*#__PURE__*/ _jsxSorted("div", {
+        "on:click": serverQrl(/*#__PURE__*/ inlinedQrl(Works_component_div_on_click_server_I0KQOua02KE, "Works_component_div_on_click_server_I0KQOua02KE"))
+    }, null, null, 2, "u6_0");
 };
+export const Works = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(Works_component_t45qL4vNGv0, "Works_component_t45qL4vNGv0"));
+const STYLES = '.class {}';
+export { STYLES as _auto_STYLES };
 
 
-None
-/*
-{
-  "origin": "example_reg_ctx_name_segments_hoisted.tsx",
-  "name": "Works_component_div_onClick_server_ljLO32E0X1w",
-  "entry": "entry_segments",
-  "displayName": "example_reg_ctx_name_segments_hoisted.tsx_Works_component_div_onClick_server",
-  "hash": "ljLO32E0X1w",
-  "canonicalFilename": "example_reg_ctx_name_segments_hoisted.tsx_Works_component_div_onClick_server_ljLO32E0X1w",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "Works_component_div_onClick_server_ljLO32E0X1w",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= example_reg_ctx_name_segments_hoisted.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Works_component_useStyle_5r3kDX9lHSI = () => import("./example_reg_ctx_name_segments_hoisted.tsx_Works_component_useStyle_5r3kDX9lHSI.js");
-const i_Works_component_div_onClick_server_ljLO32E0X1w = () => import("./example_reg_ctx_name_segments_hoisted.tsx_Works_component_div_onClick_server_ljLO32E0X1w.js");
-const i_Works_component_QtxQU1Oe5cE = () => import("./example_reg_ctx_name_segments_hoisted.tsx_Works_component_QtxQU1Oe5cE.js");
-export const Works = componentQrl(qrl(i_Works_component_QtxQU1Oe5cE, "Works_component_QtxQU1Oe5cE"));
-const STYLES = ".class {}";
-
-
-None
-============================= ./example_reg_ctx_name_segments_hoisted.tsx_Works_component_QtxQU1Oe5cE.js (ENTRY POINT)==
-
-import { _jsxSorted, qrl, serverQrl, useStyleQrl } from "@qwik.dev/core";
-export const Works_component_QtxQU1Oe5cE = (props) => {
-	useStyleQrl(qrl(i_Works_component_useStyle_5r3kDX9lHSI, "Works_component_useStyle_5r3kDX9lHSI"));
-	const text = useStyleQrl(qrl(i_Works_component_useStyle_5r3kDX9lHSI, "Works_component_useStyle_5r3kDX9lHSI"));
-	return /*#__PURE__*/ _jsxSorted("div", { on:click: serverQrl(qrl(i_Works_component_div_onClick_server_ljLO32E0X1w, "Works_component_div_onClick_server_ljLO32E0X1w", [text])) }, null, null, 3, null);
-};
-
-
-None
-/*
-{
-  "origin": "example_reg_ctx_name_segments_hoisted.tsx",
-  "name": "Works_component_QtxQU1Oe5cE",
-  "entry": "entry_segments",
-  "displayName": "example_reg_ctx_name_segments_hoisted.tsx_Works_component",
-  "hash": "QtxQU1Oe5cE",
-  "canonicalFilename": "example_reg_ctx_name_segments_hoisted.tsx_Works_component_QtxQU1Oe5cE",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "Works_component_QtxQU1Oe5cE",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;iFAOyB,IAAM,QAAQ,GAAG,CAAC,aAF7B;oCAFkB,CAAC;IAChC,qCAAU;IAEV,qBACC,WAAC;QAAI,YAAU;;AAEjB;AANA,OAAO,MAAM,sBAAQ,mGAMlB;AAEH,MAAM,SAAS\"}")
 == DIAGNOSTICS ==
 
 []

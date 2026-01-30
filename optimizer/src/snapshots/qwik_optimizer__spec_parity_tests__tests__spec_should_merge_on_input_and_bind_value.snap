@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-==INPUT==
+
 
 import { component$, useSignal } from "@qwik.dev/core";
 
@@ -19,45 +19,83 @@ export const FieldInput = component$(() => {
   );
 });
 
-============================= should_merge_on_input_and_bind_value.tsx ==
+============================= test.js ==
 
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_FieldInput_component_input_onInput = () => import("./should_merge_on_input_and_bind_value.tsx.js");
-const i_FieldInput_component_TeVdetEzCYQ = () => import("./should_merge_on_input_and_bind_value.tsx_FieldInput_component_TeVdetEzCYQ.js");
-export const FieldInput = componentQrl(qrl(i_FieldInput_component_TeVdetEzCYQ, "FieldInput_component_TeVdetEzCYQ"));
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_V4XAtJSTRKg = ()=>import("./test.tsx_FieldInput_component_V4XAtJSTRKg");
+export const FieldInput = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_V4XAtJSTRKg, "FieldInput_component_V4XAtJSTRKg"));
 
 
-None
-============================= ./should_merge_on_input_and_bind_value.tsx_FieldInput_component_TeVdetEzCYQ.js (ENTRY POINT)==
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAGA,OAAO,MAAM,2BAAa,mFAWvB\"}")
+============================= test.tsx_FieldInput_component_input_on_input_KMRAAEMkFCE.js (ENTRY POINT)==
 
-import { _jsxSorted, qrl, useSignal } from "@qwik.dev/core";
-export const FieldInput_component_TeVdetEzCYQ = () => {
-	const localValue = useSignal("");
-	return /*#__PURE__*/ _jsxSorted("input", null, {
-		value: localValue,
-		on:input: [qrl(i_FieldInput_component_input_onInput, "FieldInput_component_input_onInput"), inlinedQrl(_val, "_val", [localValue])]
-	}, null, 3, null);
+export const FieldInput_component_input_on_input_KMRAAEMkFCE = ()=>{
+    console.log("test");
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"+DASgB;IACR,QAAQ,GAAG,CAAC;AACd\"}")
 /*
 {
-  "origin": "should_merge_on_input_and_bind_value.tsx",
-  "name": "FieldInput_component_TeVdetEzCYQ",
+  "origin": "test.tsx",
+  "name": "FieldInput_component_input_on_input_KMRAAEMkFCE",
   "entry": null,
-  "displayName": "should_merge_on_input_and_bind_value.tsx_FieldInput_component",
-  "hash": "TeVdetEzCYQ",
-  "canonicalFilename": "should_merge_on_input_and_bind_value.tsx_FieldInput_component_TeVdetEzCYQ",
-  "path": ".",
+  "displayName": "test.tsx_FieldInput_component_input_on_input",
+  "hash": "KMRAAEMkFCE",
+  "canonicalFilename": "test.tsx_FieldInput_component_input_on_input_KMRAAEMkFCE",
+  "path": "",
+  "extension": "js",
+  "parent": "FieldInput_component_V4XAtJSTRKg",
+  "ctxKind": "eventHandler",
+  "ctxName": "onInput$",
+  "captures": false,
+  "loc": [
+    209,
+    253
+  ]
+}
+*/
+============================= test.tsx_FieldInput_component_V4XAtJSTRKg.js (ENTRY POINT)==
+
+import { _jsxSorted } from "@qwik.dev/core";
+import { _val } from "@qwik.dev/core";
+import { inlinedQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+import { useSignal } from "@qwik.dev/core";
+const i_KMRAAEMkFCE = ()=>import("./test.tsx_FieldInput_component_input_on_input_KMRAAEMkFCE");
+export const FieldInput_component_V4XAtJSTRKg = ()=>{
+    const localValue = useSignal("");
+    return /*#__PURE__*/ _jsxSorted("input", null, {
+        "value": localValue,
+        "on:input": [
+            inlinedQrl(_val, "_val", [
+                localValue
+            ]),
+            /*#__PURE__*/ qrl(i_KMRAAEMkFCE, "FieldInput_component_input_on_input_KMRAAEMkFCE")
+        ]
+    }, null, 3, "u6_0");
+};
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;gDAGqC;IACnC,MAAM,aAAa,UAAU;IAE7B,qBACE,WAAC;iBACa;;;gBAAA;;;;;AAMlB\"}")
+/*
+{
+  "origin": "test.tsx",
+  "name": "FieldInput_component_V4XAtJSTRKg",
+  "entry": null,
+  "displayName": "test.tsx_FieldInput_component",
+  "hash": "V4XAtJSTRKg",
+  "canonicalFilename": "test.tsx_FieldInput_component_V4XAtJSTRKg",
+  "path": "",
   "extension": "js",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "FieldInput_component_TeVdetEzCYQ",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    96,
+    268
   ]
 }
 */

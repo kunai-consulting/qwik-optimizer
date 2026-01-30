@@ -2,19 +2,19 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-==INPUT==
+
+
+		import { inlinedQrl } from '@qwik.dev/core';
+
+		const foo = inlinedQrl(null, 'some_hash');
+		
+============================= test.js ==
 
 import { inlinedQrl } from '@qwik.dev/core';
-
-const foo = inlinedQrl(null, 'some_hash');
-
-============================= should_ignore_null_inlined_qrl.tsx ==
-
-import { inlinedQrl } from "@qwik.dev/core";
-inlinedQrl(null, "some_hash");
+inlinedQrl(null, 'some_hash');
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"AACE,SAAS,UAAU,QAAQ,iBAAiB;AAEhC,WAAW,MAAM\"}")
 == DIAGNOSTICS ==
 
 []

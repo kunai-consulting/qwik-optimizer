@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-==INPUT==
+
 
 import { component$ } from '@qwik.dev/core';
 export default component$((props) => {
@@ -15,42 +15,55 @@ export default component$((props) => {
 	);
 });
 
-============================= should_wrap_object_with_fn_signal.tsx ==
+============================= test.js ==
 
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_component_m0d6HKr04bo = () => import("./should_wrap_object_with_fn_signal.tsx_component_m0d6HKr04bo.js");
-export default componentQrl(qrl(i_component_m0d6HKr04bo, "component_m0d6HKr04bo"));
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
 
 
-None
-============================= ./should_wrap_object_with_fn_signal.tsx_component_m0d6HKr04bo.js (ENTRY POINT)==
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAEA,6BAAe,6EAQZ\"}")
+============================= test.tsx_test_component_LUXeXe0DQrg.js (ENTRY POINT)==
 
-import { _jsxSorted } from "@qwik.dev/core";
 import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
-export const component_m0d6HKr04bo = (props) => {
-	const item = props.something.count;
-	return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, /*#__PURE__*/ _jsxSorted("div", { data-wrap: props.myobj.id + "test" }, { data-no-wrap: item ? item * 2 : null }, null, 3, null), 3, null);
+import { _fnSignal } from "@qwik.dev/core";
+import { _jsxSorted } from "@qwik.dev/core";
+const _hf0 = (p0)=>p0.myobj.id + "test";
+const _hf0_str = 'p0.myobj.id+"test"';
+export const test_component_LUXeXe0DQrg = (props)=>{
+    // not destructure it so it is a var prop
+    const item = props.something.count;
+    return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, /*#__PURE__*/ _jsxSorted("div", {
+        "data-no-wrap": item ? item * 2 : null,
+        "data-wrap": _fnSignal(_hf0, [
+            props
+        ], _hf0_str)
+    }, null, null, 3, null), 1, "u6_0");
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;mBAOyD,GAAM,KAAK,CAAC,EAAE,GAAG;;0CALhD,CAAC;IAC1B,yCAAyC;IACzC,MAAM,OAAO,MAAM,SAAS,CAAC,KAAK;IAClC,qBACC,gDACC,WAAC;QAAI,gBAAc,OAAO,OAAO,IAAI;QAAM,WAAS;;;;AAGvD\"}")
 /*
 {
-  "origin": "should_wrap_object_with_fn_signal.tsx",
-  "name": "component_m0d6HKr04bo",
+  "origin": "test.tsx",
+  "name": "test_component_LUXeXe0DQrg",
   "entry": null,
-  "displayName": "should_wrap_object_with_fn_signal.tsx_component",
-  "hash": "m0d6HKr04bo",
-  "canonicalFilename": "should_wrap_object_with_fn_signal.tsx_component_m0d6HKr04bo",
-  "path": ".",
+  "displayName": "test.tsx_test_component",
+  "hash": "LUXeXe0DQrg",
+  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
+  "path": "",
   "extension": "js",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "component_m0d6HKr04bo",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    73,
+    281
+  ],
+  "paramNames": [
+    "props"
   ]
 }
 */

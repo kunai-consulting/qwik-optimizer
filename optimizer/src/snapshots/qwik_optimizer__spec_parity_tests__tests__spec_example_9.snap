@@ -4,6 +4,7 @@ expression: output
 ---
 ==INPUT==
 
+
 import { $, component$ } from '@qwik.dev/core';
 const Header = $((decl1, {decl2}, [decl3]) => {
 	const {decl4, key: decl5} = this;
@@ -17,44 +18,48 @@ const Header = $((decl1, {decl2}, [decl3]) => {
 	try{}catch({decl19}){}
 });
 
-============================= ./example_9.tsx_Header_y6HLJ5DLjC4.js (ENTRY POINT)==
+============================= test.tsx_Header_WjUaUQN7Oxg.tsx (ENTRY POINT)==
 
-export const Header_y6HLJ5DLjC4 = (decl1, { decl2 }, [decl3]) => {
-	const { decl4, key: decl5 } = this;
-	let [decl6, ...decl7] = stuff;
-	const decl8 = 1, decl9;
+export const Header_WjUaUQN7Oxg = (decl1, { decl2 }, [decl3])=>{
+    const { decl4, key: decl5 } = this;
+    let [decl6, ...decl7] = stuff;
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"kCAEiB,CAAC,OAAO,EAAC,KAAK,EAAC,EAAE,CAAC,MAAM;IACxC,MAAM,EAAC,KAAK,EAAE,KAAK,KAAK,EAAC,GAAG,IAAI;IAChC,IAAI,CAAC,OAAO,GAAG,MAAM,GAAG;AAQzB\"}")
 /*
 {
-  "origin": "example_9.tsx",
-  "name": "Header_y6HLJ5DLjC4",
+  "origin": "test.tsx",
+  "name": "Header_WjUaUQN7Oxg",
   "entry": null,
-  "displayName": "example_9.tsx_Header",
-  "hash": "y6HLJ5DLjC4",
-  "canonicalFilename": "example_9.tsx_Header_y6HLJ5DLjC4",
-  "path": ".",
-  "extension": "js",
+  "displayName": "test.tsx_Header",
+  "hash": "WjUaUQN7Oxg",
+  "canonicalFilename": "test.tsx_Header_WjUaUQN7Oxg",
+  "path": "",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "Header_y6HLJ5DLjC4",
+  "ctxName": "$",
   "captures": false,
   "loc": [
-    0,
-    0
+    67,
+    344
+  ],
+  "paramNames": [
+    "decl1",
+    "{decl2}",
+    "[decl3]"
   ]
 }
 */
-============================= example_9.tsx ==
+============================= test.tsx ==
 
 import { qrl } from "@qwik.dev/core";
-const i_Header_y6HLJ5DLjC4 = () => import("./example_9.tsx_Header_y6HLJ5DLjC4.js");
-qrl(i_Header_y6HLJ5DLjC4, "Header_y6HLJ5DLjC4");
+const i_WjUaUQN7Oxg = ()=>import("./test.tsx_Header_WjUaUQN7Oxg");
+/*#__PURE__*/ qrl(i_WjUaUQN7Oxg, "Header_WjUaUQN7Oxg");
 
 
-None
+Some("{\"version\":3,\"sources\":[],\"names\":[],\"mappings\":\"\"}")
 == DIAGNOSTICS ==
 
 []

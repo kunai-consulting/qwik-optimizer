@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-==INPUT==
+
 
 import { $, component$, useSignal } from "@qwik.dev/core";
 
@@ -25,49 +25,62 @@ export const FieldInput = component$((props) => {
   );
 });
 
-============================= ./should_not_transform_bind_value_in_var_props_for_jsx_split.tsx_FieldInput_component_O7e736kxgiI.js (ENTRY POINT)==
+============================= test.js ==
 
-import { _getConstProps, _getVarProps, _jsxSorted, _jsxSplit, useSignal } from "@qwik.dev/core";
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_V4XAtJSTRKg = ()=>import("./test.tsx_FieldInput_component_V4XAtJSTRKg");
+export const FieldInput = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_V4XAtJSTRKg, "FieldInput_component_V4XAtJSTRKg"));
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAGA,OAAO,MAAM,2BAAa,mFAiBvB\"}")
+============================= test.tsx_FieldInput_component_V4XAtJSTRKg.js (ENTRY POINT)==
+
 import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
-export const FieldInput_component_O7e736kxgiI = (props) => {
-	const input = useSignal("");
-	return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [/*#__PURE__*/ _jsxSplit("input", {
-		value: input,
-		on:input: inlinedQrl(_val, "_val", [input]),
-		..._getVarProps(props)
-	}, _getConstProps(props), null, 0, null), /*#__PURE__*/ _jsxSplit("input", { ..._getVarProps(props) }, _getConstProps(props), null, 0, null)], 3, null);
+import { _getConstProps } from "@qwik.dev/core";
+import { _getVarProps } from "@qwik.dev/core";
+import { _jsxSorted } from "@qwik.dev/core";
+import { _jsxSplit } from "@qwik.dev/core";
+import { useSignal } from "@qwik.dev/core";
+export const FieldInput_component_V4XAtJSTRKg = (props)=>{
+    const input = useSignal("");
+    return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [
+        /*#__PURE__*/ _jsxSplit("input", {
+            "bind:value": input,
+            ..._getVarProps(props)
+        }, _getConstProps(props), null, 0, null),
+        /*#__PURE__*/ _jsxSplit("input", {
+            ..._getVarProps(props),
+            "bind:value": input
+        }, _getConstProps(props), null, 0, null)
+    ], 1, "u6_0");
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;gDAGqC,CAAC;IACrC,MAAM,QAAQ,UAAU;IAEvB,qBACA;sBAEC,UAAC;YAAD,cACa;4BACR;0BAAA;sBAGL,UAAC;4BACI;YADL,cAEa;0BADR;;AAKR\"}")
 /*
 {
-  "origin": "should_not_transform_bind_value_in_var_props_for_jsx_split.tsx",
-  "name": "FieldInput_component_O7e736kxgiI",
+  "origin": "test.tsx",
+  "name": "FieldInput_component_V4XAtJSTRKg",
   "entry": null,
-  "displayName": "should_not_transform_bind_value_in_var_props_for_jsx_split.tsx_FieldInput_component",
-  "hash": "O7e736kxgiI",
-  "canonicalFilename": "should_not_transform_bind_value_in_var_props_for_jsx_split.tsx_FieldInput_component_O7e736kxgiI",
-  "path": ".",
+  "displayName": "test.tsx_FieldInput_component",
+  "hash": "V4XAtJSTRKg",
+  "canonicalFilename": "test.tsx_FieldInput_component_V4XAtJSTRKg",
+  "path": "",
   "extension": "js",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "FieldInput_component_O7e736kxgiI",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    99,
+    323
+  ],
+  "paramNames": [
+    "props"
   ]
 }
 */
-============================= should_not_transform_bind_value_in_var_props_for_jsx_split.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_FieldInput_component_O7e736kxgiI = () => import("./should_not_transform_bind_value_in_var_props_for_jsx_split.tsx_FieldInput_component_O7e736kxgiI.js");
-export const FieldInput = componentQrl(qrl(i_FieldInput_component_O7e736kxgiI, "FieldInput_component_O7e736kxgiI"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

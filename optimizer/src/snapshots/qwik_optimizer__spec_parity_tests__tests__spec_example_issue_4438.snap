@@ -4,6 +4,7 @@ expression: output
 ---
 ==INPUT==
 
+
 import { component$, useSignal } from '@qwik.dev/core';
 
 export const App = component$(() => {
@@ -16,45 +17,26 @@ export const App = component$(() => {
 	);
 });
 
-============================= ./example_issue_4438.tsx_App_component_eGeaJB4BHI8.js (ENTRY POINT)==
+============================= test.js ==
 
-import { _jsxSorted, useSignal } from "@qwik.dev/core";
+import { componentQrl } from "@qwik.dev/core";
+import { _jsxSorted } from "@qwik.dev/core";
+import { inlinedQrl } from "@qwik.dev/core";
 import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
-export const App_component_eGeaJB4BHI8 = () => {
-	const toggle = useSignal(false);
-	return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [/*#__PURE__*/ _jsxSorted("div", { data-nu: toggle.value ? $localize`singular` : "plural" }, null, null, 3, null), /*#__PURE__*/ _jsxSorted("div", null, null, toggle.value ? $localize`singular` : $localize`plural`, 1, null)], 3, null);
+import { useSignal } from '@qwik.dev/core';
+const App_component_ckEPmXZlub0 = ()=>{
+    const toggle = useSignal(false);
+    return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [
+        /*#__PURE__*/ _jsxSorted("div", {
+            "data-nu": toggle.value ? $localize`singular` : 'plural'
+        }, null, null, 3, null),
+        /*#__PURE__*/ _jsxSorted("div", null, null, toggle.value ? $localize`singular` : $localize`plural`, 1, null)
+    ], 1, "u6_0");
 };
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(App_component_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
 
 
-None
-/*
-{
-  "origin": "example_issue_4438.tsx",
-  "name": "App_component_eGeaJB4BHI8",
-  "entry": "entry_segments",
-  "displayName": "example_issue_4438.tsx_App_component",
-  "hash": "eGeaJB4BHI8",
-  "canonicalFilename": "example_issue_4438.tsx_App_component_eGeaJB4BHI8",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "App_component_eGeaJB4BHI8",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= example_issue_4438.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_App_component_eGeaJB4BHI8 = () => import("./example_issue_4438.tsx_App_component_eGeaJB4BHI8.js");
-export const App = componentQrl(qrl(i_App_component_eGeaJB4BHI8, "App_component_eGeaJB4BHI8"));
-
-
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;AACA,SAAqB,SAAS,QAAQ,iBAAiB;kCAEzB;IAC7B,MAAM,SAAS,UAAU;IACzB,qBACC;sBACC,WAAC;YAAI,WAAS,OAAO,KAAK,GAAG,SAAS,CAAC,QAAQ,CAAC,GAAG;;sBACnD,WAAC,mBAAK,OAAO,KAAK,GAAG,SAAS,CAAC,QAAQ,CAAC,GAAG,SAAS,CAAC,MAAM,CAAC;;AAG/D;AARA,OAAO,MAAM,oBAAM,+FAQhB\"}")
 == DIAGNOSTICS ==
 
 []

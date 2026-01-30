@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-==INPUT==
+
 
 import { component$, serverLoader$, serverStuff$, $, client$, useStore, useTask$ } from '@qwik.dev/core';
 import { isServer } from '@qwik.dev/core';
@@ -46,220 +46,209 @@ export const Parent = component$(() => {
 	);
 });
 
-============================= ./example_strip_server_code.tsx_s_eJVbqUgUhAA.js (ENTRY POINT)==
+============================= test.tsx_Parent_component_useTask_gDH1EtUWqBU.js (ENTRY POINT)==
 
-import { clientQrl, qrl } from "@qwik.dev/core";
-export const s_eJVbqUgUhAA = async () => {
-	const a = qrl(i_s_NO0hLvAFuN4, "s_NO0hLvAFuN4");
-	const b = clientQrl(qrl(i_s_4a3uF6fSMYc, "s_4a3uF6fSMYc"));
-	return [a, b];
-};
-
-
-None
-/*
-{
-  "origin": "example_strip_server_code.tsx",
-  "name": "s_eJVbqUgUhAA",
-  "entry": null,
-  "displayName": "example_strip_server_code.tsx_Parent_component_serverStuff",
-  "hash": "eJVbqUgUhAA",
-  "canonicalFilename": "example_strip_server_code.tsx_s_eJVbqUgUhAA",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "s_eJVbqUgUhAA",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= example_strip_server_code.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_s_XK3uv08QoGk = () => import("./example_strip_server_code.tsx_s_XK3uv08QoGk.js");
-const i_s_NO0hLvAFuN4 = () => import("./example_strip_server_code.tsx_s_NO0hLvAFuN4.js");
-const i_s_4a3uF6fSMYc = () => import("./example_strip_server_code.tsx_s_4a3uF6fSMYc.js");
-const i_s_eJVbqUgUhAA = () => import("./example_strip_server_code.tsx_s_eJVbqUgUhAA.js");
-const i_s_QzLANtCpgqY = () => import("./example_strip_server_code.tsx_s_QzLANtCpgqY.js");
-const i_s_33lR4XqeKI4 = () => import("./example_strip_server_code.tsx_s_33lR4XqeKI4.js");
-const i_s_w5E0E9exVp0 = () => import("./example_strip_server_code.tsx_s_w5E0E9exVp0.js");
-export const Parent = componentQrl(qrl(i_s_w5E0E9exVp0, "s_w5E0E9exVp0"));
-
-
-None
-============================= ./example_strip_server_code.tsx_s_XK3uv08QoGk.js (ENTRY POINT)==
-
+import { useLexicalScope } from "@qwik.dev/core";
 import mongo from "mongodb";
 import redis from "redis";
-export const s_XK3uv08QoGk = async () => {
-	const [state] = useLexicalScope();
-	if (!true) return;
-	state.text = await mongo.users();
-	redis.set(state.text);
+export const s_gDH1EtUWqBU = async ()=>{
+    const [state] = useLexicalScope();
+    state.text = await mongo.users();
+    redis.set(state.text);
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;6BAaU;;IAER,MAAM,IAAI,GAAG,MAAM,MAAM,KAAK;IAC9B,MAAM,GAAG,CAAC,MAAM,IAAI\"}")
 /*
 {
-  "origin": "example_strip_server_code.tsx",
-  "name": "s_XK3uv08QoGk",
+  "origin": "test.tsx",
+  "name": "s_gDH1EtUWqBU",
   "entry": null,
-  "displayName": "example_strip_server_code.tsx_Parent_component_useTask",
-  "hash": "XK3uv08QoGk",
-  "canonicalFilename": "example_strip_server_code.tsx_s_XK3uv08QoGk",
-  "path": ".",
+  "displayName": "test.tsx_Parent_component_useTask",
+  "hash": "gDH1EtUWqBU",
+  "canonicalFilename": "test.tsx_Parent_component_useTask_gDH1EtUWqBU",
+  "path": "",
   "extension": "js",
-  "parent": null,
+  "parent": "s_0TaiDayHrlo",
   "ctxKind": "function",
-  "ctxName": "s_XK3uv08QoGk",
-  "captures": false,
+  "ctxName": "useTask$",
+  "captures": true,
   "loc": [
-    0,
-    0
+    363,
+    465
+  ],
+  "captureNames": [
+    "state"
   ]
 }
 */
-============================= ./example_strip_server_code.tsx_s_4a3uF6fSMYc.js (ENTRY POINT)==
+============================= test.js ==
 
-export const s_4a3uF6fSMYc = () => {};
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_0TaiDayHrlo = ()=>import("./test.tsx_Parent_component_0TaiDayHrlo");
+export const Parent = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_0TaiDayHrlo, "s_0TaiDayHrlo"));
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAOA,OAAO,MAAM,uBAAS,gEAkCnB\"}")
+============================= test.tsx_Parent_component_serverStuff_a_2ca3HLDC7yc.js (ENTRY POINT)==
+
+export const s_2ca3HLDC7yc = ()=>{
+// from $(), should not be removed
+};
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"6BAqBc;AACX,kCAAkC;AACnC\"}")
 /*
 {
-  "origin": "example_strip_server_code.tsx",
-  "name": "s_4a3uF6fSMYc",
+  "origin": "test.tsx",
+  "name": "s_2ca3HLDC7yc",
   "entry": null,
-  "displayName": "example_strip_server_code.tsx_Parent_component_serverStuff_b_client",
-  "hash": "4a3uF6fSMYc",
-  "canonicalFilename": "example_strip_server_code.tsx_s_4a3uF6fSMYc",
-  "path": ".",
+  "displayName": "test.tsx_Parent_component_serverStuff_a",
+  "hash": "2ca3HLDC7yc",
+  "canonicalFilename": "test.tsx_Parent_component_serverStuff_a_2ca3HLDC7yc",
+  "path": "",
   "extension": "js",
-  "parent": null,
+  "parent": "s_r1qAHX7Opp0",
   "ctxKind": "function",
-  "ctxName": "s_4a3uF6fSMYc",
+  "ctxName": "$",
   "captures": false,
   "loc": [
-    0,
-    0
+    538,
+    587
   ]
 }
 */
-============================= ./example_strip_server_code.tsx_s_33lR4XqeKI4.js (ENTRY POINT)==
+============================= test.tsx_Parent_component_serverStuff_b_client_v9qawr2Inkk.js (ENTRY POINT)==
 
-export const s_33lR4XqeKI4 = () => {};
+export const s_v9qawr2Inkk = ()=>{
+// from clien$(), should not be removed
+};
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"6BAwBoB;AACjB,uCAAuC;AACxC\"}")
 /*
 {
-  "origin": "example_strip_server_code.tsx",
-  "name": "s_33lR4XqeKI4",
+  "origin": "test.tsx",
+  "name": "s_v9qawr2Inkk",
   "entry": null,
-  "displayName": "example_strip_server_code.tsx_Parent_component_useTask_1",
-  "hash": "33lR4XqeKI4",
-  "canonicalFilename": "example_strip_server_code.tsx_s_33lR4XqeKI4",
-  "path": ".",
+  "displayName": "test.tsx_Parent_component_serverStuff_b_client",
+  "hash": "v9qawr2Inkk",
+  "canonicalFilename": "test.tsx_Parent_component_serverStuff_b_client_v9qawr2Inkk",
+  "path": "",
   "extension": "js",
-  "parent": null,
+  "parent": "s_r1qAHX7Opp0",
   "ctxKind": "function",
-  "ctxName": "s_33lR4XqeKI4",
+  "ctxName": "client$",
   "captures": false,
   "loc": [
-    0,
-    0
+    610,
+    664
   ]
 }
 */
-============================= ./example_strip_server_code.tsx_s_w5E0E9exVp0.js (ENTRY POINT)==
+============================= test.tsx_Parent_component_0TaiDayHrlo.js (ENTRY POINT)==
 
 import { _jsxSorted } from "@qwik.dev/core";
-export const s_w5E0E9exVp0 = () => {
-	const state = useStore({ text: "" });
-	useTaskQrl(qrl(i_s_XK3uv08QoGk, "s_XK3uv08QoGk", [state]));
-	serverStuffQrl(qrl(i_s_eJVbqUgUhAA, "s_eJVbqUgUhAA"));
-	serverLoaderQrl(qrl(i_s_QzLANtCpgqY, "s_QzLANtCpgqY"));
-	useTaskQrl(qrl(i_s_33lR4XqeKI4, "s_33lR4XqeKI4"));
-	return /*#__PURE__*/ _jsxSorted("div", { on:click: useTaskQrl(qrl(i_s_33lR4XqeKI4, "s_33lR4XqeKI4")) }, null, state.text, 1, null);
+import { _noopQrl } from "@qwik.dev/core";
+import { _wrapProp } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+import { serverLoaderQrl } from "@qwik.dev/core";
+import { serverStuffQrl } from "@qwik.dev/core";
+import { useStore } from "@qwik.dev/core";
+import { useTaskQrl } from "@qwik.dev/core";
+const i_P8oRQhHsurk = ()=>import("./test.tsx_Parent_component_useTask_1_P8oRQhHsurk");
+const i_gDH1EtUWqBU = ()=>import("./test.tsx_Parent_component_useTask_gDH1EtUWqBU");
+const i_hjMcQdTd6uE = ()=>import("./test.tsx_Parent_component_div_on_click_hjMcQdTd6uE");
+export const s_0TaiDayHrlo = ()=>{
+    const state = useStore({
+        text: ''
+    });
+    // Double count watch
+    useTaskQrl(/*#__PURE__*/ qrl(i_gDH1EtUWqBU, "s_gDH1EtUWqBU", [
+        state
+    ]));
+    serverStuffQrl(/*#__PURE__*/ _noopQrl("s_r1qAHX7Opp0"));
+    serverLoaderQrl(/*#__PURE__*/ _noopQrl("s_k1L0DiPQV1I"));
+    useTaskQrl(/*#__PURE__*/ qrl(i_P8oRQhHsurk, "s_P8oRQhHsurk"));
+    return /*#__PURE__*/ _jsxSorted("div", null, {
+        "on:click": /*#__PURE__*/ qrl(i_hjMcQdTd6uE, "s_hjMcQdTd6uE")
+    }, _wrapProp(state, "text"), 3, "u6_0");
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;;;;;;6BAOiC;IAChC,MAAM,QAAQ,SAAS;QACtB,MAAM;IACP;IAEA,qBAAqB;IACrB;;;IAMA;IAWA;IAEA;IAIA,qBACC,WAAC;QAAI,UAAQ;iBACX;AAGJ\"}")
 /*
 {
-  "origin": "example_strip_server_code.tsx",
-  "name": "s_w5E0E9exVp0",
+  "origin": "test.tsx",
+  "name": "s_0TaiDayHrlo",
   "entry": null,
-  "displayName": "example_strip_server_code.tsx_Parent_component",
-  "hash": "w5E0E9exVp0",
-  "canonicalFilename": "example_strip_server_code.tsx_s_w5E0E9exVp0",
-  "path": ".",
+  "displayName": "test.tsx_Parent_component",
+  "hash": "0TaiDayHrlo",
+  "canonicalFilename": "test.tsx_Parent_component_0TaiDayHrlo",
+  "path": "",
   "extension": "js",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "s_w5E0E9exVp0",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    279,
+    835
   ]
 }
 */
-============================= ./example_strip_server_code.tsx_s_QzLANtCpgqY.js (ENTRY POINT)==
+============================= test.tsx_Parent_component_useTask_1_P8oRQhHsurk.js (ENTRY POINT)==
 
-import { handler } from "serverless";
-export const s_QzLANtCpgqY = handler;
+export const s_P8oRQhHsurk = ()=>{
+// Code
+};
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"6BAgCU;AACR,OAAO;AACR\"}")
 /*
 {
-  "origin": "example_strip_server_code.tsx",
-  "name": "s_QzLANtCpgqY",
+  "origin": "test.tsx",
+  "name": "s_P8oRQhHsurk",
   "entry": null,
-  "displayName": "example_strip_server_code.tsx_Parent_component_serverLoader",
-  "hash": "QzLANtCpgqY",
-  "canonicalFilename": "example_strip_server_code.tsx_s_QzLANtCpgqY",
-  "path": ".",
+  "displayName": "test.tsx_Parent_component_useTask_1",
+  "hash": "P8oRQhHsurk",
+  "canonicalFilename": "test.tsx_Parent_component_useTask_1_P8oRQhHsurk",
+  "path": "",
   "extension": "js",
-  "parent": null,
+  "parent": "s_0TaiDayHrlo",
   "ctxKind": "function",
-  "ctxName": "s_QzLANtCpgqY",
+  "ctxName": "useTask$",
   "captures": false,
   "loc": [
-    0,
-    0
+    724,
+    744
   ]
 }
 */
-============================= ./example_strip_server_code.tsx_s_NO0hLvAFuN4.js (ENTRY POINT)==
+============================= test.tsx_Parent_component_div_on_click_hjMcQdTd6uE.js (ENTRY POINT)==
 
-export const s_NO0hLvAFuN4 = () => {};
+export const s_hjMcQdTd6uE = ()=>console.log('parent');
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"6BAqCiB,IAAM,QAAQ,GAAG,CAAC\"}")
 /*
 {
-  "origin": "example_strip_server_code.tsx",
-  "name": "s_NO0hLvAFuN4",
+  "origin": "test.tsx",
+  "name": "s_hjMcQdTd6uE",
   "entry": null,
-  "displayName": "example_strip_server_code.tsx_Parent_component_serverStuff_a",
-  "hash": "NO0hLvAFuN4",
-  "canonicalFilename": "example_strip_server_code.tsx_s_NO0hLvAFuN4",
-  "path": ".",
+  "displayName": "test.tsx_Parent_component_div_on_click",
+  "hash": "hjMcQdTd6uE",
+  "canonicalFilename": "test.tsx_Parent_component_div_on_click_hjMcQdTd6uE",
+  "path": "",
   "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "s_NO0hLvAFuN4",
+  "parent": "s_0TaiDayHrlo",
+  "ctxKind": "eventHandler",
+  "ctxName": "onClick$",
   "captures": false,
   "loc": [
-    0,
-    0
+    775,
+    802
   ]
 }
 */

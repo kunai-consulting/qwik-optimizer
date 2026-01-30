@@ -4,6 +4,7 @@ expression: output
 ---
 ==INPUT==
 
+
 import { component$ } from '@qwik.dev/core';
 
 export const App = component$(() => {
@@ -14,46 +15,47 @@ export const App = component$(() => {
 	return <p>Hello Qwik</p>;
 });
 
-============================= ./issue_964.tsx_App_component_mGS56mGKM0E.js (ENTRY POINT)==
+============================= test.js ==
+
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_ckEPmXZlub0 = ()=>import("./test.tsx_App_component_ckEPmXZlub0");
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAGA,OAAO,MAAM,oBAAM,4EAMhB\"}")
+============================= test.tsx_App_component_ckEPmXZlub0.js (ENTRY POINT)==
 
 import { _jsxSorted } from "@qwik.dev/core";
-export const App_component_mGS56mGKM0E = () => {
-	console.log(function* (lo, t) {
-		console.log(yield (yield lo)(t.href).then((r) => r.json()));
-	});
-	return /*#__PURE__*/ _jsxSorted("p", null, null, "Hello Qwik", 3, null);
+export const App_component_ckEPmXZlub0 = ()=>{
+    console.log(function*(lo, t) {
+        console.log((yield (yield lo)(t.href).then((r)=>r.json())));
+    });
+    return /*#__PURE__*/ _jsxSorted("p", null, null, "Hello Qwik", 3, "u6_0");
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";yCAG8B;IAC7B,QAAQ,GAAG,CAAC,UAAU,EAAO,EAAE,CAAM;QACrC,QAAQ,GAAG,CAAC,CAAA,MAAM,CAAC,MAAM,EAAE,EAAE,EAAE,IAAI,EAAE,IAAI,CAAC,CAAC,IAAM,EAAE,IAAI,GAAE;IACzD;IAEA,qBAAO,WAAC,iBAAE;AACX\"}")
 /*
 {
-  "origin": "issue_964.tsx",
-  "name": "App_component_mGS56mGKM0E",
+  "origin": "test.tsx",
+  "name": "App_component_ckEPmXZlub0",
   "entry": null,
-  "displayName": "issue_964.tsx_App_component",
-  "hash": "mGS56mGKM0E",
-  "canonicalFilename": "issue_964.tsx_App_component_mGS56mGKM0E",
-  "path": ".",
+  "displayName": "test.tsx_App_component",
+  "hash": "ckEPmXZlub0",
+  "canonicalFilename": "test.tsx_App_component_ckEPmXZlub0",
+  "path": "",
   "extension": "js",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "App_component_mGS56mGKM0E",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    78,
+    224
   ]
 }
 */
-============================= issue_964.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_App_component_mGS56mGKM0E = () => import("./issue_964.tsx_App_component_mGS56mGKM0E.js");
-export const App = componentQrl(qrl(i_App_component_mGS56mGKM0E, "App_component_mGS56mGKM0E"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

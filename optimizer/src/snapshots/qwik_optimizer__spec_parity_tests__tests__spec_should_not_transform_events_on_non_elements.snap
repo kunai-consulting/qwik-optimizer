@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-==INPUT==
+
 
 import { component$, $ } from '@qwik.dev/core';
 import { CustomComponent } from './custom-component';
@@ -19,76 +19,104 @@ export const Greeter = component$(() => {
 	)
 });
 
-============================= ./should_not_transform_events_on_non_elements.tsx_Greeter_component_div_map_AnotherComponent_onClick_z0vnRrU63Rk.js (ENTRY POINT)==
 
-export const Greeter_component_div_map_AnotherComponent_onClick_z0vnRrU63Rk = () => {};
+============================= test.tsx_Greeter_component_div_AnotherComponent_onClick_9BwXJW3s0yA.tsx (ENTRY POINT)==
+
+export const Greeter_component_div_AnotherComponent_onClick_9BwXJW3s0yA = ()=>{};
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"0EAUgC,KAAO\"}")
 /*
 {
-  "origin": "should_not_transform_events_on_non_elements.tsx",
-  "name": "Greeter_component_div_map_AnotherComponent_onClick_z0vnRrU63Rk",
+  "origin": "test.tsx",
+  "name": "Greeter_component_div_AnotherComponent_onClick_9BwXJW3s0yA",
   "entry": null,
-  "displayName": "should_not_transform_events_on_non_elements.tsx_Greeter_component_div_map_AnotherComponent_onClick",
-  "hash": "z0vnRrU63Rk",
-  "canonicalFilename": "should_not_transform_events_on_non_elements.tsx_Greeter_component_div_map_AnotherComponent_onClick_z0vnRrU63Rk",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "Greeter_component_div_map_AnotherComponent_onClick_z0vnRrU63Rk",
+  "displayName": "test.tsx_Greeter_component_div_AnotherComponent_onClick",
+  "hash": "9BwXJW3s0yA",
+  "canonicalFilename": "test.tsx_Greeter_component_div_AnotherComponent_onClick_9BwXJW3s0yA",
+  "path": "",
+  "extension": "tsx",
+  "parent": "Greeter_component_n7HuG2hhU0Q",
+  "ctxKind": "eventHandler",
+  "ctxName": "onClick$",
   "captures": false,
   "loc": [
-    0,
-    0
+    319,
+    327
   ]
 }
 */
-============================= ./should_not_transform_events_on_non_elements.tsx_Greeter_component_Gr0lcO18sKw.js (ENTRY POINT)==
+============================= test.tsx ==
+
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_n7HuG2hhU0Q = ()=>import("./test.tsx_Greeter_component_n7HuG2hhU0Q");
+export const Greeter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_n7HuG2hhU0Q, "Greeter_component_n7HuG2hhU0Q"));
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAKA,OAAO,MAAM,wBAAU,gFASpB\"}")
+============================= test.tsx_Greeter_component_div_CustomComponent_onClick_6xTF8kMcS9w.tsx (ENTRY POINT)==
+
+export const Greeter_component_div_CustomComponent_onClick_6xTF8kMcS9w = ()=>{};
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"yEAQ8B,KAAO\"}")
+/*
+{
+  "origin": "test.tsx",
+  "name": "Greeter_component_div_CustomComponent_onClick_6xTF8kMcS9w",
+  "entry": null,
+  "displayName": "test.tsx_Greeter_component_div_CustomComponent_onClick",
+  "hash": "6xTF8kMcS9w",
+  "canonicalFilename": "test.tsx_Greeter_component_div_CustomComponent_onClick_6xTF8kMcS9w",
+  "path": "",
+  "extension": "tsx",
+  "parent": "Greeter_component_n7HuG2hhU0Q",
+  "ctxKind": "eventHandler",
+  "ctxName": "onClick$",
+  "captures": false,
+  "loc": [
+    251,
+    259
+  ]
+}
+*/
+============================= test.tsx_Greeter_component_n7HuG2hhU0Q.tsx (ENTRY POINT)==
 
 import { AnotherComponent } from "./another-component";
 import { CustomComponent } from "./custom-component";
 import { qrl } from "@qwik.dev/core";
-export const Greeter_component_Gr0lcO18sKw = () => {
-	return <div>
-			<CustomComponent onClick$={qrl(i_Greeter_component_div_CustomComponent_onClick, "Greeter_component_div_CustomComponent_onClick")} />
-			{array.map((item) => <AnotherComponent onClick$={qrl(i_Greeter_component_div_map_AnotherComponent_onClick_z0vnRrU63Rk, "Greeter_component_div_map_AnotherComponent_onClick_z0vnRrU63Rk")} />)}
+const i_6xTF8kMcS9w = ()=>import("./test.tsx_Greeter_component_div_CustomComponent_onClick_6xTF8kMcS9w");
+const i_9BwXJW3s0yA = ()=>import("./test.tsx_Greeter_component_div_AnotherComponent_onClick_9BwXJW3s0yA");
+export const Greeter_component_n7HuG2hhU0Q = ()=>{
+    return <div>
+			<CustomComponent onClick$={/*#__PURE__*/ qrl(i_6xTF8kMcS9w, "Greeter_component_div_CustomComponent_onClick_6xTF8kMcS9w")}/>
+			{array.map((item)=><AnotherComponent onClick$={/*#__PURE__*/ qrl(i_9BwXJW3s0yA, "Greeter_component_div_AnotherComponent_onClick_9BwXJW3s0yA")}/>)}
 		</div>;
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;6CAKkC;IACjC,QACE,IAAI;GACJ,CAAC,gBAAgB,0GAAqB;GACtC,CAAC,MAAM,GAAG,CAAC,CAAA,QACT,iBAAiB,6GAChB;EACJ,EAAE;AAEJ\"}")
 /*
 {
-  "origin": "should_not_transform_events_on_non_elements.tsx",
-  "name": "Greeter_component_Gr0lcO18sKw",
+  "origin": "test.tsx",
+  "name": "Greeter_component_n7HuG2hhU0Q",
   "entry": null,
-  "displayName": "should_not_transform_events_on_non_elements.tsx_Greeter_component",
-  "hash": "Gr0lcO18sKw",
-  "canonicalFilename": "should_not_transform_events_on_non_elements.tsx_Greeter_component_Gr0lcO18sKw",
-  "path": ".",
-  "extension": "js",
+  "displayName": "test.tsx_Greeter_component",
+  "hash": "n7HuG2hhU0Q",
+  "canonicalFilename": "test.tsx_Greeter_component_n7HuG2hhU0Q",
+  "path": "",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "Greeter_component_Gr0lcO18sKw",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    195,
+    351
   ]
 }
 */
-============================= should_not_transform_events_on_non_elements.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Greeter_component_div_CustomComponent_onClick = () => import("./should_not_transform_events_on_non_elements.tsx.js");
-const i_Greeter_component_div_map_AnotherComponent_onClick_z0vnRrU63Rk = () => import("./should_not_transform_events_on_non_elements.tsx_Greeter_component_div_map_AnotherComponent_onClick_z0vnRrU63Rk.js");
-const i_Greeter_component_Gr0lcO18sKw = () => import("./should_not_transform_events_on_non_elements.tsx_Greeter_component_Gr0lcO18sKw.js");
-export const Greeter = componentQrl(qrl(i_Greeter_component_Gr0lcO18sKw, "Greeter_component_Gr0lcO18sKw"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

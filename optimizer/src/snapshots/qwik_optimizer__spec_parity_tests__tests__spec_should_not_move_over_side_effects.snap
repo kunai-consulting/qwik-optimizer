@@ -2,60 +2,32 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-==INPUT==
 
-export const \$promoteToRoot$ = (ref: SeenRef) => {
-	const path = \$getObjectPath$(ref) as string;
-	// should stay before the push
-	const idx = roots.length;
-	roots.push(new BackRef(path));
-	ref.\$parent$ = null;
-	ref.\$index$ = idx;
-	return idx;
+
+		export const $promoteToRoot$ = (ref: SeenRef) => {
+			const path = $getObjectPath$(ref) as string;
+			// should stay before the push
+			const idx = roots.length;
+			roots.push(new BackRef(path));
+			ref.$parent$ = null;
+			ref.$index$ = idx;
+			return idx;
+		};
+		
+============================= test.js ==
+
+export const $promoteToRoot$ = (ref)=>{
+    const path = $getObjectPath$(ref);
+    // should stay before the push
+    const idx = roots.length;
+    roots.push(new BackRef(path));
+    ref.$parent$ = null;
+    ref.$index$ = idx;
+    return idx;
 };
 
-============================= should_not_move_over_side_effects.tsx ==
 
-import { getObjectPathQrl, qrl } from "@qwik.dev/core";
-const i_promoteToRoot_path_getObjectPath_gOmtrbZRRP0 = () => import("./should_not_move_over_side_effects.tsx_promoteToRoot_path_getObjectPath_gOmtrbZRRP0.js");
-export const promoteToRoot$ = (ref) => {
-	const path = getObjectPathQrl(qrl(i_promoteToRoot_path_getObjectPath_gOmtrbZRRP0, "promoteToRoot_path_getObjectPath_gOmtrbZRRP0", [ref]));
-	// should stay before the push
-	const idx = roots.length;
-	roots.push(new BackRef(path));
-	ref.parent$ = null;
-	ref.index$ = idx;
-	return idx;
-};
-
-
-None
-============================= ./should_not_move_over_side_effects.tsx_promoteToRoot_path_getObjectPath_gOmtrbZRRP0.js (ENTRY POINT)==
-
-export const promoteToRoot_path_getObjectPath_gOmtrbZRRP0 = ref;
-
-
-None
-/*
-{
-  "origin": "should_not_move_over_side_effects.tsx",
-  "name": "promoteToRoot_path_getObjectPath_gOmtrbZRRP0",
-  "entry": null,
-  "displayName": "should_not_move_over_side_effects.tsx_promoteToRoot_path_getObjectPath",
-  "hash": "gOmtrbZRRP0",
-  "canonicalFilename": "should_not_move_over_side_effects.tsx_promoteToRoot_path_getObjectPath_gOmtrbZRRP0",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "promoteToRoot_path_getObjectPath_gOmtrbZRRP0",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"AACE,OAAO,MAAM,kBAAkB,CAAC;IAC/B,MAAM,OAAO,gBAAgB;IAC7B,8BAA8B;IAC9B,MAAM,MAAM,MAAM,MAAM;IACxB,MAAM,IAAI,CAAC,IAAI,QAAQ;IACvB,IAAI,QAAQ,GAAG;IACf,IAAI,OAAO,GAAG;IACd,OAAO;AACR,EAAE\"}")
 == DIAGNOSTICS ==
 
 []

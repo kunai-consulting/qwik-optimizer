@@ -4,6 +4,7 @@ expression: output
 ---
 ==INPUT==
 
+
 import { $, component$ } from '@qwik.dev/core';
 export const Header = component$(() => {
 	console.log("mount");
@@ -12,71 +13,75 @@ export const Header = component$(() => {
 	);
 });
 
-============================= ./example_2.tsx_Header_component_div_onClick_00vaTLm0siE.js (ENTRY POINT)==
-
-export const Header_component_div_onClick_00vaTLm0siE = (ctx) => console.log(ctx);
-
-
-None
-/*
-{
-  "origin": "example_2.tsx",
-  "name": "Header_component_div_onClick_00vaTLm0siE",
-  "entry": null,
-  "displayName": "example_2.tsx_Header_component_div_onClick",
-  "hash": "00vaTLm0siE",
-  "canonicalFilename": "example_2.tsx_Header_component_div_onClick_00vaTLm0siE",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "Header_component_div_onClick_00vaTLm0siE",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= ./example_2.tsx_Header_component_l6Npo8g4T98.js (ENTRY POINT)==
+============================= test.tsx_Header_component_J4uyIhaBNR4.tsx (ENTRY POINT)==
 
 import { qrl } from "@qwik.dev/core";
-export const Header_component_l6Npo8g4T98 = () => {
-	console.log("mount");
-	return <div onClick={qrl(i_Header_component_div_onClick_00vaTLm0siE, "Header_component_div_onClick_00vaTLm0siE")} />;
+const i_i7ekvWH3674 = ()=>import("./test.tsx_Header_component_div_onClick_i7ekvWH3674");
+export const Header_component_J4uyIhaBNR4 = ()=>{
+    console.log("mount");
+    return <div onClick={/*#__PURE__*/ qrl(i_i7ekvWH3674, "Header_component_div_onClick_i7ekvWH3674")}/>;
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;4CAEiC;IAChC,QAAQ,GAAG,CAAC;IACZ,QACE,IAAI;AAEP\"}")
 /*
 {
-  "origin": "example_2.tsx",
-  "name": "Header_component_l6Npo8g4T98",
+  "origin": "test.tsx",
+  "name": "Header_component_J4uyIhaBNR4",
   "entry": null,
-  "displayName": "example_2.tsx_Header_component",
-  "hash": "l6Npo8g4T98",
-  "canonicalFilename": "example_2.tsx_Header_component_l6Npo8g4T98",
-  "path": ".",
-  "extension": "js",
+  "displayName": "test.tsx_Header_component",
+  "hash": "J4uyIhaBNR4",
+  "canonicalFilename": "test.tsx_Header_component_J4uyIhaBNR4",
+  "path": "",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "Header_component_l6Npo8g4T98",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    83,
+    177
   ]
 }
 */
-============================= example_2.tsx ==
+============================= test.tsx ==
 
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Header_component_div_onClick_00vaTLm0siE = () => import("./example_2.tsx_Header_component_div_onClick_00vaTLm0siE.js");
-const i_Header_component_l6Npo8g4T98 = () => import("./example_2.tsx_Header_component_l6Npo8g4T98.js");
-export const Header = componentQrl(qrl(i_Header_component_l6Npo8g4T98, "Header_component_l6Npo8g4T98"));
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_J4uyIhaBNR4 = ()=>import("./test.tsx_Header_component_J4uyIhaBNR4");
+export const Header = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_J4uyIhaBNR4, "Header_component_J4uyIhaBNR4"));
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAEA,OAAO,MAAM,uBAAS,+EAKnB\"}")
+============================= test.tsx_Header_component_div_onClick_i7ekvWH3674.tsx (ENTRY POINT)==
+
+export const Header_component_div_onClick_i7ekvWH3674 = (ctx)=>console.log(ctx);
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"wDAKkB,CAAC,MAAQ,QAAQ,GAAG,CAAC\"}")
+/*
+{
+  "origin": "test.tsx",
+  "name": "Header_component_div_onClick_i7ekvWH3674",
+  "entry": null,
+  "displayName": "test.tsx_Header_component_div_onClick",
+  "hash": "i7ekvWH3674",
+  "canonicalFilename": "test.tsx_Header_component_div_onClick_i7ekvWH3674",
+  "path": "",
+  "extension": "tsx",
+  "parent": "Header_component_J4uyIhaBNR4",
+  "ctxKind": "function",
+  "ctxName": "$",
+  "captures": false,
+  "loc": [
+    142,
+    167
+  ],
+  "paramNames": [
+    "ctx"
+  ]
+}
+*/
 == DIAGNOSTICS ==
 
 []

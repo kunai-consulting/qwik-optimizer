@@ -4,6 +4,7 @@ expression: output
 ---
 ==INPUT==
 
+
 import { $, component$ } from '@qwik.dev/core';
 
 export const Foo = component$(({foo}) => {
@@ -28,139 +29,158 @@ export const Bar = component$(({bar}) => {
 	});
 })
 
-============================= ./example_multi_capture.tsx_Foo_component_1_Z6I1dV7lwB4.js (ENTRY POINT)==
+============================= test.tsx_Foo_component_HTDRsvUbLiE.jsx (ENTRY POINT)==
 
-export const Foo_component_1_Z6I1dV7lwB4 = () => {
-	const [arg0] = useLexicalScope();
-	const fn = ({ aaa }) => aaa;
-	return <div>
-				{foo}{fn()}{arg0}
+import { qrl } from "@qwik.dev/core";
+const i_DvU6FitWglY = ()=>import("./test.tsx_Foo_component_1_DvU6FitWglY");
+export const Foo_component_HTDRsvUbLiE = (_rawProps)=>{
+    return /*#__PURE__*/ qrl(i_DvU6FitWglY, "Foo_component_1_DvU6FitWglY", [
+        _rawProps
+    ]);
+};
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;yCAG8B;IAE7B;;;AAQD\"}")
+/*
+{
+  "origin": "test.tsx",
+  "name": "Foo_component_HTDRsvUbLiE",
+  "entry": null,
+  "displayName": "test.tsx_Foo_component",
+  "hash": "HTDRsvUbLiE",
+  "canonicalFilename": "test.tsx_Foo_component_HTDRsvUbLiE",
+  "path": "",
+  "extension": "jsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    81,
+    221
+  ],
+  "paramNames": [
+    "_rawProps"
+  ]
+}
+*/
+============================= test.jsx ==
+
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_HTDRsvUbLiE = ()=>import("./test.tsx_Foo_component_HTDRsvUbLiE");
+const i_L80pS8Hxf1Y = ()=>import("./test.tsx_Bar_component_L80pS8Hxf1Y");
+export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_HTDRsvUbLiE, "Foo_component_HTDRsvUbLiE"));
+export const Bar = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_L80pS8Hxf1Y, "Bar_component_L80pS8Hxf1Y"));
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;AAGA,OAAO,MAAM,oBAAM,4EAUjB;AAEF,OAAO,MAAM,oBAAM,4EAQjB\"}")
+============================= test.tsx_Bar_component_L80pS8Hxf1Y.jsx (ENTRY POINT)==
+
+import { qrl } from "@qwik.dev/core";
+const i_0xSyNSnVu3k = ()=>import("./test.tsx_Bar_component_1_0xSyNSnVu3k");
+export const Bar_component_L80pS8Hxf1Y = (_rawProps)=>{
+    return /*#__PURE__*/ qrl(i_0xSyNSnVu3k, "Bar_component_1_0xSyNSnVu3k", [
+        _rawProps
+    ]);
+};
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;yCAe8B;IAC7B;;;AAOD\"}")
+/*
+{
+  "origin": "test.tsx",
+  "name": "Bar_component_L80pS8Hxf1Y",
+  "entry": null,
+  "displayName": "test.tsx_Bar_component",
+  "hash": "L80pS8Hxf1Y",
+  "canonicalFilename": "test.tsx_Bar_component_L80pS8Hxf1Y",
+  "path": "",
+  "extension": "jsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    254,
+    335
+  ],
+  "paramNames": [
+    "_rawProps"
+  ]
+}
+*/
+============================= test.tsx_Foo_component_1_DvU6FitWglY.jsx (ENTRY POINT)==
+
+import { useLexicalScope } from "@qwik.dev/core";
+export const Foo_component_1_DvU6FitWglY = ()=>{
+    const [_rawProps] = useLexicalScope();
+    const fn = ({ aaa })=>aaa;
+    return <div>
+				{_rawProps.foo}{fn()}{20}
 			</div>;
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";2CAKU;;IACR,MAAM,KAAK,CAAC,EAAC,GAAG,EAAC,GAAK;IACtB,QACE,IAAI;IACJ,WAN4B,KAMtB,MALI,GAKO;GAClB,EAAE\"}")
 /*
 {
-  "origin": "example_multi_capture.tsx",
-  "name": "Foo_component_1_Z6I1dV7lwB4",
+  "origin": "test.tsx",
+  "name": "Foo_component_1_DvU6FitWglY",
   "entry": null,
-  "displayName": "example_multi_capture.tsx_Foo_component_1",
-  "hash": "Z6I1dV7lwB4",
-  "canonicalFilename": "example_multi_capture.tsx_Foo_component_1_Z6I1dV7lwB4",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
+  "displayName": "test.tsx_Foo_component_1",
+  "hash": "DvU6FitWglY",
+  "canonicalFilename": "test.tsx_Foo_component_1_DvU6FitWglY",
+  "path": "",
+  "extension": "jsx",
+  "parent": "Foo_component_HTDRsvUbLiE",
   "ctxKind": "function",
-  "ctxName": "Foo_component_1_Z6I1dV7lwB4",
-  "captures": false,
+  "ctxName": "$",
+  "captures": true,
   "loc": [
-    0,
-    0
+    122,
+    217
+  ],
+  "captureNames": [
+    "_rawProps"
   ]
 }
 */
-============================= ./example_multi_capture.tsx_Foo_component_gmofgG21D48.js (ENTRY POINT)==
+============================= test.tsx_Bar_component_1_0xSyNSnVu3k.jsx (ENTRY POINT)==
 
-import { qrl } from "@qwik.dev/core";
-export const Foo_component_gmofgG21D48 = ({ foo }) => {
-	const arg0 = 20;
-	return qrl(i_Foo_component_1_Z6I1dV7lwB4, "Foo_component_1_Z6I1dV7lwB4", [arg0]);
-};
-
-
-None
-/*
-{
-  "origin": "example_multi_capture.tsx",
-  "name": "Foo_component_gmofgG21D48",
-  "entry": null,
-  "displayName": "example_multi_capture.tsx_Foo_component",
-  "hash": "gmofgG21D48",
-  "canonicalFilename": "example_multi_capture.tsx_Foo_component_gmofgG21D48",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "Foo_component_gmofgG21D48",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= ./example_multi_capture.tsx_Bar_component_1_bQYUAMchFqU.js (ENTRY POINT)==
-
-export const Bar_component_1_bQYUAMchFqU = () => {
-	return <div>
-				{bar}
+import { useLexicalScope } from "@qwik.dev/core";
+export const Bar_component_1_0xSyNSnVu3k = ()=>{
+    const [_rawProps] = useLexicalScope();
+    return <div>
+				{_rawProps.bar}
 			</div>;
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";2CAgBU;;IACR,QACE,IAAI;IACJ,WAJ4B,IAIvB;GACN,EAAE\"}")
 /*
 {
-  "origin": "example_multi_capture.tsx",
-  "name": "Bar_component_1_bQYUAMchFqU",
+  "origin": "test.tsx",
+  "name": "Bar_component_1_0xSyNSnVu3k",
   "entry": null,
-  "displayName": "example_multi_capture.tsx_Bar_component_1",
-  "hash": "bQYUAMchFqU",
-  "canonicalFilename": "example_multi_capture.tsx_Bar_component_1_bQYUAMchFqU",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
+  "displayName": "test.tsx_Bar_component_1",
+  "hash": "0xSyNSnVu3k",
+  "canonicalFilename": "test.tsx_Bar_component_1_0xSyNSnVu3k",
+  "path": "",
+  "extension": "jsx",
+  "parent": "Bar_component_L80pS8Hxf1Y",
   "ctxKind": "function",
-  "ctxName": "Bar_component_1_bQYUAMchFqU",
-  "captures": false,
+  "ctxName": "$",
+  "captures": true,
   "loc": [
-    0,
-    0
+    277,
+    331
+  ],
+  "captureNames": [
+    "_rawProps"
   ]
 }
 */
-============================= ./example_multi_capture.tsx_Bar_component_5W0FDxOvMMQ.js (ENTRY POINT)==
-
-import { qrl } from "@qwik.dev/core";
-export const Bar_component_5W0FDxOvMMQ = ({ bar }) => {
-	return qrl(i_Bar_component_1_bQYUAMchFqU, "Bar_component_1_bQYUAMchFqU");
-};
-
-
-None
-/*
-{
-  "origin": "example_multi_capture.tsx",
-  "name": "Bar_component_5W0FDxOvMMQ",
-  "entry": null,
-  "displayName": "example_multi_capture.tsx_Bar_component",
-  "hash": "5W0FDxOvMMQ",
-  "canonicalFilename": "example_multi_capture.tsx_Bar_component_5W0FDxOvMMQ",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "Bar_component_5W0FDxOvMMQ",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= example_multi_capture.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Foo_component_1_Z6I1dV7lwB4 = () => import("./example_multi_capture.tsx_Foo_component_1_Z6I1dV7lwB4.js");
-const i_Foo_component_gmofgG21D48 = () => import("./example_multi_capture.tsx_Foo_component_gmofgG21D48.js");
-const i_Bar_component_1_bQYUAMchFqU = () => import("./example_multi_capture.tsx_Bar_component_1_bQYUAMchFqU.js");
-const i_Bar_component_5W0FDxOvMMQ = () => import("./example_multi_capture.tsx_Bar_component_5W0FDxOvMMQ.js");
-export const Foo = componentQrl(qrl(i_Foo_component_gmofgG21D48, "Foo_component_gmofgG21D48"));
-export const Bar = componentQrl(qrl(i_Bar_component_5W0FDxOvMMQ, "Bar_component_5W0FDxOvMMQ"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

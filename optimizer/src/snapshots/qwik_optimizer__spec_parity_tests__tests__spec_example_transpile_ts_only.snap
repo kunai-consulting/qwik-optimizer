@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-==INPUT==
+
 
 import { component$, useStore } from '@qwik.dev/core';
 
@@ -14,46 +14,18 @@ export const App = component$((props: Stuff) => {
 	);
 });
 
-============================= ./example_transpile_ts_only.tsx_App_component_DZnnkDGy8EQ.js (ENTRY POINT)==
+============================= test.jsx ==
 
-import { qrl } from "@qwik.dev/core";
-export const App_component_DZnnkDGy8EQ = (props) => {
-	return <Cmp>
-			<p class="stuff" on:click={qrl(i_App_component_Cmp_p_onClick, "App_component_Cmp_p_onClick")}>Hello Qwik</p>
+import { componentQrl } from "@qwik.dev/core";
+import { inlinedQrl } from "@qwik.dev/core";
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl((props)=>{
+    return <Cmp>
+			<p class="stuff" on:click={/*#__PURE__*/ inlinedQrl(()=>console.log('warn'), "App_component_Cmp_p_on_click_9VylW0qB00s")}>Hello Qwik</p>
 		</Cmp>;
-};
+}, "App_component_ckEPmXZlub0"));
 
 
-None
-/*
-{
-  "origin": "example_transpile_ts_only.tsx",
-  "name": "App_component_DZnnkDGy8EQ",
-  "entry": "entry_segments",
-  "displayName": "example_transpile_ts_only.tsx_App_component",
-  "hash": "DZnnkDGy8EQ",
-  "canonicalFilename": "example_transpile_ts_only.tsx_App_component_DZnnkDGy8EQ",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "App_component_DZnnkDGy8EQ",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= example_transpile_ts_only.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_App_component_Cmp_p_onClick = () => import("./example_transpile_ts_only.tsx.js");
-const i_App_component_DZnnkDGy8EQ = () => import("./example_transpile_ts_only.tsx_App_component_DZnnkDGy8EQ.js");
-export const App = componentQrl(qrl(i_App_component_DZnnkDGy8EQ, "App_component_DZnnkDGy8EQ"));
-
-
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;AAGA,OAAO,MAAM,oBAAM,sCAAW,CAAC;IAC9B,QACE,IAAI;GACJ,CAAC,EAAE,MAAM,QAAQ,mCAAU,IAAM,QAAQ,GAAG,CAAC,sDAAS,UAAU,EAAE,EAAE;EACrE,EAAE;AAEJ,iCAAG\"}")
 == DIAGNOSTICS ==
 
 []

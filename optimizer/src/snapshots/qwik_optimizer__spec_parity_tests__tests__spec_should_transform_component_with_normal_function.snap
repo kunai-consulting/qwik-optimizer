@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-==INPUT==
+
 
 import { $, component$, useSignal, Signal } from '@qwik.dev/core';
 const Foo = component$(function() {
@@ -14,103 +14,124 @@ const Foo = component$(function() {
   return <Inner data={data} />
 })
 
-============================= ./should_transform_component_with_normal_function.tsx_Foo_component_cwC20JPJrUs.js (ENTRY POINT)==
+============================= test.tsx_Foo_component_Inner_component_div_p_on_click_KJykIBkozgo.js (ENTRY POINT)==
 
-import { _jsxSorted, componentQrl, qrl, useSignal } from "@qwik.dev/core";
-export const Foo_component_cwC20JPJrUs = function() {
-	const data = useSignal([]);
-	const Inner = componentQrl(qrl(i_Foo_component_Inner_component_0OVQjU18qVI, "Foo_component_Inner_component_0OVQjU18qVI", [data]));
-	return _jsxSorted(Inner, null, { data }, null, 3, null);
-};
+export const Foo_component_Inner_component_div_p_on_click_KJykIBkozgo = (_, _1, item)=>console.log(item.value.id);
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"wEAMqD,QAArB,OAA2B,QAAQ,GAAG,CAAC,KAAK,KAAK,CAAC,EAAE\"}")
 /*
 {
-  "origin": "should_transform_component_with_normal_function.tsx",
-  "name": "Foo_component_cwC20JPJrUs",
+  "origin": "test.tsx",
+  "name": "Foo_component_Inner_component_div_p_on_click_KJykIBkozgo",
   "entry": null,
-  "displayName": "should_transform_component_with_normal_function.tsx_Foo_component",
-  "hash": "cwC20JPJrUs",
-  "canonicalFilename": "should_transform_component_with_normal_function.tsx_Foo_component_cwC20JPJrUs",
-  "path": ".",
+  "displayName": "test.tsx_Foo_component_Inner_component_div_p_on_click",
+  "hash": "KJykIBkozgo",
+  "canonicalFilename": "test.tsx_Foo_component_Inner_component_div_p_on_click_KJykIBkozgo",
+  "path": "",
   "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "Foo_component_cwC20JPJrUs",
+  "parent": "Foo_component_Inner_component_AuJ9mTBx5YA",
+  "ctxKind": "eventHandler",
+  "ctxName": "onClick$",
   "captures": false,
   "loc": [
-    0,
-    0
+    276,
+    308
+  ],
+  "paramNames": [
+    "_",
+    "_",
+    "item"
   ]
 }
 */
-============================= ./should_transform_component_with_normal_function.tsx_Foo_component_Inner_component_0OVQjU18qVI.js (ENTRY POINT)==
+============================= test.js ==
 
-import { _fnSignal, _jsxSorted, qrl } from "@qwik.dev/core";
-export const Foo_component_Inner_component_0OVQjU18qVI = function(props) {
-	const [data] = useLexicalScope();
-	const data = props.data;
-	return /*#__PURE__*/ _jsxSorted("div", null, null, data.value.map((item) => /*#__PURE__*/ _jsxSorted("p", { on:click: qrl(i_Foo_component_Inner_component_div_map_p_onClick_aGRFeTx4Lfo, "Foo_component_Inner_component_div_map_p_onClick_aGRFeTx4Lfo") }, null, _fnSignal(_hf0, [item], _hf0_str), 1, null)), 1, null);
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_HTDRsvUbLiE = ()=>import("./test.tsx_Foo_component_HTDRsvUbLiE");
+/*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_HTDRsvUbLiE, "Foo_component_HTDRsvUbLiE"));
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;cAEY\"}")
+============================= test.tsx_Foo_component_HTDRsvUbLiE.js (ENTRY POINT)==
+
+import { _jsxSorted } from "@qwik.dev/core";
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+import { useSignal } from "@qwik.dev/core";
+const i_AuJ9mTBx5YA = ()=>import("./test.tsx_Foo_component_Inner_component_AuJ9mTBx5YA");
+export const Foo_component_HTDRsvUbLiE = function() {
+    const data = useSignal([]);
+    const Inner = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_AuJ9mTBx5YA, "Foo_component_Inner_component_AuJ9mTBx5YA"));
+    return /*#__PURE__*/ _jsxSorted(Inner, null, {
+        data: data
+    }, null, 3, "u6_2");
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;yCAEuB;IACrB,MAAM,OAAO,UAAyB,EAAE;IACxC,MAAM,sBAAQ;IAId,qBAAO,WAAC;QAAM,MAAM;;AACtB\"}")
 /*
 {
-  "origin": "should_transform_component_with_normal_function.tsx",
-  "name": "Foo_component_Inner_component_0OVQjU18qVI",
+  "origin": "test.tsx",
+  "name": "Foo_component_HTDRsvUbLiE",
   "entry": null,
-  "displayName": "should_transform_component_with_normal_function.tsx_Foo_component_Inner_component",
-  "hash": "0OVQjU18qVI",
-  "canonicalFilename": "should_transform_component_with_normal_function.tsx_Foo_component_Inner_component_0OVQjU18qVI",
-  "path": ".",
+  "displayName": "test.tsx_Foo_component",
+  "hash": "HTDRsvUbLiE",
+  "canonicalFilename": "test.tsx_Foo_component_HTDRsvUbLiE",
+  "path": "",
   "extension": "js",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "Foo_component_Inner_component_0OVQjU18qVI",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    92,
+    375
   ]
 }
 */
-============================= should_transform_component_with_normal_function.tsx ==
+============================= test.tsx_Foo_component_Inner_component_AuJ9mTBx5YA.js (ENTRY POINT)==
 
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Foo_component_Inner_component_div_map_p_onClick_aGRFeTx4Lfo = () => import("./should_transform_component_with_normal_function.tsx_Foo_component_Inner_component_div_map_p_onClick_aGRFeTx4Lfo.js");
-const i_Foo_component_Inner_component_0OVQjU18qVI = () => import("./should_transform_component_with_normal_function.tsx_Foo_component_Inner_component_0OVQjU18qVI.js");
-const i_Foo_component_cwC20JPJrUs = () => import("./should_transform_component_with_normal_function.tsx_Foo_component_cwC20JPJrUs.js");
-const _hf0 = (p0) => p0.value.id;
+import { _fnSignal } from "@qwik.dev/core";
+import { _jsxSorted } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const _hf0 = (p0)=>p0.value.id;
 const _hf0_str = "p0.value.id";
-componentQrl(qrl(i_Foo_component_cwC20JPJrUs, "Foo_component_cwC20JPJrUs"));
+const i_KJykIBkozgo = ()=>import("./test.tsx_Foo_component_Inner_component_div_p_on_click_KJykIBkozgo");
+export const Foo_component_Inner_component_AuJ9mTBx5YA = function(props) {
+    const data = props.data;
+    const Foo_component_Inner_component_div_p_on_click_KJykIBkozgo = /*#__PURE__*/ qrl(i_KJykIBkozgo, "Foo_component_Inner_component_div_p_on_click_KJykIBkozgo");
+    return /*#__PURE__*/ _jsxSorted("div", null, null, data.value.map((item)=>/*#__PURE__*/ _jsxSorted("p", {
+            "on:click": Foo_component_Inner_component_div_p_on_click_KJykIBkozgo,
+            "q:p": item
+        }, null, _fnSignal(_hf0, [
+            item
+        ], _hf0_str), 0, "u6_0")), 1, "u6_1");
+};
 
 
-None
-============================= ./should_transform_component_with_normal_function.tsx_Foo_component_Inner_component_div_map_p_onClick_aGRFeTx4Lfo.js (ENTRY POINT)==
-
-export const Foo_component_Inner_component_div_map_p_onClick_aGRFeTx4Lfo = (_, _1, item) => console.log(item.value.id);
-
-
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;mBAMwF,GAAK,KAAK,CAAC,EAAE;;;yDAF1E,SAAS,KAAK;IACrC,MAAM,OAAO,MAAM,IAAI;;IACvB,qBAAO,WAAC,mBAAK,KAAK,KAAK,CAAC,GAAG,CAAC,CAAA,qBAAQ,WAAC;YAAE,UAAQ;mBAAnB;;;;AAC9B\"}")
 /*
 {
-  "origin": "should_transform_component_with_normal_function.tsx",
-  "name": "Foo_component_Inner_component_div_map_p_onClick_aGRFeTx4Lfo",
+  "origin": "test.tsx",
+  "name": "Foo_component_Inner_component_AuJ9mTBx5YA",
   "entry": null,
-  "displayName": "should_transform_component_with_normal_function.tsx_Foo_component_Inner_component_div_map_p_onClick",
-  "hash": "aGRFeTx4Lfo",
-  "canonicalFilename": "should_transform_component_with_normal_function.tsx_Foo_component_Inner_component_div_map_p_onClick_aGRFeTx4Lfo",
-  "path": ".",
+  "displayName": "test.tsx_Foo_component_Inner_component",
+  "hash": "AuJ9mTBx5YA",
+  "canonicalFilename": "test.tsx_Foo_component_Inner_component_AuJ9mTBx5YA",
+  "path": "",
   "extension": "js",
-  "parent": null,
+  "parent": "Foo_component_HTDRsvUbLiE",
   "ctxKind": "function",
-  "ctxName": "Foo_component_Inner_component_div_map_p_onClick_aGRFeTx4Lfo",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    177,
+    341
+  ],
+  "paramNames": [
+    "props"
   ]
 }
 */

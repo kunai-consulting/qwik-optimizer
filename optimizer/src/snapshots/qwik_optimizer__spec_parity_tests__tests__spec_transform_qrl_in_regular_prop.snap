@@ -4,73 +4,78 @@ expression: output
 ---
 ==INPUT==
 
-import { component$, $ } from '@qwik.dev/core';
-export const Cmp = component$(() =>
-	<Cmp foo={$(() => console.log('hi there'))}>Hello Qwik</Cmp>);
 
-============================= transform_qrl_in_regular_prop.tsx ==
+		import { component$, $ } from '@qwik.dev/core';
+		export const Cmp = component$(() =>
+			<Cmp foo={$(() => console.log('hi there'))}>Hello Qwik</Cmp>);
+		
+============================= test.tsx_Cmp_component_4ryKJTOKjWE.ts (ENTRY POINT)==
 
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Cmp_component_Cmp_foo_gNnB0ff9hqw = () => import("./transform_qrl_in_regular_prop.tsx_Cmp_component_Cmp_foo_gNnB0ff9hqw.js");
-const i_Cmp_component_rPV9n5lyQaQ = () => import("./transform_qrl_in_regular_prop.tsx_Cmp_component_rPV9n5lyQaQ.js");
-export const Cmp = componentQrl(qrl(i_Cmp_component_rPV9n5lyQaQ, "Cmp_component_rPV9n5lyQaQ"));
-
-
-None
-============================= ./transform_qrl_in_regular_prop.tsx_Cmp_component_rPV9n5lyQaQ.js (ENTRY POINT)==
-
-import { Cmp } from "./transform_qrl_in_regular_prop";
-import { _jsxSorted, qrl } from "@qwik.dev/core";
-export const Cmp_component_rPV9n5lyQaQ = () => _jsxSorted(Cmp, { foo: qrl(i_Cmp_component_Cmp_foo_gNnB0ff9hqw, "Cmp_component_Cmp_foo_gNnB0ff9hqw") }, null, "Hello Qwik", 3, null);
+import { Cmp } from "./test";
+import { _jsxSorted } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_iPpdemxi0uE = ()=>import("./test.tsx_Cmp_component_Cmp_foo_iPpdemxi0uE");
+export const Cmp_component_4ryKJTOKjWE = ()=>/*#__PURE__*/ _jsxSorted(Cmp, {
+        foo: /*#__PURE__*/ qrl(i_iPpdemxi0uE, "Cmp_component_Cmp_foo_iPpdemxi0uE")
+    }, null, "Hello Qwik", 3, "u6_0");
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;yCAEgC,kBAC7B,WAAC;QAAI,GAAG;aAAoC\"}")
 /*
 {
-  "origin": "transform_qrl_in_regular_prop.tsx",
-  "name": "Cmp_component_rPV9n5lyQaQ",
+  "origin": "test.tsx",
+  "name": "Cmp_component_4ryKJTOKjWE",
   "entry": null,
-  "displayName": "transform_qrl_in_regular_prop.tsx_Cmp_component",
-  "hash": "rPV9n5lyQaQ",
-  "canonicalFilename": "transform_qrl_in_regular_prop.tsx_Cmp_component_rPV9n5lyQaQ",
-  "path": ".",
-  "extension": "js",
+  "displayName": "test.tsx_Cmp_component",
+  "hash": "4ryKJTOKjWE",
+  "canonicalFilename": "test.tsx_Cmp_component_4ryKJTOKjWE",
+  "path": "",
+  "extension": "ts",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "Cmp_component_rPV9n5lyQaQ",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    84,
+    153
   ]
 }
 */
-============================= ./transform_qrl_in_regular_prop.tsx_Cmp_component_Cmp_foo_gNnB0ff9hqw.js (ENTRY POINT)==
+============================= test.tsx_Cmp_component_Cmp_foo_iPpdemxi0uE.ts (ENTRY POINT)==
 
-export const Cmp_component_Cmp_foo_gNnB0ff9hqw = () => console.log("hi there");
+export const Cmp_component_Cmp_foo_iPpdemxi0uE = ()=>console.log('hi there');
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"iDAGe,IAAM,QAAQ,GAAG,CAAC\"}")
 /*
 {
-  "origin": "transform_qrl_in_regular_prop.tsx",
-  "name": "Cmp_component_Cmp_foo_gNnB0ff9hqw",
+  "origin": "test.tsx",
+  "name": "Cmp_component_Cmp_foo_iPpdemxi0uE",
   "entry": null,
-  "displayName": "transform_qrl_in_regular_prop.tsx_Cmp_component_Cmp_foo",
-  "hash": "gNnB0ff9hqw",
-  "canonicalFilename": "transform_qrl_in_regular_prop.tsx_Cmp_component_Cmp_foo_gNnB0ff9hqw",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
+  "displayName": "test.tsx_Cmp_component_Cmp_foo",
+  "hash": "iPpdemxi0uE",
+  "canonicalFilename": "test.tsx_Cmp_component_Cmp_foo_iPpdemxi0uE",
+  "path": "",
+  "extension": "ts",
+  "parent": "Cmp_component_4ryKJTOKjWE",
   "ctxKind": "function",
-  "ctxName": "Cmp_component_Cmp_foo_gNnB0ff9hqw",
+  "ctxName": "$",
   "captures": false,
   "loc": [
-    0,
-    0
+    105,
+    134
   ]
 }
 */
+============================= test.ts ==
+
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_4ryKJTOKjWE = ()=>import("./test.tsx_Cmp_component_4ryKJTOKjWE");
+export const Cmp = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_4ryKJTOKjWE, "Cmp_component_4ryKJTOKjWE"));
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAEE,OAAO,MAAM,oBAAM,4EAC4C\"}")
 == DIAGNOSTICS ==
 
 []

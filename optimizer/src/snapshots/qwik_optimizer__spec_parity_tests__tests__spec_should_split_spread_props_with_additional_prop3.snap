@@ -4,58 +4,66 @@ expression: output
 ---
 ==INPUT==
 
-import { component$ } from '@qwik.dev/core';
-import { Foo } from './foo';
 
-export default component$((props) => {
-	return (
-		<Foo s={Math.random()} {...props} hello {...globalThis.nothing} />
-	);
-});
+		import { component$ } from '@qwik.dev/core';
+		import { Foo } from './foo';
 
-============================= ./should_split_spread_props_with_additional_prop3.tsx_component_7i1FOkHRmGc.js (ENTRY POINT)==
+		export default component$((props) => {
+			return (
+				<Foo s={Math.random()} {...props} hello {...globalThis.nothing} />
+			);
+		});
+		
+============================= test.js ==
+
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAIE,6BAAe,6EAIZ\"}")
+============================= test.tsx_test_component_LUXeXe0DQrg.js (ENTRY POINT)==
 
 import { Foo } from "./foo";
-import { _getConstProps, _getVarProps, _jsxSplit } from "@qwik.dev/core";
-export const component_7i1FOkHRmGc = (props) => {
-	return _jsxSplit(Foo, {
-		s: Math.random(),
-		..._getVarProps(props),
-		hello: true,
-		..._getVarProps(globalThis.nothing)
-	}, _getConstProps(globalThis.nothing), null, 0, null);
+import { _getConstProps } from "@qwik.dev/core";
+import { _getVarProps } from "@qwik.dev/core";
+import { _jsxSplit } from "@qwik.dev/core";
+export const test_component_LUXeXe0DQrg = (props)=>{
+    return /*#__PURE__*/ _jsxSplit(Foo, {
+        s: Math.random(),
+        ..._getVarProps(props),
+        ..._getConstProps(props),
+        hello: true,
+        ...globalThis.nothing
+    }, null, null, 0, "u6_0");
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;0CAI4B,CAAC;IAC1B,qBACC,UAAC;QAAI,GAAG,KAAK,MAAM;wBAAQ;0BAAA;QAAO,KAAK;QAAE,GAAG,WAAW,OAAO;;AAEhE\"}")
 /*
 {
-  "origin": "should_split_spread_props_with_additional_prop3.tsx",
-  "name": "component_7i1FOkHRmGc",
+  "origin": "test.tsx",
+  "name": "test_component_LUXeXe0DQrg",
   "entry": null,
-  "displayName": "should_split_spread_props_with_additional_prop3.tsx_component",
-  "hash": "7i1FOkHRmGc",
-  "canonicalFilename": "should_split_spread_props_with_additional_prop3.tsx_component_7i1FOkHRmGc",
-  "path": ".",
+  "displayName": "test.tsx_test_component",
+  "hash": "LUXeXe0DQrg",
+  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
+  "path": "",
   "extension": "js",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "component_7i1FOkHRmGc",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    109,
+    214
+  ],
+  "paramNames": [
+    "props"
   ]
 }
 */
-============================= should_split_spread_props_with_additional_prop3.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_component_7i1FOkHRmGc = () => import("./should_split_spread_props_with_additional_prop3.tsx_component_7i1FOkHRmGc.js");
-export default componentQrl(qrl(i_component_7i1FOkHRmGc, "component_7i1FOkHRmGc"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

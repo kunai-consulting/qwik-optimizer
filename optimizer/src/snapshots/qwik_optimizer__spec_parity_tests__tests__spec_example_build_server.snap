@@ -4,6 +4,7 @@ expression: output
 ---
 ==INPUT==
 
+
 import { component$, useStore, isDev, isServer as isServer2 } from '@qwik.dev/core';
 import { isServer, isBrowser as isb } from '@qwik.dev/core/build';
 import { mongodb } from 'mondodb';
@@ -36,92 +37,51 @@ export const App = component$(() => {
 	);
 });
 
-============================= ./example_build_server.tsx_s_3D0YgbD0qkQ.js (ENTRY POINT)==
+============================= test.tsx ==
+
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_ckEPmXZlub0 = ()=>import("./test.tsx_App_component_ckEPmXZlub0");
+export const functionThatNeedsWindow = ()=>{};
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ckEPmXZlub0, "s_ckEPmXZlub0"));
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAQA,OAAO,MAAM,0BAA0B,KAMvC,EAAE;AAEF,OAAO,MAAM,oBAAM,gEAehB\"}")
+============================= test.tsx_App_component_ckEPmXZlub0.tsx (ENTRY POINT)==
 
 import { mongodb } from "mondodb";
-import { threejs } from "threejs";
-export const s_3D0YgbD0qkQ = () => {
-	if (true) {
-		console.log("server", mongodb());
-	}
-	if (false) {
-		console.log("browser", new threejs());
-	}
-};
-
-
-None
-/*
-{
-  "origin": "example_build_server.tsx",
-  "name": "s_3D0YgbD0qkQ",
-  "entry": null,
-  "displayName": "example_build_server.tsx_App_component_useMount",
-  "hash": "3D0YgbD0qkQ",
-  "canonicalFilename": "example_build_server.tsx_s_3D0YgbD0qkQ",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "s_3D0YgbD0qkQ",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= ./example_build_server.tsx_s_9s2ykyaFR5c.js (ENTRY POINT)==
-
-import { qrl, useMountQrl, isServer as isServer2 } from "@qwik.dev/core";
-import { isBrowser as isb } from "@qwik.dev/core/build";
-export const s_9s2ykyaFR5c = () => {
-	useMountQrl(qrl(i_s_3D0YgbD0qkQ, "s_3D0YgbD0qkQ"));
-	return <Cmp>
-			{isServer2 && <p>server</p>}
-			{isb && <p>server</p>}
+export const s_ckEPmXZlub0 = ()=>{
+    useMount$(()=>{
+        console.log('server', mongodb());
+    });
+    return <Cmp>
+			{<p>server</p>}
+			{false}
 		</Cmp>;
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";6BAgB8B;IAC7B,UAAU;QAER,QAAQ,GAAG,CAAC,UAAU;IAKxB;IACA,QACE,IAAI;GACJ,EAAe,EAAE,MAAM,EAAE,GAAG;GAC5B,OAAsB;EACvB,EAAE;AAEJ\"}")
 /*
 {
-  "origin": "example_build_server.tsx",
-  "name": "s_9s2ykyaFR5c",
+  "origin": "test.tsx",
+  "name": "s_ckEPmXZlub0",
   "entry": null,
-  "displayName": "example_build_server.tsx_App_component",
-  "hash": "9s2ykyaFR5c",
-  "canonicalFilename": "example_build_server.tsx_s_9s2ykyaFR5c",
-  "path": ".",
-  "extension": "js",
+  "displayName": "test.tsx_App_component",
+  "hash": "ckEPmXZlub0",
+  "canonicalFilename": "test.tsx_App_component_ckEPmXZlub0",
+  "path": "",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "s_9s2ykyaFR5c",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    423,
+    663
   ]
 }
 */
-============================= example_build_server.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-import L from "leaflet";
-const i_s_3D0YgbD0qkQ = () => import("./example_build_server.tsx_s_3D0YgbD0qkQ.js");
-const i_s_9s2ykyaFR5c = () => import("./example_build_server.tsx_s_9s2ykyaFR5c.js");
-export const functionThatNeedsWindow = () => {
-	if (false) {
-		console.log("l", L);
-		console.log("hey");
-		window.alert("hey");
-	}
-};
-export const App = componentQrl(qrl(i_s_9s2ykyaFR5c, "s_9s2ykyaFR5c"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

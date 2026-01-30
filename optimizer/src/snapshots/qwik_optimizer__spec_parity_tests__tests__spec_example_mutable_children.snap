@@ -4,6 +4,7 @@ expression: output
 ---
 ==INPUT==
 
+
 import { component$, useStore, Slot, Fragment } from '@qwik.dev/core';
 import Image from './image.jpg?jsx';
 
@@ -99,208 +100,88 @@ export const AppStatic = component$((props: Stuff) => {
 	);
 });
 
-============================= ./example_mutable_children.tsx_AppStatic_component_ZCpDNRE1GDw.js (ENTRY POINT)==
+============================= test.js ==
 
-import Image from "./image.jpg?jsx";
-import { Fragment, Slot, _jsxSorted } from "@qwik.dev/core";
+import { _jsxSorted } from "@qwik.dev/core";
+import { componentQrl } from "@qwik.dev/core";
+import { inlinedQrl } from "@qwik.dev/core";
+import { _wrapProp } from "@qwik.dev/core";
 import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
-export const AppStatic_component_ZCpDNRE1GDw = (props) => {
-	return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [
-		/*#__PURE__*/ _jsxSorted("div", null, null, ["Static", f ? 1 : 3], 1, null),
-		/*#__PURE__*/ _jsxSorted("div", null, null, prop < 2 ? /*#__PURE__*/ _jsxSorted("p", null, null, "1", 3, null) : /*#__PURE__*/ _jsxSorted("p", null, null, "2", 3, null), 1, null),
-		/*#__PURE__*/ _jsxSorted("div", null, null, prop.value && /*#__PURE__*/ _jsxSorted("div", null, null, null, 3, null), 1, null),
-		/*#__PURE__*/ _jsxSorted("div", null, null, prop.value && _jsxSorted(Fragment, null, null, _jsxSorted(Slot, null, null, null, 3, null), 3, null), 1, null),
-		/*#__PURE__*/ _jsxSorted("div", null, null, prop.value && /*#__PURE__*/ _jsxSorted(_Fragment, null, null, /*#__PURE__*/ _jsxSorted("div", null, null, null, 3, null), 3, null), 1, null),
-		/*#__PURE__*/ _jsxSorted("div", null, null, prop.value && _jsxSorted(Image, null, null, null, 3, null), 1, null),
-		/*#__PURE__*/ _jsxSorted("div", null, null, ["Static", f ? 1 : 3], 1, null),
-		/*#__PURE__*/ _jsxSorted("div", null, null, "Static", 3, null),
-		/*#__PURE__*/ _jsxSorted("div", null, null, ["Static", _wrapProp(props)], 1, null),
-		/*#__PURE__*/ _jsxSorted("div", null, null, ["Static", stuff()], 1, null),
-		/*#__PURE__*/ _jsxSorted("div", null, null, ["Static", stuff()], 1, null)
-	], 3, null);
-};
-
-
-None
-/*
-{
-  "origin": "example_mutable_children.tsx",
-  "name": "AppStatic_component_ZCpDNRE1GDw",
-  "entry": "entry_segments",
-  "displayName": "example_mutable_children.tsx_AppStatic_component",
-  "hash": "ZCpDNRE1GDw",
-  "canonicalFilename": "example_mutable_children.tsx_AppStatic_component_ZCpDNRE1GDw",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "AppStatic_component_ZCpDNRE1GDw",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= ./example_mutable_children.tsx_AppDynamic4_component_zMYszYyy0F8.js (ENTRY POINT)==
-
-import { _jsxSorted } from "@qwik.dev/core";
-export const AppDynamic4_component_zMYszYyy0F8 = (props) => {
-	if (prop.value) {
-		return /*#__PURE__*/ _jsxSorted("div", null, null, null, 3, null);
-	}
-	return _jsxSorted(Stuff, null, null, null, 3, null);
-};
-
-
-None
-/*
-{
-  "origin": "example_mutable_children.tsx",
-  "name": "AppDynamic4_component_zMYszYyy0F8",
-  "entry": "entry_segments",
-  "displayName": "example_mutable_children.tsx_AppDynamic4_component",
-  "hash": "zMYszYyy0F8",
-  "canonicalFilename": "example_mutable_children.tsx_AppDynamic4_component_zMYszYyy0F8",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "AppDynamic4_component_zMYszYyy0F8",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= ./example_mutable_children.tsx_AppDynamic2_component_rca4PeUCr5g.js (ENTRY POINT)==
-
-import { _jsxSorted } from "@qwik.dev/core";
-export const AppDynamic2_component_rca4PeUCr5g = (props) => {
-	return /*#__PURE__*/ _jsxSorted("div", null, null, [prop.value && _jsxSorted(Stuff, null, null, null, 3, null), /*#__PURE__*/ _jsxSorted("div", null, null, null, 3, null)], 1, null);
-};
-
-
-None
-/*
-{
-  "origin": "example_mutable_children.tsx",
-  "name": "AppDynamic2_component_rca4PeUCr5g",
-  "entry": "entry_segments",
-  "displayName": "example_mutable_children.tsx_AppDynamic2_component",
-  "hash": "rca4PeUCr5g",
-  "canonicalFilename": "example_mutable_children.tsx_AppDynamic2_component_rca4PeUCr5g",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "AppDynamic2_component_rca4PeUCr5g",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= ./example_mutable_children.tsx_AppDynamic3_component_BWoPg01quak.js (ENTRY POINT)==
-
-import { _jsxSorted } from "@qwik.dev/core";
-export const AppDynamic3_component_BWoPg01quak = (props) => {
-	if (prop.value) {
-		return _jsxSorted(Stuff, null, null, null, 3, null);
-	}
-	return /*#__PURE__*/ _jsxSorted("div", null, null, null, 3, null);
-};
-
-
-None
-/*
-{
-  "origin": "example_mutable_children.tsx",
-  "name": "AppDynamic3_component_BWoPg01quak",
-  "entry": "entry_segments",
-  "displayName": "example_mutable_children.tsx_AppDynamic3_component",
-  "hash": "BWoPg01quak",
-  "canonicalFilename": "example_mutable_children.tsx_AppDynamic3_component_BWoPg01quak",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "AppDynamic3_component_BWoPg01quak",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= example_mutable_children.tsx ==
-
-import { _jsxSorted, componentQrl, qrl } from "@qwik.dev/core";
-import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
-const i_AppDynamic1_component_PYtt0ArTNuQ = () => import("./example_mutable_children.tsx_AppDynamic1_component_PYtt0ArTNuQ.js");
-const i_AppDynamic2_component_rca4PeUCr5g = () => import("./example_mutable_children.tsx_AppDynamic2_component_rca4PeUCr5g.js");
-const i_AppDynamic3_component_BWoPg01quak = () => import("./example_mutable_children.tsx_AppDynamic3_component_BWoPg01quak.js");
-const i_AppDynamic4_component_zMYszYyy0F8 = () => import("./example_mutable_children.tsx_AppDynamic4_component_zMYszYyy0F8.js");
-const i_AppStatic_component_ZCpDNRE1GDw = () => import("./example_mutable_children.tsx_AppStatic_component_ZCpDNRE1GDw.js");
+import { Slot, Fragment } from '@qwik.dev/core';
+import Image from './image.jpg?jsx';
 export function Fn1(props) {
-	return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, /*#__PURE__*/ _jsxSorted("div", null, null, prop < 2 ? /*#__PURE__*/ _jsxSorted("p", null, null, "1", 3, null) : _jsxSorted(Stuff, null, null, "2", 3, null), 1, null), 3, null);
+    return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, /*#__PURE__*/ _jsxSorted("div", null, null, prop < 2 ? /*#__PURE__*/ _jsxSorted("p", null, null, "1", 3, "u6_0") : /*#__PURE__*/ _jsxSorted(Stuff, null, null, "2", 3, "u6_1"), 1, null), 1, "u6_2");
 }
 export function Fn2(props) {
-	return /*#__PURE__*/ _jsxSorted("div", null, null, [prop.value && _jsxSorted(Stuff, null, null, null, 3, null), /*#__PURE__*/ _jsxSorted("div", null, null, null, 3, null)], 1, null);
+    return /*#__PURE__*/ _jsxSorted("div", null, null, [
+        prop.value && /*#__PURE__*/ _jsxSorted(Stuff, null, null, null, 3, "u6_3"),
+        /*#__PURE__*/ _jsxSorted("div", null, null, null, 3, null)
+    ], 1, "u6_4");
 }
 export function Fn3(props) {
-	if (prop.value) {
-		return _jsxSorted(Stuff, null, null, null, 3, null);
-	}
-	return /*#__PURE__*/ _jsxSorted("div", null, null, null, 3, null);
+    if (prop.value) return /*#__PURE__*/ _jsxSorted(Stuff, null, null, null, 3, "u6_5");
+    return /*#__PURE__*/ _jsxSorted("div", null, null, null, 3, "u6_6");
 }
 export function Fn4(props) {
-	if (prop.value) {
-		return /*#__PURE__*/ _jsxSorted("div", null, null, null, 3, null);
-	}
-	return _jsxSorted(Stuff, null, null, null, 3, null);
+    if (prop.value) return /*#__PURE__*/ _jsxSorted("div", null, null, null, 3, "u6_7");
+    return /*#__PURE__*/ _jsxSorted(Stuff, null, null, null, 3, "u6_8");
 }
-export const Arrow = (props) => /*#__PURE__*/ _jsxSorted("div", null, null, prop < 2 ? /*#__PURE__*/ _jsxSorted("p", null, null, "1", 3, null) : _jsxSorted(Stuff, null, null, "2", 3, null), 1, null);
-export const AppDynamic1 = componentQrl(qrl(i_AppDynamic1_component_PYtt0ArTNuQ, "AppDynamic1_component_PYtt0ArTNuQ"));
-export const AppDynamic2 = componentQrl(qrl(i_AppDynamic2_component_rca4PeUCr5g, "AppDynamic2_component_rca4PeUCr5g"));
-export const AppDynamic3 = componentQrl(qrl(i_AppDynamic3_component_BWoPg01quak, "AppDynamic3_component_BWoPg01quak"));
-export const AppDynamic4 = componentQrl(qrl(i_AppDynamic4_component_zMYszYyy0F8, "AppDynamic4_component_zMYszYyy0F8"));
-export const AppStatic = componentQrl(qrl(i_AppStatic_component_ZCpDNRE1GDw, "AppStatic_component_ZCpDNRE1GDw"));
-
-
-None
-============================= ./example_mutable_children.tsx_AppDynamic1_component_PYtt0ArTNuQ.js (ENTRY POINT)==
-
-import { _jsxSorted } from "@qwik.dev/core";
-import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
-export const AppDynamic1_component_PYtt0ArTNuQ = (props) => {
-	return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, /*#__PURE__*/ _jsxSorted("div", null, null, prop < 2 ? /*#__PURE__*/ _jsxSorted("p", null, null, "1", 3, null) : _jsxSorted(Stuff, null, null, "2", 3, null), 1, null), 3, null);
+export const Arrow = (props)=>/*#__PURE__*/ _jsxSorted("div", null, null, prop < 2 ? /*#__PURE__*/ _jsxSorted("p", null, null, "1", 3, "u6_9") : /*#__PURE__*/ _jsxSorted(Stuff, null, null, "2", 3, "u6_10"), 1, "u6_11");
+const AppDynamic1_component_R00UJ05gbes = (props)=>{
+    return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, /*#__PURE__*/ _jsxSorted("div", null, null, prop < 2 ? /*#__PURE__*/ _jsxSorted("p", null, null, "1", 3, "u6_12") : /*#__PURE__*/ _jsxSorted(Stuff, null, null, "2", 3, "u6_13"), 1, null), 1, "u6_14");
 };
+export const AppDynamic1 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(AppDynamic1_component_R00UJ05gbes, "AppDynamic1_component_R00UJ05gbes"));
+const AppDynamic2_component_3EY2zm0v00A = (props)=>{
+    return /*#__PURE__*/ _jsxSorted("div", null, null, [
+        prop.value && /*#__PURE__*/ _jsxSorted(Stuff, null, null, null, 3, "u6_15"),
+        /*#__PURE__*/ _jsxSorted("div", null, null, null, 3, null)
+    ], 1, "u6_16");
+};
+export const AppDynamic2 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(AppDynamic2_component_3EY2zm0v00A, "AppDynamic2_component_3EY2zm0v00A"));
+const AppDynamic3_component_FVq83NlbTDQ = (props)=>{
+    if (prop.value) return /*#__PURE__*/ _jsxSorted(Stuff, null, null, null, 3, "u6_17");
+    return /*#__PURE__*/ _jsxSorted("div", null, null, null, 3, "u6_18");
+};
+export const AppDynamic3 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(AppDynamic3_component_FVq83NlbTDQ, "AppDynamic3_component_FVq83NlbTDQ"));
+const AppDynamic4_component_IO0yr8UvWEI = (props)=>{
+    if (prop.value) return /*#__PURE__*/ _jsxSorted("div", null, null, null, 3, "u6_19");
+    return /*#__PURE__*/ _jsxSorted(Stuff, null, null, null, 3, "u6_20");
+};
+export const AppDynamic4 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(AppDynamic4_component_IO0yr8UvWEI, "AppDynamic4_component_IO0yr8UvWEI"));
+const AppStatic_component_gYRXqF3G5nE = (props)=>{
+    return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [
+        /*#__PURE__*/ _jsxSorted("div", null, null, [
+            "Static ",
+            f ? 1 : 3
+        ], 1, null),
+        /*#__PURE__*/ _jsxSorted("div", null, null, prop < 2 ? /*#__PURE__*/ _jsxSorted("p", null, null, "1", 3, "u6_21") : /*#__PURE__*/ _jsxSorted("p", null, null, "2", 3, "u6_22"), 1, null),
+        /*#__PURE__*/ _jsxSorted("div", null, null, prop.value && /*#__PURE__*/ _jsxSorted("div", null, null, null, 3, "u6_23"), 1, null),
+        /*#__PURE__*/ _jsxSorted("div", null, null, prop.value && /*#__PURE__*/ _jsxSorted(Fragment, null, null, /*#__PURE__*/ _jsxSorted(Slot, null, null, null, 3, "u6_24"), 1, "u6_25"), 1, null),
+        /*#__PURE__*/ _jsxSorted("div", null, null, prop.value && /*#__PURE__*/ _jsxSorted(_Fragment, null, null, /*#__PURE__*/ _jsxSorted("div", null, null, null, 3, null), 3, "u6_26"), 1, null),
+        /*#__PURE__*/ _jsxSorted("div", null, null, prop.value && /*#__PURE__*/ _jsxSorted(Image, null, null, null, 3, "u6_27"), 1, null),
+        /*#__PURE__*/ _jsxSorted("div", null, null, [
+            "Static ",
+            f ? 1 : 3
+        ], 1, null),
+        /*#__PURE__*/ _jsxSorted("div", null, null, "Static", 3, null),
+        /*#__PURE__*/ _jsxSorted("div", null, null, [
+            "Static ",
+            _wrapProp(props)
+        ], 1, null),
+        /*#__PURE__*/ _jsxSorted("div", null, null, [
+            "Static ",
+            stuff()
+        ], 1, null),
+        /*#__PURE__*/ _jsxSorted("div", null, null, [
+            "Static ",
+            stuff()
+        ], 1, null)
+    ], 1, "u6_28");
+};
+export const AppStatic = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(AppStatic_component_gYRXqF3G5nE, "AppStatic_component_gYRXqF3G5nE"));
 
 
-None
-/*
-{
-  "origin": "example_mutable_children.tsx",
-  "name": "AppDynamic1_component_PYtt0ArTNuQ",
-  "entry": "entry_segments",
-  "displayName": "example_mutable_children.tsx_AppDynamic1_component",
-  "hash": "PYtt0ArTNuQ",
-  "canonicalFilename": "example_mutable_children.tsx_AppDynamic1_component_PYtt0ArTNuQ",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "AppDynamic1_component_PYtt0ArTNuQ",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;AACA,SAA+B,IAAI,EAAE,QAAQ,QAAQ,iBAAiB;AACtE,OAAO,WAAW,kBAAkB;AAEpC,OAAO,SAAS,IAAI,KAAY;IAC/B,qBACC,gDACC,WAAC,mBAAK,OAAO,kBAAI,WAAC,iBAAE,gCAAQ,WAAC,mBAAM;AAGtC;AAEA,OAAO,SAAS,IAAI,KAAY;IAC/B,qBACC,WAAC;QAAK,KAAK,KAAK,kBAAI,WAAC;sBAAe,WAAC;;AAEvC;AAEA,OAAO,SAAS,IAAI,KAAY;IAC/B,IAAI,KAAK,KAAK,EACb,qBACC,WAAC;IAGH,qBACC,WAAC;AAEH;AAEA,OAAO,SAAS,IAAI,KAAY;IAC/B,IAAI,KAAK,KAAK,EACb,qBACC,WAAC;IAGH,qBACC,WAAC;AAEH;AAEA,OAAO,MAAM,QAAQ,CAAC,sBAAiB,WAAC,mBAAK,OAAO,kBAAI,WAAC,iBAAE,gCAAQ,WAAC,mBAAM,8BAAiB;0CAErD,CAAC;IACtC,qBACC,gDACC,WAAC,mBAAK,OAAO,kBAAI,WAAC,iBAAE,iCAAQ,WAAC,mBAAM;AAGtC;AANA,OAAO,MAAM,4BAAc,+GAMxB;0CACmC,CAAC;IACtC,qBACC,WAAC;QAAK,KAAK,KAAK,kBAAI,WAAC;sBAAe,WAAC;;AAEvC;AAJA,OAAO,MAAM,4BAAc,+GAIxB;0CAEmC,CAAC;IACtC,IAAI,KAAK,KAAK,EACb,qBACC,WAAC;IAGH,qBACC,WAAC;AAEH;AATA,OAAO,MAAM,4BAAc,+GASxB;0CAEmC,CAAC;IACtC,IAAI,KAAK,KAAK,EACb,qBACC,WAAC;IAGH,qBACC,WAAC;AAEH;AATA,OAAO,MAAM,4BAAc,+GASxB;wCAEiC,CAAC;IACpC,qBACC;sBACC,WAAC;YAAI;YAAQ,IAAI,IAAI;;sBACrB,WAAC,mBAAK,OAAO,kBAAI,WAAC,iBAAE,iCAAQ,WAAC,iBAAE;sBAE/B,WAAC,mBAAK,KAAK,KAAK,kBAAI,WAAC;sBACrB,WAAC,mBAAK,KAAK,KAAK,kBAAI,WAAC,oCAAS,WAAC;sBAC/B,WAAC,mBAAK,KAAK,KAAK,kBAAI,gDAAE,WAAC;sBACvB,WAAC,mBAAK,KAAK,KAAK,kBAAI,WAAC;sBACrB,WAAC;YAAI;YAAQ,IAAI,IAAI;;sBACrB,WAAC,mBAAI;sBACL,WAAC;YAAI;sBAAQ;;sBACb,WAAC;YAAI;YAAQ;;sBACb,WAAC;YAAI;YAAQ;;;AAGhB;AAjBA,OAAO,MAAM,0BAAY,2GAiBtB\"}")
 == DIAGNOSTICS ==
 
 []

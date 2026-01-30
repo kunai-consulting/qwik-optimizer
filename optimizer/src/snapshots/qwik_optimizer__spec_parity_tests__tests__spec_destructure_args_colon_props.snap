@@ -4,55 +4,60 @@ expression: output
 ---
 ==INPUT==
 
-import { component$ } from "@qwik.dev/core";
-export default component$((props) => {
-	const { 'bind:value': bindValue } = props;
-	return (
-		<>
-		{bindValue}
-		</>
-	);
-});
 
-============================= ./destructure_args_colon_props.tsx_component_0znSnzl9anI.js (ENTRY POINT)==
+		import { component$ } from "@qwik.dev/core";
+		export default component$((props) => {
+			const { 'bind:value': bindValue } = props;
+			return (
+				<>
+				{bindValue}
+				</>
+			);
+		});
+		
+============================= test.js ==
 
-import { _jsxSorted } from "@qwik.dev/core";
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAEE,6BAAe,6EAOZ\"}")
+============================= test.tsx_test_component_LUXeXe0DQrg.js (ENTRY POINT)==
+
 import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
-export const component_0znSnzl9anI = (props) => {
-	const { "bind:value": bindValue } = props;
-	return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, bindValue, 1, null);
+import { _jsxSorted } from "@qwik.dev/core";
+import { _wrapProp } from "@qwik.dev/core";
+export const test_component_LUXeXe0DQrg = (props)=>{
+    return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, _wrapProp(props, "bind:value"), 1, "u6_0");
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;0CAE4B,CAAC;IAE1B,qBACC,4CAFmC;AAMrC\"}")
 /*
 {
-  "origin": "destructure_args_colon_props.tsx",
-  "name": "component_0znSnzl9anI",
+  "origin": "test.tsx",
+  "name": "test_component_LUXeXe0DQrg",
   "entry": null,
-  "displayName": "destructure_args_colon_props.tsx_component",
-  "hash": "0znSnzl9anI",
-  "canonicalFilename": "destructure_args_colon_props.tsx_component_0znSnzl9anI",
-  "path": ".",
+  "displayName": "test.tsx_test_component",
+  "hash": "LUXeXe0DQrg",
+  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
+  "path": "",
   "extension": "js",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "component_0znSnzl9anI",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    77,
+    188
+  ],
+  "paramNames": [
+    "props"
   ]
 }
 */
-============================= destructure_args_colon_props.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_component_0znSnzl9anI = () => import("./destructure_args_colon_props.tsx_component_0znSnzl9anI.js");
-export default componentQrl(qrl(i_component_0znSnzl9anI, "component_0znSnzl9anI"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

@@ -4,63 +4,70 @@ expression: output
 ---
 ==INPUT==
 
-import { component$, useSignal } from '@qwik.dev/core';
+
+		import { component$, useSignal } from '@qwik.dev/core';
 
 
-export default component$(() => {
-const toggle = useSignal(true);
-const t = (key: string) => key;
-return (
-	<button
-		type="button"
-		title={
-		toggle.value !== ''
-			? t('app.message.exists@@there is a message for you')
-			: t('app.message.not_exists@@click to get a message!')
-		}
-	></button>
-);
-});
+		export default component$(() => {
+		const toggle = useSignal(true);
+		const t = (key: string) => key;
+		return (
+			<button
+				type="button"
+				title={
+				toggle.value !== ''
+					? t('app.message.exists@@there is a message for you')
+					: t('app.message.not_exists@@click to get a message!')
+				}
+			></button>
+		);
+		});
+		
+============================= test.js ==
 
-============================= ./should_not_wrap_ternary_function_operator_with_fn.tsx_component_nWh6ksvJtT4.js (ENTRY POINT)==
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
 
-import { _jsxSorted, useSignal } from "@qwik.dev/core";
-export const component_nWh6ksvJtT4 = () => {
-	const toggle = useSignal(true);
-	const t = (key) => key;
-	return /*#__PURE__*/ _jsxSorted("button", { title: toggle.value !== "" ? t("app.message.exists@@there is a message for you") : t("app.message.not_exists@@click to get a message!") }, { type: "button" }, null, 3, null);
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAIE,6BAAe,6EAaZ\"}")
+============================= test.tsx_test_component_LUXeXe0DQrg.js (ENTRY POINT)==
+
+import { _jsxSorted } from "@qwik.dev/core";
+import { useSignal } from "@qwik.dev/core";
+export const test_component_LUXeXe0DQrg = ()=>{
+    const toggle = useSignal(true);
+    const t = (key)=>key;
+    return /*#__PURE__*/ _jsxSorted("button", {
+        title: toggle.value !== '' ? t('app.message.exists@@there is a message for you') : t('app.message.not_exists@@click to get a message!')
+    }, {
+        type: "button"
+    }, null, 3, "u6_0");
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;0CAI4B;IAC1B,MAAM,SAAS,UAAU;IACzB,MAAM,IAAI,CAAC,MAAgB;IAC3B,qBACC,WAAC;QAEA,OACA,OAAO,KAAK,KAAK,KACd,EAAE,oDACF,EAAE;;QAJL,MAAK;;AAQP\"}")
 /*
 {
-  "origin": "should_not_wrap_ternary_function_operator_with_fn.tsx",
-  "name": "component_nWh6ksvJtT4",
+  "origin": "test.tsx",
+  "name": "test_component_LUXeXe0DQrg",
   "entry": null,
-  "displayName": "should_not_wrap_ternary_function_operator_with_fn.tsx_component",
-  "hash": "nWh6ksvJtT4",
-  "canonicalFilename": "should_not_wrap_ternary_function_operator_with_fn.tsx_component_nWh6ksvJtT4",
-  "path": ".",
+  "displayName": "test.tsx_test_component",
+  "hash": "LUXeXe0DQrg",
+  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
+  "path": "",
   "extension": "js",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "component_nWh6ksvJtT4",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    90,
+    389
   ]
 }
 */
-============================= should_not_wrap_ternary_function_operator_with_fn.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_component_nWh6ksvJtT4 = () => import("./should_not_wrap_ternary_function_operator_with_fn.tsx_component_nWh6ksvJtT4.js");
-export default componentQrl(qrl(i_component_nWh6ksvJtT4, "component_nWh6ksvJtT4"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

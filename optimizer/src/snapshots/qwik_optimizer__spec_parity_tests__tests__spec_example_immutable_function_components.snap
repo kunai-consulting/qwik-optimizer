@@ -4,6 +4,7 @@ expression: output
 ---
 ==INPUT==
 
+
 import { component$, useStore, Slot } from '@qwik.dev/core';
 
 export const App = component$((props: Stuff) => {
@@ -14,43 +15,19 @@ export const App = component$((props: Stuff) => {
 	);
 });
 
-============================= ./example_immutable_function_components.tsx_App_component_JSjeGHs3sWk.js (ENTRY POINT)==
+============================= test.js ==
 
-import { Slot, _jsxSorted } from "@qwik.dev/core";
-export const App_component_JSjeGHs3sWk = (props) => {
-	return /*#__PURE__*/ _jsxSorted("div", null, null, _jsxSorted(Slot, null, null, null, 3, null), 3, null);
+import { componentQrl } from "@qwik.dev/core";
+import { _jsxSorted } from "@qwik.dev/core";
+import { inlinedQrl } from "@qwik.dev/core";
+import { Slot } from '@qwik.dev/core';
+const App_component_ckEPmXZlub0 = (props)=>{
+    return /*#__PURE__*/ _jsxSorted("div", null, null, /*#__PURE__*/ _jsxSorted(Slot, null, null, null, 3, "u6_0"), 1, "u6_1");
 };
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(App_component_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
 
 
-None
-/*
-{
-  "origin": "example_immutable_function_components.tsx",
-  "name": "App_component_JSjeGHs3sWk",
-  "entry": "entry_segments",
-  "displayName": "example_immutable_function_components.tsx_App_component",
-  "hash": "JSjeGHs3sWk",
-  "canonicalFilename": "example_immutable_function_components.tsx_App_component_JSjeGHs3sWk",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "App_component_JSjeGHs3sWk",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= example_immutable_function_components.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_App_component_JSjeGHs3sWk = () => import("./example_immutable_function_components.tsx_App_component_JSjeGHs3sWk.js");
-export const App = componentQrl(qrl(i_App_component_JSjeGHs3sWk, "App_component_JSjeGHs3sWk"));
-
-
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AACA,SAA+B,IAAI,QAAQ,iBAAiB;kCAE9B,CAAC;IAC9B,qBACC,WAAC,iCACA,WAAC;AAGJ;AANA,OAAO,MAAM,oBAAM,+FAMhB\"}")
 == DIAGNOSTICS ==
 
 []

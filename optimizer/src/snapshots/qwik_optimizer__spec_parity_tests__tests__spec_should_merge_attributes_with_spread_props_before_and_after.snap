@@ -2,52 +2,67 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-==INPUT==
-
-import { component$ } from '@qwik.dev/core';
-
-export default component$((props) => {
-	return <div {...props} class={[props.class, 'component']} {...props} />;
-});
-
-============================= should_merge_attributes_with_spread_props_before_and_after.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_component_lIIsCU6UqXw = () => import("./should_merge_attributes_with_spread_props_before_and_after.tsx_component_lIIsCU6UqXw.js");
-export default componentQrl(qrl(i_component_lIIsCU6UqXw, "component_lIIsCU6UqXw"));
 
 
-None
-============================= ./should_merge_attributes_with_spread_props_before_and_after.tsx_component_lIIsCU6UqXw.js (ENTRY POINT)==
+		import { component$ } from '@qwik.dev/core';
 
-import { _getConstProps, _getVarProps, _jsxSplit } from "@qwik.dev/core";
-export const component_lIIsCU6UqXw = (props) => {
-	return /*#__PURE__*/ _jsxSplit("div", {
-		..._getVarProps(props),
-		class: [props.class, "component"],
-		..._getVarProps(props)
-	}, _getConstProps(props), null, 0, null);
+		export default component$((props) => {
+			return <div {...props} class={[props.class, 'component']} {...props} />;
+		});
+		
+============================= test.js ==
+
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAGE,6BAAe,6EAEZ\"}")
+============================= test.tsx_test_component_LUXeXe0DQrg.js (ENTRY POINT)==
+
+import { _fnSignal } from "@qwik.dev/core";
+import { _getConstProps } from "@qwik.dev/core";
+import { _getVarProps } from "@qwik.dev/core";
+import { _jsxSplit } from "@qwik.dev/core";
+const _hf0 = (p0)=>[
+        p0.class,
+        'component'
+    ];
+const _hf0_str = '[p0.class,"component"]';
+export const test_component_LUXeXe0DQrg = (props)=>{
+    return /*#__PURE__*/ _jsxSplit("div", {
+        ..._getVarProps(props),
+        ..._getConstProps(props),
+        class: _fnSignal(_hf0, [
+            props
+        ], _hf0_str),
+        ..._getVarProps(props)
+    }, _getConstProps(props), null, 0, "u6_0");
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;mBAIiC;QAAC,GAAM,KAAK;QAAE;KAAY;;0CAD/B,CAAC;IAC1B,qBAAO,UAAC;wBAAQ;0BAAA;QAAO,KAAK;;;wBAAkC;sBAAA;AAC/D\"}")
 /*
 {
-  "origin": "should_merge_attributes_with_spread_props_before_and_after.tsx",
-  "name": "component_lIIsCU6UqXw",
+  "origin": "test.tsx",
+  "name": "test_component_LUXeXe0DQrg",
   "entry": null,
-  "displayName": "should_merge_attributes_with_spread_props_before_and_after.tsx_component",
-  "hash": "lIIsCU6UqXw",
-  "canonicalFilename": "should_merge_attributes_with_spread_props_before_and_after.tsx_component_lIIsCU6UqXw",
-  "path": ".",
+  "displayName": "test.tsx_test_component",
+  "hash": "LUXeXe0DQrg",
+  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
+  "path": "",
   "extension": "js",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "component_lIIsCU6UqXw",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    78,
+    170
+  ],
+  "paramNames": [
+    "props"
   ]
 }
 */

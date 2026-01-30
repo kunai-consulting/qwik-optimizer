@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-==INPUT==
+
 
 import { $, component$, useStore } from '@qwik.dev/core';
 
@@ -20,92 +20,175 @@ export const App = component$(({count, rest: [I2, {I3, v1: [I4], I5=v2, ...I6}, 
 	});
 })
 
-============================= example_functional_component_capture_props.tsx ==
+============================= test.tsx_App_component_div_on_click_V4v7mvdC0xU.js (ENTRY POINT)==
 
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_App_component_1_div_onClick = () => import("./example_functional_component_capture_props.tsx.js");
-const i_App_component_1_CmRomoox4Hk = () => import("./example_functional_component_capture_props.tsx_App_component_1_CmRomoox4Hk.js");
-const i_App_component_ntoaXCvatNM = () => import("./example_functional_component_capture_props.tsx_App_component_ntoaXCvatNM.js");
-export const App = componentQrl(qrl(i_App_component_ntoaXCvatNM, "App_component_ntoaXCvatNM"));
-
-
-None
-============================= ./example_functional_component_capture_props.tsx_App_component_1_CmRomoox4Hk.js (ENTRY POINT)==
-
-import { _jsxSorted, qrl } from "@qwik.dev/core";
-export const App_component_1_CmRomoox4Hk = () => {
-	const [state] = useLexicalScope();
-	return /*#__PURE__*/ _jsxSorted("div", { on:click: qrl(i_App_component_1_div_onClick, "App_component_1_div_onClick", [state]) }, null, [
-		I2,
-		I3,
-		I4,
-		I5,
-		I6,
-		I7,
-		I8,
-		C2,
-		C3,
-		C4,
-		C5,
-		C6,
-		C7,
-		C8,
-		v1,
-		v2,
-		v3
-	], 1, null);
+import { useLexicalScope } from "@qwik.dev/core";
+export const App_component_div_on_click_V4v7mvdC0xU = ()=>{
+    const [count, state] = useLexicalScope();
+    return state.count += count + total;
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";sDAQkB;;WAAM,MAAM,KAAK,IAAI,QAAQ\"}")
 /*
 {
-  "origin": "example_functional_component_capture_props.tsx",
-  "name": "App_component_1_CmRomoox4Hk",
+  "origin": "test.tsx",
+  "name": "App_component_div_on_click_V4v7mvdC0xU",
   "entry": null,
-  "displayName": "example_functional_component_capture_props.tsx_App_component_1",
-  "hash": "CmRomoox4Hk",
-  "canonicalFilename": "example_functional_component_capture_props.tsx_App_component_1_CmRomoox4Hk",
-  "path": ".",
+  "displayName": "test.tsx_App_component_div_on_click",
+  "hash": "V4v7mvdC0xU",
+  "canonicalFilename": "test.tsx_App_component_div_on_click_V4v7mvdC0xU",
+  "path": "",
   "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "App_component_1_CmRomoox4Hk",
-  "captures": false,
+  "parent": "App_component_1_w0t0o3QMovU",
+  "ctxKind": "eventHandler",
+  "ctxName": "onClick$",
+  "captures": true,
   "loc": [
-    0,
-    0
+    319,
+    353
+  ],
+  "captureNames": [
+    "count",
+    "state"
   ]
 }
 */
-============================= ./example_functional_component_capture_props.tsx_App_component_ntoaXCvatNM.js (ENTRY POINT)==
+============================= test.js ==
 
-import { qrl, useStore } from "@qwik.dev/core";
-export const App_component_ntoaXCvatNM = ({ count, rest: [I2, { I3, v1: [I4], I5 = v2, ...I6 }, I7 = v3, ...I8] }) => {
-	const state = useStore({ count: 0 });
-	const { rest: [C2, { C3, v1: [C4], C5 = v2, ...C6 }, C7 = v3, ...C8] } = foo();
-	return qrl(i_App_component_1_CmRomoox4Hk, "App_component_1_CmRomoox4Hk", [state]);
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_ckEPmXZlub0 = ()=>import("./test.tsx_App_component_ckEPmXZlub0");
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAGA,OAAO,MAAM,oBAAM,4EAYjB\"}")
+============================= test.tsx_App_component_ckEPmXZlub0.js (ENTRY POINT)==
+
+import { qrl } from "@qwik.dev/core";
+import { useStore } from "@qwik.dev/core";
+const i_w0t0o3QMovU = ()=>import("./test.tsx_App_component_1_w0t0o3QMovU");
+export const App_component_ckEPmXZlub0 = ({ count, rest: [I2, { I3, v1: [I4], I5 = v2, ...I6 }, I7 = v3, ...I8] })=>{
+    const state = useStore({
+        count: 0
+    });
+    const { rest: [C2, { C3, v1: [C4], C5 = v2, ...C6 }, C7 = v3, ...C8] } = foo();
+    return /*#__PURE__*/ qrl(i_w0t0o3QMovU, "App_component_1_w0t0o3QMovU", [
+        C2,
+        C3,
+        C4,
+        C5,
+        C6,
+        C7,
+        C8,
+        I2,
+        I3,
+        I4,
+        I5,
+        I6,
+        I7,
+        I8,
+        count,
+        state
+    ]);
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;yCAG8B,CAAC,EAAC,KAAK,EAAE,MAAM,CAAC,IAAI,EAAC,EAAE,EAAE,IAAI,CAAC,GAAG,EAAE,KAAG,EAAE,EAAE,GAAG,IAAG,EAAE,KAAG,EAAE,EAAE,GAAG,GAAG,EAAC;IAC7F,MAAM,QAAQ,SAAS;QAAC,OAAO;IAAC;IAChC,MAAM,EAAC,MAAM,CAAC,IAAI,EAAC,EAAE,EAAE,IAAI,CAAC,GAAG,EAAE,KAAG,EAAE,EAAE,GAAG,IAAG,EAAE,KAAG,EAAE,EAAE,GAAG,GAAG,EAAC,GAAG;IACjE;;;;;;;;;;;;;;;;;;AASD\"}")
 /*
 {
-  "origin": "example_functional_component_capture_props.tsx",
-  "name": "App_component_ntoaXCvatNM",
+  "origin": "test.tsx",
+  "name": "App_component_ckEPmXZlub0",
   "entry": null,
-  "displayName": "example_functional_component_capture_props.tsx_App_component",
-  "hash": "ntoaXCvatNM",
-  "canonicalFilename": "example_functional_component_capture_props.tsx_App_component_ntoaXCvatNM",
-  "path": ".",
+  "displayName": "test.tsx_App_component",
+  "hash": "ckEPmXZlub0",
+  "canonicalFilename": "test.tsx_App_component_ckEPmXZlub0",
+  "path": "",
   "extension": "js",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "App_component_ntoaXCvatNM",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    91,
+    460
+  ],
+  "paramNames": [
+    "{count, rest: [I2, {I3, v1: [I4], I5}, ...I8]}"
+  ]
+}
+*/
+============================= test.tsx_App_component_1_w0t0o3QMovU.js (ENTRY POINT)==
+
+import { useLexicalScope } from "@qwik.dev/core";
+import { _jsxSorted } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_V4v7mvdC0xU = ()=>import("./test.tsx_App_component_div_on_click_V4v7mvdC0xU");
+export const App_component_1_w0t0o3QMovU = ()=>{
+    const [C2, C3, C4, C5, C6, C7, C8, I2, I3, I4, I5, I6, I7, I8, count, state] = useLexicalScope();
+    return /*#__PURE__*/ _jsxSorted("div", {
+        "on:click": /*#__PURE__*/ qrl(i_V4v7mvdC0xU, "App_component_div_on_click_V4v7mvdC0xU", [
+            count,
+            state
+        ])
+    }, null, [
+        I2,
+        I3,
+        I4,
+        I5,
+        I6,
+        I7,
+        I8,
+        C2,
+        C3,
+        C4,
+        C5,
+        C6,
+        C7,
+        C8,
+        v1,
+        v2,
+        v3
+    ], 0, "u6_0");
+};
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;2CAMU;;IACR,qBACC,WAAC;QAAI,UAAQ;;;;;QACX;QAAI;QAAI;QAAI;QAAI;QAAI;QAAI;QACxB;QAAI;QAAI;QAAI;QAAI;QAAI;QAAI;QACxB;QAAI;QAAI\"}")
+/*
+{
+  "origin": "test.tsx",
+  "name": "App_component_1_w0t0o3QMovU",
+  "entry": null,
+  "displayName": "test.tsx_App_component_1",
+  "hash": "w0t0o3QMovU",
+  "canonicalFilename": "test.tsx_App_component_1_w0t0o3QMovU",
+  "path": "",
+  "extension": "js",
+  "parent": "App_component_ckEPmXZlub0",
+  "ctxKind": "function",
+  "ctxName": "$",
+  "captures": true,
+  "loc": [
+    282,
+    456
+  ],
+  "captureNames": [
+    "C2",
+    "C3",
+    "C4",
+    "C5",
+    "C6",
+    "C7",
+    "C8",
+    "I2",
+    "I3",
+    "I4",
+    "I5",
+    "I6",
+    "I7",
+    "I8",
+    "count",
+    "state"
   ]
 }
 */

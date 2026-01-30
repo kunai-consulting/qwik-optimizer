@@ -4,6 +4,7 @@ expression: output
 ---
 ==INPUT==
 
+
 import { $, component$ } from '@qwik.dev/core';
 
 export const Header = component$(() => {
@@ -17,76 +18,79 @@ export const Header = component$(() => {
 	});
 });
 
-============================= ./example_8.tsx_Header_component_1_wtlAwn0BNk4.js (ENTRY POINT)==
-
-import { Header } from "./example_8";
-export const Header_component_1_wtlAwn0BNk4 = (hola) => {
-	const hola = this;
-	const { something, styff } = hola;
-	const hello = hola.nothere.stuff[global];
-	return <Header />;
-};
-
-
-None
-/*
-{
-  "origin": "example_8.tsx",
-  "name": "Header_component_1_wtlAwn0BNk4",
-  "entry": null,
-  "displayName": "example_8.tsx_Header_component_1",
-  "hash": "wtlAwn0BNk4",
-  "canonicalFilename": "example_8.tsx_Header_component_1_wtlAwn0BNk4",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "Header_component_1_wtlAwn0BNk4",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= ./example_8.tsx_Header_component_Usqh4wqFqI0.js (ENTRY POINT)==
+============================= test.tsx_Header_component_J4uyIhaBNR4.tsx (ENTRY POINT)==
 
 import { qrl } from "@qwik.dev/core";
-export const Header_component_Usqh4wqFqI0 = () => {
-	return qrl(i_Header_component_1_wtlAwn0BNk4, "Header_component_1_wtlAwn0BNk4");
+const i_2B8d0oH9ZWc = ()=>import("./test.tsx_Header_component_1_2B8d0oH9ZWc");
+export const Header_component_J4uyIhaBNR4 = ()=>{
+    return /*#__PURE__*/ qrl(i_2B8d0oH9ZWc, "Header_component_1_2B8d0oH9ZWc");
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;4CAGiC;IAChC;AAQD\"}")
 /*
 {
-  "origin": "example_8.tsx",
-  "name": "Header_component_Usqh4wqFqI0",
+  "origin": "test.tsx",
+  "name": "Header_component_J4uyIhaBNR4",
   "entry": null,
-  "displayName": "example_8.tsx_Header_component",
-  "hash": "Usqh4wqFqI0",
-  "canonicalFilename": "example_8.tsx_Header_component_Usqh4wqFqI0",
-  "path": ".",
-  "extension": "js",
+  "displayName": "test.tsx_Header_component",
+  "hash": "J4uyIhaBNR4",
+  "canonicalFilename": "test.tsx_Header_component_J4uyIhaBNR4",
+  "path": "",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "Header_component_Usqh4wqFqI0",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    84,
+    249
   ]
 }
 */
-============================= example_8.tsx ==
+============================= test.tsx_Header_component_1_2B8d0oH9ZWc.tsx (ENTRY POINT)==
 
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Header_component_1_wtlAwn0BNk4 = () => import("./example_8.tsx_Header_component_1_wtlAwn0BNk4.js");
-const i_Header_component_Usqh4wqFqI0 = () => import("./example_8.tsx_Header_component_Usqh4wqFqI0.js");
-export const Header = componentQrl(qrl(i_Header_component_Usqh4wqFqI0, "Header_component_Usqh4wqFqI0"));
+import { Header } from "./test";
+export const Header_component_1_2B8d0oH9ZWc = (hola)=>{
+    const hola = this;
+    hola.nothere.stuff[global];
+    return <Header/>;
+};
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";8CAIU,CAAC;IACT,MAAM,OAAO,IAAI;IAEH,KAAK,OAAO,CAAC,KAAK,CAAC,OAAO;IACxC,QACE;AAEH\"}")
+/*
+{
+  "origin": "test.tsx",
+  "name": "Header_component_1_2B8d0oH9ZWc",
+  "entry": null,
+  "displayName": "test.tsx_Header_component_1",
+  "hash": "2B8d0oH9ZWc",
+  "canonicalFilename": "test.tsx_Header_component_1_2B8d0oH9ZWc",
+  "path": "",
+  "extension": "tsx",
+  "parent": "Header_component_J4uyIhaBNR4",
+  "ctxKind": "function",
+  "ctxName": "$",
+  "captures": false,
+  "loc": [
+    102,
+    245
+  ],
+  "paramNames": [
+    "hola"
+  ]
+}
+*/
+============================= test.tsx ==
+
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_J4uyIhaBNR4 = ()=>import("./test.tsx_Header_component_J4uyIhaBNR4");
+export const Header = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_J4uyIhaBNR4, "Header_component_J4uyIhaBNR4"));
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAGA,OAAO,MAAM,uBAAS,+EASnB\"}")
 == DIAGNOSTICS ==
 
 []

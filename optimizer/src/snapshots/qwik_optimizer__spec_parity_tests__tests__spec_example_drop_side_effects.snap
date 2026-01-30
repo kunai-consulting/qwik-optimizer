@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-==INPUT==
+
 
 import { component$ } from '@qwik.dev/core';
 import { server$ } from '@qwik.dev/router';
@@ -33,85 +33,102 @@ export default component$(() => {
 	)
 	});
 
-============================= ./example_drop_side_effects.tsx_api_server_z2u5NPsRqoE.js (ENTRY POINT)==
+============================= test.js ==
 
-export const api_server_z2u5NPsRqoE = () => {
-	const [dfd, supabase] = useLexicalScope();
-	supabase.from("ffg").do(dfd);
+import { serverQrl } from "@qwik.dev/router";
+import { _noopQrlDEV } from "@qwik.dev/core";
+import { componentQrl } from "@qwik.dev/core";
+import { qrlDEV } from "@qwik.dev/core";
+const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
+import { sideEffect } from './secret';
+(function() {
+    console.log('run');
+})();
+(()=>{
+    console.log('run');
+})();
+sideEffect();
+export const api = serverQrl(/*#__PURE__*/ _noopQrlDEV("api_server_JonPp043gH0", {
+    file: "/user/qwik/src/test.tsx",
+    lo: 0,
+    hi: 0,
+    displayName: "test.tsx_api_server"
+}));
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrlDEV(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg", {
+    file: "/user/qwik/src/test.tsx",
+    lo: 503,
+    hi: 575,
+    displayName: "test.tsx_test_component"
+}));
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;AAMA,SAAS,UAAU,QAAQ,WAAW;AAKtC,CAAC;IACA,QAAQ,GAAG,CAAC;AACZ,CAAC;AACD,CAAC;IACD,QAAQ,GAAG,CAAC;AACZ,CAAC;AAEF;AAEA,OAAO,MAAM,MAAM;;;;;IAEhB;AAEH,6BAAe;;;;;IAIX\"}")
+============================= test.tsx_test_component_LUXeXe0DQrg.js (ENTRY POINT)==
+
+import { _jsxSorted } from "@qwik.dev/core";
+import { qrlDEV } from "@qwik.dev/core";
+const i_6pPnWSWL0tY = ()=>import("./test.tsx_test_component_button_on_click_6pPnWSWL0tY");
+export const test_component_LUXeXe0DQrg = ()=>{
+    return /*#__PURE__*/ _jsxSorted("button", null, {
+        "on:click": /*#__PURE__*/ qrlDEV(i_6pPnWSWL0tY, "test_component_button_on_click_6pPnWSWL0tY", {
+            file: "/user/qwik/src/test.tsx",
+            lo: 541,
+            hi: 558,
+            displayName: "test.tsx_test_component_button_on_click"
+        })
+    }, null, 3, "u6_0", {
+        fileName: "test.tsx",
+        lineNumber: 27,
+        columnNumber: 3
+    });
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;0CAwB0B;IACzB,qBACC,WAAC;QAAO,UAAQ;;;;;;;;;;;AAEjB\"}")
 /*
 {
-  "origin": "example_drop_side_effects.tsx",
-  "name": "api_server_z2u5NPsRqoE",
+  "origin": "test.tsx",
+  "name": "test_component_LUXeXe0DQrg",
   "entry": null,
-  "displayName": "example_drop_side_effects.tsx_api_server",
-  "hash": "z2u5NPsRqoE",
-  "canonicalFilename": "example_drop_side_effects.tsx_api_server_z2u5NPsRqoE",
-  "path": ".",
+  "displayName": "test.tsx_test_component",
+  "hash": "LUXeXe0DQrg",
+  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
+  "path": "",
   "extension": "js",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "api_server_z2u5NPsRqoE",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    503,
+    575
   ]
 }
 */
-============================= example_drop_side_effects.tsx ==
+============================= test.tsx_test_component_button_on_click_6pPnWSWL0tY.js (ENTRY POINT)==
 
-import { secret, sideEffect } from "./secret";
-import { componentQrl, qrl, serverQrl } from "@qwik.dev/core";
-import { serverQrl } from "@qwik.dev/router";
-import { Client } from "openai";
-import { clientSupabase } from "supabase";
-const i_api_server_z2u5NPsRqoE = () => import("./example_drop_side_effects.tsx_api_server_z2u5NPsRqoE.js");
-const i_component_button_onClick = () => import("./example_drop_side_effects.tsx.js");
-const i_component_Iyb0rbIdi0U = () => import("./example_drop_side_effects.tsx_component_Iyb0rbIdi0U.js");
-const supabase = clientSupabase();
-const dfd = new Client(secret);
-(function() {
-	console.log("run");
-})();
-(() => {
-	console.log("run");
-})();
-sideEffect();
-export const api = serverQrl(qrl(i_api_server_z2u5NPsRqoE, "api_server_z2u5NPsRqoE", [dfd, supabase]));
-export default componentQrl(qrl(i_component_Iyb0rbIdi0U, "component_Iyb0rbIdi0U"));
+import { api } from "./test";
+export const test_component_button_on_click_6pPnWSWL0tY = ()=>await api();
 
 
-None
-============================= ./example_drop_side_effects.tsx_component_Iyb0rbIdi0U.js (ENTRY POINT)==
-
-import { _jsxSorted, qrl } from "@qwik.dev/core";
-export const component_Iyb0rbIdi0U = () => {
-	return /*#__PURE__*/ _jsxSorted("button", { on:click: qrl(i_component_button_onClick, "component_button_onClick") }, null, null, 3, null);
-};
-
-
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";0DA0BoB,IAAM,MAAM\"}")
 /*
 {
-  "origin": "example_drop_side_effects.tsx",
-  "name": "component_Iyb0rbIdi0U",
+  "origin": "test.tsx",
+  "name": "test_component_button_on_click_6pPnWSWL0tY",
   "entry": null,
-  "displayName": "example_drop_side_effects.tsx_component",
-  "hash": "Iyb0rbIdi0U",
-  "canonicalFilename": "example_drop_side_effects.tsx_component_Iyb0rbIdi0U",
-  "path": ".",
+  "displayName": "test.tsx_test_component_button_on_click",
+  "hash": "6pPnWSWL0tY",
+  "canonicalFilename": "test.tsx_test_component_button_on_click_6pPnWSWL0tY",
+  "path": "",
   "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "component_Iyb0rbIdi0U",
+  "parent": "test_component_LUXeXe0DQrg",
+  "ctxKind": "eventHandler",
+  "ctxName": "onClick$",
   "captures": false,
   "loc": [
-    0,
-    0
+    541,
+    558
   ]
 }
 */

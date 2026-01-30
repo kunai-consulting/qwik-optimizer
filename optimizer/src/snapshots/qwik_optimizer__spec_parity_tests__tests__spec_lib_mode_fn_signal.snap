@@ -2,61 +2,107 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-==INPUT==
-
-import { component$ } from '@qwik.dev/core';
-export const Counter = component$(() => {
-	const count = useSignal(0);
-
-	return (
-		<div>
-			<p>Count: {count.value}</p>
-			<p>
-				<button onClick$={() => count.value++}>Increment</button>
-			</p>
-		</div>
-	);
-});
-
-============================= lib_mode_fn_signal.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Counter_component_div_p_button_onClick = () => import("./lib_mode_fn_signal.tsx.js");
-const i_Counter_component_nfMWfpwGvuE = () => import("./lib_mode_fn_signal.tsx_Counter_component_nfMWfpwGvuE.js");
-export const Counter = componentQrl(qrl(i_Counter_component_nfMWfpwGvuE, "Counter_component_nfMWfpwGvuE"));
 
 
-None
-============================= ./lib_mode_fn_signal.tsx_Counter_component_nfMWfpwGvuE.js (ENTRY POINT)==
+		import { component$ } from '@qwik.dev/core';
+		export const Counter = component$(() => {
+			const count = useSignal(0);
 
-import { _jsxSorted, qrl } from "@qwik.dev/core";
-export const Counter_component_nfMWfpwGvuE = () => {
-	const count = useSignal(0);
-	return /*#__PURE__*/ _jsxSorted("div", null, null, [/*#__PURE__*/ _jsxSorted("p", null, null, ["Count:", _wrapProp(count)], 1, null), /*#__PURE__*/ _jsxSorted("p", null, null, /*#__PURE__*/ _jsxSorted("button", { on:click: qrl(i_Counter_component_div_p_button_onClick, "Counter_component_div_p_button_onClick", [count]) }, null, "Increment", 3, null), 3, null)], 3, null);
+			return (
+				<div>
+					<p>Count: {count.value}</p>
+					<p>
+						<button onClick$={() => count.value++}>Increment</button>
+					</p>
+				</div>
+			);
+		});
+
+============================= test.tsx_Counter_component_div_p_button_on_click_z7xlsL20tDc.ts (ENTRY POINT)==
+
+import { useLexicalScope } from "@qwik.dev/core";
+export const Counter_component_div_p_button_on_click_z7xlsL20tDc = ()=>{
+    const [count] = useLexicalScope();
+    return count.value++;
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";mEASwB;;WAAM,MAAM,KAAK\"}")
 /*
 {
-  "origin": "lib_mode_fn_signal.tsx",
-  "name": "Counter_component_nfMWfpwGvuE",
+  "origin": "test.tsx",
+  "name": "Counter_component_div_p_button_on_click_z7xlsL20tDc",
   "entry": null,
-  "displayName": "lib_mode_fn_signal.tsx_Counter_component",
-  "hash": "nfMWfpwGvuE",
-  "canonicalFilename": "lib_mode_fn_signal.tsx_Counter_component_nfMWfpwGvuE",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "Counter_component_nfMWfpwGvuE",
-  "captures": false,
+  "displayName": "test.tsx_Counter_component_div_p_button_on_click",
+  "hash": "z7xlsL20tDc",
+  "canonicalFilename": "test.tsx_Counter_component_div_p_button_on_click_z7xlsL20tDc",
+  "path": "",
+  "extension": "ts",
+  "parent": "Counter_component_zTmRHlL09Gg",
+  "ctxKind": "eventHandler",
+  "ctxName": "onClick$",
+  "captures": true,
   "loc": [
-    0,
-    0
+    213,
+    232
+  ],
+  "captureNames": [
+    "count"
   ]
 }
 */
+============================= test.tsx_Counter_component_zTmRHlL09Gg.ts (ENTRY POINT)==
+
+import { _jsxSorted } from "@qwik.dev/core";
+import { _wrapProp } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_z7xlsL20tDc = ()=>import("./test.tsx_Counter_component_div_p_button_on_click_z7xlsL20tDc");
+export const Counter_component_zTmRHlL09Gg = ()=>{
+    const count = useSignal(0);
+    return /*#__PURE__*/ _jsxSorted("div", null, null, [
+        /*#__PURE__*/ _jsxSorted("p", null, null, [
+            "Count: ",
+            _wrapProp(count)
+        ], 3, null),
+        /*#__PURE__*/ _jsxSorted("p", null, null, /*#__PURE__*/ _jsxSorted("button", null, {
+            "on:click": /*#__PURE__*/ qrl(i_z7xlsL20tDc, "Counter_component_div_p_button_on_click_z7xlsL20tDc", [
+                count
+            ])
+        }, "Increment", 3, null), 3, null)
+    ], 3, "u6_0");
+};
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;6CAEoC;IACjC,MAAM,QAAQ,UAAU;IAExB,qBACC,WAAC;sBACA,WAAC;YAAE;sBAAQ;;sBACX,WAAC,+BACA,WAAC;YAAO,UAAQ;;;WAAuB;;AAI3C\"}")
+/*
+{
+  "origin": "test.tsx",
+  "name": "Counter_component_zTmRHlL09Gg",
+  "entry": null,
+  "displayName": "test.tsx_Counter_component",
+  "hash": "zTmRHlL09Gg",
+  "canonicalFilename": "test.tsx_Counter_component_zTmRHlL09Gg",
+  "path": "",
+  "extension": "ts",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    85,
+    283
+  ]
+}
+*/
+============================= test.ts ==
+
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_zTmRHlL09Gg = ()=>import("./test.tsx_Counter_component_zTmRHlL09Gg");
+export const Counter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_zTmRHlL09Gg, "Counter_component_zTmRHlL09Gg"));
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAEE,OAAO,MAAM,wBAAU,gFAWpB\"}")
 == DIAGNOSTICS ==
 
 []

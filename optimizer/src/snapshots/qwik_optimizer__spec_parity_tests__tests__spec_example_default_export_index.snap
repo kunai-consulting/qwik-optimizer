@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-==INPUT==
+
 
 import { component$ } from '@qwik.dev/core';
 
@@ -13,45 +13,18 @@ export default component$(() => {
 	);
 });
 
+
 ============================= src/components/mongo/index.tsx ==
 
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_component_div_onClick = () => import("./index.tsx.js");
-const i_component_rKJvPlyphow = () => import("./index.tsx_component_rKJvPlyphow.js");
-export default componentQrl(qrl(i_component_rKJvPlyphow, "component_rKJvPlyphow"));
-
-
-None
-============================= ./src/components/mongo/index.tsx_component_rKJvPlyphow.js (ENTRY POINT)==
-
-import { qrl } from "@qwik.dev/core";
-export const component_rKJvPlyphow = () => {
-	return <div on:click={qrl(i_component_div_onClick, "component_div_onClick")}>
+import { componentQrl } from "@qwik.dev/core";
+import { inlinedQrl } from "@qwik.dev/core";
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(()=>{
+    return <div on:click={/*#__PURE__*/ inlinedQrl(()=>console.log(mongodb), "mongo_component_div_on_click_O41XkfEPk50")}>
 		</div>;
-};
+}, "mongo_component_ouWLj4jA2oI"));
 
 
-None
-/*
-{
-  "origin": "src/components/mongo/index.tsx",
-  "name": "component_rKJvPlyphow",
-  "entry": "entry_segments",
-  "displayName": "index.tsx_component",
-  "hash": "rKJvPlyphow",
-  "canonicalFilename": "index.tsx_component_rKJvPlyphow",
-  "path": "./src/components/mongo",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "component_rKJvPlyphow",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/src/components/mongo/index.tsx\"],\"names\":[],\"mappings\":\";;AAGA,6BAAe,sCAAW;IACzB,QACE,IAAI,mCAAU,IAAM,QAAQ,GAAG,CAAC,uDAAU;EAC3C,EAAE;AAEJ,mCAAG\"}")
 == DIAGNOSTICS ==
 
 []

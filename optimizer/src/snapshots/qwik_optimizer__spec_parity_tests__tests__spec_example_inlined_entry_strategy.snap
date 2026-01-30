@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-==INPUT==
+
 
 import { component$, useBrowserVisibleTask$, useStore, useStyles$ } from '@qwik.dev/core';
 import { thing } from './sibling';
@@ -26,104 +26,35 @@ export const Child = component$(() => {
 	);
 });
 
-============================= ./example_inlined_entry_strategy.tsx_Child_component_usUBninIuQc.js (ENTRY POINT)==
 
-export const Child_component_usUBninIuQc = () => {
-	useStylesQrl(qrl(i_Child_component_useStyles_u14sZsUq8xQ, "Child_component_useStyles_u14sZsUq8xQ"));
-	const state = useStylesQrl(qrl(i_Child_component_useStyles_u14sZsUq8xQ, "Child_component_useStyles_u14sZsUq8xQ"));
-	useBrowserVisibleTaskQrl(qrl(i_Child_component_useBrowserVisibleTask_mguI2bCnQyY, "Child_component_useBrowserVisibleTask_mguI2bCnQyY", [state]));
-	return <div on:click={useBrowserVisibleTaskQrl(qrl(i_Child_component_useBrowserVisibleTask_mguI2bCnQyY, "Child_component_useBrowserVisibleTask_mguI2bCnQyY", [state]))}>
+============================= test.tsx ==
+
+import { componentQrl } from "@qwik.dev/core";
+import { useStylesQrl } from "@qwik.dev/core";
+import { inlinedQrl } from "@qwik.dev/core";
+import { useBrowserVisibleTaskQrl } from "@qwik.dev/core";
+import { useLexicalScope } from "@qwik.dev/core";
+import { useStore } from '@qwik.dev/core';
+import { thing } from './sibling';
+import mongodb from 'mongodb';
+export const Child = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(()=>{
+    useStylesQrl(/*#__PURE__*/ inlinedQrl('somestring', "Child_component_useStyles_qBZTuFM0160"));
+    const state = useStore({
+        count: 0
+    });
+    // Double count watch
+    useBrowserVisibleTaskQrl(/*#__PURE__*/ inlinedQrl(()=>{
+        const [state] = useLexicalScope();
+        state.count = thing.doStuff() + import("./sibling");
+    }, "Child_component_useBrowserVisibleTask_0IGFPOyJmQA", [
+        state
+    ]));
+    return <div on:click={/*#__PURE__*/ inlinedQrl(()=>console.log(mongodb), "Child_component_div_on_click_MMpkjn7JKOk")}>
 		</div>;
-};
+}, "Child_component_9GyF01GDKqw"));
 
 
-None
-/*
-{
-  "origin": "example_inlined_entry_strategy.tsx",
-  "name": "Child_component_usUBninIuQc",
-  "entry": "entry_segments",
-  "displayName": "example_inlined_entry_strategy.tsx_Child_component",
-  "hash": "usUBninIuQc",
-  "canonicalFilename": "example_inlined_entry_strategy.tsx_Child_component_usUBninIuQc",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "Child_component_usUBninIuQc",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= ./example_inlined_entry_strategy.tsx_Child_component_useStyles_u14sZsUq8xQ.js (ENTRY POINT)==
-
-export const Child_component_useStyles_u14sZsUq8xQ = "somestring";
-
-
-None
-/*
-{
-  "origin": "example_inlined_entry_strategy.tsx",
-  "name": "Child_component_useStyles_u14sZsUq8xQ",
-  "entry": "entry_segments",
-  "displayName": "example_inlined_entry_strategy.tsx_Child_component_useStyles",
-  "hash": "u14sZsUq8xQ",
-  "canonicalFilename": "example_inlined_entry_strategy.tsx_Child_component_useStyles_u14sZsUq8xQ",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "Child_component_useStyles_u14sZsUq8xQ",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= ./example_inlined_entry_strategy.tsx_Child_component_useBrowserVisibleTask_mguI2bCnQyY.js (ENTRY POINT)==
-
-import { thing } from "./sibling";
-export const Child_component_useBrowserVisibleTask_mguI2bCnQyY = () => {
-	const [state] = useLexicalScope();
-	state.count = thing.doStuff() + import("./sibling");
-};
-
-
-None
-/*
-{
-  "origin": "example_inlined_entry_strategy.tsx",
-  "name": "Child_component_useBrowserVisibleTask_mguI2bCnQyY",
-  "entry": "entry_segments",
-  "displayName": "example_inlined_entry_strategy.tsx_Child_component_useBrowserVisibleTask",
-  "hash": "mguI2bCnQyY",
-  "canonicalFilename": "example_inlined_entry_strategy.tsx_Child_component_useBrowserVisibleTask_mguI2bCnQyY",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "Child_component_useBrowserVisibleTask_mguI2bCnQyY",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= example_inlined_entry_strategy.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Child_component_useStyles_u14sZsUq8xQ = () => import("./example_inlined_entry_strategy.tsx_Child_component_useStyles_u14sZsUq8xQ.js");
-const i_Child_component_useBrowserVisibleTask_mguI2bCnQyY = () => import("./example_inlined_entry_strategy.tsx_Child_component_useBrowserVisibleTask_mguI2bCnQyY.js");
-const i_Child_component_usUBninIuQc = () => import("./example_inlined_entry_strategy.tsx_Child_component_usUBninIuQc.js");
-export const Child = componentQrl(qrl(i_Child_component_usUBninIuQc, "Child_component_usUBninIuQc"));
-
-
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;AACA,SAA6C,QAAQ,QAAoB,iBAAiB;AAC1F,SAAS,KAAK,QAAQ,YAAY;AAClC,OAAO,aAAa,UAAU;AAE9B,OAAO,MAAM,sBAAQ,sCAAW;IAE/B,sCAAW;IACX,MAAM,QAAQ,SAAS;QACtB,OAAO;IACR;IAEA,qBAAqB;IACrB,kDAAuB;;QACtB,MAAM,KAAK,GAAG,MAAM,OAAO,KAAK,MAAM,CAAC;;;;IAGxC,QACE,IAAI,mCAAU,IAAM,QAAQ,GAAG,CAAC,uDAAU;EAC3C,EAAE;AAEJ,mCAAG\"}")
 == DIAGNOSTICS ==
 
 []

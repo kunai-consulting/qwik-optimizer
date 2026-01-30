@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-==INPUT==
+
 
 import { component$, useStore } from '@qwik.dev/core';
 
@@ -14,44 +14,20 @@ export const App = component$((props) => {
 	);
 });
 
-============================= ./example_preserve_filenames.tsx_App_component_ZZp3CBmB0mk.js (ENTRY POINT)==
+============================= test.tsx ==
 
-import { _jsxSorted, qrl } from "@qwik.dev/core";
-export const App_component_ZZp3CBmB0mk = (props) => {
-	return _jsxSorted(Cmp, null, null, /*#__PURE__*/ _jsxSorted("p", { on:click: qrl(i_App_component_Cmp_p_onClick, "App_component_Cmp_p_onClick") }, { class: "stuff" }, "Hello Qwik", 3, null), 3, null);
-};
-
-
-None
-/*
-{
-  "origin": "example_preserve_filenames.tsx",
-  "name": "App_component_ZZp3CBmB0mk",
-  "entry": "entry_segments",
-  "displayName": "example_preserve_filenames.tsx_App_component",
-  "hash": "ZZp3CBmB0mk",
-  "canonicalFilename": "example_preserve_filenames.tsx_App_component_ZZp3CBmB0mk",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "App_component_ZZp3CBmB0mk",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= example_preserve_filenames.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_App_component_Cmp_p_onClick = () => import("./example_preserve_filenames.tsx.js");
-const i_App_component_ZZp3CBmB0mk = () => import("./example_preserve_filenames.tsx_App_component_ZZp3CBmB0mk.js");
-export const App = componentQrl(qrl(i_App_component_ZZp3CBmB0mk, "App_component_ZZp3CBmB0mk"));
+import { componentQrl } from "@qwik.dev/core";
+import { inlinedQrl } from "@qwik.dev/core";
+import { _jsxSorted } from "@qwik.dev/core";
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl((props)=>{
+    return /*#__PURE__*/ _jsxSorted(Cmp, null, null, /*#__PURE__*/ _jsxSorted("p", null, {
+        class: "stuff",
+        "on:click": /*#__PURE__*/ inlinedQrl(()=>console.log('warn'), "App_component_Cmp_p_on_click_9VylW0qB00s")
+    }, "Hello Qwik", 3, null), 3, "u6_0");
+}, "App_component_ckEPmXZlub0"));
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAGA,OAAO,MAAM,oBAAM,sCAAW,CAAC;IAC9B,qBACC,WAAC,+BACA,WAAC;QAAE,OAAM;QAAQ,UAAQ,2BAAE,IAAM,QAAQ,GAAG,CAAC;OAAS;AAGzD,iCAAG\"}")
 == DIAGNOSTICS ==
 
 []

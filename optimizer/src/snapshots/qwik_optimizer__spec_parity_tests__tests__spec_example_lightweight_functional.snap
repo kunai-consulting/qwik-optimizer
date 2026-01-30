@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-==INPUT==
+
 
 import { $, component$ } from '@qwik.dev/core';
 
@@ -29,50 +29,130 @@ export const ButtonArrow = ({text, color}) => {
 	);
 }
 
-============================= example_lightweight_functional.tsx ==
+============================= test.tsx_Foo_component_HTDRsvUbLiE.tsx (ENTRY POINT)==
 
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Foo_component_PT5v7jM2PRg = () => import("./example_lightweight_functional.tsx_Foo_component_PT5v7jM2PRg.js");
-const i_Button_button_onClick = () => import("./example_lightweight_functional.tsx.js");
-const i_ButtonArrow_button_onClick = () => import("./example_lightweight_functional.tsx.js");
-export const Foo = componentQrl(qrl(i_Foo_component_PT5v7jM2PRg, "Foo_component_PT5v7jM2PRg"));
-export function Button({ text, color }) {
-	return <button on:color={color} on:click={qrl(i_Button_button_onClick, "Button_button_onClick")}>{text}</button>;
-}
-export const ButtonArrow = ({ text, color }) => {
-	return <button on:color={color} on:click={qrl(i_ButtonArrow_button_onClick, "ButtonArrow_button_onClick")}>{text}</button>;
-};
-
-
-None
-============================= ./example_lightweight_functional.tsx_Foo_component_PT5v7jM2PRg.js (ENTRY POINT)==
-
-export const Foo_component_PT5v7jM2PRg = (props) => {
-	return <div>
-			<Button {...props} />
-			<ButtonArrow {...props} />
+import { Button } from "./test";
+import { ButtonArrow } from "./test";
+export const Foo_component_HTDRsvUbLiE = (props)=>{
+    return <div>
+			<Button {...props}/>
+			<ButtonArrow {...props}/>
 		</div>;
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;yCAG8B,CAAC;IAC9B,QACE,IAAI;GACJ,CAAC,QAAQ,GAAG,KAAK,GAAI;GACrB,CAAC,aAAa,GAAG,KAAK,GAAI;EAC3B,EAAE;AAEJ\"}")
 /*
 {
-  "origin": "example_lightweight_functional.tsx",
-  "name": "Foo_component_PT5v7jM2PRg",
+  "origin": "test.tsx",
+  "name": "Foo_component_HTDRsvUbLiE",
   "entry": null,
-  "displayName": "example_lightweight_functional.tsx_Foo_component",
-  "hash": "PT5v7jM2PRg",
-  "canonicalFilename": "example_lightweight_functional.tsx_Foo_component_PT5v7jM2PRg",
-  "path": ".",
-  "extension": "js",
+  "displayName": "test.tsx_Foo_component",
+  "hash": "HTDRsvUbLiE",
+  "canonicalFilename": "test.tsx_Foo_component_HTDRsvUbLiE",
+  "path": "",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "Foo_component_PT5v7jM2PRg",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    81,
+    181
+  ],
+  "paramNames": [
+    "props"
+  ]
+}
+*/
+============================= test.tsx_ButtonArrow_button_on_click_kIAVgrXedGE.tsx (ENTRY POINT)==
+
+import { useLexicalScope } from "@qwik.dev/core";
+export const ButtonArrow_button_on_click_kIAVgrXedGE = ()=>{
+    const [_rawProps] = useLexicalScope();
+    return console.log(_rawProps.text, _rawProps.color);
+};
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";uDAsBqC;;WAAI,QAAQ,GAAG,WAFvB,gBAAM\"}")
+/*
+{
+  "origin": "test.tsx",
+  "name": "ButtonArrow_button_on_click_kIAVgrXedGE",
+  "entry": null,
+  "displayName": "test.tsx_ButtonArrow_button_on_click",
+  "hash": "kIAVgrXedGE",
+  "canonicalFilename": "test.tsx_ButtonArrow_button_on_click_kIAVgrXedGE",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "eventHandler",
+  "ctxName": "onClick$",
+  "captures": true,
+  "loc": [
+    445,
+    473
+  ],
+  "captureNames": [
+    "_rawProps"
+  ]
+}
+*/
+============================= test.tsx ==
+
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_HTDRsvUbLiE = ()=>import("./test.tsx_Foo_component_HTDRsvUbLiE");
+const i_VeaaIGYQbcg = ()=>import("./test.tsx_Button_button_on_click_VeaaIGYQbcg");
+const i_kIAVgrXedGE = ()=>import("./test.tsx_ButtonArrow_button_on_click_kIAVgrXedGE");
+export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_HTDRsvUbLiE, "Foo_component_HTDRsvUbLiE"), {
+    tagName: "my-foo"
+});
+export function Button({ text, color }) {
+    return <button on:color={color} on:click={/*#__PURE__*/ qrl(i_VeaaIGYQbcg, "Button_button_on_click_VeaaIGYQbcg", [
+        color,
+        text
+    ])}>{text}</button>;
+}
+export const ButtonArrow = (_rawProps)=>{
+    return <button on:color={_rawProps.color} on:click={/*#__PURE__*/ qrl(i_kIAVgrXedGE, "ButtonArrow_button_on_click_kIAVgrXedGE", [
+        _rawProps
+    ])}>{_rawProps.text}</button>;
+};
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;AAGA,OAAO,MAAM,oBAAM,4EAOhB;IACF,SAAS;AACV,GAAG;AAEH,OAAO,SAAS,OAAO,EAAC,IAAI,EAAE,KAAK,EAAC;IACnC,QACE,OAAO,UAAU,OAAO;;;SAAyC,OAAO;AAE3E;AAEA,OAAO,MAAM,cAAc;IAC1B,QACE,OAAO,oBAFyB,OAER;;mBAFE,OAE8C;AAE3E,EAAC\"}")
+============================= test.tsx_Button_button_on_click_VeaaIGYQbcg.tsx (ENTRY POINT)==
+
+import { useLexicalScope } from "@qwik.dev/core";
+export const Button_button_on_click_VeaaIGYQbcg = ()=>{
+    const [color, text] = useLexicalScope();
+    return console.log(text, color);
+};
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";kDAgBqC;;WAAI,QAAQ,GAAG,CAAC,MAAM\"}")
+/*
+{
+  "origin": "test.tsx",
+  "name": "Button_button_on_click_VeaaIGYQbcg",
+  "entry": null,
+  "displayName": "test.tsx_Button_button_on_click",
+  "hash": "VeaaIGYQbcg",
+  "canonicalFilename": "test.tsx_Button_button_on_click_VeaaIGYQbcg",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "eventHandler",
+  "ctxName": "onClick$",
+  "captures": true,
+  "loc": [
+    297,
+    325
+  ],
+  "captureNames": [
+    "color",
+    "text"
   ]
 }
 */

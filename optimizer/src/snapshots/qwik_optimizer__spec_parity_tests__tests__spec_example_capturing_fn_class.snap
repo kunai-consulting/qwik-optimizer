@@ -4,6 +4,7 @@ expression: output
 ---
 ==INPUT==
 
+
 import { $, component$ } from '@qwik.dev/core';
 
 export const App = component$(() => {
@@ -22,83 +23,84 @@ export const App = component$(() => {
 	});
 })
 
-============================= ./example_capturing_fn_class.tsx_App_component_1_Q5VPv65lTg0.js (ENTRY POINT)==
+============================= test.js ==
 
-import { _jsxSorted } from "@qwik.dev/core";
-export const App_component_1_Q5VPv65lTg0 = () => {
-	hola();
-	new Thing();
-	return /*#__PURE__*/ _jsxSorted("div", null, null, null, 3, null);
-};
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_ckEPmXZlub0 = ()=>import("./test.tsx_App_component_ckEPmXZlub0");
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
 
 
-None
-/*
-{
-  "origin": "example_capturing_fn_class.tsx",
-  "name": "App_component_1_Q5VPv65lTg0",
-  "entry": null,
-  "displayName": "example_capturing_fn_class.tsx_App_component_1",
-  "hash": "Q5VPv65lTg0",
-  "canonicalFilename": "example_capturing_fn_class.tsx_App_component_1_Q5VPv65lTg0",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "App_component_1_Q5VPv65lTg0",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= ./example_capturing_fn_class.tsx_App_component_XjsvSrS7k84.js (ENTRY POINT)==
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAGA,OAAO,MAAM,oBAAM,4EAcjB\"}")
+============================= test.tsx_App_component_ckEPmXZlub0.js (ENTRY POINT)==
 
 import { qrl } from "@qwik.dev/core";
-export const App_component_XjsvSrS7k84 = () => {
-	return qrl(i_App_component_1_Q5VPv65lTg0, "App_component_1_Q5VPv65lTg0");
+const i_w0t0o3QMovU = ()=>import("./test.tsx_App_component_1_w0t0o3QMovU");
+export const App_component_ckEPmXZlub0 = ()=>{
+    return /*#__PURE__*/ qrl(i_w0t0o3QMovU, "App_component_1_w0t0o3QMovU");
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;yCAG8B;IAO7B;AAOD\"}")
 /*
 {
-  "origin": "example_capturing_fn_class.tsx",
-  "name": "App_component_XjsvSrS7k84",
+  "origin": "test.tsx",
+  "name": "App_component_ckEPmXZlub0",
   "entry": null,
-  "displayName": "example_capturing_fn_class.tsx_App_component",
-  "hash": "XjsvSrS7k84",
-  "canonicalFilename": "example_capturing_fn_class.tsx_App_component_XjsvSrS7k84",
-  "path": ".",
+  "displayName": "test.tsx_App_component",
+  "hash": "ckEPmXZlub0",
+  "canonicalFilename": "test.tsx_App_component_ckEPmXZlub0",
+  "path": "",
   "extension": "js",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "App_component_XjsvSrS7k84",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    81,
+    246
   ]
 }
 */
-============================= example_capturing_fn_class.tsx ==
+============================= test.tsx_App_component_1_w0t0o3QMovU.js (ENTRY POINT)==
 
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_App_component_1_Q5VPv65lTg0 = () => import("./example_capturing_fn_class.tsx_App_component_1_Q5VPv65lTg0.js");
-const i_App_component_XjsvSrS7k84 = () => import("./example_capturing_fn_class.tsx_App_component_XjsvSrS7k84.js");
-export const App = componentQrl(qrl(i_App_component_XjsvSrS7k84, "App_component_XjsvSrS7k84"));
+import { _jsxSorted } from "@qwik.dev/core";
+export const App_component_1_w0t0o3QMovU = ()=>{
+    hola();
+    new Thing();
+    return /*#__PURE__*/ _jsxSorted("div", null, null, null, 3, "u6_0");
+};
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";2CAUU;IACR;IACA,IAAI;IACJ,qBACC,WAAC;AAEH\"}")
+/*
+{
+  "origin": "test.tsx",
+  "name": "App_component_1_w0t0o3QMovU",
+  "entry": null,
+  "displayName": "test.tsx_App_component_1",
+  "hash": "w0t0o3QMovU",
+  "canonicalFilename": "test.tsx_App_component_1_w0t0o3QMovU",
+  "path": "",
+  "extension": "js",
+  "parent": "App_component_ckEPmXZlub0",
+  "ctxKind": "function",
+  "ctxName": "$",
+  "captures": false,
+  "loc": [
+    177,
+    242
+  ]
+}
+*/
 == DIAGNOSTICS ==
 
 [
   {
     "category": "error",
     "code": "C02",
-    "file": "example_capturing_fn_class.tsx",
-    "message": "Reference to identifier 'hola' can not be used inside a Qrl($) scope because it's a function",
+    "file": "test.tsx",
+    "message": "Reference to identifier 'Thing' can not be used inside a Qrl($) scope because it's a function",
     "highlights": null,
     "suggestions": null,
     "scope": "optimizer"
@@ -106,8 +108,8 @@ None
   {
     "category": "error",
     "code": "C02",
-    "file": "example_capturing_fn_class.tsx",
-    "message": "Reference to identifier 'Thing' can not be used inside a Qrl($) scope because it's a class",
+    "file": "test.tsx",
+    "message": "Reference to identifier 'hola' can not be used inside a Qrl($) scope because it's a function",
     "highlights": null,
     "suggestions": null,
     "scope": "optimizer"

@@ -4,6 +4,7 @@ expression: output
 ---
 ==INPUT==
 
+
 import { component$ } from '@qwik.dev/core';
 
 const App = component$(() => {
@@ -24,75 +25,80 @@ export { Other as App };
 
 export default App;
 
-============================= example_export_issue.tsx ==
+============================= test.js ==
 
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_App_component_2SvcE6PQwpI = () => import("./example_export_issue.tsx_App_component_2SvcE6PQwpI.js");
-const i_Root_component_4IIe4SsgkuI = () => import("./example_export_issue.tsx_Root_component_4IIe4SsgkuI.js");
-const App = componentQrl(qrl(i_App_component_2SvcE6PQwpI, "App_component_2SvcE6PQwpI"));
-export const Root = componentQrl(qrl(i_Root_component_4IIe4SsgkuI, "Root_component_4IIe4SsgkuI", [App]));
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_ckEPmXZlub0 = ()=>import("./test.tsx_App_component_ckEPmXZlub0");
+const i_royhjYaCbYE = ()=>import("./test.tsx_Root_component_royhjYaCbYE");
+const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
+export const Root = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_royhjYaCbYE, "Root_component_royhjYaCbYE"));
 const Other = 12;
 export { Other as App };
 export default App;
+export { App as _auto_App };
 
 
-None
-============================= ./example_export_issue.tsx_App_component_2SvcE6PQwpI.js (ENTRY POINT)==
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;AAGA,MAAM,oBAAM;AAOZ,OAAO,MAAM,qBAAO,6EAIjB;AAEH,MAAM,QAAQ;AACd,SAAS,SAAS,GAAG,GAAG;AAExB,eAAe,IAAI\"}")
+============================= test.tsx_Root_component_royhjYaCbYE.js (ENTRY POINT)==
 
+import { _auto_App as App } from "./test";
 import { _jsxSorted } from "@qwik.dev/core";
-export const App_component_2SvcE6PQwpI = () => {
-	return /*#__PURE__*/ _jsxSorted("div", null, null, "hola", 3, null);
+export const Root_component_royhjYaCbYE = (props)=>{
+    return /*#__PURE__*/ _jsxSorted(App, null, null, null, 3, "u6_1");
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;0CAU+B,CAAC;IAC/B,qBACC,WAAC;AAEH\"}")
 /*
 {
-  "origin": "example_export_issue.tsx",
-  "name": "App_component_2SvcE6PQwpI",
+  "origin": "test.tsx",
+  "name": "Root_component_royhjYaCbYE",
   "entry": null,
-  "displayName": "example_export_issue.tsx_App_component",
-  "hash": "2SvcE6PQwpI",
-  "canonicalFilename": "example_export_issue.tsx_App_component_2SvcE6PQwpI",
-  "path": ".",
+  "displayName": "test.tsx_Root_component",
+  "hash": "royhjYaCbYE",
+  "canonicalFilename": "test.tsx_Root_component_royhjYaCbYE",
+  "path": "",
   "extension": "js",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "App_component_2SvcE6PQwpI",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    148,
+    192
+  ],
+  "paramNames": [
+    "props"
   ]
 }
 */
-============================= ./example_export_issue.tsx_Root_component_4IIe4SsgkuI.js (ENTRY POINT)==
+============================= test.tsx_App_component_ckEPmXZlub0.js (ENTRY POINT)==
 
 import { _jsxSorted } from "@qwik.dev/core";
-export const Root_component_4IIe4SsgkuI = (props) => {
-	const [App] = useLexicalScope();
-	return _jsxSorted(App, null, null, null, 3, null);
+export const App_component_ckEPmXZlub0 = ()=>{
+    return /*#__PURE__*/ _jsxSorted("div", null, null, "hola", 3, "u6_0");
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";yCAGuB;IACtB,qBACC,WAAC,mBAAI;AAEP\"}")
 /*
 {
-  "origin": "example_export_issue.tsx",
-  "name": "Root_component_4IIe4SsgkuI",
+  "origin": "test.tsx",
+  "name": "App_component_ckEPmXZlub0",
   "entry": null,
-  "displayName": "example_export_issue.tsx_Root_component",
-  "hash": "4IIe4SsgkuI",
-  "canonicalFilename": "example_export_issue.tsx_Root_component_4IIe4SsgkuI",
-  "path": ".",
+  "displayName": "test.tsx_App_component",
+  "hash": "ckEPmXZlub0",
+  "canonicalFilename": "test.tsx_App_component_ckEPmXZlub0",
+  "path": "",
   "extension": "js",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "Root_component_4IIe4SsgkuI",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    71,
+    112
   ]
 }
 */

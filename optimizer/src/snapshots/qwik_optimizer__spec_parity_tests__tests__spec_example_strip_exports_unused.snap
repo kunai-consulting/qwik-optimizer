@@ -4,6 +4,7 @@ expression: output
 ---
 ==INPUT==
 
+
 import { component$ } from '@qwik.dev/core';
 import mongodb from 'mongodb';
 
@@ -20,44 +21,43 @@ export default component$(()=> {
 	return <div>cmp</div>
 });
 
-============================= example_strip_exports_unused.tsx ==
+============================= test.tsx ==
 
-import { componentQrl, qrl } from "@qwik.dev/core";
-import mongodb from "mongodb";
-const i_component_P0VfB0aGF34 = () => import("./example_strip_exports_unused.tsx_component_P0VfB0aGF34.js");
-export const onGet = () => {
-	const data = mongodb.collection.whatever;
-	return { body: { data } };
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
+export const onGet = ()=>{
+    throw "Symbol removed by Qwik Optimizer, it can not be called from current platform";
 };
-export default componentQrl(qrl(i_component_P0VfB0aGF34, "component_P0VfB0aGF34"));
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
 
 
-None
-============================= ./example_strip_exports_unused.tsx_component_P0VfB0aGF34.js (ENTRY POINT)==
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;aAIa;;;AASb,6BAAe,6EAEZ\"}")
+============================= test.tsx_test_component_LUXeXe0DQrg.tsx (ENTRY POINT)==
 
-export const component_P0VfB0aGF34 = () => {
-	return <div>cmp</div>;
+export const test_component_LUXeXe0DQrg = ()=>{
+    return <div>cmp</div>;
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"0CAa0B;IACzB,QAAQ,IAAI,GAAG,EAAE;AAClB\"}")
 /*
 {
-  "origin": "example_strip_exports_unused.tsx",
-  "name": "component_P0VfB0aGF34",
+  "origin": "test.tsx",
+  "name": "test_component_LUXeXe0DQrg",
   "entry": null,
-  "displayName": "example_strip_exports_unused.tsx_component",
-  "hash": "P0VfB0aGF34",
-  "canonicalFilename": "example_strip_exports_unused.tsx_component_P0VfB0aGF34",
-  "path": ".",
-  "extension": "js",
+  "displayName": "test.tsx_test_component",
+  "hash": "LUXeXe0DQrg",
+  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
+  "path": "",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "component_P0VfB0aGF34",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    215,
+    246
   ]
 }
 */

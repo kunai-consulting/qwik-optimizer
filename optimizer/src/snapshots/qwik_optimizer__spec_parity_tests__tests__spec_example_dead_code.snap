@@ -4,6 +4,7 @@ expression: output
 ---
 ==INPUT==
 
+
 import { component$ } from '@qwik.dev/core';
 import { deps } from 'deps';
 
@@ -18,76 +19,47 @@ export const Foo = component$(({foo}) => {
 	);
 })
 
-============================= ./example_dead_code.tsx_Foo_component_useMount_bckiP6BHXl4.js (ENTRY POINT)==
+============================= test.tsx_Foo_component_HTDRsvUbLiE.tsx (ENTRY POINT)==
 
-import { deps } from "deps";
-export const Foo_component_useMount_bckiP6BHXl4 = () => {
-	if (false) {
-		deps();
-	}
+export const Foo_component_HTDRsvUbLiE = (_rawProps)=>{
+    useMount$(()=>{});
+    return <div/>;
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"yCAI8B;IAC7B,UAAU,KAIV;IACA,QACE;AAEH\"}")
 /*
 {
-  "origin": "example_dead_code.tsx",
-  "name": "Foo_component_useMount_bckiP6BHXl4",
+  "origin": "test.tsx",
+  "name": "Foo_component_HTDRsvUbLiE",
   "entry": null,
-  "displayName": "example_dead_code.tsx_Foo_component_useMount",
-  "hash": "bckiP6BHXl4",
-  "canonicalFilename": "example_dead_code.tsx_Foo_component_useMount_bckiP6BHXl4",
-  "path": ".",
-  "extension": "js",
+  "displayName": "test.tsx_Foo_component",
+  "hash": "HTDRsvUbLiE",
+  "canonicalFilename": "test.tsx_Foo_component_HTDRsvUbLiE",
+  "path": "",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "Foo_component_useMount_bckiP6BHXl4",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    107,
+    199
+  ],
+  "paramNames": [
+    "_rawProps"
   ]
 }
 */
-============================= ./example_dead_code.tsx_Foo_component_yiE4DocFe28.js (ENTRY POINT)==
+============================= test.tsx ==
 
-import { qrl, useMountQrl } from "@qwik.dev/core";
-export const Foo_component_yiE4DocFe28 = ({ foo }) => {
-	useMountQrl(qrl(i_Foo_component_useMount_bckiP6BHXl4, "Foo_component_useMount_bckiP6BHXl4"));
-	return <div />;
-};
-
-
-None
-/*
-{
-  "origin": "example_dead_code.tsx",
-  "name": "Foo_component_yiE4DocFe28",
-  "entry": null,
-  "displayName": "example_dead_code.tsx_Foo_component",
-  "hash": "yiE4DocFe28",
-  "canonicalFilename": "example_dead_code.tsx_Foo_component_yiE4DocFe28",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "Foo_component_yiE4DocFe28",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= example_dead_code.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Foo_component_useMount_bckiP6BHXl4 = () => import("./example_dead_code.tsx_Foo_component_useMount_bckiP6BHXl4.js");
-const i_Foo_component_yiE4DocFe28 = () => import("./example_dead_code.tsx_Foo_component_yiE4DocFe28.js");
-export const Foo = componentQrl(qrl(i_Foo_component_yiE4DocFe28, "Foo_component_yiE4DocFe28"));
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_HTDRsvUbLiE = ()=>import("./test.tsx_Foo_component_HTDRsvUbLiE");
+export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_HTDRsvUbLiE, "Foo_component_HTDRsvUbLiE"));
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAIA,OAAO,MAAM,oBAAM,4EASjB\"}")
 == DIAGNOSTICS ==
 
 []

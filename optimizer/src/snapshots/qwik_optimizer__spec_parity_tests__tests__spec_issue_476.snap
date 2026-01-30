@@ -4,6 +4,7 @@ expression: output
 ---
 ==INPUT==
 
+
 import { Counter } from "./counter.tsx";
 
 export const Root = () => {
@@ -20,23 +21,23 @@ export const Root = () => {
 	);
 };
 
-============================= issue_476.tsx ==
+============================= test.tsx ==
 
 import { Counter } from "./counter.tsx";
-export const Root = () => {
-	return <html>
+export const Root = ()=>{
+    return <html>
 			<head>
-				<meta charset="utf-8" />
+				<meta charset="utf-8"/>
 				<title>Qwik Blank App</title>
 			</head>
 			<body>
-				<Counter initial={3} />
+				<Counter initial={3}/>
 			</body>
 		</html>;
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"AACA,SAAS,OAAO,QAAQ,gBAAgB;AAExC,OAAO,MAAM,OAAO;IACnB,QACE,KAAK;GACL,CAAC,KAAK;IACL,CAAC,KAAK,QAAQ,SAAU;IACxB,CAAC,MAAM,cAAc,EAAE,MAAM;GAC9B,EAAE,KAAK;GACP,CAAC,KAAK;IACL,CAAC,QAAQ,SAAS,IAAK;GACxB,EAAE,KAAK;EACR,EAAE;AAEJ,EAAE\"}")
 == DIAGNOSTICS ==
 
 []

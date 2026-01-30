@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-==INPUT==
+
 
 import { component$ } from '@qwik.dev/core';
 
@@ -13,42 +13,70 @@ export default component$(() => {
 	);
 });
 
+
+============================= src/components/mongo/404.tsx__404_component_div_on_click_cQ5G4wKj1Ho.tsx (ENTRY POINT)==
+
+export const _404_component_div_on_click_cQ5G4wKj1Ho = ()=>console.log(mongodb);
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/src/components/mongo/404.tsx\"],\"names\":[],\"mappings\":\"uDAKiB,IAAM,QAAQ,GAAG,CAAC\"}")
+/*
+{
+  "origin": "src/components/mongo/404.tsx",
+  "name": "_404_component_div_on_click_cQ5G4wKj1Ho",
+  "entry": null,
+  "displayName": "404.tsx__404_component_div_on_click",
+  "hash": "cQ5G4wKj1Ho",
+  "canonicalFilename": "404.tsx__404_component_div_on_click_cQ5G4wKj1Ho",
+  "path": "src/components/mongo",
+  "extension": "tsx",
+  "parent": "_404_component_zRvoWc98eqo",
+  "ctxKind": "eventHandler",
+  "ctxName": "onClick$",
+  "captures": false,
+  "loc": [
+    109,
+    135
+  ]
+}
+*/
 ============================= src/components/mongo/404.tsx ==
 
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_component_div_onClick = () => import("./404.tsx.js");
-const i_component_fw9Bo3UeA0o = () => import("./404.tsx_component_fw9Bo3UeA0o.js");
-export default componentQrl(qrl(i_component_fw9Bo3UeA0o, "component_fw9Bo3UeA0o"));
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_zRvoWc98eqo = ()=>import("./404.tsx__404_component_zRvoWc98eqo");
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_zRvoWc98eqo, "_404_component_zRvoWc98eqo"));
 
 
-None
-============================= ./src/components/mongo/404.tsx_component_fw9Bo3UeA0o.js (ENTRY POINT)==
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/src/components/mongo/404.tsx\"],\"names\":[],\"mappings\":\";;;AAGA,6BAAe,6EAKZ\"}")
+============================= src/components/mongo/404.tsx__404_component_zRvoWc98eqo.tsx (ENTRY POINT)==
 
 import { qrl } from "@qwik.dev/core";
-export const component_fw9Bo3UeA0o = () => {
-	return <div on:click={qrl(i_component_div_onClick, "component_div_onClick")}>
+const i_cQ5G4wKj1Ho = ()=>import("./404.tsx__404_component_div_on_click_cQ5G4wKj1Ho");
+export const _404_component_zRvoWc98eqo = ()=>{
+    return <div on:click={/*#__PURE__*/ qrl(i_cQ5G4wKj1Ho, "_404_component_div_on_click_cQ5G4wKj1Ho")}>
 		</div>;
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/src/components/mongo/404.tsx\"],\"names\":[],\"mappings\":\";;0CAG0B;IACzB,QACE,IAAI,uFAAsC;EAC3C,EAAE;AAEJ\"}")
 /*
 {
   "origin": "src/components/mongo/404.tsx",
-  "name": "component_fw9Bo3UeA0o",
+  "name": "_404_component_zRvoWc98eqo",
   "entry": null,
-  "displayName": "404.tsx_component",
-  "hash": "fw9Bo3UeA0o",
-  "canonicalFilename": "404.tsx_component_fw9Bo3UeA0o",
-  "path": "./src/components/mongo",
-  "extension": "js",
+  "displayName": "404.tsx__404_component",
+  "hash": "zRvoWc98eqo",
+  "canonicalFilename": "404.tsx__404_component_zRvoWc98eqo",
+  "path": "src/components/mongo",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "component_fw9Bo3UeA0o",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    74,
+    152
   ]
 }
 */

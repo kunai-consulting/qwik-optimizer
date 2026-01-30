@@ -4,43 +4,47 @@ expression: output
 ---
 ==INPUT==
 
+
 import { $, component$ } from '@qwik.dev/core';
 export const sym1 = $((ctx) => console.log("1"));
 
-============================= example_6.tsx ==
+============================= test.tsx_sym1_aXUrPXX5Lak.tsx (ENTRY POINT)==
 
-import { qrl } from "@qwik.dev/core";
-const i_sym1_RcEqzwBgJ9Y = () => import("./example_6.tsx_sym1_RcEqzwBgJ9Y.js");
-export const sym1 = qrl(i_sym1_RcEqzwBgJ9Y, "sym1_RcEqzwBgJ9Y");
+export const sym1_aXUrPXX5Lak = (ctx)=>console.log("1");
 
 
-None
-============================= ./example_6.tsx_sym1_RcEqzwBgJ9Y.js (ENTRY POINT)==
-
-export const sym1_RcEqzwBgJ9Y = (ctx) => console.log("1");
-
-
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"gCAEsB,CAAC,MAAQ,QAAQ,GAAG,CAAC\"}")
 /*
 {
-  "origin": "example_6.tsx",
-  "name": "sym1_RcEqzwBgJ9Y",
+  "origin": "test.tsx",
+  "name": "sym1_aXUrPXX5Lak",
   "entry": null,
-  "displayName": "example_6.tsx_sym1",
-  "hash": "RcEqzwBgJ9Y",
-  "canonicalFilename": "example_6.tsx_sym1_RcEqzwBgJ9Y",
-  "path": ".",
-  "extension": "js",
+  "displayName": "test.tsx_sym1",
+  "hash": "aXUrPXX5Lak",
+  "canonicalFilename": "test.tsx_sym1_aXUrPXX5Lak",
+  "path": "",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "sym1_RcEqzwBgJ9Y",
+  "ctxName": "$",
   "captures": false,
   "loc": [
-    0,
-    0
+    72,
+    97
+  ],
+  "paramNames": [
+    "ctx"
   ]
 }
 */
+============================= test.tsx ==
+
+import { qrl } from "@qwik.dev/core";
+const i_aXUrPXX5Lak = ()=>import("./test.tsx_sym1_aXUrPXX5Lak");
+export const sym1 = /*#__PURE__*/ qrl(i_aXUrPXX5Lak, "sym1_aXUrPXX5Lak");
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;AAEA,OAAO,MAAM,4DAAoC\"}")
 == DIAGNOSTICS ==
 
 []

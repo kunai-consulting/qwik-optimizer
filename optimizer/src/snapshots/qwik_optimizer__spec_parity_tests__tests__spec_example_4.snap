@@ -4,6 +4,7 @@ expression: output
 ---
 ==INPUT==
 
+
 import { $, component$ } from '@qwik.dev/core';
 export function App() {
 	const Header = component$(() => {
@@ -15,74 +16,78 @@ export function App() {
 	return Header;
 }
 
-============================= ./example_4.tsx_App_Header_component_fyc0O3FxmAw.js (ENTRY POINT)==
+============================= test.tsx_App_Header_component_B9F3YeqcO1w.tsx (ENTRY POINT)==
 
 import { qrl } from "@qwik.dev/core";
-export const App_Header_component_fyc0O3FxmAw = () => {
-	console.log("mount");
-	return <div onClick={qrl(i_App_Header_component_div_onClick_BF5LfTjlx04, "App_Header_component_div_onClick_BF5LfTjlx04")} />;
+const i_aO7uI7Iw6oQ = ()=>import("./test.tsx_App_Header_component_div_onClick_aO7uI7Iw6oQ");
+export const App_Header_component_B9F3YeqcO1w = ()=>{
+    console.log("mount");
+    return <div onClick={/*#__PURE__*/ qrl(i_aO7uI7Iw6oQ, "App_Header_component_div_onClick_aO7uI7Iw6oQ")}/>;
 };
 
 
-None
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;gDAG2B;IACzB,QAAQ,GAAG,CAAC;IACZ,QACE,IAAI;AAEP\"}")
 /*
 {
-  "origin": "example_4.tsx",
-  "name": "App_Header_component_fyc0O3FxmAw",
+  "origin": "test.tsx",
+  "name": "App_Header_component_B9F3YeqcO1w",
   "entry": null,
-  "displayName": "example_4.tsx_App_Header_component",
-  "hash": "fyc0O3FxmAw",
-  "canonicalFilename": "example_4.tsx_App_Header_component_fyc0O3FxmAw",
-  "path": ".",
-  "extension": "js",
+  "displayName": "test.tsx_App_Header_component",
+  "hash": "B9F3YeqcO1w",
+  "canonicalFilename": "test.tsx_App_Header_component_B9F3YeqcO1w",
+  "path": "",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "App_Header_component_fyc0O3FxmAw",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    101,
+    200
   ]
 }
 */
-============================= example_4.tsx ==
+============================= test.tsx_App_Header_component_div_onClick_aO7uI7Iw6oQ.tsx (ENTRY POINT)==
 
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_App_Header_component_div_onClick_BF5LfTjlx04 = () => import("./example_4.tsx_App_Header_component_div_onClick_BF5LfTjlx04.js");
-const i_App_Header_component_fyc0O3FxmAw = () => import("./example_4.tsx_App_Header_component_fyc0O3FxmAw.js");
+export const App_Header_component_div_onClick_aO7uI7Iw6oQ = (ctx)=>console.log(ctx);
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"4DAMmB,CAAC,MAAQ,QAAQ,GAAG,CAAC\"}")
+/*
+{
+  "origin": "test.tsx",
+  "name": "App_Header_component_div_onClick_aO7uI7Iw6oQ",
+  "entry": null,
+  "displayName": "test.tsx_App_Header_component_div_onClick",
+  "hash": "aO7uI7Iw6oQ",
+  "canonicalFilename": "test.tsx_App_Header_component_div_onClick_aO7uI7Iw6oQ",
+  "path": "",
+  "extension": "tsx",
+  "parent": "App_Header_component_B9F3YeqcO1w",
+  "ctxKind": "function",
+  "ctxName": "$",
+  "captures": false,
+  "loc": [
+    163,
+    188
+  ],
+  "paramNames": [
+    "ctx"
+  ]
+}
+*/
+============================= test.tsx ==
+
+import { componentQrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core";
+const i_B9F3YeqcO1w = ()=>import("./test.tsx_App_Header_component_B9F3YeqcO1w");
 export function App() {
-	const Header = componentQrl(qrl(i_App_Header_component_fyc0O3FxmAw, "App_Header_component_fyc0O3FxmAw"));
-	return Header;
+    const Header = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_B9F3YeqcO1w, "App_Header_component_B9F3YeqcO1w"));
+    return Header;
 }
 
 
-None
-============================= ./example_4.tsx_App_Header_component_div_onClick_BF5LfTjlx04.js (ENTRY POINT)==
-
-export const App_Header_component_div_onClick_BF5LfTjlx04 = (ctx) => console.log(ctx);
-
-
-None
-/*
-{
-  "origin": "example_4.tsx",
-  "name": "App_Header_component_div_onClick_BF5LfTjlx04",
-  "entry": null,
-  "displayName": "example_4.tsx_App_Header_component_div_onClick",
-  "hash": "BF5LfTjlx04",
-  "canonicalFilename": "example_4.tsx_App_Header_component_div_onClick_BF5LfTjlx04",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "App_Header_component_div_onClick_BF5LfTjlx04",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAEA,OAAO,SAAS;IACf,MAAM,uBAAS;IAMf,OAAO;AACR\"}")
 == DIAGNOSTICS ==
 
 []

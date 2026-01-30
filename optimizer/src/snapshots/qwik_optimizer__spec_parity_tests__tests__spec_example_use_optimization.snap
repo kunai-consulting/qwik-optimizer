@@ -4,6 +4,7 @@ expression: output
 ---
 ==INPUT==
 
+
 import { $, component$, useTask$ } from '@qwik.dev/core';
 import { CONST } from 'const';
 export const Works = component$((props) => {
@@ -19,47 +20,21 @@ export const Works = component$((props) => {
 	);
 });
 
-============================= example_use_optimization.tsx ==
+============================= test.jsx ==
 
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Works_component_GR9jralazbs = () => import("./example_use_optimization.tsx_Works_component_GR9jralazbs.js");
-export const Works = componentQrl(qrl(i_Works_component_GR9jralazbs, "Works_component_GR9jralazbs"));
-
-
-None
-============================= ./example_use_optimization.tsx_Works_component_GR9jralazbs.js (ENTRY POINT)==
-
-export const Works_component_GR9jralazbs = (props) => {
-	const { countNested } = useStore({ value: { count: 0 } }).value;
-	const countNested2 = countNested;
-	const { hello } = countNested2;
-	const bye = hello.bye;
-	const { ciao } = bye.italian;
-	return <div ciao={ciao}>{foo}</div>;
-};
+import { componentQrl } from "@qwik.dev/core";
+import { inlinedQrl } from "@qwik.dev/core";
+export const Works = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl((props)=>{
+    const store = useStore({
+        value: {
+            count: 0
+        }
+    });
+    return <div ciao={store.value.countNested.hello.bye.italian.ciao}>{foo}</div>;
+}, "Works_component_t45qL4vNGv0"));
 
 
-None
-/*
-{
-  "origin": "example_use_optimization.tsx",
-  "name": "Works_component_GR9jralazbs",
-  "entry": "entry_segments",
-  "displayName": "example_use_optimization.tsx_Works_component",
-  "hash": "GR9jralazbs",
-  "canonicalFilename": "example_use_optimization.tsx_Works_component_GR9jralazbs",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "Works_component_GR9jralazbs",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;AAGA,OAAO,MAAM,sBAAQ,sCAAW,CAAC;IAChC,MAAM,QAAgB,SAAS;QAAC,OAAM;YAAC,OAAM;QAAC;IAAC;IAO/C,QACE,IAAI,MAJS,AADH,MAHsC,MAA3C,YAEA,MACW,GAAG,CACF,OAAO,CAAnB,OAIa,MAAM;AAE3B,mCAAG\"}")
 == DIAGNOSTICS ==
 
 []

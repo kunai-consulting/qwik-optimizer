@@ -4,6 +4,7 @@ expression: output
 ---
 ==INPUT==
 
+
 import { component$ as Component, $ as onRender, useStore, wrap, useEffect } from '@qwik.dev/core';
 
 
@@ -21,109 +22,45 @@ export const App = component$((props) => {
 	));
 });
 
-============================= ./example_missing_custom_inlined_functions.tsx_App_component_1_D70utzYiwQM.js (ENTRY POINT)==
+============================= test.js ==
 
+import { _wrapProp } from "@qwik.dev/core";
 import { _jsxSorted } from "@qwik.dev/core";
-export const App_component_1_D70utzYiwQM = () => {
-	const [state] = useLexicalScope();
-	return /*#__PURE__*/ _jsxSorted("div", null, null, state.count, 1, null);
+import { useStore, useEffect } from '@qwik.dev/core';
+export const useMemo$ = (qrt)=>{
+    useEffect(qrt);
 };
+export const App = component$((props)=>{
+    const state = useStore({
+        count: 0
+    });
+    useMemo$(()=>{
+        console.log(state.count);
+    });
+    return $(()=>/*#__PURE__*/ _jsxSorted("div", null, null, _wrapProp(state, "count"), 3, "u6_0"));
+});
 
 
-None
-/*
-{
-  "origin": "example_missing_custom_inlined_functions.tsx",
-  "name": "App_component_1_D70utzYiwQM",
-  "entry": null,
-  "displayName": "example_missing_custom_inlined_functions.tsx_App_component_1",
-  "hash": "D70utzYiwQM",
-  "canonicalFilename": "example_missing_custom_inlined_functions.tsx_App_component_1_D70utzYiwQM",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "App_component_1_D70utzYiwQM",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= ./example_missing_custom_inlined_functions.tsx_App_component_useMemo_jvO9s7EZUaU.js (ENTRY POINT)==
-
-export const App_component_useMemo_jvO9s7EZUaU = () => {
-	const [state] = useLexicalScope();
-	console.log(state.count);
-};
-
-
-None
-/*
-{
-  "origin": "example_missing_custom_inlined_functions.tsx",
-  "name": "App_component_useMemo_jvO9s7EZUaU",
-  "entry": null,
-  "displayName": "example_missing_custom_inlined_functions.tsx_App_component_useMemo",
-  "hash": "jvO9s7EZUaU",
-  "canonicalFilename": "example_missing_custom_inlined_functions.tsx_App_component_useMemo_jvO9s7EZUaU",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "App_component_useMemo_jvO9s7EZUaU",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= example_missing_custom_inlined_functions.tsx ==
-
-import { componentQrl, qrl, useEffect } from "@qwik.dev/core";
-const i_App_component_useMemo_jvO9s7EZUaU = () => import("./example_missing_custom_inlined_functions.tsx_App_component_useMemo_jvO9s7EZUaU.js");
-const i_App_component_1_D70utzYiwQM = () => import("./example_missing_custom_inlined_functions.tsx_App_component_1_D70utzYiwQM.js");
-const i_App_component_B8OmZlkJeO4 = () => import("./example_missing_custom_inlined_functions.tsx_App_component_B8OmZlkJeO4.js");
-export const useMemo$ = (qrt) => {
-	useEffect(qrt);
-};
-export const App = componentQrl(qrl(i_App_component_B8OmZlkJeO4, "App_component_B8OmZlkJeO4"));
-
-
-None
-============================= ./example_missing_custom_inlined_functions.tsx_App_component_B8OmZlkJeO4.js (ENTRY POINT)==
-
-import { qrl, useMemoQrl, useStore } from "@qwik.dev/core";
-export const App_component_B8OmZlkJeO4 = (props) => {
-	const state = useStore({ count: 0 });
-	useMemoQrl(qrl(i_App_component_useMemo_jvO9s7EZUaU, "App_component_useMemo_jvO9s7EZUaU", [state]));
-	return qrl(i_App_component_1_D70utzYiwQM, "App_component_1_D70utzYiwQM", [state]);
-};
-
-
-None
-/*
-{
-  "origin": "example_missing_custom_inlined_functions.tsx",
-  "name": "App_component_B8OmZlkJeO4",
-  "entry": null,
-  "displayName": "example_missing_custom_inlined_functions.tsx_App_component",
-  "hash": "B8OmZlkJeO4",
-  "canonicalFilename": "example_missing_custom_inlined_functions.tsx_App_component_B8OmZlkJeO4",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "App_component_B8OmZlkJeO4",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;AACA,SAAiD,QAAQ,EAAQ,SAAS,QAAQ,iBAAiB;AAGnG,OAAO,MAAM,WAAW,CAAC;IACxB,UAAU;AACX,EAAE;AAEF,OAAO,MAAM,MAAM,WAAW,CAAC;IAC9B,MAAM,QAAQ,SAAS;QAAC,OAAO;IAAC;IAChC,SAAS;QACR,QAAQ,GAAG,CAAC,MAAM,KAAK;IACxB;IACA,OAAO,EAAE,kBACR,WAAC,6BAAK;AAER,GAAG\"}")
 == DIAGNOSTICS ==
 
-[]
+[
+  {
+    "category": "error",
+    "code": "C05",
+    "file": "test.tsx",
+    "message": "Found 'useMemo$' but did not find the corresponding 'useMemoQrl' exported in the same file. Please check that it is exported and spelled correctly",
+    "highlights": [
+      {
+        "lo": 241,
+        "hi": 249,
+        "startLine": 11,
+        "startCol": 5,
+        "endLine": 11,
+        "endCol": 12
+      }
+    ],
+    "suggestions": null,
+    "scope": "optimizer"
+  }
+]

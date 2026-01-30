@@ -4,6 +4,7 @@ expression: output
 ---
 ==INPUT==
 
+
 import { component$ } from '@qwik.dev/core';
 
 export const Issue3795 = component$(() => {
@@ -16,47 +17,27 @@ export const Issue3795 = component$(() => {
 	)
 	});
 
-============================= example_optimization_issue_3795.tsx ==
+============================= test.js ==
 
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Issue3795_component_TM6XuigdMPg = () => import("./example_optimization_issue_3795.tsx_Issue3795_component_TM6XuigdMPg.js");
-export const Issue3795 = componentQrl(qrl(i_Issue3795_component_TM6XuigdMPg, "Issue3795_component_TM6XuigdMPg"));
-
-
-None
-============================= ./example_optimization_issue_3795.tsx_Issue3795_component_TM6XuigdMPg.js (ENTRY POINT)==
-
+import { componentQrl } from "@qwik.dev/core";
 import { _jsxSorted } from "@qwik.dev/core";
-export const Issue3795_component_TM6XuigdMPg = () => {
-	let base = "foo";
-	const firstAssignment = base;
-	base += "bar";
-	const secondAssignment = base;
-	return /*#__PURE__*/ _jsxSorted("div", null, { id: "issue-3795-result" }, [firstAssignment, secondAssignment], 1, null);
-};
+import { inlinedQrl } from "@qwik.dev/core";
+export const Issue3795 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(()=>{
+    let base = "foo";
+    const firstAssignment = base;
+    base += "bar";
+    const secondAssignment = base;
+    return /*#__PURE__*/ _jsxSorted("div", null, {
+        id: "issue-3795-result"
+    }, [
+        firstAssignment,
+        " ",
+        secondAssignment
+    ], 1, "u6_0");
+}, "Issue3795_component_wsE8beycatI"));
 
 
-None
-/*
-{
-  "origin": "example_optimization_issue_3795.tsx",
-  "name": "Issue3795_component_TM6XuigdMPg",
-  "entry": "entry_segments",
-  "displayName": "example_optimization_issue_3795.tsx_Issue3795_component",
-  "hash": "TM6XuigdMPg",
-  "canonicalFilename": "example_optimization_issue_3795.tsx_Issue3795_component_TM6XuigdMPg",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "Issue3795_component_TM6XuigdMPg",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAGA,OAAO,MAAM,0BAAY,sCAAW;IACnC,IAAI,OAAO;IACX,MAAM,kBAAkB;IACxB,QAAQ;IACR,MAAM,mBAAmB;IACzB,qBACC,WAAC;QAAI,IAAG;;QAAqB;QAAgB;QAAE;;AAEhD,uCAAG\"}")
 == DIAGNOSTICS ==
 
 []
