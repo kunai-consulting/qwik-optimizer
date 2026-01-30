@@ -5529,4 +5529,286 @@ export const Interactive = component$(() => {
             Some(&"Utils".to_string())
         );
     }
+
+    // =============================================================
+    // SSR Integration Tests (SSR-01 through SSR-05)
+    // =============================================================
+
+    #[test]
+    fn test_ssr_01_is_server_replacement_server_build() {
+        // SSR-01: isServer const replacement - server build
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let code = r#"
+import { isServer } from '@qwik.dev/core/build';
+export const serverCheck = isServer;
+"#;
+        let source = Source::from_source(code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default()
+            .with_transpile_jsx(true)
+            .with_is_server(true);
+        let result = transform(source, options).expect("transform failed");
+        let output = &result.optimized_app.body;
+
+        // isServer should be replaced with true for server build
+        assert!(
+            output.contains("= true"),
+            "SSR-01: isServer should be 'true' in server build, got: {}",
+            output
+        );
+    }
+
+    #[test]
+    fn test_ssr_01_is_server_replacement_client_build() {
+        // SSR-01: isServer const replacement - client build
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let code = r#"
+import { isServer } from '@qwik.dev/core/build';
+export const serverCheck = isServer;
+"#;
+        let source = Source::from_source(code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default()
+            .with_transpile_jsx(true)
+            .with_is_server(false);
+        let result = transform(source, options).expect("transform failed");
+        let output = &result.optimized_app.body;
+
+        // isServer should be replaced with false for client build
+        assert!(
+            output.contains("= false"),
+            "SSR-01: isServer should be 'false' in client build, got: {}",
+            output
+        );
+    }
+
+    #[test]
+    fn test_ssr_02_is_dev_replacement_dev_mode() {
+        // SSR-02: isDev const replacement - dev mode
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let code = r#"
+import { isDev } from '@qwik.dev/core/build';
+export const devCheck = isDev;
+"#;
+        let source = Source::from_source(code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let mut options = TransformOptions::default().with_transpile_jsx(true);
+        options.target = Target::Dev; // Dev mode
+        let result = transform(source, options).expect("transform failed");
+        let output = &result.optimized_app.body;
+
+        // isDev should be replaced with true for dev mode
+        assert!(
+            output.contains("= true"),
+            "SSR-02: isDev should be 'true' in dev mode, got: {}",
+            output
+        );
+    }
+
+    #[test]
+    fn test_ssr_02_is_dev_replacement_prod_mode() {
+        // SSR-02: isDev const replacement - prod mode
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let code = r#"
+import { isDev } from '@qwik.dev/core/build';
+export const devCheck = isDev;
+"#;
+        let source = Source::from_source(code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let mut options = TransformOptions::default().with_transpile_jsx(true);
+        options.target = Target::Prod; // Prod mode
+        let result = transform(source, options).expect("transform failed");
+        let output = &result.optimized_app.body;
+
+        // isDev should be replaced with false for prod mode
+        assert!(
+            output.contains("= false"),
+            "SSR-02: isDev should be 'false' in prod mode, got: {}",
+            output
+        );
+    }
+
+    #[test]
+    fn test_ssr_03_server_only_code_marked_for_elimination() {
+        // SSR-03: Server-only code can be eliminated by bundler
+        // The optimizer replaces constants; bundler does DCE
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let code = r#"
+import { isServer } from '@qwik.dev/core/build';
+if (isServer) {
+    serverOnlyFunction();
+}
+"#;
+        let source = Source::from_source(code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default()
+            .with_transpile_jsx(true)
+            .with_is_server(false); // Client build
+        let result = transform(source, options).expect("transform failed");
+        let output = &result.optimized_app.body;
+
+        // isServer replaced with false makes if(false) { ... } which bundler can eliminate
+        assert!(
+            output.contains("if (false)"),
+            "SSR-03: Server-only code should have 'if (false)' for bundler DCE, got: {}",
+            output
+        );
+    }
+
+    #[test]
+    fn test_ssr_04_client_only_code_marked_for_elimination() {
+        // SSR-04: Client-only code can be eliminated by bundler
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let code = r#"
+import { isBrowser } from '@qwik.dev/core/build';
+if (isBrowser) {
+    clientOnlyFunction();
+}
+"#;
+        let source = Source::from_source(code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default()
+            .with_transpile_jsx(true)
+            .with_is_server(true); // Server build
+        let result = transform(source, options).expect("transform failed");
+        let output = &result.optimized_app.body;
+
+        // isBrowser replaced with false makes if(false) { ... } which bundler can eliminate
+        assert!(
+            output.contains("if (false)"),
+            "SSR-04: Client-only code should have 'if (false)' for bundler DCE, got: {}",
+            output
+        );
+    }
+
+    #[test]
+    fn test_ssr_05_mode_specific_combined() {
+        // SSR-05: Mode-specific transformations (combined test)
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let code = r#"
+import { isServer, isBrowser, isDev } from '@qwik.dev/core/build';
+const server = isServer;
+const browser = isBrowser;
+const dev = isDev;
+"#;
+        let source = Source::from_source(code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let mut options = TransformOptions::default().with_transpile_jsx(true);
+        options.target = Target::Dev;
+        options.is_server = true;
+        let result = transform(source, options).expect("transform failed");
+        let output = &result.optimized_app.body;
+
+        // Server + Dev mode: isServer=true, isBrowser=false, isDev=true
+        assert!(
+            output.contains("server = true"),
+            "SSR-05: isServer should be true, got: {}",
+            output
+        );
+        assert!(
+            output.contains("browser = false"),
+            "SSR-05: isBrowser should be false (inverse of isServer), got: {}",
+            output
+        );
+        assert!(
+            output.contains("dev = true"),
+            "SSR-05: isDev should be true in Dev mode, got: {}",
+            output
+        );
+    }
+
+    #[test]
+    fn test_ssr_skip_in_test_mode() {
+        // Const replacement should be skipped in Test mode (matching SWC behavior)
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let code = r#"
+import { isServer } from '@qwik.dev/core/build';
+export const serverCheck = isServer;
+"#;
+        let source = Source::from_source(code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let mut options = TransformOptions::default().with_transpile_jsx(true);
+        options.target = Target::Test;
+        let result = transform(source, options).expect("transform failed");
+        let output = &result.optimized_app.body;
+
+        // In Test mode, isServer should NOT be replaced - remains as identifier
+        assert!(
+            output.contains("isServer") && !output.contains("= true") && !output.contains("= false"),
+            "In Test mode, const replacement should be skipped, got: {}",
+            output
+        );
+    }
+
+    #[test]
+    fn test_ssr_aliased_import() {
+        // Aliased imports should work
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let code = r#"
+import { isServer as s, isBrowser as b } from '@qwik.dev/core/build';
+const x = s;
+const y = b;
+"#;
+        let source = Source::from_source(code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default()
+            .with_transpile_jsx(true)
+            .with_is_server(true);
+        let result = transform(source, options).expect("transform failed");
+        let output = &result.optimized_app.body;
+
+        assert!(
+            output.contains("x = true"),
+            "Aliased isServer should be replaced, got: {}",
+            output
+        );
+        assert!(
+            output.contains("y = false"),
+            "Aliased isBrowser should be replaced, got: {}",
+            output
+        );
+    }
+
+    #[test]
+    fn test_ssr_qwik_core_source() {
+        // isServer can be imported from @qwik.dev/core (not just /build)
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let code = r#"
+import { isServer } from '@qwik.dev/core';
+export const check = isServer;
+"#;
+        let source = Source::from_source(code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default()
+            .with_transpile_jsx(true)
+            .with_is_server(true);
+        let result = transform(source, options).expect("transform failed");
+        let output = &result.optimized_app.body;
+
+        assert!(
+            output.contains("= true"),
+            "isServer from @qwik.dev/core should be replaced, got: {}",
+            output
+        );
+    }
 }

@@ -70,30 +70,35 @@ impl<'a> ConstReplacerVisitor<'a> {
         is_dev: bool,
         import_tracker: &ImportTracker,
     ) -> Self {
+        let is_server_ident = import_tracker
+            .get_imported_local(IS_SERVER, QWIK_CORE_BUILD)
+            .cloned();
+        let is_browser_ident = import_tracker
+            .get_imported_local(IS_BROWSER, QWIK_CORE_BUILD)
+            .cloned();
+        let is_dev_ident = import_tracker
+            .get_imported_local(IS_DEV, QWIK_CORE_BUILD)
+            .cloned();
+        let is_core_server_ident = import_tracker
+            .get_imported_local(IS_SERVER, QWIK_CORE_SOURCE)
+            .cloned();
+        let is_core_browser_ident = import_tracker
+            .get_imported_local(IS_BROWSER, QWIK_CORE_SOURCE)
+            .cloned();
+        let is_core_dev_ident = import_tracker
+            .get_imported_local(IS_DEV, QWIK_CORE_SOURCE)
+            .cloned();
+
         Self {
             allocator,
             is_server,
             is_dev,
-            // Check @qwik.dev/core/build imports
-            is_server_ident: import_tracker
-                .get_imported_local(IS_SERVER, QWIK_CORE_BUILD)
-                .cloned(),
-            is_browser_ident: import_tracker
-                .get_imported_local(IS_BROWSER, QWIK_CORE_BUILD)
-                .cloned(),
-            is_dev_ident: import_tracker
-                .get_imported_local(IS_DEV, QWIK_CORE_BUILD)
-                .cloned(),
-            // Check @qwik.dev/core imports (both sources are valid)
-            is_core_server_ident: import_tracker
-                .get_imported_local(IS_SERVER, QWIK_CORE_SOURCE)
-                .cloned(),
-            is_core_browser_ident: import_tracker
-                .get_imported_local(IS_BROWSER, QWIK_CORE_SOURCE)
-                .cloned(),
-            is_core_dev_ident: import_tracker
-                .get_imported_local(IS_DEV, QWIK_CORE_SOURCE)
-                .cloned(),
+            is_server_ident,
+            is_browser_ident,
+            is_dev_ident,
+            is_core_server_ident,
+            is_core_browser_ident,
+            is_core_dev_ident,
         }
     }
 
@@ -144,11 +149,7 @@ impl<'a> ConstReplacerVisitor<'a> {
                 self.visit_expression(&mut expr_stmt.expression);
             }
             Statement::VariableDeclaration(decl) => {
-                for declarator in decl.declarations.iter_mut() {
-                    if let Some(init) = &mut declarator.init {
-                        self.visit_expression(init);
-                    }
-                }
+                self.visit_variable_declaration(decl);
             }
             Statement::IfStatement(if_stmt) => {
                 self.visit_expression(&mut if_stmt.test);
@@ -169,11 +170,7 @@ impl<'a> ConstReplacerVisitor<'a> {
                 if let Some(init) = &mut for_stmt.init {
                     match init {
                         ast::ForStatementInit::VariableDeclaration(decl) => {
-                            for declarator in decl.declarations.iter_mut() {
-                                if let Some(init) = &mut declarator.init {
-                                    self.visit_expression(init);
-                                }
-                            }
+                            self.visit_variable_declaration(decl);
                         }
                         _ => {}
                     }
@@ -203,7 +200,99 @@ impl<'a> ConstReplacerVisitor<'a> {
                     }
                 }
             }
+            Statement::ExportNamedDeclaration(export) => {
+                self.visit_export_named_declaration(export);
+            }
+            Statement::ExportDefaultDeclaration(export) => {
+                self.visit_export_default_declaration(export);
+            }
             _ => {}
+        }
+    }
+
+    /// Visit a variable declaration
+    fn visit_variable_declaration(&mut self, decl: &mut ast::VariableDeclaration<'a>) {
+        for declarator in decl.declarations.iter_mut() {
+            if let Some(init) = &mut declarator.init {
+                self.visit_expression(init);
+            }
+        }
+    }
+
+    /// Visit an export named declaration: `export const foo = isServer;`
+    fn visit_export_named_declaration(&mut self, export: &mut ast::ExportNamedDeclaration<'a>) {
+        if let Some(decl) = &mut export.declaration {
+            match decl {
+                ast::Declaration::VariableDeclaration(var_decl) => {
+                    self.visit_variable_declaration(var_decl);
+                }
+                ast::Declaration::FunctionDeclaration(fn_decl) => {
+                    if let Some(body) = &mut fn_decl.body {
+                        for s in body.statements.iter_mut() {
+                            self.visit_statement(s);
+                        }
+                    }
+                }
+                ast::Declaration::ClassDeclaration(class_decl) => {
+                    // Visit class body for any expressions
+                    for element in class_decl.body.body.iter_mut() {
+                        match element {
+                            ast::ClassElement::PropertyDefinition(prop) => {
+                                if let Some(value) = &mut prop.value {
+                                    self.visit_expression(value);
+                                }
+                            }
+                            ast::ClassElement::MethodDefinition(method) => {
+                                if let Some(body) = &mut method.value.body {
+                                    for s in body.statements.iter_mut() {
+                                        self.visit_statement(s);
+                                    }
+                                }
+                            }
+                            _ => {}
+                        }
+                    }
+                }
+                _ => {}
+            }
+        }
+    }
+
+    /// Visit an export default declaration: `export default isServer;`
+    fn visit_export_default_declaration(&mut self, export: &mut ast::ExportDefaultDeclaration<'a>) {
+        match &mut export.declaration {
+            ast::ExportDefaultDeclarationKind::FunctionDeclaration(fn_decl) => {
+                if let Some(body) = &mut fn_decl.body {
+                    for s in body.statements.iter_mut() {
+                        self.visit_statement(s);
+                    }
+                }
+            }
+            ast::ExportDefaultDeclarationKind::ClassDeclaration(class_decl) => {
+                for element in class_decl.body.body.iter_mut() {
+                    match element {
+                        ast::ClassElement::PropertyDefinition(prop) => {
+                            if let Some(value) = &mut prop.value {
+                                self.visit_expression(value);
+                            }
+                        }
+                        ast::ClassElement::MethodDefinition(method) => {
+                            if let Some(body) = &mut method.value.body {
+                                for s in body.statements.iter_mut() {
+                                    self.visit_statement(s);
+                                }
+                            }
+                        }
+                        _ => {}
+                    }
+                }
+            }
+            _ => {
+                // For expressions: `export default isServer;`
+                if let Some(expr) = export.declaration.as_expression_mut() {
+                    self.visit_expression(expr);
+                }
+            }
         }
     }
 
