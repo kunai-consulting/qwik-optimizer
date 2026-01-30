@@ -1,28 +1,11 @@
 //! Prop constness detection for JSX transformation.
-//!
-//! This module provides `is_const_expr` which determines whether a JSX prop
-//! value expression is constant (can be hoisted) or variable (must be evaluated
-//! at runtime). This follows the SWC optimizer's ConstCollector pattern.
-//!
-//! A prop is considered variable if it:
-//! - Calls a function
-//! - Accesses a member (obj.prop or obj\[key\])
-//! - References a variable that is not an import, export, or const variable
 
 use crate::transform::{IdPlusType, IdentType};
 use oxc_ast::ast;
 use oxc_ast_visit::Visit;
 use oxc_semantic::ScopeFlags;
 
-/// Check if an expression is constant (can be hoisted to constProps).
-///
-/// # Arguments
-/// * `expr` - The expression to analyze
-/// * `import_by_symbol` - Map of imported symbols for import checking
-/// * `decl_stack` - Stack of declaration scopes for const variable checking
-///
-/// # Returns
-/// `true` if the expression is constant, `false` if it's variable
+/// Returns true if expression is constant and can be hoisted to constProps.
 pub fn is_const_expr(
     expr: &ast::Expression<'_>,
     import_names: &std::collections::HashSet<String>,
@@ -33,13 +16,9 @@ pub fn is_const_expr(
     collector.is_const
 }
 
-/// Collects constness information while visiting an expression AST.
 struct ConstCollector<'a> {
-    /// Set of imported symbol names
     import_names: &'a std::collections::HashSet<String>,
-    /// Stack of declaration scopes for const variable checking
     decl_stack: &'a [Vec<IdPlusType>],
-    /// Result: true if expression is const, false if variable
     pub is_const: bool,
 }
 
@@ -55,7 +34,6 @@ impl<'a> ConstCollector<'a> {
         }
     }
 
-    /// Check if an identifier is a const variable in the declaration stack
     fn is_const_var(&self, name: &str) -> bool {
         for scope in self.decl_stack.iter() {
             for (id, ident_type) in scope.iter() {

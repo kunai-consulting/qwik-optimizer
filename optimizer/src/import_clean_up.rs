@@ -5,7 +5,6 @@ use oxc_semantic::{SemanticBuilder, SemanticBuilderReturn};
 use oxc_traverse::{traverse_mut, Traverse, TraverseCtx};
 use std::collections::{BTreeMap, BTreeSet};
 
-/// This struct is used to clean up unused imports in the AST.
 pub(crate) struct ImportCleanUp<'a> {
     imports: BTreeMap<&'a str, BTreeSet<ImportId>>,
 }
@@ -41,14 +40,7 @@ impl ImportCleanUp<'_> {
             })
     }
 
-    /// This function renames the Qwik imports to the new qwik.dev imports.
-    ///
-    /// The following import sources are renamed:
-    /// - `@builder.io/qwik-city/...` -> `@qwik.dev/router/...`
-    /// - `@builder.io/qwik-react/...` -> `@qwik.dev/react/...`
-    /// - `@builder.io/qwik/...` -> `@qwik.dev/core/...`
-    ///
-    /// Otherwise, it returns the original import source string.
+    /// Renames @builder.io/qwik imports to @qwik.dev equivalents.
     pub fn rename_qwik_imports<T: AsRef<str>>(source: T) -> String {
         let source = source.as_ref();
         const BUILDER_QWIK_CITY: &str = "@builder.io/qwik-city";

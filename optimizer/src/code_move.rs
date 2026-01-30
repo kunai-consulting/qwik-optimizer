@@ -1,11 +1,4 @@
-//! Code movement and useLexicalScope injection for QRL segment files.
-//!
-//! When a QRL captures variables from its enclosing scope, the segment file needs
-//! to import those variables via `useLexicalScope()`. This module provides the AST
-//! transformations that inject `const [a, b, c] = useLexicalScope();` at the start
-//! of extracted functions.
-//!
-//! Ported from SWC's code_move.rs (lines 175-290).
+//! useLexicalScope injection for QRL segment files.
 
 use crate::collector::Id;
 use oxc_allocator::{Allocator, Box as OxcBox, Vec as OxcVec};
@@ -14,21 +7,7 @@ use oxc_ast::AstBuilder;
 use oxc_ast::NONE;
 use oxc_span::SPAN;
 
-/// Transform a function expression to inject useLexicalScope at the start.
-///
-/// This is the main entry point for code movement transformation. It dispatches
-/// based on expression type:
-/// - Arrow functions: Converts expression body to block body if needed, then prepends useLexicalScope
-/// - Function expressions: Prepends useLexicalScope to the body
-/// - Other expressions: Returns unchanged
-///
-/// # Arguments
-/// * `expr` - The function expression to transform
-/// * `scoped_idents` - Variables captured from enclosing scope (sorted)
-/// * `allocator` - OXC allocator for AST construction
-///
-/// # Returns
-/// The transformed expression with useLexicalScope injection
+/// Injects useLexicalScope at the start of arrow/function expressions.
 pub fn transform_function_expr<'a>(
     expr: Expression<'a>,
     scoped_idents: &[Id],
@@ -53,10 +32,6 @@ pub fn transform_function_expr<'a>(
     }
 }
 
-/// Transform an arrow function to inject useLexicalScope.
-///
-/// - For expression body `() => expr`: Converts to `() => { const [a, b] = useLexicalScope(); return expr; }`
-/// - For block body `() => { ... }`: Prepends `const [a, b] = useLexicalScope();` to the body
 fn transform_arrow_fn<'a>(
     mut arrow: ArrowFunctionExpression<'a>,
     scoped_idents: &[Id],
@@ -84,9 +59,6 @@ fn transform_arrow_fn<'a>(
     arrow
 }
 
-/// Transform a function expression to inject useLexicalScope.
-///
-/// Prepends `const [a, b] = useLexicalScope();` to the function body.
 fn transform_fn<'a>(
     mut func: Function<'a>,
     scoped_idents: &[Id],
@@ -109,14 +81,7 @@ fn transform_fn<'a>(
     func
 }
 
-/// Create the `const [a, b, c] = useLexicalScope();` statement.
-///
-/// Generates an AST node for:
-/// ```javascript
-/// const [a, b, c] = useLexicalScope();
-/// ```
-///
-/// The destructuring pattern contains the sorted list of captured identifiers.
+/// Creates `const [a, b, c] = useLexicalScope();` statement.
 pub fn create_use_lexical_scope<'a>(
     scoped_idents: &[Id],
     ast: &AstBuilder<'a>,
@@ -155,7 +120,6 @@ pub fn create_use_lexical_scope<'a>(
     Statement::VariableDeclaration(ast.alloc(var_decl))
 }
 
-/// Create a return statement: `return expr;`
 #[allow(dead_code)]
 pub fn create_return_stmt<'a>(expr: Expression<'a>, ast: &AstBuilder<'a>) -> Statement<'a> {
     ast.statement_return(SPAN, Some(expr))

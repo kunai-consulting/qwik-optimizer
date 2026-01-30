@@ -1,17 +1,4 @@
-//! Props destructuring transformation for Qwik component$ functions.
-//!
-//! This module handles the transformation of destructured props parameters in component$ functions
-//! from ObjectPattern (`({ message, id })`) to a simple `_rawProps` parameter. The original prop
-//! names are tracked in an identifiers map for later replacement with property access expressions.
-//!
-//! Example transformation:
-//! ```javascript
-//! // Input
-//! component$(({ message, id }) => { ... })
-//!
-//! // Output (parameter only - identifier replacement is a separate pass)
-//! component$((_rawProps) => { ... })
-//! ```
+//! Props destructuring transformation for component$ functions.
 
 use oxc_allocator::{Allocator, CloneIn};
 use oxc_ast::ast::*;
@@ -21,38 +8,18 @@ use std::collections::HashMap;
 
 use crate::collector::Id;
 
-/// Props destructuring transformation state.
-///
-/// Tracks component$ identifier and stores mappings from local variable names
-/// to their original property keys for later identifier replacement.
+/// Transforms destructured props to _rawProps parameter with identifier mappings.
 pub struct PropsDestructuring<'a> {
-    /// Track component$ identifier from imports (optional, can be None if we already know it's component$)
     component_ident: Option<Id>,
-
-    /// Map original identifier to property key string for _rawProps.key access.
-    /// Key: (local_name, scope_id), Value: property key string
     pub identifiers: HashMap<Id, String>,
-
-    /// Allocator reference for AST building
     #[allow(dead_code)]
     allocator: &'a Allocator,
-
-    /// Name of the _rawProps parameter (for uniqueness if needed)
     raw_props_name: &'static str,
-
-    /// Rest identifier if pattern has ...rest
     pub rest_id: Option<Id>,
-
-    /// List of prop keys to omit from rest (all explicit props)
     pub omit_keys: Vec<String>,
 }
 
 impl<'a> PropsDestructuring<'a> {
-    /// Create a new PropsDestructuring instance.
-    ///
-    /// # Arguments
-    /// * `allocator` - OXC allocator for AST node creation
-    /// * `component_ident` - Optional component$ identifier to check against
     pub fn new(allocator: &'a Allocator, component_ident: Option<Id>) -> Self {
         Self {
             component_ident,
@@ -64,7 +31,6 @@ impl<'a> PropsDestructuring<'a> {
         }
     }
 
-    /// Check if CallExpression is a component$ call.
     #[allow(dead_code)]
     fn is_component_call(&self, call: &CallExpression) -> bool {
         if let Some(ref comp_id) = self.component_ident {
@@ -83,16 +49,7 @@ impl<'a> PropsDestructuring<'a> {
         }
     }
 
-    /// Transform component props parameter from destructured to _rawProps.
-    ///
-    /// This method:
-    /// 1. Checks if the first parameter is an ObjectPattern
-    /// 2. Extracts property mappings (local_name -> prop_key)
-    /// 3. Replaces the ObjectPattern with a simple _rawProps BindingIdentifier
-    /// 4. Stores the mappings in self.identifiers for later use
-    ///
-    /// # Returns
-    /// `true` if transformation was applied, `false` otherwise.
+    /// Returns true if transformation was applied.
     pub fn transform_component_props<'b>(
         &mut self,
         arrow: &mut ArrowFunctionExpression<'b>,
@@ -174,7 +131,6 @@ impl<'a> PropsDestructuring<'a> {
         false
     }
 
-    /// Extract property key as string from PropertyKey.
     fn extract_prop_key(&self, key: &PropertyKey) -> Option<String> {
         match key {
             PropertyKey::StaticIdentifier(ident) => Some(ident.name.to_string()),
@@ -183,7 +139,6 @@ impl<'a> PropsDestructuring<'a> {
         }
     }
 
-    /// Extract binding name and scope from BindingPattern.
     fn extract_binding_name(&self, pattern: &BindingPattern) -> Option<Id> {
         match pattern {
             BindingPattern::BindingIdentifier(ident) => {
@@ -195,11 +150,7 @@ impl<'a> PropsDestructuring<'a> {
         }
     }
 
-    /// Generate: const rest = _restProps(_rawProps, ["prop1", "prop2", ...])
-    /// Or if no omit keys: const rest = _restProps(_rawProps)
-    ///
-    /// # Returns
-    /// `Some(Statement)` if rest pattern is present, `None` otherwise.
+    /// Generates rest props statement if rest pattern is present.
     pub fn generate_rest_stmt<'b>(&self, builder: &AstBuilder<'b>) -> Option<Statement<'b>> {
         let rest_id = self.rest_id.as_ref()?;
 

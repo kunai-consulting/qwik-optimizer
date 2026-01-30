@@ -1,23 +1,4 @@
-//! Inlined function generation for _fnSignal
-//!
-//! This module handles the conversion of computed expressions involving
-//! signals/stores/props into _fnSignal calls with hoisted arrow functions.
-//!
-//! When an expression uses a signal/store/prop as an object in a member expression
-//! (e.g., `signal.value`, `store.count`, `_rawProps.field`), it needs to be wrapped
-//! in `_fnSignal` for reactive updates.
-//!
-//! # Example
-//!
-//! ```javascript
-//! // Input
-//! <div value={store.count + 1}>
-//!
-//! // Output (with hoisted function)
-//! const _hf0 = (p0) => p0.count + 1;
-//! const _hf0_str = "p0.count+1";
-//! <div value={_fnSignal(_hf0, [store], _hf0_str)}>
-//! ```
+//! Inlined function generation for _fnSignal reactive expressions.
 
 use crate::collector::Id;
 use oxc_allocator::{Allocator, Box as OxcBox, CloneIn};
@@ -28,29 +9,17 @@ use oxc_codegen::{Codegen, CodegenOptions};
 use oxc_span::SPAN;
 use std::collections::HashMap;
 
-/// Maximum expression length before skipping _fnSignal wrapping
 pub const MAX_EXPR_LENGTH: usize = 150;
 
-/// Result of converting an expression to _fnSignal
 pub struct InlinedFnResult<'a> {
-    /// The hoisted arrow function (e.g., (p0, p1) => p1 + p0.fromProps)
     pub hoisted_fn: ArrowFunctionExpression<'a>,
-    /// Name for the hoisted function (e.g., "_hf0")
     pub hoisted_name: String,
-    /// The string representation (e.g., "p1+p0.fromProps")
     pub hoisted_str: String,
-    /// The capture array element identifiers (variable names to capture)
     pub captures: Vec<Id>,
-    /// Whether expression is const
     pub is_const: bool,
 }
 
-/// Check if expression should be wrapped in _fnSignal
-///
-/// Returns true if:
-/// - Expression is not an arrow function
-/// - Expression has scoped identifiers
-/// - Any scoped identifier is used as the object of a member expression
+/// Returns true if expression should be wrapped in _fnSignal.
 pub fn should_wrap_in_fn_signal(expr: &Expression, scoped_idents: &[Id]) -> bool {
     // Don't wrap arrow functions
     if matches!(expr, Expression::ArrowFunctionExpression(_)) {
@@ -73,7 +42,6 @@ pub fn should_wrap_in_fn_signal(expr: &Expression, scoped_idents: &[Id]) -> bool
     used_as_object
 }
 
-/// Check if any scoped identifier is used as object in member expression OR in a call
 fn is_used_as_object_or_call(expr: &Expression, scoped_idents: &[Id]) -> (bool, bool) {
     let mut checker = ObjectUsageChecker {
         identifiers: scoped_idents,
@@ -86,7 +54,6 @@ fn is_used_as_object_or_call(expr: &Expression, scoped_idents: &[Id]) -> (bool, 
     (checker.used_as_object, checker.used_as_call)
 }
 
-/// Visitor to check if identifiers are used as objects in member expressions
 struct ObjectUsageChecker<'b> {
     identifiers: &'b [Id],
     used_as_object: bool,
@@ -140,14 +107,7 @@ impl<'a, 'b> Visit<'a> for ObjectUsageChecker<'b> {
     }
 }
 
-/// Convert expression to _fnSignal-ready result with hoisted function
-///
-/// Returns None if:
-/// - Expression is an arrow function
-/// - Expression has no scoped identifiers
-/// - No scoped identifier is used as object in member expression
-/// - Expression contains a call expression (can't serialize)
-/// - Rendered expression exceeds MAX_EXPR_LENGTH
+/// Converts expression to _fnSignal-ready result with hoisted function, or None if not applicable.
 pub fn convert_inlined_fn<'a>(
     expr: &Expression<'a>,
     scoped_idents: &[Id],
@@ -238,7 +198,6 @@ pub fn convert_inlined_fn<'a>(
     })
 }
 
-/// Render expression to minified string using OXC codegen
 fn render_expression(expr: &Expression) -> String {
     let codegen_options = CodegenOptions {
         minify: true,
@@ -253,7 +212,6 @@ fn render_expression(expr: &Expression) -> String {
     codegen.into_source_text()
 }
 
-/// Replace identifiers in expression AST with their mapped positional params
 fn replace_identifiers_in_expr<'a>(
     expr: Expression<'a>,
     ident_map: &HashMap<String, String>,
@@ -268,7 +226,6 @@ fn replace_identifiers_in_expr<'a>(
     replacer.replace_expression(expr)
 }
 
-/// Visitor that replaces identifiers with their mapped names
 struct IdentifierReplacer<'a, 'b> {
     ident_map: &'b HashMap<String, String>,
     builder: &'b AstBuilder<'a>,

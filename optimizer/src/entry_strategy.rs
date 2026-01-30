@@ -3,7 +3,6 @@ use serde::{Deserialize, Serialize};
 
 const ENTRY_SEGMENTS: &str = "entry_segments";
 
-// EntryStrategies
 #[derive(Debug, Serialize, Copy, Clone, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub enum EntryStrategy {
@@ -16,27 +15,12 @@ pub enum EntryStrategy {
     Smart,
 }
 
-/// Trait for determining entry points for QRL segments.
-///
-/// Entry strategies control how QRL segments are grouped into separate files.
-/// The `context` parameter is the `stack_ctxt` from TransformGenerator, containing
-/// the component hierarchy (names of variable declarations, functions, classes,
-/// JSX elements, and attributes encountered during traversal).
+/// Determines entry points for QRL segment grouping into separate files.
 pub trait EntryPolicy: Send + Sync {
-    /// Determines the entry file name for a segment.
-    ///
-    /// # Arguments
-    /// * `context` - The stack_ctxt containing the component hierarchy
-    /// * `segment` - The SegmentData with all QRL metadata (scoped_idents, ctx_kind, etc.)
-    ///
-    /// # Returns
-    /// * `Some(entry_name)` - Group this segment with the given entry name
-    /// * `None` - This segment gets its own file (no grouping)
+    /// Returns Some(entry_name) to group with that entry, or None for own file.
     fn get_entry_for_sym(&self, context: &[String], segment: &SegmentData) -> Option<String>;
 }
 
-/// Inline all QRLs into the same entry point.
-/// Used by EntryStrategy::Inline and EntryStrategy::Hoist.
 #[derive(Default, Clone)]
 pub struct InlineStrategy;
 
@@ -46,8 +30,6 @@ impl EntryPolicy for InlineStrategy {
     }
 }
 
-/// Put all QRLs into a single entry point.
-/// Used by EntryStrategy::Single.
 #[derive(Clone)]
 pub struct SingleStrategy {}
 
@@ -63,8 +45,6 @@ impl EntryPolicy for SingleStrategy {
     }
 }
 
-/// Each QRL segment gets its own file.
-/// Used by EntryStrategy::Segment and EntryStrategy::Hook.
 #[derive(Clone)]
 pub struct PerSegmentStrategy {}
 
@@ -80,9 +60,6 @@ impl EntryPolicy for PerSegmentStrategy {
     }
 }
 
-/// Group QRLs by their root component.
-/// All QRLs within the same component share an entry point.
-/// Used by EntryStrategy::Component.
 #[derive(Clone)]
 pub struct PerComponentStrategy {}
 
@@ -101,9 +78,6 @@ impl EntryPolicy for PerComponentStrategy {
     }
 }
 
-/// Smart grouping: event handlers without captures get their own files,
-/// other QRLs are grouped by component.
-/// Used by EntryStrategy::Smart.
 #[derive(Clone)]
 pub struct SmartStrategy {}
 

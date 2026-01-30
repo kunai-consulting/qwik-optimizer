@@ -1,11 +1,4 @@
 //! Identifier collector for QRL variable usage analysis.
-//!
-//! This module provides `IdentCollector` which traverses AST to identify
-//! which variables are referenced within QRL function bodies. This is
-//! essential for generating the `[captures]` array in `qrl()` calls.
-//!
-//! Additionally, provides `ExportInfo` and export collection for tracking
-//! module exports, used for segment file import generation.
 
 use std::collections::{HashMap, HashSet};
 
@@ -13,14 +6,9 @@ use oxc_ast::ast;
 use oxc_ast_visit::Visit;
 use oxc_semantic::ScopeId;
 
-/// Identifier type for OXC - (name, scope_id)
 pub type Id = (String, ScopeId);
 
-/// Information about a module export.
-///
-/// Used for segment file import generation - when QRL segment files
-/// reference symbols that are exports from the source file, those
-/// segments need to import from the source file.
+/// Information about a module export for segment file import generation.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, serde::Serialize)]
 pub struct ExportInfo {
     /// The local identifier name (the variable name in the source file)
@@ -34,31 +22,22 @@ pub struct ExportInfo {
     pub source: Option<String>,
 }
 
-/// Context for tracking whether we're in an expression or should skip collection.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum ExprOrSkip {
     Expr,
     Skip,
 }
 
-/// Collects all identifiers while visiting the AST.
-///
-/// Used to determine which variables are referenced in QRL expressions,
-/// enabling proper capture array generation.
+/// Collects identifiers referenced in QRL expressions for capture array generation.
 #[derive(Debug)]
 pub struct IdentCollector {
-    /// Collected local identifiers (variable references)
     pub local_idents: HashSet<Id>,
-    /// Whether JSX elements were encountered (need h import)
     pub use_h: bool,
-    /// Whether JSX fragments were encountered (need Fragment import)
     pub use_fragment: bool,
-    /// Context stack for tracking expression vs statement context
     expr_ctxt: Vec<ExprOrSkip>,
 }
 
 impl IdentCollector {
-    /// Create a new IdentCollector
     pub fn new() -> Self {
         Self {
             local_idents: HashSet::new(),
@@ -68,8 +47,7 @@ impl IdentCollector {
         }
     }
 
-    /// Get collected identifiers as a sorted vector.
-    /// Sorting ensures deterministic output for capture arrays.
+    /// Returns collected identifiers as a sorted vector for deterministic output.
     pub fn get_words(self) -> Vec<Id> {
         let mut local_idents: Vec<Id> = self.local_idents.into_iter().collect();
         local_idents.sort();
@@ -83,7 +61,6 @@ impl Default for IdentCollector {
     }
 }
 
-/// Builtin identifiers that should not be captured
 const BUILTINS: &[&str] = &["undefined", "NaN", "Infinity", "null"];
 
 impl<'a> Visit<'a> for IdentCollector {
@@ -149,16 +126,7 @@ impl<'a> Visit<'a> for IdentCollector {
     }
 }
 
-/// Collects all exports from a module's AST.
-///
-/// Returns a HashMap keyed by local name, where each entry contains
-/// the export information (local name, exported name, is_default, source).
-///
-/// Collects:
-/// - Named exports with declarations: `export const Foo = ...`
-/// - Named export lists: `export { foo, bar as baz }`
-/// - Default exports: `export default function ...`
-/// - Re-exports: `export { foo } from './other'`
+/// Collects all exports from a module's AST into a HashMap keyed by local name.
 pub fn collect_exports(program: &ast::Program) -> HashMap<String, ExportInfo> {
     let mut exports = HashMap::new();
 

@@ -1,42 +1,4 @@
-//! # SSR & Build Mode Const Replacement
-//!
-//! This module implements const replacement for SSR/build mode identifiers,
-//! satisfying the following requirements:
-//!
-//! - **SSR-01**: isServer const replaced correctly based on build target
-//! - **SSR-02**: isDev const replaced correctly based on build mode
-//! - **SSR-03**: Server-only code marked for elimination (if(false) pattern)
-//! - **SSR-04**: Client-only code marked for elimination (if(false) pattern)
-//! - **SSR-05**: Mode-specific transformations apply correctly
-//!
-//! ## How It Works
-//!
-//! 1. Imports are collected to track which local identifiers map to isServer/isBrowser/isDev
-//! 2. ConstReplacerVisitor replaces those identifiers with boolean literals
-//! 3. Downstream bundler (Vite/Rollup) performs dead code elimination on if(true)/if(false)
-//!
-//! ## Configuration
-//!
-//! - `TransformOptions.is_server`: true for server build, false for client build
-//! - `TransformOptions.target`: Dev/Prod/Lib/Test - affects isDev value
-//! - Const replacement is skipped in Test mode (matching SWC behavior)
-//!
-//! ## Example Transformation
-//!
-//! ```text
-//! // Input (server build, is_server=true)
-//! import { isServer } from '@qwik.dev/core/build';
-//! if (isServer) { serverOnlyCode(); }
-//!
-//! // Output
-//! if (true) { serverOnlyCode(); }
-//! // Bundler then eliminates the unreachable branch
-//! ```
-//!
-//! ## Supported Import Sources
-//!
-//! - `@qwik.dev/core/build` (primary source for build constants)
-//! - `@qwik.dev/core` (also supports these exports)
+//! SSR/build mode const replacement (isServer, isBrowser, isDev).
 
 use crate::component::{IS_BROWSER, IS_DEV, IS_SERVER, QWIK_CORE_BUILD, QWIK_CORE_SOURCE};
 use crate::transform::ImportTracker;
@@ -44,7 +6,6 @@ use oxc_allocator::{Allocator, Box as OxcBox};
 use oxc_ast::ast::{self, BooleanLiteral, Expression, Program, Statement};
 use oxc_span::SPAN;
 
-/// Which constant variable is being replaced
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum ConstVariable {
     IsServer,
@@ -53,39 +14,20 @@ enum ConstVariable {
     None,
 }
 
-/// Visitor that replaces isServer/isBrowser/isDev identifiers with boolean literals.
-///
-/// Tracks which local identifiers map to the build constants (handling aliased imports)
-/// and replaces them with the appropriate boolean value.
+/// Replaces isServer/isBrowser/isDev identifiers with boolean literals.
 pub struct ConstReplacerVisitor<'a> {
-    /// Reference to the allocator for creating AST nodes
     allocator: &'a Allocator,
-    /// Whether this is a server build
     pub is_server: bool,
-    /// Whether this is a development build
     pub is_dev: bool,
-    /// Local identifier for isServer from @qwik.dev/core/build
     is_server_ident: Option<String>,
-    /// Local identifier for isBrowser from @qwik.dev/core/build
     is_browser_ident: Option<String>,
-    /// Local identifier for isDev from @qwik.dev/core/build
     is_dev_ident: Option<String>,
-    /// Local identifier for isServer from @qwik.dev/core
     is_core_server_ident: Option<String>,
-    /// Local identifier for isBrowser from @qwik.dev/core
     is_core_browser_ident: Option<String>,
-    /// Local identifier for isDev from @qwik.dev/core
     is_core_dev_ident: Option<String>,
 }
 
 impl<'a> ConstReplacerVisitor<'a> {
-    /// Create a new ConstReplacerVisitor.
-    ///
-    /// # Arguments
-    /// * `allocator` - The OXC allocator for creating AST nodes
-    /// * `is_server` - Whether this is a server build (true) or client build (false)
-    /// * `is_dev` - Whether this is a development build
-    /// * `import_tracker` - Tracks imported identifiers for finding aliased imports
     pub fn new(
         allocator: &'a Allocator,
         is_server: bool,
@@ -146,7 +88,6 @@ impl<'a> ConstReplacerVisitor<'a> {
         ConstVariable::None
     }
 
-    /// Create a boolean literal expression with the given value
     fn make_bool_expr(&self, value: bool) -> Expression<'a> {
         Expression::BooleanLiteral(OxcBox::new_in(
             BooleanLiteral { span: SPAN, value },
@@ -154,14 +95,12 @@ impl<'a> ConstReplacerVisitor<'a> {
         ))
     }
 
-    /// Visit and transform a program in place
     pub fn visit_program(&mut self, program: &mut Program<'a>) {
         for stmt in program.body.iter_mut() {
             self.visit_statement(stmt);
         }
     }
 
-    /// Visit a statement and transform any expressions within
     fn visit_statement(&mut self, stmt: &mut Statement<'a>) {
         match stmt {
             Statement::ExpressionStatement(expr_stmt) => {
@@ -229,7 +168,6 @@ impl<'a> ConstReplacerVisitor<'a> {
         }
     }
 
-    /// Visit a variable declaration
     fn visit_variable_declaration(&mut self, decl: &mut ast::VariableDeclaration<'a>) {
         for declarator in decl.declarations.iter_mut() {
             if let Some(init) = &mut declarator.init {
@@ -238,7 +176,6 @@ impl<'a> ConstReplacerVisitor<'a> {
         }
     }
 
-    /// Visit an export named declaration: `export const foo = isServer;`
     fn visit_export_named_declaration(&mut self, export: &mut ast::ExportNamedDeclaration<'a>) {
         if let Some(decl) = &mut export.declaration {
             match decl {
@@ -277,7 +214,6 @@ impl<'a> ConstReplacerVisitor<'a> {
         }
     }
 
-    /// Visit an export default declaration: `export default isServer;`
     fn visit_export_default_declaration(&mut self, export: &mut ast::ExportDefaultDeclaration<'a>) {
         match &mut export.declaration {
             ast::ExportDefaultDeclarationKind::FunctionDeclaration(fn_decl) => {
@@ -315,7 +251,6 @@ impl<'a> ConstReplacerVisitor<'a> {
         }
     }
 
-    /// Visit an expression and replace const identifiers with boolean literals
     fn visit_expression(&mut self, expr: &mut Expression<'a>) {
         // Check if this expression is an identifier that should be replaced
         let const_var = match expr {
@@ -339,7 +274,6 @@ impl<'a> ConstReplacerVisitor<'a> {
         }
     }
 
-    /// Visit children of an expression
     fn visit_expression_children(&mut self, expr: &mut Expression<'a>) {
         match expr {
             Expression::ArrayExpression(arr) => {
