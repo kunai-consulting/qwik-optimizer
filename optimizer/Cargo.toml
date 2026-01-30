@@ -26,4 +26,5 @@ pathdiff = "0.2.1"
 [dev-dependencies]
 glob = "0.3.2"
 insta = { version = "1.42.1", features = ["yaml"] }
+similar = { version = "2.7", features = ["text"] }
 #biome_js_formatter = "0.5.7"

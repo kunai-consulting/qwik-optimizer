@@ -1010,6 +1010,7 @@ dependencies = [
  "pathdiff",
  "serde",
  "serde_json",
+ "similar",
  "thiserror",
 ]
 
