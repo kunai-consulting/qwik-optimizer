@@ -35,6 +35,8 @@ export const Child = component$(() => {
 
 import { componentQrl, qrl } from "@qwik.dev/core";
 const i_Child_component_mqGppPl3Vsw = () => import("./should_move_props_related_to_iteration_variables_to_var_props.tsx_Child_component_mqGppPl3Vsw.js");
+const _hf0 = (p0, p1) => p0.attributeInArray.counter;
+const _hf0_str = "p0.attributeInArray.counter";
 export const Child = componentQrl(qrl(i_Child_component_mqGppPl3Vsw, "Child_component_mqGppPl3Vsw"));
 
 
@@ -48,7 +50,7 @@ export const Child_component_mqGppPl3Vsw = () => {
 		return { data: [{ attributeInArray: { counter: globalThis.propsCounter++ } }, { attributeInArray: { counter: globalThis.propsCounter } }] };
 	});
 	return /*#__PURE__*/ _jsxSorted("div", null, null, propCounterWithNested.value.data.map((item, index) => {
-		return _jsxSorted(TestComponent, { counter: _fnSignal((p0, p1) => p0.attributeInArray.counter, [item, index], "p0.attributeInArray.counter") }, { logString: "Nested read through array" }, null, 3, index);
+		return _jsxSorted(TestComponent, { counter: _fnSignal(_hf0, [item, index], _hf0_str) }, { logString: "Nested read through array" }, null, 3, index);
 	}), 1, null);
 };
 

@@ -28,7 +28,7 @@ export const Foo_component_Cz0TozV0aEg = function() {
 	return /*#__PURE__*/ _jsxSorted("div", null, null, data.value.map((row) => /*#__PURE__*/ _jsxSorted("div", { on:click: qrl(i_Foo_component_div_map_div_onClick_aR80SEY5Guw, "Foo_component_div_map_div_onClick_aR80SEY5Guw") }, null, data2.value.map((item) => /*#__PURE__*/ _jsxSorted("p", { on:click: qrl(i_Foo_component_div_map_div_map_p_onClick_9unwgHJ0eJI, "Foo_component_div_map_div_map_p_onClick_9unwgHJ0eJI", [row]) }, null, [
 		row.value.id,
 		"-",
-		_fnSignal((p0) => p0.value.id, [item], "p0.value.id")
+		_fnSignal(_hf0, [item], _hf0_str)
 	], 1, null)), 1, null)), 1, null);
 };
 
@@ -116,6 +116,8 @@ import { componentQrl, qrl } from "@qwik.dev/core";
 const i_Foo_component_div_map_div_onClick_aR80SEY5Guw = () => import("./should_transform_nested_loops.tsx_Foo_component_div_map_div_onClick_aR80SEY5Guw.js");
 const i_Foo_component_div_map_div_map_p_onClick_9unwgHJ0eJI = () => import("./should_transform_nested_loops.tsx_Foo_component_div_map_div_map_p_onClick_9unwgHJ0eJI.js");
 const i_Foo_component_Cz0TozV0aEg = () => import("./should_transform_nested_loops.tsx_Foo_component_Cz0TozV0aEg.js");
+const _hf0 = (p0) => p0.value.id;
+const _hf0_str = "p0.value.id";
 componentQrl(qrl(i_Foo_component_Cz0TozV0aEg, "Foo_component_Cz0TozV0aEg"));
 
 

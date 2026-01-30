@@ -48,7 +48,7 @@ export const App_component_0Uh5oJsjbyw = () => {
 		} }
 	] };
 	return /*#__PURE__*/ _jsxSorted("table", null, null, data.value.map((row) => {
-		return /*#__PURE__*/ _jsxSorted("tr", { class: _fnSignal((p0) => p0.value.selected.value ? "danger" : "", [row], "p0.value.selected.value?`danger`:``") }, null, /*#__PURE__*/ _jsxSorted("td", null, null, _fnSignal((p0) => p0.value.id, [row], "p0.value.id"), 1, null), 3, _fnSignal((p0) => p0.value.id, [row], "p0.value.id"));
+		return /*#__PURE__*/ _jsxSorted("tr", { class: _fnSignal(_hf1, [row], _hf1_str) }, null, /*#__PURE__*/ _jsxSorted("td", null, null, _fnSignal(_hf2, [row], _hf2_str), 1, null), 3, _fnSignal(_hf0, [row], _hf0_str));
 	}), 1, null);
 };
 
@@ -78,6 +78,12 @@ None
 
 import { componentQrl, qrl } from "@qwik.dev/core";
 const i_App_component_0Uh5oJsjbyw = () => import("./hoisted_fn_signal_in_loop.tsx_App_component_0Uh5oJsjbyw.js");
+const _hf0 = (p0) => p0.value.id;
+const _hf0_str = "p0.value.id";
+const _hf1 = (p0) => p0.value.selected.value ? "danger" : "";
+const _hf1_str = "p0.value.selected.value?`danger`:``";
+const _hf2 = (p0) => p0.value.id;
+const _hf2_str = "p0.value.id";
 export const App = componentQrl(qrl(i_App_component_0Uh5oJsjbyw, "App_component_0Uh5oJsjbyw"));
 
 

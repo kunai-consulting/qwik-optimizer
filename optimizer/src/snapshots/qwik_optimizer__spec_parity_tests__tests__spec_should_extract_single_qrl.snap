@@ -89,6 +89,10 @@ import { componentQrl, qrl } from "@qwik.dev/core";
 const i_App_component_div_map_tr_td_a_onClick_Tpa0ws6BR1s = () => import("./should_extract_single_qrl.tsx_App_component_div_map_tr_td_a_onClick_Tpa0ws6BR1s.js");
 const i_App_component_div_map_tr_td_a_onClick_1_zZhyIRep0bs = () => import("./should_extract_single_qrl.tsx_App_component_div_map_tr_td_a_onClick_1_zZhyIRep0bs.js");
 const i_App_component_nrUmNRSfAfw = () => import("./should_extract_single_qrl.tsx_App_component_nrUmNRSfAfw.js");
+const _hf0 = (p0) => p0.value.selected.value ? "danger" : "";
+const _hf0_str = "p0.value.selected.value?`danger`:``";
+const _hf1 = (p0) => p0.value.id;
+const _hf1_str = "p0.value.id";
 export const App = componentQrl(qrl(i_App_component_nrUmNRSfAfw, "App_component_nrUmNRSfAfw"));
 
 
@@ -130,8 +134,8 @@ import { _fnSignal, _jsxSorted, qrl, useSignal } from "@qwik.dev/core";
 export const App_component_nrUmNRSfAfw = () => {
 	const data = useSignal([]);
 	const selectedItem = useSignal(null);
-	return /*#__PURE__*/ _jsxSorted("div", null, null, data.value.map((row) => /*#__PURE__*/ _jsxSorted("tr", { class: _fnSignal((p0) => p0.value.selected.value ? "danger" : "", [row], "p0.value.selected.value?`danger`:``") }, null, [
-		/*#__PURE__*/ _jsxSorted("td", null, { class: "col-md-1" }, _fnSignal((p0) => p0.value.id, [row], "p0.value.id"), 1, null),
+	return /*#__PURE__*/ _jsxSorted("div", null, null, data.value.map((row) => /*#__PURE__*/ _jsxSorted("tr", { class: _fnSignal(_hf0, [row], _hf0_str) }, null, [
+		/*#__PURE__*/ _jsxSorted("td", null, { class: "col-md-1" }, _fnSignal(_hf1, [row], _hf1_str), 1, null),
 		/*#__PURE__*/ _jsxSorted("td", null, { class: "col-md-4" }, /*#__PURE__*/ _jsxSorted("a", { on:click: qrl(i_App_component_div_map_tr_td_a_onClick_Tpa0ws6BR1s, "App_component_div_map_tr_td_a_onClick_Tpa0ws6BR1s", [selectedItem]) }, null, _wrapProp(row.value.label), 1, null), 3, null),
 		/*#__PURE__*/ _jsxSorted("td", null, { class: "col-md-1" }, /*#__PURE__*/ _jsxSorted("a", { on:click: qrl(i_App_component_div_map_tr_td_a_onClick_1_zZhyIRep0bs, "App_component_div_map_tr_td_a_onClick_1_zZhyIRep0bs", [data]) }, null, /*#__PURE__*/ _jsxSorted("span", null, { aria-hidden: "true" }, "x", 3, null), 3, null), 3, null),
 		/*#__PURE__*/ _jsxSorted("td", null, { class: "col-md-6" }, null, 3, null)

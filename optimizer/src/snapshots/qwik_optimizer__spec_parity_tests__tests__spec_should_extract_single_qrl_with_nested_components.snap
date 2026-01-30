@@ -20,7 +20,7 @@ import { _fnSignal, _jsxSorted, qrl } from "@qwik.dev/core";
 export const Foo_component_Inner_component_w18tmCTFVVo = (props) => {
 	const [data] = useLexicalScope();
 	const data = props.data;
-	return /*#__PURE__*/ _jsxSorted("div", null, null, data.value.map((item) => /*#__PURE__*/ _jsxSorted("p", { on:click: qrl(i_Foo_component_Inner_component_div_map_p_onClick_Xrv1cgBzIpg, "Foo_component_Inner_component_div_map_p_onClick_Xrv1cgBzIpg") }, null, _fnSignal((p0) => p0.value.id, [item], "p0.value.id"), 1, null)), 1, null);
+	return /*#__PURE__*/ _jsxSorted("div", null, null, data.value.map((item) => /*#__PURE__*/ _jsxSorted("p", { on:click: qrl(i_Foo_component_Inner_component_div_map_p_onClick_Xrv1cgBzIpg, "Foo_component_Inner_component_div_map_p_onClick_Xrv1cgBzIpg") }, null, _fnSignal(_hf0, [item], _hf0_str), 1, null)), 1, null);
 };
 
 
@@ -108,6 +108,8 @@ import { componentQrl, qrl } from "@qwik.dev/core";
 const i_Foo_component_Inner_component_div_map_p_onClick_Xrv1cgBzIpg = () => import("./should_extract_single_qrl_with_nested_components.tsx_Foo_component_Inner_component_div_map_p_onClick_Xrv1cgBzIpg.js");
 const i_Foo_component_Inner_component_w18tmCTFVVo = () => import("./should_extract_single_qrl_with_nested_components.tsx_Foo_component_Inner_component_w18tmCTFVVo.js");
 const i_Foo_component_vNuTEmVFTXE = () => import("./should_extract_single_qrl_with_nested_components.tsx_Foo_component_vNuTEmVFTXE.js");
+const _hf0 = (p0) => p0.value.id;
+const _hf0_str = "p0.value.id";
 componentQrl(qrl(i_Foo_component_vNuTEmVFTXE, "Foo_component_vNuTEmVFTXE"));
 
 

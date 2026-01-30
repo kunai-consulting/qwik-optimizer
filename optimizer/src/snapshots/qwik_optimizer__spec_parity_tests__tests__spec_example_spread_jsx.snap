@@ -41,6 +41,12 @@ export const RouterHead = component$(() => {
 
 import { componentQrl, qrl } from "@qwik.dev/core";
 const i_RouterHead_component_OZcRPueNFXg = () => import("./example_spread_jsx.tsx_RouterHead_component_OZcRPueNFXg.js");
+const _hf0 = (p0) => p0.key;
+const _hf0_str = "p0.key";
+const _hf1 = (p0) => p0.style;
+const _hf1_str = "p0.style";
+const _hf2 = (p0) => p0.key;
+const _hf2_str = "p0.key";
 /**
 * The RouterHead component is placed inside of the document `<head>` element.
 */
@@ -69,11 +75,11 @@ export const RouterHead_component_OZcRPueNFXg = () => {
 			href: "/favicon.svg"
 		}, null, 3, null),
 		head.meta.map((m) => /*#__PURE__*/ _jsxSplit("meta", { ..._getVarProps(m) }, _getConstProps(m), null, 0, null)),
-		head.links.map((l) => /*#__PURE__*/ _jsxSplit("link", { ..._getVarProps(l) }, _getConstProps(l), null, 0, _fnSignal((p0) => p0.key, [l], "p0.key"))),
+		head.links.map((l) => /*#__PURE__*/ _jsxSplit("link", { ..._getVarProps(l) }, _getConstProps(l), null, 0, _fnSignal(_hf0, [l], _hf0_str))),
 		head.styles.map((s) => /*#__PURE__*/ _jsxSplit("style", {
 			..._getVarProps(s.props),
-			dangerouslySetInnerHTML: _fnSignal((p0) => p0.style, [s], "p0.style")
-		}, _getConstProps(s.props), null, 0, _fnSignal((p0) => p0.key, [s], "p0.key")))
+			dangerouslySetInnerHTML: _fnSignal(_hf1, [s], _hf1_str)
+		}, _getConstProps(s.props), null, 0, _fnSignal(_hf2, [s], _hf2_str)))
 	], 1, null);
 };
 

@@ -78,7 +78,7 @@ export const App_component_p6uB2qXBgm4 = (props) => {
 		props,
 		state,
 		thing
-	]) }, null, _fnSignal((p0) => p0.name, [btn], "p0.name"), 1, null))], 1, null);
+	]) }, null, _fnSignal(_hf0, [btn], _hf0_str), 1, null))], 1, null);
 };
 
 
@@ -109,6 +109,8 @@ import { componentQrl, qrl, useStore } from "@qwik.dev/core";
 const i_App_component_div_onClick = () => import("./example_functional_component_2.tsx.js");
 const i_App_component_div_map_button_onClick_sbIqTncz8UU = () => import("./example_functional_component_2.tsx_App_component_div_map_button_onClick_sbIqTncz8UU.js");
 const i_App_component_p6uB2qXBgm4 = () => import("./example_functional_component_2.tsx_App_component_p6uB2qXBgm4.js");
+const _hf0 = (p0) => p0.name;
+const _hf0_str = "p0.name";
 export const useCounter = () => {
 	return useStore({ count: 0 });
 };

@@ -51,7 +51,7 @@ import { _fnSignal, _jsxSorted, qrl } from "@qwik.dev/core";
 export const Foo_component_Inner_component_0OVQjU18qVI = function(props) {
 	const [data] = useLexicalScope();
 	const data = props.data;
-	return /*#__PURE__*/ _jsxSorted("div", null, null, data.value.map((item) => /*#__PURE__*/ _jsxSorted("p", { on:click: qrl(i_Foo_component_Inner_component_div_map_p_onClick_aGRFeTx4Lfo, "Foo_component_Inner_component_div_map_p_onClick_aGRFeTx4Lfo") }, null, _fnSignal((p0) => p0.value.id, [item], "p0.value.id"), 1, null)), 1, null);
+	return /*#__PURE__*/ _jsxSorted("div", null, null, data.value.map((item) => /*#__PURE__*/ _jsxSorted("p", { on:click: qrl(i_Foo_component_Inner_component_div_map_p_onClick_aGRFeTx4Lfo, "Foo_component_Inner_component_div_map_p_onClick_aGRFeTx4Lfo") }, null, _fnSignal(_hf0, [item], _hf0_str), 1, null)), 1, null);
 };
 
 
@@ -82,6 +82,8 @@ import { componentQrl, qrl } from "@qwik.dev/core";
 const i_Foo_component_Inner_component_div_map_p_onClick_aGRFeTx4Lfo = () => import("./should_transform_component_with_normal_function.tsx_Foo_component_Inner_component_div_map_p_onClick_aGRFeTx4Lfo.js");
 const i_Foo_component_Inner_component_0OVQjU18qVI = () => import("./should_transform_component_with_normal_function.tsx_Foo_component_Inner_component_0OVQjU18qVI.js");
 const i_Foo_component_cwC20JPJrUs = () => import("./should_transform_component_with_normal_function.tsx_Foo_component_cwC20JPJrUs.js");
+const _hf0 = (p0) => p0.value.id;
+const _hf0_str = "p0.value.id";
 componentQrl(qrl(i_Foo_component_cwC20JPJrUs, "Foo_component_cwC20JPJrUs"));
 
 
