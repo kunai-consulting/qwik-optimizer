@@ -1,9 +1,4 @@
 //! Segment metadata for QRL code generation.
-//!
-//! This module provides `SegmentData` which captures the complete context of a QRL
-//! extraction - captured variables, parent segment, context kind, and all other
-//! metadata needed to generate segment files with proper imports and useLexicalScope
-//! injection.
 
 use std::path::PathBuf;
 
@@ -11,18 +6,12 @@ use serde::{Deserialize, Serialize};
 
 use crate::collector::{ExportInfo, Id};
 
-/// Indicates the context type of a QRL segment.
-///
-/// This enum distinguishes between different QRL usage contexts, which affects
-/// how the segment is processed and optimized.
+/// Context type of a QRL segment (Function, EventHandler, or JSXProp).
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord)]
 #[serde(rename_all = "camelCase")]
 pub enum SegmentKind {
-    /// Regular function QRL (e.g., `$(() => ...)`)
     Function,
-    /// Event handler QRL (e.g., `onClick$(() => ...)`)
     EventHandler,
-    /// JSX prop QRL (e.g., `prop$={...}`)
     JSXProp,
 }
 
@@ -33,21 +22,6 @@ impl Default for SegmentKind {
 }
 
 impl SegmentKind {
-    /// Determines the segment kind from a context name.
-    ///
-    /// - Names starting with "on" (case-sensitive) are treated as EventHandlers
-    /// - Otherwise treated as Function (JSXProp is determined by call site context)
-    ///
-    /// # Examples
-    ///
-    /// ```ignore
-    /// use qwik_optimizer::component::SegmentKind;
-    ///
-    /// assert_eq!(SegmentKind::from_ctx_name("onClick$"), SegmentKind::EventHandler);
-    /// assert_eq!(SegmentKind::from_ctx_name("onInput$"), SegmentKind::EventHandler);
-    /// assert_eq!(SegmentKind::from_ctx_name("component$"), SegmentKind::Function);
-    /// assert_eq!(SegmentKind::from_ctx_name("$"), SegmentKind::Function);
-    /// ```
     pub fn from_ctx_name(ctx_name: &str) -> Self {
         if ctx_name.starts_with("on") {
             if let Some(third_char) = ctx_name.chars().nth(2) {
@@ -59,87 +33,42 @@ impl SegmentKind {
         SegmentKind::Function
     }
 
-    /// Creates an EventHandler variant.
     pub fn event_handler() -> Self {
         SegmentKind::EventHandler
     }
 
-    /// Creates a JSXProp variant.
     pub fn jsx_prop() -> Self {
         SegmentKind::JSXProp
     }
 
-    /// Returns true if this is an event handler segment.
     pub fn is_event_handler(&self) -> bool {
         matches!(self, SegmentKind::EventHandler)
     }
 
-    /// Returns true if this is a JSX prop segment.
     pub fn is_jsx_prop(&self) -> bool {
         matches!(self, SegmentKind::JSXProp)
     }
 }
 
-/// Complete metadata for a QRL segment.
-///
-/// This struct captures all the information needed to generate a segment file,
-/// including captured variables for `useLexicalScope` injection, context kind,
-/// file paths, and identifiers.
-///
-/// Matches SWC's `SegmentData` structure for compatibility.
+/// Complete metadata for a QRL segment file generation.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Serialize)]
 pub struct SegmentData {
-    /// File extension (e.g., "js", "ts", "tsx")
     pub extension: String,
-
-    /// All identifiers used within the segment (for import generation)
     pub local_idents: Vec<Id>,
-
-    /// Identifiers captured from enclosing scope (for useLexicalScope)
     pub scoped_idents: Vec<Id>,
-
-    /// Parent segment name for nested QRLs (None if top-level)
     pub parent_segment: Option<String>,
-
-    /// Context kind (Function, EventHandler, JSXProp)
     pub ctx_kind: SegmentKind,
-
-    /// Context name (e.g., "onClick$", "component$")
     pub ctx_name: String,
-
-    /// Origin file path (relative)
     pub origin: PathBuf,
-
-    /// Directory path
     pub path: PathBuf,
-
-    /// Human-readable display name
     pub display_name: String,
-
-    /// Hash string for segment identification
     pub hash: String,
-
-    /// Whether the segment needs transformation (useLexicalScope injection)
     pub need_transform: bool,
-
-    /// Source file exports referenced in the QRL body.
-    /// These need to be imported in the segment file from the source file.
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub referenced_exports: Vec<ExportInfo>,
 }
 
 impl SegmentData {
-    /// Creates a new SegmentData with all required fields.
-    ///
-    /// # Arguments
-    ///
-    /// * `ctx_name` - The context name (e.g., "onClick$", "component$")
-    /// * `display_name` - Human-readable name for the segment
-    /// * `hash` - Unique hash identifying this segment
-    /// * `origin` - Source file path
-    /// * `scoped_idents` - Variables captured from enclosing scope
-    /// * `local_idents` - Variables used locally in the segment
-    /// * `parent_segment` - Parent segment name if this is nested
     pub fn new(
         ctx_name: &str,
         display_name: String,
@@ -161,18 +90,6 @@ impl SegmentData {
         )
     }
 
-    /// Creates a new SegmentData with referenced exports for segment file import generation.
-    ///
-    /// # Arguments
-    ///
-    /// * `ctx_name` - The context name (e.g., "onClick$", "component$")
-    /// * `display_name` - Human-readable name for the segment
-    /// * `hash` - Unique hash identifying this segment
-    /// * `origin` - Source file path
-    /// * `scoped_idents` - Variables captured from enclosing scope
-    /// * `local_idents` - Variables used locally in the segment
-    /// * `parent_segment` - Parent segment name if this is nested
-    /// * `referenced_exports` - Source file exports referenced in QRL body
     pub fn new_with_exports(
         ctx_name: &str,
         display_name: String,
@@ -202,21 +119,15 @@ impl SegmentData {
         }
     }
 
-    /// Creates a new SegmentData with a specified extension.
     pub fn with_extension(mut self, extension: impl Into<String>) -> Self {
         self.extension = extension.into();
         self
     }
 
-    /// Returns true if this segment has captured variables.
-    ///
-    /// Segments with captures need `useLexicalScope` injection to access
-    /// variables from the enclosing scope.
     pub fn has_captures(&self) -> bool {
         !self.scoped_idents.is_empty()
     }
 
-    /// Returns the number of captured variables.
     pub fn capture_count(&self) -> usize {
         self.scoped_idents.len()
     }

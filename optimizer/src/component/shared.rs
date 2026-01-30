@@ -10,16 +10,10 @@ use std::path::PathBuf;
 
 pub const QWIK_CORE_SOURCE: &str = "@qwik.dev/core";
 
-/// Import source for build mode constants (isServer, isBrowser, isDev)
 pub const QWIK_CORE_BUILD: &str = "@qwik.dev/core/build";
 
-/// isServer identifier - true on server, false in browser
 pub const IS_SERVER: &str = "isServer";
-
-/// isBrowser identifier - inverse of isServer (!isServer)
 pub const IS_BROWSER: &str = "isBrowser";
-
-/// isDev identifier - true in development mode
 pub const IS_DEV: &str = "isDev";
 
 #[allow(dead_code)]
@@ -30,46 +24,24 @@ pub const MARKER_SUFFIX: &str = "$";
 pub const QRL: &str = "qrl";
 pub const QRL_SUFFIX: &str = "Qrl";
 
-/// Import for _restProps function (rest props destructuring)
 pub const _REST_PROPS: &str = "_restProps";
-
-/// Import for _wrapProp function (prop wrapping for reactivity)
 pub const _WRAP_PROP: &str = "_wrapProp";
-
-/// Import for _fnSignal function (computed signal expressions)
 pub const _FN_SIGNAL: &str = "_fnSignal";
-
-/// Import for _val function (bind:value helper)
 pub const _VAL: &str = "_val";
-
-/// Import for _chk function (bind:checked helper)
 pub const _CHK: &str = "_chk";
 
-/// Import for inlinedQrl function (inline QRL creation)
 #[allow(dead_code)]
 pub const INLINED_QRL: &str = "inlinedQrl";
-
-/// Prefix for bind directives
 #[allow(dead_code)]
 pub const BIND_PREFIX: &str = "bind:";
-
-/// Bind directive constants
 #[allow(dead_code)]
 pub const BIND_VALUE: &str = "bind:value";
 #[allow(dead_code)]
 pub const BIND_CHECKED: &str = "bind:checked";
-
-/// Import source for jsx-runtime (Fragment import)
 #[allow(dead_code)]
 pub const JSX_RUNTIME_SOURCE: &str = "@qwik.dev/core/jsx-runtime";
-
-/// Fragment identifier for implicit fragments (<></>)
 pub const _FRAGMENT: &str = "_Fragment";
-
-/// Import for _getVarProps helper (spread props runtime)
 pub const _GET_VAR_PROPS: &str = "_getVarProps";
-
-/// Import for _getConstProps helper (spread props runtime)
 pub const _GET_CONST_PROPS: &str = "_getConstProps";
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -204,7 +176,6 @@ impl<'a> FromIn<'a, Import> for Statement<'a> {
     }
 }
 
-/// Renamed from `EmitMode` in V 1.0.
 #[allow(dead_code)]
 #[derive(Debug, Serialize, Deserialize, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Target {

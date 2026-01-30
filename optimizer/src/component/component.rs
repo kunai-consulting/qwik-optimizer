@@ -12,32 +12,20 @@ use oxc_minifier::*;
 use oxc_span::{SourceType, SPAN};
 use serde::Serialize;
 
-/// A QRL component represents a lazy-loadable segment of code.
-///
-/// QrlComponent combines the component identification, generated code,
-/// QRL reference, and segment metadata needed for code generation.
+/// A lazy-loadable QRL segment with generated code and metadata.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Serialize)]
 pub struct QrlComponent {
-    /// Component identifier (symbol name, hash, etc.)
     pub id: Id,
-    /// Source language (JavaScript, TypeScript, etc.)
     pub language: Language,
-    /// Generated code for this segment
     pub code: String,
-    /// QRL reference (path and symbol)
     pub qrl: Qrl,
-    /// Segment metadata (captures, context kind, etc.)
     #[serde(skip_serializing_if = "Option::is_none")]
     pub segment_data: Option<SegmentData>,
-    /// Entry grouping for bundler (determined by entry strategy).
-    /// Some(name) means group with other segments sharing this entry name.
-    /// None means this segment gets its own file.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub entry: Option<String>,
 }
 
 impl QrlComponent {
-    /// Creates a new QrlComponent with optional segment data.
     #[allow(clippy::too_many_arguments)]
     pub(crate) fn new(
         options: &TransformOptions,
@@ -96,11 +84,6 @@ impl QrlComponent {
         }
     }
 
-    /// Generates Import statements for referenced exports from source file.
-    ///
-    /// Each export in the source file that's referenced by the QRL body needs
-    /// to be imported in the segment file. The import path is relative to the
-    /// segment file (e.g., "./test" for "test.tsx").
     fn generate_source_file_imports(
         referenced_exports: &[ExportInfo],
         source_info: &SourceInfo,
@@ -231,7 +214,6 @@ impl QrlComponent {
         }
     }
 
-    /// Create a QrlComponent from an `Expression`.
     #[allow(clippy::too_many_arguments)]
     pub(crate) fn from_expression(
         expr: Expression<'_>,
@@ -255,7 +237,6 @@ impl QrlComponent {
         QrlComponent::new(options, source_info, id, expr, imports, qrl_type, segment_data, entry)
     }
 
-    /// Create a QrlComponent from a call expression argument.
     #[allow(clippy::too_many_arguments)]
     pub(crate) fn from_call_expression_argument(
         arg: &Argument,
@@ -272,10 +253,6 @@ impl QrlComponent {
         Self::from_expression(init, imports, segments, scope, options, source_info, segment_data, entry)
     }
 
-    /// Returns the captured variable identifiers (scoped_idents).
-    ///
-    /// These are variables from the enclosing scope that need to be
-    /// captured via `useLexicalScope` injection.
     pub fn scoped_idents(&self) -> &[CollectorId] {
         self.segment_data
             .as_ref()
@@ -283,9 +260,6 @@ impl QrlComponent {
             .unwrap_or(&[])
     }
 
-    /// Returns the local identifiers used in the segment.
-    ///
-    /// These are used for import generation in the segment file.
     pub fn local_idents(&self) -> &[CollectorId] {
         self.segment_data
             .as_ref()
@@ -293,17 +267,12 @@ impl QrlComponent {
             .unwrap_or(&[])
     }
 
-    /// Returns the parent segment name if this is a nested QRL.
-    ///
-    /// Nested QRLs (QRLs defined inside other QRLs) need to track
-    /// their parent segment for proper resolution.
     pub fn parent_segment(&self) -> Option<&str> {
         self.segment_data
             .as_ref()
             .and_then(|d| d.parent_segment.as_deref())
     }
 
-    /// Returns true if this segment has captured variables.
     pub fn has_captures(&self) -> bool {
         self.segment_data
             .as_ref()
@@ -311,7 +280,6 @@ impl QrlComponent {
             .unwrap_or(false)
     }
 
-    /// Returns the segment's context kind if segment data is present.
     pub fn ctx_kind(&self) -> Option<SegmentKind> {
         self.segment_data.as_ref().map(|d| d.ctx_kind)
     }
