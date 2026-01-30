@@ -5821,4 +5821,245 @@ export const check = isServer;
             output
         );
     }
+
+    // ==================== TypeScript/TSX Integration Tests ====================
+
+    #[test]
+    fn test_tsx_type_annotations_stripped() {
+        // Test that TSX with type annotations parses and strips types correctly
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let code = r#"
+import { component$, Component } from '@qwik.dev/core';
+
+interface Props {
+    name: string;
+    count: number;
+}
+
+const Comp: Component<Props> = component$(() => {
+    const message: string = "hello";
+    const num: number = 42;
+    return <div>{message}</div>;
+});
+
+function helper(value: string): number {
+    return value.length;
+}
+
+export { Comp };
+"#;
+        let source = Source::from_source(code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default()
+            .with_transpile_ts(true)
+            .with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+        let output = &result.optimized_app.body;
+
+        // Type annotations should be stripped
+        assert!(!output.contains(": string"),
+            "Type annotation ': string' should be stripped, got: {}", output);
+        assert!(!output.contains(": number"),
+            "Type annotation ': number' should be stripped, got: {}", output);
+        assert!(!output.contains("Component<Props>"),
+            "Generic type 'Component<Props>' should be stripped, got: {}", output);
+        assert!(!output.contains("interface Props"),
+            "Interface declaration should be stripped, got: {}", output);
+
+        // But code should still work
+        assert!(output.contains("message") || result.optimized_app.components.iter().any(|c| c.code.contains("message")),
+            "Variable 'message' should be preserved, got: {}", output);
+    }
+
+    #[test]
+    fn test_tsx_generic_component() {
+        // Test that generic component types work correctly
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let code = r#"
+import { component$ } from '@qwik.dev/core';
+
+type Props = { name: string; age: number };
+
+export const App = component$<Props>(({ name, age }) => {
+    return <div>{name} is {age} years old</div>;
+});
+"#;
+        let source = Source::from_source(code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default()
+            .with_transpile_ts(true)
+            .with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+        let output = &result.optimized_app.body;
+
+        // Generic type parameter should be stripped
+        assert!(!output.contains("component$<Props>"),
+            "Generic type parameter should be stripped, got: {}", output);
+        assert!(!output.contains("type Props"),
+            "Type alias should be stripped, got: {}", output);
+
+        // Component should still be transformed
+        assert!(output.contains("componentQrl") || output.contains("qrl("),
+            "Component should be transformed to QRL, got: {}", output);
+    }
+
+    #[test]
+    fn test_tsx_interface_declarations() {
+        // Test that interface/type declarations don't break the transform
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let code = r#"
+import { component$ } from '@qwik.dev/core';
+
+interface ButtonProps {
+    label: string;
+    onClick?: () => void;
+    disabled?: boolean;
+}
+
+type Variant = 'primary' | 'secondary';
+
+export const Button = component$<ButtonProps>(() => {
+    return <button>Click me</button>;
+});
+"#;
+        let source = Source::from_source(code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default()
+            .with_transpile_ts(true)
+            .with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+        let output = &result.optimized_app.body;
+
+        // Interface and type alias should be stripped
+        assert!(!output.contains("interface ButtonProps"),
+            "Interface should be stripped, got: {}", output);
+        assert!(!output.contains("type Variant"),
+            "Type alias should be stripped, got: {}", output);
+
+        // Transform should still work
+        assert!(output.contains("componentQrl") || output.contains("qrl("),
+            "Component should be transformed, got: {}", output);
+    }
+
+    #[test]
+    fn test_tsx_type_assertions() {
+        // Test that type assertions are stripped correctly
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+    const data = { value: 42 } as const;
+    const str = "hello" as string;
+    const num = (123 as number);
+    return <div>{str}</div>;
+});
+"#;
+        let source = Source::from_source(code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default()
+            .with_transpile_ts(true)
+            .with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+        let output = &result.optimized_app.body;
+        let component_code: String = result.optimized_app.components.iter()
+            .map(|c| c.code.clone())
+            .collect::<Vec<_>>()
+            .join("\n");
+        let all_code = format!("{}\n{}", output, component_code);
+
+        // Type assertions should be stripped
+        assert!(!all_code.contains(" as const"),
+            "'as const' should be stripped, got: {}", all_code);
+        assert!(!all_code.contains(" as string"),
+            "'as string' should be stripped, got: {}", all_code);
+        assert!(!all_code.contains(" as number"),
+            "'as number' should be stripped, got: {}", all_code);
+
+        // Values should be preserved
+        assert!(all_code.contains("42") || all_code.contains("value"),
+            "Value 42 should be preserved, got: {}", all_code);
+    }
+
+    #[test]
+    fn test_tsx_function_return_types() {
+        // Test that function return types are stripped
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let code = r#"
+import { component$ } from '@qwik.dev/core';
+import { JSXOutput } from '@qwik.dev/core/jsx-runtime';
+
+export const App = component$((): JSXOutput => {
+    const getValue = (): number => 42;
+    return <div>{getValue()}</div>;
+});
+"#;
+        let source = Source::from_source(code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default()
+            .with_transpile_ts(true)
+            .with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+        let output = &result.optimized_app.body;
+        let component_code: String = result.optimized_app.components.iter()
+            .map(|c| c.code.clone())
+            .collect::<Vec<_>>()
+            .join("\n");
+        let all_code = format!("{}\n{}", output, component_code);
+
+        // Return type annotations should be stripped
+        assert!(!all_code.contains("): JSXOutput"),
+            "Return type JSXOutput should be stripped, got: {}", all_code);
+        assert!(!all_code.contains("): number"),
+            "Return type number should be stripped, got: {}", all_code);
+
+        // Function body should still work
+        assert!(all_code.contains("42"),
+            "Value 42 should be preserved, got: {}", all_code);
+    }
+
+    #[test]
+    fn test_tsx_optional_parameters() {
+        // Test that optional parameters (?) are handled correctly
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export const App = component$(({ name, count }: { name?: string; count?: number }) => {
+    return <div>{name ?? 'default'}</div>;
+});
+"#;
+        let source = Source::from_source(code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default()
+            .with_transpile_ts(true)
+            .with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+        let output = &result.optimized_app.body;
+        let component_code: String = result.optimized_app.components.iter()
+            .map(|c| c.code.clone())
+            .collect::<Vec<_>>()
+            .join("\n");
+        let all_code = format!("{}\n{}", output, component_code);
+
+        // Inline type annotations with optional should be stripped
+        assert!(!all_code.contains("name?: string"),
+            "Optional type should be stripped, got: {}", all_code);
+
+        // Nullish coalescing should be preserved (it's JS, not TS)
+        assert!(all_code.contains("??") || all_code.contains("default"),
+            "Nullish coalescing should be preserved, got: {}", all_code);
+    }
 }
