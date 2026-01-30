@@ -663,6 +663,12 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                     .cloned()
                     .collect();
 
+                // Pop hoisted imports for this QRL scope (contains child QRL imports)
+                let segment_hoisted_imports = self
+                    .hoisted_imports_stack
+                    .pop()
+                    .unwrap_or_default();
+
                 let imported_names = qrl_module::collect_imported_names(&imports);
                 let scoped_idents = qrl_module::filter_imported_from_scoped(scoped_idents, &imported_names);
 
@@ -703,6 +709,7 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                 QrlComponent::from_call_expression_argument(
                     arg0,
                     imports,
+                    segment_hoisted_imports,
                     &self.segment_stack,
                     &self.scope,
                     &self.options,

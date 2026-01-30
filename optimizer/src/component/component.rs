@@ -235,7 +235,7 @@ impl QrlComponent {
                             SPAN,
                             FormalParameterKind::ArrowFormalParameters,
                             ast_builder.vec(),
-                            None::<OxcBox<BindingRestElement>>,
+                            NONE,
                         ),
                         None::<OxcBox<TSTypeAnnotation>>,
                         ast_builder.function_body(
