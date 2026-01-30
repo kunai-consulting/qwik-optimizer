@@ -31,7 +31,7 @@ mod tests {
             // Create options, overriding with provided values
             let mut options = TransformModulesOptions {
                 input: vec![TransformModuleInput {
-                    path: path.file_name().unwrap().to_string_lossy().to_string(),
+                    path: "test.tsx".to_string(),
                     dev_path: None,
                     code: code.clone(),
                 }],
