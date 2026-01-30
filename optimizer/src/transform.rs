@@ -294,6 +294,15 @@ pub struct TransformGenerator<'gen> {
     /// Tracks imported identifiers for const replacement.
     /// Used to find aliased imports like `import { isServer as s }` from @qwik.dev/core/build.
     import_tracker: ImportTracker,
+
+    /// Tracks nesting depth of loops (for/while/for-in/for-of/map callbacks).
+    /// Used to determine if QRLs inside loops need special handling for iteration variables.
+    loop_depth: u32,
+
+    /// Stack of iteration variable names per loop level.
+    /// Each loop level can have multiple iteration variables (e.g., `(v, idx)` in map callback).
+    /// Used to pass iteration variables via `q:p` prop instead of capture.
+    iteration_var_stack: Vec<Vec<Id>>,
 }
 
 impl<'gen> TransformGenerator<'gen> {
@@ -346,6 +355,8 @@ impl<'gen> TransformGenerator<'gen> {
             stack_ctxt: Vec::with_capacity(16),
             entry_policy,
             import_tracker: ImportTracker::new(),
+            loop_depth: 0,
+            iteration_var_stack: Vec::new(),
         }
     }
 
@@ -6476,5 +6487,55 @@ export const List = component$<Props>(({ title, items }) => {
         // .map should be preserved (JavaScript, not TypeScript)
         assert!(all_code.contains(".map("),
             ".map() should be preserved, got: {}", all_code);
+    }
+
+    // ==================== Async/Await Preservation Tests (10-04) ====================
+
+    #[test]
+    fn test_async_arrow_qrl() {
+        // Test that async arrow functions preserve the async keyword in QRL segments
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { $ } from '@qwik.dev/core';
+
+export const fetchData = $(async () => {
+  const response = await fetch('/api/data');
+  const data = await response.json();
+  return data;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default();
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Get all segment code
+        let segment_code: String = result.optimized_app.components.iter()
+            .map(|c| format!("{}: {}", c.id.symbol_name, c.code))
+            .collect::<Vec<_>>()
+            .join("\n---\n");
+
+        // Find the fetchData segment
+        let fetch_segment = result.optimized_app.components.iter()
+            .find(|c| c.id.symbol_name.contains("fetchData"))
+            .map(|c| &c.code);
+
+        // STRONG ASSERTION: Segment must start with 'async () =>' (async keyword preserved)
+        if let Some(code) = fetch_segment {
+            assert!(code.contains("async () =>") || code.contains("async() =>"),
+                "Expected segment to contain 'async () =>', async keyword must be preserved.\nSegment code:\n{}\n\nAll segments:\n{}",
+                code, segment_code);
+
+            // await expressions should be preserved in the function body
+            assert!(code.contains("await fetch"),
+                "Expected 'await fetch' in segment body.\nSegment code:\n{}", code);
+            assert!(code.contains("await response.json"),
+                "Expected 'await response.json' in segment body.\nSegment code:\n{}", code);
+        } else {
+            panic!("Expected fetchData segment to exist.\nAll segments:\n{}", segment_code);
+        }
     }
 }
