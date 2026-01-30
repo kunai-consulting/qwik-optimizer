@@ -48,6 +48,25 @@
 //!
 //! One test (`consistent_hashes`) exists only in OXC and has no qwik-core equivalent.
 //! This is logged but does not cause test failure.
+//!
+//! # Interpreting Results
+//!
+//! The test reports several categories:
+//!
+//! - **Exact matches**: Snapshots that are identical after normalization
+//! - **Semantic matches**: Different text but same structure (segment count, patterns)
+//! - **Documented differences**: Expected differences due to input format variations
+//!
+//! The test passes as long as it can run to completion. Semantic failures are
+//! reported for visibility but don't cause test failure since they represent
+//! documented, expected differences between the implementations.
+//!
+//! To investigate differences, run with `--nocapture` to see detailed diffs.
+//!
+//! # Reference
+//!
+//! See Phase 18 Final Report (`.planning/phases/18-sync-exact-qwik-core-snapshots/18-FINAL-REPORT.md`)
+//! for comprehensive documentation of OXC vs qwik-core parity status.
 
 use similar::TextDiff;
 use std::collections::HashMap;
