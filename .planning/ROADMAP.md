@@ -206,7 +206,7 @@ Plans:
 - [x] 10-05-PLAN.md — Issue regression tests (117, 150, 476, 964, 5008, 7216)
 
 ### Phase 11: Research & Code Cleanup
-**Goal**: Reduce transform.rs from 7000+ lines through OXC API adoption and modularization
+**Goal**: Reduce transform.rs from 7000+ lines through modularization using patterns from 11-RESEARCH.md
 **Depends on**: Phase 10
 **Requirements**: CLN-01, CLN-02, CLN-03, CLN-04, CLN-05
 **Success Criteria** (what must be TRUE):
@@ -215,14 +215,14 @@ Plans:
   3. Rust ecosystem libraries evaluated for code reduction opportunities
   4. transform.rs split into logical modules (<500 lines each)
   5. All 233 tests still pass after refactoring
-**Plans**: TBD
+**Plans**: 5 plans
 
 Plans:
-- [ ] 11-01: OXC API deep dive - study docs.rs/oxc extensively, document underutilized APIs
-- [ ] 11-02: OXC ecosystem research - analyze other OXC-based projects, document patterns
-- [ ] 11-03: Rust ecosystem research - identify libraries that could reduce code complexity
-- [ ] 11-04: Modularization plan - design module structure based on research findings
-- [ ] 11-05: Execute refactoring - split transform.rs, adopt better APIs, integrate libraries
+- [ ] 11-01-PLAN.md — Move tests to transform_tests.rs (-4500 lines)
+- [ ] 11-02-PLAN.md — Extract state structs and options to transform/ modules
+- [ ] 11-03-PLAN.md — Create jsx.rs module with dispatcher pattern
+- [ ] 11-04-PLAN.md — Extract qrl.rs and scope.rs modules
+- [ ] 11-05-PLAN.md — Final cleanup and verification
 
 ## Progress
 
@@ -241,8 +241,8 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 | 8. SSR & Build Modes | 3/3 | Complete | 2026-01-29 |
 | 9. TypeScript Support | 2/2 | Complete | 2026-01-29 |
 | 10. Edge Cases | 5/5 | Complete | 2026-01-29 |
-| 11. Research & Code Cleanup | 0/5 | Not started | - |
+| 11. Research & Code Cleanup | 0/5 | Planned | - |
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-29 (Phase 10 complete)*
+*Last updated: 2026-01-30 (Phase 11 planned)*
