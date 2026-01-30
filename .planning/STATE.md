@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** All 162 tests from qwik-core pass with exact output parity to the SWC implementation.
-**Current focus:** PROJECT COMPLETE
+**Current focus:** Phase 17 - Structural Parity
 
 ## Current Position
 
-Phase: 16 of 16 (Snapshot Parity Audit) - COMPLETE
-Plan: 4 of 4 in Phase 16
-Status: Complete
-Last activity: 2026-01-30 - Completed 16-04-PLAN.md (Final Parity Report)
+Phase: 17 of 17 (Structural Parity) - IN PROGRESS
+Plan: 1 of ? in Phase 17
+Status: Plan 17-01 complete
+Last activity: 2026-01-30 - Completed 17-01-PLAN.md (PURE annotation format)
 
-Progress: [====================] 100% (16/16 phases complete)
+Progress: [===================+] 95% (17-01 complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 58
+- Total plans completed: 59
 - Average duration: 6.4 min
-- Total execution time: 6.2 hours
+- Total execution time: 6.3 hours
 
 **By Phase:**
 
@@ -43,11 +43,10 @@ Progress: [====================] 100% (16/16 phases complete)
 | 14-test-consolidation | 2/2 | 4 min | 2.0 min |
 | 15-qwik-core-feedback-fixes | 4/4 | 64 min | 16.0 min |
 | 16-snapshot-parity-audit | 4/4 | 10 min | 2.5 min |
+| 17-structural-parity | 1/? | 8 min | 8.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 16-01 (5 min), 16-02 (2 min), 16-03 (1 min), 16-04 (2 min)
-
-*Project complete - 2026-01-30*
+- Last 5 plans: 16-02 (2 min), 16-03 (1 min), 16-04 (2 min), 17-01 (8 min)
 
 ## Accumulated Context
 
@@ -56,6 +55,8 @@ Progress: [====================] 100% (16/16 phases complete)
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
+- [17-01]: Use string replace post-processing instead of OXC modification for PURE format
+- [17-01]: Apply PURE format change to both main file output and segment file output
 - [16-04]: Final parity report confirms FUNCTIONAL PARITY ACHIEVED for all 162 tests
 - [16-03]: Functional review confirmed 0 FUNCTIONAL issues, no code fixes required
 - [16-03]: Test suite verified: 299 passed, 0 failed, 0 ignored
@@ -70,10 +71,6 @@ Recent decisions affecting current work:
 - [15-03]: Only add useLexicalScope import when both scoped_idents and iteration_params are non-empty
 - [15-02]: Use inline arrow functions in _fnSignal instead of hoisted const declarations
 - [15-02]: Add _fnSignal import to segment import_stack for correct entry point imports
-- [15-01]: Skip symbol rename if target name already exists in OXC scope bindings
-- [15-01]: Return None for JSX expression containers without actual expressions
-- [14-02]: No dead code found after test consolidation - codebase is clean
-- [14-01]: Keep 17 internal API tests, remove 103 integration tests - spec parity provides coverage
 
 ### Roadmap Evolution
 
@@ -87,10 +84,12 @@ Recent decisions affecting current work:
 - Phase 15 COMPLETE: All 4 plans finished, all PR #66 issues addressed
 - Phase 16 added: Snapshot Parity Audit - Diff all 162 qwik-core snapshots against OXC for exact match
 - Phase 16 COMPLETE: All 4 plans finished, FUNCTIONAL PARITY ACHIEVED
+- Phase 17 added: Structural Parity - Align output formatting and structure with qwik-core snapshots
+- Phase 17 IN PROGRESS: Plan 17-01 complete (PURE annotation format)
 
 ### Pending Todos
 
-None - project complete.
+- Phase 17: Continue structural parity improvements (import hoisting, etc.)
 
 ### Blockers/Concerns
 
@@ -98,40 +97,18 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-01-30T19:30:00Z
-Stopped at: PROJECT COMPLETE
+Last session: 2026-01-30T20:08:00Z
+Stopped at: Completed 17-01-PLAN.md
 Resume file: None
 
-## Phase 16 Snapshot Parity Audit Progress
+## Phase 17 Structural Parity Progress
 
-### 16-01: Parity Criteria and Comparison - COMPLETE (5 min)
-- Created 16-PARITY-CRITERIA.md with 4 parity levels
-- Created compare-snapshots.sh to map and diff all snapshots
-- Generated 162 diff files in audit-diffs/ directory
-- All 162 qwik-core snapshots compared (0 missing, 162 different)
-- Differences are expected cosmetic variations (hashes, source maps, formatting)
-- SUMMARY: .planning/phases/16-snapshot-parity-audit/16-01-SUMMARY.md
-
-### 16-02: Diff Analysis - COMPLETE (2 min)
-- Categorized all 162 snapshots: 155 COSMETIC, 4 STRUCTURAL, 3 DIAGNOSTIC, 0 FUNCTIONAL
-- Confirmed 0 FUNCTIONAL differences exist
-- Documented STRUCTURAL differences as intentional design choices
-- Created comprehensive 16-DIFF-ANALYSIS.md (420 lines)
-- SUMMARY: .planning/phases/16-snapshot-parity-audit/16-02-SUMMARY.md
-
-### 16-03: Functional Review - COMPLETE (1 min)
-- Reviewed FUNCTIONAL category from 16-DIFF-ANALYSIS.md: 0 items
-- Created 16-FUNCTIONAL-REVIEW.md documenting review results
-- Verified test suite: 299 passed, 0 failed, 0 ignored
-- No code fixes required - functional parity already achieved
-- SUMMARY: .planning/phases/16-snapshot-parity-audit/16-03-SUMMARY.md
-
-### 16-04: Final Parity Report - COMPLETE (2 min)
-- Created 16-FINAL-PARITY-REPORT.md with comprehensive audit results
-- Confirmed FUNCTIONAL PARITY ACHIEVED for all 162 tests
-- Documented all difference categories with counts and analysis
-- Updated STATE.md and ROADMAP.md to reflect project completion
-- SUMMARY: .planning/phases/16-snapshot-parity-audit/16-04-SUMMARY.md
+### 17-01: PURE Annotation Format - COMPLETE (8 min)
+- Added post-processing in generator.rs for main file output
+- Added post-processing in component.rs for segment file output
+- Updated 121 snapshot files with new PURE format
+- All 299 tests pass with new format
+- SUMMARY: .planning/phases/17-structural-parity/17-01-SUMMARY.md
 
 ## Final Project Results
 
@@ -162,6 +139,9 @@ Resume file: None
 - FUNCTIONAL: 0 (0%)
 - Parity status: FUNCTIONAL PARITY ACHIEVED
 
+**Structural Parity Improvements:**
+- PURE annotation format: ALIGNED (`/*#__PURE__*/` matches qwik-core)
+
 **Requirements Verified:**
 - VER-01: All optimizer features implemented - PASS
 - VER-02: Test coverage matches qwik-core - PASS
@@ -171,7 +151,7 @@ Resume file: None
 
 ## Project Status
 
-**COMPLETE** - All 16 phases finished.
+**IN PROGRESS** - Phase 17 Plan 01 complete.
 
 The qwik-optimizer Rust implementation:
 - Passes 299 tests (163 spec parity + 136 other unit, 0 ignored)
@@ -181,12 +161,7 @@ The qwik-optimizer Rust implementation:
 - Has 19.2% less code than when Phase 12 started
 - Has consolidated test suite with no redundancy
 - Produces readable formatted output matching qwik-core style
-
-**All Phase 15 Issues (PR #66 review) RESOLVED:**
-- Snapshot output now formatted like qwik-core (readable multiline)
-- _fnSignal wrapping implemented (inline arrow function approach)
-- Nested loops extract event handlers to separate files
-- Event handlers receive iteration vars as params
+- PURE annotation format now matches qwik-core
 
 **Key Artifacts:**
 - Final Parity Report: .planning/phases/16-snapshot-parity-audit/16-FINAL-PARITY-REPORT.md
@@ -194,12 +169,5 @@ The qwik-optimizer Rust implementation:
 - Requirements: .planning/REQUIREMENTS.md (97 requirements, all complete)
 - Phase 15 Directory: .planning/phases/15-qwik-core-feedback-fixes/
 - Verification Report: .planning/phases/15-qwik-core-feedback-fixes/15-VERIFICATION.md
-
-**Phase 16 Audit Artifacts:**
-- Parity Criteria: .planning/phases/16-snapshot-parity-audit/16-PARITY-CRITERIA.md
-- Comparison Script: .planning/phases/16-snapshot-parity-audit/compare-snapshots.sh
-- Diff Files: .planning/phases/16-snapshot-parity-audit/audit-diffs/ (162 diffs)
-- Summary: .planning/phases/16-snapshot-parity-audit/audit-diffs/SUMMARY.txt
-- Diff Analysis: .planning/phases/16-snapshot-parity-audit/16-DIFF-ANALYSIS.md
-- Functional Review: .planning/phases/16-snapshot-parity-audit/16-FUNCTIONAL-REVIEW.md
-- Final Report: .planning/phases/16-snapshot-parity-audit/16-FINAL-PARITY-REPORT.md
+- Phase 17 Research: .planning/phases/17-structural-parity/17-RESEARCH.md
+- 17-01 Summary: .planning/phases/17-structural-parity/17-01-SUMMARY.md

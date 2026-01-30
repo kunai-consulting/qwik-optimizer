@@ -121,6 +121,9 @@ pub struct TransformGenerator<'gen> {
 
     pub(crate) needs_fn_signal_import: bool,
 
+    /// Hoisted import functions for QRLs: (identifier_name, filename)
+    pub(crate) hoisted_imports: Vec<(String, String)>,
+
     pub(crate) pending_bind_directives: Vec<(bool, Expression<'gen>)>,
 
     pending_on_input_handlers: Vec<Expression<'gen>>,
@@ -188,6 +191,7 @@ impl<'gen> TransformGenerator<'gen> {
             hoisted_fns: Vec::new(),
             hoisted_fn_counter: 0,
             needs_fn_signal_import: false,
+            hoisted_imports: Vec::new(),
             pending_bind_directives: Vec::new(),
             pending_on_input_handlers: Vec::new(),
             needs_val_import: false,
@@ -476,6 +480,50 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                 false,
             )));
             node.body.insert(1, str_stmt);
+        }
+
+        // Emit hoisted import functions at module level
+        // Format: const i_{name} = () => import("./file.js");
+        for (name, filename) in self.hoisted_imports.drain(..).rev() {
+            let import_stmt = Statement::VariableDeclaration(ctx.ast.alloc(ctx.ast.variable_declaration(
+                SPAN,
+                VariableDeclarationKind::Const,
+                ctx.ast.vec1(ctx.ast.variable_declarator(
+                    SPAN,
+                    VariableDeclarationKind::Const,
+                    ctx.ast.binding_pattern_binding_identifier(SPAN, ctx.ast.atom(&name)),
+                    NONE,
+                    Some(ctx.ast.expression_arrow_function(
+                        SPAN,
+                        true,
+                        false,
+                        NONE,
+                        ctx.ast.formal_parameters(
+                            SPAN,
+                            FormalParameterKind::ArrowFormalParameters,
+                            ctx.ast.vec(),
+                            NONE,
+                        ),
+                        NONE,
+                        ctx.ast.function_body(
+                            SPAN,
+                            ctx.ast.vec(),
+                            ctx.ast.vec1(ctx.ast.statement_expression(
+                                SPAN,
+                                ctx.ast.expression_import(
+                                    SPAN,
+                                    ctx.ast.expression_string_literal(SPAN, ctx.ast.atom(&filename), None),
+                                    None,
+                                    None,
+                                ),
+                            )),
+                        ),
+                    )),
+                    false,
+                )),
+                false,
+            )));
+            node.body.insert(0, import_stmt);
         }
 
         if let Some(tree) = self.import_stack.pop() {
