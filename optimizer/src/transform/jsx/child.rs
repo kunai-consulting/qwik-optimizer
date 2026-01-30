@@ -1,7 +1,3 @@
-//! JSX Child traversal handlers.
-//!
-//! This module contains exit_jsx_child handler for the Traverse impl dispatcher pattern.
-
 use oxc_allocator::CloneIn;
 use oxc_ast::ast::*;
 use oxc_ast::NONE;
@@ -12,7 +8,6 @@ use crate::transform::generator::TransformGenerator;
 
 use super::move_expression;
 
-/// Exit handler for JSXChild nodes.
 pub fn exit_jsx_child<'a>(
     gen: &mut TransformGenerator<'a>,
     node: &mut JSXChild<'a>,
@@ -23,7 +18,6 @@ pub fn exit_jsx_child<'a>(
     }
     gen.debug("EXIT: JSX child", ctx);
 
-    // Pre-compute wrap info before mutable borrow of jsx_stack
     let prop_wrap_key: Option<String> = if let JSXChild::ExpressionContainer(container) = node {
         if let Some(expr) = container.expression.as_expression() {
             gen.should_wrap_prop(expr).map(|(_, key)| key)
@@ -69,10 +63,8 @@ pub fn exit_jsx_child<'a>(
                 let expr = (*b).expression.to_expression_mut();
                 let span = expr.span();
 
-                // Check for prop that needs _wrapProp
                 if let Some(prop_key) = &prop_wrap_key {
                     gen.needs_wrap_prop_import = true;
-                    // Build _wrapProp(_rawProps, "propKey") inline
                     let prop_key_str: &'a str = ctx.ast.allocator.alloc_str(prop_key);
                     Some(
                         ctx.ast
@@ -92,13 +84,10 @@ pub fn exit_jsx_child<'a>(
                             )
                             .into(),
                     )
-                }
-                // Check for signal.value that needs _wrapProp
-                else if needs_signal_wrap {
+                } else if needs_signal_wrap {
                     gen.needs_wrap_prop_import = true;
                     if let Expression::StaticMemberExpression(static_member) = expr {
                         let signal_expr = static_member.object.clone_in(ctx.ast.allocator);
-                        // Build _wrapProp(signal) inline
                         Some(
                             ctx.ast
                                 .expression_call(

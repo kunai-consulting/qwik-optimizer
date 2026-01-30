@@ -1,8 +1,3 @@
-//! JSX Fragment traversal handlers.
-//!
-//! This module contains enter_jsx_fragment and exit_jsx_fragment handlers
-//! for the Traverse impl dispatcher pattern.
-
 use oxc_allocator::{CloneIn, Vec as OxcVec};
 use oxc_ast::ast::*;
 use oxc_ast::NONE;
@@ -15,14 +10,13 @@ use crate::transform::state::JsxState;
 
 use super::{JSX_RUNTIME_SOURCE, JSX_SORTED_NAME, _FRAGMENT};
 
-/// Enter handler for JSXFragment nodes.
 pub fn enter_jsx_fragment<'a>(
     gen: &mut TransformGenerator<'a>,
     _node: &mut JSXFragment<'a>,
     ctx: &mut TraverseCtx<'a, ()>,
 ) {
     gen.jsx_stack.push(JsxState {
-        is_fn: true, // Fragments generate keys like component elements
+        is_fn: true,
         is_text_only: false,
         is_segment: false,
         should_runtime_sort: false,
@@ -33,12 +27,11 @@ pub fn enter_jsx_fragment<'a>(
         const_props: OxcVec::new_in(gen.builder.allocator),
         children: OxcVec::new_in(gen.builder.allocator),
         spread_expr: None,
-        stacked_ctxt: false, // Fragments don't push to stack_ctxt
+        stacked_ctxt: false,
     });
     gen.debug("ENTER: JSXFragment", ctx);
 }
 
-/// Exit handler for JSXFragment nodes.
 pub fn exit_jsx_fragment<'a>(
     gen: &mut TransformGenerator<'a>,
     node: &mut JSXFragment<'a>,
@@ -46,20 +39,15 @@ pub fn exit_jsx_fragment<'a>(
 ) {
     if let Some(mut jsx) = gen.jsx_stack.pop() {
         if gen.options.transpile_jsx {
-            // Generate _jsxSorted(_Fragment, null, null, children, flags, key)
-            // Prepare children argument - single child or array
             let children_arg: Expression<'a> = if jsx.children.len() == 1 {
-                // Single child - pass directly (unwrap from ArrayExpressionElement)
                 let child = jsx.children.pop().unwrap();
                 if let Some(expr) = child.as_expression() {
                     expr.clone_in(gen.builder.allocator)
                 } else if let ArrayExpressionElement::SpreadElement(spread) = child {
-                    // Wrap spread in array
                     let mut children = OxcVec::new_in(gen.builder.allocator);
                     children.push(ArrayExpressionElement::SpreadElement(spread));
                     gen.builder.expression_array(node.span, children)
                 } else {
-                    // Elision case
                     gen.builder.expression_null_literal(node.span)
                 }
             } else if jsx.children.is_empty() {
@@ -68,7 +56,6 @@ pub fn exit_jsx_fragment<'a>(
                 gen.builder.expression_array(node.span, jsx.children)
             };
 
-            // Generate key for fragment inside component
             let key_arg: Expression<'a> = jsx.key_prop.unwrap_or_else(|| {
                 if let Some(cmp) = gen.component_stack.last() {
                     let new_key = format!(
@@ -87,27 +74,20 @@ pub fn exit_jsx_fragment<'a>(
                 }
             });
 
-            // Calculate flags: bit 0 = static_listeners, bit 1 = static_subtree (per SWC reference)
             let flags = ((if jsx.static_listeners { 0b1 } else { 0 })
                 | (if jsx.static_subtree { 0b10 } else { 0 })) as f64;
 
             let args: OxcVec<Argument<'a>> = OxcVec::from_array_in(
                 [
-                    // type: _Fragment identifier
                     gen.builder
                         .expression_identifier(node.span, _FRAGMENT)
                         .into(),
-                    // varProps: null (fragments have no props)
                     gen.builder.expression_null_literal(node.span).into(),
-                    // constProps: null (fragments have no props)
                     gen.builder.expression_null_literal(node.span).into(),
-                    // children
                     children_arg.into(),
-                    // flags
                     gen.builder
                         .expression_numeric_literal(node.span, flags, None, NumberBase::Decimal)
                         .into(),
-                    // key
                     key_arg.into(),
                 ],
                 gen.builder.allocator,
@@ -119,10 +99,9 @@ pub fn exit_jsx_fragment<'a>(
                 NONE,
                 args,
                 false,
-                true, // pure annotation
+                true,
             ));
 
-            // Add imports: _jsxSorted from @qwik.dev/core, Fragment as _Fragment from jsx-runtime
             if let Some(imports) = gen.import_stack.last_mut() {
                 imports.insert(Import::new(vec![JSX_SORTED_NAME.into()], QWIK_CORE_SOURCE));
                 imports.insert(Import::new(

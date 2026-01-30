@@ -1,8 +1,3 @@
-//! JSX Element traversal handlers.
-//!
-//! This module contains enter_jsx_element and exit_jsx_element handlers
-//! for the Traverse impl dispatcher pattern.
-
 use oxc_allocator::{CloneIn, Vec as OxcVec};
 use oxc_ast::ast::*;
 use oxc_ast::NONE;
@@ -15,29 +10,22 @@ use crate::transform::state::JsxState;
 
 use super::{is_text_only, JSX_SORTED_NAME, JSX_SPLIT_NAME, _GET_CONST_PROPS, _GET_VAR_PROPS};
 
-/// Enter handler for JSXElement nodes.
-///
-/// Sets up JSX state tracking, determines if element is native or component,
-/// pushes to stack_ctxt for entry strategy, and creates segment for the element.
 pub fn enter_jsx_element<'a>(
     gen: &mut TransformGenerator<'a>,
     node: &mut JSXElement<'a>,
     _ctx: &mut TraverseCtx<'a, ()>,
 ) {
-    // Determine if this is a native element (lowercase first char)
     let is_native = match &node.opening_element.name {
-        JSXElementName::Identifier(_) => true, // lowercase native HTML
+        JSXElementName::Identifier(_) => true,
         JSXElementName::IdentifierReference(id) => {
             id.name.chars().next().map(|c| c.is_ascii_lowercase()).unwrap_or(false)
         }
-        JSXElementName::MemberExpression(_) => false, // Foo.Bar = component
-        JSXElementName::NamespacedName(_) => true,    // svg:rect = native
-        JSXElementName::ThisExpression(_) => false,   // this = component
+        JSXElementName::MemberExpression(_) => false,
+        JSXElementName::NamespacedName(_) => true,
+        JSXElementName::ThisExpression(_) => false,
     };
     gen.jsx_element_is_native.push(is_native);
 
-    // Push JSX element name to stack_ctxt for entry strategy (SWC fold_jsx_element)
-    // Only push if it's an identifier (not member expression or other complex form)
     let jsx_element_name = match &node.opening_element.name {
         JSXElementName::Identifier(id) => Some(id.name.to_string()),
         JSXElementName::IdentifierReference(id) => Some(id.name.to_string()),
@@ -71,7 +59,6 @@ pub fn enter_jsx_element<'a>(
         const_props: OxcVec::new_in(gen.builder.allocator),
         children: OxcVec::new_in(gen.builder.allocator),
         spread_expr: None,
-        // Track whether we pushed to stack_ctxt
         stacked_ctxt: jsx_element_name.is_some(),
     });
     if let Some(segment) = segment {
@@ -79,10 +66,6 @@ pub fn enter_jsx_element<'a>(
     }
 }
 
-/// Exit handler for JSXElement nodes.
-///
-/// Generates the _jsxSorted or _jsxSplit call, handles props sorting,
-/// children processing, and flags calculation.
 pub fn exit_jsx_element<'a>(
     gen: &mut TransformGenerator<'a>,
     node: &mut JSXElement<'a>,
@@ -158,15 +141,12 @@ pub fn exit_jsx_element<'a>(
                     (gen.builder.expression_this((*b).span), false)
                 }
             };
-            // Output null instead of empty object for varProps/constProps
             let var_props_arg: Expression<'a> = if jsx.var_props.is_empty() {
                 gen.builder.expression_null_literal(node.span())
             } else {
                 gen.builder.expression_object(node.span(), jsx.var_props)
             };
-            // When spread exists, constProps is _getConstProps(spread_expr) call directly
             let const_props_arg: Expression<'a> = if let Some(spread_expr) = jsx.spread_expr.take() {
-                // Generate _getConstProps(spread_expr) - call directly, not wrapped in object
                 gen.builder.expression_call(
                     node.span(),
                     gen.builder.expression_identifier(node.span(), _GET_CONST_PROPS),
@@ -179,21 +159,17 @@ pub fn exit_jsx_element<'a>(
             } else {
                 gen.builder.expression_object(node.span(), jsx.const_props)
             };
-            // Children argument: null for empty, direct for single, array for multiple
             let children_arg: Expression<'a> = if jsx.children.is_empty() {
                 gen.builder.expression_null_literal(node.span())
             } else if jsx.children.len() == 1 {
-                // Single child - pass directly (unwrap from ArrayExpressionElement)
                 let child = jsx.children.pop().unwrap();
                 if let Some(expr) = child.as_expression() {
                     expr.clone_in(gen.builder.allocator)
                 } else if let ArrayExpressionElement::SpreadElement(spread) = child {
-                    // Wrap spread in array (spread must be in array context)
                     let mut children = OxcVec::new_in(gen.builder.allocator);
                     children.push(ArrayExpressionElement::SpreadElement(spread));
                     gen.builder.expression_array(node.span(), children)
                 } else {
-                    // Elision case
                     gen.builder.expression_null_literal(node.span())
                 }
             } else {
@@ -201,16 +177,10 @@ pub fn exit_jsx_element<'a>(
             };
             let args: OxcVec<Argument<'a>> = OxcVec::from_array_in(
                 [
-                    // type
                     jsx_type.into(),
-                    // varProps
                     var_props_arg.into(),
-                    // constProps
                     const_props_arg.into(),
-                    // children
                     children_arg.into(),
-                    // flags: bit 0 = static_listeners, bit 1 = static_subtree (per SWC reference)
-                    // Values: 3 = both static, 2 = static_subtree only, 1 = static_listeners only, 0 = neither
                     gen.builder
                         .expression_numeric_literal(
                             node.span(),
@@ -221,11 +191,8 @@ pub fn exit_jsx_element<'a>(
                             NumberBase::Decimal,
                         )
                         .into(),
-                    // key
                     jsx.key_prop
                         .unwrap_or_else(|| -> Expression<'a> {
-                            // TODO: Figure out how to replicate root_jsx_mode from old optimizer
-                            // (this conditional should be is_fn || root_jsx_mode)
                             if jsx.is_fn {
                                 if let Some(cmp) = gen.component_stack.last() {
                                     let new_key = format!(
@@ -262,7 +229,6 @@ pub fn exit_jsx_element<'a>(
             ));
             if let Some(imports) = gen.import_stack.last_mut() {
                 imports.insert(Import::new(vec![callee.into()], QWIK_CORE_SOURCE));
-                // Add spread helper imports when _jsxSplit is used
                 if jsx.should_runtime_sort {
                     imports.insert(Import::new(vec![_GET_VAR_PROPS.into()], QWIK_CORE_SOURCE));
                     imports.insert(Import::new(vec![_GET_CONST_PROPS.into()], QWIK_CORE_SOURCE));
@@ -272,13 +238,11 @@ pub fn exit_jsx_element<'a>(
         if jsx.is_segment {
             let _popped = gen.segment_stack.pop();
         }
-        // Pop stack_ctxt if we pushed for this JSX element (SWC fold_jsx_element)
         if jsx.stacked_ctxt {
             gen.stack_ctxt.pop();
         }
     }
 
-    // Pop native element tracking
     gen.jsx_element_is_native.pop();
 
     gen.debug("EXIT: JSXElementName", ctx);
