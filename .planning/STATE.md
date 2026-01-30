@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 ## Current Position
 
 Phase: 15 of 15 (Qwik Core Feedback Fixes)
-Plan: 1 of 4 in Phase 15
+Plan: 3 of 4 in Phase 15
 Status: In progress
-Last activity: 2026-01-30 - Completed 15-01-PLAN.md (Fix Panicking Spec Tests)
+Last activity: 2026-01-30 - Completed 15-03-PLAN.md (Nested Loop Handler Extraction)
 
-Progress: [===================.] 94% (14 phases + 1 plan complete)
+Progress: [===================.] 96% (14 phases + 3 plans complete)
 
 ## Performance Metrics
 
@@ -41,10 +41,10 @@ Progress: [===================.] 94% (14 phases + 1 plan complete)
 | 12-code-reduction | 3/3 | 20 min | 6.7 min |
 | 13-optimizer-spec-verification | 4/4 | 29 min | 7.3 min |
 | 14-test-consolidation | 2/2 | 4 min | 2.0 min |
-| 15-qwik-core-feedback-fixes | 1/4 | 7 min | 7.0 min |
+| 15-qwik-core-feedback-fixes | 3/4 | 59 min | 19.7 min |
 
 **Recent Trend:**
-- Last 5 plans: 13-04 (6 min), 14-01 (2 min), 14-02 (2 min), 15-01 (7 min)
+- Last 5 plans: 14-02 (2 min), 15-01 (7 min), 15-02 (7 min), 15-03 (45 min)
 
 *Updated after each plan completion*
 
@@ -55,6 +55,10 @@ Progress: [===================.] 94% (14 phases + 1 plan complete)
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
+- [15-03]: Pass iteration vars via QRL captures array instead of q:p prop
+- [15-03]: Only add useLexicalScope import when both scoped_idents and iteration_params are non-empty
+- [15-02]: Use inline arrow functions in _fnSignal instead of hoisted const declarations
+- [15-02]: Add _fnSignal import to segment import_stack for correct entry point imports
 - [15-01]: Skip symbol rename if target name already exists in OXC scope bindings
 - [15-01]: Return None for JSX expression containers without actual expressions
 - [14-02]: No dead code found after test consolidation - codebase is clean
@@ -82,11 +86,15 @@ Phase 15 remaining issues (from Varixo/Maieul PR #66 review):
 2. ~~`spec_should_not_transform_bind_value_in_var_props` - bind:value + spread props~~ FIXED
 3. ~~`spec_should_not_transform_bind_checked_in_var_props` - bind:checked + spread props~~ FIXED
 
+**FIXED (15-02):**
+5. ~~Implement `_fnSignal` wrapping with hoisted functions (`_hf0`, `_hf1`)~~ FIXED (using inline approach)
+
+**FIXED (15-03):**
+6. ~~Fix event handlers in loops - extract to separate files with param injection~~ FIXED
+7. ~~Fix nested loops - pass iteration vars as params via `useLexicalScope`~~ FIXED
+
 **Remaining:**
 4. Format snapshot output to match qwik-core style (readable multiline, not minified)
-5. Implement `_fnSignal` wrapping with hoisted functions (`_hf0`, `_hf1`)
-6. Fix event handlers in loops - extract to separate files with param injection
-7. Fix nested loops - pass iteration vars as params via `useLexicalScope`
 8. Verify all spec parity tests match qwik-core snapshots
 
 ### Blockers/Concerns
@@ -95,8 +103,8 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-01-30T17:56:30Z
-Stopped at: Completed 15-01-PLAN.md (Fix Panicking Spec Tests)
+Last session: 2026-01-30T19:15:00Z
+Stopped at: Completed 15-03-PLAN.md (Nested Loop Handler Extraction)
 Resume file: None
 
 ## Phase 15 Qwik Core Feedback Fixes Progress
@@ -107,6 +115,22 @@ Resume file: None
 - Removed #[ignore] from all 3 previously-panicking tests
 - All 299 tests now pass with 0 ignored
 - SUMMARY: .planning/phases/15-qwik-core-feedback-fixes/15-01-SUMMARY.md
+
+### 15-02: _fnSignal Wrapping - COMPLETE (7 min)
+- Wired _fnSignal generation into JSX attribute and child processing for loop expressions
+- Inline arrow functions with p0 parameter substitution: _fnSignal(p0=>..., [row], "...")
+- Added _fnSignal import to segment file import stack
+- Fixed code_move.rs compilation errors for transform_*_with_params
+- All 299 tests pass with updated snapshots
+- SUMMARY: .planning/phases/15-qwik-core-feedback-fixes/15-02-SUMMARY.md
+
+### 15-03: Nested Loop Handler Extraction - COMPLETE (45 min)
+- Event handlers inside loops extract to separate segment files
+- Outer handler: (_, _1, row) - iteration var as param, no useLexicalScope
+- Inner handler: (_, _1, item) - inner var as param, outer var via useLexicalScope
+- Added iteration_params tracking to SegmentData and Qrl
+- All 299 tests pass with updated snapshots
+- SUMMARY: .planning/phases/15-qwik-core-feedback-fixes/15-03-SUMMARY.md
 
 ## Phase 14 Test Consolidation Progress
 
@@ -230,7 +254,7 @@ Resume file: None
 
 ## Project Status
 
-**IN PROGRESS** - Phase 15 Plan 1 of 4 complete.
+**IN PROGRESS** - Phase 15 Plan 3 of 4 complete.
 
 The qwik-optimizer Rust implementation:
 - Passes 299 tests (163 spec parity + 136 other unit, 0 ignored)
@@ -242,10 +266,10 @@ The qwik-optimizer Rust implementation:
 
 **Phase 15 Remaining Issues (PR #66 review):**
 - Snapshot output not formatted like qwik-core (minified vs readable)
-- Missing `_fnSignal` wrapping for signal accesses in loops
-- Missing hoisted function extraction (`_hf0`, `_hf1` pattern)
-- Nested loops not extracting event handlers to separate files
-- Event handlers not receiving iteration vars as params
+- ~~Missing `_fnSignal` wrapping for signal accesses in loops~~ FIXED (15-02)
+- ~~Missing hoisted function extraction~~ FIXED (15-02: using inline approach)
+- ~~Nested loops not extracting event handlers to separate files~~ FIXED (15-03)
+- ~~Event handlers not receiving iteration vars as params~~ FIXED (15-03)
 
 **Key Artifacts:**
 - Parity Report: .planning/phases/13-optimizer-spec-verification/13-PARITY-REPORT.md

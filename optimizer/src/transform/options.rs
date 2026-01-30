@@ -81,6 +81,9 @@ pub struct TransformOptions {
     pub transpile_jsx: bool,
     pub entry_strategy: EntryStrategy,
     pub is_server: bool,
+    /// When true, output is formatted with newlines and indentation for readability.
+    /// When false, output is minified (default behavior).
+    pub format_output: bool,
 }
 
 impl TransformOptions {
@@ -113,6 +116,7 @@ impl Default for TransformOptions {
             transpile_jsx: false,
             entry_strategy: EntryStrategy::Segment,
             is_server: true,
+            format_output: false,
         }
     }
 }
