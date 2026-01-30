@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** All 162 tests from qwik-core pass with exact output parity to the SWC implementation.
-**Current focus:** Phase 8 - SSR & Build Modes (COMPLETE)
+**Current focus:** Phase 9 - TypeScript Support (In Progress)
 
 ## Current Position
 
-Phase: 8 of 11 (SSR & Build Modes) - COMPLETE
-Plan: 3 of 3 in Phase 8 COMPLETE
-Status: Phase 8 Complete
-Last activity: 2026-01-30 - Completed 08-03-PLAN.md
+Phase: 9 of 11 (TypeScript Support)
+Plan: 1 of 3 in Phase 9 COMPLETE
+Status: In progress
+Last activity: 2026-01-30 - Completed 09-01-PLAN.md
 
-Progress: [===============     ] 72.7% (8/11 phases complete, 31/44 total plans)
+Progress: [================    ] 75.0% (8/11 phases complete, 32/44 total plans)
 
 ## Performance Metrics
 
@@ -36,9 +36,11 @@ Progress: [===============     ] 72.7% (8/11 phases complete, 31/44 total plans)
 | 07-entry-strategies | 3/3 | 29 min | 9.7 min |
 | 08-ssr-build-modes | 3/3 | 16 min | 5.3 min |
 
+| 09-typescript-support | 1/3 | 3 min | 3.0 min |
+
 **Recent Trend:**
-- Last 5 plans: 07-03 (6 min), 08-01 (5 min), 08-02 (4 min), 08-03 (7 min)
-- Phase 8 SSR & Build Modes COMPLETE
+- Last 5 plans: 08-01 (5 min), 08-02 (4 min), 08-03 (7 min), 09-01 (3 min)
+- Phase 9 TypeScript Support started
 
 *Updated after each plan completion*
 
@@ -126,6 +128,9 @@ Recent decisions affecting current work:
 - [08-03]: Import collection and const replacement happen before semantic analysis
 - [08-03]: Export declarations (ExportNamedDeclaration, ExportDefaultDeclaration) require explicit handling in visitor
 - [08-03]: Test mode skips const replacement to match SWC behavior
+- [09-01]: Check import_kind.is_type() at declaration level first for early exit on 'import type { Foo }'
+- [09-01]: Check import_kind.is_type() at specifier level for mixed imports 'import { type Foo, bar }'
+- [09-01]: ImportDefaultSpecifier and ImportNamespaceSpecifier don't need type-only checks
 
 ### Pending Todos
 
@@ -137,8 +142,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-30 00:05:31Z
-Stopped at: Completed 08-03-PLAN.md (Transform Pipeline Integration)
+Last session: 2026-01-30 00:54:19Z
+Stopped at: Completed 09-01-PLAN.md (Type-Only Import Filtering)
 Resume file: None
 
 ## Phase 2 QRL Core Summary
@@ -369,3 +374,19 @@ Phase 8 SSR & Build Modes COMPLETE with all 3 plans executed:
 - DCE-ready patterns: if(false) for bundler dead code elimination
 
 **Requirements satisfied:** SSR-01 through SSR-05 (5/5)
+
+## Phase 9 TypeScript Support Summary (In Progress)
+
+Phase 9 TypeScript Support in progress:
+
+1. **09-01:** Type-Only Import Filtering - COMPLETE (3 min)
+   - import_kind.is_type() check at declaration level for `import type { Foo }`
+   - import_kind.is_type() check at specifier level for `import { type Foo }`
+   - Prevents runtime errors from type-only imports in QRL capture arrays
+   - 5 unit tests for type-only filtering behavior
+   - 213 total tests passing
+
+**Key Deliverables (so far):**
+- Type-only import filtering in ImportTracker
+- Value imports continue to be tracked correctly
+- All existing tests pass (no regressions)
