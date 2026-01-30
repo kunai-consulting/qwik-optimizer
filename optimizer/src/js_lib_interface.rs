@@ -273,10 +273,15 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
             )?;
             let mut hasher = DefaultHasher::new();
             hasher.write(relative_path.as_bytes());
+            // Note: Source maps are not currently implemented in the OXC optimizer.
+            // qwik-core (SWC-based) generates source maps, but OXC does not.
+            // This is an accepted difference - source map generation would require
+            // significant additional implementation using oxc_sourcemap crate.
+            // The map field is set to None for all modules.
             let mut modules = vec![TransformModule {
                 path: relative_path.clone(),
                 code: optimized_app.body,
-                map: None,
+                map: None, // Source maps not implemented
                 segment: None,
                 is_entry: false,
                 order: hasher.finish(),
@@ -346,7 +351,7 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
                 TransformModule {
                     path: format!("{}.{}", &c.id.local_file_name, &segment_extension),
                     code: c.code,
-                    map: None,
+                    map: None, // Source maps not implemented
                     segment: Some(SegmentAnalysis {
                         origin: relative_path.clone(),
                         name: c.id.symbol_name.clone(),
