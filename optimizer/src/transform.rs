@@ -7248,4 +7248,89 @@ export const App = component$(() => {
         assert!(class_error.unwrap().message.contains("Thing"),
             "Class error should reference 'Thing'. Got: {}", class_error.unwrap().message);
     }
+
+    // ==================== Issue Regression Tests ====================
+
+    #[test]
+    fn test_issue_150_ternary_class_object() {
+        // Test that ternary expressions in class object attributes work correctly
+        // Issue 150: Complex class attribute expressions with ternary operators
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$, $ } from '@qwik.dev/core';
+import { hola } from 'sdfds';
+
+export const Greeter = component$(() => {
+  const stuff = useStore();
+  return $(() => {
+    return (
+      <div
+        class={{
+          'foo': true,
+          'bar': stuff.condition,
+          'baz': hola ? 'true' : 'false',
+        }}
+      />
+    )
+  });
+});
+
+const d = $(()=>console.log('thing'));
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Get all segment code for debugging
+        let segment_code: String = result.optimized_app.components.iter()
+            .map(|c| format!("{}: {}", c.id.symbol_name, c.code))
+            .collect::<Vec<_>>()
+            .join("\n---\n");
+
+        // Should have multiple QRLs extracted (Greeter component, inner $, and d)
+        assert!(result.optimized_app.components.len() >= 2,
+            "Expected at least 2 QRLs (Greeter component + inner $ or d). Got {}.\nAll segments:\n{}",
+            result.optimized_app.components.len(), segment_code);
+
+        // Find the Greeter component segment
+        let greeter_segment = result.optimized_app.components.iter()
+            .find(|c| c.id.symbol_name.contains("Greeter"))
+            .map(|c| &c.code);
+
+        // STRONG ASSERTIONS: Class object handling
+        if let Some(code) = greeter_segment {
+            // Ternary expression should be preserved
+            assert!(code.contains("hola") && (code.contains("?") || code.contains("'true'") || code.contains("\"true\"")),
+                "Expected ternary expression with 'hola' in class object.\nSegment code:\n{}", code);
+
+            // Class object should have 'foo': true
+            assert!(code.contains("foo") && code.contains("true"),
+                "Expected 'foo': true in class object.\nSegment code:\n{}", code);
+
+            // stuff.condition should be present (dynamic property)
+            assert!(code.contains("stuff") || code.contains("condition"),
+                "Expected 'stuff.condition' reference in class object.\nSegment code:\n{}", code);
+        } else {
+            panic!("Expected Greeter segment to exist.\nAll segments:\n{}", segment_code);
+        }
+
+        // Find the inner $ QRL or check body
+        let inner_qrl = result.optimized_app.components.iter()
+            .find(|c| c.code.contains("class") && c.code.contains("div"));
+
+        if let Some(qrl) = inner_qrl {
+            // Verify the inner QRL has the class object
+            assert!(qrl.code.contains("class"),
+                "Inner QRL should have class attribute.\nCode:\n{}", qrl.code);
+        }
+
+        // No errors should be present
+        assert!(result.errors.is_empty(),
+            "Ternary in class object should not cause errors, got: {:?}",
+            result.errors);
+    }
 }
