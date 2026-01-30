@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** All 162 tests from qwik-core pass with exact output parity to the SWC implementation.
-**Current focus:** Phase 11 - Research & Code Cleanup (Ready)
+**Current focus:** Phase 11 - Research & Code Cleanup (In Progress)
 
 ## Current Position
 
-Phase: 10 of 11 (Edge Cases) COMPLETE
-Plan: 5 of 5 in Phase 10 COMPLETE
-Status: Phase 10 Complete
-Last activity: 2026-01-30 - Completed 10-05-PLAN.md
+Phase: 11 of 11 (Research & Code Cleanup)
+Plan: 1 of 6 in Phase 11 COMPLETE
+Status: In Progress
+Last activity: 2026-01-30 - Completed 11-01-PLAN.md (Test Extraction)
 
-Progress: [=================== ] 86.4% (10/11 phases complete, 38/44 total plans)
+Progress: [===================.] 88.6% (10/11 phases complete, 39/44 total plans)
 
 ## Performance Metrics
 
@@ -39,9 +39,11 @@ Progress: [=================== ] 86.4% (10/11 phases complete, 38/44 total plans
 | 09-typescript-support | 2/2 | 8 min | 4.0 min |
 | 10-edge-cases | 5/5 | 43 min | 8.6 min |
 
+| 11-research-code-cleanup | 1/6 | 4 min | 4.0 min |
+
 **Recent Trend:**
-- Last 5 plans: 10-01 (10 min), 10-02 (10 min), 10-03 (10 min), 10-04 (10 min), 10-05 (3 min)
-- Phase 10 Edge Cases COMPLETE (5/5 plans)
+- Last 5 plans: 10-02 (10 min), 10-03 (10 min), 10-04 (10 min), 10-05 (3 min), 11-01 (4 min)
+- Phase 11 Research & Code Cleanup IN PROGRESS (1/6 plans)
 
 *Updated after each plan completion*
 
@@ -142,6 +144,9 @@ Recent decisions affecting current work:
 - [10-01]: Handlers inlined with qrl() rather than extracted as separate segments
 - [10-05]: Flexible assertions to match actual output format (on:click vs onClick)
 - [10-05]: Verify QRL presence in segments OR body for handler tests
+- [11-01]: Use pub(crate) visibility for test-accessed functions instead of pub
+- [11-01]: Keep small #[cfg(test)] helper methods in transform.rs (test utilities, not test module)
+- [11-01]: Import crate::collector::Id directly in tests rather than re-exporting from transform
 
 ### Pending Todos
 
@@ -153,8 +158,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-30T01:50:35Z
-Stopped at: Completed 10-05-PLAN.md (Issue Regression Tests)
+Last session: 2026-01-30T03:08:05Z
+Stopped at: Completed 11-01-PLAN.md (Test Extraction)
 Resume file: None
 
 ## Phase 2 QRL Core Summary
