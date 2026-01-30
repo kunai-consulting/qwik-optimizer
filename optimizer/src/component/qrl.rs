@@ -245,12 +245,14 @@ impl Qrl {
             .clone_in(ast_builder.allocator);
         let qrl = OxcBox::new_in(qrl, ast_builder.allocator);
 
-        let qrl_call_expr = ast_builder.call_expression(
+        // Create qrl() call with PURE annotation for tree-shaking
+        let qrl_call_expr = ast_builder.call_expression_with_pure(
             SPAN,
             Expression::Identifier(qrl),
             None::<OxcBox<TSTypeParameterInstantiation>>,
             args,
             false,
+            true, // pure: true - adds /* @__PURE__ */ annotation
         );
 
         match qrl_type {
@@ -271,12 +273,14 @@ impl Qrl {
                 let arg =
                     Argument::CallExpression(OxcBox::new_in(qrl_call_expr, ast_builder.allocator));
                 let args = ast_builder.vec1(arg);
-                ast_builder.call_expression(
+                // Prefixed calls (like componentQrl()) also get PURE annotation
+                ast_builder.call_expression_with_pure(
                     SPAN,
                     Expression::Identifier(ident),
                     None::<OxcBox<TSTypeParameterInstantiation>>,
                     args,
                     false,
+                    true, // pure: true - adds /* @__PURE__ */ annotation
                 )
             }
         }
