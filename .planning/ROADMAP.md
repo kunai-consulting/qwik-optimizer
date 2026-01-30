@@ -19,7 +19,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 5: JSX Transformation** - Complete JSX element and attribute handling
 - [x] **Phase 6: Imports & Exports** - Module system completeness including dynamic imports
 - [x] **Phase 7: Entry Strategies** - Code-splitting control (Inline, Single, PerSegment, etc.)
-- [ ] **Phase 8: SSR & Build Modes** - Server/client code handling and dev/prod modes
+- [x] **Phase 8: SSR & Build Modes** - Server/client code handling and dev/prod modes
 - [ ] **Phase 9: TypeScript Support** - TSX parsing, type annotations, and generics
 - [ ] **Phase 10: Edge Cases** - Nested loops, illegal code detection, and regression fixes
 - [ ] **Phase 11: Test Infrastructure** - Port all 162 tests and validate parity
@@ -167,9 +167,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 08-01-PLAN.md — TransformOptions extension and import tracking infrastructure
-- [ ] 08-02-PLAN.md — ConstReplacerVisitor for isServer/isBrowser/isDev replacement
-- [ ] 08-03-PLAN.md — Pipeline integration and SSR requirement validation
+- [x] 08-01-PLAN.md — TransformOptions extension and import tracking infrastructure
+- [x] 08-02-PLAN.md — ConstReplacerVisitor for isServer/isBrowser/isDev replacement
+- [x] 08-03-PLAN.md — Pipeline integration and SSR requirement validation
 
 ### Phase 9: TypeScript Support
 **Goal**: TSX files parse and transform correctly with type handling
@@ -236,11 +236,11 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 | 5. JSX Transformation | 4/4 | Complete | 2026-01-29 |
 | 6. Imports & Exports | 4/4 | Complete | 2026-01-29 |
 | 7. Entry Strategies | 3/3 | Complete | 2026-01-29 |
-| 8. SSR & Build Modes | 0/3 | Planned | - |
+| 8. SSR & Build Modes | 3/3 | Complete | 2026-01-29 |
 | 9. TypeScript Support | 0/3 | Not started | - |
 | 10. Edge Cases | 0/5 | Not started | - |
 | 11. Test Infrastructure | 0/3 | Not started | - |
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-29 (Phase 8 planned)*
+*Last updated: 2026-01-29 (Phase 8 complete)*
