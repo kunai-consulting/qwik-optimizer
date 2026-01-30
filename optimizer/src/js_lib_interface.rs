@@ -195,7 +195,6 @@ pub enum DiagnosticScope {
 }
 
 fn error_to_diagnostic(error: ProcessingFailure, _path: &Path) -> Diagnostic {
-    // ProcessingFailure now contains all diagnostic fields directly
     let category = match error.category.as_str() {
         "error" => DiagnosticCategory::Error,
         "warning" => DiagnosticCategory::Warning,
@@ -320,8 +319,8 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
                     .into_iter()
                     .map(|e| error_to_diagnostic(e, &path))
                     .collect(),
-                is_type_script: config.transpile_ts, // TODO: Set this flag correctly
-                is_jsx: config.transpile_jsx,        // TODO: Set this flag correctly
+                is_type_script: config.transpile_ts,
+                is_jsx: config.transpile_jsx,
             }))
         })
         .sum::<Result<Option<TransformOutput>>>()?
@@ -444,7 +443,6 @@ mod tests {
 
     #[test]
     fn test_project_1() {
-        // This should be a macro eventually
         let func_name = function_name!();
         let path = PathBuf::from("./src/test_input").join(func_name);
 
@@ -490,9 +488,6 @@ mod tests {
 
         insta::assert_yaml_snapshot!(func_name, result);
     }
-
-    // ========== QRL Parity Tests ==========
-    // These tests validate QRL transformation behavior
 
     /// Test 1: Basic arrow function QRL - `$(() => ...)` transforms correctly
     #[test]
@@ -586,10 +581,8 @@ mod tests {
         let result1 = transform_modules(options1).unwrap();
         let result2 = transform_modules(options2).unwrap();
 
-        // Verify same number of modules
         assert_eq!(result1.modules.len(), result2.modules.len(), "Module count should match");
 
-        // Verify hashes match for all segments
         for (m1, m2) in result1.modules.iter().zip(result2.modules.iter()) {
             if let (Some(s1), Some(s2)) = (&m1.segment, &m2.segment) {
                 assert_eq!(s1.hash, s2.hash, "Hashes should be stable: {} vs {}", s1.hash, s2.hash);
@@ -603,9 +596,6 @@ mod tests {
     fn test_qrl_function_declaration() {
         assert_valid_transform!(EntryStrategy::Segment);
     }
-
-    // ========== Entry Strategy Integration Tests ==========
-    // These tests validate the entry strategy integration with segment generation
 
     /// Helper function to transform code with a specific entry strategy
     fn transform_with_strategy(code: &str, strategy: EntryStrategy) -> TransformOutput {
@@ -648,7 +638,6 @@ mod tests {
 
         let result = transform_with_strategy(code, EntryStrategy::Inline);
 
-        // Verify all segments have entry = Some("entry_segments")
         let segments: Vec<_> = result
             .modules
             .iter()
@@ -678,7 +667,6 @@ mod tests {
 
         let result = transform_with_strategy(code, EntryStrategy::Single);
 
-        // Verify all segments have entry = Some("entry_segments")
         let segments: Vec<_> = result
             .modules
             .iter()
@@ -708,7 +696,6 @@ mod tests {
 
         let result = transform_with_strategy(code, EntryStrategy::Segment);
 
-        // Verify all segments have entry = None (separate files)
         let segments: Vec<_> = result
             .modules
             .iter()
@@ -737,7 +724,6 @@ mod tests {
 
         let result = transform_with_strategy(code, EntryStrategy::Hook);
 
-        // Verify all segments have entry = None (separate files)
         let segments: Vec<_> = result
             .modules
             .iter()
@@ -766,7 +752,6 @@ mod tests {
 
         let result = transform_with_strategy(code, EntryStrategy::Component);
 
-        // Verify segments have entry = Some("{origin}_entry_{component}")
         let segments: Vec<_> = result
             .modules
             .iter()
@@ -814,14 +799,9 @@ mod tests {
             .filter_map(|m| m.segment.as_ref())
             .collect();
 
-        // Only the component$ call produces a segment
         assert!(!segments.is_empty(), "Should have segments");
 
-        // SmartStrategy for component$ segments:
-        // - component$ functions with context -> entry = Some(grouped by component)
-        // - JSX event handlers are inlined and don't produce segments
         for segment in &segments {
-            // component$ with context gets grouped
             if segment.ctx_name.contains("component") {
                 assert!(
                     segment.entry.is_some(),
@@ -856,14 +836,12 @@ mod tests {
             .filter_map(|m| m.segment.as_ref())
             .collect();
 
-        // Should have 2 segments (one per component$)
         assert_eq!(
             segments.len(), 2,
             "Should have 2 segments (one per component), got {}",
             segments.len()
         );
 
-        // Both component$ calls produce grouped entries (with component context)
         for segment in &segments {
             assert!(
                 segment.entry.is_some(),
@@ -898,8 +876,6 @@ mod tests {
 
         assert_eq!(segments.len(), 1, "Should have 1 segment");
 
-        // Named QRL has context from variable name "handler"
-        // SmartStrategy groups QRLs with context
         assert!(
             segments[0].entry.is_some(),
             "Named QRL should have grouped entry (context from variable name)"
@@ -939,8 +915,6 @@ mod tests {
 
         assert_eq!(smart_segments.len(), component_segments.len(), "Same number of segments");
 
-        // For component$ QRLs, both strategies should produce grouped entries
-        // (Smart delegates to component grouping for non-stateless segments)
         for (smart, comp) in smart_segments.iter().zip(component_segments.iter()) {
             assert!(smart.entry.is_some(), "Smart entry should exist");
             assert!(comp.entry.is_some(), "Component entry should exist");

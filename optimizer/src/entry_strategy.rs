@@ -115,20 +115,14 @@ impl SmartStrategy {
 
 impl EntryPolicy for SmartStrategy {
     fn get_entry_for_sym(&self, context: &[String], segment: &SegmentData) -> Option<String> {
-        // Event handlers without scope variables are put into a separate file
         if segment.scoped_idents.is_empty()
             && (segment.ctx_kind != SegmentKind::Function || segment.ctx_name == "event$")
         {
             return None;
         }
 
-        // Everything else is put into a single file per component
-        // This means that all QRLs for a component are loaded together
-        // if one is used
         context.first().map_or_else(
-            // Top-level QRLs are put into a separate file
             || None,
-            // Other QRLs are put into a file named after the original file + the root component
             |root| Some([segment.origin.display().to_string().as_str(), "_entry_", root].concat()),
         )
     }
@@ -168,9 +162,6 @@ mod tests {
         )
     }
 
-    // =========================================
-    // InlineStrategy tests (ENT-01 - PRE-EXISTING)
-    // =========================================
     #[test]
     fn test_inline_strategy_always_returns_entry_segments() {
         let strategy = InlineStrategy;
@@ -191,9 +182,6 @@ mod tests {
         );
     }
 
-    // =========================================
-    // SingleStrategy tests (ENT-02 - PRE-EXISTING)
-    // =========================================
     #[test]
     fn test_single_strategy_always_returns_entry_segments() {
         let strategy = SingleStrategy::new();
@@ -204,9 +192,6 @@ mod tests {
         );
     }
 
-    // =========================================
-    // PerSegmentStrategy tests (ENT-03 - PRE-EXISTING)
-    // =========================================
     #[test]
     fn test_per_segment_strategy_always_returns_none() {
         let strategy = PerSegmentStrategy::new();
@@ -227,9 +212,6 @@ mod tests {
         );
     }
 
-    // =========================================
-    // PerComponentStrategy tests (ENT-04)
-    // =========================================
     #[test]
     fn test_per_component_with_context() {
         let strategy = PerComponentStrategy::new();
@@ -250,13 +232,9 @@ mod tests {
         );
     }
 
-    // =========================================
-    // SmartStrategy tests (ENT-05)
-    // =========================================
     #[test]
     fn test_smart_event_handler_no_captures() {
         let strategy = SmartStrategy::new();
-        // Event handler without captures -> separate file
         let segment = make_segment("onClick$", "test.tsx", vec![]);
         assert_eq!(
             strategy.get_entry_for_sym(&["Counter".into()], &segment),
@@ -267,7 +245,6 @@ mod tests {
     #[test]
     fn test_smart_event_handler_with_captures() {
         let strategy = SmartStrategy::new();
-        // Event handler WITH captures -> grouped with component
         let segment = make_segment("onClick$", "src/Counter.tsx", vec![("count", 1)]);
         assert_eq!(
             strategy.get_entry_for_sym(&["Counter".into()], &segment),
@@ -278,7 +255,6 @@ mod tests {
     #[test]
     fn test_smart_function_with_context() {
         let strategy = SmartStrategy::new();
-        // Function type (not event handler) -> grouped with component
         let segment = make_segment("component$", "src/Counter.tsx", vec![]);
         assert_eq!(
             strategy.get_entry_for_sym(&["Counter".into()], &segment),
@@ -289,7 +265,6 @@ mod tests {
     #[test]
     fn test_smart_no_context() {
         let strategy = SmartStrategy::new();
-        // No context -> separate file
         let segment = make_segment("component$", "test.tsx", vec![]);
         assert_eq!(
             strategy.get_entry_for_sym(&[], &segment),

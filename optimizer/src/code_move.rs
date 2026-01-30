@@ -34,7 +34,6 @@ pub fn transform_function_expr<'a>(
     scoped_idents: &[Id],
     allocator: &'a Allocator,
 ) -> Expression<'a> {
-    // No captures means no transformation needed
     if scoped_idents.is_empty() {
         return expr;
     }
@@ -66,10 +65,7 @@ fn transform_arrow_fn<'a>(
 ) -> ArrowFunctionExpression<'a> {
     let use_lexical_scope_stmt = create_use_lexical_scope(scoped_idents, ast, allocator);
 
-    // Check if this is an expression body (expression = true)
     if arrow.expression {
-        // Expression body: convert to block with useLexicalScope + return
-        // The expression is stored in statements[0] as an ExpressionStatement
         if let Some(Statement::ExpressionStatement(expr_stmt)) = arrow.body.statements.pop() {
             let return_stmt = ast.statement_return(SPAN, Some(expr_stmt.unbox().expression));
             let mut new_stmts = OxcVec::with_capacity_in(2, allocator);
@@ -79,7 +75,6 @@ fn transform_arrow_fn<'a>(
             arrow.expression = false;
         }
     } else {
-        // Block body: prepend useLexicalScope to existing statements
         let mut new_stmts = OxcVec::with_capacity_in(1 + arrow.body.statements.len(), allocator);
         new_stmts.push(use_lexical_scope_stmt);
         new_stmts.extend(arrow.body.statements.drain(..));
@@ -106,7 +101,6 @@ fn transform_fn<'a>(
         new_stmts.extend(body.statements.drain(..));
         body.statements = new_stmts;
     } else {
-        // Function without body - create one
         let mut stmts = OxcVec::with_capacity_in(1, allocator);
         stmts.push(use_lexical_scope_stmt);
         func.body = Some(ast.alloc_function_body(SPAN, OxcVec::new_in(allocator), stmts));
@@ -128,21 +122,15 @@ pub fn create_use_lexical_scope<'a>(
     ast: &AstBuilder<'a>,
     _allocator: &'a Allocator,
 ) -> Statement<'a> {
-    // Create array pattern elements for destructuring: [a, b, c]
-    // Each element is a BindingPattern (from binding_pattern_binding_identifier)
     let mut elements = ast.vec_with_capacity(scoped_idents.len());
     for (name, _scope_id) in scoped_idents {
-        // Allocate the name string in the arena so it has the right lifetime
         let name_atom = ast.atom(name.as_str());
         let binding = ast.binding_pattern_binding_identifier(SPAN, name_atom);
         elements.push(Some(binding));
     }
 
-    // Create array pattern binding: [a, b, c]
-    // binding_pattern_array_pattern(span, elements, rest)
     let binding_pattern = ast.binding_pattern_array_pattern(SPAN, elements, NONE);
 
-    // Create call expression: useLexicalScope()
     let callee = ast.expression_identifier(SPAN, "useLexicalScope");
     let call_expr = ast.expression_call(
         SPAN,
@@ -152,7 +140,6 @@ pub fn create_use_lexical_scope<'a>(
         false,
     );
 
-    // Create variable declarator: [a, b, c] = useLexicalScope()
     let mut declarators = ast.vec_with_capacity(1);
     declarators.push(ast.variable_declarator(
         SPAN,
@@ -163,7 +150,6 @@ pub fn create_use_lexical_scope<'a>(
         false,
     ));
 
-    // Create variable declaration: const [a, b, c] = useLexicalScope()
     let var_decl = ast.variable_declaration(SPAN, VariableDeclarationKind::Const, declarators, false);
 
     Statement::VariableDeclaration(ast.alloc(var_decl))
@@ -194,10 +180,8 @@ mod tests {
 
         let program = parse_result.program;
         if let Some(Statement::ExpressionStatement(expr_stmt)) = program.body.first() {
-            // Need to clone the expression to avoid lifetime issues
             use oxc_allocator::CloneIn;
             let expr = expr_stmt.expression.clone_in(allocator);
-            // Unwrap parenthesized expression if present
             if let Expression::ParenthesizedExpression(paren) = expr {
                 paren.unbox().expression
             } else {
@@ -210,15 +194,12 @@ mod tests {
 
     fn gen_code(expr: &Expression) -> String {
         let mut codegen = Codegen::new().with_options(CodegenOptions::default());
-        // Print the expression to the internal buffer
         codegen.print_expression(expr);
-        // Get the final generated code
         codegen.into_source_text()
     }
 
     #[test]
     fn test_arrow_expression_body_conversion() {
-        // Test: `() => x + y` becomes `() => { const [x, y] = useLexicalScope(); return x + y; }`
         let allocator = Allocator::default();
         let expr = parse_expr("() => x + y", &allocator);
 
@@ -249,7 +230,6 @@ mod tests {
 
     #[test]
     fn test_arrow_block_body_prepending() {
-        // Test: `() => { return x; }` prepends useLexicalScope
         let allocator = Allocator::default();
         let expr = parse_expr("() => { return x; }", &allocator);
 
@@ -272,7 +252,6 @@ mod tests {
 
     #[test]
     fn test_function_expression_transformation() {
-        // Test: `function() { return x; }` prepends useLexicalScope
         let allocator = Allocator::default();
         let expr = parse_expr("(function() { return x; })", &allocator);
 
@@ -290,7 +269,6 @@ mod tests {
 
     #[test]
     fn test_no_op_for_empty_scoped_idents() {
-        // Test: Returns unchanged expression when no captures
         let allocator = Allocator::default();
         let expr = parse_expr("() => x + y", &allocator);
         let original_code = gen_code(&expr);
@@ -308,11 +286,9 @@ mod tests {
 
     #[test]
     fn test_sorted_destructuring_pattern() {
-        // Test: Identifiers in destructuring are sorted (a, b, c)
         let allocator = Allocator::default();
         let expr = parse_expr("() => a + b + c", &allocator);
 
-        // Provide identifiers in non-sorted order
         let scoped_idents: Vec<Id> = vec![
             ("a".to_string(), ScopeId::new(0)),
             ("b".to_string(), ScopeId::new(0)),
@@ -322,7 +298,6 @@ mod tests {
         let transformed = transform_function_expr(expr, &scoped_idents, &allocator);
         let code = gen_code(&transformed);
 
-        // The pattern should be [a, b, c] since we pass sorted scoped_idents
         assert!(
             code.contains("[a, b, c]"),
             "Should contain sorted destructuring pattern [a, b, c], got: {}",

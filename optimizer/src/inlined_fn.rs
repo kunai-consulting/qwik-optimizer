@@ -94,20 +94,17 @@ struct ObjectUsageChecker<'b> {
 }
 
 impl<'b> ObjectUsageChecker<'b> {
-    /// Helper function to recursively check if an expression contains one of the target identifiers.
     fn recursively_check_object_expr<'a>(&mut self, expr: &Expression<'a>) {
         if self.used_as_object {
-            return; // Already found
+            return;
         }
         match expr {
             Expression::Identifier(ident) => {
-                // Check if this identifier is one of the target identifiers (by name)
                 if self.identifiers.iter().any(|id| id.0 == ident.name.as_str()) {
                     self.used_as_object = true;
                 }
             }
             Expression::LogicalExpression(log_expr) => {
-                // For logical expressions (including ||), check both sides
                 self.recursively_check_object_expr(&log_expr.left);
                 if self.used_as_object {
                     return;
@@ -115,11 +112,9 @@ impl<'b> ObjectUsageChecker<'b> {
                 self.recursively_check_object_expr(&log_expr.right);
             }
             Expression::ParenthesizedExpression(paren_expr) => {
-                // If it's a parenthesized expression, check the inner expression
                 self.recursively_check_object_expr(&paren_expr.expression);
             }
             _ => {
-                // For other expression types, traversal is handled by the Visit trait
             }
         }
     }
@@ -127,8 +122,6 @@ impl<'b> ObjectUsageChecker<'b> {
 
 impl<'a, 'b> Visit<'a> for ObjectUsageChecker<'b> {
     fn visit_call_expression(&mut self, _: &CallExpression<'a>) {
-        // If we're in a call expression, we can't wrap it in a signal
-        // because it's a function call, and later we need to serialize it
         self.used_as_call = true;
     }
 
@@ -137,7 +130,6 @@ impl<'a, 'b> Visit<'a> for ObjectUsageChecker<'b> {
             return;
         }
 
-        // Check if the object of the member expression is one of our identifiers
         let obj = node.object();
         self.recursively_check_object_expr(obj);
 
@@ -184,22 +176,18 @@ pub fn convert_inlined_fn<'a>(
         return None;
     }
 
-    // Build identifier map: old_id name -> pN
     let mut ident_map: HashMap<String, String> = HashMap::new();
     for (i, id) in scoped_idents.iter().enumerate() {
         ident_map.insert(id.0.clone(), format!("p{}", i));
     }
 
-    // Clone expression and replace identifiers
     let transformed_expr = replace_identifiers_in_expr(expr.clone_in(allocator), &ident_map, builder, allocator);
 
-    // Generate string representation of transformed expression
     let expr_str = render_expression(&transformed_expr);
     if expr_str.len() > MAX_EXPR_LENGTH {
         return None;
     }
 
-    // Build parameter list: p0, p1, p2, ... using direct struct creation like props_destructuring.rs
     let params: oxc_allocator::Vec<'a, FormalParameter<'a>> = builder.vec_from_iter(
         scoped_idents.iter().enumerate().map(|(i, _)| {
             FormalParameter {
@@ -216,7 +204,6 @@ pub fn convert_inlined_fn<'a>(
         }),
     );
 
-    // Build formal parameters with explicit None type for rest
     let formal_params = builder.formal_parameters(
         SPAN,
         FormalParameterKind::ArrowFormalParameters,
@@ -224,7 +211,6 @@ pub fn convert_inlined_fn<'a>(
         None::<OxcBox<FormalParameterRest>>,
     );
 
-    // Build hoisted arrow function: (p0, p1) => transformed_expr
     let hoisted_fn = builder.arrow_function_expression(
         SPAN,
         true,  // expression (body is expression, not block)
@@ -241,7 +227,6 @@ pub fn convert_inlined_fn<'a>(
         ),
     );
 
-    // Generate hoisted name
     let hoisted_name = format!("_hf{}", hoisted_index);
 
     Some(InlinedFnResult {
@@ -294,7 +279,6 @@ impl<'a, 'b> IdentifierReplacer<'a, 'b> {
     fn replace_expression(&mut self, expr: Expression<'a>) -> Expression<'a> {
         match expr {
             Expression::Identifier(ident) => {
-                // Check if this identifier should be replaced
                 if let Some(new_name) = self.ident_map.get(ident.name.as_str()) {
                     self.builder.expression_identifier(ident.span, self.builder.atom(new_name))
                 } else {
@@ -367,7 +351,7 @@ impl<'a, 'b> IdentifierReplacer<'a, 'b> {
                                     key: p.key.clone_in(self.allocator),
                                     value,
                                     method: p.method,
-                                    shorthand: false, // Can't be shorthand after replacing identifier
+                                    shorthand: false,
                                     computed: p.computed,
                                 }))
                             }
@@ -387,7 +371,6 @@ impl<'a, 'b> IdentifierReplacer<'a, 'b> {
                 let argument = self.replace_expression(unary.argument);
                 self.builder.expression_unary(unary.span, unary.operator, argument)
             }
-            // For other expression types, return as-is (we handle the most common cases)
             other => other,
         }
     }
@@ -404,7 +387,6 @@ mod tests {
     fn parse_expr(code: &str) -> (Allocator, Expression<'static>) {
         let allocator = Allocator::default();
         let source_type = SourceType::tsx();
-        // Wrap in a variable declaration to get a valid program
         let full_code = format!("const x = {};", code);
         let allocator_static: &'static Allocator = Box::leak(Box::new(allocator));
         let parse_result = Parser::new(allocator_static, &full_code, source_type).parse();
@@ -414,7 +396,6 @@ mod tests {
             parse_result.errors
         );
 
-        // Extract the expression from the variable declaration
         if let Some(Statement::VariableDeclaration(decl)) = parse_result.program.body.first() {
             if let Some(declarator) = decl.declarations.first() {
                 if let Some(init) = &declarator.init {
@@ -429,7 +410,6 @@ mod tests {
     fn test_should_wrap_member_access() {
         let scoped_idents = vec![("store".to_string(), ScopeId::new(0))];
 
-        // Simple member access should be wrapped
         let (_, expr) = parse_expr("store.count");
         assert!(
             should_wrap_in_fn_signal(&expr, &scoped_idents),
@@ -441,7 +421,6 @@ mod tests {
     fn test_should_not_wrap_simple_identifier() {
         let scoped_idents = vec![("count".to_string(), ScopeId::new(0))];
 
-        // Just an identifier without member access should NOT be wrapped
         let (_, expr) = parse_expr("count");
         assert!(
             !should_wrap_in_fn_signal(&expr, &scoped_idents),
@@ -453,7 +432,6 @@ mod tests {
     fn test_should_not_wrap_call_expression() {
         let scoped_idents = vec![("signal".to_string(), ScopeId::new(0))];
 
-        // Expression with function call should NOT be wrapped
         let (_, expr) = parse_expr("signal.value()");
         assert!(
             !should_wrap_in_fn_signal(&expr, &scoped_idents),
@@ -465,7 +443,6 @@ mod tests {
     fn test_should_not_wrap_no_scoped_idents() {
         let scoped_idents: Vec<Id> = vec![];
 
-        // No scoped idents should NOT be wrapped
         let (_, expr) = parse_expr("foo.bar");
         assert!(
             !should_wrap_in_fn_signal(&expr, &scoped_idents),
@@ -477,7 +454,6 @@ mod tests {
     fn test_should_not_wrap_arrow_function() {
         let scoped_idents = vec![("store".to_string(), ScopeId::new(0))];
 
-        // Arrow function should NOT be wrapped
         let (_, expr) = parse_expr("() => store.count");
         assert!(
             !should_wrap_in_fn_signal(&expr, &scoped_idents),
@@ -498,7 +474,6 @@ mod tests {
     fn test_convert_inlined_fn_basic() {
         let scoped_idents = vec![("store".to_string(), ScopeId::new(0))];
 
-        // Parse store.count
         let (allocator, expr) = parse_expr("store.count");
 
         let builder = AstBuilder::new(&allocator);
@@ -507,14 +482,11 @@ mod tests {
         assert!(result.is_some(), "convert_inlined_fn should succeed");
         let result = result.unwrap();
 
-        // Check hoisted name
         assert_eq!(result.hoisted_name, "_hf0");
 
-        // Check that captures contains the scoped ident
         assert_eq!(result.captures.len(), 1);
         assert_eq!(result.captures[0].0, "store");
 
-        // Check that hoisted_str contains p0 (the replacement)
         assert!(
             result.hoisted_str.contains("p0"),
             "Expected p0 in hoisted_str, got: {}",
@@ -526,7 +498,6 @@ mod tests {
     fn test_convert_inlined_fn_skips_call() {
         let scoped_idents = vec![("signal".to_string(), ScopeId::new(0))];
 
-        // Parse signal.value() - has call expression
         let (allocator, expr) = parse_expr("signal.value()");
 
         let builder = AstBuilder::new(&allocator);
@@ -539,7 +510,6 @@ mod tests {
     fn test_convert_inlined_fn_skips_arrow() {
         let scoped_idents = vec![("store".to_string(), ScopeId::new(0))];
 
-        // Parse arrow function
         let (allocator, expr) = parse_expr("() => store.count");
 
         let builder = AstBuilder::new(&allocator);

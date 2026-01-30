@@ -59,13 +59,10 @@ impl<'a> ConstCollector<'a> {
     fn is_const_var(&self, name: &str) -> bool {
         for scope in self.decl_stack.iter() {
             for (id, ident_type) in scope.iter() {
-                // Match by name only (consistent with compute_scoped_idents)
                 if id.0 == name {
-                    // Check if it's a const variable
                     if let IdentType::Var(true) = ident_type {
                         return true;
                     }
-                    // Found but not const - still return false
                     return false;
                 }
             }
@@ -76,38 +73,30 @@ impl<'a> ConstCollector<'a> {
 
 impl<'b> Visit<'b> for ConstCollector<'_> {
     fn visit_call_expression(&mut self, _node: &ast::CallExpression<'b>) {
-        // Function calls make the expression variable
         self.is_const = false;
     }
 
     fn visit_member_expression(&mut self, _node: &ast::MemberExpression<'b>) {
-        // Member access makes the expression variable
         self.is_const = false;
     }
 
     fn visit_arrow_function_expression(&mut self, _node: &ast::ArrowFunctionExpression<'b>) {
-        // Don't recurse into arrow functions - they're self-contained
-        // The arrow function itself is const if all its captured variables are const
     }
 
     fn visit_function(&mut self, _node: &ast::Function<'b>, _flags: ScopeFlags) {
-        // Don't recurse into function expressions - they're self-contained
     }
 
     fn visit_identifier_reference(&mut self, node: &ast::IdentifierReference<'b>) {
         let name = node.name.as_str();
 
-        // Check if it's an import - imports are const
         if self.import_names.contains(name) {
             return;
         }
 
-        // Check if it's a const variable in scope
         if self.is_const_var(name) {
             return;
         }
 
-        // Unknown identifier reference - not const
         self.is_const = false;
     }
 }
@@ -124,7 +113,6 @@ mod tests {
     fn check_const(code: &str, imports: &[&str], const_vars: &[&str]) -> bool {
         let allocator = Allocator::default();
         let source_type = SourceType::tsx();
-        // Wrap in expression statement for parsing
         let wrapped = format!("({})", code);
         let parse_result = Parser::new(&allocator, &wrapped, source_type).parse();
         assert!(
@@ -133,7 +121,6 @@ mod tests {
             parse_result.errors
         );
 
-        // Extract the expression from the program
         let stmt = &parse_result.program.body[0];
         let expr = match stmt {
             ast::Statement::ExpressionStatement(es) => &es.expression,
@@ -186,23 +173,18 @@ mod tests {
 
     #[test]
     fn test_arrow_function_is_const() {
-        // Arrow functions themselves are const (don't recurse into body)
         assert!(check_const("() => unknownVar", &[], &[]));
     }
 
     #[test]
     fn test_template_literal_with_var_is_not_const() {
-        // Template with unknown identifier
         assert!(!check_const("`hello ${name}`", &[], &[]));
-        // Template with const var
         assert!(check_const("`hello ${name}`", &[], &["name"]));
     }
 
     #[test]
     fn test_binary_expression_propagates() {
-        // All parts const
         assert!(check_const("a + b", &["a"], &["b"]));
-        // One part is unknown
         assert!(!check_const("a + b", &["a"], &[]));
     }
 }

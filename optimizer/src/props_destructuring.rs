@@ -75,12 +75,8 @@ impl<'a> PropsDestructuring<'a> {
         false
     }
 
-    /// Check if arrow function has ObjectPattern as first param.
     fn has_object_pattern_param(&self, arrow: &ArrowFunctionExpression) -> bool {
         if let Some(first_param) = arrow.params.items.first() {
-            // OXC 0.111.0: BindingPattern has get_binding_identifier() method
-            // ObjectPattern is detected when get_binding_identifier() returns None
-            // and we need to match on the pattern itself
             matches!(first_param.pattern, BindingPattern::ObjectPattern(_))
         } else {
             false
@@ -109,43 +105,30 @@ impl<'a> PropsDestructuring<'a> {
             return false;
         }
 
-        // Extract ObjectPattern from first param
         let first_param = &arrow.params.items[0];
         if let BindingPattern::ObjectPattern(obj_pat) = &first_param.pattern {
-            // Collect property mappings (prop_name -> local_name)
-            // Will be used later for identifier replacement
             for prop in &obj_pat.properties {
-                // Handle { propName } and { propName: localName }
                 let prop_key = self.extract_prop_key(&prop.key);
                 let local_name = self.extract_binding_name(&prop.value);
                 if let (Some(key), Some(local)) = (prop_key, local_name) {
-                    // Store: local_name -> prop_key for later lookup
                     self.identifiers.insert(local, key.clone());
-                    // Add to omit keys for rest props
                     self.omit_keys.push(key);
                 }
             }
 
-            // Check for rest element: { ...rest }
             if let Some(rest) = &obj_pat.rest {
-                // rest.argument is a BindingPattern enum
                 if let BindingPattern::BindingIdentifier(ident) = &rest.argument {
                     self.rest_id = Some((
                         ident.name.to_string(),
-                        oxc_semantic::ScopeId::new(0), // Use ScopeId 0 since we match by name later
+                        oxc_semantic::ScopeId::new(0),
                     ));
                 }
             }
 
-            // Replace ObjectPattern with _rawProps BindingIdentifier
-            // Create new BindingPattern with BindingIdentifier using the simpler API
             let new_binding = builder.binding_pattern_binding_identifier(SPAN, self.raw_props_name);
 
-            // Build new FormalParameters with a single _rawProps param
             let mut new_items = builder.vec();
 
-            // Create a FormalParameter directly using the builder
-            // OXC 0.111.0 formal_parameter has all these fields
             let new_param = FormalParameter {
                 span: SPAN,
                 decorators: builder.vec(),
@@ -159,10 +142,8 @@ impl<'a> PropsDestructuring<'a> {
             };
             new_items.push(new_param);
 
-            // Copy any remaining parameters (if there are more than 1)
             for i in 1..arrow.params.items.len() {
                 if let Some(param) = arrow.params.items.get(i) {
-                    // Clone the parameter
                     let cloned = FormalParameter {
                         span: param.span,
                         decorators: builder.vec(),
@@ -178,10 +159,8 @@ impl<'a> PropsDestructuring<'a> {
                 }
             }
 
-            // Clone the rest parameter if present
             let rest = arrow.params.rest.clone_in(builder.allocator);
 
-            // Replace the entire params with new FormalParameters
             arrow.params = builder.alloc_formal_parameters(
                 arrow.params.span,
                 FormalParameterKind::ArrowFormalParameters,
@@ -224,14 +203,11 @@ impl<'a> PropsDestructuring<'a> {
     pub fn generate_rest_stmt<'b>(&self, builder: &AstBuilder<'b>) -> Option<Statement<'b>> {
         let rest_id = self.rest_id.as_ref()?;
 
-        // Build: _restProps(_rawProps) or _restProps(_rawProps, ["prop1", ...])
         let raw_props_arg = Argument::from(builder.expression_identifier(SPAN, self.raw_props_name));
 
         let args = if self.omit_keys.is_empty() {
-            // No omit array: _restProps(_rawProps)
             builder.vec1(raw_props_arg)
         } else {
-            // Build omit array: ["prop1", "prop2", ...]
             let omit_elements: oxc_allocator::Vec<'b, ArrayExpressionElement<'b>> = builder.vec_from_iter(
                 self.omit_keys.iter().map(|key| {
                     ArrayExpressionElement::from(
@@ -256,8 +232,6 @@ impl<'a> PropsDestructuring<'a> {
             false,
         );
 
-        // Build: const rest = _restProps(...)
-        // variable_declarator(span, kind, id, type_annotation, init, definite)
         let decl = builder.variable_declaration(
             SPAN,
             VariableDeclarationKind::Const,
@@ -265,7 +239,7 @@ impl<'a> PropsDestructuring<'a> {
                 SPAN,
                 VariableDeclarationKind::Const,
                 builder.binding_pattern_binding_identifier(SPAN, builder.atom(&rest_id.0)),
-                oxc_ast::NONE, // type_annotation
+                oxc_ast::NONE,
                 Some(call_expr),
                 false,
             )),
@@ -281,8 +255,6 @@ mod tests {
     use crate::component::Language;
     use crate::source::Source;
     use crate::transform::{transform, TransformOptions};
-
-    // Note: super::* not needed since we only test via the transform function
 
     /// Test that simple destructure is detected and transformed.
     /// component$(({ message }) => ...) should become component$((_rawProps) => ...)
@@ -300,7 +272,6 @@ export const Cmp = component$(({ message }) => {
         let options = TransformOptions::default().with_transpile_jsx(true);
         let result = transform(source, options).expect("Transform should succeed");
 
-        // Should contain _rawProps in either the body or component code
         let has_raw_props = result.optimized_app.body.contains("_rawProps")
             || result.optimized_app.components.iter().any(|c| c.code.contains("_rawProps"));
 
@@ -327,7 +298,6 @@ export const Cmp = component$(({ message, id, count }) => {
         let options = TransformOptions::default().with_transpile_jsx(true);
         let result = transform(source, options).expect("Transform should succeed");
 
-        // Should contain _rawProps in either the body or component code
         let has_raw_props = result.optimized_app.body.contains("_rawProps")
             || result.optimized_app.components.iter().any(|c| c.code.contains("_rawProps"));
 
@@ -354,7 +324,6 @@ export const Cmp = component$(({ count: c, name: n }) => {
         let options = TransformOptions::default().with_transpile_jsx(true);
         let result = transform(source, options).expect("Transform should succeed");
 
-        // Should contain _rawProps in either the body or component code
         let has_raw_props = result.optimized_app.body.contains("_rawProps")
             || result.optimized_app.components.iter().any(|c| c.code.contains("_rawProps"));
 

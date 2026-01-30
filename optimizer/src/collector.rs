@@ -14,7 +14,6 @@ use oxc_ast_visit::Visit;
 use oxc_semantic::ScopeId;
 
 /// Identifier type for OXC - (name, scope_id)
-/// Similar to SWC's `(Atom, SyntaxContext)` pattern
 pub type Id = (String, ScopeId);
 
 /// Information about a module export.
@@ -90,7 +89,6 @@ const BUILTINS: &[&str] = &["undefined", "NaN", "Infinity", "null"];
 impl<'a> Visit<'a> for IdentCollector {
     fn visit_expression(&mut self, node: &ast::Expression<'a>) {
         self.expr_ctxt.push(ExprOrSkip::Expr);
-        // Visit children using the walk functions
         oxc_ast_visit::walk::walk_expression(self, node);
         self.expr_ctxt.pop();
     }
@@ -113,14 +111,10 @@ impl<'a> Visit<'a> for IdentCollector {
     }
 
     fn visit_jsx_element_name(&mut self, node: &ast::JSXElementName<'a>) {
-        // Only visit children (collecting the identifier) if it starts with uppercase
-        // Lowercase JSX elements are HTML tags and shouldn't be collected
         if let ast::JSXElementName::IdentifierReference(ref ident) = node {
             let ident_name = ident.name.chars().next();
             if let Some('A'..='Z') = ident_name {
-                // Component reference - visit to collect it
             } else {
-                // HTML tag - skip
                 return;
             }
         }
@@ -128,34 +122,27 @@ impl<'a> Visit<'a> for IdentCollector {
     }
 
     fn visit_jsx_attribute(&mut self, node: &ast::JSXAttribute<'a>) {
-        // Skip attribute names, but visit attribute values
         self.expr_ctxt.push(ExprOrSkip::Skip);
         oxc_ast_visit::walk::walk_jsx_attribute(self, node);
         self.expr_ctxt.pop();
     }
 
     fn visit_identifier_reference(&mut self, node: &ast::IdentifierReference<'a>) {
-        // Only collect identifiers when in expression context
         if matches!(self.expr_ctxt.last(), Some(ExprOrSkip::Expr)) {
             let name = node.name.as_str();
-            // Exclude builtins
             if !BUILTINS.contains(&name) {
-                // Use a default scope for now - in actual use, we'd track scope properly
-                // For simple identifier collection, we primarily care about the name
                 self.local_idents.insert((name.to_string(), ScopeId::new(0)));
             }
         }
     }
 
     fn visit_object_property(&mut self, node: &ast::ObjectProperty<'a>) {
-        // Skip property keys, only visit values
         self.expr_ctxt.push(ExprOrSkip::Skip);
         oxc_ast_visit::walk::walk_object_property(self, node);
         self.expr_ctxt.pop();
     }
 
     fn visit_member_expression(&mut self, member: &ast::MemberExpression<'a>) {
-        // Skip property access names, only visit the object
         self.expr_ctxt.push(ExprOrSkip::Skip);
         oxc_ast_visit::walk::walk_member_expression(self, member);
         self.expr_ctxt.pop();
@@ -177,12 +164,9 @@ pub fn collect_exports(program: &ast::Program) -> HashMap<String, ExportInfo> {
 
     for stmt in &program.body {
         match stmt {
-            // Export named declaration: `export const Foo = ...` or `export function bar() {}`
             ast::Statement::ExportNamedDeclaration(export) => {
-                // Re-exports: `export { foo } from './other'`
                 let source = export.source.as_ref().map(|s| s.value.to_string());
 
-                // Export with declaration: `export const Foo = ...`
                 if let Some(decl) = &export.declaration {
                     match decl {
                         ast::Declaration::VariableDeclaration(var_decl) => {
@@ -224,8 +208,6 @@ pub fn collect_exports(program: &ast::Program) -> HashMap<String, ExportInfo> {
                     }
                 }
 
-                // Export specifiers: `export { foo, bar as baz }`
-                // Key by exported_name so aliased exports don't overwrite direct exports
                 for specifier in &export.specifiers {
                     let local_name = specifier.local.name().to_string();
                     let exported_name = specifier.exported.name().to_string();
@@ -238,7 +220,6 @@ pub fn collect_exports(program: &ast::Program) -> HashMap<String, ExportInfo> {
                 }
             }
 
-            // Export default declaration: `export default function Foo() {}` or `export default Foo`
             ast::Statement::ExportDefaultDeclaration(export) => {
                 let (local_name, _is_named) = match &export.declaration {
                     ast::ExportDefaultDeclarationKind::FunctionDeclaration(fn_decl) => {
@@ -269,9 +250,7 @@ pub fn collect_exports(program: &ast::Program) -> HashMap<String, ExportInfo> {
                 });
             }
 
-            // Export all: `export * from './other'` - tracked but not as individual exports
             ast::Statement::ExportAllDeclaration(_) => {
-                // Not tracked individually - would need full module resolution
             }
 
             _ => {}

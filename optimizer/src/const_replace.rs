@@ -124,9 +124,7 @@ impl<'a> ConstReplacerVisitor<'a> {
         }
     }
 
-    /// Check if an identifier name matches any tracked const variable.
     fn match_ident(&self, name: &str) -> ConstVariable {
-        // Check @qwik.dev/core/build imports
         if self.is_server_ident.as_deref() == Some(name) {
             return ConstVariable::IsServer;
         }
@@ -136,7 +134,6 @@ impl<'a> ConstReplacerVisitor<'a> {
         if self.is_dev_ident.as_deref() == Some(name) {
             return ConstVariable::IsDev;
         }
-        // Check @qwik.dev/core imports
         if self.is_core_server_ident.as_deref() == Some(name) {
             return ConstVariable::IsServer;
         }
@@ -331,14 +328,12 @@ impl<'a> ConstReplacerVisitor<'a> {
                 *expr = self.make_bool_expr(self.is_server);
             }
             ConstVariable::IsBrowser => {
-                // isBrowser is inverse of isServer
                 *expr = self.make_bool_expr(!self.is_server);
             }
             ConstVariable::IsDev => {
                 *expr = self.make_bool_expr(self.is_dev);
             }
             ConstVariable::None => {
-                // Not a const variable - visit children
                 self.visit_expression_children(expr);
             }
         }
@@ -376,7 +371,6 @@ impl<'a> ConstReplacerVisitor<'a> {
             }
             Expression::CallExpression(call) => {
                 if let ast::Expression::Identifier(_) = &call.callee {
-                    // Don't replace the callee itself, but visit its parts
                 } else {
                     self.visit_expression(&mut call.callee);
                 }
@@ -560,7 +554,6 @@ if (isServer) { console.log('server'); }
 import { isBrowser } from '@qwik.dev/core/build';
 if (isBrowser) { console.log('browser'); }
 "#;
-        // isBrowser is !isServer, so when is_server=true, isBrowser=false
         let output = replace_consts(code, true, false);
         assert!(
             output.contains("if (false)"),
@@ -568,7 +561,6 @@ if (isBrowser) { console.log('browser'); }
             output
         );
 
-        // When is_server=false, isBrowser=true
         let output = replace_consts(code, false, false);
         assert!(
             output.contains("if (true)"),
@@ -636,8 +628,6 @@ const b = isBrowser;
 const c = isDev;
 "#;
         let output = replace_consts(code, true, true);
-        // is_server=true -> isServer=true, isBrowser=false
-        // is_dev=true -> isDev=true
         assert!(
             output.contains("const a = true"),
             "isServer should be true, got: {}",
@@ -663,18 +653,14 @@ const isServer = false;
 if (isServer) { console.log('local var'); }
 "#;
         let output = replace_consts(code, true, false);
-        // Should remain as local variable reference, not replaced
         assert!(
             output.contains("isServer"),
             "Local isServer should not be replaced"
         );
     }
 
-    // Edge case tests
-
     #[test]
     fn test_nested_expression() {
-        // isServer in nested expression context (ternary)
         let code = r#"
 import { isServer } from '@qwik.dev/core/build';
 const x = isServer ? 'server' : 'client';
