@@ -403,3 +403,26 @@ Phase 9 TypeScript Support COMPLETE with all 2 plans executed:
 - QRL capture with typed variables verified
 
 **Requirements satisfied:** TS-01 through TS-02 (2/2)
+
+## Phase 10 Edge Cases Summary (In Progress)
+
+Phase 10 Edge Cases in progress with 4/5 plans complete:
+
+1. **10-01:** Loop/Iterator Detection - COMPLETE (10 min)
+   - loop_depth and iteration_var_stack fields added
+   - Infrastructure for q:p prop optimization
+
+2. **10-02:** Aliased $ Markers - COMPLETE (10 min)
+   - skip_transform_names HashSet for aliased imports
+   - import { component$ as Component } handling
+
+3. **10-03:** Empty/Unicode/Generator Edge Cases - COMPLETE (13 min)
+   - test_issue_117_empty_passthrough: Files without QRL markers
+   - test_issue_964_generator_function: Generator function* preservation
+   - test_unicode_identifiers: Unicode variable/component names
+   - 224 total tests passing
+
+4. **10-04:** Async/Await Preservation - COMPLETE (10 min)
+   - Async arrow functions preserve async keyword
+   - useTask$ callbacks with async preserved
+   - Await expressions in QRL bodies preserved
