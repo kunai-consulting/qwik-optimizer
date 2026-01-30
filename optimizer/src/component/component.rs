@@ -36,6 +36,31 @@ impl QrlComponent {
         segment_data: Option<SegmentData>,
         entry: Option<String>,
     ) -> QrlComponent {
+        Self::new_with_hoisted_imports(
+            options,
+            source_info,
+            id,
+            exported_expression,
+            imports,
+            Vec::new(), // No hoisted imports
+            qrl_type,
+            segment_data,
+            entry,
+        )
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    pub(crate) fn new_with_hoisted_imports(
+        options: &TransformOptions,
+        source_info: &SourceInfo,
+        id: Id,
+        exported_expression: Expression<'_>,
+        imports: Vec<Import>,
+        hoisted_imports: Vec<(String, String)>,
+        qrl_type: QrlType,
+        segment_data: Option<SegmentData>,
+        entry: Option<String>,
+    ) -> QrlComponent {
         let language = source_info.language.clone();
 
         let scoped_idents: Vec<CollectorId> = segment_data
@@ -80,6 +105,7 @@ impl QrlComponent {
             &id,
             exported_expression,
             all_imports,
+            hoisted_imports,
             &source_type,
             source_info,
             &scoped_idents,
@@ -133,6 +159,7 @@ impl QrlComponent {
         id: &Id,
         exported_expression: Expression<'_>,
         imports: Vec<Import>,
+        hoisted_imports: Vec<(String, String)>,
         source_type: &SourceType,
         _source_info: &SourceInfo,
         scoped_idents: &[CollectorId],
@@ -187,6 +214,50 @@ impl QrlComponent {
         });
 
         let mut body = ast_builder.vec_from_iter(imports);
+
+        // Generate hoisted import declarations for child QRLs
+        // Format: const i_{hash} = ()=>import("./file");
+        for (ident_name, filename) in hoisted_imports.iter().rev() {
+            let hoisted_stmt = Statement::VariableDeclaration(ast_builder.alloc(ast_builder.variable_declaration(
+                SPAN,
+                VariableDeclarationKind::Const,
+                ast_builder.vec1(ast_builder.variable_declarator(
+                    SPAN,
+                    VariableDeclarationKind::Const,
+                    ast_builder.binding_pattern_binding_identifier(SPAN, ast_builder.atom(ident_name)),
+                    None::<OxcBox<'_, TSTypeAnnotation<'_>>>,
+                    Some(ast_builder.expression_arrow_function(
+                        SPAN,
+                        true,
+                        false,
+                        None::<OxcBox<TSTypeParameterDeclaration>>,
+                        ast_builder.formal_parameters(
+                            SPAN,
+                            FormalParameterKind::ArrowFormalParameters,
+                            ast_builder.vec(),
+                            None::<OxcBox<BindingRestElement>>,
+                        ),
+                        None::<OxcBox<TSTypeAnnotation>>,
+                        ast_builder.function_body(
+                            SPAN,
+                            ast_builder.vec(),
+                            ast_builder.vec1(ast_builder.statement_expression(
+                                SPAN,
+                                ast_builder.expression_import(
+                                    SPAN,
+                                    ast_builder.expression_string_literal(SPAN, ast_builder.atom(filename), None),
+                                    None,
+                                    None,
+                                ),
+                            )),
+                        ),
+                    )),
+                    false,
+                )),
+                false,
+            )));
+            body.push(hoisted_stmt);
+        }
 
         body.push(export);
 
@@ -285,6 +356,7 @@ impl QrlComponent {
     pub(crate) fn from_call_expression_argument(
         arg: &Argument,
         imports: Vec<Import>,
+        hoisted_imports: Vec<(String, String)>,
         segments: &Vec<Segment>,
         scope: &Option<String>,
         options: &TransformOptions,
@@ -294,7 +366,31 @@ impl QrlComponent {
         allocator: &Allocator,
     ) -> QrlComponent {
         let init = arg.clone_in(allocator).into_expression();
-        Self::from_expression(init, imports, segments, scope, options, source_info, segment_data, entry)
+        Self::from_expression_with_hoisted_imports(init, imports, hoisted_imports, segments, scope, options, source_info, segment_data, entry)
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    pub(crate) fn from_expression_with_hoisted_imports(
+        expr: Expression<'_>,
+        imports: Vec<Import>,
+        hoisted_imports: Vec<(String, String)>,
+        segments: &Vec<Segment>,
+        scope: &Option<String>,
+        options: &TransformOptions,
+        source_info: &SourceInfo,
+        segment_data: Option<SegmentData>,
+        entry: Option<String>,
+    ) -> QrlComponent {
+        let qrl_type: QrlType = segments
+            .last()
+            .iter()
+            .flat_map(|segment| segment.qrl_type())
+            .last()
+            .unwrap();
+
+        let id = Id::new(source_info, segments, &options.target, scope);
+
+        QrlComponent::new_with_hoisted_imports(options, source_info, id, expr, imports, hoisted_imports, qrl_type, segment_data, entry)
     }
 
     pub fn has_captures(&self) -> bool {
