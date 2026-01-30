@@ -363,6 +363,7 @@ impl<'gen> TransformGenerator<'gen> {
             import_tracker: ImportTracker::new(),
             loop_depth: 0,
             iteration_var_stack: Vec::new(),
+            skip_transform_names: HashSet::new(),
         }
     }
 
@@ -810,6 +811,56 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             }
         }
 
+        // Detect .map() callbacks as "loop context" for QRL hoisting
+        // Map callbacks should be treated like loops - iteration variables should be passed via q:p
+        // instead of captured, to avoid stale closure bugs.
+        if let Some(member) = node.callee.as_member_expression() {
+            if member.static_property_name() == Some("map") {
+                // Check if first arg is a function (arrow or function expression)
+                if let Some(arg) = node.arguments.first() {
+                    if let Some(expr) = arg.as_expression() {
+                        let iteration_vars = match expr {
+                            Expression::ArrowFunctionExpression(arrow) => {
+                                // Extract iteration vars from arrow function params
+                                // First param is usually the item, second is index
+                                let mut vars = Vec::new();
+                                for param in arrow.params.items.iter() {
+                                    if let Some(ident) = param.pattern.get_binding_identifier() {
+                                        // Use ScopeId::new(0) as we match by name later
+                                        vars.push((ident.name.to_string(), oxc_semantic::ScopeId::new(0)));
+                                    }
+                                }
+                                Some(vars)
+                            }
+                            Expression::FunctionExpression(func) => {
+                                // Extract iteration vars from function expression params
+                                let mut vars = Vec::new();
+                                for param in &func.params.items {
+                                    if let Some(ident) = param.pattern.get_binding_identifier() {
+                                        vars.push((ident.name.to_string(), oxc_semantic::ScopeId::new(0)));
+                                    }
+                                }
+                                Some(vars)
+                            }
+                            _ => None,
+                        };
+
+                        if let Some(vars) = iteration_vars {
+                            self.loop_depth += 1;
+                            self.iteration_var_stack.push(vars);
+                            if DEBUG {
+                                println!(
+                                    "Entered .map() loop context, depth: {}, iteration vars: {:?}",
+                                    self.loop_depth,
+                                    self.iteration_var_stack.last()
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         let segment: Segment = self.new_segment(name);
         println!("push segment: {segment}");
         self.segment_stack.push(segment);
@@ -820,6 +871,31 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         node: &mut CallExpression<'a>,
         ctx: &mut TraverseCtx<'a, ()>,
     ) {
+        // Pop from iteration_var_stack if this was a .map() call we tracked
+        // Check if we pushed on entry (match the same pattern)
+        if let Some(member) = node.callee.as_member_expression() {
+            if member.static_property_name() == Some("map") {
+                if let Some(arg) = node.arguments.first() {
+                    if let Some(expr) = arg.as_expression() {
+                        let is_function = matches!(
+                            expr,
+                            Expression::ArrowFunctionExpression(_) | Expression::FunctionExpression(_)
+                        );
+                        if is_function && self.loop_depth > 0 {
+                            self.iteration_var_stack.pop();
+                            self.loop_depth -= 1;
+                            if DEBUG {
+                                println!(
+                                    "Exited .map() loop context, depth: {}",
+                                    self.loop_depth
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         // Handle component$ props destructuring BEFORE QRL extraction
         // Transform ObjectPattern parameter to _rawProps and track prop mappings
         if self.in_component_props {
@@ -6634,5 +6710,60 @@ export const App = component$(() => {
             "Output should preserve original code, got: {}", output);
         assert!(output.contains("cacheKey"),
             "Output should preserve identifiers, got: {}", output);
+    }
+
+    #[test]
+    fn test_issue_964_generator_function() {
+        // Test that generator functions inside components are preserved correctly
+        // Issue 964: Generator function syntax must not be stripped
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+  console.log(function*(lo, t) {
+    console.log(yield (yield lo)(t.href).then((r) => r.json()));
+  });
+
+  return <p>Hello Qwik</p>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Get all segment code for debugging
+        let segment_code: String = result.optimized_app.components.iter()
+            .map(|c| format!("{}: {}", c.id.symbol_name, c.code))
+            .collect::<Vec<_>>()
+            .join("\n---\n");
+
+        // Find the App component segment
+        let app_segment = result.optimized_app.components.iter()
+            .find(|c| c.id.symbol_name.contains("App"))
+            .map(|c| &c.code);
+
+        // STRONG ASSERTIONS: Generator function syntax must be preserved
+        if let Some(code) = app_segment {
+            // Generator function* keyword must be preserved
+            assert!(code.contains("function*") || code.contains("function *"),
+                "Expected 'function*' keyword to be preserved in generator function.\nSegment code:\n{}\n\nAll segments:\n{}",
+                code, segment_code);
+
+            // yield expressions must be preserved
+            assert!(code.contains("yield"),
+                "Expected 'yield' keyword to be preserved in generator function.\nSegment code:\n{}", code);
+        } else {
+            panic!("Expected App segment to exist.\nAll segments:\n{}", segment_code);
+        }
+
+        // No errors should be present
+        assert!(result.errors.is_empty(),
+            "Generator functions should not cause errors, got: {:?}",
+            result.errors);
     }
 }
