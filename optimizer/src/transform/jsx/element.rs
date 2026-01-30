@@ -3,9 +3,10 @@
 //! This module contains enter_jsx_element and exit_jsx_element handlers
 //! for the Traverse impl dispatcher pattern.
 
-use oxc_allocator::{Box as OxcBox, CloneIn, Vec as OxcVec};
+use oxc_allocator::{CloneIn, Vec as OxcVec};
 use oxc_ast::ast::*;
-use oxc_span::GetSpan;
+use oxc_ast::NONE;
+use oxc_span::{GetSpan, SPAN};
 use oxc_traverse::TraverseCtx;
 
 use crate::component::{Import, QWIK_CORE_SOURCE};
@@ -169,7 +170,7 @@ pub fn exit_jsx_element<'a>(
                 gen.builder.expression_call(
                     node.span(),
                     gen.builder.expression_identifier(node.span(), _GET_CONST_PROPS),
-                    None::<OxcBox<TSTypeParameterInstantiation<'a>>>,
+                    NONE,
                     gen.builder.vec1(Argument::from(spread_expr)),
                     false,
                 )
@@ -234,13 +235,13 @@ pub fn exit_jsx_element<'a>(
                                     );
                                     gen.jsx_key_counter += 1;
                                     return gen.builder.expression_string_literal(
-                                        oxc_span::Span::default(),
+                                        SPAN,
                                         gen.builder.atom(&new_key),
                                         None,
                                     );
                                 }
                             }
-                            gen.builder.expression_null_literal(oxc_span::Span::default())
+                            gen.builder.expression_null_literal(SPAN)
                         })
                         .into(),
                 ],
@@ -254,7 +255,7 @@ pub fn exit_jsx_element<'a>(
             gen.replace_expr = Some(gen.builder.expression_call_with_pure(
                 node.span,
                 gen.builder.expression_identifier(name.span(), callee),
-                None::<OxcBox<TSTypeParameterInstantiation<'a>>>,
+                NONE,
                 args,
                 false,
                 pure,

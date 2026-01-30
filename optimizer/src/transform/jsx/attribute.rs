@@ -6,7 +6,7 @@
 //! - exit_jsx_spread_attribute
 //! - exit_jsx_attribute_value
 
-use oxc_allocator::{Box as OxcBox, CloneIn};
+use oxc_allocator::CloneIn;
 use oxc_ast::ast::*;
 use oxc_ast::NONE;
 use oxc_ast_visit::Visit;
@@ -516,7 +516,7 @@ pub fn exit_jsx_spread_attribute<'a>(
         let get_var_props_call = gen.builder.expression_call(
             node.span(),
             gen.builder.expression_identifier(node.span(), _GET_VAR_PROPS),
-            None::<OxcBox<TSTypeParameterInstantiation<'a>>>,
+            NONE,
             gen.builder.vec1(Argument::from(spread_arg)),
             false,
         );

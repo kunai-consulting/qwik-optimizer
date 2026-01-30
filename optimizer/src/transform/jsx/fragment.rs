@@ -3,8 +3,10 @@
 //! This module contains enter_jsx_fragment and exit_jsx_fragment handlers
 //! for the Traverse impl dispatcher pattern.
 
-use oxc_allocator::{Box as OxcBox, CloneIn, Vec as OxcVec};
+use oxc_allocator::{CloneIn, Vec as OxcVec};
 use oxc_ast::ast::*;
+use oxc_ast::NONE;
+use oxc_span::SPAN;
 use oxc_traverse::TraverseCtx;
 
 use crate::component::{Import, ImportId, QWIK_CORE_SOURCE};
@@ -76,12 +78,12 @@ pub fn exit_jsx_fragment<'a>(
                     );
                     gen.jsx_key_counter += 1;
                     gen.builder.expression_string_literal(
-                        oxc_span::Span::default(),
+                        SPAN,
                         gen.builder.atom(&new_key),
                         None,
                     )
                 } else {
-                    gen.builder.expression_null_literal(oxc_span::Span::default())
+                    gen.builder.expression_null_literal(SPAN)
                 }
             });
 
@@ -114,7 +116,7 @@ pub fn exit_jsx_fragment<'a>(
             gen.replace_expr = Some(gen.builder.expression_call_with_pure(
                 node.span,
                 gen.builder.expression_identifier(node.span, JSX_SORTED_NAME),
-                None::<OxcBox<TSTypeParameterInstantiation<'a>>>,
+                NONE,
                 args,
                 false,
                 true, // pure annotation

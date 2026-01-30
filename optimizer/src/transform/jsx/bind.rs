@@ -2,8 +2,9 @@
 //!
 //! This module handles bind:value and bind:checked directive transformation.
 
-use oxc_allocator::{Box as OxcBox, Vec as OxcVec};
+use oxc_allocator::Vec as OxcVec;
 use oxc_ast::ast::*;
+use oxc_ast::NONE;
 use oxc_span::SPAN;
 
 /// Check if attribute name is a bind directive.
@@ -31,7 +32,7 @@ pub(crate) fn create_bind_handler<'b>(
     builder.expression_call(
         SPAN,
         builder.expression_identifier(SPAN, "inlinedQrl"),
-        None::<OxcBox<TSTypeParameterInstantiation<'b>>>,
+        NONE,
         builder.vec_from_array([
             Argument::from(builder.expression_identifier(SPAN, helper)),
             Argument::from(builder.expression_string_literal(SPAN, helper, None)),
