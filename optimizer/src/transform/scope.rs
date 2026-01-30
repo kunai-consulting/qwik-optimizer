@@ -187,6 +187,77 @@ pub fn track_variable_declaration<'a>(
     }
 }
 
+// =============================================================================
+// Loop/Map Iteration Tracking Helpers
+// =============================================================================
+
+/// Check if a call expression is a .map() call and extract iteration variables.
+///
+/// Returns Some(Vec<Id>) with iteration variable names if this is a .map() call
+/// with a function callback, None otherwise.
+pub fn check_map_iteration_vars(node: &oxc_ast::ast::CallExpression) -> Option<Vec<crate::collector::Id>> {
+    use oxc_ast::ast::Expression;
+
+    if let Some(member) = node.callee.as_member_expression() {
+        if member.static_property_name() == Some("map") {
+            if let Some(arg) = node.arguments.first() {
+                if let Some(expr) = arg.as_expression() {
+                    let iteration_vars = match expr {
+                        Expression::ArrowFunctionExpression(arrow) => {
+                            let mut vars = Vec::new();
+                            for param in arrow.params.items.iter() {
+                                if let Some(ident) = param.pattern.get_binding_identifier() {
+                                    vars.push((
+                                        ident.name.to_string(),
+                                        oxc_semantic::ScopeId::new(0),
+                                    ));
+                                }
+                            }
+                            Some(vars)
+                        }
+                        Expression::FunctionExpression(func) => {
+                            let mut vars = Vec::new();
+                            for param in &func.params.items {
+                                if let Some(ident) = param.pattern.get_binding_identifier() {
+                                    vars.push((
+                                        ident.name.to_string(),
+                                        oxc_semantic::ScopeId::new(0),
+                                    ));
+                                }
+                            }
+                            Some(vars)
+                        }
+                        _ => None,
+                    };
+                    return iteration_vars;
+                }
+            }
+        }
+    }
+    None
+}
+
+/// Check if a call expression is a .map() call with a function callback.
+///
+/// Used to determine if we should pop iteration tracking state on exit.
+pub fn is_map_with_function_callback(node: &oxc_ast::ast::CallExpression) -> bool {
+    use oxc_ast::ast::Expression;
+
+    if let Some(member) = node.callee.as_member_expression() {
+        if member.static_property_name() == Some("map") {
+            if let Some(arg) = node.arguments.first() {
+                if let Some(expr) = arg.as_expression() {
+                    return matches!(
+                        expr,
+                        Expression::ArrowFunctionExpression(_) | Expression::FunctionExpression(_)
+                    );
+                }
+            }
+        }
+    }
+    false
+}
+
 #[cfg(test)]
 mod tests {
     // Scope tracking tests are integration tests - they require full AST traversal

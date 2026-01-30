@@ -12,18 +12,18 @@
 use oxc_allocator::{Box as OxcBox, CloneIn, Vec as OxcVec};
 use oxc_ast::ast::*;
 use oxc_ast::NONE;
-use oxc_ast_visit::Visit;
 use oxc_span::{GetSpan, SPAN};
 use oxc_traverse::TraverseCtx;
-use std::collections::HashSet;
 
-use crate::collector::{ExportInfo, Id, IdentCollector};
+use crate::collector::IdentCollector;
 use crate::component::{Import, ImportId, Qrl, QrlType, MARKER_SUFFIX, QWIK_CORE_SOURCE};
 use crate::is_const::is_const_expr;
 
 use super::generator::{IdentType, IdPlusType, TransformGenerator};
-use super::qrl::compute_scoped_idents;
+use super::qrl as qrl_module;
 use super::state::JsxState;
+
+use oxc_ast::AstBuilder;
 
 // JSX constants
 const JSX_SORTED_NAME: &str = "_jsxSorted";
@@ -32,6 +32,80 @@ const JSX_RUNTIME_SOURCE: &str = "@qwik.dev/core/jsx-runtime";
 const _FRAGMENT: &str = "_Fragment";
 const _GET_VAR_PROPS: &str = "_getVarProps";
 const _GET_CONST_PROPS: &str = "_getConstProps";
+
+// =============================================================================
+// Bind Directive Helpers
+// =============================================================================
+
+/// Check if attribute name is a bind directive.
+/// Returns Some(true) for bind:checked, Some(false) for bind:value, None otherwise.
+pub(crate) fn is_bind_directive(name: &str) -> Option<bool> {
+    if name == "bind:value" {
+        Some(false) // is_checked = false
+    } else if name == "bind:checked" {
+        Some(true) // is_checked = true
+    } else {
+        None
+    }
+}
+
+/// Create inlinedQrl for bind handler.
+/// inlinedQrl(_val, "_val", [signal]) for bind:value
+/// inlinedQrl(_chk, "_chk", [signal]) for bind:checked
+pub(crate) fn create_bind_handler<'b>(
+    builder: &AstBuilder<'b>,
+    is_checked: bool,
+    signal_expr: Expression<'b>,
+) -> Expression<'b> {
+    let helper = if is_checked { "_chk" } else { "_val" };
+
+    builder.expression_call(
+        SPAN,
+        builder.expression_identifier(SPAN, "inlinedQrl"),
+        None::<OxcBox<TSTypeParameterInstantiation<'b>>>,
+        builder.vec_from_array([
+            Argument::from(builder.expression_identifier(SPAN, helper)),
+            Argument::from(builder.expression_string_literal(SPAN, helper, None)),
+            Argument::from(builder.expression_array(
+                SPAN,
+                builder.vec1(ArrayExpressionElement::from(signal_expr)),
+            )),
+        ]),
+        false,
+    )
+}
+
+/// Merge bind handler with existing on:input handler.
+/// Returns array expression: [existingHandler, bindHandler]
+pub(crate) fn merge_event_handlers<'b>(
+    builder: &AstBuilder<'b>,
+    existing: Expression<'b>,
+    bind_handler: Expression<'b>,
+) -> Expression<'b> {
+    // If existing is already an array, add bind_handler to it
+    match existing {
+        Expression::ArrayExpression(arr) => {
+            // Clone and add bind_handler
+            let mut elements: OxcVec<'b, ArrayExpressionElement<'b>> =
+                builder.vec_with_capacity(arr.elements.len() + 1);
+            for elem in arr.elements.iter() {
+                elements.push(elem.clone_in(builder.allocator));
+            }
+            elements.push(ArrayExpressionElement::from(bind_handler));
+            builder.expression_array(SPAN, elements)
+        }
+        _ => {
+            // Create new array with both handlers
+            builder.expression_array(
+                SPAN,
+                builder.vec_from_array([
+                    ArrayExpressionElement::from(existing),
+                    ArrayExpressionElement::from(bind_handler),
+                ]),
+            )
+        }
+    }
+}
 
 // =============================================================================
 // Event Handler Transformation Utilities
@@ -605,7 +679,7 @@ pub fn enter_jsx_attribute<'a>(
     // Only process on native elements
     let is_native = gen.jsx_element_is_native.last().copied().unwrap_or(false);
     if is_native {
-        if let Some(is_checked) = TransformGenerator::is_bind_directive(&attr_name) {
+        if let Some(is_checked) = is_bind_directive(&attr_name) {
             // Extract signal expression from value
             if let Some(JSXAttributeValue::ExpressionContainer(container)) = &node.value {
                 if let Some(expr) = container.expression.as_expression() {
@@ -655,7 +729,7 @@ pub fn exit_jsx_attribute<'a>(
     // Check for bind directive transformation (bind:value or bind:checked)
     // Only transform on native elements
     if is_native && gen.options.transpile_jsx {
-        if let Some(is_checked) = TransformGenerator::is_bind_directive(&attr_name) {
+        if let Some(is_checked) = is_bind_directive(&attr_name) {
             // This is bind:value or bind:checked - transform it
             if let Some(JSXAttributeValue::ExpressionContainer(container)) = &node.value {
                 if let Some(expr) = container.expression.as_expression() {
@@ -663,7 +737,7 @@ pub fn exit_jsx_attribute<'a>(
                     let prop_name = if is_checked { "checked" } else { "value" };
 
                     // Create the bind handler: inlinedQrl(_val/_chk, "_val"/"_chk", [signal])
-                    let bind_handler = TransformGenerator::create_bind_handler(
+                    let bind_handler = create_bind_handler(
                         &ctx.ast,
                         is_checked,
                         signal_expr.clone_in(ctx.ast.allocator),
@@ -701,7 +775,7 @@ pub fn exit_jsx_attribute<'a>(
                             if let ObjectPropertyKind::ObjectProperty(obj_prop) = &jsx.const_props[idx]
                             {
                                 let existing_handler = obj_prop.value.clone_in(ctx.ast.allocator);
-                                let merged = TransformGenerator::merge_event_handlers(
+                                let merged = merge_event_handlers(
                                     &ctx.ast,
                                     existing_handler,
                                     bind_handler,
@@ -788,37 +862,21 @@ pub fn exit_jsx_attribute<'a>(
                         .into_iter()
                         .partition(|(_, t)| matches!(t, IdentType::Var(_)));
                     let (scoped_idents, _) =
-                        compute_scoped_idents(&descendent_idents, &decl_collect);
+                        qrl_module::compute_scoped_idents(&descendent_idents, &decl_collect);
 
                     // 3. Filter imported identifiers
                     let imports = gen.import_stack.pop().unwrap_or_default();
-                    let imported_names: HashSet<String> = imports
-                        .iter()
-                        .flat_map(|import| import.names.iter())
-                        .filter_map(|id| match id {
-                            ImportId::Named(name) | ImportId::Default(name) => Some(name.clone()),
-                            ImportId::NamedWithAlias(_, local) => Some(local.clone()),
-                            ImportId::Namespace(_) => None,
-                        })
-                        .collect();
-                    let scoped_idents: Vec<Id> = scoped_idents
-                        .into_iter()
-                        .filter(|(name, _)| !imported_names.contains(name))
-                        .collect();
+                    let imports_vec: Vec<_> = imports.iter().cloned().collect();
+                    let imported_names = qrl_module::collect_imported_names(&imports_vec);
+                    let scoped_idents = qrl_module::filter_imported_from_scoped(scoped_idents, &imported_names);
 
                     // Collect referenced exports for segment file imports
-                    let referenced_exports: Vec<ExportInfo> = descendent_idents
-                        .iter()
-                        .filter_map(|(name, _)| {
-                            if imported_names.contains(name) {
-                                return None;
-                            }
-                            if scoped_idents.iter().any(|(n, _)| n == name) {
-                                return None;
-                            }
-                            gen.export_by_name.get(name).cloned()
-                        })
-                        .collect();
+                    let referenced_exports = qrl_module::collect_referenced_exports(
+                        &descendent_idents,
+                        &imported_names,
+                        &scoped_idents,
+                        &gen.export_by_name,
+                    );
 
                     // 4. Create Qrl and transform
                     let display_name = gen.current_display_name();
@@ -986,7 +1044,7 @@ pub fn exit_jsx_attribute<'a>(
                             let existing_handler = obj_prop.value.clone_in(ctx.ast.allocator);
                             // For this case, the existing handler is from bind, new one is from onInput$
                             // So we want [onInput$_handler, bind_handler]
-                            let merged = TransformGenerator::merge_event_handlers(
+                            let merged = merge_event_handlers(
                                 &ctx.ast,
                                 expr,
                                 existing_handler,

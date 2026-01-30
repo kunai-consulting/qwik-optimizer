@@ -424,32 +424,6 @@ impl<'gen> TransformGenerator<'gen> {
         )
     }
 
-    /// Create _fnSignal call: _fnSignal(_hfN, [captures], _hfN_str)
-    fn create_fn_signal_call<'b>(
-        &self,
-        builder: &AstBuilder<'b>,
-        hoisted_name: &'b str,
-        captures: Vec<Expression<'b>>,
-        str_name: &'b str,
-    ) -> Expression<'b> {
-        builder.expression_call(
-            SPAN,
-            builder.expression_identifier(SPAN, "_fnSignal"),
-            None::<OxcBox<TSTypeParameterInstantiation<'b>>>,
-            builder.vec_from_array([
-                Argument::from(builder.expression_identifier(SPAN, hoisted_name)),
-                Argument::from(builder.expression_array(
-                    SPAN,
-                    builder.vec_from_iter(
-                        captures.into_iter().map(ArrayExpressionElement::from)
-                    ),
-                )),
-                Argument::from(builder.expression_identifier(SPAN, str_name)),
-            ]),
-            false,
-        )
-    }
-
     /// Get all imported symbol names for is_const_expr checking.
     pub(crate) fn get_imported_names(&self) -> HashSet<String> {
         self.import_by_symbol
@@ -488,75 +462,6 @@ impl<'gen> TransformGenerator<'gen> {
         false
     }
 
-    /// Check if attribute name is a bind directive.
-    /// Returns Some(true) for bind:checked, Some(false) for bind:value, None otherwise.
-    pub(crate) fn is_bind_directive(name: &str) -> Option<bool> {
-        if name == "bind:value" {
-            Some(false)  // is_checked = false
-        } else if name == "bind:checked" {
-            Some(true)   // is_checked = true
-        } else {
-            None
-        }
-    }
-
-    /// Create inlinedQrl for bind handler.
-    /// inlinedQrl(_val, "_val", [signal]) for bind:value
-    /// inlinedQrl(_chk, "_chk", [signal]) for bind:checked
-    pub(crate) fn create_bind_handler<'b>(
-        builder: &AstBuilder<'b>,
-        is_checked: bool,
-        signal_expr: Expression<'b>,
-    ) -> Expression<'b> {
-        let helper = if is_checked { "_chk" } else { "_val" };
-
-        builder.expression_call(
-            SPAN,
-            builder.expression_identifier(SPAN, "inlinedQrl"),
-            None::<OxcBox<TSTypeParameterInstantiation<'b>>>,
-            builder.vec_from_array([
-                Argument::from(builder.expression_identifier(SPAN, helper)),
-                Argument::from(builder.expression_string_literal(SPAN, helper, None)),
-                Argument::from(builder.expression_array(
-                    SPAN,
-                    builder.vec1(ArrayExpressionElement::from(signal_expr)),
-                )),
-            ]),
-            false,
-        )
-    }
-
-    /// Merge bind handler with existing on:input handler.
-    /// Returns array expression: [existingHandler, bindHandler]
-    pub(crate) fn merge_event_handlers<'b>(
-        builder: &AstBuilder<'b>,
-        existing: Expression<'b>,
-        bind_handler: Expression<'b>,
-    ) -> Expression<'b> {
-        // If existing is already an array, add bind_handler to it
-        match existing {
-            Expression::ArrayExpression(arr) => {
-                // Clone and add bind_handler
-                let mut elements: OxcVec<'b, ArrayExpressionElement<'b>> =
-                    builder.vec_with_capacity(arr.elements.len() + 1);
-                for elem in arr.elements.iter() {
-                    elements.push(elem.clone_in(builder.allocator));
-                }
-                elements.push(ArrayExpressionElement::from(bind_handler));
-                builder.expression_array(SPAN, elements)
-            }
-            _ => {
-                // Create new array with both handlers
-                builder.expression_array(
-                    SPAN,
-                    builder.vec_from_array([
-                        ArrayExpressionElement::from(existing),
-                        ArrayExpressionElement::from(bind_handler),
-                    ]),
-                )
-            }
-        }
-    }
 }
 
 fn move_expression<'gen>(
@@ -748,52 +653,15 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         }
 
         // Detect .map() callbacks as "loop context" for QRL hoisting
-        // Map callbacks should be treated like loops - iteration variables should be passed via q:p
-        // instead of captured, to avoid stale closure bugs.
-        if let Some(member) = node.callee.as_member_expression() {
-            if member.static_property_name() == Some("map") {
-                // Check if first arg is a function (arrow or function expression)
-                if let Some(arg) = node.arguments.first() {
-                    if let Some(expr) = arg.as_expression() {
-                        let iteration_vars = match expr {
-                            Expression::ArrowFunctionExpression(arrow) => {
-                                // Extract iteration vars from arrow function params
-                                // First param is usually the item, second is index
-                                let mut vars = Vec::new();
-                                for param in arrow.params.items.iter() {
-                                    if let Some(ident) = param.pattern.get_binding_identifier() {
-                                        // Use ScopeId::new(0) as we match by name later
-                                        vars.push((ident.name.to_string(), oxc_semantic::ScopeId::new(0)));
-                                    }
-                                }
-                                Some(vars)
-                            }
-                            Expression::FunctionExpression(func) => {
-                                // Extract iteration vars from function expression params
-                                let mut vars = Vec::new();
-                                for param in &func.params.items {
-                                    if let Some(ident) = param.pattern.get_binding_identifier() {
-                                        vars.push((ident.name.to_string(), oxc_semantic::ScopeId::new(0)));
-                                    }
-                                }
-                                Some(vars)
-                            }
-                            _ => None,
-                        };
-
-                        if let Some(vars) = iteration_vars {
-                            self.loop_depth += 1;
-                            self.iteration_var_stack.push(vars);
-                            if DEBUG {
-                                println!(
-                                    "Entered .map() loop context, depth: {}, iteration vars: {:?}",
-                                    self.loop_depth,
-                                    self.iteration_var_stack.last()
-                                );
-                            }
-                        }
-                    }
-                }
+        if let Some(vars) = scope_module::check_map_iteration_vars(node) {
+            self.loop_depth += 1;
+            self.iteration_var_stack.push(vars);
+            if DEBUG {
+                println!(
+                    "Entered .map() loop context, depth: {}, iteration vars: {:?}",
+                    self.loop_depth,
+                    self.iteration_var_stack.last()
+                );
             }
         }
 
@@ -808,27 +676,11 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         ctx: &mut TraverseCtx<'a, ()>,
     ) {
         // Pop from iteration_var_stack if this was a .map() call we tracked
-        // Check if we pushed on entry (match the same pattern)
-        if let Some(member) = node.callee.as_member_expression() {
-            if member.static_property_name() == Some("map") {
-                if let Some(arg) = node.arguments.first() {
-                    if let Some(expr) = arg.as_expression() {
-                        let is_function = matches!(
-                            expr,
-                            Expression::ArrowFunctionExpression(_) | Expression::FunctionExpression(_)
-                        );
-                        if is_function && self.loop_depth > 0 {
-                            self.iteration_var_stack.pop();
-                            self.loop_depth -= 1;
-                            if DEBUG {
-                                println!(
-                                    "Exited .map() loop context, depth: {}",
-                                    self.loop_depth
-                                );
-                            }
-                        }
-                    }
-                }
+        if scope_module::is_map_with_function_callback(node) && self.loop_depth > 0 {
+            self.iteration_var_stack.pop();
+            self.loop_depth -= 1;
+            if DEBUG {
+                println!("Exited .map() loop context, depth: {}", self.loop_depth);
             }
         }
 
@@ -939,7 +791,6 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                         qrl_module::compute_scoped_idents(&descendent_idents, &decl_collect);
 
                     // Get imports collected for this QRL
-                    // These are identifiers that will be imported, so we should exclude them from scoped_idents
                     let imports: Vec<Import> = self
                         .import_stack
                         .pop()
@@ -948,42 +799,17 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                         .cloned()
                         .collect();
 
-                    // Collect imported identifier names to filter from scoped_idents
-                    // Identifiers that are imported should not be captured via useLexicalScope
-                    let imported_names: HashSet<String> = imports
-                        .iter()
-                        .flat_map(|import| import.names.iter())
-                        .filter_map(|id| match id {
-                            ImportId::Named(name) => Some(name.clone()),
-                            ImportId::Default(name) => Some(name.clone()),
-                            ImportId::NamedWithAlias(_, local) => Some(local.clone()),
-                            ImportId::Namespace(_) => None, // Namespace imports are accessed via member expr
-                        })
-                        .collect();
+                    // Collect imported names and filter scoped_idents
+                    let imported_names = qrl_module::collect_imported_names(&imports);
+                    let scoped_idents = qrl_module::filter_imported_from_scoped(scoped_idents, &imported_names);
 
-                    // Filter out identifiers that will be imported
-                    let scoped_idents: Vec<Id> = scoped_idents
-                        .into_iter()
-                        .filter(|(name, _)| !imported_names.contains(name))
-                        .collect();
-
-                    // Collect referenced exports - identifiers in QRL body that are source exports
-                    // These need to be imported in segment files from the source file
-                    let referenced_exports: Vec<ExportInfo> = descendent_idents
-                        .iter()
-                        .filter_map(|(name, _)| {
-                            // Skip if it's an import (will be handled via imports)
-                            if imported_names.contains(name) {
-                                return None;
-                            }
-                            // Skip if it's a captured variable (handled via useLexicalScope)
-                            if scoped_idents.iter().any(|(n, _)| n == name) {
-                                return None;
-                            }
-                            // Check if it's a source export
-                            self.export_by_name.get(name).cloned()
-                        })
-                        .collect();
+                    // Collect referenced exports for segment file imports
+                    let referenced_exports = qrl_module::collect_referenced_exports(
+                        &descendent_idents,
+                        &imported_names,
+                        &scoped_idents,
+                        &self.export_by_name,
+                    );
 
                     // Log referenced exports for debugging
                     if DEBUG && !referenced_exports.is_empty() {

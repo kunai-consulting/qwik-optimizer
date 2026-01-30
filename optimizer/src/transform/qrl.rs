@@ -122,6 +122,88 @@ pub(crate) fn compute_hash(
         .replace(['-', '_'], "0")
 }
 
+/// Collects imported identifier names from a list of imports.
+///
+/// Used to filter out identifiers that will be imported from those that need
+/// to be captured via useLexicalScope.
+///
+/// # Arguments
+/// * `imports` - List of imports to collect names from
+///
+/// # Returns
+/// A HashSet of imported identifier names
+pub(crate) fn collect_imported_names(imports: &[crate::component::Import]) -> HashSet<String> {
+    use crate::component::ImportId;
+
+    imports
+        .iter()
+        .flat_map(|import| import.names.iter())
+        .filter_map(|id| match id {
+            ImportId::Named(name) => Some(name.clone()),
+            ImportId::Default(name) => Some(name.clone()),
+            ImportId::NamedWithAlias(_, local) => Some(local.clone()),
+            ImportId::Namespace(_) => None, // Namespace imports are accessed via member expr
+        })
+        .collect()
+}
+
+/// Filters scoped identifiers by removing those that are imported.
+///
+/// Identifiers that are imported should not be captured via useLexicalScope
+/// since they will be handled via imports in the segment file.
+///
+/// # Arguments
+/// * `scoped_idents` - List of captured identifiers
+/// * `imported_names` - Set of imported identifier names to exclude
+///
+/// # Returns
+/// Filtered list of captured identifiers
+pub(crate) fn filter_imported_from_scoped(
+    scoped_idents: Vec<Id>,
+    imported_names: &HashSet<String>,
+) -> Vec<Id> {
+    scoped_idents
+        .into_iter()
+        .filter(|(name, _)| !imported_names.contains(name))
+        .collect()
+}
+
+/// Collects referenced exports from identifiers in a QRL body.
+///
+/// Identifiers in the QRL body that are exports from the source file need
+/// to be imported in segment files.
+///
+/// # Arguments
+/// * `descendent_idents` - All identifiers used in the QRL body
+/// * `imported_names` - Set of imported names (to exclude)
+/// * `scoped_idents` - Set of captured variables (to exclude)
+/// * `export_by_name` - Map of exports in the source file
+///
+/// # Returns
+/// List of ExportInfo for referenced exports
+pub(crate) fn collect_referenced_exports(
+    descendent_idents: &[Id],
+    imported_names: &HashSet<String>,
+    scoped_idents: &[Id],
+    export_by_name: &std::collections::HashMap<String, crate::collector::ExportInfo>,
+) -> Vec<crate::collector::ExportInfo> {
+    descendent_idents
+        .iter()
+        .filter_map(|(name, _)| {
+            // Skip if it's an import (will be handled via imports)
+            if imported_names.contains(name) {
+                return None;
+            }
+            // Skip if it's a captured variable (handled via useLexicalScope)
+            if scoped_idents.iter().any(|(n, _)| n == name) {
+                return None;
+            }
+            // Check if it's a source export
+            export_by_name.get(name).cloned()
+        })
+        .collect()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

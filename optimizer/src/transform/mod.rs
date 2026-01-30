@@ -28,6 +28,6 @@ pub use state::{ImportTracker, JsxState};
 #[allow(unused_imports)]
 pub(crate) use generator::Target;
 #[allow(unused_imports)]
-pub(crate) use jsx::{get_event_scope_data_from_jsx_event, jsx_event_to_html_attribute};
+pub(crate) use jsx::{get_event_scope_data_from_jsx_event, is_bind_directive, jsx_event_to_html_attribute};
 #[allow(unused_imports)]
 pub(crate) use qrl::compute_scoped_idents;

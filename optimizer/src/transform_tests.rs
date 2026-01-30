@@ -1197,11 +1197,12 @@ export const Cmp = component$(() => {
     #[test]
     fn test_is_bind_directive_helper() {
         // Unit test for is_bind_directive helper function
-        assert_eq!(TransformGenerator::is_bind_directive("bind:value"), Some(false));
-        assert_eq!(TransformGenerator::is_bind_directive("bind:checked"), Some(true));
-        assert_eq!(TransformGenerator::is_bind_directive("bind:stuff"), None);
-        assert_eq!(TransformGenerator::is_bind_directive("onClick$"), None);
-        assert_eq!(TransformGenerator::is_bind_directive("value"), None);
+        use crate::transform::is_bind_directive;
+        assert_eq!(is_bind_directive("bind:value"), Some(false));
+        assert_eq!(is_bind_directive("bind:checked"), Some(true));
+        assert_eq!(is_bind_directive("bind:stuff"), None);
+        assert_eq!(is_bind_directive("onClick$"), None);
+        assert_eq!(is_bind_directive("value"), None);
     }
 
     // ==================== Fragment Tests ====================
