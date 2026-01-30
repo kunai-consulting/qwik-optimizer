@@ -608,4 +608,492 @@ mod tests {
             ..SpecOptions::default()
         });
     }
+
+    // =========================================================================
+    // Spec Parity Tests - Batch 3 (Tests 111-132)
+    // =========================================================================
+
+    #[test]
+    fn spec_destructure_args_colon_props3() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_handle_dangerously_set_inner_html() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_example_noop_dev_mode() {
+        spec_test!(SpecOptions {
+            mode: Some(Target::Dev),
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            strip_event_handlers: Some(true),
+            strip_ctx_name: Some(vec!["server".to_string()]),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_lib_mode_fn_signal() {
+        spec_test!(SpecOptions {
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_ternary_prop() {
+        spec_test!(SpecOptions {
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_transform_qrl_in_regular_prop() {
+        spec_test!(SpecOptions {
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_impure_template_fns() {
+        spec_test!(SpecOptions {
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_rename_builder_io() {
+        spec_test!(SpecOptions {
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_example_component_with_event_listeners_inside_loop() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_wrap_inner_inline_component_prop() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_wrap_prop_from_destructured_array() {
+        spec_test!(SpecOptions {
+            transpile_jsx: Some(true),
+            transpile_ts: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_wrap_object_with_fn_signal() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_mark_props_as_var_props_for_inner_cmp() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_not_wrap_fn() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_issue_7216_add_test() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_wrap_store_expression() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_not_wrap_var_template_string() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_wrap_type_asserted_variables_in_template() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_wrap_logical_expression_in_template() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_not_wrap_ternary_function_operator_with_fn() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_split_spread_props() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_split_spread_props_with_additional_prop() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    // =========================================================================
+    // Spec Parity Tests - Batch 4 (Tests 133-154)
+    // =========================================================================
+
+    #[test]
+    fn spec_should_split_spread_props_with_additional_prop2() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_split_spread_props_with_additional_prop3() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_split_spread_props_with_additional_prop4() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_split_spread_props_with_additional_prop5() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_not_generate_conflicting_props_identifiers() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            entry_strategy: Some(EntryStrategy::Hoist),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_convert_rest_props() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_merge_attributes_with_spread_props() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_merge_attributes_with_spread_props_before_and_after() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_not_move_over_side_effects() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_ignore_null_inlined_qrl() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_hoisted_fn_signal_in_loop() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_convert_jsx_events() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_transform_event_names_without_jsx_transpile() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(false),
+            transpile_jsx: Some(false),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_not_transform_events_on_non_elements() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(false),
+            transpile_jsx: Some(false),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_merge_bind_value_and_on_input() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_merge_bind_checked_and_on_input() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_extract_single_qrl() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_extract_single_qrl_2() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_extract_single_qrl_with_index() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_extract_single_qrl_with_nested_components() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_transform_component_with_normal_function() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_transform_nested_loops() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    // =========================================================================
+    // Spec Parity Tests - Batch 5 (Tests 155-164)
+    // =========================================================================
+
+    #[test]
+    fn spec_should_transform_multiple_event_handlers() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_transform_multiple_event_handlers_case2() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_merge_on_input_and_bind_value() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_merge_on_input_and_bind_checked() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_transform_qrls_in_ternary_expression() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_not_transform_bind_value_in_var_props_for_jsx_split() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_not_transform_bind_checked_in_var_props_for_jsx_split() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_move_bind_value_to_var_props() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
+
+    #[test]
+    fn spec_should_move_props_related_to_iteration_variables_to_var_props() {
+        spec_test!(SpecOptions {
+            transpile_ts: Some(true),
+            transpile_jsx: Some(true),
+            ..SpecOptions::default()
+        });
+    }
 }
