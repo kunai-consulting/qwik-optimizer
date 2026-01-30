@@ -6220,4 +6220,261 @@ export const check = isServer;
             output
         );
     }
+
+    // ==================== QRL Capture with TypeScript Tests ====================
+
+    #[test]
+    fn test_qrl_typed_parameters() {
+        // Test that QRL captures work correctly with typed function parameters
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let code = r#"
+import { component$, $ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+    const format = (x: number): string => x.toString();
+    const handler = $(() => {
+        const result: string = format(42);
+        console.log(result);
+    });
+    return <button onClick$={handler}>Click</button>;
+});
+"#;
+        let source = Source::from_source(code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default()
+            .with_transpile_ts(true)
+            .with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+        let output = &result.optimized_app.body;
+        let component_code: String = result.optimized_app.components.iter()
+            .map(|c| c.code.clone())
+            .collect::<Vec<_>>()
+            .join("\n");
+        let all_code = format!("{}\n{}", output, component_code);
+
+        // Type annotations should be stripped
+        assert!(!all_code.contains("(x: number)"),
+            "Parameter type should be stripped, got: {}", all_code);
+        assert!(!all_code.contains(": string"),
+            "Return/variable types should be stripped, got: {}", all_code);
+
+        // QRL should still work (qrl() call should exist)
+        assert!(all_code.contains("qrl("),
+            "QRL call should be present, got: {}", all_code);
+
+        // Check that segments were generated (components list should have entries)
+        assert!(!result.optimized_app.components.is_empty(),
+            "QRL segments should be generated, got 0 components");
+    }
+
+    #[test]
+    fn test_qrl_capture_typed_variables() {
+        // Test that QRL capture works correctly with typed variables
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let code = r#"
+import { component$, useSignal, $ } from '@qwik.dev/core';
+
+export const Counter = component$(() => {
+    const count: Signal<number> = useSignal(0);
+    const name: string = "counter";
+
+    return (
+        <button onClick$={() => {
+            count.value++;
+            console.log(name);
+        }}>
+            {count.value}
+        </button>
+    );
+});
+"#;
+        let source = Source::from_source(code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default()
+            .with_transpile_ts(true)
+            .with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+        let output = &result.optimized_app.body;
+        let component_code: String = result.optimized_app.components.iter()
+            .map(|c| c.code.clone())
+            .collect::<Vec<_>>()
+            .join("\n");
+        let all_code = format!("{}\n{}", output, component_code);
+
+        // Type annotations should be stripped
+        assert!(!all_code.contains("Signal<number>"),
+            "Generic type should be stripped, got: {}", all_code);
+        assert!(!all_code.contains("count: Signal"),
+            "Variable type should be stripped, got: {}", all_code);
+        assert!(!all_code.contains("name: string"),
+            "Variable type should be stripped, got: {}", all_code);
+
+        // Variables should still be captured correctly
+        // Look for capture array or useLexicalScope
+        let has_capture = all_code.contains("[count") ||
+            all_code.contains("count]") ||
+            all_code.contains("useLexicalScope");
+        assert!(has_capture,
+            "Expected captured variable 'count' in QRL, got: {}", all_code);
+    }
+
+    #[test]
+    fn test_qrl_as_const() {
+        // Test that 'as const' assertions are stripped in QRL contexts
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let code = r#"
+import { component$, $ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+    const config = { key: 'value', num: 42 } as const;
+    const options = ['a', 'b', 'c'] as const;
+
+    const handler = $(() => {
+        console.log(config.key);
+        console.log(options[0]);
+    });
+
+    return <button onClick$={handler}>Click</button>;
+});
+"#;
+        let source = Source::from_source(code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default()
+            .with_transpile_ts(true)
+            .with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+        let output = &result.optimized_app.body;
+        let component_code: String = result.optimized_app.components.iter()
+            .map(|c| c.code.clone())
+            .collect::<Vec<_>>()
+            .join("\n");
+        let all_code = format!("{}\n{}", output, component_code);
+
+        // 'as const' should be stripped
+        assert!(!all_code.contains(" as const"),
+            "'as const' should be stripped, got: {}", all_code);
+
+        // Values should be preserved
+        assert!(all_code.contains("key") && all_code.contains("value"),
+            "Object properties should be preserved, got: {}", all_code);
+
+        // QRL should work
+        assert!(all_code.contains("qrl("),
+            "QRL should be generated, got: {}", all_code);
+    }
+
+    #[test]
+    fn test_qrl_generic_utility_types() {
+        // Test that generic utility types don't break QRL extraction
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let code = r#"
+import { component$, $ } from '@qwik.dev/core';
+
+type MyPartial<T> = { [P in keyof T]?: T[P] };
+
+interface UserData {
+    name: string;
+    email: string;
+}
+
+export const Form = component$(() => {
+    const initial: MyPartial<UserData> = { name: 'John' };
+
+    const handler = $(() => {
+        console.log(initial.name);
+    });
+
+    return <form onSubmit$={handler}><button>Submit</button></form>;
+});
+"#;
+        let source = Source::from_source(code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default()
+            .with_transpile_ts(true)
+            .with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+        let output = &result.optimized_app.body;
+
+        // Type definitions should be stripped
+        assert!(!output.contains("type MyPartial"),
+            "Utility type should be stripped, got: {}", output);
+        assert!(!output.contains("interface UserData"),
+            "Interface should be stripped, got: {}", output);
+        assert!(!output.contains("MyPartial<UserData>"),
+            "Generic type should be stripped, got: {}", output);
+
+        // Transform should work
+        assert!(output.contains("componentQrl") || output.contains("qrl("),
+            "QRL should be generated, got: {}", output);
+    }
+
+    #[test]
+    fn test_tsx_with_jsx_transformation() {
+        // Test complete TSX transformation: types stripped + JSX transformed
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let code = r#"
+import { component$ } from '@qwik.dev/core';
+
+interface Props {
+    title: string;
+    items: Array<string>;
+}
+
+export const List = component$<Props>(({ title, items }) => {
+    const count: number = items.length;
+
+    return (
+        <div class="list">
+            <h1>{title}</h1>
+            <ul>
+                {items.map((item: string) => (
+                    <li key={item}>{item}</li>
+                ))}
+            </ul>
+            <span>Total: {count}</span>
+        </div>
+    );
+});
+"#;
+        let source = Source::from_source(code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default()
+            .with_transpile_ts(true)
+            .with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+        let output = &result.optimized_app.body;
+        let component_code: String = result.optimized_app.components.iter()
+            .map(|c| c.code.clone())
+            .collect::<Vec<_>>()
+            .join("\n");
+        let all_code = format!("{}\n{}", output, component_code);
+
+        // TypeScript should be stripped
+        assert!(!all_code.contains("interface Props"),
+            "Interface should be stripped, got: {}", all_code);
+        assert!(!all_code.contains("Array<string>"),
+            "Generic type should be stripped, got: {}", all_code);
+        assert!(!all_code.contains("item: string"),
+            "Parameter type should be stripped, got: {}", all_code);
+        assert!(!all_code.contains("count: number"),
+            "Variable type should be stripped, got: {}", all_code);
+
+        // JSX should be transformed
+        assert!(all_code.contains("_jsxSorted"),
+            "JSX should be transformed to _jsxSorted calls, got: {}", all_code);
+
+        // .map should be preserved (JavaScript, not TypeScript)
+        assert!(all_code.contains(".map("),
+            ".map() should be preserved, got: {}", all_code);
+    }
 }
