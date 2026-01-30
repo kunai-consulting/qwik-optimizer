@@ -1,4 +1,3 @@
-use crate::code_move::transform_function_expr;
 use crate::collector::{ExportInfo, Id as CollectorId};
 use crate::component::*;
 use crate::segment::Segment;
@@ -49,12 +48,18 @@ impl QrlComponent {
             .map(|d| d.referenced_exports.clone())
             .unwrap_or_default();
 
-        let qrl = Qrl::new_with_exports(
+        let iteration_params: Vec<CollectorId> = segment_data
+            .as_ref()
+            .map(|d| d.iteration_params.clone())
+            .unwrap_or_default();
+
+        let qrl = Qrl::new_with_iteration_params(
             &id.local_file_name,
             &id.symbol_name,
             qrl_type,
             scoped_idents.clone(),
             referenced_exports.clone(),
+            iteration_params.clone(),
         );
 
         let source_file_imports = Self::generate_source_file_imports(&referenced_exports, source_info);
@@ -72,6 +77,7 @@ impl QrlComponent {
             &source_type,
             source_info,
             &scoped_idents,
+            &iteration_params,
             &Allocator::default(),
         );
         QrlComponent {
@@ -124,14 +130,17 @@ impl QrlComponent {
         source_type: &SourceType,
         _source_info: &SourceInfo,
         scoped_idents: &[CollectorId],
+        iteration_params: &[CollectorId],
         allocator: &Allocator,
     ) -> String {
+        use crate::code_move::transform_function_with_params;
+
         let name = &id.symbol_name;
 
         let ast_builder = AstBuilder::new(allocator);
 
-        let transformed_expression = if !scoped_idents.is_empty() {
-            transform_function_expr(exported_expression, scoped_idents, allocator)
+        let transformed_expression = if !scoped_idents.is_empty() || !iteration_params.is_empty() {
+            transform_function_with_params(exported_expression, scoped_idents, iteration_params, allocator)
         } else {
             exported_expression
         };

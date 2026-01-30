@@ -47,6 +47,10 @@ pub struct Qrl {
     /// Contains: (local_name, exported_name, is_default)
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub referenced_exports: Vec<ExportInfo>,
+    /// Iteration variables that become function parameters instead of captures.
+    /// Used for event handlers inside loops.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub iteration_params: Vec<Id>,
 }
 
 impl Qrl {
@@ -57,12 +61,31 @@ impl Qrl {
         scoped_idents: Vec<Id>,
         referenced_exports: Vec<ExportInfo>,
     ) -> Self {
+        Self::new_with_iteration_params(
+            rel_path,
+            display_name,
+            qrl_type,
+            scoped_idents,
+            referenced_exports,
+            Vec::new(),
+        )
+    }
+
+    pub fn new_with_iteration_params<T: Into<PathBuf>>(
+        rel_path: T,
+        display_name: &str,
+        qrl_type: QrlType,
+        scoped_idents: Vec<Id>,
+        referenced_exports: Vec<ExportInfo>,
+        iteration_params: Vec<Id>,
+    ) -> Self {
         Self {
             rel_path: rel_path.into(),
             display_name: display_name.into(),
             qrl_type,
             scoped_idents,
             referenced_exports,
+            iteration_params,
         }
     }
 

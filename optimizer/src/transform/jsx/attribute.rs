@@ -225,13 +225,26 @@ pub fn exit_jsx_attribute<'a>(
                         &gen.export_by_name,
                     );
 
+                    // Partition scoped_idents based on loop iteration variables
+                    // Innermost iteration var becomes a param, outer vars stay as captures
+                    let (iteration_params, lexical_captures): (Vec<_>, Vec<_>) = if gen.loop_depth > 0 {
+                        let current_iteration_vars = gen.iteration_var_stack.last().cloned().unwrap_or_default();
+                        scoped_idents
+                            .iter()
+                            .cloned()
+                            .partition(|(name, _)| current_iteration_vars.iter().any(|(iv_name, _)| iv_name == name))
+                    } else {
+                        (vec![], scoped_idents.clone())
+                    };
+
                     let display_name = gen.current_display_name();
-                    let qrl = Qrl::new_with_exports(
+                    let qrl = Qrl::new_with_iteration_params(
                         gen.source_info.rel_path.clone(),
                         &display_name,
                         QrlType::Qrl,
-                        scoped_idents,
+                        lexical_captures,
                         referenced_exports,
+                        iteration_params,
                     );
 
                     let call_expr = qrl.into_call_expression(
@@ -336,6 +349,58 @@ pub fn exit_jsx_attribute<'a>(
                                     ctx.ast.vec1(Argument::from(signal_expr)),
                                     false,
                                 )
+                            } else {
+                                move_expression(&gen.builder, inner_expr)
+                            }
+                        } else if !is_const && gen.loop_depth > 0 {
+                            let iteration_vars = gen.iteration_var_stack.last().cloned().unwrap_or_default();
+                            if crate::inlined_fn::should_wrap_in_fn_signal(inner_expr, &iteration_vars) {
+                                if let Some(result) = crate::inlined_fn::convert_inlined_fn(
+                                    inner_expr,
+                                    &iteration_vars,
+                                    gen.hoisted_fn_counter,
+                                    &gen.builder,
+                                    gen.builder.allocator,
+                                ) {
+                                    gen.hoisted_fn_counter += 1;
+                                    gen.needs_fn_signal_import = true;
+
+                                    if let Some(import_set) = gen.import_stack.last_mut() {
+                                        import_set.insert(Import::new(
+                                            vec![crate::component::ImportId::Named("_fnSignal".into())],
+                                            crate::component::QWIK_CORE_SOURCE,
+                                        ));
+                                    }
+
+                                    let hoisted_fn_expr = Expression::ArrowFunctionExpression(ctx.ast.alloc(result.hoisted_fn));
+
+                                    let captures_array = ctx.ast.expression_array(
+                                        SPAN,
+                                        ctx.ast.vec_from_iter(result.captures.iter().map(|(name, _)| {
+                                            ArrayExpressionElement::from(ctx.ast.expression_identifier(SPAN, ctx.ast.atom(name)))
+                                        })),
+                                    );
+
+                                    let str_literal = ctx.ast.expression_string_literal(
+                                        SPAN,
+                                        ctx.ast.atom(&result.hoisted_str),
+                                        None,
+                                    );
+
+                                    ctx.ast.expression_call(
+                                        span,
+                                        ctx.ast.expression_identifier(SPAN, "_fnSignal"),
+                                        NONE,
+                                        ctx.ast.vec_from_array([
+                                            Argument::from(hoisted_fn_expr),
+                                            Argument::from(captures_array),
+                                            Argument::from(str_literal),
+                                        ]),
+                                        false,
+                                    )
+                                } else {
+                                    move_expression(&gen.builder, inner_expr)
+                                }
                             } else {
                                 move_expression(&gen.builder, inner_expr)
                             }

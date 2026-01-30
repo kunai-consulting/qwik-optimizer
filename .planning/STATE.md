@@ -5,25 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** All 162 tests from qwik-core pass with exact output parity to the SWC implementation.
-**Current focus:** Phase 14 - Test Consolidation & Dead Code Removal
+**Current focus:** Phase 15 - Qwik Core Feedback Fixes
 
 ## Current Position
 
-Phase: 14 of 14 (Test Consolidation & Dead Code Removal)
-Plan: 2 of 2 in Phase 14
-Status: COMPLETE
-Last activity: 2026-01-30 - Completed 14-02-PLAN.md
+Phase: 15 of 15 (Qwik Core Feedback Fixes)
+Plan: 1 of 4 in Phase 15
+Status: In progress
+Last activity: 2026-01-30 - Completed 15-01-PLAN.md (Fix Panicking Spec Tests)
 
-Progress: [====================] 100% (14/14 phases complete, 54/54 total plans)
-
-**PROJECT COMPLETE**
+Progress: [===================.] 94% (14 phases + 1 plan complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 54
+- Total plans completed: 55
 - Average duration: 6.7 min
-- Total execution time: 6.2 hours
+- Total execution time: 6.3 hours
 
 **By Phase:**
 
@@ -43,9 +41,10 @@ Progress: [====================] 100% (14/14 phases complete, 54/54 total plans)
 | 12-code-reduction | 3/3 | 20 min | 6.7 min |
 | 13-optimizer-spec-verification | 4/4 | 29 min | 7.3 min |
 | 14-test-consolidation | 2/2 | 4 min | 2.0 min |
+| 15-qwik-core-feedback-fixes | 1/4 | 7 min | 7.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 13-03 (8 min), 13-04 (6 min), 14-01 (2 min), 14-02 (2 min)
+- Last 5 plans: 13-04 (6 min), 14-01 (2 min), 14-02 (2 min), 15-01 (7 min)
 
 *Updated after each plan completion*
 
@@ -56,14 +55,12 @@ Progress: [====================] 100% (14/14 phases complete, 54/54 total plans)
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
+- [15-01]: Skip symbol rename if target name already exists in OXC scope bindings
+- [15-01]: Return None for JSX expression containers without actual expressions
 - [14-02]: No dead code found after test consolidation - codebase is clean
 - [14-01]: Keep 17 internal API tests, remove 103 integration tests - spec parity provides coverage
 - [13-04]: Functional parity achieved - OXC produces valid Qwik code despite format differences
-- [13-04]: 3 edge cases documented as ignored with remediation plans
 - [13-01]: Use spec_ prefix for test function names to distinguish spec parity tests
-- [13-01]: Ignore spec_example_qwik_conflict test due to symbol shadowing edge case
-- [12-03]: Remove all inline comments from JSX modules
-- [12-02]: Remove all inline comments to make code self-documenting
 
 ### Roadmap Evolution
 
@@ -72,12 +69,25 @@ Recent decisions affecting current work:
 - Phase 13 added: Optimizer Spec Verification - Verify OXC implementation matches qwik-core reference
 - Phase 13 COMPLETE: All 164 qwik-core tests ported, functional parity verified
 - Phase 14 added: Test Consolidation & Dead Code Removal - Remove redundant tests and dead code
-- Phase 14-01 COMPLETE: Unit tests consolidated, 103 redundant tests removed
-- Phase 14-02 COMPLETE: Dead code analysis verified codebase is clean
+- Phase 14 COMPLETE: All test consolidation and dead code removal complete
+- Phase 15 added: Qwik Core Feedback Fixes - Fix issues from PR #66 review by Varixo and Maieul
+- Phase 15-01 COMPLETE: Fixed 3 panicking tests, all 299 tests now pass with 0 ignored
 
 ### Pending Todos
 
-None - project complete!
+Phase 15 remaining issues (from Varixo/Maieul PR #66 review):
+
+**FIXED (15-01):**
+1. ~~`spec_example_qwik_conflict` - local var `qrl` shadows Qwik import~~ FIXED
+2. ~~`spec_should_not_transform_bind_value_in_var_props` - bind:value + spread props~~ FIXED
+3. ~~`spec_should_not_transform_bind_checked_in_var_props` - bind:checked + spread props~~ FIXED
+
+**Remaining:**
+4. Format snapshot output to match qwik-core style (readable multiline, not minified)
+5. Implement `_fnSignal` wrapping with hoisted functions (`_hf0`, `_hf1`)
+6. Fix event handlers in loops - extract to separate files with param injection
+7. Fix nested loops - pass iteration vars as params via `useLexicalScope`
+8. Verify all spec parity tests match qwik-core snapshots
 
 ### Blockers/Concerns
 
@@ -85,9 +95,18 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-01-30T08:18:00Z
-Stopped at: Completed quick-003 (Remove Dead Code Bugbot)
+Last session: 2026-01-30T17:56:30Z
+Stopped at: Completed 15-01-PLAN.md (Fix Panicking Spec Tests)
 Resume file: None
+
+## Phase 15 Qwik Core Feedback Fixes Progress
+
+### 15-01: Fix Panicking Spec Tests - COMPLETE (7 min)
+- Fixed qrl symbol shadowing panic in enter_import_declaration
+- Fixed bind directive + spread props panic in exit_jsx_child
+- Removed #[ignore] from all 3 previously-panicking tests
+- All 299 tests now pass with 0 ignored
+- SUMMARY: .planning/phases/15-qwik-core-feedback-fixes/15-01-SUMMARY.md
 
 ## Phase 14 Test Consolidation Progress
 
@@ -185,9 +204,9 @@ Resume file: None
 ## Current Project Results
 
 **Test Suite:**
-- Total tests: ~300 (163 spec parity + 137 other unit tests)
-- Tests passing: 296
-- Tests ignored: 4 (3 edge cases + 1 doc test)
+- Total tests: 299 (163 spec parity + 136 other unit tests)
+- Tests passing: 299
+- Tests ignored: 0
 - Unit tests consolidated: 120 -> 17 in transform_tests.rs
 
 **Transform Module Code Reduction:**
@@ -198,8 +217,8 @@ Resume file: None
 
 **Spec Parity Verification:**
 - Total qwik-core tests ported: 164
-- Tests passing: 160 (98.2%)
-- Tests ignored (edge cases): 3
+- Tests passing: 163 (99.4%)
+- Tests ignored: 0
 - Functional parity: ACHIEVED
 
 **Requirements Verified:**
@@ -211,17 +230,24 @@ Resume file: None
 
 ## Project Status
 
-**COMPLETE** - All 14 phases and 54 plans executed successfully.
+**IN PROGRESS** - Phase 15 Plan 1 of 4 complete.
 
 The qwik-optimizer Rust implementation:
-- Passes 296 tests (163 spec parity + 133 other unit, 4 ignored edge cases)
+- Passes 299 tests (163 spec parity + 136 other unit, 0 ignored)
 - Achieves functional parity with qwik-core reference implementation
 - Has comprehensive spec parity test infrastructure
 - Is clean, well-structured, and maintainable with no dead code
 - Has 19.2% less code than when Phase 12 started
 - Has consolidated test suite with no redundancy
 
+**Phase 15 Remaining Issues (PR #66 review):**
+- Snapshot output not formatted like qwik-core (minified vs readable)
+- Missing `_fnSignal` wrapping for signal accesses in loops
+- Missing hoisted function extraction (`_hf0`, `_hf1` pattern)
+- Nested loops not extracting event handlers to separate files
+- Event handlers not receiving iteration vars as params
+
 **Key Artifacts:**
 - Parity Report: .planning/phases/13-optimizer-spec-verification/13-PARITY-REPORT.md
 - Requirements: .planning/REQUIREMENTS.md (89 requirements, all complete)
-- Final Summary: .planning/phases/14-test-consolidation-and-dead-code-removal/14-02-SUMMARY.md
+- Phase 15 Directory: .planning/phases/15-qwik-core-feedback-fixes/

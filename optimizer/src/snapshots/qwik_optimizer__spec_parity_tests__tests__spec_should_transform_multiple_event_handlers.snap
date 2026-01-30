@@ -18,7 +18,7 @@ const Foo = component$(function() {
 
 ============================= ./should_transform_multiple_event_handlers.tsx_Foo_component_9sC0K6gcHmk.js (ENTRY POINT)==
 
-import{_jsxSorted,qrl,useSignal}from"@qwik.dev/core";export const Foo_component_9sC0K6gcHmk=function(){return/* @__PURE__ */ _jsxSorted(`div`,null,null,useSignal([]).value.map(row=>/* @__PURE__ */ _jsxSorted(`div`,{on:click:qrl(()=>import(`./should_transform_multiple_event_handlers.tsx.js`),`Foo_component_1_div_map_div_onClick`,[row]),on:mouseover:qrl(()=>import(`./should_transform_multiple_event_handlers.tsx.js`),`Foo_component_1_div_map_div_onMouseOver`,[row])},null,/* @__PURE__ */ _jsxSorted(`p`,{on:click:qrl(()=>import(`./should_transform_multiple_event_handlers.tsx.js`),`Foo_component_1_div_map_div_p_onClick`,[row])},null,item.value.id,1,null),3,null)),1,null)};
+import{_jsxSorted,qrl,useSignal}from"@qwik.dev/core";export const Foo_component_9sC0K6gcHmk=function(){return/* @__PURE__ */ _jsxSorted(`div`,null,null,useSignal([]).value.map(row=>/* @__PURE__ */ _jsxSorted(`div`,{on:click:qrl(()=>import(`./should_transform_multiple_event_handlers.tsx.js`),`Foo_component_1_div_map_div_onClick`),on:mouseover:qrl(()=>import(`./should_transform_multiple_event_handlers.tsx.js`),`Foo_component_1_div_map_div_onMouseOver`)},null,/* @__PURE__ */ _jsxSorted(`p`,{on:click:qrl(()=>import(`./should_transform_multiple_event_handlers.tsx.js`),`Foo_component_1_div_map_div_p_onClick`)},null,item.value.id,1,null),3,null)),1,null)};
 
 None
 /*

@@ -32,6 +32,46 @@ pub fn transform_function_expr<'a>(
     }
 }
 
+/// Transforms a function expression for event handlers in loops.
+/// Adds iteration_params as function parameters (_, _1, param) and
+/// injects useLexicalScope for scoped_idents (outer captures).
+pub fn transform_function_with_params<'a>(
+    expr: Expression<'a>,
+    scoped_idents: &[Id],
+    iteration_params: &[Id],
+    allocator: &'a Allocator,
+) -> Expression<'a> {
+    if scoped_idents.is_empty() && iteration_params.is_empty() {
+        return expr;
+    }
+
+    let ast = AstBuilder::new(allocator);
+
+    match expr {
+        Expression::ArrowFunctionExpression(arrow) => {
+            let transformed = transform_arrow_fn_with_params(
+                arrow.unbox(),
+                scoped_idents,
+                iteration_params,
+                &ast,
+                allocator,
+            );
+            Expression::ArrowFunctionExpression(OxcBox::new_in(transformed, allocator))
+        }
+        Expression::FunctionExpression(func) => {
+            let transformed = transform_fn_with_params(
+                func.unbox(),
+                scoped_idents,
+                iteration_params,
+                &ast,
+                allocator,
+            );
+            Expression::FunctionExpression(OxcBox::new_in(transformed, allocator))
+        }
+        _ => expr,
+    }
+}
+
 fn transform_arrow_fn<'a>(
     mut arrow: ArrowFunctionExpression<'a>,
     scoped_idents: &[Id],
@@ -57,6 +97,126 @@ fn transform_arrow_fn<'a>(
     }
 
     arrow
+}
+
+/// Creates a FormalParameter struct with the given binding.
+fn create_formal_param<'a>(
+    ast: &AstBuilder<'a>,
+    name: &str,
+) -> FormalParameter<'a> {
+    FormalParameter {
+        span: SPAN,
+        decorators: ast.vec(),
+        pattern: ast.binding_pattern_binding_identifier(SPAN, ast.atom(name)),
+        accessibility: None,
+        readonly: false,
+        r#override: false,
+        initializer: None,
+        optional: false,
+        type_annotation: None,
+    }
+}
+
+/// Transforms arrow function with iteration parameters.
+/// Adds (_, _1, param) to signature and injects useLexicalScope for outer captures.
+fn transform_arrow_fn_with_params<'a>(
+    mut arrow: ArrowFunctionExpression<'a>,
+    scoped_idents: &[Id],
+    iteration_params: &[Id],
+    ast: &AstBuilder<'a>,
+    allocator: &'a Allocator,
+) -> ArrowFunctionExpression<'a> {
+    // Add iteration params to function signature: (_, _1, param)
+    if !iteration_params.is_empty() {
+        let mut new_params = OxcVec::with_capacity_in(2 + iteration_params.len(), allocator);
+
+        // Add placeholder params: _, _1
+        new_params.push(create_formal_param(ast, "_"));
+        new_params.push(create_formal_param(ast, "_1"));
+
+        // Add iteration param(s)
+        for (name, _scope_id) in iteration_params {
+            new_params.push(create_formal_param(ast, name));
+        }
+
+        arrow.params = ast.alloc_formal_parameters(
+            SPAN,
+            FormalParameterKind::ArrowFormalParameters,
+            new_params,
+            NONE,
+        );
+    }
+
+    // Handle body transformation - inject useLexicalScope if there are scoped_idents
+    if !scoped_idents.is_empty() {
+        let use_lexical_scope_stmt = create_use_lexical_scope(scoped_idents, ast, allocator);
+
+        if arrow.expression {
+            if let Some(Statement::ExpressionStatement(expr_stmt)) = arrow.body.statements.pop() {
+                let return_stmt = ast.statement_return(SPAN, Some(expr_stmt.unbox().expression));
+                let mut new_stmts = OxcVec::with_capacity_in(2, allocator);
+                new_stmts.push(use_lexical_scope_stmt);
+                new_stmts.push(return_stmt);
+                arrow.body.statements = new_stmts;
+                arrow.expression = false;
+            }
+        } else {
+            let mut new_stmts = OxcVec::with_capacity_in(1 + arrow.body.statements.len(), allocator);
+            new_stmts.push(use_lexical_scope_stmt);
+            new_stmts.extend(arrow.body.statements.drain(..));
+            arrow.body.statements = new_stmts;
+        }
+    }
+
+    arrow
+}
+
+/// Transforms function expression with iteration parameters.
+fn transform_fn_with_params<'a>(
+    mut func: Function<'a>,
+    scoped_idents: &[Id],
+    iteration_params: &[Id],
+    ast: &AstBuilder<'a>,
+    allocator: &'a Allocator,
+) -> Function<'a> {
+    // Add iteration params to function signature: (_, _1, param)
+    if !iteration_params.is_empty() {
+        let mut new_params = OxcVec::with_capacity_in(2 + iteration_params.len(), allocator);
+
+        // Add placeholder params: _, _1
+        new_params.push(create_formal_param(ast, "_"));
+        new_params.push(create_formal_param(ast, "_1"));
+
+        // Add iteration param(s)
+        for (name, _scope_id) in iteration_params {
+            new_params.push(create_formal_param(ast, name));
+        }
+
+        func.params = ast.alloc_formal_parameters(
+            SPAN,
+            FormalParameterKind::FormalParameter,
+            new_params,
+            NONE,
+        );
+    }
+
+    // Handle body transformation - inject useLexicalScope if there are scoped_idents
+    if !scoped_idents.is_empty() {
+        let use_lexical_scope_stmt = create_use_lexical_scope(scoped_idents, ast, allocator);
+
+        if let Some(body) = &mut func.body {
+            let mut new_stmts = OxcVec::with_capacity_in(1 + body.statements.len(), allocator);
+            new_stmts.push(use_lexical_scope_stmt);
+            new_stmts.extend(body.statements.drain(..));
+            body.statements = new_stmts;
+        } else {
+            let mut stmts = OxcVec::with_capacity_in(1, allocator);
+            stmts.push(use_lexical_scope_stmt);
+            func.body = Some(ast.alloc_function_body(SPAN, OxcVec::new_in(allocator), stmts));
+        }
+    }
+
+    func
 }
 
 fn transform_fn<'a>(

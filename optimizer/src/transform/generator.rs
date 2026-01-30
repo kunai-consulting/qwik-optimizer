@@ -115,11 +115,11 @@ pub struct TransformGenerator<'gen> {
 
     pub(crate) needs_wrap_prop_import: bool,
 
-    hoisted_fns: Vec<(String, Expression<'gen>, String)>,
+    pub(crate) hoisted_fns: Vec<(String, Expression<'gen>, String)>,
 
-    hoisted_fn_counter: usize,
+    pub(crate) hoisted_fn_counter: usize,
 
-    needs_fn_signal_import: bool,
+    pub(crate) needs_fn_signal_import: bool,
 
     pub(crate) pending_bind_directives: Vec<(bool, Expression<'gen>)>,
 
@@ -141,9 +141,9 @@ pub struct TransformGenerator<'gen> {
 
     import_tracker: ImportTracker,
 
-    loop_depth: u32,
+    pub(crate) loop_depth: u32,
 
-    iteration_var_stack: Vec<Vec<Id>>,
+    pub(crate) iteration_var_stack: Vec<Vec<Id>>,
 
     skip_transform_names: HashSet<String>,
 }

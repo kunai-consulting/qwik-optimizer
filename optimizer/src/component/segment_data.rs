@@ -66,6 +66,11 @@ pub struct SegmentData {
     pub need_transform: bool,
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub referenced_exports: Vec<ExportInfo>,
+    /// Iteration variables from enclosing loops that become function parameters.
+    /// In nested loops, only the innermost iteration variable is a param;
+    /// outer iteration vars go into scoped_idents for useLexicalScope injection.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub iteration_params: Vec<Id>,
 }
 
 impl SegmentData {
@@ -100,8 +105,32 @@ impl SegmentData {
         parent_segment: Option<String>,
         referenced_exports: Vec<ExportInfo>,
     ) -> Self {
+        Self::new_with_iteration_params(
+            ctx_name,
+            display_name,
+            hash,
+            origin,
+            scoped_idents,
+            local_idents,
+            parent_segment,
+            referenced_exports,
+            Vec::new(),
+        )
+    }
+
+    pub fn new_with_iteration_params(
+        ctx_name: &str,
+        display_name: String,
+        hash: String,
+        origin: PathBuf,
+        scoped_idents: Vec<Id>,
+        local_idents: Vec<Id>,
+        parent_segment: Option<String>,
+        referenced_exports: Vec<ExportInfo>,
+        iteration_params: Vec<Id>,
+    ) -> Self {
         let ctx_kind = SegmentKind::from_ctx_name(ctx_name);
-        let need_transform = !scoped_idents.is_empty();
+        let need_transform = !scoped_idents.is_empty() || !iteration_params.is_empty();
 
         Self {
             extension: "js".to_string(),
@@ -116,6 +145,7 @@ impl SegmentData {
             hash,
             need_transform,
             referenced_exports,
+            iteration_params,
         }
     }
 

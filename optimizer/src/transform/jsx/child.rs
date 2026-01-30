@@ -4,6 +4,7 @@ use oxc_ast::NONE;
 use oxc_span::{GetSpan, SPAN};
 use oxc_traverse::TraverseCtx;
 
+use crate::component::{Import, ImportId, QWIK_CORE_SOURCE};
 use crate::transform::generator::TransformGenerator;
 
 use super::move_expression;
@@ -102,6 +103,61 @@ pub fn exit_jsx_child<'a>(
                                 )
                                 .into(),
                         )
+                    } else {
+                        Some(move_expression(&gen.builder, expr).into())
+                    }
+                } else if gen.loop_depth > 0 {
+                    let iteration_vars = gen.iteration_var_stack.last().cloned().unwrap_or_default();
+                    if crate::inlined_fn::should_wrap_in_fn_signal(expr, &iteration_vars) {
+                        if let Some(result) = crate::inlined_fn::convert_inlined_fn(
+                            expr,
+                            &iteration_vars,
+                            gen.hoisted_fn_counter,
+                            &gen.builder,
+                            gen.builder.allocator,
+                        ) {
+                            gen.hoisted_fn_counter += 1;
+                            gen.needs_fn_signal_import = true;
+
+                            if let Some(import_set) = gen.import_stack.last_mut() {
+                                import_set.insert(Import::new(
+                                    vec![ImportId::Named("_fnSignal".into())],
+                                    QWIK_CORE_SOURCE,
+                                ));
+                            }
+
+                            let hoisted_fn_expr = Expression::ArrowFunctionExpression(ctx.ast.alloc(result.hoisted_fn));
+
+                            let captures_array = ctx.ast.expression_array(
+                                SPAN,
+                                ctx.ast.vec_from_iter(result.captures.iter().map(|(name, _)| {
+                                    ArrayExpressionElement::from(ctx.ast.expression_identifier(SPAN, ctx.ast.atom(name)))
+                                })),
+                            );
+
+                            let str_literal = ctx.ast.expression_string_literal(
+                                SPAN,
+                                ctx.ast.atom(&result.hoisted_str),
+                                None,
+                            );
+
+                            Some(
+                                ctx.ast.expression_call(
+                                    span,
+                                    ctx.ast.expression_identifier(SPAN, "_fnSignal"),
+                                    NONE,
+                                    ctx.ast.vec_from_array([
+                                        Argument::from(hoisted_fn_expr),
+                                        Argument::from(captures_array),
+                                        Argument::from(str_literal),
+                                    ]),
+                                    false,
+                                )
+                                .into(),
+                            )
+                        } else {
+                            Some(move_expression(&gen.builder, expr).into())
+                        }
                     } else {
                         Some(move_expression(&gen.builder, expr).into())
                     }
