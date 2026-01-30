@@ -6539,6 +6539,63 @@ export const fetchData = $(async () => {
         }
     }
 
+    #[test]
+    fn test_async_use_task() {
+        // Test that async functions with useTask$ preserve the async keyword
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$, useTask$ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+  useTask$(async ({ track }) => {
+    const result = await someAsyncOperation();
+    return result;
+  });
+  return <div>App</div>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Get all segment code
+        let segment_code: String = result.optimized_app.components.iter()
+            .map(|c| format!("{}: {}", c.id.symbol_name, c.code))
+            .collect::<Vec<_>>()
+            .join("\n---\n");
+
+        // Find the useTask$ segment (nested inside App component)
+        // useTask$ QRLs typically have symbol names like App_useTask_... or _1_
+        let use_task_segment = result.optimized_app.components.iter()
+            .find(|c| c.id.symbol_name.contains("useTask") ||
+                     (c.id.symbol_name.contains("App") && c.id.symbol_name.contains("_1")))
+            .map(|c| &c.code);
+
+        // STRONG ASSERTION: The useTask$ callback must preserve async keyword
+        if let Some(code) = use_task_segment {
+            // Should have async keyword with destructured parameter
+            assert!(code.contains("async"),
+                "Expected useTask$ segment to contain 'async' keyword.\nSegment code:\n{}\n\nAll segments:\n{}",
+                code, segment_code);
+
+            // Parameter destructuring { track } should be preserved
+            assert!(code.contains("track") || code.contains("{ track }"),
+                "Expected parameter destructuring { track } to be preserved.\nSegment code:\n{}", code);
+
+            // await expressions should work
+            assert!(code.contains("await someAsyncOperation"),
+                "Expected 'await someAsyncOperation' in segment body.\nSegment code:\n{}", code);
+        } else {
+            // If no dedicated useTask segment, check all segments for async content
+            assert!(segment_code.contains("async"),
+                "Expected some segment to contain async.\nAll segments:\n{}", segment_code);
+        }
+    }
+
     // ==================== Edge Case Tests ====================
 
     #[test]
