@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 ## Current Position
 
 Phase: 17 of 17 (Structural Parity) - IN PROGRESS
-Plan: 1 of ? in Phase 17
-Status: Plan 17-01 complete
-Last activity: 2026-01-30 - Completed 17-01-PLAN.md (PURE annotation format)
+Plan: 2 of 3 in Phase 17
+Status: Plan 17-02 complete
+Last activity: 2026-01-30 - Completed 17-02-PLAN.md (Import hoisting)
 
-Progress: [===================+] 95% (17-01 complete)
+Progress: [===================+] 97% (17-02 complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 59
+- Total plans completed: 60
 - Average duration: 6.4 min
-- Total execution time: 6.3 hours
+- Total execution time: 6.5 hours
 
 **By Phase:**
 
@@ -43,10 +43,10 @@ Progress: [===================+] 95% (17-01 complete)
 | 14-test-consolidation | 2/2 | 4 min | 2.0 min |
 | 15-qwik-core-feedback-fixes | 4/4 | 64 min | 16.0 min |
 | 16-snapshot-parity-audit | 4/4 | 10 min | 2.5 min |
-| 17-structural-parity | 1/? | 8 min | 8.0 min |
+| 17-structural-parity | 2/3 | 20 min | 10.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 16-02 (2 min), 16-03 (1 min), 16-04 (2 min), 17-01 (8 min)
+- Last 5 plans: 16-03 (1 min), 16-04 (2 min), 17-01 (8 min), 17-02 (12 min)
 
 ## Accumulated Context
 
@@ -55,6 +55,8 @@ Progress: [===================+] 95% (17-01 complete)
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
+- [17-02]: Use deduplication check when registering hoisted imports
+- [17-02]: Remove unused into_arrow_function method and FromIn trait implementation
 - [17-01]: Use string replace post-processing instead of OXC modification for PURE format
 - [17-01]: Apply PURE format change to both main file output and segment file output
 - [16-04]: Final parity report confirms FUNCTIONAL PARITY ACHIEVED for all 162 tests
@@ -85,11 +87,11 @@ Recent decisions affecting current work:
 - Phase 16 added: Snapshot Parity Audit - Diff all 162 qwik-core snapshots against OXC for exact match
 - Phase 16 COMPLETE: All 4 plans finished, FUNCTIONAL PARITY ACHIEVED
 - Phase 17 added: Structural Parity - Align output formatting and structure with qwik-core snapshots
-- Phase 17 IN PROGRESS: Plan 17-01 complete (PURE annotation format)
+- Phase 17 IN PROGRESS: Plans 17-01 and 17-02 complete
 
 ### Pending Todos
 
-- Phase 17: Continue structural parity improvements (import hoisting, etc.)
+- Phase 17: Complete 17-03 (_fnSignal hoisting)
 
 ### Blockers/Concerns
 
@@ -97,8 +99,8 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-01-30T20:08:00Z
-Stopped at: Completed 17-01-PLAN.md
+Last session: 2026-01-30T20:27:00Z
+Stopped at: Completed 17-02-PLAN.md
 Resume file: None
 
 ## Phase 17 Structural Parity Progress
@@ -109,6 +111,13 @@ Resume file: None
 - Updated 121 snapshot files with new PURE format
 - All 299 tests pass with new format
 - SUMMARY: .planning/phases/17-structural-parity/17-01-SUMMARY.md
+
+### 17-02: Import Hoisting - COMPLETE (12 min)
+- Added hoisted_imports field and emission logic to TransformGenerator
+- Modified QRL generation to use identifier references instead of inline arrows
+- Updated 171 snapshot files with new hoisted import format
+- All 299 tests pass with new format
+- SUMMARY: .planning/phases/17-structural-parity/17-02-SUMMARY.md
 
 ## Final Project Results
 
@@ -141,6 +150,7 @@ Resume file: None
 
 **Structural Parity Improvements:**
 - PURE annotation format: ALIGNED (`/*#__PURE__*/` matches qwik-core)
+- Import hoisting: ALIGNED (`const i_{name} = () => import(...)` matches qwik-core)
 
 **Requirements Verified:**
 - VER-01: All optimizer features implemented - PASS
@@ -151,7 +161,7 @@ Resume file: None
 
 ## Project Status
 
-**IN PROGRESS** - Phase 17 Plan 01 complete.
+**IN PROGRESS** - Phase 17 Plans 17-01 and 17-02 complete.
 
 The qwik-optimizer Rust implementation:
 - Passes 299 tests (163 spec parity + 136 other unit, 0 ignored)
@@ -162,6 +172,7 @@ The qwik-optimizer Rust implementation:
 - Has consolidated test suite with no redundancy
 - Produces readable formatted output matching qwik-core style
 - PURE annotation format now matches qwik-core
+- Import hoisting now matches qwik-core
 
 **Key Artifacts:**
 - Final Parity Report: .planning/phases/16-snapshot-parity-audit/16-FINAL-PARITY-REPORT.md
@@ -171,3 +182,4 @@ The qwik-optimizer Rust implementation:
 - Verification Report: .planning/phases/15-qwik-core-feedback-fixes/15-VERIFICATION.md
 - Phase 17 Research: .planning/phases/17-structural-parity/17-RESEARCH.md
 - 17-01 Summary: .planning/phases/17-structural-parity/17-01-SUMMARY.md
+- 17-02 Summary: .planning/phases/17-structural-parity/17-02-SUMMARY.md

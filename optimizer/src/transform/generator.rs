@@ -309,6 +309,13 @@ impl<'gen> TransformGenerator<'gen> {
         false
     }
 
+    /// Get the next hoisted function name (_hf0, _hf1, etc.) and increment counter.
+    pub(crate) fn next_hoisted_fn_name(&mut self) -> String {
+        let name = format!("_hf{}", self.hoisted_fn_counter);
+        self.hoisted_fn_counter += 1;
+        name
+    }
+
     fn get_component_object_pattern<'b>(
         &self,
         node: &'b CallExpression<'gen>,
