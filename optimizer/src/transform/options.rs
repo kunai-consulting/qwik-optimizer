@@ -1,11 +1,3 @@
-//! Transform options and main entry point for the Qwik optimizer.
-//!
-//! This module contains:
-//! - `TransformOptions`: Configuration for the transformation
-//! - `transform()`: Main entry point for transforming source code
-//! - `OptimizedApp`: Result of optimization containing body and components
-//! - `OptimizationResult`: Wrapper for optimization result and errors
-
 use std::fmt::Display;
 
 use serde::Serialize;
@@ -27,13 +19,7 @@ use oxc_semantic::{SemanticBuilder, SemanticBuilderReturn};
 use oxc_transformer::{JsxOptions, TransformOptions as OxcTransformOptions, Transformer, TypeScriptOptions};
 use oxc_traverse::traverse_mut;
 
-// =============================================================================
-// Output Types
-// =============================================================================
-
 /// Result of optimizing a Qwik source file.
-///
-/// Contains the transformed body code and all extracted QRL components.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Default, Serialize)]
 pub struct OptimizedApp {
     pub body: String,
@@ -90,10 +76,6 @@ impl OptimizationResult {
     }
 }
 
-// =============================================================================
-// Configuration
-// =============================================================================
-
 /// Configuration options for the Qwik optimizer transformation.
 #[derive(Clone)]
 pub struct TransformOptions {
@@ -101,10 +83,7 @@ pub struct TransformOptions {
     pub target: Target,
     pub transpile_ts: bool,
     pub transpile_jsx: bool,
-    /// Entry strategy for determining how segments are grouped for bundling.
     pub entry_strategy: EntryStrategy,
-    /// Whether this is a server build (true) or client/browser build (false).
-    /// Default: true (safe default - server code is safer to run on server than client code on server)
     pub is_server: bool,
 }
 
@@ -138,16 +117,12 @@ impl Default for TransformOptions {
             transpile_ts: false,
             transpile_jsx: false,
             entry_strategy: EntryStrategy::Segment,
-            is_server: true, // Safe default
+            is_server: true,
         }
     }
 }
 
 /// Main entry point for transforming source code using the Qwik optimizer.
-///
-/// This function parses the source code, applies TypeScript transpilation if configured,
-/// performs const replacement for SSR/build mode, and runs the main transformation
-/// to extract QRLs and generate optimized output.
 pub fn transform(script_source: Source, options: TransformOptions) -> Result<OptimizationResult> {
     let allocator = Allocator::default();
     let source_text = script_source.source_code();
@@ -179,12 +154,9 @@ pub fn transform(script_source: Source, options: TransformOptions) -> Result<Opt
         .build_with_scoping(scoping, &mut program);
     }
 
-    // Collect imports BEFORE const replacement (for import aliasing)
-    // Skip type-only imports as they don't exist at runtime and shouldn't be captured in QRLs
     let mut import_tracker = ImportTracker::new();
     for stmt in &program.body {
         if let Statement::ImportDeclaration(import) = stmt {
-            // Skip entire type-only import declarations: `import type { Foo } from '...'`
             if import.import_kind.is_type() {
                 continue;
             }
@@ -194,7 +166,6 @@ pub fn transform(script_source: Source, options: TransformOptions) -> Result<Opt
                 for specifier in specifiers {
                     match specifier {
                         ImportDeclarationSpecifier::ImportSpecifier(spec) => {
-                            // Skip type-only specifiers: `import { type Foo, bar } from '...'`
                             if spec.import_kind.is_type() {
                                 continue;
                             }
@@ -216,7 +187,6 @@ pub fn transform(script_source: Source, options: TransformOptions) -> Result<Opt
         }
     }
 
-    // Apply const replacement (skip in Test mode to match SWC behavior)
     if options.target != Target::Test {
         let mut const_replacer = ConstReplacerVisitor::new(
             &allocator,
@@ -231,13 +201,12 @@ pub fn transform(script_source: Source, options: TransformOptions) -> Result<Opt
         semantic,
         errors: _semantic_errors,
     } = SemanticBuilder::new()
-        .with_check_syntax_error(true) // Enable extra syntax error checking
-        .with_cfg(true) // Build a Control Flow Graph
+        .with_check_syntax_error(true)
+        .with_cfg(true)
         .build(&program);
 
     let mut transform = TransformGenerator::new(source_info, options, None, &allocator);
 
-    // let (symbols, scopes) = semantic.into_symbol_table_and_scope_tree();
     let scoping = semantic.into_scoping();
 
     traverse_mut(&mut transform, &allocator, &mut program, scoping, ());

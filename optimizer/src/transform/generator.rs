@@ -1,8 +1,3 @@
-//! Core AST transformation generator for Qwik optimizer.
-//!
-//! This module contains the `TransformGenerator` struct which implements
-//! the `Traverse` trait to walk the AST and transform QRL markers.
-
 #![allow(unused)]
 
 use crate::dead_code::DeadCode;
@@ -38,18 +33,15 @@ use std::fmt::{write, Display, Pointer};
 use crate::collector::{ExportInfo, Id};
 use crate::is_const::is_const_expr;
 
-// Import types from sibling modules
 use super::jsx;
 use super::options::{OptimizationResult, OptimizedApp, TransformOptions};
 use super::qrl as qrl_module;
 use super::scope as scope_module;
 use super::state::{ImportTracker, JsxState};
 
-// Re-export types needed by tests in transform_tests.rs
 pub(crate) use crate::component::Target;
 
 /// Type of declaration for tracking captured variables.
-/// Used in compute_scoped_idents to determine if captured variables are const.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum IdentType {
     /// Variable declaration - bool indicates is_const
@@ -74,8 +66,6 @@ use std::str;
 use crate::ext::*;
 use crate::illegal_code::{IllegalCode, IllegalCodeType};
 use crate::processing_failure::ProcessingFailure;
-
-// JsxState is defined in super::state
 
 pub struct TransformGenerator<'gen> {
     pub options: TransformOptions,
@@ -116,106 +106,50 @@ pub struct TransformGenerator<'gen> {
 
     pub(crate) jsx_key_counter: u32,
 
-    /// Marks whether each JSX attribute in the stack is var (false) or const (true).
-    /// An attribute is considered var if it:
-    /// - calls a function
-    /// - accesses a member
-    /// - is a variable that is not an import, an export, or in the const stack
     pub(crate) expr_is_const_stack: Vec<bool>,
 
-    /// Used to replace the current expression in the AST. Should be set when exiting a specific
-    /// type of expression (e.g., `exit_jsx_element`); this will be picked up in `exit_expression`,
-    /// which will replace the entire expression with the contents of this field.
     pub(crate) replace_expr: Option<Expression<'gen>>,
 
-    /// Stack of declaration scopes for tracking variable captures.
-    /// Each scope level contains the identifiers declared at that level.
-    /// Used by compute_scoped_idents to determine which variables need to be captured.
     pub(crate) decl_stack: Vec<Vec<IdPlusType>>,
 
-    /// Stack tracking whether each JSX element is a native HTML element.
-    /// Native elements (lowercase first char like `<div>`, `<button>`) get event name transformation.
-    /// Component elements (uppercase first char like `<MyButton>`) keep original attribute names.
     pub(crate) jsx_element_is_native: Vec<bool>,
 
-    /// Props destructuring state for current component.
-    /// Maps local variable names to their original property keys for _rawProps.key access.
-    /// Key: (local_name, scope_id), Value: property key string
     pub(crate) props_identifiers: HashMap<Id, String>,
 
-    /// Flag indicating we're inside a component$ that needs props transformation.
-    /// Set to true when entering a component$ with destructured props, cleared on exit.
     pub(crate) in_component_props: bool,
 
-    /// Flag indicating _wrapProp import needs to be added.
-    /// Set when any prop identifier or signal.value access is wrapped.
     pub(crate) needs_wrap_prop_import: bool,
 
-    /// Hoisted functions for _fnSignal (hoisted_name, hoisted_fn_expr, hoisted_str).
-    /// These are emitted at module top before the component code.
     hoisted_fns: Vec<(String, Expression<'gen>, String)>,
 
-    /// Counter for hoisted function names (_hf0, _hf1, ...).
     hoisted_fn_counter: usize,
 
-    /// Flag indicating _fnSignal import needs to be added.
     needs_fn_signal_import: bool,
 
-    /// Pending bind directives for current element: (is_checked, signal_expr)
-    /// Collected during attribute processing and applied at element exit.
     pub(crate) pending_bind_directives: Vec<(bool, Expression<'gen>)>,
 
-    /// Pending on:input handlers for current element.
-    /// Used to merge with bind handlers when both exist on same element.
     pending_on_input_handlers: Vec<Expression<'gen>>,
 
-    /// Flag indicating _val import needs to be added (bind:value).
     pub(crate) needs_val_import: bool,
 
-    /// Flag indicating _chk import needs to be added (bind:checked).
     pub(crate) needs_chk_import: bool,
 
-    /// Flag indicating inlinedQrl import needs to be added.
     pub(crate) needs_inlined_qrl_import: bool,
 
-    /// Tracks all module exports for segment file import generation.
-    /// When QRL segment files reference symbols that are exports from the source file,
-    /// those segments need to import from the source file (e.g., "./test").
-    /// Key: local name of the exported symbol
-    /// Value: ExportInfo with local_name, exported_name, is_default, source
     pub(crate) export_by_name: HashMap<String, ExportInfo>,
 
-    /// Synthesized imports to be emitted at module top during finalization.
-    /// Maps source path to set of import names for deduplication and merging.
-    /// Key: source path (e.g., "@qwik.dev/core"), Value: set of ImportId
     synthesized_imports: HashMap<String, BTreeSet<ImportId>>,
 
-    /// Context stack for entry strategy component grouping.
-    /// Tracks names as AST is traversed (file name, function names, component names,
-    /// JSX elements, attributes) for PerComponentStrategy and SmartStrategy.
     pub(crate) stack_ctxt: Vec<String>,
 
-    /// Entry policy for determining how segments are grouped for bundling.
-    /// Parsed from TransformOptions.entry_strategy at initialization.
     entry_policy: Box<dyn EntryPolicy>,
 
-    /// Tracks imported identifiers for const replacement.
-    /// Used to find aliased imports like `import { isServer as s }` from @qwik.dev/core/build.
     import_tracker: ImportTracker,
 
-    /// Tracks nesting depth of loops (for/while/for-in/for-of/map callbacks).
-    /// Used to determine if QRLs inside loops need special handling for iteration variables.
     loop_depth: u32,
 
-    /// Stack of iteration variable names per loop level.
-    /// Each loop level can have multiple iteration variables (e.g., `(v, idx)` in map callback).
-    /// Used to pass iteration variables via `q:p` prop instead of capture.
     iteration_var_stack: Vec<Vec<Id>>,
 
-    /// Tracks aliased $ marker functions that should skip QRL transformation.
-    /// When `component$` or `$` is imported as a different name (e.g., `component$ as Component`),
-    /// the aliased name is added here. Calls using the alias will NOT be transformed as QRLs.
-    /// This matches SWC's skip_transform behavior.
     skip_transform_names: HashSet<String>,
 }
 
@@ -275,8 +209,6 @@ impl<'gen> TransformGenerator<'gen> {
         }
     }
 
-    /// Adds a synthesized import to be emitted at module finalization.
-    /// Imports from the same source are automatically merged.
     fn add_synthesized_import(&mut self, name: ImportId, source: &str) {
         self.synthesized_imports
             .entry(source.to_string())
@@ -284,8 +216,6 @@ impl<'gen> TransformGenerator<'gen> {
             .insert(name);
     }
 
-    /// Finalizes all synthesized imports and emits them at module top.
-    /// Merges imports from the same source into single import statements.
     fn finalize_imports(&mut self) -> Vec<Import> {
         self.synthesized_imports
             .drain()
@@ -293,8 +223,6 @@ impl<'gen> TransformGenerator<'gen> {
             .collect()
     }
 
-    /// Returns the current context stack for entry strategy tracking.
-    /// Used primarily for testing to verify stack_ctxt tracking works correctly.
     #[cfg(test)]
     pub fn current_context(&self) -> &[String] {
         &self.stack_ctxt
@@ -311,7 +239,6 @@ impl<'gen> TransformGenerator<'gen> {
         let ss: Vec<String> = self
             .segment_stack
             .iter()
-            // .filter(|s| !matches!(s, Segment::IndexQrl(0)))
             .map(|s| {
                 let s: String = s.into();
                 format!("/{}", s)
@@ -332,24 +259,16 @@ impl<'gen> TransformGenerator<'gen> {
     }
 
     pub(crate) fn debug<T: AsRef<str>>(&self, _s: T, _traverse_ctx: &TraverseCtx<'_, ()>) {
-        // Debug output removed in Phase 12 code reduction
     }
 
     pub(crate) fn new_segment<T: AsRef<str>>(&mut self, input: T) -> Segment {
         self.segment_builder.new_segment(input, &self.segment_stack)
     }
 
-    /// Builds the display name from the current segment stack.
-    ///
-    /// Joins segment names with underscores, handling special cases for named QRLs
-    /// and indexed QRLs.
     pub(crate) fn current_display_name(&self) -> String {
         qrl_module::build_display_name(&self.segment_stack)
     }
 
-    /// Calculates the hash for the current context.
-    ///
-    /// Uses the source file path, display name, and scope to generate a stable hash.
     fn current_hash(&self) -> String {
         let display_name = self.current_display_name();
         qrl_module::compute_hash(
@@ -359,7 +278,6 @@ impl<'gen> TransformGenerator<'gen> {
         )
     }
 
-    /// Get all imported symbol names for is_const_expr checking.
     pub(crate) fn get_imported_names(&self) -> HashSet<String> {
         self.import_by_symbol
             .values()
@@ -372,11 +290,8 @@ impl<'gen> TransformGenerator<'gen> {
             .collect()
     }
 
-    /// Check if this expression is a prop identifier that needs _wrapProp wrapping.
-    /// Returns Some((raw_props_name, prop_key)) if wrapping is needed.
     pub(crate) fn should_wrap_prop(&self, expr: &Expression) -> Option<(String, String)> {
         if let Expression::Identifier(ident) = expr {
-            // Match by name only since props_identifiers uses scope from declaration
             for ((name, _scope_id), prop_key) in &self.props_identifiers {
                 if name == &ident.name.to_string() {
                     return Some(("_rawProps".to_string(), prop_key.clone()));
@@ -386,19 +301,15 @@ impl<'gen> TransformGenerator<'gen> {
         None
     }
 
-    /// Check if this expression is a signal.value access that needs _wrapProp wrapping.
     pub(crate) fn should_wrap_signal_value(&self, expr: &Expression) -> bool {
         if let Expression::StaticMemberExpression(static_member) = expr {
             if static_member.property.name == "value" {
-                // Wrap any .value access - runtime will determine if it's actually a signal
                 return true;
             }
         }
         false
     }
 
-    /// Extract ObjectPattern from component$ call if present.
-    /// Returns None if not a component$ with destructured props.
     fn get_component_object_pattern<'b>(
         &self,
         node: &'b CallExpression<'gen>,
@@ -415,7 +326,6 @@ impl<'gen> TransformGenerator<'gen> {
         }
     }
 
-    /// Populate props_identifiers from an ObjectPattern.
     fn populate_props_identifiers(
         &mut self,
         obj_pat: &ObjectPattern<'gen>,
@@ -425,14 +335,12 @@ impl<'gen> TransformGenerator<'gen> {
         for prop in &obj_pat.properties {
             let BindingProperty { key, value, .. } = prop;
 
-            // Get the original property key
             let prop_key = match key {
                 PropertyKey::StaticIdentifier(id) => id.name.to_string(),
                 PropertyKey::StringLiteral(s) => s.value.to_string(),
                 _ => continue,
             };
 
-            // Get the local binding name
             let local_name = match value {
                 BindingPattern::BindingIdentifier(id) => id.name.to_string(),
                 _ => continue,
@@ -442,8 +350,6 @@ impl<'gen> TransformGenerator<'gen> {
         }
     }
 
-    /// Transform component$ props destructuring.
-    /// Extracts arrow function and applies PropsDestructuring transformation.
     fn transform_component_props(
         &mut self,
         node: &mut CallExpression<'gen>,
@@ -466,7 +372,6 @@ impl<'gen> TransformGenerator<'gen> {
             return;
         }
 
-        // Handle rest pattern if present
         if props_trans.rest_id.is_some() {
             if let Some(rest_stmt) = props_trans.generate_rest_stmt(&ctx.ast) {
                 self.inject_rest_stmt(arrow, rest_stmt, ctx);
@@ -477,7 +382,6 @@ impl<'gen> TransformGenerator<'gen> {
         self.props_identifiers = props_trans.identifiers;
     }
 
-    /// Inject _restProps statement into arrow function body.
     fn inject_rest_stmt(
         &self,
         arrow: &mut ArrowFunctionExpression<'gen>,
@@ -485,7 +389,6 @@ impl<'gen> TransformGenerator<'gen> {
         ctx: &mut TraverseCtx<'gen, ()>,
     ) {
         if arrow.expression {
-            // Expression body: convert to block with rest stmt + return
             if let Some(Statement::ExpressionStatement(expr_stmt)) = arrow.body.statements.pop() {
                 let return_stmt = ctx.ast.statement_return(SPAN, Some(expr_stmt.unbox().expression));
                 let mut new_stmts = ctx.ast.vec_with_capacity(2);
@@ -495,12 +398,10 @@ impl<'gen> TransformGenerator<'gen> {
                 arrow.expression = false;
             }
         } else {
-            // Block body: prepend _restProps statement
             arrow.body.statements.insert(0, rest_stmt);
         }
     }
 
-    /// Add _restProps import to current import stack.
     fn add_rest_props_import(&mut self) {
         if let Some(imports) = self.import_stack.last_mut() {
             imports.insert(Import::new(
@@ -526,7 +427,6 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
 
     fn exit_program(&mut self, node: &mut Program<'a>, ctx: &mut TraverseCtx<'a, ()>) {
 
-        // Collect synthesized imports based on transformation flags
         if self.needs_wrap_prop_import {
             self.add_synthesized_import(ImportId::Named("_wrapProp".into()), QWIK_CORE_SOURCE);
         }
@@ -543,8 +443,6 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             self.add_synthesized_import(ImportId::Named("inlinedQrl".into()), QWIK_CORE_SOURCE);
         }
 
-        // Finalize and emit synthesized imports
-        // These are merged by source and emitted at module top
         let synthesized = self.finalize_imports();
         for import in synthesized {
             if let Some(imports) = self.import_stack.last_mut() {
@@ -552,10 +450,7 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             }
         }
 
-        // Emit hoisted functions at top of module: const _hf0 = ...; const _hf0_str = "...";
-        // Insert in reverse order so they appear in order at top
         for (name, fn_expr, str_val) in self.hoisted_fns.drain(..).rev() {
-            // const _hfN = (p0, p1) => expr;
             let fn_stmt = Statement::VariableDeclaration(ctx.ast.alloc(ctx.ast.variable_declaration(
                 SPAN,
                 VariableDeclarationKind::Const,
@@ -571,7 +466,6 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             )));
             node.body.insert(0, fn_stmt);
 
-            // const _hfN_str = "expr";
             let str_name = format!("{}_str", name);
             let str_stmt = Statement::VariableDeclaration(ctx.ast.alloc(ctx.ast.variable_declaration(
                 SPAN,
@@ -586,7 +480,7 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                 )),
                 false,
             )));
-            node.body.insert(1, str_stmt); // Insert after the function
+            node.body.insert(1, str_stmt);
         }
 
         if let Some(tree) = self.import_stack.pop() {
@@ -624,11 +518,7 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
 
         let name = node.callee_name().unwrap_or_default().to_string();
 
-        // Check if this is an aliased $ marker function that should skip QRL transformation
-        // e.g., `import { component$ as Component }` - calls to `Component(...)` skip transform
         if self.skip_transform_names.contains(&name) {
-            // Don't push to import_stack or stack_ctxt - this is not a QRL call
-            // Just push a regular segment for tracking
             let segment: Segment = self.new_segment(&name);
             self.segment_stack.push(segment);
             return;
@@ -636,12 +526,9 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
 
         if name.ends_with(MARKER_SUFFIX) {
             self.import_stack.push(BTreeSet::new());
-            // Push marker function name to stack_ctxt for entry strategy (SWC fold_call_expr)
             self.stack_ctxt.push(name.clone());
         }
 
-        // Check for component$ with destructured props
-        // Populate props_identifiers EARLY so JSX processing can use them for _wrapProp
         if name.starts_with("component") && name.ends_with(MARKER_SUFFIX) {
             if let Some(obj_pat) = self.get_component_object_pattern(node) {
                 self.in_component_props = true;
@@ -649,7 +536,6 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             }
         }
 
-        // Detect .map() callbacks as "loop context" for QRL hoisting
         if let Some(vars) = scope_module::check_map_iteration_vars(node) {
             self.loop_depth += 1;
             self.iteration_var_stack.push(vars);
@@ -664,23 +550,19 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         node: &mut CallExpression<'a>,
         ctx: &mut TraverseCtx<'a, ()>,
     ) {
-        // Pop from iteration_var_stack if this was a .map() call we tracked
         if scope_module::is_map_with_function_callback(node) && self.loop_depth > 0 {
             self.iteration_var_stack.pop();
             self.loop_depth -= 1;
         }
 
-        // Handle component$ props destructuring BEFORE QRL extraction
         if self.in_component_props {
             self.transform_component_props(node, ctx);
             self.in_component_props = false;
         }
 
-        // Check if current segment is a QRL for transformation
         let is_qrl = self.segment_stack.last().is_some_and(|s| s.is_qrl());
         if is_qrl {
             let comp = node.arguments.first().map(|arg0| {
-                // Collect all identifiers referenced in the QRL body
                 let descendent_idents = {
                     use crate::collector::IdentCollector;
                     let mut collector = IdentCollector::new();
@@ -691,7 +573,6 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                     collector.get_words()
                 };
 
-                // Get all declarations from parent scopes (flatten decl_stack)
                 let all_decl: Vec<IdPlusType> = self
                     .decl_stack
                     .iter()
@@ -699,16 +580,13 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                     .cloned()
                     .collect();
 
-                // Partition into valid (Var) and invalid (Fn, Class)
                 let (decl_collect, _invalid_decl): (Vec<_>, Vec<_>) = all_decl
                     .into_iter()
                     .partition(|(_, t)| matches!(t, IdentType::Var(_)));
 
-                // Compute captured variables (scoped_idents)
                 let (scoped_idents, _is_const) =
                     qrl_module::compute_scoped_idents(&descendent_idents, &decl_collect);
 
-                // Get imports collected for this QRL
                 let imports: Vec<Import> = self
                     .import_stack
                     .pop()
@@ -717,11 +595,9 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                     .cloned()
                     .collect();
 
-                // Collect imported names and filter scoped_idents
                 let imported_names = qrl_module::collect_imported_names(&imports);
                 let scoped_idents = qrl_module::filter_imported_from_scoped(scoped_idents, &imported_names);
 
-                // Collect referenced exports for segment file imports
                 let referenced_exports = qrl_module::collect_referenced_exports(
                     &descendent_idents,
                     &imported_names,
@@ -729,16 +605,12 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                     &self.export_by_name,
                 );
 
-                // Build ctx_name from the callee name (e.g., "component$", "onClick$", "$")
                 let ctx_name = node.callee_name().unwrap_or("$").to_string();
 
-                // Build display_name from segment stack
                 let display_name = self.current_display_name();
 
-                // Get hash from source_info and segments (calculated during Id::new)
                 let hash = self.current_hash();
 
-                // Determine parent segment (for nested QRLs)
                 let parent_segment = self.segment_stack.iter().rev().skip(1).find_map(|s| {
                     if s.is_qrl() {
                         Some(s.to_string())
@@ -747,7 +619,6 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                     }
                 });
 
-                // Create SegmentData with all collected metadata including referenced exports
                 let segment_data = SegmentData::new_with_exports(
                     &ctx_name,
                     display_name,
@@ -759,7 +630,6 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                     referenced_exports,
                 );
 
-                // Compute entry grouping using the entry policy and stack_ctxt
                 let entry = self.entry_policy.get_entry_for_sym(&self.stack_ctxt, &segment_data);
 
                 QrlComponent::from_call_expression_argument(
@@ -795,7 +665,6 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
 
         self.segment_stack.pop();
 
-        // Pop stack_ctxt if we pushed a marker function name (SWC fold_call_expr)
         let name = node.callee_name().unwrap_or_default().to_string();
         if name.ends_with(MARKER_SUFFIX) {
             self.stack_ctxt.pop();
@@ -819,24 +688,20 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             .unwrap_or(self.new_segment("$"));
         self.segment_stack.push(segment);
 
-        // Delegate scope tracking to scope module
         scope_module::enter_function(self, node, ctx);
     }
 
     fn exit_function(&mut self, node: &mut Function<'a>, ctx: &mut TraverseCtx<'a, ()>) {
         self.segment_stack.pop();
 
-        // Delegate scope tracking to scope module
         scope_module::exit_function(self, node, ctx);
     }
 
     fn enter_class(&mut self, node: &mut Class<'a>, ctx: &mut TraverseCtx<'a, ()>) {
-        // Delegate scope tracking to scope module
         scope_module::enter_class(self, node, ctx);
     }
 
     fn exit_class(&mut self, node: &mut Class<'a>, ctx: &mut TraverseCtx<'a, ()>) {
-        // Delegate scope tracking to scope module
         scope_module::exit_class(self, node, ctx);
     }
 
@@ -845,10 +710,8 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         node: &mut ExportNamedDeclaration<'a>,
         _ctx: &mut TraverseCtx<'a, ()>,
     ) {
-        // Track named exports for segment file import generation
         let source = node.source.as_ref().map(|s| s.value.to_string());
 
-        // Export with declaration: `export const Foo = ...`, `export function bar() {}`
         if let Some(decl) = &node.declaration {
             match decl {
                 Declaration::VariableDeclaration(var_decl) => {
@@ -890,7 +753,6 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             }
         }
 
-        // Export specifiers: `export { foo, bar as baz }`
         for specifier in &node.specifiers {
             let local_name = specifier.local.name().to_string();
             let exported_name = specifier.exported.name().to_string();
@@ -908,7 +770,6 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         node: &mut ExportDefaultDeclaration<'a>,
         _ctx: &mut TraverseCtx<'a, ()>,
     ) {
-        // Track default exports for segment file import generation
         let local_name = match &node.declaration {
             ExportDefaultDeclarationKind::FunctionDeclaration(fn_decl) => {
                 if let Some(ident) = &fn_decl.id {
@@ -943,7 +804,6 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         node: &mut ArrowFunctionExpression<'a>,
         ctx: &mut TraverseCtx<'a, ()>,
     ) {
-        // Delegate scope tracking to scope module
         scope_module::enter_arrow_function_expression(self, node, ctx);
     }
 
@@ -952,7 +812,6 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         node: &mut ArrowFunctionExpression<'a>,
         ctx: &mut TraverseCtx<'a, ()>,
     ) {
-        // Delegate scope tracking to scope module
         scope_module::exit_arrow_function_expression(self, node, ctx);
     }
 
@@ -991,7 +850,6 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         let s: Segment = self.new_segment(segment_name.clone());
         self.segment_stack.push(s);
 
-        // Push variable name to stack_ctxt for entry strategy tracking (SWC fold_var_declarator)
         if !segment_name.is_empty() {
             self.stack_ctxt.push(segment_name);
         }
@@ -1002,12 +860,9 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             self.expr_is_const_stack.push(is_const);
         }
 
-        // Delegate scope tracking to scope module
         scope_module::track_variable_declaration(self, node, ctx);
 
         if let Some(name) = id.get_identifier_name() {
-            /// Adds symbol and import information in the case this declaration ends up being referenced in
-            /// an exported component.
             let grandparent = ctx.ancestor(1);
             if let Ancestor::ExportNamedDeclarationDeclaration(export) = grandparent {
                 let symbol_id = id.get_binding_identifier().and_then(|b| b.symbol_id.get());
@@ -1042,7 +897,6 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             }
         }
 
-        // If this definition is constant, mark it as constant within the current scope
         if self.options.transpile_jsx && self.expr_is_const_stack.pop().unwrap_or_default() {
             if let Some(consts) = self.const_stack.last_mut() {
                 let symbol_id = node
@@ -1055,7 +909,6 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             }
         }
 
-        // Pop stack_ctxt if we pushed a variable name (SWC fold_var_declarator)
         if node.id.get_identifier_name().is_some() {
             self.stack_ctxt.pop();
         }
@@ -1196,10 +1049,6 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         ctx: &mut TraverseCtx<'a, ()>,
     ) {
         for statement in node.iter_mut() {
-            // This will determine whether the variable declaration can be replaced with just the call that is being used to initialize it.
-            // e.g. `const x = componentQrl(...)` can be replaced with just `componentQrl(...)`,
-            // `const Header = qrl(...)` can be replaced with qrl(...).
-            // The semantics of this check are as follows: The declaration is not referenced, it is a `qrl`, and is not an export.
             if let Statement::VariableDeclaration(decl) = statement {
                 if decl.declarations.len() == 1 {
                     if let Some(decl) = decl.declarations.first() {
@@ -1246,8 +1095,6 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             let source_str = node.source.value.to_string();
 
             for specifier in specifiers.iter_mut() {
-                // Track imports for const replacement (isServer, isBrowser, isDev from @qwik.dev/core/build)
-                // and aliased $ marker imports for skip transform detection
                 match specifier {
                     ImportDeclarationSpecifier::ImportSpecifier(spec) => {
                         let imported = spec.imported.name().to_string();
@@ -1255,9 +1102,6 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                         self.import_tracker
                             .add_import(&source_str, &imported, &local);
 
-                        // Track aliased $ marker imports for skip transform
-                        // If `component$` is imported as `Component`, add `Component` to skip_transform_names
-                        // When we see a call to `Component(...)`, we won't transform it as QRL
                         if imported.ends_with(MARKER_SUFFIX) && imported != local {
                             self.skip_transform_names.insert(local.clone());
                         }
@@ -1272,8 +1116,6 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                     }
                 }
 
-                // Recording each import by its SymbolId will allow CallExpressions within newly-created modules to
-                // determine if they need to add this import to their import_stack.
                 if let Some(symbol_id) = specifier.local().symbol_id.get() {
                     let source = node.source.value;
 
@@ -1289,9 +1131,7 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                         .map(|s| format!("{}{}", s, QRL_SUFFIX))
                         .unwrap_or(specifier.name().to_string());
 
-                    // We want to rename all marker imports to their QRL equivalent yet preserve the original symbol id.
                     if let Some(local_name) = local_name {
-                        // ctx. symbols_mut().set_name(symbol_id, local_name.as_str());
                         let scope_id = ctx.current_scope_id();
                         ctx.scoping_mut().rename_symbol(
                             symbol_id,
@@ -1336,7 +1176,6 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                         .insert(symbol_id, Import::new(vec![specifier.into()], source));
                 }
 
-                // Rename qwik imports per https://github.com/QwikDev/qwik/blob/build/v2/packages/qwik/src/optimizer/core/src/rename_imports.rs
                 let source = node.source.value;
                 let source = ImportCleanUp::rename_qwik_imports(source);
                 node.source.value = source.into_in(ctx.ast.allocator);
@@ -1352,19 +1191,14 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         if let Some(illegal_code_type) = id_ref
             .reference_id
             .get()
-            // .and_then(|ref_id| ctx.symbols().references.get(ref_id))
             .map(|ref_id| ctx.scoping().get_reference(ref_id))
             .and_then(|refr| refr.symbol_id())
             .and_then(|symbol_id| self.removed.get(&symbol_id))
         {
-            // Create ProcessingFailure with file path for proper C02 diagnostic
             let file_name = self.source_info.file_name.to_string();
             self.errors.push(ProcessingFailure::illegal_code(illegal_code_type, &file_name));
         }
 
-        // Whilst visiting each identifier reference, we check if that references refers to an import.
-        // If so, we store on the current import stack so that it can be used later in the `exit_expression`
-        // logic that ends up creating a new module/component.
         let ref_id = id_ref.reference_id();
         if let Some(symbol_id) = ctx.scoping().get_reference(ref_id).symbol_id() {
             if let Some(import) = self.import_by_symbol.get(&symbol_id) {
@@ -1376,12 +1210,3 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         }
     }
 }
-
-// JSX helper functions moved to jsx.rs module (is_text_only, get_jsx_attribute_full_name,
-// get_event_scope_data_from_jsx_event, create_event_name, jsx_event_to_html_attribute).
-// Re-exported via crate::transform::jsx.
-
-// QRL helper functions moved to qrl.rs module (compute_scoped_idents, build_display_name,
-// compute_hash). Re-exported via crate::transform::qrl.
-
-// TransformOptions and transform() are defined in super::options
