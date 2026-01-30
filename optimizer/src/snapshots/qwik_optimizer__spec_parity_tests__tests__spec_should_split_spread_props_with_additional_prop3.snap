@@ -51,7 +51,8 @@ None
 ============================= should_split_spread_props_with_additional_prop3.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export default componentQrl(qrl(() => import("./should_split_spread_props_with_additional_prop3.tsx_component_7i1FOkHRmGc.js"), "component_7i1FOkHRmGc"));
+const i_component_7i1FOkHRmGc = () => import("./should_split_spread_props_with_additional_prop3.tsx_component_7i1FOkHRmGc.js");
+export default componentQrl(qrl(i_component_7i1FOkHRmGc, "component_7i1FOkHRmGc"));
 
 
 None

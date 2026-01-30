@@ -25,7 +25,8 @@ export const Greeter = component$(() => {
 ============================= example_input_bind.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Greeter = componentQrl(qrl(() => import("./example_input_bind.tsx_s_T4d1JP9CGNM.js"), "s_T4d1JP9CGNM"));
+const i_s_T4d1JP9CGNM = () => import("./example_input_bind.tsx_s_T4d1JP9CGNM.js");
+export const Greeter = componentQrl(qrl(i_s_T4d1JP9CGNM, "s_T4d1JP9CGNM"));
 
 
 None

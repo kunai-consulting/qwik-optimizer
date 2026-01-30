@@ -50,8 +50,8 @@ export const Parent = component$(() => {
 
 import { clientQrl, qrl } from "@qwik.dev/core";
 export const s_eJVbqUgUhAA = async () => {
-	const a = qrl(() => import("./example_strip_server_code.tsx_s_NO0hLvAFuN4.js"), "s_NO0hLvAFuN4");
-	const b = clientQrl(qrl(() => import("./example_strip_server_code.tsx_s_4a3uF6fSMYc.js"), "s_4a3uF6fSMYc"));
+	const a = qrl(i_s_NO0hLvAFuN4, "s_NO0hLvAFuN4");
+	const b = clientQrl(qrl(i_s_4a3uF6fSMYc, "s_4a3uF6fSMYc"));
 	return [a, b];
 };
 
@@ -80,7 +80,14 @@ None
 ============================= example_strip_server_code.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Parent = componentQrl(qrl(() => import("./example_strip_server_code.tsx_s_w5E0E9exVp0.js"), "s_w5E0E9exVp0"));
+const i_s_XK3uv08QoGk = () => import("./example_strip_server_code.tsx_s_XK3uv08QoGk.js");
+const i_s_NO0hLvAFuN4 = () => import("./example_strip_server_code.tsx_s_NO0hLvAFuN4.js");
+const i_s_4a3uF6fSMYc = () => import("./example_strip_server_code.tsx_s_4a3uF6fSMYc.js");
+const i_s_eJVbqUgUhAA = () => import("./example_strip_server_code.tsx_s_eJVbqUgUhAA.js");
+const i_s_QzLANtCpgqY = () => import("./example_strip_server_code.tsx_s_QzLANtCpgqY.js");
+const i_s_33lR4XqeKI4 = () => import("./example_strip_server_code.tsx_s_33lR4XqeKI4.js");
+const i_s_w5E0E9exVp0 = () => import("./example_strip_server_code.tsx_s_w5E0E9exVp0.js");
+export const Parent = componentQrl(qrl(i_s_w5E0E9exVp0, "s_w5E0E9exVp0"));
 
 
 None
@@ -174,11 +181,11 @@ None
 import { _jsxSorted } from "@qwik.dev/core";
 export const s_w5E0E9exVp0 = () => {
 	const state = useStore({ text: "" });
-	useTaskQrl(qrl(() => import("./example_strip_server_code.tsx_s_XK3uv08QoGk.js"), "s_XK3uv08QoGk", [state]));
-	serverStuffQrl(qrl(() => import("./example_strip_server_code.tsx_s_eJVbqUgUhAA.js"), "s_eJVbqUgUhAA"));
-	serverLoaderQrl(qrl(() => import("./example_strip_server_code.tsx_s_QzLANtCpgqY.js"), "s_QzLANtCpgqY"));
-	useTaskQrl(qrl(() => import("./example_strip_server_code.tsx_s_33lR4XqeKI4.js"), "s_33lR4XqeKI4"));
-	return /*#__PURE__*/ _jsxSorted("div", { on:click: useTaskQrl(qrl(() => import("./example_strip_server_code.tsx_s_33lR4XqeKI4.js"), "s_33lR4XqeKI4")) }, null, state.text, 1, null);
+	useTaskQrl(qrl(i_s_XK3uv08QoGk, "s_XK3uv08QoGk", [state]));
+	serverStuffQrl(qrl(i_s_eJVbqUgUhAA, "s_eJVbqUgUhAA"));
+	serverLoaderQrl(qrl(i_s_QzLANtCpgqY, "s_QzLANtCpgqY"));
+	useTaskQrl(qrl(i_s_33lR4XqeKI4, "s_33lR4XqeKI4"));
+	return /*#__PURE__*/ _jsxSorted("div", { on:click: useTaskQrl(qrl(i_s_33lR4XqeKI4, "s_33lR4XqeKI4")) }, null, state.text, 1, null);
 };
 
 

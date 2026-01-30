@@ -76,7 +76,7 @@ None
 import { qrl, useMountQrl, isServer as isServer2 } from "@qwik.dev/core";
 import { isBrowser as isb } from "@qwik.dev/core/build";
 export const s_9s2ykyaFR5c = () => {
-	useMountQrl(qrl(() => import("./example_build_server.tsx_s_3D0YgbD0qkQ.js"), "s_3D0YgbD0qkQ"));
+	useMountQrl(qrl(i_s_3D0YgbD0qkQ, "s_3D0YgbD0qkQ"));
 	return <Cmp>
 			{isServer2 && <p>server</p>}
 			{isb && <p>server</p>}
@@ -109,6 +109,8 @@ None
 
 import { componentQrl, qrl } from "@qwik.dev/core";
 import L from "leaflet";
+const i_s_3D0YgbD0qkQ = () => import("./example_build_server.tsx_s_3D0YgbD0qkQ.js");
+const i_s_9s2ykyaFR5c = () => import("./example_build_server.tsx_s_9s2ykyaFR5c.js");
 export const functionThatNeedsWindow = () => {
 	if (false) {
 		console.log("l", L);
@@ -116,7 +118,7 @@ export const functionThatNeedsWindow = () => {
 		window.alert("hey");
 	}
 };
-export const App = componentQrl(qrl(() => import("./example_build_server.tsx_s_9s2ykyaFR5c.js"), "s_9s2ykyaFR5c"));
+export const App = componentQrl(qrl(i_s_9s2ykyaFR5c, "s_9s2ykyaFR5c"));
 
 
 None

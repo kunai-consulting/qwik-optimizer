@@ -9,7 +9,8 @@ export const sym1 = $((ctx) => console.log("1"));
 ============================= test_example_6.tsx ==
 
 import { qrl } from "@qwik.dev/core";
-export const sym1 = qrl(() => import("./test_example_6.tsx_sym1_aJjvXXEWJvU.js"), "sym1_aJjvXXEWJvU");
+const i_sym1_aJjvXXEWJvU = () => import("./test_example_6.tsx_sym1_aJjvXXEWJvU.js");
+export const sym1 = qrl(i_sym1_aJjvXXEWJvU, "sym1_aJjvXXEWJvU");
 
 
 None

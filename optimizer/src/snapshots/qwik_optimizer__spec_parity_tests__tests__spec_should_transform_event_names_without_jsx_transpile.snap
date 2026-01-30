@@ -24,7 +24,11 @@ export const Greeter = component$(() => {
 ============================= should_transform_event_names_without_jsx_transpile.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Greeter = componentQrl(qrl(() => import("./should_transform_event_names_without_jsx_transpile.tsx_Greeter_component_OWaBZxmH0c0.js"), "Greeter_component_OWaBZxmH0c0"));
+const i_Greeter_component_useTask_0b2K1gpiTXw = () => import("./should_transform_event_names_without_jsx_transpile.tsx_Greeter_component_useTask_0b2K1gpiTXw.js");
+const i_Greeter_component_div_div_onClick_1 = () => import("./should_transform_event_names_without_jsx_transpile.tsx.js");
+const i_Greeter_component_div_div_onClick_2 = () => import("./should_transform_event_names_without_jsx_transpile.tsx.js");
+const i_Greeter_component_OWaBZxmH0c0 = () => import("./should_transform_event_names_without_jsx_transpile.tsx_Greeter_component_OWaBZxmH0c0.js");
+export const Greeter = componentQrl(qrl(i_Greeter_component_OWaBZxmH0c0, "Greeter_component_OWaBZxmH0c0"));
 
 
 None
@@ -61,11 +65,11 @@ None
 
 import { qrl } from "@qwik.dev/core";
 export const Greeter_component_OWaBZxmH0c0 = () => {
-	useTaskQrl(qrl(() => import("./should_transform_event_names_without_jsx_transpile.tsx_Greeter_component_useTask_0b2K1gpiTXw.js"), "Greeter_component_useTask_0b2K1gpiTXw"));
+	useTaskQrl(qrl(i_Greeter_component_useTask_0b2K1gpiTXw, "Greeter_component_useTask_0b2K1gpiTXw"));
 	return <div>
-			<div on:click={useTaskQrl(qrl(() => import("./should_transform_event_names_without_jsx_transpile.tsx_Greeter_component_useTask_0b2K1gpiTXw.js"), "Greeter_component_useTask_0b2K1gpiTXw"))} />
-			<div on:click={qrl(() => import("./should_transform_event_names_without_jsx_transpile.tsx.js"), "Greeter_component_div_div_onClick_1")} />
-			<div on:click={qrl(() => import("./should_transform_event_names_without_jsx_transpile.tsx.js"), "Greeter_component_div_div_onClick_2")} />
+			<div on:click={useTaskQrl(qrl(i_Greeter_component_useTask_0b2K1gpiTXw, "Greeter_component_useTask_0b2K1gpiTXw"))} />
+			<div on:click={qrl(i_Greeter_component_div_div_onClick_1, "Greeter_component_div_div_onClick_1")} />
+			<div on:click={qrl(i_Greeter_component_div_div_onClick_2, "Greeter_component_div_div_onClick_2")} />
 		</div>;
 };
 

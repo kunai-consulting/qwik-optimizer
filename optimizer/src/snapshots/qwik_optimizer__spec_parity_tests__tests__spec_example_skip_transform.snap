@@ -45,8 +45,12 @@ None
 ============================= example_skip_transform.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const handler = qrl(() => import("./example_skip_transform.tsx_handler_6Z37Kj2oXcs.js"), "handler_6Z37Kj2oXcs");
-export const App = componentQrl(qrl(() => import("./example_skip_transform.tsx_App_component_3RSS0v106FQ.js"), "App_component_3RSS0v106FQ"));
+const i_handler_6Z37Kj2oXcs = () => import("./example_skip_transform.tsx_handler_6Z37Kj2oXcs.js");
+const i_App_component_useStyles_cjcvMqPOO2c = () => import("./example_skip_transform.tsx_App_component_useStyles_cjcvMqPOO2c.js");
+const i_App_component_1_qZcUZHIGdhQ = () => import("./example_skip_transform.tsx_App_component_1_qZcUZHIGdhQ.js");
+const i_App_component_3RSS0v106FQ = () => import("./example_skip_transform.tsx_App_component_3RSS0v106FQ.js");
+export const handler = qrl(i_handler_6Z37Kj2oXcs, "handler_6Z37Kj2oXcs");
+export const App = componentQrl(qrl(i_App_component_3RSS0v106FQ, "App_component_3RSS0v106FQ"));
 
 
 None
@@ -54,8 +58,8 @@ None
 
 import { qrl, useStylesQrl } from "@qwik.dev/core";
 export const App_component_3RSS0v106FQ = (props) => {
-	useStylesQrl(qrl(() => import("./example_skip_transform.tsx_App_component_useStyles_cjcvMqPOO2c.js"), "App_component_useStyles_cjcvMqPOO2c"));
-	return qrl(() => import("./example_skip_transform.tsx_App_component_1_qZcUZHIGdhQ.js"), "App_component_1_qZcUZHIGdhQ");
+	useStylesQrl(qrl(i_App_component_useStyles_cjcvMqPOO2c, "App_component_useStyles_cjcvMqPOO2c"));
+	return qrl(i_App_component_1_qZcUZHIGdhQ, "App_component_1_qZcUZHIGdhQ");
 };
 
 

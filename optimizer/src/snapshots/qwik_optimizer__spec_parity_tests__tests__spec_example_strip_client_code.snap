@@ -44,7 +44,12 @@ export const Parent = component$(() => {
 ============================= components/component.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Parent = componentQrl(qrl(() => import("./component.tsx_Parent_component_t6Wy3C0Q0XM.js"), "Parent_component_t6Wy3C0Q0XM"));
+const i_Parent_component_useClientMount_Yn2kIDABoYw = () => import("./component.tsx_Parent_component_useClientMount_Yn2kIDABoYw.js");
+const i_Parent_component_useTask_ngmvcygWux8 = () => import("./component.tsx_Parent_component_useTask_ngmvcygWux8.js");
+const i_Parent_component_div_Div_onClick = () => import("./component.tsx.js");
+const i_Parent_component_div_Div_render = () => import("./component.tsx.js");
+const i_Parent_component_t6Wy3C0Q0XM = () => import("./component.tsx_Parent_component_t6Wy3C0Q0XM.js");
+export const Parent = componentQrl(qrl(i_Parent_component_t6Wy3C0Q0XM, "Parent_component_t6Wy3C0Q0XM"));
 
 
 None
@@ -79,14 +84,14 @@ None
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 export const Parent_component_t6Wy3C0Q0XM = () => {
 	const state = useStore({ text: "" });
-	useClientMountQrl(qrl(() => import("./component.tsx_Parent_component_useClientMount_Yn2kIDABoYw.js"), "Parent_component_useClientMount_Yn2kIDABoYw", [state]));
-	useTaskQrl(qrl(() => import("./component.tsx_Parent_component_useTask_ngmvcygWux8.js"), "Parent_component_useTask_ngmvcygWux8"));
+	useClientMountQrl(qrl(i_Parent_component_useClientMount_Yn2kIDABoYw, "Parent_component_useClientMount_Yn2kIDABoYw", [state]));
+	useTaskQrl(qrl(i_Parent_component_useTask_ngmvcygWux8, "Parent_component_useTask_ngmvcygWux8"));
 	return /*#__PURE__*/ _jsxSorted("div", {
-		shouldRemove$: useTaskQrl(qrl(() => import("./component.tsx_Parent_component_useTask_ngmvcygWux8.js"), "Parent_component_useTask_ngmvcygWux8")),
-		on:click: useClientMountQrl(qrl(() => import("./component.tsx_Parent_component_useClientMount_Yn2kIDABoYw.js"), "Parent_component_useClientMount_Yn2kIDABoYw", [state]))
+		shouldRemove$: useTaskQrl(qrl(i_Parent_component_useTask_ngmvcygWux8, "Parent_component_useTask_ngmvcygWux8")),
+		on:click: useClientMountQrl(qrl(i_Parent_component_useClientMount_Yn2kIDABoYw, "Parent_component_useClientMount_Yn2kIDABoYw", [state]))
 	}, null, [_jsxSorted(Div, {
-		onClick$: qrl(() => import("./component.tsx.js"), "Parent_component_div_Div_onClick"),
-		render$: qrl(() => import("./component.tsx.js"), "Parent_component_div_Div_render", [state])
+		onClick$: qrl(i_Parent_component_div_Div_onClick, "Parent_component_div_Div_onClick"),
+		render$: qrl(i_Parent_component_div_Div_render, "Parent_component_div_Div_render", [state])
 	}, null, null, 3, null), state.text], 1, null);
 };
 

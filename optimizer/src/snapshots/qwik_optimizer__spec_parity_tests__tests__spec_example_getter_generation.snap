@@ -40,8 +40,10 @@ export const Cmp = component$((props) => {
 ============================= example_getter_generation.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const App = componentQrl(qrl(() => import("./example_getter_generation.tsx_App_component_Po8o4gCEU0k.js"), "App_component_Po8o4gCEU0k"));
-export const Cmp = componentQrl(qrl(() => import("./example_getter_generation.tsx_Cmp_component_xAP4wCp001Q.js"), "Cmp_component_xAP4wCp001Q"));
+const i_App_component_Po8o4gCEU0k = () => import("./example_getter_generation.tsx_App_component_Po8o4gCEU0k.js");
+const i_Cmp_component_xAP4wCp001Q = () => import("./example_getter_generation.tsx_Cmp_component_xAP4wCp001Q.js");
+export const App = componentQrl(qrl(i_App_component_Po8o4gCEU0k, "App_component_Po8o4gCEU0k"));
+export const Cmp = componentQrl(qrl(i_Cmp_component_xAP4wCp001Q, "Cmp_component_xAP4wCp001Q"));
 
 
 None

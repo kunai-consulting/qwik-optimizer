@@ -39,7 +39,20 @@ export const Foo = component$(() => {
 ============================= example_jsx_listeners.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Foo = componentQrl(qrl(() => import("./example_jsx_listeners.tsx_Foo_component_PmQ0Y3BvS84.js"), "Foo_component_PmQ0Y3BvS84"));
+const i_Foo_component_handler_qsIND80K9ow = () => import("./example_jsx_listeners.tsx_Foo_component_handler_qsIND80K9ow.js");
+const i_Foo_component_1_div_onClick = () => import("./example_jsx_listeners.tsx.js");
+const i_Foo_component_1_div_onDocumentScroll = () => import("./example_jsx_listeners.tsx.js");
+const i_Foo_component_1_div_onDocumentScroll_1 = () => import("./example_jsx_listeners.tsx.js");
+const i_Foo_component_1_div_on-cLick = () => import("./example_jsx_listeners.tsx.js");
+const i_Foo_component_1_div_onDocument-sCroll = () => import("./example_jsx_listeners.tsx.js");
+const i_Foo_component_1_div_onDocument-scroLL = () => import("./example_jsx_listeners.tsx.js");
+const i_Foo_component_1_div_onClick_1 = () => import("./example_jsx_listeners.tsx.js");
+const i_Foo_component_1_div_onDocumentScroll_2 = () => import("./example_jsx_listeners.tsx.js");
+const i_Foo_component_1_div_onDocumentScroll_3 = () => import("./example_jsx_listeners.tsx.js");
+const i_Foo_component_1_div_custom = () => import("./example_jsx_listeners.tsx.js");
+const i_Foo_component_1_u3P4ZlOev6I = () => import("./example_jsx_listeners.tsx_Foo_component_1_u3P4ZlOev6I.js");
+const i_Foo_component_PmQ0Y3BvS84 = () => import("./example_jsx_listeners.tsx_Foo_component_PmQ0Y3BvS84.js");
+export const Foo = componentQrl(qrl(i_Foo_component_PmQ0Y3BvS84, "Foo_component_PmQ0Y3BvS84"));
 
 
 None
@@ -73,18 +86,18 @@ None
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 export const Foo_component_1_u3P4ZlOev6I = () => {
-	const handler = qrl(() => import("./example_jsx_listeners.tsx_Foo_component_handler_qsIND80K9ow.js"), "Foo_component_handler_qsIND80K9ow");
+	const handler = qrl(i_Foo_component_handler_qsIND80K9ow, "Foo_component_handler_qsIND80K9ow");
 	return /*#__PURE__*/ _jsxSorted("div", {
-		on:click: qrl(() => import("./example_jsx_listeners.tsx.js"), "Foo_component_1_div_onClick"),
-		on:documentscroll: qrl(() => import("./example_jsx_listeners.tsx.js"), "Foo_component_1_div_onDocumentScroll"),
-		on:documentscroll: qrl(() => import("./example_jsx_listeners.tsx.js"), "Foo_component_1_div_onDocumentScroll_1"),
-		on:c-lick: qrl(() => import("./example_jsx_listeners.tsx.js"), "Foo_component_1_div_on-cLick"),
-		on:document-scroll: qrl(() => import("./example_jsx_listeners.tsx.js"), "Foo_component_1_div_onDocument-sCroll"),
-		on:document-scroll: qrl(() => import("./example_jsx_listeners.tsx.js"), "Foo_component_1_div_onDocument-scroLL"),
-		host:onClick$: qrl(() => import("./example_jsx_listeners.tsx.js"), "Foo_component_1_div_onClick_1"),
-		host:onDocumentScroll$: qrl(() => import("./example_jsx_listeners.tsx.js"), "Foo_component_1_div_onDocumentScroll_2"),
-		host:onDocumentScroll$: qrl(() => import("./example_jsx_listeners.tsx.js"), "Foo_component_1_div_onDocumentScroll_3"),
-		custom$: qrl(() => import("./example_jsx_listeners.tsx.js"), "Foo_component_1_div_custom")
+		on:click: qrl(i_Foo_component_1_div_onClick, "Foo_component_1_div_onClick"),
+		on:documentscroll: qrl(i_Foo_component_1_div_onDocumentScroll, "Foo_component_1_div_onDocumentScroll"),
+		on:documentscroll: qrl(i_Foo_component_1_div_onDocumentScroll_1, "Foo_component_1_div_onDocumentScroll_1"),
+		on:c-lick: qrl(i_Foo_component_1_div_on-cLick, "Foo_component_1_div_on-cLick"),
+		on:document-scroll: qrl(i_Foo_component_1_div_onDocument-sCroll, "Foo_component_1_div_onDocument-sCroll"),
+		on:document-scroll: qrl(i_Foo_component_1_div_onDocument-scroLL, "Foo_component_1_div_onDocument-scroLL"),
+		host:onClick$: qrl(i_Foo_component_1_div_onClick_1, "Foo_component_1_div_onClick_1"),
+		host:onDocumentScroll$: qrl(i_Foo_component_1_div_onDocumentScroll_2, "Foo_component_1_div_onDocumentScroll_2"),
+		host:onDocumentScroll$: qrl(i_Foo_component_1_div_onDocumentScroll_3, "Foo_component_1_div_onDocumentScroll_3"),
+		custom$: qrl(i_Foo_component_1_div_custom, "Foo_component_1_div_custom")
 	}, {
 		on:keyup: handler,
 		on:document:keyup: handler,
@@ -118,7 +131,7 @@ None
 
 import { qrl } from "@qwik.dev/core";
 export const Foo_component_PmQ0Y3BvS84 = () => {
-	return qrl(() => import("./example_jsx_listeners.tsx_Foo_component_1_u3P4ZlOev6I.js"), "Foo_component_1_u3P4ZlOev6I");
+	return qrl(i_Foo_component_1_u3P4ZlOev6I, "Foo_component_1_u3P4ZlOev6I");
 };
 
 

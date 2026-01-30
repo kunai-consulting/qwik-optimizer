@@ -29,9 +29,12 @@ export const App = component$(() => {
 
 import { componentQrl, qrl, qwikifyQrl } from "@qwik.dev/core";
 import { qwikifyQrl } from "@qwik.dev/react";
-export const Foo = qwikifyQrl(qrl(() => import("./rename_builder_io.tsx_Foo_qwikify_U5lLZVnmtMA.js"), "Foo_qwikify_U5lLZVnmtMA"));
-export const Bar = qrl(() => import("./rename_builder_io.tsx_Bar_U473xAuLEi0.js"), "Bar_U473xAuLEi0");
-export const App = componentQrl(qrl(() => import("./rename_builder_io.tsx_App_component_8SDollUUhT0.js"), "App_component_8SDollUUhT0"));
+const i_Foo_qwikify_U5lLZVnmtMA = () => import("./rename_builder_io.tsx_Foo_qwikify_U5lLZVnmtMA.js");
+const i_Bar_U473xAuLEi0 = () => import("./rename_builder_io.tsx_Bar_U473xAuLEi0.js");
+const i_App_component_8SDollUUhT0 = () => import("./rename_builder_io.tsx_App_component_8SDollUUhT0.js");
+export const Foo = qwikifyQrl(qrl(i_Foo_qwikify_U5lLZVnmtMA, "Foo_qwikify_U5lLZVnmtMA"));
+export const Bar = qrl(i_Bar_U473xAuLEi0, "Bar_U473xAuLEi0");
+export const App = componentQrl(qrl(i_App_component_8SDollUUhT0, "App_component_8SDollUUhT0"));
 
 
 None

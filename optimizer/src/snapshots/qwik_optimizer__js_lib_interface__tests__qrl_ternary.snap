@@ -42,9 +42,11 @@ None
 ============================= test_qrl_ternary.tsx ==
 
 import { qrl } from "@qwik.dev/core";
+const i_handler_0qMTsQPqS0Y = () => import("./test_qrl_ternary.tsx_handler_0qMTsQPqS0Y.js");
+const i_handler_1_mOTT0ekKnYQ = () => import("./test_qrl_ternary.tsx_handler_1_mOTT0ekKnYQ.js");
 // QRL in ternary expression
 const condition = true;
-export const handler = qrl(() => import("./test_qrl_ternary.tsx_handler_1_mOTT0ekKnYQ.js"), "handler_1_mOTT0ekKnYQ");
+export const handler = qrl(i_handler_1_mOTT0ekKnYQ, "handler_1_mOTT0ekKnYQ");
 
 
 None

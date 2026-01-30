@@ -44,7 +44,7 @@ None
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
 export const Header_component_6fmck36BQEs = () => {
-	return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [/*#__PURE__*/ _jsxSorted("div", { onClick: (ctx) => console.log("1") }, null, null, 3, null), /*#__PURE__*/ _jsxSorted("div", { onClick: qrl(() => import("./test_example_5.tsx_Header_component_div_onClick_fw2SWFXEVDc.js"), "Header_component_div_onClick_fw2SWFXEVDc") }, null, null, 3, null)], 3, null);
+	return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [/*#__PURE__*/ _jsxSorted("div", { onClick: (ctx) => console.log("1") }, null, null, 3, null), /*#__PURE__*/ _jsxSorted("div", { onClick: qrl(i_Header_component_div_onClick_fw2SWFXEVDc, "Header_component_div_onClick_fw2SWFXEVDc") }, null, null, 3, null)], 3, null);
 };
 
 
@@ -72,7 +72,9 @@ None
 ============================= test_example_5.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Header = componentQrl(qrl(() => import("./test_example_5.tsx_Header_component_6fmck36BQEs.js"), "Header_component_6fmck36BQEs"));
+const i_Header_component_div_onClick_fw2SWFXEVDc = () => import("./test_example_5.tsx_Header_component_div_onClick_fw2SWFXEVDc.js");
+const i_Header_component_6fmck36BQEs = () => import("./test_example_5.tsx_Header_component_6fmck36BQEs.js");
+export const Header = componentQrl(qrl(i_Header_component_6fmck36BQEs, "Header_component_6fmck36BQEs"));
 
 
 None

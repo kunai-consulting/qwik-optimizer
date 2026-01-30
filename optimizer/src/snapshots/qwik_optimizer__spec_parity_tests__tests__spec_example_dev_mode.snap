@@ -18,7 +18,7 @@ export const App = component$(() => {
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 export const App_component_PPy19YXOujg = () => {
-	return _jsxSorted(Cmp, null, null, /*#__PURE__*/ _jsxSorted("p", { on:click: qrl(() => import("./example_dev_mode.tsx.js"), "App_component_Cmp_p_onClick") }, { class: "stuff" }, "Hello Qwik", 3, null), 3, null);
+	return _jsxSorted(Cmp, null, null, /*#__PURE__*/ _jsxSorted("p", { on:click: qrl(i_App_component_Cmp_p_onClick, "App_component_Cmp_p_onClick") }, { class: "stuff" }, "Hello Qwik", 3, null), 3, null);
 };
 
 
@@ -46,7 +46,9 @@ None
 ============================= example_dev_mode.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const App = componentQrl(qrl(() => import("./example_dev_mode.tsx_App_component_PPy19YXOujg.js"), "App_component_PPy19YXOujg"));
+const i_App_component_Cmp_p_onClick = () => import("./example_dev_mode.tsx.js");
+const i_App_component_PPy19YXOujg = () => import("./example_dev_mode.tsx_App_component_PPy19YXOujg.js");
+export const App = componentQrl(qrl(i_App_component_PPy19YXOujg, "App_component_PPy19YXOujg"));
 
 
 None

@@ -48,7 +48,8 @@ None
 ============================= destructure_args_colon_props.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export default componentQrl(qrl(() => import("./destructure_args_colon_props.tsx_component_0znSnzl9anI.js"), "component_0znSnzl9anI"));
+const i_component_0znSnzl9anI = () => import("./destructure_args_colon_props.tsx_component_0znSnzl9anI.js");
+export default componentQrl(qrl(i_component_0znSnzl9anI, "component_0znSnzl9anI"));
 
 
 None

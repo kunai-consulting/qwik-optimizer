@@ -28,7 +28,8 @@ export const Issue3561 = component$(() => {
 ============================= example_optimization_issue_3561.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Issue3561 = componentQrl(qrl(() => import("./example_optimization_issue_3561.tsx_Issue3561_component_x4NHJ9LLQ9U.js"), "Issue3561_component_x4NHJ9LLQ9U"));
+const i_Issue3561_component_x4NHJ9LLQ9U = () => import("./example_optimization_issue_3561.tsx_Issue3561_component_x4NHJ9LLQ9U.js");
+export const Issue3561 = componentQrl(qrl(i_Issue3561_component_x4NHJ9LLQ9U, "Issue3561_component_x4NHJ9LLQ9U"));
 
 
 None

@@ -14,8 +14,9 @@ export const handler = $(() => {
 ============================= test_qrl_basic_arrow.tsx ==
 
 import { qrl } from "@qwik.dev/core";
+const i_handler_r3j5WVCJ9mM = () => import("./test_qrl_basic_arrow.tsx_handler_r3j5WVCJ9mM.js");
 // Basic arrow function QRL
-export const handler = qrl(() => import("./test_qrl_basic_arrow.tsx_handler_r3j5WVCJ9mM.js"), "handler_r3j5WVCJ9mM");
+export const handler = qrl(i_handler_r3j5WVCJ9mM, "handler_r3j5WVCJ9mM");
 
 
 None

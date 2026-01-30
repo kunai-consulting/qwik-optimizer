@@ -16,7 +16,9 @@ export default component$(() => {
 ============================= src/components/mongo/index.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export default componentQrl(qrl(() => import("./index.tsx_component_rKJvPlyphow.js"), "component_rKJvPlyphow"));
+const i_component_div_onClick = () => import("./index.tsx.js");
+const i_component_rKJvPlyphow = () => import("./index.tsx_component_rKJvPlyphow.js");
+export default componentQrl(qrl(i_component_rKJvPlyphow, "component_rKJvPlyphow"));
 
 
 None
@@ -24,7 +26,7 @@ None
 
 import { qrl } from "@qwik.dev/core";
 export const component_rKJvPlyphow = () => {
-	return <div on:click={qrl(() => import("./index.tsx.js"), "component_div_onClick")}>
+	return <div on:click={qrl(i_component_div_onClick, "component_div_onClick")}>
 		</div>;
 };
 

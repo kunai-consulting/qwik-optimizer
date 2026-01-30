@@ -18,7 +18,8 @@ export default component$((props) => {
 ============================= destructure_args_colon_props2.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export default componentQrl(qrl(() => import("./destructure_args_colon_props2.tsx_component_6tfT94GHXNA.js"), "component_6tfT94GHXNA"));
+const i_component_6tfT94GHXNA = () => import("./destructure_args_colon_props2.tsx_component_6tfT94GHXNA.js");
+export default componentQrl(qrl(i_component_6tfT94GHXNA, "component_6tfT94GHXNA"));
 
 
 None

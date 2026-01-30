@@ -57,7 +57,7 @@ None
 
 import { qrl } from "@qwik.dev/core";
 export const App_component_XjsvSrS7k84 = () => {
-	return qrl(() => import("./example_capturing_fn_class.tsx_App_component_1_Q5VPv65lTg0.js"), "App_component_1_Q5VPv65lTg0");
+	return qrl(i_App_component_1_Q5VPv65lTg0, "App_component_1_Q5VPv65lTg0");
 };
 
 
@@ -85,7 +85,9 @@ None
 ============================= example_capturing_fn_class.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const App = componentQrl(qrl(() => import("./example_capturing_fn_class.tsx_App_component_XjsvSrS7k84.js"), "App_component_XjsvSrS7k84"));
+const i_App_component_1_Q5VPv65lTg0 = () => import("./example_capturing_fn_class.tsx_App_component_1_Q5VPv65lTg0.js");
+const i_App_component_XjsvSrS7k84 = () => import("./example_capturing_fn_class.tsx_App_component_XjsvSrS7k84.js");
+export const App = componentQrl(qrl(i_App_component_XjsvSrS7k84, "App_component_XjsvSrS7k84"));
 
 
 None

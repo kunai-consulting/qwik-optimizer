@@ -34,7 +34,7 @@ modules:
     segment: ~
     isEntry: false
   - path: "./src/test_input/test_project_1/src/root.tsx"
-    code: "import { componentQrl, qrl } from \"@qwik.dev/core\";\nimport \"./global.css\";\nexport default componentQrl(qrl(() => import(\"./root.tsx_component_fZ4L0pYApnM.js\"), \"component_fZ4L0pYApnM\"));\n"
+    code: "import { componentQrl, qrl } from \"@qwik.dev/core\";\nconst i_component_fZ4L0pYApnM = () => import(\"./root.tsx_component_fZ4L0pYApnM.js\");\nimport \"./global.css\";\nexport default componentQrl(qrl(i_component_fZ4L0pYApnM, \"component_fZ4L0pYApnM\"));\n"
     map: ~
     segment: ~
     isEntry: false
@@ -59,12 +59,12 @@ modules:
         - 0
     isEntry: true
   - path: "./src/test_input/test_project_1/src/routes/index.tsx"
-    code: "import { componentQrl, qrl } from \"@qwik.dev/core\";\nexport default componentQrl(qrl(() => import(\"./index.tsx_component_4HLI2RMDcP8.js\"), \"component_4HLI2RMDcP8\"));\nexport const head = componentQrl(qrl(() => import(\"./index.tsx_component_4HLI2RMDcP8.js\"), \"component_4HLI2RMDcP8\"));\n"
+    code: "import { componentQrl, qrl } from \"@qwik.dev/core\";\nconst i_component_4HLI2RMDcP8 = () => import(\"./index.tsx_component_4HLI2RMDcP8.js\");\nexport default componentQrl(qrl(i_component_4HLI2RMDcP8, \"component_4HLI2RMDcP8\"));\nexport const head = componentQrl(qrl(i_component_4HLI2RMDcP8, \"component_4HLI2RMDcP8\"));\n"
     map: ~
     segment: ~
     isEntry: false
   - path: "./src/test_input/test_project_1/src/routes/layout.tsx"
-    code: "import { componentQrl, qrl } from \"@qwik.dev/core\";\nexport const onGet = async ({ cacheControl }) => {\n\t// Control caching for this request for best performance and to reduce hosting costs:\n\t// https://qwik.dev/docs/caching/\n\tcacheControl({\n\t\tstaleWhileRevalidate: 60 * 60 * 24 * 7,\n\t\tmaxAge: 5\n\t});\n};\nexport default componentQrl(qrl(() => import(\"./layout.tsx_component_e0ZOSHqXHEo.js\"), \"component_e0ZOSHqXHEo\"));\n"
+    code: "import { componentQrl, qrl } from \"@qwik.dev/core\";\nconst i_component_e0ZOSHqXHEo = () => import(\"./layout.tsx_component_e0ZOSHqXHEo.js\");\nexport const onGet = async ({ cacheControl }) => {\n\t// Control caching for this request for best performance and to reduce hosting costs:\n\t// https://qwik.dev/docs/caching/\n\tcacheControl({\n\t\tstaleWhileRevalidate: 60 * 60 * 24 * 7,\n\t\tmaxAge: 5\n\t});\n};\nexport default componentQrl(qrl(i_component_e0ZOSHqXHEo, \"component_e0ZOSHqXHEo\"));\n"
     map: ~
     segment: ~
     isEntry: false
@@ -79,7 +79,7 @@ modules:
     segment: ~
     isEntry: false
   - path: "./src/test_input/test_project_1/src/components/router-head/router-head.tsx"
-    code: "import { componentQrl, qrl } from \"@qwik.dev/core\";\n/**\n* The RouterHead component is placed inside of the document `<head>` element.\n*/\nexport const RouterHead = componentQrl(qrl(() => import(\"./router-head.tsx_RouterHead_component_VtXR96RQWfE.js\"), \"RouterHead_component_VtXR96RQWfE\"));\n"
+    code: "import { componentQrl, qrl } from \"@qwik.dev/core\";\nconst i_RouterHead_component_VtXR96RQWfE = () => import(\"./router-head.tsx_RouterHead_component_VtXR96RQWfE.js\");\n/**\n* The RouterHead component is placed inside of the document `<head>` element.\n*/\nexport const RouterHead = componentQrl(qrl(i_RouterHead_component_VtXR96RQWfE, \"RouterHead_component_VtXR96RQWfE\"));\n"
     map: ~
     segment: ~
     isEntry: false

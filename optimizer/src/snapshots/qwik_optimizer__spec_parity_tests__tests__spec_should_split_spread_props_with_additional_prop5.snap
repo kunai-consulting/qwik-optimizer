@@ -49,10 +49,11 @@ None
 ============================= should_split_spread_props_with_additional_prop5.tsx ==
 
 import { _getConstProps, _getVarProps, _jsxSplit, componentQrl, qrl } from "@qwik.dev/core";
+const i_component_ADYPS3WuK14 = () => import("./should_split_spread_props_with_additional_prop5.tsx_component_ADYPS3WuK14.js");
 function Hola(props) {
 	return /*#__PURE__*/ _jsxSplit("div", { ..._getVarProps(props) }, _getConstProps(props), null, 0, null);
 }
-export default componentQrl(qrl(() => import("./should_split_spread_props_with_additional_prop5.tsx_component_ADYPS3WuK14.js"), "component_ADYPS3WuK14"));
+export default componentQrl(qrl(i_component_ADYPS3WuK14, "component_ADYPS3WuK14"));
 
 
 None

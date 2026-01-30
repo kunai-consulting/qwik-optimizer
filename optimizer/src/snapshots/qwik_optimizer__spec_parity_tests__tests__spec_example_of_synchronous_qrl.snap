@@ -55,9 +55,9 @@ import { _jsxSorted, qrl, syncQrl } from "@qwik.dev/core";
 import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
 export const component_0HQ00nGQJSY = () => {
 	return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [
-		/*#__PURE__*/ _jsxSorted("input", { on:click: syncQrl(qrl(() => import("./example_of_synchronous_qrl.tsx_component_input_onClick_sync_zaLuYPdgvBI.js"), "component_input_onClick_sync_zaLuYPdgvBI")) }, null, null, 3, null),
-		/*#__PURE__*/ _jsxSorted("input", { on:click: syncQrl(qrl(() => import("./example_of_synchronous_qrl.tsx_component_input_onClick_1_sync_TiZKlkT45Po.js"), "component_input_onClick_1_sync_TiZKlkT45Po")) }, null, null, 3, null),
-		/*#__PURE__*/ _jsxSorted("input", { on:click: syncQrl(qrl(() => import("./example_of_synchronous_qrl.tsx_component_input_onClick_2_sync_MOPM72osdnM.js"), "component_input_onClick_2_sync_MOPM72osdnM")) }, null, null, 3, null)
+		/*#__PURE__*/ _jsxSorted("input", { on:click: syncQrl(qrl(i_component_input_onClick_sync_zaLuYPdgvBI, "component_input_onClick_sync_zaLuYPdgvBI")) }, null, null, 3, null),
+		/*#__PURE__*/ _jsxSorted("input", { on:click: syncQrl(qrl(i_component_input_onClick_1_sync_TiZKlkT45Po, "component_input_onClick_1_sync_TiZKlkT45Po")) }, null, null, 3, null),
+		/*#__PURE__*/ _jsxSorted("input", { on:click: syncQrl(qrl(i_component_input_onClick_2_sync_MOPM72osdnM, "component_input_onClick_2_sync_MOPM72osdnM")) }, null, null, 3, null)
 	], 3, null);
 };
 
@@ -86,7 +86,11 @@ None
 ============================= example_of_synchronous_qrl.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export default componentQrl(qrl(() => import("./example_of_synchronous_qrl.tsx_component_0HQ00nGQJSY.js"), "component_0HQ00nGQJSY"));
+const i_component_input_onClick_sync_zaLuYPdgvBI = () => import("./example_of_synchronous_qrl.tsx_component_input_onClick_sync_zaLuYPdgvBI.js");
+const i_component_input_onClick_1_sync_TiZKlkT45Po = () => import("./example_of_synchronous_qrl.tsx_component_input_onClick_1_sync_TiZKlkT45Po.js");
+const i_component_input_onClick_2_sync_MOPM72osdnM = () => import("./example_of_synchronous_qrl.tsx_component_input_onClick_2_sync_MOPM72osdnM.js");
+const i_component_0HQ00nGQJSY = () => import("./example_of_synchronous_qrl.tsx_component_0HQ00nGQJSY.js");
+export default componentQrl(qrl(i_component_0HQ00nGQJSY, "component_0HQ00nGQJSY"));
 
 
 None

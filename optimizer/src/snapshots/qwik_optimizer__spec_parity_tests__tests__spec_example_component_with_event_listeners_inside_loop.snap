@@ -105,7 +105,9 @@ export const App = component$(() => {
 ============================= example_component_with_event_listeners_inside_loop.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const App = componentQrl(qrl(() => import("./example_component_with_event_listeners_inside_loop.tsx_App_component_004xzQS1Mu4.js"), "App_component_004xzQS1Mu4"));
+const i_App_component_div_map_button_onClick_0070muVsukM = () => import("./example_component_with_event_listeners_inside_loop.tsx_App_component_div_map_button_onClick_0070muVsukM.js");
+const i_App_component_004xzQS1Mu4 = () => import("./example_component_with_event_listeners_inside_loop.tsx_App_component_004xzQS1Mu4.js");
+export const App = componentQrl(qrl(i_App_component_004xzQS1Mu4, "App_component_004xzQS1Mu4"));
 
 
 None
@@ -146,7 +148,7 @@ export const App_component_004xzQS1Mu4 = () => {
 	const cart = useStore([]);
 	const results = useSignal(["foo"]);
 	return /*#__PURE__*/ _jsxSorted("div", null, null, [
-		results.value.map((item) => /*#__PURE__*/ _jsxSorted("button", { on:click: qrl(() => import("./example_component_with_event_listeners_inside_loop.tsx_App_component_div_map_button_onClick_0070muVsukM.js"), "App_component_div_map_button_onClick_0070muVsukM", [cart]) }, { id: "second" }, item, 1, null)),
+		results.value.map((item) => /*#__PURE__*/ _jsxSorted("button", { on:click: qrl(i_App_component_div_map_button_onClick_0070muVsukM, "App_component_div_map_button_onClick_0070muVsukM", [cart]) }, { id: "second" }, item, 1, null)),
 		loopArrowFn(results.value),
 		loopForI(results.value),
 		loopForOf(results.value),

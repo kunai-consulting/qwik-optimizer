@@ -22,7 +22,8 @@ export const Works = component$((props) => {
 ============================= example_use_optimization.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Works = componentQrl(qrl(() => import("./example_use_optimization.tsx_Works_component_GR9jralazbs.js"), "Works_component_GR9jralazbs"));
+const i_Works_component_GR9jralazbs = () => import("./example_use_optimization.tsx_Works_component_GR9jralazbs.js");
+export const Works = componentQrl(qrl(i_Works_component_GR9jralazbs, "Works_component_GR9jralazbs"));
 
 
 None

@@ -55,7 +55,7 @@ None
 import { qrl } from "@qwik.dev/core";
 export const Greeter_component_lyGL4gamaYY = () => {
 	const stuff = useStore();
-	return qrl(() => import("./issue_150.tsx_Greeter_component_1_n0fwlO3BxZ4.js"), "Greeter_component_1_n0fwlO3BxZ4", [stuff]);
+	return qrl(i_Greeter_component_1_n0fwlO3BxZ4, "Greeter_component_1_n0fwlO3BxZ4", [stuff]);
 };
 
 
@@ -118,8 +118,11 @@ None
 ============================= issue_150.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Greeter = componentQrl(qrl(() => import("./issue_150.tsx_Greeter_component_lyGL4gamaYY.js"), "Greeter_component_lyGL4gamaYY"));
-qrl(() => import("./issue_150.tsx_d_Yo0xzleSvW0.js"), "d_Yo0xzleSvW0");
+const i_Greeter_component_1_n0fwlO3BxZ4 = () => import("./issue_150.tsx_Greeter_component_1_n0fwlO3BxZ4.js");
+const i_Greeter_component_lyGL4gamaYY = () => import("./issue_150.tsx_Greeter_component_lyGL4gamaYY.js");
+const i_d_Yo0xzleSvW0 = () => import("./issue_150.tsx_d_Yo0xzleSvW0.js");
+export const Greeter = componentQrl(qrl(i_Greeter_component_lyGL4gamaYY, "Greeter_component_lyGL4gamaYY"));
+qrl(i_d_Yo0xzleSvW0, "d_Yo0xzleSvW0");
 
 
 None

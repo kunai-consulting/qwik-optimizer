@@ -50,7 +50,8 @@ None
 ============================= example_9.tsx ==
 
 import { qrl } from "@qwik.dev/core";
-qrl(() => import("./example_9.tsx_Header_y6HLJ5DLjC4.js"), "Header_y6HLJ5DLjC4");
+const i_Header_y6HLJ5DLjC4 = () => import("./example_9.tsx_Header_y6HLJ5DLjC4.js");
+qrl(i_Header_y6HLJ5DLjC4, "Header_y6HLJ5DLjC4");
 
 
 None

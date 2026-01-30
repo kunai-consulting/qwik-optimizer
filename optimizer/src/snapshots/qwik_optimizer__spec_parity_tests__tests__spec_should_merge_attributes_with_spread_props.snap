@@ -13,7 +13,8 @@ export default component$((props) => {
 ============================= should_merge_attributes_with_spread_props.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export default componentQrl(qrl(() => import("./should_merge_attributes_with_spread_props.tsx_component_vzxIEOJhuqA.js"), "component_vzxIEOJhuqA"));
+const i_component_vzxIEOJhuqA = () => import("./should_merge_attributes_with_spread_props.tsx_component_vzxIEOJhuqA.js");
+export default componentQrl(qrl(i_component_vzxIEOJhuqA, "component_vzxIEOJhuqA"));
 
 
 None

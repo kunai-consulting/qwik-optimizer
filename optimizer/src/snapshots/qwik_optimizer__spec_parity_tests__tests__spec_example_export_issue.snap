@@ -27,8 +27,10 @@ export default App;
 ============================= example_export_issue.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-const App = componentQrl(qrl(() => import("./example_export_issue.tsx_App_component_2SvcE6PQwpI.js"), "App_component_2SvcE6PQwpI"));
-export const Root = componentQrl(qrl(() => import("./example_export_issue.tsx_Root_component_4IIe4SsgkuI.js"), "Root_component_4IIe4SsgkuI", [App]));
+const i_App_component_2SvcE6PQwpI = () => import("./example_export_issue.tsx_App_component_2SvcE6PQwpI.js");
+const i_Root_component_4IIe4SsgkuI = () => import("./example_export_issue.tsx_Root_component_4IIe4SsgkuI.js");
+const App = componentQrl(qrl(i_App_component_2SvcE6PQwpI, "App_component_2SvcE6PQwpI"));
+export const Root = componentQrl(qrl(i_Root_component_4IIe4SsgkuI, "Root_component_4IIe4SsgkuI", [App]));
 const Other = 12;
 export { Other as App };
 export default App;

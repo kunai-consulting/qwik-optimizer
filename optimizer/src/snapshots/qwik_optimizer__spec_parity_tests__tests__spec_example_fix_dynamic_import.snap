@@ -55,10 +55,11 @@ None
 ============================= project/folder/test.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
+const i_Header_component_RGgm7Ks9QWI = () => import("./test.tsx_Header_component_RGgm7Ks9QWI.js");
 export function foo() {
 	return import("../foo/state2");
 }
-export const Header = componentQrl(qrl(() => import("./test.tsx_Header_component_RGgm7Ks9QWI.js"), "Header_component_RGgm7Ks9QWI"));
+export const Header = componentQrl(qrl(i_Header_component_RGgm7Ks9QWI, "Header_component_RGgm7Ks9QWI"));
 
 
 None

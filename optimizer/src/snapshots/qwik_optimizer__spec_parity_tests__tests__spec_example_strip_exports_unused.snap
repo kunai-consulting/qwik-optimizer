@@ -24,11 +24,12 @@ export default component$(()=> {
 
 import { componentQrl, qrl } from "@qwik.dev/core";
 import mongodb from "mongodb";
+const i_component_P0VfB0aGF34 = () => import("./example_strip_exports_unused.tsx_component_P0VfB0aGF34.js");
 export const onGet = () => {
 	const data = mongodb.collection.whatever;
 	return { body: { data } };
 };
-export default componentQrl(qrl(() => import("./example_strip_exports_unused.tsx_component_P0VfB0aGF34.js"), "component_P0VfB0aGF34"));
+export default componentQrl(qrl(i_component_P0VfB0aGF34, "component_P0VfB0aGF34"));
 
 
 None

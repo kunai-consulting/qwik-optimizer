@@ -18,7 +18,8 @@ export default component$((props) => {
 ============================= should_wrap_object_with_fn_signal.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export default componentQrl(qrl(() => import("./should_wrap_object_with_fn_signal.tsx_component_m0d6HKr04bo.js"), "component_m0d6HKr04bo"));
+const i_component_m0d6HKr04bo = () => import("./should_wrap_object_with_fn_signal.tsx_component_m0d6HKr04bo.js");
+export default componentQrl(qrl(i_component_m0d6HKr04bo, "component_m0d6HKr04bo"));
 
 
 None

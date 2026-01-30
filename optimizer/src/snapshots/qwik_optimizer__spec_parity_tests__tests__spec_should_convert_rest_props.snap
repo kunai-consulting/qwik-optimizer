@@ -46,7 +46,7 @@ None
 
 import { qrl, useTaskQrl } from "@qwik.dev/core";
 export const component_QBqeH2eAIR0 = ({ ...props }) => {
-	useTaskQrl(qrl(() => import("./should_convert_rest_props.tsx_component_useTask_hS42z9GVHwo.js"), "component_useTask_hS42z9GVHwo"));
+	useTaskQrl(qrl(i_component_useTask_hS42z9GVHwo, "component_useTask_hS42z9GVHwo"));
 	return "hi";
 };
 
@@ -75,7 +75,9 @@ None
 ============================= should_convert_rest_props.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export default componentQrl(qrl(() => import("./should_convert_rest_props.tsx_component_QBqeH2eAIR0.js"), "component_QBqeH2eAIR0"));
+const i_component_useTask_hS42z9GVHwo = () => import("./should_convert_rest_props.tsx_component_useTask_hS42z9GVHwo.js");
+const i_component_QBqeH2eAIR0 = () => import("./should_convert_rest_props.tsx_component_QBqeH2eAIR0.js");
+export default componentQrl(qrl(i_component_QBqeH2eAIR0, "component_QBqeH2eAIR0"));
 
 
 None

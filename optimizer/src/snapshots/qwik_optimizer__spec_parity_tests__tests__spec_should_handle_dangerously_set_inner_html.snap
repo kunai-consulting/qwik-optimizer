@@ -30,7 +30,9 @@ const Cmp = component$(() => {
 ============================= should_handle_dangerously_set_inner_html.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-componentQrl(qrl(() => import("./should_handle_dangerously_set_inner_html.tsx_Cmp_component_EQ0oObQaGng.js"), "Cmp_component_EQ0oObQaGng"));
+const i_Cmp_component_div_div_button_onClick = () => import("./should_handle_dangerously_set_inner_html.tsx.js");
+const i_Cmp_component_EQ0oObQaGng = () => import("./should_handle_dangerously_set_inner_html.tsx_Cmp_component_EQ0oObQaGng.js");
+componentQrl(qrl(i_Cmp_component_EQ0oObQaGng, "Cmp_component_EQ0oObQaGng"));
 
 
 None
@@ -52,7 +54,7 @@ export const Cmp_component_EQ0oObQaGng = () => {
 		/*#__PURE__*/ _jsxSorted("div", null, null, [/*#__PURE__*/ _jsxSorted("span", { dangerouslySetInnerHTML: _wrapProp(htmlSignal) }, {
 			id: "third",
 			class: "after"
-		}, null, 3, null), /*#__PURE__*/ _jsxSorted("button", { on:click: qrl(() => import("./should_handle_dangerously_set_inner_html.tsx.js"), "Cmp_component_div_div_button_onClick", [htmlSignal]) }, null, null, 3, null)], 3, null)
+		}, null, 3, null), /*#__PURE__*/ _jsxSorted("button", { on:click: qrl(i_Cmp_component_div_div_button_onClick, "Cmp_component_div_div_button_onClick", [htmlSignal]) }, null, null, 3, null)], 3, null)
 	], 3, null);
 };
 

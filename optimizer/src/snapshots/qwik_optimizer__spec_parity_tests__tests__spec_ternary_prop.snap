@@ -24,7 +24,7 @@ export const Cmp = component$(() => {
 import { _jsxSorted, qrl, useSignal } from "@qwik.dev/core";
 export const Cmp_component_wXRs53PuG1k = () => {
 	const toggleSig = useSignal(false);
-	const handleClick$ = qrl(() => import("./ternary_prop.tsx_Cmp_component_handleClick_1_3TrHxsRcNoU.js"), "Cmp_component_handleClick_1_3TrHxsRcNoU", [toggleSig]);
+	const handleClick$ = qrl(i_Cmp_component_handleClick_1_3TrHxsRcNoU, "Cmp_component_handleClick_1_3TrHxsRcNoU", [toggleSig]);
 	return /*#__PURE__*/ _jsxSorted("button", { data-open: toggleSig.value ? true : undefined }, { on:click: handleClick$ }, "Removing data-open re-renders", 3, null);
 };
 
@@ -82,7 +82,9 @@ None
 ============================= ternary_prop.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Cmp = componentQrl(qrl(() => import("./ternary_prop.tsx_Cmp_component_wXRs53PuG1k.js"), "Cmp_component_wXRs53PuG1k"));
+const i_Cmp_component_handleClick_1_3TrHxsRcNoU = () => import("./ternary_prop.tsx_Cmp_component_handleClick_1_3TrHxsRcNoU.js");
+const i_Cmp_component_wXRs53PuG1k = () => import("./ternary_prop.tsx_Cmp_component_wXRs53PuG1k.js");
+export const Cmp = componentQrl(qrl(i_Cmp_component_wXRs53PuG1k, "Cmp_component_wXRs53PuG1k"));
 
 
 None

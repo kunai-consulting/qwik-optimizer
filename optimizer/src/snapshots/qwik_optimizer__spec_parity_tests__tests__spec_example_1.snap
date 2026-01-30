@@ -19,8 +19,11 @@ const renderHeader = component($(() => {
 ============================= example_1.tsx ==
 
 import { component, qrl } from "@qwik.dev/core";
-export const renderHeader = qrl(() => import("./example_1.tsx_renderHeader_YqJKfJJtCNE.js"), "renderHeader_YqJKfJJtCNE");
-const renderHeader = component(qrl(() => import("./example_1.tsx_renderHeader_component_Er8yzBDEP84.js"), "renderHeader_component_Er8yzBDEP84"));
+const i_renderHeader_div_onClick_Dv0JWltQj3U = () => import("./example_1.tsx_renderHeader_div_onClick_Dv0JWltQj3U.js");
+const i_renderHeader_YqJKfJJtCNE = () => import("./example_1.tsx_renderHeader_YqJKfJJtCNE.js");
+const i_renderHeader_component_Er8yzBDEP84 = () => import("./example_1.tsx_renderHeader_component_Er8yzBDEP84.js");
+export const renderHeader = qrl(i_renderHeader_YqJKfJJtCNE, "renderHeader_YqJKfJJtCNE");
+const renderHeader = component(qrl(i_renderHeader_component_Er8yzBDEP84, "renderHeader_component_Er8yzBDEP84"));
 
 
 None
@@ -83,7 +86,7 @@ None
 
 import { qrl } from "@qwik.dev/core";
 export const renderHeader_YqJKfJJtCNE = () => {
-	return <div onClick={qrl(() => import("./example_1.tsx_renderHeader_div_onClick_Dv0JWltQj3U.js"), "renderHeader_div_onClick_Dv0JWltQj3U")} />;
+	return <div onClick={qrl(i_renderHeader_div_onClick_Dv0JWltQj3U, "renderHeader_div_onClick_Dv0JWltQj3U")} />;
 };
 
 

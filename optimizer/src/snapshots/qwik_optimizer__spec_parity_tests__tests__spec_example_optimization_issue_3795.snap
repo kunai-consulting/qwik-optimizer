@@ -19,7 +19,8 @@ export const Issue3795 = component$(() => {
 ============================= example_optimization_issue_3795.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Issue3795 = componentQrl(qrl(() => import("./example_optimization_issue_3795.tsx_Issue3795_component_TM6XuigdMPg.js"), "Issue3795_component_TM6XuigdMPg"));
+const i_Issue3795_component_TM6XuigdMPg = () => import("./example_optimization_issue_3795.tsx_Issue3795_component_TM6XuigdMPg.js");
+export const Issue3795 = componentQrl(qrl(i_Issue3795_component_TM6XuigdMPg, "Issue3795_component_TM6XuigdMPg"));
 
 
 None

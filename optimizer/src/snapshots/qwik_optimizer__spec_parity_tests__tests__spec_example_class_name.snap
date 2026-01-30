@@ -27,7 +27,8 @@ export const App2 = component$(() => {
 ============================= example_class_name.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const App2 = componentQrl(qrl(() => import("./example_class_name.tsx_App2_component_iBsO60fS07g.js"), "App2_component_iBsO60fS07g"));
+const i_App2_component_iBsO60fS07g = () => import("./example_class_name.tsx_App2_component_iBsO60fS07g.js");
+export const App2 = componentQrl(qrl(i_App2_component_iBsO60fS07g, "App2_component_iBsO60fS07g"));
 
 
 None

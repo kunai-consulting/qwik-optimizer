@@ -19,7 +19,7 @@ const Foo = component$(function() {
 import { _jsxSorted, componentQrl, qrl, useSignal } from "@qwik.dev/core";
 export const Foo_component_cwC20JPJrUs = function() {
 	const data = useSignal([]);
-	const Inner = componentQrl(qrl(() => import("./should_transform_component_with_normal_function.tsx_Foo_component_Inner_component_0OVQjU18qVI.js"), "Foo_component_Inner_component_0OVQjU18qVI", [data]));
+	const Inner = componentQrl(qrl(i_Foo_component_Inner_component_0OVQjU18qVI, "Foo_component_Inner_component_0OVQjU18qVI", [data]));
 	return _jsxSorted(Inner, null, { data }, null, 3, null);
 };
 
@@ -51,7 +51,7 @@ import { _fnSignal, _jsxSorted, qrl } from "@qwik.dev/core";
 export const Foo_component_Inner_component_0OVQjU18qVI = function(props) {
 	const [data] = useLexicalScope();
 	const data = props.data;
-	return /*#__PURE__*/ _jsxSorted("div", null, null, data.value.map((item) => /*#__PURE__*/ _jsxSorted("p", { on:click: qrl(() => import("./should_transform_component_with_normal_function.tsx_Foo_component_Inner_component_div_map_p_onClick_aGRFeTx4Lfo.js"), "Foo_component_Inner_component_div_map_p_onClick_aGRFeTx4Lfo") }, null, _fnSignal((p0) => p0.value.id, [item], "p0.value.id"), 1, null)), 1, null);
+	return /*#__PURE__*/ _jsxSorted("div", null, null, data.value.map((item) => /*#__PURE__*/ _jsxSorted("p", { on:click: qrl(i_Foo_component_Inner_component_div_map_p_onClick_aGRFeTx4Lfo, "Foo_component_Inner_component_div_map_p_onClick_aGRFeTx4Lfo") }, null, _fnSignal((p0) => p0.value.id, [item], "p0.value.id"), 1, null)), 1, null);
 };
 
 
@@ -79,7 +79,10 @@ None
 ============================= should_transform_component_with_normal_function.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-componentQrl(qrl(() => import("./should_transform_component_with_normal_function.tsx_Foo_component_cwC20JPJrUs.js"), "Foo_component_cwC20JPJrUs"));
+const i_Foo_component_Inner_component_div_map_p_onClick_aGRFeTx4Lfo = () => import("./should_transform_component_with_normal_function.tsx_Foo_component_Inner_component_div_map_p_onClick_aGRFeTx4Lfo.js");
+const i_Foo_component_Inner_component_0OVQjU18qVI = () => import("./should_transform_component_with_normal_function.tsx_Foo_component_Inner_component_0OVQjU18qVI.js");
+const i_Foo_component_cwC20JPJrUs = () => import("./should_transform_component_with_normal_function.tsx_Foo_component_cwC20JPJrUs.js");
+componentQrl(qrl(i_Foo_component_cwC20JPJrUs, "Foo_component_cwC20JPJrUs"));
 
 
 None

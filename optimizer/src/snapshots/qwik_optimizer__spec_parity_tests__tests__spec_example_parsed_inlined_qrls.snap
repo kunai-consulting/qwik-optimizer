@@ -40,7 +40,7 @@ export const STYLES = ".red { color: red; }";
 
 ============================= ./example_parsed_inlined_qrls.jsx_s_eJlvJbFbzx0.js (ENTRY POINT)==
 
-export const s_eJlvJbFbzx0 = useStylesQrl(() => import("./example_parsed_inlined_qrls.jsx_s_hXu8whnC3PA.js"), "s_hXu8whnC3PA");
+export const s_eJlvJbFbzx0 = useStylesQrl(i_s_hXu8whnC3PA, "s_hXu8whnC3PA");
 
 
 None
@@ -67,10 +67,12 @@ None
 ============================= example_parsed_inlined_qrls.js ==
 
 import { componentQrl, inlinedQrl, jsx, jsxs, qrl, useLexicalScope, useStylesQrl } from "@qwik.dev/core";
+const i_s_hXu8whnC3PA = () => import("./example_parsed_inlined_qrls.jsx_s_hXu8whnC3PA.js");
+const i_s_eJlvJbFbzx0 = () => import("./example_parsed_inlined_qrls.jsx_s_eJlvJbFbzx0.js");
 export const App = /*#__PURE__*/ componentQrl(inlinedQrl(() => {
-	useStylesQrl(qrl(() => import("./example_parsed_inlined_qrls.jsx_s_hXu8whnC3PA.js"), "s_hXu8whnC3PA"));
-	useStylesQrl(qrl(() => import("./example_parsed_inlined_qrls.jsx_s_eJlvJbFbzx0.js"), "s_eJlvJbFbzx0"));
-	const store = useStylesQrl(qrl(() => import("./example_parsed_inlined_qrls.jsx_s_eJlvJbFbzx0.js"), "s_eJlvJbFbzx0"));
+	useStylesQrl(qrl(i_s_hXu8whnC3PA, "s_hXu8whnC3PA"));
+	useStylesQrl(qrl(i_s_eJlvJbFbzx0, "s_eJlvJbFbzx0"));
+	const store = useStylesQrl(qrl(i_s_eJlvJbFbzx0, "s_eJlvJbFbzx0"));
 	return /*#__PURE__*/ jsxs("div", { children: [/*#__PURE__*/ jsxs("p", { children: ["Count: ", store.count] }), /*#__PURE__*/ jsx("p", { children: /*#__PURE__*/ jsx("button", {
 		onClick$: inlinedQrl(() => {
 			const [store] = useLexicalScope();

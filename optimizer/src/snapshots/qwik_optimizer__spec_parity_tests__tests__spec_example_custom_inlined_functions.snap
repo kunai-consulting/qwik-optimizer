@@ -33,8 +33,8 @@ export const Lightweight = (props) => {
 import { qrl, useMemoQrl, useStore } from "@qwik.dev/core";
 export const App_component_vG6hChgGi08 = (props) => {
 	const state = useStore({ count: 0 });
-	useMemoQrl(qrl(() => import("./example_custom_inlined_functions.tsx_App_component_useMemo_0w1bkp0dG4A.js"), "App_component_useMemo_0w1bkp0dG4A", [state]));
-	return qrl(() => import("./example_custom_inlined_functions.tsx_App_component_1_YsVX9g86VKc.js"), "App_component_1_YsVX9g86VKc", [state]);
+	useMemoQrl(qrl(i_App_component_useMemo_0w1bkp0dG4A, "App_component_useMemo_0w1bkp0dG4A", [state]));
+	return qrl(i_App_component_1_YsVX9g86VKc, "App_component_1_YsVX9g86VKc", [state]);
 };
 
 
@@ -63,12 +63,16 @@ None
 
 import { useMemoQrl } from "./example_custom_inlined_functions";
 import { componentQrl, qrl, useEffect, useMemoQrl, wrap } from "@qwik.dev/core";
+const i_App_component_useMemo_0w1bkp0dG4A = () => import("./example_custom_inlined_functions.tsx_App_component_useMemo_0w1bkp0dG4A.js");
+const i_App_component_1_YsVX9g86VKc = () => import("./example_custom_inlined_functions.tsx_App_component_1_YsVX9g86VKc.js");
+const i_App_component_vG6hChgGi08 = () => import("./example_custom_inlined_functions.tsx_App_component_vG6hChgGi08.js");
+const i_Lightweight_useMemo_XQ44W9P7TMY = () => import("./example_custom_inlined_functions.tsx_Lightweight_useMemo_XQ44W9P7TMY.js");
 export const useMemoQrl = (qrt) => {
 	useEffect(qrt);
 };
 export const useMemo$ = wrap(useMemoQrl);
-export const App = componentQrl(qrl(() => import("./example_custom_inlined_functions.tsx_App_component_vG6hChgGi08.js"), "App_component_vG6hChgGi08"));
-export const Lightweight = useMemoQrl(qrl(() => import("./example_custom_inlined_functions.tsx_Lightweight_useMemo_XQ44W9P7TMY.js"), "Lightweight_useMemo_XQ44W9P7TMY"));
+export const App = componentQrl(qrl(i_App_component_vG6hChgGi08, "App_component_vG6hChgGi08"));
+export const Lightweight = useMemoQrl(qrl(i_Lightweight_useMemo_XQ44W9P7TMY, "Lightweight_useMemo_XQ44W9P7TMY"));
 
 
 None

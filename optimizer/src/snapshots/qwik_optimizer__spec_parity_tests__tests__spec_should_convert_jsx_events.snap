@@ -31,7 +31,15 @@ const ManyEventsComponent = component$(() => {
 ============================= should_convert_jsx_events.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-componentQrl(qrl(() => import("./should_convert_jsx_events.tsx_ManyEventsComponent_component_G4OWRG2dK5E.js"), "ManyEventsComponent_component_G4OWRG2dK5E"));
+const i_ManyEventsComponent_component_div_button_onClick = () => import("./should_convert_jsx_events.tsx.js");
+const i_ManyEventsComponent_component_div_button_onDblClick = () => import("./should_convert_jsx_events.tsx.js");
+const i_ManyEventsComponent_component_div_button_onClick_1 = () => import("./should_convert_jsx_events.tsx.js");
+const i_ManyEventsComponent_component_div_button_onBlur = () => import("./should_convert_jsx_events.tsx.js");
+const i_ManyEventsComponent_component_div_button_on-anotherCustom = () => import("./should_convert_jsx_events.tsx.js");
+const i_ManyEventsComponent_component_div_button_onFocus = () => import("./should_convert_jsx_events.tsx.js");
+const i_ManyEventsComponent_component_div_button_onClick_2 = () => import("./should_convert_jsx_events.tsx.js");
+const i_ManyEventsComponent_component_G4OWRG2dK5E = () => import("./should_convert_jsx_events.tsx_ManyEventsComponent_component_G4OWRG2dK5E.js");
+componentQrl(qrl(i_ManyEventsComponent_component_G4OWRG2dK5E, "ManyEventsComponent_component_G4OWRG2dK5E"));
 
 
 None
@@ -40,14 +48,14 @@ None
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 export const ManyEventsComponent_component_G4OWRG2dK5E = () => {
 	return /*#__PURE__*/ _jsxSorted("div", null, null, [/*#__PURE__*/ _jsxSorted("button", {
-		on:click: qrl(() => import("./should_convert_jsx_events.tsx.js"), "ManyEventsComponent_component_div_button_onClick"),
-		on:dblclick: qrl(() => import("./should_convert_jsx_events.tsx.js"), "ManyEventsComponent_component_div_button_onDblClick")
+		on:click: qrl(i_ManyEventsComponent_component_div_button_onClick, "ManyEventsComponent_component_div_button_onClick"),
+		on:dblclick: qrl(i_ManyEventsComponent_component_div_button_onDblClick, "ManyEventsComponent_component_div_button_onDblClick")
 	}, null, "click", 3, null), /*#__PURE__*/ _jsxSorted("button", {
-		on:click: qrl(() => import("./should_convert_jsx_events.tsx.js"), "ManyEventsComponent_component_div_button_onClick_1"),
-		on:blur: qrl(() => import("./should_convert_jsx_events.tsx.js"), "ManyEventsComponent_component_div_button_onBlur"),
-		on:another-custom: qrl(() => import("./should_convert_jsx_events.tsx.js"), "ManyEventsComponent_component_div_button_on-anotherCustom"),
-		on-document:focus: qrl(() => import("./should_convert_jsx_events.tsx.js"), "ManyEventsComponent_component_div_button_onFocus"),
-		on-window:click: qrl(() => import("./should_convert_jsx_events.tsx.js"), "ManyEventsComponent_component_div_button_onClick_2")
+		on:click: qrl(i_ManyEventsComponent_component_div_button_onClick_1, "ManyEventsComponent_component_div_button_onClick_1"),
+		on:blur: qrl(i_ManyEventsComponent_component_div_button_onBlur, "ManyEventsComponent_component_div_button_onBlur"),
+		on:another-custom: qrl(i_ManyEventsComponent_component_div_button_on-anotherCustom, "ManyEventsComponent_component_div_button_on-anotherCustom"),
+		on-document:focus: qrl(i_ManyEventsComponent_component_div_button_onFocus, "ManyEventsComponent_component_div_button_onFocus"),
+		on-window:click: qrl(i_ManyEventsComponent_component_div_button_onClick_2, "ManyEventsComponent_component_div_button_onClick_2")
 	}, null, "click", 3, null)], 3, null);
 };
 

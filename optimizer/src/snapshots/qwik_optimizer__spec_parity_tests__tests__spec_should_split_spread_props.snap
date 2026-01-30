@@ -44,7 +44,8 @@ None
 ============================= should_split_spread_props.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export default componentQrl(qrl(() => import("./should_split_spread_props.tsx_component_HplvOUfWbqo.js"), "component_HplvOUfWbqo"));
+const i_component_HplvOUfWbqo = () => import("./should_split_spread_props.tsx_component_HplvOUfWbqo.js");
+export default componentQrl(qrl(i_component_HplvOUfWbqo, "component_HplvOUfWbqo"));
 
 
 None

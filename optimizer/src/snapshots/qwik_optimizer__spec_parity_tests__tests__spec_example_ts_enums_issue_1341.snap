@@ -55,12 +55,13 @@ None
 ============================= example_ts_enums_issue_1341.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
+const i_App_component_1U045YxNaIE = () => import("./example_ts_enums_issue_1341.tsx_App_component_1U045YxNaIE.js");
 var Thing = /*#__PURE__*/ function(Thing) {
 	Thing[Thing["A"] = 0] = "A";
 	Thing[Thing["B"] = 1] = "B";
 	return Thing;
 }(Thing || {});
-export const App = componentQrl(qrl(() => import("./example_ts_enums_issue_1341.tsx_App_component_1U045YxNaIE.js"), "App_component_1U045YxNaIE", [Thing]));
+export const App = componentQrl(qrl(i_App_component_1U045YxNaIE, "App_component_1U045YxNaIE", [Thing]));
 
 
 None

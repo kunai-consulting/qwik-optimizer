@@ -49,7 +49,8 @@ None
 ============================= issue_964.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const App = componentQrl(qrl(() => import("./issue_964.tsx_App_component_mGS56mGKM0E.js"), "App_component_mGS56mGKM0E"));
+const i_App_component_mGS56mGKM0E = () => import("./issue_964.tsx_App_component_mGS56mGKM0E.js");
+export const App = componentQrl(qrl(i_App_component_mGS56mGKM0E, "App_component_mGS56mGKM0E"));
 
 
 None

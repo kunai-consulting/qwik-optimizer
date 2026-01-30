@@ -63,7 +63,8 @@ None
 ============================= should_not_transform_bind_value_in_var_props_for_jsx_split.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const FieldInput = componentQrl(qrl(() => import("./should_not_transform_bind_value_in_var_props_for_jsx_split.tsx_FieldInput_component_O7e736kxgiI.js"), "FieldInput_component_O7e736kxgiI"));
+const i_FieldInput_component_O7e736kxgiI = () => import("./should_not_transform_bind_value_in_var_props_for_jsx_split.tsx_FieldInput_component_O7e736kxgiI.js");
+export const FieldInput = componentQrl(qrl(i_FieldInput_component_O7e736kxgiI, "FieldInput_component_O7e736kxgiI"));
 
 
 None

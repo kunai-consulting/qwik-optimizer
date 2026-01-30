@@ -27,7 +27,9 @@ export const FieldInput = component$(
 ============================= should_move_bind_value_to_var_props.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const FieldInput = componentQrl(qrl(() => import("./should_move_bind_value_to_var_props.tsx_FieldInput_component_jF56ghUqNi0.js"), "FieldInput_component_jF56ghUqNi0"));
+const i_FieldInput_component_input_onClick = () => import("./should_move_bind_value_to_var_props.tsx.js");
+const i_FieldInput_component_jF56ghUqNi0 = () => import("./should_move_bind_value_to_var_props.tsx_FieldInput_component_jF56ghUqNi0.js");
+export const FieldInput = componentQrl(qrl(i_FieldInput_component_jF56ghUqNi0, "FieldInput_component_jF56ghUqNi0"));
 
 
 None
@@ -40,7 +42,7 @@ export const FieldInput_component_jF56ghUqNi0 = (props) => {
 	const rest = destructureBindings(props, initialValues);
 	return /*#__PURE__*/ _jsxSplit("input", {
 		..._getVarProps(rest),
-		on:click: qrl(() => import("./should_move_bind_value_to_var_props.tsx.js"), "FieldInput_component_input_onClick")
+		on:click: qrl(i_FieldInput_component_input_onClick, "FieldInput_component_input_onClick")
 	}, _getConstProps(rest), null, 0, null);
 };
 

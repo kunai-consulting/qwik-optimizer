@@ -17,8 +17,9 @@ export const \$promoteToRoot$ = (ref: SeenRef) => {
 ============================= should_not_move_over_side_effects.tsx ==
 
 import { getObjectPathQrl, qrl } from "@qwik.dev/core";
+const i_promoteToRoot_path_getObjectPath_gOmtrbZRRP0 = () => import("./should_not_move_over_side_effects.tsx_promoteToRoot_path_getObjectPath_gOmtrbZRRP0.js");
 export const promoteToRoot$ = (ref) => {
-	const path = getObjectPathQrl(qrl(() => import("./should_not_move_over_side_effects.tsx_promoteToRoot_path_getObjectPath_gOmtrbZRRP0.js"), "promoteToRoot_path_getObjectPath_gOmtrbZRRP0", [ref]));
+	const path = getObjectPathQrl(qrl(i_promoteToRoot_path_getObjectPath_gOmtrbZRRP0, "promoteToRoot_path_getObjectPath_gOmtrbZRRP0", [ref]));
 	// should stay before the push
 	const idx = roots.length;
 	roots.push(new BackRef(path));

@@ -23,7 +23,10 @@ export const App = component$(({count, rest: [I2, {I3, v1: [I4], I5=v2, ...I6}, 
 ============================= example_functional_component_capture_props.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const App = componentQrl(qrl(() => import("./example_functional_component_capture_props.tsx_App_component_ntoaXCvatNM.js"), "App_component_ntoaXCvatNM"));
+const i_App_component_1_div_onClick = () => import("./example_functional_component_capture_props.tsx.js");
+const i_App_component_1_CmRomoox4Hk = () => import("./example_functional_component_capture_props.tsx_App_component_1_CmRomoox4Hk.js");
+const i_App_component_ntoaXCvatNM = () => import("./example_functional_component_capture_props.tsx_App_component_ntoaXCvatNM.js");
+export const App = componentQrl(qrl(i_App_component_ntoaXCvatNM, "App_component_ntoaXCvatNM"));
 
 
 None
@@ -32,7 +35,7 @@ None
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 export const App_component_1_CmRomoox4Hk = () => {
 	const [state] = useLexicalScope();
-	return /*#__PURE__*/ _jsxSorted("div", { on:click: qrl(() => import("./example_functional_component_capture_props.tsx.js"), "App_component_1_div_onClick", [state]) }, null, [
+	return /*#__PURE__*/ _jsxSorted("div", { on:click: qrl(i_App_component_1_div_onClick, "App_component_1_div_onClick", [state]) }, null, [
 		I2,
 		I3,
 		I4,
@@ -81,7 +84,7 @@ import { qrl, useStore } from "@qwik.dev/core";
 export const App_component_ntoaXCvatNM = ({ count, rest: [I2, { I3, v1: [I4], I5 = v2, ...I6 }, I7 = v3, ...I8] }) => {
 	const state = useStore({ count: 0 });
 	const { rest: [C2, { C3, v1: [C4], C5 = v2, ...C6 }, C7 = v3, ...C8] } = foo();
-	return qrl(() => import("./example_functional_component_capture_props.tsx_App_component_1_CmRomoox4Hk.js"), "App_component_1_CmRomoox4Hk", [state]);
+	return qrl(i_App_component_1_CmRomoox4Hk, "App_component_1_CmRomoox4Hk", [state]);
 };
 
 

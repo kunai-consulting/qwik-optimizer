@@ -50,10 +50,13 @@ None
 ============================= test_qrl_multiple_qrls.tsx ==
 
 import { qrl } from "@qwik.dev/core";
+const i_handler1_Cd6L8bqdkhc = () => import("./test_qrl_multiple_qrls.tsx_handler1_Cd6L8bqdkhc.js");
+const i_handler2_Af0RK0AWQpU = () => import("./test_qrl_multiple_qrls.tsx_handler2_Af0RK0AWQpU.js");
+const i_handler3_lMHDaYO5yf8 = () => import("./test_qrl_multiple_qrls.tsx_handler3_lMHDaYO5yf8.js");
 // Multiple QRLs in same file - all get unique symbol names
-export const handler1 = qrl(() => import("./test_qrl_multiple_qrls.tsx_handler1_Cd6L8bqdkhc.js"), "handler1_Cd6L8bqdkhc");
-export const handler2 = qrl(() => import("./test_qrl_multiple_qrls.tsx_handler2_Af0RK0AWQpU.js"), "handler2_Af0RK0AWQpU");
-export const handler3 = qrl(() => import("./test_qrl_multiple_qrls.tsx_handler3_lMHDaYO5yf8.js"), "handler3_lMHDaYO5yf8");
+export const handler1 = qrl(i_handler1_Cd6L8bqdkhc, "handler1_Cd6L8bqdkhc");
+export const handler2 = qrl(i_handler2_Af0RK0AWQpU, "handler2_Af0RK0AWQpU");
+export const handler3 = qrl(i_handler3_lMHDaYO5yf8, "handler3_lMHDaYO5yf8");
 
 
 None

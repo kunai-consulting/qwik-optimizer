@@ -29,7 +29,7 @@ export const AtomStatus_component_25gjymXUvzA = ({ ctx, atom }) => {
 	} else if (JSON.stringify(atom.atom) == JSON.stringify(atom.real)) {
 		status = "WTFED";
 	}
-	return <span title={atom.ID} on:click={qrl(() => import("./example_optimization_issue_3542.tsx.js"), "AtomStatus_component_span_onClick")} class={[
+	return <span title={atom.ID} on:click={qrl(i_AtomStatus_component_span_onClick, "AtomStatus_component_span_onClick")} class={[
 		"atom",
 		status,
 		ctx.store[atom.ID] ? "selected" : null
@@ -62,7 +62,9 @@ None
 ============================= example_optimization_issue_3542.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const AtomStatus = componentQrl(qrl(() => import("./example_optimization_issue_3542.tsx_AtomStatus_component_25gjymXUvzA.js"), "AtomStatus_component_25gjymXUvzA"));
+const i_AtomStatus_component_span_onClick = () => import("./example_optimization_issue_3542.tsx.js");
+const i_AtomStatus_component_25gjymXUvzA = () => import("./example_optimization_issue_3542.tsx_AtomStatus_component_25gjymXUvzA.js");
+export const AtomStatus = componentQrl(qrl(i_AtomStatus_component_25gjymXUvzA, "AtomStatus_component_25gjymXUvzA"));
 
 
 None

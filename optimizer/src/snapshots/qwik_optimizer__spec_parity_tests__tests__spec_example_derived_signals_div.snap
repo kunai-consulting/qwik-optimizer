@@ -59,7 +59,8 @@ export const App = component$((props) => {
 ============================= example_derived_signals_div.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const App = componentQrl(qrl(() => import("./example_derived_signals_div.tsx_App_component_lqTjl2rpomE.js"), "App_component_lqTjl2rpomE"));
+const i_App_component_lqTjl2rpomE = () => import("./example_derived_signals_div.tsx_App_component_lqTjl2rpomE.js");
+export const App = componentQrl(qrl(i_App_component_lqTjl2rpomE, "App_component_lqTjl2rpomE"));
 
 
 None

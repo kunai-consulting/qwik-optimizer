@@ -14,7 +14,8 @@ export const Greeter = component$(() => {
 ============================= example_import_assertion.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Greeter = componentQrl(qrl(() => import("./example_import_assertion.tsx_Greeter_component_BwZKGIhqyug.js"), "Greeter_component_BwZKGIhqyug"));
+const i_Greeter_component_BwZKGIhqyug = () => import("./example_import_assertion.tsx_Greeter_component_BwZKGIhqyug.js");
+export const Greeter = componentQrl(qrl(i_Greeter_component_BwZKGIhqyug, "Greeter_component_BwZKGIhqyug"));
 
 
 None

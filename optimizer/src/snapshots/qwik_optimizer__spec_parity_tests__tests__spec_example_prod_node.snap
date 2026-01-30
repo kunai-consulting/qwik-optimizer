@@ -19,7 +19,11 @@ export const Foo = component$(() => {
 ============================= example_prod_node.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Foo = componentQrl(qrl(() => import("./example_prod_node.tsx_s_v10fFl9PWVg.js"), "s_v10fFl9PWVg"));
+const i_Foo_component_div_div_onClick = () => import("./example_prod_node.tsx.js");
+const i_Foo_component_div_div_onClick_1 = () => import("./example_prod_node.tsx.js");
+const i_Foo_component_div_div_onClick_2 = () => import("./example_prod_node.tsx.js");
+const i_s_v10fFl9PWVg = () => import("./example_prod_node.tsx_s_v10fFl9PWVg.js");
+export const Foo = componentQrl(qrl(i_s_v10fFl9PWVg, "s_v10fFl9PWVg"));
 
 
 None
@@ -28,9 +32,9 @@ None
 import { qrl } from "@qwik.dev/core";
 export const s_v10fFl9PWVg = () => {
 	return <div>
-			<div on:click={qrl(() => import("./example_prod_node.tsx.js"), "Foo_component_div_div_onClick")} />
-			<div on:click={qrl(() => import("./example_prod_node.tsx.js"), "Foo_component_div_div_onClick_1")} />
-			<div on:click={qrl(() => import("./example_prod_node.tsx.js"), "Foo_component_div_div_onClick_2")} />
+			<div on:click={qrl(i_Foo_component_div_div_onClick, "Foo_component_div_div_onClick")} />
+			<div on:click={qrl(i_Foo_component_div_div_onClick_1, "Foo_component_div_div_onClick_1")} />
+			<div on:click={qrl(i_Foo_component_div_div_onClick_2, "Foo_component_div_div_onClick_2")} />
 		</div>;
 };
 

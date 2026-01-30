@@ -60,7 +60,8 @@ None
 ============================= should_wrap_inner_inline_component_prop.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export default componentQrl(qrl(() => import("./should_wrap_inner_inline_component_prop.tsx_component_KLKKMDeygxU.js"), "component_KLKKMDeygxU"));
+const i_component_KLKKMDeygxU = () => import("./should_wrap_inner_inline_component_prop.tsx_component_KLKKMDeygxU.js");
+export default componentQrl(qrl(i_component_KLKKMDeygxU, "component_KLKKMDeygxU"));
 
 
 None

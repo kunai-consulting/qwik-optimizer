@@ -50,7 +50,8 @@ None
 ============================= example_issue_4438.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const App = componentQrl(qrl(() => import("./example_issue_4438.tsx_App_component_eGeaJB4BHI8.js"), "App_component_eGeaJB4BHI8"));
+const i_App_component_eGeaJB4BHI8 = () => import("./example_issue_4438.tsx_App_component_eGeaJB4BHI8.js");
+export const App = componentQrl(qrl(i_App_component_eGeaJB4BHI8, "App_component_eGeaJB4BHI8"));
 
 
 None

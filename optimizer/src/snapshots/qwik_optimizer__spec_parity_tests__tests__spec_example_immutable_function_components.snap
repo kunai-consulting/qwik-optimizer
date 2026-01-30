@@ -46,7 +46,8 @@ None
 ============================= example_immutable_function_components.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const App = componentQrl(qrl(() => import("./example_immutable_function_components.tsx_App_component_JSjeGHs3sWk.js"), "App_component_JSjeGHs3sWk"));
+const i_App_component_JSjeGHs3sWk = () => import("./example_immutable_function_components.tsx_App_component_JSjeGHs3sWk.js");
+export const App = componentQrl(qrl(i_App_component_JSjeGHs3sWk, "App_component_JSjeGHs3sWk"));
 
 
 None

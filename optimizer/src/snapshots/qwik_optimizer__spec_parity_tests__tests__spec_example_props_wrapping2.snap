@@ -61,7 +61,8 @@ None
 ============================= example_props_wrapping2.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Works = componentQrl(qrl(() => import("./example_props_wrapping2.tsx_Works_component_KaometRFDW8.js"), "Works_component_KaometRFDW8"));
+const i_Works_component_KaometRFDW8 = () => import("./example_props_wrapping2.tsx_Works_component_KaometRFDW8.js");
+export const Works = componentQrl(qrl(i_Works_component_KaometRFDW8, "Works_component_KaometRFDW8"));
 
 
 None

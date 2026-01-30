@@ -57,7 +57,8 @@ None
 ============================= example_jsx_keyed.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const App = componentQrl(qrl(() => import("./example_jsx_keyed.tsx_App_component_QTYu2oVBpFo.js"), "App_component_QTYu2oVBpFo"));
+const i_App_component_QTYu2oVBpFo = () => import("./example_jsx_keyed.tsx_App_component_QTYu2oVBpFo.js");
+export const App = componentQrl(qrl(i_App_component_QTYu2oVBpFo, "App_component_QTYu2oVBpFo"));
 
 
 None

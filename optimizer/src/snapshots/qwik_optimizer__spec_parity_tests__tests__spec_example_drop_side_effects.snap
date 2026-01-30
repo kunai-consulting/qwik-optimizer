@@ -69,6 +69,9 @@ import { componentQrl, qrl, serverQrl } from "@qwik.dev/core";
 import { serverQrl } from "@qwik.dev/router";
 import { Client } from "openai";
 import { clientSupabase } from "supabase";
+const i_api_server_z2u5NPsRqoE = () => import("./example_drop_side_effects.tsx_api_server_z2u5NPsRqoE.js");
+const i_component_button_onClick = () => import("./example_drop_side_effects.tsx.js");
+const i_component_Iyb0rbIdi0U = () => import("./example_drop_side_effects.tsx_component_Iyb0rbIdi0U.js");
 const supabase = clientSupabase();
 const dfd = new Client(secret);
 (function() {
@@ -78,8 +81,8 @@ const dfd = new Client(secret);
 	console.log("run");
 })();
 sideEffect();
-export const api = serverQrl(qrl(() => import("./example_drop_side_effects.tsx_api_server_z2u5NPsRqoE.js"), "api_server_z2u5NPsRqoE", [dfd, supabase]));
-export default componentQrl(qrl(() => import("./example_drop_side_effects.tsx_component_Iyb0rbIdi0U.js"), "component_Iyb0rbIdi0U"));
+export const api = serverQrl(qrl(i_api_server_z2u5NPsRqoE, "api_server_z2u5NPsRqoE", [dfd, supabase]));
+export default componentQrl(qrl(i_component_Iyb0rbIdi0U, "component_Iyb0rbIdi0U"));
 
 
 None
@@ -87,7 +90,7 @@ None
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 export const component_Iyb0rbIdi0U = () => {
-	return /*#__PURE__*/ _jsxSorted("button", { on:click: qrl(() => import("./example_drop_side_effects.tsx.js"), "component_button_onClick") }, null, null, 3, null);
+	return /*#__PURE__*/ _jsxSorted("button", { on:click: qrl(i_component_button_onClick, "component_button_onClick") }, null, null, 3, null);
 };
 
 

@@ -18,10 +18,11 @@ export default ({ data }: { data: any }) => {
 ============================= destructure_args_inline_cmp_block_stmt.tsx ==
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
+const i_div_onClick = () => import("./destructure_args_inline_cmp_block_stmt.tsx.js");
 export default ({ data }) => {
 	return /*#__PURE__*/ _jsxSorted("div", {
 		data-is-active: data.selectedOutputDetail === "options",
-		on:click: qrl(() => import("./destructure_args_inline_cmp_block_stmt.tsx.js"), "div_onClick")
+		on:click: qrl(i_div_onClick, "div_onClick")
 	}, null, null, 3, null);
 };
 

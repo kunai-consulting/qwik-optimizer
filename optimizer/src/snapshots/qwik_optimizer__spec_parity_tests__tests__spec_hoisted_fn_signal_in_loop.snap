@@ -77,7 +77,8 @@ None
 ============================= hoisted_fn_signal_in_loop.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const App = componentQrl(qrl(() => import("./hoisted_fn_signal_in_loop.tsx_App_component_0Uh5oJsjbyw.js"), "App_component_0Uh5oJsjbyw"));
+const i_App_component_0Uh5oJsjbyw = () => import("./hoisted_fn_signal_in_loop.tsx_App_component_0Uh5oJsjbyw.js");
+export const App = componentQrl(qrl(i_App_component_0Uh5oJsjbyw, "App_component_0Uh5oJsjbyw"));
 
 
 None

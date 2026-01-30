@@ -55,12 +55,13 @@ None
 ============================= example_ts_enums.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
+const i_App_component_dJGwfeLInpY = () => import("./example_ts_enums.tsx_App_component_dJGwfeLInpY.js");
 export let Thing = /*#__PURE__*/ function(Thing) {
 	Thing[Thing["A"] = 0] = "A";
 	Thing[Thing["B"] = 1] = "B";
 	return Thing;
 }({});
-export const App = componentQrl(qrl(() => import("./example_ts_enums.tsx_App_component_dJGwfeLInpY.js"), "App_component_dJGwfeLInpY"));
+export const App = componentQrl(qrl(i_App_component_dJGwfeLInpY, "App_component_dJGwfeLInpY"));
 
 
 None

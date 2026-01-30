@@ -19,7 +19,8 @@ export default component$(() => {
 ============================= should_wrap_logical_expression_in_template.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export default componentQrl(qrl(() => import("./should_wrap_logical_expression_in_template.tsx_component_dtFkOVxWm2c.js"), "component_dtFkOVxWm2c"));
+const i_component_dtFkOVxWm2c = () => import("./should_wrap_logical_expression_in_template.tsx_component_dtFkOVxWm2c.js");
+export default componentQrl(qrl(i_component_dtFkOVxWm2c, "component_dtFkOVxWm2c"));
 
 
 None

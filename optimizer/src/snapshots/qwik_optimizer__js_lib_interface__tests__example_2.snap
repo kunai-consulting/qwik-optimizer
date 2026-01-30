@@ -46,8 +46,11 @@ None
 ============================= test_example_2.tsx ==
 
 import { component, qrl } from "@qwik.dev/core";
-export const renderHeader = qrl(() => import("./test_example_2.tsx_renderHeader_hMRKEFfLPuk.js"), "renderHeader_hMRKEFfLPuk");
-const renderHeader = component(qrl(() => import("./test_example_2.tsx_renderHeader_component_1YSz7kbpTeU.js"), "renderHeader_component_1YSz7kbpTeU"));
+const i_renderHeader_div_onClick_ZYP8O0EEogs = () => import("./test_example_2.tsx_renderHeader_div_onClick_ZYP8O0EEogs.js");
+const i_renderHeader_hMRKEFfLPuk = () => import("./test_example_2.tsx_renderHeader_hMRKEFfLPuk.js");
+const i_renderHeader_component_1YSz7kbpTeU = () => import("./test_example_2.tsx_renderHeader_component_1YSz7kbpTeU.js");
+export const renderHeader = qrl(i_renderHeader_hMRKEFfLPuk, "renderHeader_hMRKEFfLPuk");
+const renderHeader = component(qrl(i_renderHeader_component_1YSz7kbpTeU, "renderHeader_component_1YSz7kbpTeU"));
 
 
 None
@@ -84,7 +87,7 @@ None
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 export const renderHeader_hMRKEFfLPuk = () => {
-	return /*#__PURE__*/ _jsxSorted("div", { onClick: qrl(() => import("./test_example_2.tsx_renderHeader_div_onClick_ZYP8O0EEogs.js"), "renderHeader_div_onClick_ZYP8O0EEogs") }, null, null, 3, null);
+	return /*#__PURE__*/ _jsxSorted("div", { onClick: qrl(i_renderHeader_div_onClick_ZYP8O0EEogs, "renderHeader_div_onClick_ZYP8O0EEogs") }, null, null, 3, null);
 };
 
 

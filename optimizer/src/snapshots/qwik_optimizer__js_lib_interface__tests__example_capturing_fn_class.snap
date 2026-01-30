@@ -56,7 +56,7 @@ None
 
 import { qrl } from "@qwik.dev/core";
 export const App_component_9Afc3zxCXkY = () => {
-	return qrl(() => import("./test_example_capturing_fn_class.jsx_App_component_1_sEJrlBvQHzk.js"), "App_component_1_sEJrlBvQHzk");
+	return qrl(i_App_component_1_sEJrlBvQHzk, "App_component_1_sEJrlBvQHzk");
 };
 
 
@@ -84,7 +84,9 @@ None
 ============================= test_example_capturing_fn_class.js ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const App = componentQrl(qrl(() => import("./test_example_capturing_fn_class.jsx_App_component_9Afc3zxCXkY.js"), "App_component_9Afc3zxCXkY"));
+const i_App_component_1_sEJrlBvQHzk = () => import("./test_example_capturing_fn_class.jsx_App_component_1_sEJrlBvQHzk.js");
+const i_App_component_9Afc3zxCXkY = () => import("./test_example_capturing_fn_class.jsx_App_component_9Afc3zxCXkY.js");
+export const App = componentQrl(qrl(i_App_component_9Afc3zxCXkY, "App_component_9Afc3zxCXkY"));
 
 
 None

@@ -48,8 +48,8 @@ export const Child = component$(() => {
 import { _jsxSorted } from "@qwik.dev/core";
 export const Child_component_RSCyc0CPmVg = () => {
 	const state = useStore({ text: "" });
-	useTaskQrl(qrl(() => import("./example_use_server_mount.tsx_Child_component_useTask_RDJKyYpRp6I.js"), "Child_component_useTask_RDJKyYpRp6I", [state]));
-	return /*#__PURE__*/ _jsxSorted("div", { on:click: useTaskQrl(qrl(() => import("./example_use_server_mount.tsx_Child_component_useTask_RDJKyYpRp6I.js"), "Child_component_useTask_RDJKyYpRp6I", [state])) }, null, state.text, 1, null);
+	useTaskQrl(qrl(i_Child_component_useTask_RDJKyYpRp6I, "Child_component_useTask_RDJKyYpRp6I", [state]));
+	return /*#__PURE__*/ _jsxSorted("div", { on:click: useTaskQrl(qrl(i_Child_component_useTask_RDJKyYpRp6I, "Child_component_useTask_RDJKyYpRp6I", [state])) }, null, state.text, 1, null);
 };
 
 
@@ -109,8 +109,8 @@ None
 import { _jsxSorted } from "@qwik.dev/core";
 export const Parent_component_jEuAfXGpKMI = () => {
 	const state = useStore({ text: "" });
-	useTaskQrl(qrl(() => import("./example_use_server_mount.tsx_Parent_component_useTask_4OGc0bJoOeo.js"), "Parent_component_useTask_4OGc0bJoOeo", [state]));
-	return /*#__PURE__*/ _jsxSorted("div", { on:click: useTaskQrl(qrl(() => import("./example_use_server_mount.tsx_Parent_component_useTask_4OGc0bJoOeo.js"), "Parent_component_useTask_4OGc0bJoOeo", [state])) }, null, state.text, 1, null);
+	useTaskQrl(qrl(i_Parent_component_useTask_4OGc0bJoOeo, "Parent_component_useTask_4OGc0bJoOeo", [state]));
+	return /*#__PURE__*/ _jsxSorted("div", { on:click: useTaskQrl(qrl(i_Parent_component_useTask_4OGc0bJoOeo, "Parent_component_useTask_4OGc0bJoOeo", [state])) }, null, state.text, 1, null);
 };
 
 
@@ -138,8 +138,12 @@ None
 ============================= example_use_server_mount.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Parent = componentQrl(qrl(() => import("./example_use_server_mount.tsx_Parent_component_jEuAfXGpKMI.js"), "Parent_component_jEuAfXGpKMI"));
-export const Child = componentQrl(qrl(() => import("./example_use_server_mount.tsx_Child_component_RSCyc0CPmVg.js"), "Child_component_RSCyc0CPmVg"));
+const i_Parent_component_useTask_4OGc0bJoOeo = () => import("./example_use_server_mount.tsx_Parent_component_useTask_4OGc0bJoOeo.js");
+const i_Parent_component_jEuAfXGpKMI = () => import("./example_use_server_mount.tsx_Parent_component_jEuAfXGpKMI.js");
+const i_Child_component_useTask_RDJKyYpRp6I = () => import("./example_use_server_mount.tsx_Child_component_useTask_RDJKyYpRp6I.js");
+const i_Child_component_RSCyc0CPmVg = () => import("./example_use_server_mount.tsx_Child_component_RSCyc0CPmVg.js");
+export const Parent = componentQrl(qrl(i_Parent_component_jEuAfXGpKMI, "Parent_component_jEuAfXGpKMI"));
+export const Child = componentQrl(qrl(i_Child_component_RSCyc0CPmVg, "Child_component_RSCyc0CPmVg"));
 
 
 None

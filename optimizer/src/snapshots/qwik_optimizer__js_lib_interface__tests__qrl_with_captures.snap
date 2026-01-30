@@ -51,11 +51,12 @@ None
 ============================= test_qrl_with_captures.tsx ==
 
 import { qrl, useSignal } from "@qwik.dev/core";
+const i_Counter_increment_GRxSFiyL3cQ = () => import("./test_qrl_with_captures.tsx_Counter_increment_GRxSFiyL3cQ.js");
 // QRL with captured variables
 export const Counter = () => {
 	const count = useSignal(0);
 	const name = "test";
-	const increment = qrl(() => import("./test_qrl_with_captures.tsx_Counter_increment_GRxSFiyL3cQ.js"), "Counter_increment_GRxSFiyL3cQ", [count, name]);
+	const increment = qrl(i_Counter_increment_GRxSFiyL3cQ, "Counter_increment_GRxSFiyL3cQ", [count, name]);
 	return increment;
 };
 

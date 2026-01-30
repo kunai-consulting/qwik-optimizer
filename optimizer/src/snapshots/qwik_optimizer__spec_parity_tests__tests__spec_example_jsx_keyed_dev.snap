@@ -21,7 +21,8 @@ export const App = component$((props: Stuff) => {
 ============================= project/index.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const App = componentQrl(qrl(() => import("./index.tsx_App_component_KGLYFBhvJc0.js"), "App_component_KGLYFBhvJc0"));
+const i_App_component_KGLYFBhvJc0 = () => import("./index.tsx_App_component_KGLYFBhvJc0.js");
+export const App = componentQrl(qrl(i_App_component_KGLYFBhvJc0, "App_component_KGLYFBhvJc0"));
 
 
 None

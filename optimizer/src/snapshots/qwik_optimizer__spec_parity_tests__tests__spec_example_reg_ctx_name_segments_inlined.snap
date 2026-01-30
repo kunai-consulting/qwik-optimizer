@@ -15,7 +15,9 @@ export const Works = component$((props) => {
 ============================= example_reg_ctx_name_segments_inlined.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Works = componentQrl(qrl(() => import("./example_reg_ctx_name_segments_inlined.tsx_Works_component_AROoLgAJDOE.js"), "Works_component_AROoLgAJDOE"));
+const i_Works_component_div_onClick_server_d8UBeO5neSY = () => import("./example_reg_ctx_name_segments_inlined.tsx_Works_component_div_onClick_server_d8UBeO5neSY.js");
+const i_Works_component_AROoLgAJDOE = () => import("./example_reg_ctx_name_segments_inlined.tsx_Works_component_AROoLgAJDOE.js");
+export const Works = componentQrl(qrl(i_Works_component_AROoLgAJDOE, "Works_component_AROoLgAJDOE"));
 
 
 None
@@ -53,7 +55,7 @@ None
 import { _jsxSorted, qrl, serverQrl } from "@qwik.dev/core";
 export const Works_component_AROoLgAJDOE = (props) => {
 	const text = "hola";
-	return /*#__PURE__*/ _jsxSorted("div", { on:click: serverQrl(qrl(() => import("./example_reg_ctx_name_segments_inlined.tsx_Works_component_div_onClick_server_d8UBeO5neSY.js"), "Works_component_div_onClick_server_d8UBeO5neSY", [text])) }, null, null, 3, null);
+	return /*#__PURE__*/ _jsxSorted("div", { on:click: serverQrl(qrl(i_Works_component_div_onClick_server_d8UBeO5neSY, "Works_component_div_onClick_server_d8UBeO5neSY", [text])) }, null, null, 3, null);
 };
 
 

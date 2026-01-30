@@ -19,7 +19,7 @@ export const App = component$((props: Stuff) => {
 import { qrl } from "@qwik.dev/core";
 export const App_component_DZnnkDGy8EQ = (props) => {
 	return <Cmp>
-			<p class="stuff" on:click={qrl(() => import("./example_transpile_ts_only.tsx.js"), "App_component_Cmp_p_onClick")}>Hello Qwik</p>
+			<p class="stuff" on:click={qrl(i_App_component_Cmp_p_onClick, "App_component_Cmp_p_onClick")}>Hello Qwik</p>
 		</Cmp>;
 };
 
@@ -48,7 +48,9 @@ None
 ============================= example_transpile_ts_only.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const App = componentQrl(qrl(() => import("./example_transpile_ts_only.tsx_App_component_DZnnkDGy8EQ.js"), "App_component_DZnnkDGy8EQ"));
+const i_App_component_Cmp_p_onClick = () => import("./example_transpile_ts_only.tsx.js");
+const i_App_component_DZnnkDGy8EQ = () => import("./example_transpile_ts_only.tsx_App_component_DZnnkDGy8EQ.js");
+export const App = componentQrl(qrl(i_App_component_DZnnkDGy8EQ, "App_component_DZnnkDGy8EQ"));
 
 
 None

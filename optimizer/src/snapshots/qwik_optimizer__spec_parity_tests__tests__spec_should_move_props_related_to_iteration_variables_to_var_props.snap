@@ -34,7 +34,8 @@ export const Child = component$(() => {
 ============================= should_move_props_related_to_iteration_variables_to_var_props.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Child = componentQrl(qrl(() => import("./should_move_props_related_to_iteration_variables_to_var_props.tsx_Child_component_mqGppPl3Vsw.js"), "Child_component_mqGppPl3Vsw"));
+const i_Child_component_mqGppPl3Vsw = () => import("./should_move_props_related_to_iteration_variables_to_var_props.tsx_Child_component_mqGppPl3Vsw.js");
+export const Child = componentQrl(qrl(i_Child_component_mqGppPl3Vsw, "Child_component_mqGppPl3Vsw"));
 
 
 None

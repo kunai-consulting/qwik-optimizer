@@ -16,7 +16,8 @@ export const Local = component$(() => {
 ============================= relative_paths.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Local = componentQrl(qrl(() => import("./relative_paths.tsx_Local_component_sWOiIooheYg.js"), "Local_component_sWOiIooheYg"));
+const i_Local_component_sWOiIooheYg = () => import("./relative_paths.tsx_Local_component_sWOiIooheYg.js");
+export const Local = componentQrl(qrl(i_Local_component_sWOiIooheYg, "Local_component_sWOiIooheYg"));
 
 
 None

@@ -65,7 +65,7 @@ None
 import { qrl } from "@qwik.dev/core";
 export const Foo_component_gmofgG21D48 = ({ foo }) => {
 	const arg0 = 20;
-	return qrl(() => import("./example_multi_capture.tsx_Foo_component_1_Z6I1dV7lwB4.js"), "Foo_component_1_Z6I1dV7lwB4", [arg0]);
+	return qrl(i_Foo_component_1_Z6I1dV7lwB4, "Foo_component_1_Z6I1dV7lwB4", [arg0]);
 };
 
 
@@ -124,7 +124,7 @@ None
 
 import { qrl } from "@qwik.dev/core";
 export const Bar_component_5W0FDxOvMMQ = ({ bar }) => {
-	return qrl(() => import("./example_multi_capture.tsx_Bar_component_1_bQYUAMchFqU.js"), "Bar_component_1_bQYUAMchFqU");
+	return qrl(i_Bar_component_1_bQYUAMchFqU, "Bar_component_1_bQYUAMchFqU");
 };
 
 
@@ -152,8 +152,12 @@ None
 ============================= example_multi_capture.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Foo = componentQrl(qrl(() => import("./example_multi_capture.tsx_Foo_component_gmofgG21D48.js"), "Foo_component_gmofgG21D48"));
-export const Bar = componentQrl(qrl(() => import("./example_multi_capture.tsx_Bar_component_5W0FDxOvMMQ.js"), "Bar_component_5W0FDxOvMMQ"));
+const i_Foo_component_1_Z6I1dV7lwB4 = () => import("./example_multi_capture.tsx_Foo_component_1_Z6I1dV7lwB4.js");
+const i_Foo_component_gmofgG21D48 = () => import("./example_multi_capture.tsx_Foo_component_gmofgG21D48.js");
+const i_Bar_component_1_bQYUAMchFqU = () => import("./example_multi_capture.tsx_Bar_component_1_bQYUAMchFqU.js");
+const i_Bar_component_5W0FDxOvMMQ = () => import("./example_multi_capture.tsx_Bar_component_5W0FDxOvMMQ.js");
+export const Foo = componentQrl(qrl(i_Foo_component_gmofgG21D48, "Foo_component_gmofgG21D48"));
+export const Bar = componentQrl(qrl(i_Bar_component_5W0FDxOvMMQ, "Bar_component_5W0FDxOvMMQ"));
 
 
 None

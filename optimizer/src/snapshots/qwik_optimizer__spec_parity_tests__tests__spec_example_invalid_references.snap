@@ -57,7 +57,7 @@ export const App_component_VTymHc84ey0 = ({ count }) => {
 	const [I1] = useLexicalScope();
 	console.log(I1, I2, I3, I4, I5, I6, I7, I8, I9);
 	console.log(itsok, v1, v2, v3, obj);
-	return qrl(() => import("./example_invalid_references.tsx_App_component_1_DZRNWCLorQs.js"), "App_component_1_DZRNWCLorQs");
+	return qrl(i_App_component_1_DZRNWCLorQs, "App_component_1_DZRNWCLorQs");
 };
 
 
@@ -85,9 +85,11 @@ None
 ============================= example_invalid_references.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
+const i_App_component_1_DZRNWCLorQs = () => import("./example_invalid_references.tsx_App_component_1_DZRNWCLorQs.js");
+const i_App_component_VTymHc84ey0 = () => import("./example_invalid_references.tsx_App_component_VTymHc84ey0.js");
 const I1 = 12;
 const [I2, { I3, v1: [I4], I5 = v2, ...I6 }, I7 = v3, ...I8] = obj;
-export const App = componentQrl(qrl(() => import("./example_invalid_references.tsx_App_component_VTymHc84ey0.js"), "App_component_VTymHc84ey0", [I1]));
+export const App = componentQrl(qrl(i_App_component_VTymHc84ey0, "App_component_VTymHc84ey0", [I1]));
 
 
 None

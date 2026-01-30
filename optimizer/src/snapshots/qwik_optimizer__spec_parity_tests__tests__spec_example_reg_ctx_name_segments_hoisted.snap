@@ -74,7 +74,10 @@ None
 ============================= example_reg_ctx_name_segments_hoisted.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Works = componentQrl(qrl(() => import("./example_reg_ctx_name_segments_hoisted.tsx_Works_component_QtxQU1Oe5cE.js"), "Works_component_QtxQU1Oe5cE"));
+const i_Works_component_useStyle_5r3kDX9lHSI = () => import("./example_reg_ctx_name_segments_hoisted.tsx_Works_component_useStyle_5r3kDX9lHSI.js");
+const i_Works_component_div_onClick_server_ljLO32E0X1w = () => import("./example_reg_ctx_name_segments_hoisted.tsx_Works_component_div_onClick_server_ljLO32E0X1w.js");
+const i_Works_component_QtxQU1Oe5cE = () => import("./example_reg_ctx_name_segments_hoisted.tsx_Works_component_QtxQU1Oe5cE.js");
+export const Works = componentQrl(qrl(i_Works_component_QtxQU1Oe5cE, "Works_component_QtxQU1Oe5cE"));
 const STYLES = ".class {}";
 
 
@@ -83,9 +86,9 @@ None
 
 import { _jsxSorted, qrl, serverQrl, useStyleQrl } from "@qwik.dev/core";
 export const Works_component_QtxQU1Oe5cE = (props) => {
-	useStyleQrl(qrl(() => import("./example_reg_ctx_name_segments_hoisted.tsx_Works_component_useStyle_5r3kDX9lHSI.js"), "Works_component_useStyle_5r3kDX9lHSI"));
-	const text = useStyleQrl(qrl(() => import("./example_reg_ctx_name_segments_hoisted.tsx_Works_component_useStyle_5r3kDX9lHSI.js"), "Works_component_useStyle_5r3kDX9lHSI"));
-	return /*#__PURE__*/ _jsxSorted("div", { on:click: serverQrl(qrl(() => import("./example_reg_ctx_name_segments_hoisted.tsx_Works_component_div_onClick_server_ljLO32E0X1w.js"), "Works_component_div_onClick_server_ljLO32E0X1w", [text])) }, null, null, 3, null);
+	useStyleQrl(qrl(i_Works_component_useStyle_5r3kDX9lHSI, "Works_component_useStyle_5r3kDX9lHSI"));
+	const text = useStyleQrl(qrl(i_Works_component_useStyle_5r3kDX9lHSI, "Works_component_useStyle_5r3kDX9lHSI"));
+	return /*#__PURE__*/ _jsxSorted("div", { on:click: serverQrl(qrl(i_Works_component_div_onClick_server_ljLO32E0X1w, "Works_component_div_onClick_server_ljLO32E0X1w", [text])) }, null, null, 3, null);
 };
 
 

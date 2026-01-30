@@ -18,7 +18,8 @@ export default component$(() => {
 ============================= should_wrap_type_asserted_variables_in_template.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export default componentQrl(qrl(() => import("./should_wrap_type_asserted_variables_in_template.tsx_component_GColZQ6KlD8.js"), "component_GColZQ6KlD8"));
+const i_component_GColZQ6KlD8 = () => import("./should_wrap_type_asserted_variables_in_template.tsx_component_GColZQ6KlD8.js");
+export default componentQrl(qrl(i_component_GColZQ6KlD8, "component_GColZQ6KlD8"));
 
 
 None

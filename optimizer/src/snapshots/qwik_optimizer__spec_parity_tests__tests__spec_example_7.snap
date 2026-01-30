@@ -24,7 +24,7 @@ const App = component$(() => {
 import { qrl } from "@qwik.dev/core";
 export const Header_component_MNYlMdDxJgA = () => {
 	console.log("mount");
-	return <div onClick={qrl(() => import("./example_7.tsx_Header_component_div_onClick_cfzN1tp7ONI.js"), "Header_component_div_onClick_cfzN1tp7ONI")} />;
+	return <div onClick={qrl(i_Header_component_div_onClick_cfzN1tp7ONI, "Header_component_div_onClick_cfzN1tp7ONI")} />;
 };
 
 
@@ -107,8 +107,11 @@ None
 ============================= example_7.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Header = componentQrl(qrl(() => import("./example_7.tsx_Header_component_MNYlMdDxJgA.js"), "Header_component_MNYlMdDxJgA"));
-componentQrl(qrl(() => import("./example_7.tsx_App_component_MyRyLlV7VLs.js"), "App_component_MyRyLlV7VLs"));
+const i_Header_component_div_onClick_cfzN1tp7ONI = () => import("./example_7.tsx_Header_component_div_onClick_cfzN1tp7ONI.js");
+const i_Header_component_MNYlMdDxJgA = () => import("./example_7.tsx_Header_component_MNYlMdDxJgA.js");
+const i_App_component_MyRyLlV7VLs = () => import("./example_7.tsx_App_component_MyRyLlV7VLs.js");
+export const Header = componentQrl(qrl(i_Header_component_MNYlMdDxJgA, "Header_component_MNYlMdDxJgA"));
+componentQrl(qrl(i_App_component_MyRyLlV7VLs, "App_component_MyRyLlV7VLs"));
 
 
 None

@@ -84,8 +84,11 @@ None
 ============================= test_example_11.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Header = componentQrl(qrl(() => import("./test_example_11.tsx_Header_component_r6bL70De5aU.js"), "Header_component_r6bL70De5aU"));
-export const App = componentQrl(qrl(() => import("./test_example_11.tsx_App_component_Sjj92bgB1iA.js"), "App_component_Sjj92bgB1iA"));
+const i_Header_component_Header_onClick_YvUbMIjc9kI = () => import("./test_example_11.tsx_Header_component_Header_onClick_YvUbMIjc9kI.js");
+const i_Header_component_r6bL70De5aU = () => import("./test_example_11.tsx_Header_component_r6bL70De5aU.js");
+const i_App_component_Sjj92bgB1iA = () => import("./test_example_11.tsx_App_component_Sjj92bgB1iA.js");
+export const Header = componentQrl(qrl(i_Header_component_r6bL70De5aU, "Header_component_r6bL70De5aU"));
+export const App = componentQrl(qrl(i_App_component_Sjj92bgB1iA, "App_component_Sjj92bgB1iA"));
 
 
 None
@@ -96,7 +99,7 @@ import { Header } from "./test_example_11";
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 import * as dep2 from "dep2";
 export const Header_component_r6bL70De5aU = () => {
-	return _jsxSorted(Header, { onClick: qrl(() => import("./test_example_11.tsx_Header_component_Header_onClick_YvUbMIjc9kI.js"), "Header_component_Header_onClick_YvUbMIjc9kI") }, null, [dep2.stuff(), bbar()], 1, null);
+	return _jsxSorted(Header, { onClick: qrl(i_Header_component_Header_onClick_YvUbMIjc9kI, "Header_component_Header_onClick_YvUbMIjc9kI") }, null, [dep2.stuff(), bbar()], 1, null);
 };
 
 

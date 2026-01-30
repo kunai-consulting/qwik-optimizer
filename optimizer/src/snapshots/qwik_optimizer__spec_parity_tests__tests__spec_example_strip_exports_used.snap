@@ -27,7 +27,7 @@ export default component$(()=> {
 
 import { qrl, useResourceQrl } from "@qwik.dev/core";
 export const component_Eu43kjW71hU = () => {
-	useResourceQrl(qrl(() => import("./example_strip_exports_used.tsx_component_useResource_4uRQV9gHG00.js"), "component_useResource_4uRQV9gHG00"));
+	useResourceQrl(qrl(i_component_useResource_4uRQV9gHG00, "component_useResource_4uRQV9gHG00"));
 	return <div>cmp</div>;
 };
 
@@ -57,11 +57,13 @@ None
 
 import { componentQrl, qrl } from "@qwik.dev/core";
 import mongodb from "mongodb";
+const i_component_useResource_4uRQV9gHG00 = () => import("./example_strip_exports_used.tsx_component_useResource_4uRQV9gHG00.js");
+const i_component_Eu43kjW71hU = () => import("./example_strip_exports_used.tsx_component_Eu43kjW71hU.js");
 export const onGet = () => {
 	const data = mongodb.collection.whatever;
 	return { body: { data } };
 };
-export default componentQrl(qrl(() => import("./example_strip_exports_used.tsx_component_Eu43kjW71hU.js"), "component_Eu43kjW71hU"));
+export default componentQrl(qrl(i_component_Eu43kjW71hU, "component_Eu43kjW71hU"));
 
 
 None

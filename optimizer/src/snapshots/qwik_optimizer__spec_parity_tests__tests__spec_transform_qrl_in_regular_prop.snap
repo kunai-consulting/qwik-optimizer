@@ -11,7 +11,9 @@ export const Cmp = component$(() =>
 ============================= transform_qrl_in_regular_prop.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Cmp = componentQrl(qrl(() => import("./transform_qrl_in_regular_prop.tsx_Cmp_component_rPV9n5lyQaQ.js"), "Cmp_component_rPV9n5lyQaQ"));
+const i_Cmp_component_Cmp_foo_gNnB0ff9hqw = () => import("./transform_qrl_in_regular_prop.tsx_Cmp_component_Cmp_foo_gNnB0ff9hqw.js");
+const i_Cmp_component_rPV9n5lyQaQ = () => import("./transform_qrl_in_regular_prop.tsx_Cmp_component_rPV9n5lyQaQ.js");
+export const Cmp = componentQrl(qrl(i_Cmp_component_rPV9n5lyQaQ, "Cmp_component_rPV9n5lyQaQ"));
 
 
 None
@@ -19,7 +21,7 @@ None
 
 import { Cmp } from "./transform_qrl_in_regular_prop";
 import { _jsxSorted, qrl } from "@qwik.dev/core";
-export const Cmp_component_rPV9n5lyQaQ = () => _jsxSorted(Cmp, { foo: qrl(() => import("./transform_qrl_in_regular_prop.tsx_Cmp_component_Cmp_foo_gNnB0ff9hqw.js"), "Cmp_component_Cmp_foo_gNnB0ff9hqw") }, null, "Hello Qwik", 3, null);
+export const Cmp_component_rPV9n5lyQaQ = () => _jsxSorted(Cmp, { foo: qrl(i_Cmp_component_Cmp_foo_gNnB0ff9hqw, "Cmp_component_Cmp_foo_gNnB0ff9hqw") }, null, "Hello Qwik", 3, null);
 
 
 None

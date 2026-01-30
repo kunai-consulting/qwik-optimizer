@@ -20,7 +20,7 @@ import { qrl } from "@qwik.dev/core";
 export const Header_component_9xoomCP7HLY = () => {
 	return <>
 			<div onClick={(ctx) => console.log("1")} />
-			<div onClick={qrl(() => import("./example_5.tsx_Header_component_div_onClick_dK0rWI5Qkd8.js"), "Header_component_div_onClick_dK0rWI5Qkd8")} />
+			<div onClick={qrl(i_Header_component_div_onClick_dK0rWI5Qkd8, "Header_component_div_onClick_dK0rWI5Qkd8")} />
 		</>;
 };
 
@@ -49,7 +49,9 @@ None
 ============================= example_5.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Header = componentQrl(qrl(() => import("./example_5.tsx_Header_component_9xoomCP7HLY.js"), "Header_component_9xoomCP7HLY"));
+const i_Header_component_div_onClick_dK0rWI5Qkd8 = () => import("./example_5.tsx_Header_component_div_onClick_dK0rWI5Qkd8.js");
+const i_Header_component_9xoomCP7HLY = () => import("./example_5.tsx_Header_component_9xoomCP7HLY.js");
+export const Header = componentQrl(qrl(i_Header_component_9xoomCP7HLY, "Header_component_9xoomCP7HLY"));
 
 
 None

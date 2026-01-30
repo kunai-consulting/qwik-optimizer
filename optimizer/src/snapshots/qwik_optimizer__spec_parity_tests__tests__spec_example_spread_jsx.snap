@@ -40,10 +40,11 @@ export const RouterHead = component$(() => {
 ============================= example_spread_jsx.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
+const i_RouterHead_component_OZcRPueNFXg = () => import("./example_spread_jsx.tsx_RouterHead_component_OZcRPueNFXg.js");
 /**
 * The RouterHead component is placed inside of the document `<head>` element.
 */
-export const RouterHead = componentQrl(qrl(() => import("./example_spread_jsx.tsx_RouterHead_component_OZcRPueNFXg.js"), "RouterHead_component_OZcRPueNFXg"));
+export const RouterHead = componentQrl(qrl(i_RouterHead_component_OZcRPueNFXg, "RouterHead_component_OZcRPueNFXg"));
 
 
 None

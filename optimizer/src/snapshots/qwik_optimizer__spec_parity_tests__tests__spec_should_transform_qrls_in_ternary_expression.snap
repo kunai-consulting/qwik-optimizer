@@ -30,7 +30,10 @@ export const FieldInput = component$(() => {
 ============================= should_transform_qrls_in_ternary_expression.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const FieldInput = componentQrl(qrl(() => import("./should_transform_qrls_in_ternary_expression.tsx_FieldInput_component_UpjUSe16JYE.js"), "FieldInput_component_UpjUSe16JYE"));
+const i_FieldInput_component_input_onInput_1_nr72jKD0uZI = () => import("./should_transform_qrls_in_ternary_expression.tsx_FieldInput_component_input_onInput_1_nr72jKD0uZI.js");
+const i_FieldInput_component_input_onFocus = () => import("./should_transform_qrls_in_ternary_expression.tsx.js");
+const i_FieldInput_component_UpjUSe16JYE = () => import("./should_transform_qrls_in_ternary_expression.tsx_FieldInput_component_UpjUSe16JYE.js");
+export const FieldInput = componentQrl(qrl(i_FieldInput_component_UpjUSe16JYE, "FieldInput_component_UpjUSe16JYE"));
 
 
 None
@@ -41,8 +44,8 @@ export const FieldInput_component_UpjUSe16JYE = () => {
 	const enabled = useSignal(false);
 	const input = useSignal("");
 	return /*#__PURE__*/ _jsxSorted("input", {
-		on:input: qrl(() => import("./should_transform_qrls_in_ternary_expression.tsx_FieldInput_component_input_onInput_1_nr72jKD0uZI.js"), "FieldInput_component_input_onInput_1_nr72jKD0uZI", [input]),
-		on:focus: qrl(() => import("./should_transform_qrls_in_ternary_expression.tsx.js"), "FieldInput_component_input_onFocus", [enabled])
+		on:input: qrl(i_FieldInput_component_input_onInput_1_nr72jKD0uZI, "FieldInput_component_input_onInput_1_nr72jKD0uZI", [input]),
+		on:focus: qrl(i_FieldInput_component_input_onFocus, "FieldInput_component_input_onFocus", [enabled])
 	}, { id: "input" }, null, 3, null);
 };
 

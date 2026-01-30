@@ -20,7 +20,7 @@ export function App() {
 import { qrl } from "@qwik.dev/core";
 export const App_Header_component_fyc0O3FxmAw = () => {
 	console.log("mount");
-	return <div onClick={qrl(() => import("./example_4.tsx_App_Header_component_div_onClick_BF5LfTjlx04.js"), "App_Header_component_div_onClick_BF5LfTjlx04")} />;
+	return <div onClick={qrl(i_App_Header_component_div_onClick_BF5LfTjlx04, "App_Header_component_div_onClick_BF5LfTjlx04")} />;
 };
 
 
@@ -48,8 +48,10 @@ None
 ============================= example_4.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
+const i_App_Header_component_div_onClick_BF5LfTjlx04 = () => import("./example_4.tsx_App_Header_component_div_onClick_BF5LfTjlx04.js");
+const i_App_Header_component_fyc0O3FxmAw = () => import("./example_4.tsx_App_Header_component_fyc0O3FxmAw.js");
 export function App() {
-	const Header = componentQrl(qrl(() => import("./example_4.tsx_App_Header_component_fyc0O3FxmAw.js"), "App_Header_component_fyc0O3FxmAw"));
+	const Header = componentQrl(qrl(i_App_Header_component_fyc0O3FxmAw, "App_Header_component_fyc0O3FxmAw"));
 	return Header;
 }
 

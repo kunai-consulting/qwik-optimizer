@@ -50,7 +50,7 @@ None
 
 import { qrl } from "@qwik.dev/core";
 export const Foo_component_zD2Kf7z5p2c = () => {
-	return qrl(() => import("./example_with_tagname.tsx_Foo_component_1_fOrH9o2dCAs.js"), "Foo_component_1_fOrH9o2dCAs");
+	return qrl(i_Foo_component_1_fOrH9o2dCAs, "Foo_component_1_fOrH9o2dCAs");
 };
 
 
@@ -78,7 +78,9 @@ None
 ============================= example_with_tagname.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Foo = componentQrl(qrl(() => import("./example_with_tagname.tsx_Foo_component_zD2Kf7z5p2c.js"), "Foo_component_zD2Kf7z5p2c"));
+const i_Foo_component_1_fOrH9o2dCAs = () => import("./example_with_tagname.tsx_Foo_component_1_fOrH9o2dCAs.js");
+const i_Foo_component_zD2Kf7z5p2c = () => import("./example_with_tagname.tsx_Foo_component_zD2Kf7z5p2c.js");
+export const Foo = componentQrl(qrl(i_Foo_component_zD2Kf7z5p2c, "Foo_component_zD2Kf7z5p2c"));
 
 
 None

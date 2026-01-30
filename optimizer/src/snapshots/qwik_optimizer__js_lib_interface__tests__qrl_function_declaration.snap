@@ -47,8 +47,9 @@ None
 ============================= test_qrl_function_declaration.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
+const i_Counter_component_87M60GhSi7M = () => import("./test_qrl_function_declaration.tsx_Counter_component_87M60GhSi7M.js");
 // Function declaration component$ - transforms correctly
-export const Counter = componentQrl(qrl(() => import("./test_qrl_function_declaration.tsx_Counter_component_87M60GhSi7M.js"), "Counter_component_87M60GhSi7M"));
+export const Counter = componentQrl(qrl(i_Counter_component_87M60GhSi7M, "Counter_component_87M60GhSi7M"));
 
 
 None

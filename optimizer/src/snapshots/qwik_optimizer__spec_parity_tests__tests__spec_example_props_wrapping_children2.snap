@@ -24,7 +24,8 @@ export const Works = component$((props) => {
 ============================= example_props_wrapping_children2.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Works = componentQrl(qrl(() => import("./example_props_wrapping_children2.tsx_Works_component_X6FZK0kqFbo.js"), "Works_component_X6FZK0kqFbo"));
+const i_Works_component_X6FZK0kqFbo = () => import("./example_props_wrapping_children2.tsx_Works_component_X6FZK0kqFbo.js");
+export const Works = componentQrl(qrl(i_Works_component_X6FZK0kqFbo, "Works_component_X6FZK0kqFbo"));
 
 
 None

@@ -53,7 +53,7 @@ None
 
 import { qrl, useMountQrl } from "@qwik.dev/core";
 export const Foo_component_yiE4DocFe28 = ({ foo }) => {
-	useMountQrl(qrl(() => import("./example_dead_code.tsx_Foo_component_useMount_bckiP6BHXl4.js"), "Foo_component_useMount_bckiP6BHXl4"));
+	useMountQrl(qrl(i_Foo_component_useMount_bckiP6BHXl4, "Foo_component_useMount_bckiP6BHXl4"));
 	return <div />;
 };
 
@@ -82,7 +82,9 @@ None
 ============================= example_dead_code.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Foo = componentQrl(qrl(() => import("./example_dead_code.tsx_Foo_component_yiE4DocFe28.js"), "Foo_component_yiE4DocFe28"));
+const i_Foo_component_useMount_bckiP6BHXl4 = () => import("./example_dead_code.tsx_Foo_component_useMount_bckiP6BHXl4.js");
+const i_Foo_component_yiE4DocFe28 = () => import("./example_dead_code.tsx_Foo_component_yiE4DocFe28.js");
+export const Foo = componentQrl(qrl(i_Foo_component_yiE4DocFe28, "Foo_component_yiE4DocFe28"));
 
 
 None

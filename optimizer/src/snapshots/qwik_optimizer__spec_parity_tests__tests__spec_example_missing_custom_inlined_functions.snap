@@ -83,10 +83,13 @@ None
 ============================= example_missing_custom_inlined_functions.tsx ==
 
 import { componentQrl, qrl, useEffect } from "@qwik.dev/core";
+const i_App_component_useMemo_jvO9s7EZUaU = () => import("./example_missing_custom_inlined_functions.tsx_App_component_useMemo_jvO9s7EZUaU.js");
+const i_App_component_1_D70utzYiwQM = () => import("./example_missing_custom_inlined_functions.tsx_App_component_1_D70utzYiwQM.js");
+const i_App_component_B8OmZlkJeO4 = () => import("./example_missing_custom_inlined_functions.tsx_App_component_B8OmZlkJeO4.js");
 export const useMemo$ = (qrt) => {
 	useEffect(qrt);
 };
-export const App = componentQrl(qrl(() => import("./example_missing_custom_inlined_functions.tsx_App_component_B8OmZlkJeO4.js"), "App_component_B8OmZlkJeO4"));
+export const App = componentQrl(qrl(i_App_component_B8OmZlkJeO4, "App_component_B8OmZlkJeO4"));
 
 
 None
@@ -95,8 +98,8 @@ None
 import { qrl, useMemoQrl, useStore } from "@qwik.dev/core";
 export const App_component_B8OmZlkJeO4 = (props) => {
 	const state = useStore({ count: 0 });
-	useMemoQrl(qrl(() => import("./example_missing_custom_inlined_functions.tsx_App_component_useMemo_jvO9s7EZUaU.js"), "App_component_useMemo_jvO9s7EZUaU", [state]));
-	return qrl(() => import("./example_missing_custom_inlined_functions.tsx_App_component_1_D70utzYiwQM.js"), "App_component_1_D70utzYiwQM", [state]);
+	useMemoQrl(qrl(i_App_component_useMemo_jvO9s7EZUaU, "App_component_useMemo_jvO9s7EZUaU", [state]));
+	return qrl(i_App_component_1_D70utzYiwQM, "App_component_1_D70utzYiwQM", [state]);
 };
 
 

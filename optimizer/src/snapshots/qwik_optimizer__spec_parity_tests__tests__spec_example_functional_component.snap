@@ -17,7 +17,8 @@ const Header = component$(() => {
 ============================= example_functional_component.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-componentQrl(qrl(() => import("./example_functional_component.tsx_Header_component_OWytcDw2r0M.js"), "Header_component_OWytcDw2r0M"));
+const i_Header_component_OWytcDw2r0M = () => import("./example_functional_component.tsx_Header_component_OWytcDw2r0M.js");
+componentQrl(qrl(i_Header_component_OWytcDw2r0M, "Header_component_OWytcDw2r0M"));
 
 
 None

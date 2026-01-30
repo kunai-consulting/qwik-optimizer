@@ -26,7 +26,7 @@ export const FieldInput_component_vW5302DrkaM = () => {
 	const localValue = useSignal(false);
 	return /*#__PURE__*/ _jsxSorted("input", null, {
 		checked: localValue,
-		on:input: [qrl(() => import("./should_merge_on_input_and_bind_checked.tsx.js"), "FieldInput_component_input_onInput"), inlinedQrl(_chk, "_chk", [localValue])]
+		on:input: [qrl(i_FieldInput_component_input_onInput, "FieldInput_component_input_onInput"), inlinedQrl(_chk, "_chk", [localValue])]
 	}, null, 3, null);
 };
 
@@ -55,7 +55,9 @@ None
 ============================= should_merge_on_input_and_bind_checked.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const FieldInput = componentQrl(qrl(() => import("./should_merge_on_input_and_bind_checked.tsx_FieldInput_component_vW5302DrkaM.js"), "FieldInput_component_vW5302DrkaM"));
+const i_FieldInput_component_input_onInput = () => import("./should_merge_on_input_and_bind_checked.tsx.js");
+const i_FieldInput_component_vW5302DrkaM = () => import("./should_merge_on_input_and_bind_checked.tsx_FieldInput_component_vW5302DrkaM.js");
+export const FieldInput = componentQrl(qrl(i_FieldInput_component_vW5302DrkaM, "FieldInput_component_vW5302DrkaM"));
 
 
 None

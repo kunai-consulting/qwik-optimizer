@@ -58,9 +58,10 @@ None
 ============================= should_destructure_args.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
+const i_component_GlftmZLvuro = () => import("./should_destructure_args.tsx_component_GlftmZLvuro.js");
 // the count results in _fnSignal because of the rename
 // would be nice to consider it a prop too
-export default componentQrl(qrl(() => import("./should_destructure_args.tsx_component_GlftmZLvuro.js"), "component_GlftmZLvuro"));
+export default componentQrl(qrl(i_component_GlftmZLvuro, "component_GlftmZLvuro"));
 
 
 None

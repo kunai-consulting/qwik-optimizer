@@ -45,8 +45,8 @@ None
 
 import { qrl, useStylesQrl } from "@qwik.dev/core";
 export const App_component_EHzZzwApBG8 = () => {
-	useStylesQrl(qrl(() => import("./example_capture_imports.tsx_App_component_useStyles_GQA9FLpe80g.js"), "App_component_useStyles_GQA9FLpe80g"));
-	useStylesQrl(qrl(() => import("./example_capture_imports.tsx_App_component_useStyles_1_9LwUIzydJiQ.js"), "App_component_useStyles_1_9LwUIzydJiQ"));
+	useStylesQrl(qrl(i_App_component_useStyles_GQA9FLpe80g, "App_component_useStyles_GQA9FLpe80g"));
+	useStylesQrl(qrl(i_App_component_useStyles_1_9LwUIzydJiQ, "App_component_useStyles_1_9LwUIzydJiQ"));
 };
 
 
@@ -74,7 +74,10 @@ None
 ============================= example_capture_imports.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const App = componentQrl(qrl(() => import("./example_capture_imports.tsx_App_component_EHzZzwApBG8.js"), "App_component_EHzZzwApBG8"));
+const i_App_component_useStyles_GQA9FLpe80g = () => import("./example_capture_imports.tsx_App_component_useStyles_GQA9FLpe80g.js");
+const i_App_component_useStyles_1_9LwUIzydJiQ = () => import("./example_capture_imports.tsx_App_component_useStyles_1_9LwUIzydJiQ.js");
+const i_App_component_EHzZzwApBG8 = () => import("./example_capture_imports.tsx_App_component_EHzZzwApBG8.js");
+export const App = componentQrl(qrl(i_App_component_EHzZzwApBG8, "App_component_EHzZzwApBG8"));
 
 
 None

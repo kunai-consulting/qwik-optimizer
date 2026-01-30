@@ -20,8 +20,8 @@ return 'hi'
 
 import { qrl, useComputedQrl, useTaskQrl } from "@qwik.dev/core";
 export const component_UMFYvVLY3Ag = ({ color, ...props }) => {
-	useComputedQrl(qrl(() => import("./should_not_generate_conflicting_props_identifiers.tsx_component_useComputed_j8lk3YMX3JM.js"), "component_useComputed_j8lk3YMX3JM"));
-	useTaskQrl(qrl(() => import("./should_not_generate_conflicting_props_identifiers.tsx_component_useTask_oXN0dRzaV0w.js"), "component_useTask_oXN0dRzaV0w"));
+	useComputedQrl(qrl(i_component_useComputed_j8lk3YMX3JM, "component_useComputed_j8lk3YMX3JM"));
+	useTaskQrl(qrl(i_component_useTask_oXN0dRzaV0w, "component_useTask_oXN0dRzaV0w"));
 	return "hi";
 };
 
@@ -104,7 +104,10 @@ None
 ============================= should_not_generate_conflicting_props_identifiers.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export default componentQrl(qrl(() => import("./should_not_generate_conflicting_props_identifiers.tsx_component_UMFYvVLY3Ag.js"), "component_UMFYvVLY3Ag"));
+const i_component_useComputed_j8lk3YMX3JM = () => import("./should_not_generate_conflicting_props_identifiers.tsx_component_useComputed_j8lk3YMX3JM.js");
+const i_component_useTask_oXN0dRzaV0w = () => import("./should_not_generate_conflicting_props_identifiers.tsx_component_useTask_oXN0dRzaV0w.js");
+const i_component_UMFYvVLY3Ag = () => import("./should_not_generate_conflicting_props_identifiers.tsx_component_UMFYvVLY3Ag.js");
+export default componentQrl(qrl(i_component_UMFYvVLY3Ag, "component_UMFYvVLY3Ag"));
 
 
 None

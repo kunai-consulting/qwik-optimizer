@@ -27,7 +27,8 @@ export const App = component$(() => {
 ============================= example_derived_signals_complext_children.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const App = componentQrl(qrl(() => import("./example_derived_signals_complext_children.tsx_App_component_yxEQp0XEDYE.js"), "App_component_yxEQp0XEDYE"));
+const i_App_component_yxEQp0XEDYE = () => import("./example_derived_signals_complext_children.tsx_App_component_yxEQp0XEDYE.js");
+export const App = componentQrl(qrl(i_App_component_yxEQp0XEDYE, "App_component_yxEQp0XEDYE"));
 
 
 None

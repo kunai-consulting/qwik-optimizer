@@ -21,7 +21,9 @@ export const Counter = component$(() => {
 ============================= lib_mode_fn_signal.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Counter = componentQrl(qrl(() => import("./lib_mode_fn_signal.tsx_Counter_component_nfMWfpwGvuE.js"), "Counter_component_nfMWfpwGvuE"));
+const i_Counter_component_div_p_button_onClick = () => import("./lib_mode_fn_signal.tsx.js");
+const i_Counter_component_nfMWfpwGvuE = () => import("./lib_mode_fn_signal.tsx_Counter_component_nfMWfpwGvuE.js");
+export const Counter = componentQrl(qrl(i_Counter_component_nfMWfpwGvuE, "Counter_component_nfMWfpwGvuE"));
 
 
 None
@@ -30,7 +32,7 @@ None
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 export const Counter_component_nfMWfpwGvuE = () => {
 	const count = useSignal(0);
-	return /*#__PURE__*/ _jsxSorted("div", null, null, [/*#__PURE__*/ _jsxSorted("p", null, null, ["Count:", _wrapProp(count)], 1, null), /*#__PURE__*/ _jsxSorted("p", null, null, /*#__PURE__*/ _jsxSorted("button", { on:click: qrl(() => import("./lib_mode_fn_signal.tsx.js"), "Counter_component_div_p_button_onClick", [count]) }, null, "Increment", 3, null), 3, null)], 3, null);
+	return /*#__PURE__*/ _jsxSorted("div", null, null, [/*#__PURE__*/ _jsxSorted("p", null, null, ["Count:", _wrapProp(count)], 1, null), /*#__PURE__*/ _jsxSorted("p", null, null, /*#__PURE__*/ _jsxSorted("button", { on:click: qrl(i_Counter_component_div_p_button_onClick, "Counter_component_div_p_button_onClick", [count]) }, null, "Increment", 3, null), 3, null)], 3, null);
 };
 
 

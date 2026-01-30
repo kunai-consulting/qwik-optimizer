@@ -62,7 +62,8 @@ None
 ============================= example_props_wrapping_children.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Works = componentQrl(qrl(() => import("./example_props_wrapping_children.tsx_Works_component_LrfB2f8y0FQ.js"), "Works_component_LrfB2f8y0FQ"));
+const i_Works_component_LrfB2f8y0FQ = () => import("./example_props_wrapping_children.tsx_Works_component_LrfB2f8y0FQ.js");
+export const Works = componentQrl(qrl(i_Works_component_LrfB2f8y0FQ, "Works_component_LrfB2f8y0FQ"));
 
 
 None

@@ -10,7 +10,8 @@ export const Greeter = component$(() => <div/>)
 ============================= components\apps\apps.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-export const Greeter = componentQrl(qrl(() => import("./components\\apps\\apps.tsx_Greeter_component_Q7eEoxaolmI.js"), "Greeter_component_Q7eEoxaolmI"));
+const i_Greeter_component_Q7eEoxaolmI = () => import("./components\\apps\\apps.tsx_Greeter_component_Q7eEoxaolmI.js");
+export const Greeter = componentQrl(qrl(i_Greeter_component_Q7eEoxaolmI, "Greeter_component_Q7eEoxaolmI"));
 
 
 None
