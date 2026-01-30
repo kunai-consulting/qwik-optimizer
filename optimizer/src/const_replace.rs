@@ -1,20 +1,42 @@
-//! Const replacement for SSR/build mode identifiers.
+//! # SSR & Build Mode Const Replacement
 //!
-//! Replaces `isServer`, `isBrowser`, and `isDev` identifiers with their
-//! boolean literal values based on build configuration. This enables
-//! bundlers (Vite/Rollup) to perform dead code elimination on conditional
-//! server/client code.
+//! This module implements const replacement for SSR/build mode identifiers,
+//! satisfying the following requirements:
 //!
-//! Example transformation (is_server=true):
-//! ```js
-//! // Input
+//! - **SSR-01**: isServer const replaced correctly based on build target
+//! - **SSR-02**: isDev const replaced correctly based on build mode
+//! - **SSR-03**: Server-only code marked for elimination (if(false) pattern)
+//! - **SSR-04**: Client-only code marked for elimination (if(false) pattern)
+//! - **SSR-05**: Mode-specific transformations apply correctly
+//!
+//! ## How It Works
+//!
+//! 1. Imports are collected to track which local identifiers map to isServer/isBrowser/isDev
+//! 2. ConstReplacerVisitor replaces those identifiers with boolean literals
+//! 3. Downstream bundler (Vite/Rollup) performs dead code elimination on if(true)/if(false)
+//!
+//! ## Configuration
+//!
+//! - `TransformOptions.is_server`: true for server build, false for client build
+//! - `TransformOptions.target`: Dev/Prod/Lib/Test - affects isDev value
+//! - Const replacement is skipped in Test mode (matching SWC behavior)
+//!
+//! ## Example Transformation
+//!
+//! ```text
+//! // Input (server build, is_server=true)
 //! import { isServer } from '@qwik.dev/core/build';
 //! if (isServer) { serverOnlyCode(); }
 //!
 //! // Output
 //! if (true) { serverOnlyCode(); }
-//! // Bundler then eliminates: { serverOnlyCode(); }
+//! // Bundler then eliminates the unreachable branch
 //! ```
+//!
+//! ## Supported Import Sources
+//!
+//! - `@qwik.dev/core/build` (primary source for build constants)
+//! - `@qwik.dev/core` (also supports these exports)
 
 use crate::component::{IS_BROWSER, IS_DEV, IS_SERVER, QWIK_CORE_BUILD, QWIK_CORE_SOURCE};
 use crate::transform::ImportTracker;
