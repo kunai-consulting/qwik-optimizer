@@ -20,12 +20,12 @@ export const Header = component$(() => {
 });
 
 
-============================= ./test_example_7.tsx_Header_component_xTg8ybJIykU.tsx (ENTRY POINT)==
+============================= test_example_7.tsx_Header_component_xTg8ybJIykU.tsx (ENTRY POINT)==
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
-export const Header_component_xTg8ybJIykU = () => {
+export const Header_component_xTg8ybJIykU = ()=>{
 	console.log("mount");
-	return /*#__PURE__*/ _jsxSorted("div", { onClick: qrl(i_Header_component_div_onClick_Ax6FIlRjtFQ, "Header_component_div_onClick_Ax6FIlRjtFQ") }, null, null, 3, null);
+	return /*#__PURE__*/ _jsxSorted("div", { onClick: qrl(i_Ax6FIlRjtFQ, "Header_component_div_onClick_Ax6FIlRjtFQ") }, null, null, 3, null);
 };
 
 
@@ -50,9 +50,9 @@ None
   ]
 }
 */
-============================= ./test_example_7.tsx_Header_component_div_onClick_Ax6FIlRjtFQ.tsx (ENTRY POINT)==
+============================= test_example_7.tsx_Header_component_div_onClick_Ax6FIlRjtFQ.tsx (ENTRY POINT)==
 
-export const Header_component_div_onClick_Ax6FIlRjtFQ = (ctx) => console.log(ctx);
+export const Header_component_div_onClick_Ax6FIlRjtFQ = (ctx)=>console.log(ctx);
 
 
 None
@@ -79,19 +79,19 @@ None
 ============================= test_example_7.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Header_component_div_onClick_Ax6FIlRjtFQ = () => import("./test_example_7.tsx_Header_component_div_onClick_Ax6FIlRjtFQ");
-const i_Header_component_xTg8ybJIykU = () => import("./test_example_7.tsx_Header_component_xTg8ybJIykU");
-const i_App_component_kMTyqu9vcH4 = () => import("./test_example_7.tsx_App_component_kMTyqu9vcH4");
-export const Header = componentQrl(qrl(i_Header_component_xTg8ybJIykU, "Header_component_xTg8ybJIykU"));
-componentQrl(qrl(i_App_component_kMTyqu9vcH4, "App_component_kMTyqu9vcH4"));
+const i_Ax6FIlRjtFQ = ()=>import("./test_example_7.tsx_Header_component_div_onClick_Ax6FIlRjtFQ");
+const i_xTg8ybJIykU = ()=>import("./test_example_7.tsx_Header_component_xTg8ybJIykU");
+const i_kMTyqu9vcH4 = ()=>import("./test_example_7.tsx_App_component_kMTyqu9vcH4");
+export const Header = componentQrl(qrl(i_xTg8ybJIykU, "Header_component_xTg8ybJIykU"));
+componentQrl(qrl(i_kMTyqu9vcH4, "App_component_kMTyqu9vcH4"));
 
 
 None
-============================= ./test_example_7.tsx_App_component_kMTyqu9vcH4.tsx (ENTRY POINT)==
+============================= test_example_7.tsx_App_component_kMTyqu9vcH4.tsx (ENTRY POINT)==
 
 import { Header } from "./test_example_7";
 import { _jsxSorted } from "@qwik.dev/core";
-export const App_component_kMTyqu9vcH4 = () => {
+export const App_component_kMTyqu9vcH4 = ()=>{
 	return _jsxSorted(Header, null, null, null, 3, null);
 };
 

@@ -21,10 +21,10 @@ export const App = component$(() => {
         )
     });
 })
-============================= ./test_example_capturing_fn_class.jsx_App_component_1_sEJrlBvQHzk.js (ENTRY POINT)==
+============================= test_example_capturing_fn_class.jsx_App_component_1_sEJrlBvQHzk.js (ENTRY POINT)==
 
 import { _jsxSorted } from "@qwik.dev/core";
-export const App_component_1_sEJrlBvQHzk = () => {
+export const App_component_1_sEJrlBvQHzk = ()=>{
 	hola();
 	new Thing();
 	return /*#__PURE__*/ _jsxSorted("div", null, null, null, 3, null);
@@ -52,11 +52,11 @@ None
   ]
 }
 */
-============================= ./test_example_capturing_fn_class.jsx_App_component_9Afc3zxCXkY.js (ENTRY POINT)==
+============================= test_example_capturing_fn_class.jsx_App_component_9Afc3zxCXkY.js (ENTRY POINT)==
 
 import { qrl } from "@qwik.dev/core";
-export const App_component_9Afc3zxCXkY = () => {
-	return qrl(i_App_component_1_sEJrlBvQHzk, "App_component_1_sEJrlBvQHzk");
+export const App_component_9Afc3zxCXkY = ()=>{
+	return qrl(i_sEJrlBvQHzk, "App_component_1_sEJrlBvQHzk");
 };
 
 
@@ -84,9 +84,9 @@ None
 ============================= test_example_capturing_fn_class.js ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-const i_App_component_1_sEJrlBvQHzk = () => import("./test_example_capturing_fn_class.jsx_App_component_1_sEJrlBvQHzk");
-const i_App_component_9Afc3zxCXkY = () => import("./test_example_capturing_fn_class.jsx_App_component_9Afc3zxCXkY");
-export const App = componentQrl(qrl(i_App_component_9Afc3zxCXkY, "App_component_9Afc3zxCXkY"));
+const i_sEJrlBvQHzk = ()=>import("./test_example_capturing_fn_class.jsx_App_component_1_sEJrlBvQHzk");
+const i_9Afc3zxCXkY = ()=>import("./test_example_capturing_fn_class.jsx_App_component_9Afc3zxCXkY");
+export const App = componentQrl(qrl(i_9Afc3zxCXkY, "App_component_9Afc3zxCXkY"));
 
 
 None

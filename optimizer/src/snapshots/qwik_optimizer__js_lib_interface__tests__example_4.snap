@@ -15,9 +15,9 @@ export function App() {
     return Header;
 }
 
-============================= ./test_example_4.tsx_App_Header_component_div_onClick_DQ3EcJvovFI.tsx (ENTRY POINT)==
+============================= test_example_4.tsx_App_Header_component_div_onClick_DQ3EcJvovFI.tsx (ENTRY POINT)==
 
-export const App_Header_component_div_onClick_DQ3EcJvovFI = (ctx) => console.log(ctx);
+export const App_Header_component_div_onClick_DQ3EcJvovFI = (ctx)=>console.log(ctx);
 
 
 None
@@ -41,12 +41,12 @@ None
   ]
 }
 */
-============================= ./test_example_4.tsx_App_Header_component_UNhMB0Ezxn0.tsx (ENTRY POINT)==
+============================= test_example_4.tsx_App_Header_component_UNhMB0Ezxn0.tsx (ENTRY POINT)==
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
-export const App_Header_component_UNhMB0Ezxn0 = () => {
+export const App_Header_component_UNhMB0Ezxn0 = ()=>{
 	console.log("mount");
-	return /*#__PURE__*/ _jsxSorted("div", { onClick: qrl(i_App_Header_component_div_onClick_DQ3EcJvovFI, "App_Header_component_div_onClick_DQ3EcJvovFI") }, null, null, 3, null);
+	return /*#__PURE__*/ _jsxSorted("div", { onClick: qrl(i_DQ3EcJvovFI, "App_Header_component_div_onClick_DQ3EcJvovFI") }, null, null, 3, null);
 };
 
 
@@ -74,10 +74,10 @@ None
 ============================= test_example_4.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-const i_App_Header_component_div_onClick_DQ3EcJvovFI = () => import("./test_example_4.tsx_App_Header_component_div_onClick_DQ3EcJvovFI");
-const i_App_Header_component_UNhMB0Ezxn0 = () => import("./test_example_4.tsx_App_Header_component_UNhMB0Ezxn0");
+const i_DQ3EcJvovFI = ()=>import("./test_example_4.tsx_App_Header_component_div_onClick_DQ3EcJvovFI");
+const i_UNhMB0Ezxn0 = ()=>import("./test_example_4.tsx_App_Header_component_UNhMB0Ezxn0");
 export function App() {
-	const Header = componentQrl(qrl(i_App_Header_component_UNhMB0Ezxn0, "App_Header_component_UNhMB0Ezxn0"));
+	const Header = componentQrl(qrl(i_UNhMB0Ezxn0, "App_Header_component_UNhMB0Ezxn0"));
 	return Header;
 }
 

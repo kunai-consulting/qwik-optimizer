@@ -19,18 +19,18 @@ export const App = () => {
 ============================= test_example_ts.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-const i_App_Header_component_div_onClick_heZI5duJilM = () => import("./test_example_ts.tsx_App_Header_component_div_onClick_heZI5duJilM");
-const i_App_Header_component_IcZnKqyst0A = () => import("./test_example_ts.tsx_App_Header_component_IcZnKqyst0A");
-export const App = () => {
-	const Header = componentQrl(qrl(i_App_Header_component_IcZnKqyst0A, "App_Header_component_IcZnKqyst0A"));
+const i_heZI5duJilM = ()=>import("./test_example_ts.tsx_App_Header_component_div_onClick_heZI5duJilM");
+const i_IcZnKqyst0A = ()=>import("./test_example_ts.tsx_App_Header_component_IcZnKqyst0A");
+export const App = ()=>{
+	const Header = componentQrl(qrl(i_IcZnKqyst0A, "App_Header_component_IcZnKqyst0A"));
 	return Header;
 };
 
 
 None
-============================= ./test_example_ts.tsx_App_Header_component_div_onClick_heZI5duJilM.tsx (ENTRY POINT)==
+============================= test_example_ts.tsx_App_Header_component_div_onClick_heZI5duJilM.tsx (ENTRY POINT)==
 
-export const App_Header_component_div_onClick_heZI5duJilM = (ctx) => console.log(ctx);
+export const App_Header_component_div_onClick_heZI5duJilM = (ctx)=>console.log(ctx);
 
 
 None
@@ -54,12 +54,12 @@ None
   ]
 }
 */
-============================= ./test_example_ts.tsx_App_Header_component_IcZnKqyst0A.tsx (ENTRY POINT)==
+============================= test_example_ts.tsx_App_Header_component_IcZnKqyst0A.tsx (ENTRY POINT)==
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
-export const App_Header_component_IcZnKqyst0A = () => {
+export const App_Header_component_IcZnKqyst0A = ()=>{
 	console.log("mount");
-	return /*#__PURE__*/ _jsxSorted("div", { onClick: qrl(i_App_Header_component_div_onClick_heZI5duJilM, "App_Header_component_div_onClick_heZI5duJilM") }, null, null, 3, null);
+	return /*#__PURE__*/ _jsxSorted("div", { onClick: qrl(i_heZI5duJilM, "App_Header_component_div_onClick_heZI5duJilM") }, null, null, 3, null);
 };
 
 

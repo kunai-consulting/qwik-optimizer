@@ -19,9 +19,9 @@ const renderHeader = component($(() => {
     return render;
 }));
 
-============================= ./test_example_1.tsx_renderHeader_component_l1SEbA0PBzg.tsx (ENTRY POINT)==
+============================= test_example_1.tsx_renderHeader_component_l1SEbA0PBzg.tsx (ENTRY POINT)==
 
-export const renderHeader_component_l1SEbA0PBzg = () => {
+export const renderHeader_component_l1SEbA0PBzg = ()=>{
 	console.log("mount");
 	return render;
 };
@@ -48,11 +48,11 @@ None
   ]
 }
 */
-============================= ./test_example_1.tsx_renderHeader_ZgC5rsivXF0.tsx (ENTRY POINT)==
+============================= test_example_1.tsx_renderHeader_ZgC5rsivXF0.tsx (ENTRY POINT)==
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
-export const renderHeader_ZgC5rsivXF0 = () => {
-	return /*#__PURE__*/ _jsxSorted("div", { onClick: qrl(i_renderHeader_div_onClick_vU0qgjVefds, "renderHeader_div_onClick_vU0qgjVefds") }, null, null, 3, null);
+export const renderHeader_ZgC5rsivXF0 = ()=>{
+	return /*#__PURE__*/ _jsxSorted("div", { onClick: qrl(i_vU0qgjVefds, "renderHeader_div_onClick_vU0qgjVefds") }, null, null, 3, null);
 };
 
 
@@ -77,9 +77,9 @@ None
   ]
 }
 */
-============================= ./test_example_1.tsx_renderHeader_div_onClick_vU0qgjVefds.tsx (ENTRY POINT)==
+============================= test_example_1.tsx_renderHeader_div_onClick_vU0qgjVefds.tsx (ENTRY POINT)==
 
-export const renderHeader_div_onClick_vU0qgjVefds = (ctx) => console.log(ctx);
+export const renderHeader_div_onClick_vU0qgjVefds = (ctx)=>console.log(ctx);
 
 
 None
@@ -106,13 +106,13 @@ None
 ============================= test_example_1.tsx ==
 
 import { component, qrl } from "@qwik.dev/core";
-const i_renderHeader_div_onClick_vU0qgjVefds = () => import("./test_example_1.tsx_renderHeader_div_onClick_vU0qgjVefds");
-const i_renderHeader_ZgC5rsivXF0 = () => import("./test_example_1.tsx_renderHeader_ZgC5rsivXF0");
-const i_renderHeader_component_l1SEbA0PBzg = () => import("./test_example_1.tsx_renderHeader_component_l1SEbA0PBzg");
+const i_vU0qgjVefds = ()=>import("./test_example_1.tsx_renderHeader_div_onClick_vU0qgjVefds");
+const i_ZgC5rsivXF0 = ()=>import("./test_example_1.tsx_renderHeader_ZgC5rsivXF0");
+const i_l1SEbA0PBzg = ()=>import("./test_example_1.tsx_renderHeader_component_l1SEbA0PBzg");
 // @ts-ignore
-export const renderHeader = qrl(i_renderHeader_ZgC5rsivXF0, "renderHeader_ZgC5rsivXF0");
+export const renderHeader = qrl(i_ZgC5rsivXF0, "renderHeader_ZgC5rsivXF0");
 // @ts-ignore
-const renderHeader = component(qrl(i_renderHeader_component_l1SEbA0PBzg, "renderHeader_component_l1SEbA0PBzg"));
+const renderHeader = component(qrl(i_l1SEbA0PBzg, "renderHeader_component_l1SEbA0PBzg"));
 
 
 None

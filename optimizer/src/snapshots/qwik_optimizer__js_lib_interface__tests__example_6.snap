@@ -9,14 +9,14 @@ export const sym1 = $((ctx) => console.log("1"));
 ============================= test_example_6.tsx ==
 
 import { qrl } from "@qwik.dev/core";
-const i_sym1_aJjvXXEWJvU = () => import("./test_example_6.tsx_sym1_aJjvXXEWJvU");
-export const sym1 = qrl(i_sym1_aJjvXXEWJvU, "sym1_aJjvXXEWJvU");
+const i_aJjvXXEWJvU = ()=>import("./test_example_6.tsx_sym1_aJjvXXEWJvU");
+export const sym1 = qrl(i_aJjvXXEWJvU, "sym1_aJjvXXEWJvU");
 
 
 None
-============================= ./test_example_6.tsx_sym1_aJjvXXEWJvU.tsx (ENTRY POINT)==
+============================= test_example_6.tsx_sym1_aJjvXXEWJvU.tsx (ENTRY POINT)==
 
-export const sym1_aJjvXXEWJvU = (ctx) => console.log("1");
+export const sym1_aJjvXXEWJvU = (ctx)=>console.log("1");
 
 
 None

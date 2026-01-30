@@ -15,7 +15,7 @@ export const Counter = component$(function Counter() {
     );
 });
 
-============================= ./test_qrl_function_declaration.tsx_Counter_component_87M60GhSi7M.tsx (ENTRY POINT)==
+============================= test_qrl_function_declaration.tsx_Counter_component_87M60GhSi7M.tsx (ENTRY POINT)==
 
 import { _jsxSorted } from "@qwik.dev/core";
 export const Counter_component_87M60GhSi7M = function Counter() {
@@ -47,9 +47,9 @@ None
 ============================= test_qrl_function_declaration.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Counter_component_87M60GhSi7M = () => import("./test_qrl_function_declaration.tsx_Counter_component_87M60GhSi7M");
+const i_87M60GhSi7M = ()=>import("./test_qrl_function_declaration.tsx_Counter_component_87M60GhSi7M");
 // Function declaration component$ - transforms correctly
-export const Counter = componentQrl(qrl(i_Counter_component_87M60GhSi7M, "Counter_component_87M60GhSi7M"));
+export const Counter = componentQrl(qrl(i_87M60GhSi7M, "Counter_component_87M60GhSi7M"));
 
 
 None

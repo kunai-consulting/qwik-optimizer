@@ -43,11 +43,11 @@ export const Foo = component$((props) => {
 }, {
     tagName: "my-foo",
 });
-============================= ./test_example_jsx.jsx_Foo_component_pGZPkYSFNjQ.js (ENTRY POINT)==
+============================= test_example_jsx.jsx_Foo_component_pGZPkYSFNjQ.js (ENTRY POINT)==
 
 import { qrl } from "@qwik.dev/core";
-export const Foo_component_pGZPkYSFNjQ = (props) => {
-	return qrl(i_Foo_component_1_Za18NfgUnDQ, "Foo_component_1_Za18NfgUnDQ", [props]);
+export const Foo_component_pGZPkYSFNjQ = (props)=>{
+	return qrl(i_Za18NfgUnDQ, "Foo_component_1_Za18NfgUnDQ", [props]);
 };
 
 
@@ -72,12 +72,12 @@ None
   ]
 }
 */
-============================= ./test_example_jsx.jsx_Foo_component_1_Za18NfgUnDQ.js (ENTRY POINT)==
+============================= test_example_jsx.jsx_Foo_component_1_Za18NfgUnDQ.js (ENTRY POINT)==
 
 import { Lightweight } from "./test_example_jsx.jsx";
 import { _getConstProps, _getVarProps, _jsxSorted, _jsxSplit } from "@qwik.dev/core";
 import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
-export const Foo_component_1_Za18NfgUnDQ = () => {
+export const Foo_component_1_Za18NfgUnDQ = ()=>{
 	const [props] = useLexicalScope();
 	return /*#__PURE__*/ _jsxSorted("div", null, null, [
 		/*#__PURE__*/ _jsxSorted(_Fragment, null, null, [
@@ -121,12 +121,12 @@ None
 
 import { _getConstProps, _getVarProps, _jsxSorted, _jsxSplit, componentQrl, qrl } from "@qwik.dev/core";
 import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
-const i_Foo_component_1_Za18NfgUnDQ = () => import("./test_example_jsx.jsx_Foo_component_1_Za18NfgUnDQ");
-const i_Foo_component_pGZPkYSFNjQ = () => import("./test_example_jsx.jsx_Foo_component_pGZPkYSFNjQ");
-export const Lightweight = (props) => {
+const i_Za18NfgUnDQ = ()=>import("./test_example_jsx.jsx_Foo_component_1_Za18NfgUnDQ");
+const i_pGZPkYSFNjQ = ()=>import("./test_example_jsx.jsx_Foo_component_pGZPkYSFNjQ");
+export const Lightweight = (props)=>{
 	return /*#__PURE__*/ _jsxSorted("div", null, null, /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [/*#__PURE__*/ _jsxSorted("div", null, null, null, 3, null), /*#__PURE__*/ _jsxSplit("button", { ..._getVarProps(props) }, _getConstProps(props), null, 0, null)], 3, null), 3, null);
 };
-export const Foo = componentQrl(qrl(i_Foo_component_pGZPkYSFNjQ, "Foo_component_pGZPkYSFNjQ"));
+export const Foo = componentQrl(qrl(i_pGZPkYSFNjQ, "Foo_component_pGZPkYSFNjQ"));
 
 
 None

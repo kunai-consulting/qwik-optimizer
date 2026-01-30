@@ -19,9 +19,9 @@ export const handler3 = $(() => {
     console.log('handler3');
 });
 
-============================= ./test_qrl_multiple_qrls.tsx_handler1_Cd6L8bqdkhc.tsx (ENTRY POINT)==
+============================= test_qrl_multiple_qrls.tsx_handler1_Cd6L8bqdkhc.tsx (ENTRY POINT)==
 
-export const handler1_Cd6L8bqdkhc = () => {
+export const handler1_Cd6L8bqdkhc = ()=>{
 	console.log("handler1");
 };
 
@@ -50,19 +50,19 @@ None
 ============================= test_qrl_multiple_qrls.tsx ==
 
 import { qrl } from "@qwik.dev/core";
-const i_handler1_Cd6L8bqdkhc = () => import("./test_qrl_multiple_qrls.tsx_handler1_Cd6L8bqdkhc");
-const i_handler2_Af0RK0AWQpU = () => import("./test_qrl_multiple_qrls.tsx_handler2_Af0RK0AWQpU");
-const i_handler3_lMHDaYO5yf8 = () => import("./test_qrl_multiple_qrls.tsx_handler3_lMHDaYO5yf8");
+const i_Cd6L8bqdkhc = ()=>import("./test_qrl_multiple_qrls.tsx_handler1_Cd6L8bqdkhc");
+const i_Af0RK0AWQpU = ()=>import("./test_qrl_multiple_qrls.tsx_handler2_Af0RK0AWQpU");
+const i_lMHDaYO5yf8 = ()=>import("./test_qrl_multiple_qrls.tsx_handler3_lMHDaYO5yf8");
 // Multiple QRLs in same file - all get unique symbol names
-export const handler1 = qrl(i_handler1_Cd6L8bqdkhc, "handler1_Cd6L8bqdkhc");
-export const handler2 = qrl(i_handler2_Af0RK0AWQpU, "handler2_Af0RK0AWQpU");
-export const handler3 = qrl(i_handler3_lMHDaYO5yf8, "handler3_lMHDaYO5yf8");
+export const handler1 = qrl(i_Cd6L8bqdkhc, "handler1_Cd6L8bqdkhc");
+export const handler2 = qrl(i_Af0RK0AWQpU, "handler2_Af0RK0AWQpU");
+export const handler3 = qrl(i_lMHDaYO5yf8, "handler3_lMHDaYO5yf8");
 
 
 None
-============================= ./test_qrl_multiple_qrls.tsx_handler2_Af0RK0AWQpU.tsx (ENTRY POINT)==
+============================= test_qrl_multiple_qrls.tsx_handler2_Af0RK0AWQpU.tsx (ENTRY POINT)==
 
-export const handler2_Af0RK0AWQpU = () => {
+export const handler2_Af0RK0AWQpU = ()=>{
 	console.log("handler2");
 };
 
@@ -88,9 +88,9 @@ None
   ]
 }
 */
-============================= ./test_qrl_multiple_qrls.tsx_handler3_lMHDaYO5yf8.tsx (ENTRY POINT)==
+============================= test_qrl_multiple_qrls.tsx_handler3_lMHDaYO5yf8.tsx (ENTRY POINT)==
 
-export const handler3_lMHDaYO5yf8 = () => {
+export const handler3_lMHDaYO5yf8 = ()=>{
 	console.log("handler3");
 };
 

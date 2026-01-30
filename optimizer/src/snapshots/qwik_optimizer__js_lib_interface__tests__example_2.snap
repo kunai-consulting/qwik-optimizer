@@ -17,9 +17,9 @@ const renderHeader = component($(() => {
 }));
 
 
-============================= ./test_example_2.tsx_renderHeader_div_onClick_ZYP8O0EEogs.tsx (ENTRY POINT)==
+============================= test_example_2.tsx_renderHeader_div_onClick_ZYP8O0EEogs.tsx (ENTRY POINT)==
 
-export const renderHeader_div_onClick_ZYP8O0EEogs = (ctx) => console.log(ctx);
+export const renderHeader_div_onClick_ZYP8O0EEogs = (ctx)=>console.log(ctx);
 
 
 None
@@ -46,17 +46,17 @@ None
 ============================= test_example_2.tsx ==
 
 import { component, qrl } from "@qwik.dev/core";
-const i_renderHeader_div_onClick_ZYP8O0EEogs = () => import("./test_example_2.tsx_renderHeader_div_onClick_ZYP8O0EEogs");
-const i_renderHeader_hMRKEFfLPuk = () => import("./test_example_2.tsx_renderHeader_hMRKEFfLPuk");
-const i_renderHeader_component_1YSz7kbpTeU = () => import("./test_example_2.tsx_renderHeader_component_1YSz7kbpTeU");
-export const renderHeader = qrl(i_renderHeader_hMRKEFfLPuk, "renderHeader_hMRKEFfLPuk");
-const renderHeader = component(qrl(i_renderHeader_component_1YSz7kbpTeU, "renderHeader_component_1YSz7kbpTeU"));
+const i_ZYP8O0EEogs = ()=>import("./test_example_2.tsx_renderHeader_div_onClick_ZYP8O0EEogs");
+const i_hMRKEFfLPuk = ()=>import("./test_example_2.tsx_renderHeader_hMRKEFfLPuk");
+const i_1YSz7kbpTeU = ()=>import("./test_example_2.tsx_renderHeader_component_1YSz7kbpTeU");
+export const renderHeader = qrl(i_hMRKEFfLPuk, "renderHeader_hMRKEFfLPuk");
+const renderHeader = component(qrl(i_1YSz7kbpTeU, "renderHeader_component_1YSz7kbpTeU"));
 
 
 None
-============================= ./test_example_2.tsx_renderHeader_component_1YSz7kbpTeU.tsx (ENTRY POINT)==
+============================= test_example_2.tsx_renderHeader_component_1YSz7kbpTeU.tsx (ENTRY POINT)==
 
-export const renderHeader_component_1YSz7kbpTeU = () => {
+export const renderHeader_component_1YSz7kbpTeU = ()=>{
 	console.log("mount");
 	return render;
 };
@@ -83,11 +83,11 @@ None
   ]
 }
 */
-============================= ./test_example_2.tsx_renderHeader_hMRKEFfLPuk.tsx (ENTRY POINT)==
+============================= test_example_2.tsx_renderHeader_hMRKEFfLPuk.tsx (ENTRY POINT)==
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
-export const renderHeader_hMRKEFfLPuk = () => {
-	return /*#__PURE__*/ _jsxSorted("div", { onClick: qrl(i_renderHeader_div_onClick_ZYP8O0EEogs, "renderHeader_div_onClick_ZYP8O0EEogs") }, null, null, 3, null);
+export const renderHeader_hMRKEFfLPuk = ()=>{
+	return /*#__PURE__*/ _jsxSorted("div", { onClick: qrl(i_ZYP8O0EEogs, "renderHeader_div_onClick_ZYP8O0EEogs") }, null, null, 3, null);
 };
 
 

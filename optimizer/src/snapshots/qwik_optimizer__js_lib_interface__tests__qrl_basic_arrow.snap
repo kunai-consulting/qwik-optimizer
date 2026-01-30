@@ -14,15 +14,15 @@ export const handler = $(() => {
 ============================= test_qrl_basic_arrow.tsx ==
 
 import { qrl } from "@qwik.dev/core";
-const i_handler_r3j5WVCJ9mM = () => import("./test_qrl_basic_arrow.tsx_handler_r3j5WVCJ9mM");
+const i_r3j5WVCJ9mM = ()=>import("./test_qrl_basic_arrow.tsx_handler_r3j5WVCJ9mM");
 // Basic arrow function QRL
-export const handler = qrl(i_handler_r3j5WVCJ9mM, "handler_r3j5WVCJ9mM");
+export const handler = qrl(i_r3j5WVCJ9mM, "handler_r3j5WVCJ9mM");
 
 
 None
-============================= ./test_qrl_basic_arrow.tsx_handler_r3j5WVCJ9mM.tsx (ENTRY POINT)==
+============================= test_qrl_basic_arrow.tsx_handler_r3j5WVCJ9mM.tsx (ENTRY POINT)==
 
-export const handler_r3j5WVCJ9mM = () => {
+export const handler_r3j5WVCJ9mM = ()=>{
 	console.log("hello");
 };
 

@@ -23,12 +23,12 @@ export const App = component$(() => {
     );
 });
 
-============================= ./test_example_11.tsx_App_component_Sjj92bgB1iA.tsx (ENTRY POINT)==
+============================= test_example_11.tsx_App_component_Sjj92bgB1iA.tsx (ENTRY POINT)==
 
 import { foo } from "../state";
 import { Header } from "./test_example_11";
 import { _jsxSorted } from "@qwik.dev/core";
-export const App_component_Sjj92bgB1iA = () => {
+export const App_component_Sjj92bgB1iA = ()=>{
 	return _jsxSorted(Header, null, null, foo(), 1, null);
 };
 
@@ -54,10 +54,10 @@ None
   ]
 }
 */
-============================= ./test_example_11.tsx_Header_component_Header_onClick_YvUbMIjc9kI.tsx (ENTRY POINT)==
+============================= test_example_11.tsx_Header_component_Header_onClick_YvUbMIjc9kI.tsx (ENTRY POINT)==
 
 import dep3 from "dep3/something";
-export const Header_component_Header_onClick_YvUbMIjc9kI = (ev) => dep3(ev);
+export const Header_component_Header_onClick_YvUbMIjc9kI = (ev)=>dep3(ev);
 
 
 None
@@ -84,22 +84,22 @@ None
 ============================= test_example_11.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Header_component_Header_onClick_YvUbMIjc9kI = () => import("./test_example_11.tsx_Header_component_Header_onClick_YvUbMIjc9kI");
-const i_Header_component_r6bL70De5aU = () => import("./test_example_11.tsx_Header_component_r6bL70De5aU");
-const i_App_component_Sjj92bgB1iA = () => import("./test_example_11.tsx_App_component_Sjj92bgB1iA");
-export const Header = componentQrl(qrl(i_Header_component_r6bL70De5aU, "Header_component_r6bL70De5aU"));
-export const App = componentQrl(qrl(i_App_component_Sjj92bgB1iA, "App_component_Sjj92bgB1iA"));
+const i_YvUbMIjc9kI = ()=>import("./test_example_11.tsx_Header_component_Header_onClick_YvUbMIjc9kI");
+const i_r6bL70De5aU = ()=>import("./test_example_11.tsx_Header_component_r6bL70De5aU");
+const i_Sjj92bgB1iA = ()=>import("./test_example_11.tsx_App_component_Sjj92bgB1iA");
+export const Header = componentQrl(qrl(i_r6bL70De5aU, "Header_component_r6bL70De5aU"));
+export const App = componentQrl(qrl(i_Sjj92bgB1iA, "App_component_Sjj92bgB1iA"));
 
 
 None
-============================= ./test_example_11.tsx_Header_component_r6bL70De5aU.tsx (ENTRY POINT)==
+============================= test_example_11.tsx_Header_component_r6bL70De5aU.tsx (ENTRY POINT)==
 
 import { bar as bbar } from "../state";
 import { Header } from "./test_example_11";
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 import * as dep2 from "dep2";
-export const Header_component_r6bL70De5aU = () => {
-	return _jsxSorted(Header, { onClick: qrl(i_Header_component_Header_onClick_YvUbMIjc9kI, "Header_component_Header_onClick_YvUbMIjc9kI") }, null, [dep2.stuff(), bbar()], 1, null);
+export const Header_component_r6bL70De5aU = ()=>{
+	return _jsxSorted(Header, { onClick: qrl(i_YvUbMIjc9kI, "Header_component_Header_onClick_YvUbMIjc9kI") }, null, [dep2.stuff(), bbar()], 1, null);
 };
 
 

@@ -13,7 +13,7 @@ export const App = component$(() => {
     useStyles$(`${css1}${css2}`);
     useStyles$(css3);
 })
-============================= ./test_example_capture_imports.jsx_App_component_useStyles_1_8FQjeZvEvS8.js (ENTRY POINT)==
+============================= test_example_capture_imports.jsx_App_component_useStyles_1_8FQjeZvEvS8.js (ENTRY POINT)==
 
 import css3 from "./style.css";
 export const App_component_useStyles_1_8FQjeZvEvS8 = css3;
@@ -40,12 +40,12 @@ None
   ]
 }
 */
-============================= ./test_example_capture_imports.jsx_App_component_duMjzEh70Eg.js (ENTRY POINT)==
+============================= test_example_capture_imports.jsx_App_component_duMjzEh70Eg.js (ENTRY POINT)==
 
 import { qrl, useStylesQrl } from "@qwik.dev/core";
-export const App_component_duMjzEh70Eg = () => {
-	useStylesQrl(qrl(i_App_component_useStyles_4DpomvGIbW4, "App_component_useStyles_4DpomvGIbW4"));
-	useStylesQrl(qrl(i_App_component_useStyles_1_8FQjeZvEvS8, "App_component_useStyles_1_8FQjeZvEvS8"));
+export const App_component_duMjzEh70Eg = ()=>{
+	useStylesQrl(qrl(i_4DpomvGIbW4, "App_component_useStyles_4DpomvGIbW4"));
+	useStylesQrl(qrl(i_8FQjeZvEvS8, "App_component_useStyles_1_8FQjeZvEvS8"));
 };
 
 
@@ -70,7 +70,7 @@ None
   ]
 }
 */
-============================= ./test_example_capture_imports.jsx_App_component_useStyles_4DpomvGIbW4.js (ENTRY POINT)==
+============================= test_example_capture_imports.jsx_App_component_useStyles_4DpomvGIbW4.js (ENTRY POINT)==
 
 import css1 from "./global.css";
 import css2 from "./style.css";
@@ -101,10 +101,10 @@ None
 ============================= test_example_capture_imports.js ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-const i_App_component_useStyles_4DpomvGIbW4 = () => import("./test_example_capture_imports.jsx_App_component_useStyles_4DpomvGIbW4");
-const i_App_component_useStyles_1_8FQjeZvEvS8 = () => import("./test_example_capture_imports.jsx_App_component_useStyles_1_8FQjeZvEvS8");
-const i_App_component_duMjzEh70Eg = () => import("./test_example_capture_imports.jsx_App_component_duMjzEh70Eg");
-export const App = componentQrl(qrl(i_App_component_duMjzEh70Eg, "App_component_duMjzEh70Eg"));
+const i_4DpomvGIbW4 = ()=>import("./test_example_capture_imports.jsx_App_component_useStyles_4DpomvGIbW4");
+const i_8FQjeZvEvS8 = ()=>import("./test_example_capture_imports.jsx_App_component_useStyles_1_8FQjeZvEvS8");
+const i_duMjzEh70Eg = ()=>import("./test_example_capture_imports.jsx_App_component_duMjzEh70Eg");
+export const App = componentQrl(qrl(i_duMjzEh70Eg, "App_component_duMjzEh70Eg"));
 
 
 None

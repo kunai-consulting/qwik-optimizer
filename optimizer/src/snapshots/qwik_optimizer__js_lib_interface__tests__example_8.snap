@@ -17,11 +17,11 @@ export const Header = component$(() => {
     });
 });
 
-============================= ./test_example_8.tsx_Header_component_kw3mgfm0lgA.tsx (ENTRY POINT)==
+============================= test_example_8.tsx_Header_component_kw3mgfm0lgA.tsx (ENTRY POINT)==
 
 import { qrl } from "@qwik.dev/core";
-export const Header_component_kw3mgfm0lgA = () => {
-	return qrl(i_Header_component_1_hAK7mEQYxrg, "Header_component_1_hAK7mEQYxrg");
+export const Header_component_kw3mgfm0lgA = ()=>{
+	return qrl(i_hAK7mEQYxrg, "Header_component_1_hAK7mEQYxrg");
 };
 
 
@@ -49,17 +49,17 @@ None
 ============================= test_example_8.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Header_component_1_hAK7mEQYxrg = () => import("./test_example_8.tsx_Header_component_1_hAK7mEQYxrg");
-const i_Header_component_kw3mgfm0lgA = () => import("./test_example_8.tsx_Header_component_kw3mgfm0lgA");
-export const Header = componentQrl(qrl(i_Header_component_kw3mgfm0lgA, "Header_component_kw3mgfm0lgA"));
+const i_hAK7mEQYxrg = ()=>import("./test_example_8.tsx_Header_component_1_hAK7mEQYxrg");
+const i_kw3mgfm0lgA = ()=>import("./test_example_8.tsx_Header_component_kw3mgfm0lgA");
+export const Header = componentQrl(qrl(i_kw3mgfm0lgA, "Header_component_kw3mgfm0lgA"));
 
 
 None
-============================= ./test_example_8.tsx_Header_component_1_hAK7mEQYxrg.tsx (ENTRY POINT)==
+============================= test_example_8.tsx_Header_component_1_hAK7mEQYxrg.tsx (ENTRY POINT)==
 
 import { Header } from "./test_example_8";
 import { _jsxSorted } from "@qwik.dev/core";
-export const Header_component_1_hAK7mEQYxrg = (hola) => {
+export const Header_component_1_hAK7mEQYxrg = (hola)=>{
 	const hola = this;
 	const { something, styff } = hola;
 	const hello = hola.nothere.stuff[global];

@@ -16,9 +16,9 @@ export const App = () => {
 };
 
 
-============================= ./test_example_3.tsx_App_Header_component_div_onClick_PHteWc0iLkc.tsx (ENTRY POINT)==
+============================= test_example_3.tsx_App_Header_component_div_onClick_PHteWc0iLkc.tsx (ENTRY POINT)==
 
-export const App_Header_component_div_onClick_PHteWc0iLkc = (ctx) => console.log(ctx);
+export const App_Header_component_div_onClick_PHteWc0iLkc = (ctx)=>console.log(ctx);
 
 
 None
@@ -45,21 +45,21 @@ None
 ============================= test_example_3.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-const i_App_Header_component_div_onClick_PHteWc0iLkc = () => import("./test_example_3.tsx_App_Header_component_div_onClick_PHteWc0iLkc");
-const i_App_Header_component_sugl04P0hM8 = () => import("./test_example_3.tsx_App_Header_component_sugl04P0hM8");
-export const App = () => {
-	const Header = componentQrl(qrl(i_App_Header_component_sugl04P0hM8, "App_Header_component_sugl04P0hM8"));
+const i_PHteWc0iLkc = ()=>import("./test_example_3.tsx_App_Header_component_div_onClick_PHteWc0iLkc");
+const i_sugl04P0hM8 = ()=>import("./test_example_3.tsx_App_Header_component_sugl04P0hM8");
+export const App = ()=>{
+	const Header = componentQrl(qrl(i_sugl04P0hM8, "App_Header_component_sugl04P0hM8"));
 	return Header;
 };
 
 
 None
-============================= ./test_example_3.tsx_App_Header_component_sugl04P0hM8.tsx (ENTRY POINT)==
+============================= test_example_3.tsx_App_Header_component_sugl04P0hM8.tsx (ENTRY POINT)==
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
-export const App_Header_component_sugl04P0hM8 = () => {
+export const App_Header_component_sugl04P0hM8 = ()=>{
 	console.log("mount");
-	return /*#__PURE__*/ _jsxSorted("div", { onClick: qrl(i_App_Header_component_div_onClick_PHteWc0iLkc, "App_Header_component_div_onClick_PHteWc0iLkc") }, null, null, 3, null);
+	return /*#__PURE__*/ _jsxSorted("div", { onClick: qrl(i_PHteWc0iLkc, "App_Header_component_div_onClick_PHteWc0iLkc") }, null, null, 3, null);
 };
 
 
