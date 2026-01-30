@@ -14,13 +14,13 @@ export const handler = $(() => {
 ============================= test_qrl_basic_arrow.tsx ==
 
 import { qrl } from "@qwik.dev/core";
-const i_handler_r3j5WVCJ9mM = () => import("./test_qrl_basic_arrow.tsx_handler_r3j5WVCJ9mM.js");
+const i_handler_r3j5WVCJ9mM = () => import("./test_qrl_basic_arrow.tsx_handler_r3j5WVCJ9mM");
 // Basic arrow function QRL
 export const handler = qrl(i_handler_r3j5WVCJ9mM, "handler_r3j5WVCJ9mM");
 
 
 None
-============================= ./test_qrl_basic_arrow.tsx_handler_r3j5WVCJ9mM.js (ENTRY POINT)==
+============================= ./test_qrl_basic_arrow.tsx_handler_r3j5WVCJ9mM.tsx (ENTRY POINT)==
 
 export const handler_r3j5WVCJ9mM = () => {
 	console.log("hello");
@@ -36,11 +36,11 @@ None
   "displayName": "test_qrl_basic_arrow.tsx_handler",
   "hash": "r3j5WVCJ9mM",
   "canonicalFilename": "test_qrl_basic_arrow.tsx_handler_r3j5WVCJ9mM",
-  "path": ".",
-  "extension": "js",
+  "path": "",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "handler_r3j5WVCJ9mM",
+  "ctxName": "$",
   "captures": false,
   "loc": [
     0,

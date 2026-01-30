@@ -13,7 +13,7 @@ export const handler = condition
     ? $(() => console.log('true branch'))
     : $(() => console.log('false branch'));
 
-============================= ./test_qrl_ternary.tsx_handler_1_mOTT0ekKnYQ.js (ENTRY POINT)==
+============================= ./test_qrl_ternary.tsx_handler_1_mOTT0ekKnYQ.tsx (ENTRY POINT)==
 
 export const handler_1_mOTT0ekKnYQ = () => console.log("false branch");
 
@@ -27,11 +27,11 @@ None
   "displayName": "test_qrl_ternary.tsx_handler_1",
   "hash": "mOTT0ekKnYQ",
   "canonicalFilename": "test_qrl_ternary.tsx_handler_1_mOTT0ekKnYQ",
-  "path": ".",
-  "extension": "js",
+  "path": "",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "handler_1_mOTT0ekKnYQ",
+  "ctxName": "$",
   "captures": false,
   "loc": [
     0,
@@ -42,15 +42,15 @@ None
 ============================= test_qrl_ternary.tsx ==
 
 import { qrl } from "@qwik.dev/core";
-const i_handler_0qMTsQPqS0Y = () => import("./test_qrl_ternary.tsx_handler_0qMTsQPqS0Y.js");
-const i_handler_1_mOTT0ekKnYQ = () => import("./test_qrl_ternary.tsx_handler_1_mOTT0ekKnYQ.js");
+const i_handler_0qMTsQPqS0Y = () => import("./test_qrl_ternary.tsx_handler_0qMTsQPqS0Y");
+const i_handler_1_mOTT0ekKnYQ = () => import("./test_qrl_ternary.tsx_handler_1_mOTT0ekKnYQ");
 // QRL in ternary expression
 const condition = true;
 export const handler = qrl(i_handler_1_mOTT0ekKnYQ, "handler_1_mOTT0ekKnYQ");
 
 
 None
-============================= ./test_qrl_ternary.tsx_handler_0qMTsQPqS0Y.js (ENTRY POINT)==
+============================= ./test_qrl_ternary.tsx_handler_0qMTsQPqS0Y.tsx (ENTRY POINT)==
 
 export const handler_0qMTsQPqS0Y = () => console.log("true branch");
 
@@ -64,11 +64,11 @@ None
   "displayName": "test_qrl_ternary.tsx_handler",
   "hash": "0qMTsQPqS0Y",
   "canonicalFilename": "test_qrl_ternary.tsx_handler_0qMTsQPqS0Y",
-  "path": ".",
-  "extension": "js",
+  "path": "",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "handler_0qMTsQPqS0Y",
+  "ctxName": "$",
   "captures": false,
   "loc": [
     0,

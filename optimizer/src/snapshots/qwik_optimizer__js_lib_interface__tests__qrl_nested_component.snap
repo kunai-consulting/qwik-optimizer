@@ -21,7 +21,7 @@ export const Counter = component$(() => {
     );
 });
 
-============================= ./test_qrl_nested_component.tsx_Counter_component_IcgXRDFMPFQ.js (ENTRY POINT)==
+============================= ./test_qrl_nested_component.tsx_Counter_component_IcgXRDFMPFQ.tsx (ENTRY POINT)==
 
 import { _jsxSorted, qrl, useSignal } from "@qwik.dev/core";
 export const Counter_component_IcgXRDFMPFQ = () => {
@@ -39,11 +39,11 @@ None
   "displayName": "test_qrl_nested_component.tsx_Counter_component",
   "hash": "IcgXRDFMPFQ",
   "canonicalFilename": "test_qrl_nested_component.tsx_Counter_component_IcgXRDFMPFQ",
-  "path": ".",
-  "extension": "js",
+  "path": "",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "Counter_component_IcgXRDFMPFQ",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
     0,
@@ -54,8 +54,8 @@ None
 ============================= test_qrl_nested_component.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Counter_component_div_button_onClick = () => import("./test_qrl_nested_component.tsx.js");
-const i_Counter_component_IcgXRDFMPFQ = () => import("./test_qrl_nested_component.tsx_Counter_component_IcgXRDFMPFQ.js");
+const i_Counter_component_div_button_onClick = () => import("./test_qrl_nested_component.tsx");
+const i_Counter_component_IcgXRDFMPFQ = () => import("./test_qrl_nested_component.tsx_Counter_component_IcgXRDFMPFQ");
 // Nested component with handler - tests parent segment linking
 export const Counter = componentQrl(qrl(i_Counter_component_IcgXRDFMPFQ, "Counter_component_IcgXRDFMPFQ"));
 

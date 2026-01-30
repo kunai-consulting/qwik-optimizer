@@ -17,7 +17,7 @@ export const Header = component$(() => {
     });
 });
 
-============================= ./test_example_8.tsx_Header_component_kw3mgfm0lgA.js (ENTRY POINT)==
+============================= ./test_example_8.tsx_Header_component_kw3mgfm0lgA.tsx (ENTRY POINT)==
 
 import { qrl } from "@qwik.dev/core";
 export const Header_component_kw3mgfm0lgA = () => {
@@ -34,11 +34,11 @@ None
   "displayName": "test_example_8.tsx_Header_component",
   "hash": "kw3mgfm0lgA",
   "canonicalFilename": "test_example_8.tsx_Header_component_kw3mgfm0lgA",
-  "path": ".",
-  "extension": "js",
+  "path": "",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "Header_component_kw3mgfm0lgA",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
     0,
@@ -49,13 +49,13 @@ None
 ============================= test_example_8.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Header_component_1_hAK7mEQYxrg = () => import("./test_example_8.tsx_Header_component_1_hAK7mEQYxrg.js");
-const i_Header_component_kw3mgfm0lgA = () => import("./test_example_8.tsx_Header_component_kw3mgfm0lgA.js");
+const i_Header_component_1_hAK7mEQYxrg = () => import("./test_example_8.tsx_Header_component_1_hAK7mEQYxrg");
+const i_Header_component_kw3mgfm0lgA = () => import("./test_example_8.tsx_Header_component_kw3mgfm0lgA");
 export const Header = componentQrl(qrl(i_Header_component_kw3mgfm0lgA, "Header_component_kw3mgfm0lgA"));
 
 
 None
-============================= ./test_example_8.tsx_Header_component_1_hAK7mEQYxrg.js (ENTRY POINT)==
+============================= ./test_example_8.tsx_Header_component_1_hAK7mEQYxrg.tsx (ENTRY POINT)==
 
 import { Header } from "./test_example_8";
 import { _jsxSorted } from "@qwik.dev/core";
@@ -76,11 +76,11 @@ None
   "displayName": "test_example_8.tsx_Header_component_1",
   "hash": "hAK7mEQYxrg",
   "canonicalFilename": "test_example_8.tsx_Header_component_1_hAK7mEQYxrg",
-  "path": ".",
-  "extension": "js",
+  "path": "",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "Header_component_1_hAK7mEQYxrg",
+  "ctxName": "$",
   "captures": false,
   "loc": [
     0,

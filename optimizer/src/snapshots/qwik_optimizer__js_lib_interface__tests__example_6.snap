@@ -9,12 +9,12 @@ export const sym1 = $((ctx) => console.log("1"));
 ============================= test_example_6.tsx ==
 
 import { qrl } from "@qwik.dev/core";
-const i_sym1_aJjvXXEWJvU = () => import("./test_example_6.tsx_sym1_aJjvXXEWJvU.js");
+const i_sym1_aJjvXXEWJvU = () => import("./test_example_6.tsx_sym1_aJjvXXEWJvU");
 export const sym1 = qrl(i_sym1_aJjvXXEWJvU, "sym1_aJjvXXEWJvU");
 
 
 None
-============================= ./test_example_6.tsx_sym1_aJjvXXEWJvU.js (ENTRY POINT)==
+============================= ./test_example_6.tsx_sym1_aJjvXXEWJvU.tsx (ENTRY POINT)==
 
 export const sym1_aJjvXXEWJvU = (ctx) => console.log("1");
 
@@ -28,11 +28,11 @@ None
   "displayName": "test_example_6.tsx_sym1",
   "hash": "aJjvXXEWJvU",
   "canonicalFilename": "test_example_6.tsx_sym1_aJjvXXEWJvU",
-  "path": ".",
-  "extension": "js",
+  "path": "",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "sym1_aJjvXXEWJvU",
+  "ctxName": "$",
   "captures": false,
   "loc": [
     0,

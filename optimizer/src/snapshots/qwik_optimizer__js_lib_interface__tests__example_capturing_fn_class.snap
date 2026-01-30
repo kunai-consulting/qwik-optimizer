@@ -40,11 +40,11 @@ None
   "displayName": "test_example_capturing_fn_class.jsx_App_component_1",
   "hash": "sEJrlBvQHzk",
   "canonicalFilename": "test_example_capturing_fn_class.jsx_App_component_1_sEJrlBvQHzk",
-  "path": ".",
+  "path": "",
   "extension": "js",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "App_component_1_sEJrlBvQHzk",
+  "ctxName": "$",
   "captures": false,
   "loc": [
     0,
@@ -69,11 +69,11 @@ None
   "displayName": "test_example_capturing_fn_class.jsx_App_component",
   "hash": "9Afc3zxCXkY",
   "canonicalFilename": "test_example_capturing_fn_class.jsx_App_component_9Afc3zxCXkY",
-  "path": ".",
+  "path": "",
   "extension": "js",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "App_component_9Afc3zxCXkY",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
     0,
@@ -84,8 +84,8 @@ None
 ============================= test_example_capturing_fn_class.js ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-const i_App_component_1_sEJrlBvQHzk = () => import("./test_example_capturing_fn_class.jsx_App_component_1_sEJrlBvQHzk.js");
-const i_App_component_9Afc3zxCXkY = () => import("./test_example_capturing_fn_class.jsx_App_component_9Afc3zxCXkY.js");
+const i_App_component_1_sEJrlBvQHzk = () => import("./test_example_capturing_fn_class.jsx_App_component_1_sEJrlBvQHzk");
+const i_App_component_9Afc3zxCXkY = () => import("./test_example_capturing_fn_class.jsx_App_component_9Afc3zxCXkY");
 export const App = componentQrl(qrl(i_App_component_9Afc3zxCXkY, "App_component_9Afc3zxCXkY"));
 
 

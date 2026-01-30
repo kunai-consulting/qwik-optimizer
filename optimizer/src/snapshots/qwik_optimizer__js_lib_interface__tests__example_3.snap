@@ -16,7 +16,7 @@ export const App = () => {
 };
 
 
-============================= ./test_example_3.tsx_App_Header_component_div_onClick_PHteWc0iLkc.js (ENTRY POINT)==
+============================= ./test_example_3.tsx_App_Header_component_div_onClick_PHteWc0iLkc.tsx (ENTRY POINT)==
 
 export const App_Header_component_div_onClick_PHteWc0iLkc = (ctx) => console.log(ctx);
 
@@ -30,11 +30,11 @@ None
   "displayName": "test_example_3.tsx_App_Header_component_div_onClick",
   "hash": "PHteWc0iLkc",
   "canonicalFilename": "test_example_3.tsx_App_Header_component_div_onClick_PHteWc0iLkc",
-  "path": ".",
-  "extension": "js",
+  "path": "",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "App_Header_component_div_onClick_PHteWc0iLkc",
+  "ctxName": "$",
   "captures": false,
   "loc": [
     0,
@@ -45,8 +45,8 @@ None
 ============================= test_example_3.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-const i_App_Header_component_div_onClick_PHteWc0iLkc = () => import("./test_example_3.tsx_App_Header_component_div_onClick_PHteWc0iLkc.js");
-const i_App_Header_component_sugl04P0hM8 = () => import("./test_example_3.tsx_App_Header_component_sugl04P0hM8.js");
+const i_App_Header_component_div_onClick_PHteWc0iLkc = () => import("./test_example_3.tsx_App_Header_component_div_onClick_PHteWc0iLkc");
+const i_App_Header_component_sugl04P0hM8 = () => import("./test_example_3.tsx_App_Header_component_sugl04P0hM8");
 export const App = () => {
 	const Header = componentQrl(qrl(i_App_Header_component_sugl04P0hM8, "App_Header_component_sugl04P0hM8"));
 	return Header;
@@ -54,7 +54,7 @@ export const App = () => {
 
 
 None
-============================= ./test_example_3.tsx_App_Header_component_sugl04P0hM8.js (ENTRY POINT)==
+============================= ./test_example_3.tsx_App_Header_component_sugl04P0hM8.tsx (ENTRY POINT)==
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 export const App_Header_component_sugl04P0hM8 = () => {
@@ -72,11 +72,11 @@ None
   "displayName": "test_example_3.tsx_App_Header_component",
   "hash": "sugl04P0hM8",
   "canonicalFilename": "test_example_3.tsx_App_Header_component_sugl04P0hM8",
-  "path": ".",
-  "extension": "js",
+  "path": "",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "App_Header_component_sugl04P0hM8",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
     0,

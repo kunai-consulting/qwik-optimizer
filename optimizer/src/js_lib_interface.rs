@@ -282,8 +282,59 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
                 order: hasher.finish(),
             }];
             modules.extend(optimized_app.components.into_iter().map(|c| {
+                // Get path from segment_data, normalizing to match qwik-core format:
+                // - Convert "." to "" for root-level files
+                // - Strip "./" prefix if present
+                let segment_path = c.segment_data.as_ref()
+                    .map(|sd| {
+                        let p = sd.path.to_string_lossy().to_string();
+                        let p = p.strip_prefix("./").unwrap_or(&p);
+                        // Convert "." to "" to match qwik-core format
+                        if p == "." { "".to_string() } else { p.to_string() }
+                    })
+                    .unwrap_or_else(|| {
+                        let p = PathBuf::from(&c.id.local_file_name)
+                            .parent()
+                            .unwrap()
+                            .to_string_lossy()
+                            .to_string();
+                        let p = p.strip_prefix("./").unwrap_or(&p);
+                        if p == "." { "".to_string() } else { p.to_string() }
+                    });
+
+                // Get extension from origin filename (input file extension)
+                let segment_extension = PathBuf::from(&relative_path)
+                    .extension()
+                    .map(|e| e.to_string_lossy().to_string())
+                    .unwrap_or_else(|| "tsx".to_string());
+
+                // Get ctx_name from segment_data (marker name like "$", "component$")
+                let segment_ctx_name = c.segment_data.as_ref()
+                    .map(|sd| sd.ctx_name.clone())
+                    .unwrap_or_else(|| c.id.symbol_name.clone());
+
+                // Get ctx_kind from segment_data
+                let segment_ctx_kind = c.segment_data.as_ref()
+                    .map(|sd| match sd.ctx_kind {
+                        crate::component::SegmentKind::Function => SegmentKind::Function,
+                        crate::component::SegmentKind::EventHandler => SegmentKind::EventHandler,
+                        crate::component::SegmentKind::JSXProp => SegmentKind::JSXProp,
+                    })
+                    .unwrap_or_else(|| {
+                        if c.id.symbol_name.starts_with("on") {
+                            SegmentKind::JSXProp
+                        } else {
+                            SegmentKind::Function
+                        }
+                    });
+
+                // Get captures from segment_data
+                let segment_captures = c.segment_data.as_ref()
+                    .map(|sd| sd.has_captures())
+                    .unwrap_or(false);
+
                 TransformModule {
-                    path: format!("{}.js", &c.id.local_file_name),
+                    path: format!("{}.{}", &c.id.local_file_name, &segment_extension),
                     code: c.code,
                     map: None,
                     segment: Some(SegmentAnalysis {
@@ -297,20 +348,12 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
                             .unwrap()
                             .to_string_lossy()
                             .to_string(),
-                        path: PathBuf::from(&c.id.local_file_name)
-                            .parent()
-                            .unwrap()
-                            .to_string_lossy()
-                            .to_string(),
-                        extension: "js".to_string(),
+                        path: segment_path,
+                        extension: segment_extension,
                         parent: c.id.scope,
-                        ctx_kind: if c.id.symbol_name.starts_with("on") {
-                            SegmentKind::JSXProp
-                        } else {
-                            SegmentKind::Function
-                        },
-                        ctx_name: c.id.symbol_name,
-                        captures: false,
+                        ctx_kind: segment_ctx_kind,
+                        ctx_name: segment_ctx_name,
+                        captures: segment_captures,
                         loc: (0, 0),
                     }),
                     is_entry: true,

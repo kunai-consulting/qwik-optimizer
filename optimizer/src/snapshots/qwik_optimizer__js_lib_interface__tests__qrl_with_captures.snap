@@ -19,7 +19,7 @@ export const Counter = () => {
     return increment;
 };
 
-============================= ./test_qrl_with_captures.tsx_Counter_increment_GRxSFiyL3cQ.js (ENTRY POINT)==
+============================= ./test_qrl_with_captures.tsx_Counter_increment_GRxSFiyL3cQ.tsx (ENTRY POINT)==
 
 export const Counter_increment_GRxSFiyL3cQ = () => {
 	const [count, name] = useLexicalScope();
@@ -36,12 +36,12 @@ None
   "displayName": "test_qrl_with_captures.tsx_Counter_increment",
   "hash": "GRxSFiyL3cQ",
   "canonicalFilename": "test_qrl_with_captures.tsx_Counter_increment_GRxSFiyL3cQ",
-  "path": ".",
-  "extension": "js",
+  "path": "",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "Counter_increment_GRxSFiyL3cQ",
-  "captures": false,
+  "ctxName": "$",
+  "captures": true,
   "loc": [
     0,
     0
@@ -51,7 +51,7 @@ None
 ============================= test_qrl_with_captures.tsx ==
 
 import { qrl, useSignal } from "@qwik.dev/core";
-const i_Counter_increment_GRxSFiyL3cQ = () => import("./test_qrl_with_captures.tsx_Counter_increment_GRxSFiyL3cQ.js");
+const i_Counter_increment_GRxSFiyL3cQ = () => import("./test_qrl_with_captures.tsx_Counter_increment_GRxSFiyL3cQ");
 // QRL with captured variables
 export const Counter = () => {
 	const count = useSignal(0);

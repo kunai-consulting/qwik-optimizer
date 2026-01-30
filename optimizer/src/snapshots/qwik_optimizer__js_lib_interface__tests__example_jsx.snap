@@ -60,11 +60,11 @@ None
   "displayName": "test_example_jsx.jsx_Foo_component",
   "hash": "pGZPkYSFNjQ",
   "canonicalFilename": "test_example_jsx.jsx_Foo_component_pGZPkYSFNjQ",
-  "path": ".",
+  "path": "",
   "extension": "js",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "Foo_component_pGZPkYSFNjQ",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
     0,
@@ -105,12 +105,12 @@ None
   "displayName": "test_example_jsx.jsx_Foo_component_1",
   "hash": "Za18NfgUnDQ",
   "canonicalFilename": "test_example_jsx.jsx_Foo_component_1_Za18NfgUnDQ",
-  "path": ".",
+  "path": "",
   "extension": "js",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "Foo_component_1_Za18NfgUnDQ",
-  "captures": false,
+  "ctxName": "$",
+  "captures": true,
   "loc": [
     0,
     0
@@ -121,8 +121,8 @@ None
 
 import { _getConstProps, _getVarProps, _jsxSorted, _jsxSplit, componentQrl, qrl } from "@qwik.dev/core";
 import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
-const i_Foo_component_1_Za18NfgUnDQ = () => import("./test_example_jsx.jsx_Foo_component_1_Za18NfgUnDQ.js");
-const i_Foo_component_pGZPkYSFNjQ = () => import("./test_example_jsx.jsx_Foo_component_pGZPkYSFNjQ.js");
+const i_Foo_component_1_Za18NfgUnDQ = () => import("./test_example_jsx.jsx_Foo_component_1_Za18NfgUnDQ");
+const i_Foo_component_pGZPkYSFNjQ = () => import("./test_example_jsx.jsx_Foo_component_pGZPkYSFNjQ");
 export const Lightweight = (props) => {
 	return /*#__PURE__*/ _jsxSorted("div", null, null, /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [/*#__PURE__*/ _jsxSorted("div", null, null, null, 3, null), /*#__PURE__*/ _jsxSplit("button", { ..._getVarProps(props) }, _getConstProps(props), null, 0, null)], 3, null), 3, null);
 };

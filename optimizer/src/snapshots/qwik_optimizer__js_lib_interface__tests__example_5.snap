@@ -13,7 +13,7 @@ export const Header = component$(() => {
         </>
     );
 });
-============================= ./test_example_5.tsx_Header_component_div_onClick_fw2SWFXEVDc.js (ENTRY POINT)==
+============================= ./test_example_5.tsx_Header_component_div_onClick_fw2SWFXEVDc.tsx (ENTRY POINT)==
 
 export const Header_component_div_onClick_fw2SWFXEVDc = (ctx) => console.log("2");
 
@@ -27,11 +27,11 @@ None
   "displayName": "test_example_5.tsx_Header_component_div_onClick",
   "hash": "fw2SWFXEVDc",
   "canonicalFilename": "test_example_5.tsx_Header_component_div_onClick_fw2SWFXEVDc",
-  "path": ".",
-  "extension": "js",
+  "path": "",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "Header_component_div_onClick_fw2SWFXEVDc",
+  "ctxName": "$",
   "captures": false,
   "loc": [
     0,
@@ -39,7 +39,7 @@ None
   ]
 }
 */
-============================= ./test_example_5.tsx_Header_component_6fmck36BQEs.js (ENTRY POINT)==
+============================= ./test_example_5.tsx_Header_component_6fmck36BQEs.tsx (ENTRY POINT)==
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
@@ -57,11 +57,11 @@ None
   "displayName": "test_example_5.tsx_Header_component",
   "hash": "6fmck36BQEs",
   "canonicalFilename": "test_example_5.tsx_Header_component_6fmck36BQEs",
-  "path": ".",
-  "extension": "js",
+  "path": "",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "Header_component_6fmck36BQEs",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
     0,
@@ -72,8 +72,8 @@ None
 ============================= test_example_5.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Header_component_div_onClick_fw2SWFXEVDc = () => import("./test_example_5.tsx_Header_component_div_onClick_fw2SWFXEVDc.js");
-const i_Header_component_6fmck36BQEs = () => import("./test_example_5.tsx_Header_component_6fmck36BQEs.js");
+const i_Header_component_div_onClick_fw2SWFXEVDc = () => import("./test_example_5.tsx_Header_component_div_onClick_fw2SWFXEVDc");
+const i_Header_component_6fmck36BQEs = () => import("./test_example_5.tsx_Header_component_6fmck36BQEs");
 export const Header = componentQrl(qrl(i_Header_component_6fmck36BQEs, "Header_component_6fmck36BQEs"));
 
 

@@ -28,11 +28,11 @@ None
   "displayName": "test_example_capture_imports.jsx_App_component_useStyles_1",
   "hash": "8FQjeZvEvS8",
   "canonicalFilename": "test_example_capture_imports.jsx_App_component_useStyles_1_8FQjeZvEvS8",
-  "path": ".",
+  "path": "",
   "extension": "js",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "App_component_useStyles_1_8FQjeZvEvS8",
+  "ctxName": "useStyles$",
   "captures": false,
   "loc": [
     0,
@@ -58,11 +58,11 @@ None
   "displayName": "test_example_capture_imports.jsx_App_component",
   "hash": "duMjzEh70Eg",
   "canonicalFilename": "test_example_capture_imports.jsx_App_component_duMjzEh70Eg",
-  "path": ".",
+  "path": "",
   "extension": "js",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "App_component_duMjzEh70Eg",
+  "ctxName": "component$",
   "captures": false,
   "loc": [
     0,
@@ -86,11 +86,11 @@ None
   "displayName": "test_example_capture_imports.jsx_App_component_useStyles",
   "hash": "4DpomvGIbW4",
   "canonicalFilename": "test_example_capture_imports.jsx_App_component_useStyles_4DpomvGIbW4",
-  "path": ".",
+  "path": "",
   "extension": "js",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "App_component_useStyles_4DpomvGIbW4",
+  "ctxName": "useStyles$",
   "captures": false,
   "loc": [
     0,
@@ -101,9 +101,9 @@ None
 ============================= test_example_capture_imports.js ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-const i_App_component_useStyles_4DpomvGIbW4 = () => import("./test_example_capture_imports.jsx_App_component_useStyles_4DpomvGIbW4.js");
-const i_App_component_useStyles_1_8FQjeZvEvS8 = () => import("./test_example_capture_imports.jsx_App_component_useStyles_1_8FQjeZvEvS8.js");
-const i_App_component_duMjzEh70Eg = () => import("./test_example_capture_imports.jsx_App_component_duMjzEh70Eg.js");
+const i_App_component_useStyles_4DpomvGIbW4 = () => import("./test_example_capture_imports.jsx_App_component_useStyles_4DpomvGIbW4");
+const i_App_component_useStyles_1_8FQjeZvEvS8 = () => import("./test_example_capture_imports.jsx_App_component_useStyles_1_8FQjeZvEvS8");
+const i_App_component_duMjzEh70Eg = () => import("./test_example_capture_imports.jsx_App_component_duMjzEh70Eg");
 export const App = componentQrl(qrl(i_App_component_duMjzEh70Eg, "App_component_duMjzEh70Eg"));
 
 
