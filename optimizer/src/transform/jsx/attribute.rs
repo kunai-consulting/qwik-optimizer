@@ -281,6 +281,7 @@ pub fn exit_jsx_attribute<'a>(
                             ctx,
                             &mut gen.symbol_by_name,
                             &mut gen.import_by_symbol,
+                            &mut gen.hoisted_imports,
                         );
 
                         container.expression =
@@ -299,6 +300,7 @@ pub fn exit_jsx_attribute<'a>(
                             ctx,
                             &mut gen.symbol_by_name,
                             &mut gen.import_by_symbol,
+                            &mut gen.hoisted_imports,
                         );
 
                         container.expression =
@@ -583,6 +585,7 @@ pub fn exit_jsx_attribute_value<'a>(
                 ctx,
                 &mut gen.symbol_by_name,
                 &mut gen.import_by_symbol,
+                &mut gen.hoisted_imports,
             )
         }
     }

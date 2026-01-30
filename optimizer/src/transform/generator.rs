@@ -704,6 +704,7 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                     ctx,
                     &mut self.symbol_by_name,
                     &mut self.import_by_symbol,
+                    &mut self.hoisted_imports,
                 );
             }
 
@@ -877,7 +878,7 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                     &mut self.symbol_by_name,
                     &mut self.import_by_symbol,
                 );
-                let args: OxcVec<'a, Argument<'a>> = qrl.into_in(ctx.ast.allocator);
+                let args: OxcVec<'a, Argument<'a>> = qrl.into_arguments(&ctx.ast, &mut self.hoisted_imports);
 
                 call_expr.callee = Expression::Identifier(OxcBox::new_in(idr, ctx.ast.allocator));
                 call_expr.arguments = args
@@ -945,6 +946,7 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                     ctx,
                     &mut self.symbol_by_name,
                     &mut self.import_by_symbol,
+                    &mut self.hoisted_imports,
                 ));
             }
         }
@@ -1069,6 +1071,7 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                         ctx,
                         &mut self.symbol_by_name,
                         &mut self.import_by_symbol,
+                        &mut self.hoisted_imports,
                     );
                     node.argument = Some(expression);
                 }
