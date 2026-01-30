@@ -7,7 +7,6 @@ use crate::collector::Id;
 
 use super::generator::{IdentType, IdPlusType};
 
-/// Compute which identifiers from parent scopes are captured by a QRL.
 pub fn compute_scoped_idents(all_idents: &[Id], all_decl: &[IdPlusType]) -> (Vec<Id>, bool) {
     let mut set: HashSet<Id> = HashSet::new();
     let mut is_const = true;

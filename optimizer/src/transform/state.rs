@@ -2,7 +2,6 @@ use oxc_allocator::Vec as OxcVec;
 use oxc_ast::ast::{ArrayExpressionElement, Expression, ObjectPropertyKind};
 use std::collections::HashMap;
 
-/// Tracks JSX element state during AST traversal.
 pub struct JsxState<'gen> {
     pub is_fn: bool,
     pub is_text_only: bool,
@@ -18,7 +17,6 @@ pub struct JsxState<'gen> {
     pub stacked_ctxt: bool,
 }
 
-/// Tracks imported identifiers by source module.
 #[derive(Debug, Default)]
 pub struct ImportTracker {
     imports: HashMap<(String, String), String>,

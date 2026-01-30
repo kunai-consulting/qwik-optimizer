@@ -19,7 +19,6 @@ use oxc_semantic::{SemanticBuilder, SemanticBuilderReturn};
 use oxc_transformer::{JsxOptions, TransformOptions as OxcTransformOptions, Transformer, TypeScriptOptions};
 use oxc_traverse::traverse_mut;
 
-/// Result of optimizing a Qwik source file.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Default, Serialize)]
 pub struct OptimizedApp {
     pub body: String,
@@ -27,7 +26,6 @@ pub struct OptimizedApp {
 }
 
 impl OptimizedApp {
-    /// Find a component by its symbol name.
     pub fn get_component(&self, name: String) -> Option<&QrlComponent> {
         self.components
             .iter()
@@ -61,7 +59,6 @@ impl Display for OptimizedApp {
     }
 }
 
-/// Wrapper for optimization result containing the optimized app and any errors.
 pub struct OptimizationResult {
     pub optimized_app: OptimizedApp,
     pub errors: Vec<ProcessingFailure>,
@@ -76,7 +73,6 @@ impl OptimizationResult {
     }
 }
 
-/// Configuration options for the Qwik optimizer transformation.
 #[derive(Clone)]
 pub struct TransformOptions {
     pub minify: bool,
@@ -103,7 +99,6 @@ impl TransformOptions {
         self
     }
 
-    /// Returns true if running in development mode (Target::Dev)
     pub fn is_dev(&self) -> bool {
         self.target == Target::Dev
     }
@@ -122,7 +117,6 @@ impl Default for TransformOptions {
     }
 }
 
-/// Main entry point for transforming source code using the Qwik optimizer.
 pub fn transform(script_source: Source, options: TransformOptions) -> Result<OptimizationResult> {
     let allocator = Allocator::default();
     let source_text = script_source.source_code();

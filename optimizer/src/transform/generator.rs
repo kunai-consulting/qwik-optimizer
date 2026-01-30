@@ -41,18 +41,13 @@ use super::state::{ImportTracker, JsxState};
 
 pub(crate) use crate::component::Target;
 
-/// Type of declaration for tracking captured variables.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum IdentType {
-    /// Variable declaration - bool indicates is_const
     Var(bool),
-    /// Function declaration
     Fn,
-    /// Class declaration
     Class,
 }
 
-/// Identifier plus its type for scope tracking
 pub type IdPlusType = (Id, IdentType);
 
 use std::iter::Sum;
