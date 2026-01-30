@@ -1,4 +1,4 @@
 .direnv
 target/
 qwik-core
-.planning-ignore
+.planning
