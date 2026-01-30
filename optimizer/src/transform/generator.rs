@@ -397,6 +397,118 @@ impl<'gen> TransformGenerator<'gen> {
         false
     }
 
+    /// Extract ObjectPattern from component$ call if present.
+    /// Returns None if not a component$ with destructured props.
+    fn get_component_object_pattern<'b>(
+        &self,
+        node: &'b CallExpression<'gen>,
+    ) -> Option<&'b ObjectPattern<'gen>> {
+        let arg = node.arguments.first()?;
+        let expr = arg.as_expression()?;
+        let Expression::ArrowFunctionExpression(arrow) = expr else {
+            return None;
+        };
+        let first_param = arrow.params.items.first()?;
+        match &first_param.pattern {
+            BindingPattern::ObjectPattern(obj_pat) => Some(obj_pat),
+            _ => None,
+        }
+    }
+
+    /// Populate props_identifiers from an ObjectPattern.
+    fn populate_props_identifiers(
+        &mut self,
+        obj_pat: &ObjectPattern<'gen>,
+        scope_id: oxc_semantic::ScopeId,
+    ) {
+        use oxc_ast::ast::BindingProperty;
+        for prop in &obj_pat.properties {
+            let BindingProperty { key, value, .. } = prop;
+
+            // Get the original property key
+            let prop_key = match key {
+                PropertyKey::StaticIdentifier(id) => id.name.to_string(),
+                PropertyKey::StringLiteral(s) => s.value.to_string(),
+                _ => continue,
+            };
+
+            // Get the local binding name
+            let local_name = match value {
+                BindingPattern::BindingIdentifier(id) => id.name.to_string(),
+                _ => continue,
+            };
+
+            self.props_identifiers.insert((local_name, scope_id), prop_key);
+        }
+    }
+
+    /// Transform component$ props destructuring.
+    /// Extracts arrow function and applies PropsDestructuring transformation.
+    fn transform_component_props(
+        &mut self,
+        node: &mut CallExpression<'gen>,
+        ctx: &mut TraverseCtx<'gen, ()>,
+    ) {
+        let Some(arg) = node.arguments.first_mut() else {
+            return;
+        };
+        let Some(expr) = arg.as_expression_mut() else {
+            return;
+        };
+        let Expression::ArrowFunctionExpression(arrow) = expr else {
+            return;
+        };
+
+        use crate::props_destructuring::PropsDestructuring;
+        let mut props_trans = PropsDestructuring::new(ctx.ast.allocator, None);
+
+        if !props_trans.transform_component_props(arrow, &ctx.ast) {
+            return;
+        }
+
+        // Handle rest pattern if present
+        if props_trans.rest_id.is_some() {
+            if let Some(rest_stmt) = props_trans.generate_rest_stmt(&ctx.ast) {
+                self.inject_rest_stmt(arrow, rest_stmt, ctx);
+                self.add_rest_props_import();
+            }
+        }
+
+        self.props_identifiers = props_trans.identifiers;
+    }
+
+    /// Inject _restProps statement into arrow function body.
+    fn inject_rest_stmt(
+        &self,
+        arrow: &mut ArrowFunctionExpression<'gen>,
+        rest_stmt: Statement<'gen>,
+        ctx: &mut TraverseCtx<'gen, ()>,
+    ) {
+        if arrow.expression {
+            // Expression body: convert to block with rest stmt + return
+            if let Some(Statement::ExpressionStatement(expr_stmt)) = arrow.body.statements.pop() {
+                let return_stmt = ctx.ast.statement_return(SPAN, Some(expr_stmt.unbox().expression));
+                let mut new_stmts = ctx.ast.vec_with_capacity(2);
+                new_stmts.push(rest_stmt);
+                new_stmts.push(return_stmt);
+                arrow.body.statements = new_stmts;
+                arrow.expression = false;
+            }
+        } else {
+            // Block body: prepend _restProps statement
+            arrow.body.statements.insert(0, rest_stmt);
+        }
+    }
+
+    /// Add _restProps import to current import stack.
+    fn add_rest_props_import(&mut self) {
+        if let Some(imports) = self.import_stack.last_mut() {
+            imports.insert(Import::new(
+                vec![ImportId::Named("_restProps".into())],
+                QWIK_CORE_SOURCE,
+            ));
+        }
+    }
 }
 
 fn move_expression<'gen>(
@@ -531,40 +643,9 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         // Check for component$ with destructured props
         // Populate props_identifiers EARLY so JSX processing can use them for _wrapProp
         if name.starts_with("component") && name.ends_with(MARKER_SUFFIX) {
-            if let Some(arg) = node.arguments.first() {
-                if let Some(expr) = arg.as_expression() {
-                    if let Expression::ArrowFunctionExpression(arrow) = expr {
-                        // Check if first param is ObjectPattern
-                        if let Some(first_param) = arrow.params.items.first() {
-                            if let BindingPattern::ObjectPattern(obj_pat) = &first_param.pattern {
-                                self.in_component_props = true;
-                                // Populate props_identifiers NOW before JSX processing
-                                // This maps local var names to original property keys
-                                for prop in &obj_pat.properties {
-                                    use oxc_ast::ast::BindingProperty;
-                                    let BindingProperty { key, value, .. } = prop;
-
-                                    // Get the original property key
-                                    let prop_key = match key {
-                                        PropertyKey::StaticIdentifier(id) => id.name.to_string(),
-                                        PropertyKey::StringLiteral(s) => s.value.to_string(),
-                                        _ => continue,
-                                    };
-
-                                    // Get the local binding name
-                                    let local_name = match value {
-                                        BindingPattern::BindingIdentifier(id) => id.name.to_string(),
-                                        _ => continue,
-                                    };
-
-                                    // Store mapping: (local_name, scope_id) -> prop_key
-                                    let scope_id = ctx.current_scope_id();
-                                    self.props_identifiers.insert((local_name.clone(), scope_id), prop_key.clone());
-                                }
-                            }
-                        }
-                    }
-                }
+            if let Some(obj_pat) = self.get_component_object_pattern(node) {
+                self.in_component_props = true;
+                self.populate_props_identifiers(obj_pat, ctx.current_scope_id());
             }
         }
 
@@ -590,182 +671,125 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         }
 
         // Handle component$ props destructuring BEFORE QRL extraction
-        // Transform ObjectPattern parameter to _rawProps and track prop mappings
         if self.in_component_props {
-            if let Some(arg) = node.arguments.first_mut() {
-                if let Some(expr) = arg.as_expression_mut() {
-                    if let Expression::ArrowFunctionExpression(arrow) = expr {
-                        use crate::props_destructuring::PropsDestructuring;
-                        let mut props_trans = PropsDestructuring::new(
-                            ctx.ast.allocator,
-                            None, // component_ident not needed here, we already know it's component$
-                        );
-                        if props_trans.transform_component_props(arrow, &ctx.ast) {
-                            // If rest pattern present, inject _restProps statement
-                            // Do this BEFORE moving identifiers
-                            if props_trans.rest_id.is_some() {
-                                if let Some(rest_stmt) = props_trans.generate_rest_stmt(&ctx.ast) {
-                                    // Inject at start of function body
-                                    // arrow.body is a FunctionBody struct with statements field
-                                    // arrow.expression indicates if body was originally an expression
-
-                                    if arrow.expression {
-                                        // Expression body: convert to block with rest stmt + return
-                                        // The expression is stored in statements[0] as ExpressionStatement
-                                        if let Some(Statement::ExpressionStatement(expr_stmt)) = arrow.body.statements.pop() {
-                                            let return_stmt = ctx.ast.statement_return(SPAN, Some(expr_stmt.unbox().expression));
-                                            let mut new_stmts = ctx.ast.vec_with_capacity(2);
-                                            new_stmts.push(rest_stmt);
-                                            new_stmts.push(return_stmt);
-                                            arrow.body.statements = new_stmts;
-                                            arrow.expression = false;
-                                        }
-                                    } else {
-                                        // Block body: prepend _restProps statement
-                                        arrow.body.statements.insert(0, rest_stmt);
-                                    }
-                                }
-
-                                // Add _restProps import
-                                if let Some(imports) = self.import_stack.last_mut() {
-                                    imports.insert(Import::new(
-                                        vec![ImportId::Named("_restProps".into())],
-                                        QWIK_CORE_SOURCE,
-                                    ));
-                                }
-                            }
-
-                            // Store prop identifiers for later replacement
-                            self.props_identifiers = props_trans.identifiers;
-                        }
-                    }
-                }
-            }
+            self.transform_component_props(node, ctx);
             self.in_component_props = false;
         }
 
-        let segment = self.segment_stack.last();
+        // Check if current segment is a QRL for transformation
+        let is_qrl = self.segment_stack.last().is_some_and(|s| s.is_qrl());
+        if is_qrl {
+            let comp = node.arguments.first().map(|arg0| {
+                // Collect all identifiers referenced in the QRL body
+                let descendent_idents = {
+                    use crate::collector::IdentCollector;
+                    let mut collector = IdentCollector::new();
+                    if let Some(expr) = arg0.as_expression() {
+                        use oxc_ast_visit::Visit;
+                        collector.visit_expression(expr);
+                    }
+                    collector.get_words()
+                };
 
-        if let Some(segment) = segment {
-            if segment.is_qrl() {
-                let comp = node.arguments.first().map(|arg0| {
-                    // Collect all identifiers referenced in the QRL body
-                    let descendent_idents = {
-                        use crate::collector::IdentCollector;
-                        let mut collector = IdentCollector::new();
-                        if let Some(expr) = arg0.as_expression() {
-                            use oxc_ast_visit::Visit;
-                            collector.visit_expression(expr);
-                        }
-                        collector.get_words()
-                    };
+                // Get all declarations from parent scopes (flatten decl_stack)
+                let all_decl: Vec<IdPlusType> = self
+                    .decl_stack
+                    .iter()
+                    .flat_map(|v| v.iter())
+                    .cloned()
+                    .collect();
 
-                    // Get all declarations from parent scopes (flatten decl_stack)
-                    let all_decl: Vec<IdPlusType> = self
-                        .decl_stack
-                        .iter()
-                        .flat_map(|v| v.iter())
-                        .cloned()
-                        .collect();
+                // Partition into valid (Var) and invalid (Fn, Class)
+                let (decl_collect, _invalid_decl): (Vec<_>, Vec<_>) = all_decl
+                    .into_iter()
+                    .partition(|(_, t)| matches!(t, IdentType::Var(_)));
 
-                    // Partition into valid (Var) and invalid (Fn, Class)
-                    let (decl_collect, _invalid_decl): (Vec<_>, Vec<_>) = all_decl
-                        .into_iter()
-                        .partition(|(_, t)| matches!(t, IdentType::Var(_)));
+                // Compute captured variables (scoped_idents)
+                let (scoped_idents, _is_const) =
+                    qrl_module::compute_scoped_idents(&descendent_idents, &decl_collect);
 
-                    // Compute captured variables (scoped_idents)
-                    let (scoped_idents, _is_const) =
-                        qrl_module::compute_scoped_idents(&descendent_idents, &decl_collect);
+                // Get imports collected for this QRL
+                let imports: Vec<Import> = self
+                    .import_stack
+                    .pop()
+                    .unwrap_or_default()
+                    .iter()
+                    .cloned()
+                    .collect();
 
-                    // Get imports collected for this QRL
-                    let imports: Vec<Import> = self
-                        .import_stack
-                        .pop()
-                        .unwrap_or_default()
-                        .iter()
-                        .cloned()
-                        .collect();
+                // Collect imported names and filter scoped_idents
+                let imported_names = qrl_module::collect_imported_names(&imports);
+                let scoped_idents = qrl_module::filter_imported_from_scoped(scoped_idents, &imported_names);
 
-                    // Collect imported names and filter scoped_idents
-                    let imported_names = qrl_module::collect_imported_names(&imports);
-                    let scoped_idents = qrl_module::filter_imported_from_scoped(scoped_idents, &imported_names);
+                // Collect referenced exports for segment file imports
+                let referenced_exports = qrl_module::collect_referenced_exports(
+                    &descendent_idents,
+                    &imported_names,
+                    &scoped_idents,
+                    &self.export_by_name,
+                );
 
-                    // Collect referenced exports for segment file imports
-                    let referenced_exports = qrl_module::collect_referenced_exports(
-                        &descendent_idents,
-                        &imported_names,
-                        &scoped_idents,
-                        &self.export_by_name,
-                    );
+                // Build ctx_name from the callee name (e.g., "component$", "onClick$", "$")
+                let ctx_name = node.callee_name().unwrap_or("$").to_string();
 
-                    // Build ctx_name from the callee name (e.g., "component$", "onClick$", "$")
-                    let ctx_name = node.callee_name().unwrap_or("$").to_string();
+                // Build display_name from segment stack
+                let display_name = self.current_display_name();
 
-                    // Build display_name from segment stack
-                    let display_name = self.current_display_name();
+                // Get hash from source_info and segments (calculated during Id::new)
+                let hash = self.current_hash();
 
-                    // Get hash from source_info and segments (calculated during Id::new)
-                    let hash = self.current_hash();
-
-                    // Determine parent segment (for nested QRLs)
-                    // Look for the first QRL segment in the stack before the current one
-                    let parent_segment = self.segment_stack.iter().rev().skip(1).find_map(|s| {
-                        if s.is_qrl() {
-                            Some(s.to_string())
-                        } else {
-                            None
-                        }
-                    });
-
-                    // Create SegmentData with all collected metadata including referenced exports
-                    let segment_data = SegmentData::new_with_exports(
-                        &ctx_name,
-                        display_name,
-                        hash,
-                        self.source_info.rel_path.clone(),
-                        scoped_idents,
-                        descendent_idents, // local_idents are all identifiers used in segment
-                        parent_segment,
-                        referenced_exports,
-                    );
-
-                    // Compute entry grouping using the entry policy and stack_ctxt
-                    let entry = self.entry_policy.get_entry_for_sym(&self.stack_ctxt, &segment_data);
-
-                    QrlComponent::from_call_expression_argument(
-                        arg0,
-                        imports,
-                        &self.segment_stack,
-                        &self.scope,
-                        &self.options,
-                        self.source_info,
-                        Some(segment_data),
-                        entry,
-                        ctx.ast.allocator,
-                    )
+                // Determine parent segment (for nested QRLs)
+                let parent_segment = self.segment_stack.iter().rev().skip(1).find_map(|s| {
+                    if s.is_qrl() {
+                        Some(s.to_string())
+                    } else {
+                        None
+                    }
                 });
 
-                if let Some(comp) = &comp {
-                    let qrl = &comp.qrl;
-                    let qrl = qrl.clone();
-                    *node = qrl.into_call_expression(
-                        ctx,
-                        &mut self.symbol_by_name,
-                        &mut self.import_by_symbol,
-                    );
-                }
+                // Create SegmentData with all collected metadata including referenced exports
+                let segment_data = SegmentData::new_with_exports(
+                    &ctx_name,
+                    display_name,
+                    hash,
+                    self.source_info.rel_path.clone(),
+                    scoped_idents,
+                    descendent_idents,
+                    parent_segment,
+                    referenced_exports,
+                );
 
-                if let Some(comp) = comp {
-                    let import: Import = comp.qrl.qrl_type.clone().into();
-                    self.qrl_stack.push(comp.qrl.clone());
-                    self.components.push(comp);
-                    let parent_scope = ctx
-                        .ancestor_scopes()
-                        .last()
-                        .map(|s: oxc_syntax::scope::ScopeId| s.index())
-                        .unwrap_or_default();
-                    self.import_stack.last_mut().unwrap().insert(import);
-                }
+                // Compute entry grouping using the entry policy and stack_ctxt
+                let entry = self.entry_policy.get_entry_for_sym(&self.stack_ctxt, &segment_data);
+
+                QrlComponent::from_call_expression_argument(
+                    arg0,
+                    imports,
+                    &self.segment_stack,
+                    &self.scope,
+                    &self.options,
+                    self.source_info,
+                    Some(segment_data),
+                    entry,
+                    ctx.ast.allocator,
+                )
+            });
+
+            if let Some(comp) = &comp {
+                let qrl = &comp.qrl;
+                let qrl = qrl.clone();
+                *node = qrl.into_call_expression(
+                    ctx,
+                    &mut self.symbol_by_name,
+                    &mut self.import_by_symbol,
+                );
+            }
+
+            if let Some(comp) = comp {
+                let import: Import = comp.qrl.qrl_type.clone().into();
+                self.qrl_stack.push(comp.qrl.clone());
+                self.components.push(comp);
+                self.import_stack.last_mut().unwrap().insert(import);
             }
         }
 
