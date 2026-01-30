@@ -109,14 +109,20 @@ pub fn exit_jsx_child<'a>(
                 } else if gen.loop_depth > 0 {
                     let iteration_vars = gen.iteration_var_stack.last().cloned().unwrap_or_default();
                     if crate::inlined_fn::should_wrap_in_fn_signal(expr, &iteration_vars) {
+                        // Get current counter value for convert_inlined_fn and name generation
+                        let counter = gen.hoisted_fn_counter;
                         if let Some(result) = crate::inlined_fn::convert_inlined_fn(
                             expr,
                             &iteration_vars,
-                            gen.hoisted_fn_counter,
+                            counter,
                             &gen.builder,
                             gen.builder.allocator,
                         ) {
+                            // Generate hoisted function name and increment counter
+                            let hf_name = format!("_hf{}", counter);
+                            let hf_str_name = format!("{}_str", &hf_name);
                             gen.hoisted_fn_counter += 1;
+
                             gen.needs_fn_signal_import = true;
 
                             if let Some(import_set) = gen.import_stack.last_mut() {
@@ -126,8 +132,15 @@ pub fn exit_jsx_child<'a>(
                                 ));
                             }
 
+                            // Push the arrow function to hoisted_fns for module-level declaration
                             let hoisted_fn_expr = Expression::ArrowFunctionExpression(ctx.ast.alloc(result.hoisted_fn));
+                            gen.hoisted_fns.push((
+                                hf_name.clone(),
+                                hoisted_fn_expr,
+                                result.hoisted_str.clone(),
+                            ));
 
+                            // Create captures array with original variable references
                             let captures_array = ctx.ast.expression_array(
                                 SPAN,
                                 ctx.ast.vec_from_iter(result.captures.iter().map(|(name, _)| {
@@ -135,21 +148,16 @@ pub fn exit_jsx_child<'a>(
                                 })),
                             );
 
-                            let str_literal = ctx.ast.expression_string_literal(
-                                SPAN,
-                                ctx.ast.atom(&result.hoisted_str),
-                                None,
-                            );
-
+                            // Create _fnSignal call with hoisted identifier references
                             Some(
                                 ctx.ast.expression_call(
                                     span,
                                     ctx.ast.expression_identifier(SPAN, "_fnSignal"),
                                     NONE,
                                     ctx.ast.vec_from_array([
-                                        Argument::from(hoisted_fn_expr),
+                                        Argument::from(ctx.ast.expression_identifier(SPAN, ctx.ast.atom(&hf_name))),
                                         Argument::from(captures_array),
-                                        Argument::from(str_literal),
+                                        Argument::from(ctx.ast.expression_identifier(SPAN, ctx.ast.atom(&hf_str_name))),
                                     ]),
                                     false,
                                 )
