@@ -493,7 +493,6 @@ mod tests {
     }
 
     #[test]
-    #[ignore = "panics: local variable 'qrl' shadows qwik import causing symbol conflict"]
     fn spec_example_qwik_conflict() {
         spec_test!(SpecOptions {
             transpile_ts: Some(true),
@@ -1621,7 +1620,6 @@ mod tests {
     }
 
     #[test]
-    #[ignore = "panics: OXC JSX spread attribute handling issue with bind:value"]
     fn spec_should_not_transform_bind_value_in_var_props_for_jsx_split() {
         spec_test!(SpecOptions {
             transpile_ts: Some(true),
@@ -1631,7 +1629,6 @@ mod tests {
     }
 
     #[test]
-    #[ignore = "panics: OXC JSX spread attribute handling issue with bind:checked"]
     fn spec_should_not_transform_bind_checked_in_var_props_for_jsx_split() {
         spec_test!(SpecOptions {
             transpile_ts: Some(true),
