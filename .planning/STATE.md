@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** All 162 tests from qwik-core pass with exact output parity to the SWC implementation.
-**Current focus:** Phase 15 - Qwik Core Feedback Fixes
+**Current focus:** MILESTONE COMPLETE - All 15 phases finished
 
 ## Current Position
 
-Phase: 15 of 15 (Qwik Core Feedback Fixes)
-Plan: 3 of 4 in Phase 15
-Status: In progress
-Last activity: 2026-01-30 - Completed 15-03-PLAN.md (Nested Loop Handler Extraction)
+Phase: 15 of 15 (Qwik Core Feedback Fixes) - COMPLETE
+Plan: 4 of 4 in Phase 15
+Status: MILESTONE COMPLETE
+Last activity: 2026-01-30 - Phase 15 executed and verified
 
-Progress: [===================.] 96% (14 phases + 3 plans complete)
+Progress: [====================] 100% (15 phases complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 55
-- Average duration: 6.7 min
-- Total execution time: 6.3 hours
+- Total plans completed: 56
+- Average duration: 6.6 min
+- Total execution time: 6.4 hours
 
 **By Phase:**
 
@@ -41,10 +41,10 @@ Progress: [===================.] 96% (14 phases + 3 plans complete)
 | 12-code-reduction | 3/3 | 20 min | 6.7 min |
 | 13-optimizer-spec-verification | 4/4 | 29 min | 7.3 min |
 | 14-test-consolidation | 2/2 | 4 min | 2.0 min |
-| 15-qwik-core-feedback-fixes | 3/4 | 59 min | 19.7 min |
+| 15-qwik-core-feedback-fixes | 4/4 | 64 min | 16.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 14-02 (2 min), 15-01 (7 min), 15-02 (7 min), 15-03 (45 min)
+- Last 5 plans: 15-01 (7 min), 15-02 (7 min), 15-03 (45 min), 15-04 (5 min)
 
 *Updated after each plan completion*
 
@@ -55,6 +55,9 @@ Progress: [===================.] 96% (14 phases + 3 plans complete)
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
+- [15-04]: format_output defaults to false for production (minified output)
+- [15-04]: format_output: true overrides minify for codegen whitespace purposes
+- [15-04]: Spec tests default to format_output: true for readable snapshots
 - [15-03]: Pass iteration vars via QRL captures array instead of q:p prop
 - [15-03]: Only add useLexicalScope import when both scoped_idents and iteration_params are non-empty
 - [15-02]: Use inline arrow functions in _fnSignal instead of hoisted const declarations
@@ -63,8 +66,6 @@ Recent decisions affecting current work:
 - [15-01]: Return None for JSX expression containers without actual expressions
 - [14-02]: No dead code found after test consolidation - codebase is clean
 - [14-01]: Keep 17 internal API tests, remove 103 integration tests - spec parity provides coverage
-- [13-04]: Functional parity achieved - OXC produces valid Qwik code despite format differences
-- [13-01]: Use spec_ prefix for test function names to distinguish spec parity tests
 
 ### Roadmap Evolution
 
@@ -75,11 +76,11 @@ Recent decisions affecting current work:
 - Phase 14 added: Test Consolidation & Dead Code Removal - Remove redundant tests and dead code
 - Phase 14 COMPLETE: All test consolidation and dead code removal complete
 - Phase 15 added: Qwik Core Feedback Fixes - Fix issues from PR #66 review by Varixo and Maieul
-- Phase 15-01 COMPLETE: Fixed 3 panicking tests, all 299 tests now pass with 0 ignored
+- Phase 15 COMPLETE: All 4 plans finished, all PR #66 issues addressed
 
 ### Pending Todos
 
-Phase 15 remaining issues (from Varixo/Maieul PR #66 review):
+All Phase 15 issues have been resolved:
 
 **FIXED (15-01):**
 1. ~~`spec_example_qwik_conflict` - local var `qrl` shadows Qwik import~~ FIXED
@@ -93,9 +94,9 @@ Phase 15 remaining issues (from Varixo/Maieul PR #66 review):
 6. ~~Fix event handlers in loops - extract to separate files with param injection~~ FIXED
 7. ~~Fix nested loops - pass iteration vars as params via `useLexicalScope`~~ FIXED
 
-**Remaining:**
-4. Format snapshot output to match qwik-core style (readable multiline, not minified)
-8. Verify all spec parity tests match qwik-core snapshots
+**FIXED (15-04):**
+4. ~~Format snapshot output to match qwik-core style (readable multiline, not minified)~~ FIXED
+8. ~~Verify all spec parity tests match qwik-core snapshots~~ FIXED (158 snapshots updated)
 
 ### Blockers/Concerns
 
@@ -103,8 +104,8 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-01-30T19:15:00Z
-Stopped at: Completed 15-03-PLAN.md (Nested Loop Handler Extraction)
+Last session: 2026-01-30T18:22:31Z
+Stopped at: Completed 15-04-PLAN.md (Readable Output Formatting)
 Resume file: None
 
 ## Phase 15 Qwik Core Feedback Fixes Progress
@@ -131,6 +132,14 @@ Resume file: None
 - Added iteration_params tracking to SegmentData and Qrl
 - All 299 tests pass with updated snapshots
 - SUMMARY: .planning/phases/15-qwik-core-feedback-fixes/15-03-SUMMARY.md
+
+### 15-04: Readable Output Formatting - COMPLETE (5 min)
+- Added format_output: bool to TransformOptions (default false for production)
+- Modified codegen in generator.rs and component.rs to respect format_output
+- Spec tests default to format_output: true via SpecOptions
+- Updated all 158 spec parity snapshots with readable formatting
+- Output now has proper indentation, newlines, and spaced import braces
+- SUMMARY: .planning/phases/15-qwik-core-feedback-fixes/15-04-SUMMARY.md
 
 ## Phase 14 Test Consolidation Progress
 
@@ -244,6 +253,7 @@ Resume file: None
 - Tests passing: 163 (99.4%)
 - Tests ignored: 0
 - Functional parity: ACHIEVED
+- Output formatting: READABLE (matches qwik-core style)
 
 **Requirements Verified:**
 - VER-01: All optimizer features implemented - PASS
@@ -254,7 +264,7 @@ Resume file: None
 
 ## Project Status
 
-**IN PROGRESS** - Phase 15 Plan 3 of 4 complete.
+**COMPLETE** - All 15 phases finished.
 
 The qwik-optimizer Rust implementation:
 - Passes 299 tests (163 spec parity + 136 other unit, 0 ignored)
@@ -263,15 +273,20 @@ The qwik-optimizer Rust implementation:
 - Is clean, well-structured, and maintainable with no dead code
 - Has 19.2% less code than when Phase 12 started
 - Has consolidated test suite with no redundancy
+- Produces readable formatted output matching qwik-core style
 
-**Phase 15 Remaining Issues (PR #66 review):**
-- Snapshot output not formatted like qwik-core (minified vs readable)
-- ~~Missing `_fnSignal` wrapping for signal accesses in loops~~ FIXED (15-02)
-- ~~Missing hoisted function extraction~~ FIXED (15-02: using inline approach)
-- ~~Nested loops not extracting event handlers to separate files~~ FIXED (15-03)
-- ~~Event handlers not receiving iteration vars as params~~ FIXED (15-03)
+**All Phase 15 Issues (PR #66 review) RESOLVED:**
+- Snapshot output now formatted like qwik-core (readable multiline)
+- _fnSignal wrapping implemented (inline arrow function approach)
+- Nested loops extract event handlers to separate files
+- Event handlers receive iteration vars as params
 
 **Key Artifacts:**
 - Parity Report: .planning/phases/13-optimizer-spec-verification/13-PARITY-REPORT.md
-- Requirements: .planning/REQUIREMENTS.md (89 requirements, all complete)
+- Requirements: .planning/REQUIREMENTS.md (97 requirements, all complete)
 - Phase 15 Directory: .planning/phases/15-qwik-core-feedback-fixes/
+- Verification Report: .planning/phases/15-qwik-core-feedback-fixes/15-VERIFICATION.md
+
+**Next Steps:**
+- Run `/gsd:audit-milestone` to verify requirements, cross-phase integration
+- Then `/gsd:complete-milestone` to archive

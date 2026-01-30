@@ -140,6 +140,17 @@ Requirements for achieving test parity with qwik-core SWC optimizer.
 - [x] **VER-05**: Gaps documented with remediation
   - See 13-PARITY-REPORT.md
 
+### Qwik Core Feedback Fixes (Phase 15)
+
+- [x] **QCF-01**: Fix spec_example_qwik_conflict panic (symbol shadowing)
+- [x] **QCF-02**: Fix spec_should_not_transform_bind_value_in_var_props panic
+- [x] **QCF-03**: Fix spec_should_not_transform_bind_checked_in_var_props panic
+- [x] **QCF-04**: Readable formatted output (format_output option)
+- [x] **QCF-05**: _fnSignal wrapping for signal accesses in loops
+- [x] **QCF-06**: Event handler extraction to separate files in loops
+- [x] **QCF-07**: Nested loop iteration variable parameter injection
+- [x] **QCF-08**: useLexicalScope for outer loop variables in nested handlers
+
 ## v2 Requirements
 
 Deferred to future release. Not in current roadmap.
@@ -263,12 +274,20 @@ Which phases cover which requirements. Updated during roadmap creation.
 | VER-03 | Phase 13 | Complete |
 | VER-04 | Phase 13 | Complete |
 | VER-05 | Phase 13 | Complete |
+| QCF-01 | Phase 15 | Complete |
+| QCF-02 | Phase 15 | Complete |
+| QCF-03 | Phase 15 | Complete |
+| QCF-04 | Phase 15 | Complete |
+| QCF-05 | Phase 15 | Complete |
+| QCF-06 | Phase 15 | Complete |
+| QCF-07 | Phase 15 | Complete |
+| QCF-08 | Phase 15 | Complete |
 
 **Coverage:**
-- v1 requirements: 89 total (84 original + 5 VER)
-- Mapped to phases: 89
+- v1 requirements: 97 total (84 original + 5 VER + 8 QCF)
+- Mapped to phases: 97
 - Unmapped: 0
 
 ---
 *Requirements defined: 2026-01-29*
-*Last updated: 2026-01-30 Phase 13 complete - All VER requirements verified*
+*Last updated: 2026-01-30 Phase 15 complete - All QCF requirements verified, milestone complete*
