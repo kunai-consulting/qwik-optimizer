@@ -1731,8 +1731,7 @@ export const App = component$(() => {
 
     #[test]
     fn test_export_tracking() {
-        // Test that export tracking correctly identifies all export types
-        use crate::collector::{collect_exports, ExportInfo};
+        use crate::collector::collect_exports;
         use oxc_allocator::Allocator;
         use oxc_parser::Parser;
         use oxc_span::SourceType;
@@ -1786,8 +1785,7 @@ export const App = component$(() => {
 
     #[test]
     fn test_export_tracking_aliased() {
-        // Test aliased exports: export { x as y }
-        use crate::collector::{collect_exports, ExportInfo};
+        use crate::collector::collect_exports;
         use oxc_allocator::Allocator;
         use oxc_parser::Parser;
         use oxc_span::SourceType;
@@ -1814,8 +1812,7 @@ export const App = component$(() => {
 
     #[test]
     fn test_export_tracking_reexport() {
-        // Test re-exports: export { foo } from './other'
-        use crate::collector::{collect_exports, ExportInfo};
+        use crate::collector::collect_exports;
         use oxc_allocator::Allocator;
         use oxc_parser::Parser;
         use oxc_span::SourceType;
@@ -2386,8 +2383,7 @@ const Outer = component$(() => {
         let options = TransformOptions::default().with_transpile_jsx(true);
         let result = transform(source, options).expect("Transform should succeed");
 
-        // Find the Inner component's handler - it should have nested context
-        let inner_handler = result.optimized_app.components.iter()
+        let _inner_handler = result.optimized_app.components.iter()
             .find(|c| c.id.display_name.contains("Inner") &&
                   (c.id.display_name.contains("handler") || c.id.display_name.contains("component")));
 

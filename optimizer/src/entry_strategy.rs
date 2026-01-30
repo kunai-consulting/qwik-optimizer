@@ -116,7 +116,7 @@ pub fn parse_entry_strategy(strategy: &EntryStrategy) -> Box<dyn EntryPolicy> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::component::{SegmentData, SegmentKind};
+    use crate::component::SegmentData;
     use std::path::PathBuf;
 
     fn make_segment(ctx_name: &str, origin: &str, scoped_idents: Vec<(&str, u32)>) -> SegmentData {

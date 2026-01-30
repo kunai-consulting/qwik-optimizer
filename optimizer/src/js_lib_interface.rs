@@ -377,21 +377,13 @@ mod tests {
         assert_valid_transform_debug!(EntryStrategy::Segment);
     }
 
-    // #[test]
+    #[allow(dead_code)]
     fn test_example_9() {
-        // Not removing:
-        // const decl8 = 1, decl9;
         assert_valid_transform_debug!(EntryStrategy::Segment);
     }
 
-    // #[test]
+    #[allow(dead_code)]
     fn test_example_10() {
-        // Not converting:
-        // const a = ident1 + ident3;
-        // const b = ident1 + ident3;
-        // to:
-        // ident1, ident3;
-        // ident1, ident3;
         assert_valid_transform!(EntryStrategy::Segment);
     }
 
