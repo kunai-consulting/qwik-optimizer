@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** All 162 tests from qwik-core pass with exact output parity to the SWC implementation.
-**Current focus:** Phase 8 - SSR & Build Modes (IN PROGRESS)
+**Current focus:** Phase 8 - SSR & Build Modes (COMPLETE)
 
 ## Current Position
 
-Phase: 8 of 11 (SSR & Build Modes)
-Plan: 2 of 3 in Phase 8 COMPLETE
-Status: In Progress
-Last activity: 2026-01-29 - Completed 08-02-PLAN.md
+Phase: 8 of 11 (SSR & Build Modes) - COMPLETE
+Plan: 3 of 3 in Phase 8 COMPLETE
+Status: Phase 8 Complete
+Last activity: 2026-01-30 - Completed 08-03-PLAN.md
 
-Progress: [==============      ] 68.2% (7/11 phases complete + 2 plans, 30/44 total plans)
+Progress: [===============     ] 72.7% (8/11 phases complete, 31/44 total plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 30
+- Total plans completed: 31
 - Average duration: 7.1 min
-- Total execution time: 3.5 hours
+- Total execution time: 3.6 hours
 
 **By Phase:**
 
@@ -34,11 +34,11 @@ Progress: [==============      ] 68.2% (7/11 phases complete + 2 plans, 30/44 to
 | 05-jsx-transformation | 4/4 | 37 min | 9.3 min |
 | 06-imports-exports | 4/4 | 45 min | 11.3 min |
 | 07-entry-strategies | 3/3 | 29 min | 9.7 min |
-| 08-ssr-build-modes | 2/3 | 9 min | 4.5 min |
+| 08-ssr-build-modes | 3/3 | 16 min | 5.3 min |
 
 **Recent Trend:**
-- Last 5 plans: 07-02 (8 min), 07-03 (6 min), 08-01 (5 min), 08-02 (4 min)
-- Phase 8 SSR & Build Modes IN PROGRESS
+- Last 5 plans: 07-03 (6 min), 08-01 (5 min), 08-02 (4 min), 08-03 (7 min)
+- Phase 8 SSR & Build Modes COMPLETE
 
 *Updated after each plan completion*
 
@@ -123,6 +123,9 @@ Recent decisions affecting current work:
 - [08-02]: Used manual visitor pattern with allocator instead of VisitMut trait for OXC BooleanLiteral creation
 - [08-02]: OXC Expression variants StaticMemberExpression/ComputedMemberExpression accessed directly (not via MemberExpression wrapper)
 - [08-02]: isBrowser value is inverse of is_server (!is_server) matching SWC behavior
+- [08-03]: Import collection and const replacement happen before semantic analysis
+- [08-03]: Export declarations (ExportNamedDeclaration, ExportDefaultDeclaration) require explicit handling in visitor
+- [08-03]: Test mode skips const replacement to match SWC behavior
 
 ### Pending Todos
 
@@ -134,8 +137,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-29 23:54:51Z
-Stopped at: Completed 08-02-PLAN.md (Const Replacement)
+Last session: 2026-01-30 00:05:31Z
+Stopped at: Completed 08-03-PLAN.md (Transform Pipeline Integration)
 Resume file: None
 
 ## Phase 2 QRL Core Summary
@@ -328,9 +331,9 @@ Phase 7 Entry Strategies COMPLETE with all 3 plans executed:
 
 **Requirements satisfied:** ENT-01 through ENT-05 (5/5)
 
-## Phase 8 SSR & Build Modes Summary (IN PROGRESS)
+## Phase 8 SSR & Build Modes Summary (COMPLETE)
 
-Phase 8 SSR & Build Modes in progress:
+Phase 8 SSR & Build Modes COMPLETE with all 3 plans executed:
 
 1. **08-01:** Infrastructure - COMPLETE (5 min)
    - QWIK_CORE_BUILD, IS_SERVER, IS_BROWSER, IS_DEV constants
@@ -349,8 +352,20 @@ Phase 8 SSR & Build Modes in progress:
    - Both @qwik.dev/core and @qwik.dev/core/build sources supported
    - 12 unit tests, 192 total tests passing
 
-**Key Deliverables so far:**
+3. **08-03:** Transform Pipeline Integration - COMPLETE (7 min)
+   - ConstReplacerVisitor integrated into transform pipeline
+   - Import collection before const replacement for alias tracking
+   - Export declaration handling (ExportNamedDeclaration, ExportDefaultDeclaration)
+   - 10 SSR integration tests covering SSR-01 through SSR-05
+   - Test mode skips const replacement (matching SWC behavior)
+   - 202 total tests passing
+
+**Key Deliverables:**
 - Build mode constants defined for @qwik.dev/core/build imports
 - TransformOptions extended with SSR/build mode configuration
-- ImportTracker ready to find isServer/isBrowser/isDev imports
+- ImportTracker finds isServer/isBrowser/isDev imports
 - ConstReplacerVisitor replaces imported consts with boolean literals
+- Full integration in transform pipeline with export handling
+- DCE-ready patterns: if(false) for bundler dead code elimination
+
+**Requirements satisfied:** SSR-01 through SSR-05 (5/5)
