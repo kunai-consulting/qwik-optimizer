@@ -50,22 +50,6 @@ pub struct Qrl {
 }
 
 impl Qrl {
-    pub fn new<T: Into<PathBuf>>(
-        rel_path: T,
-        display_name: &str,
-        qrl_type: QrlType,
-        scoped_idents: Vec<Id>,
-    ) -> Self {
-        Self {
-            rel_path: rel_path.into(),
-            display_name: display_name.into(),
-            qrl_type,
-            scoped_idents,
-            referenced_exports: Vec::new(),
-        }
-    }
-
-    /// Creates a new Qrl with referenced exports for segment file import generation.
     pub fn new_with_exports<T: Into<PathBuf>>(
         rel_path: T,
         display_name: &str,

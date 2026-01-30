@@ -253,34 +253,10 @@ impl QrlComponent {
         Self::from_expression(init, imports, segments, scope, options, source_info, segment_data, entry)
     }
 
-    pub fn scoped_idents(&self) -> &[CollectorId] {
-        self.segment_data
-            .as_ref()
-            .map(|d| d.scoped_idents.as_slice())
-            .unwrap_or(&[])
-    }
-
-    pub fn local_idents(&self) -> &[CollectorId] {
-        self.segment_data
-            .as_ref()
-            .map(|d| d.local_idents.as_slice())
-            .unwrap_or(&[])
-    }
-
-    pub fn parent_segment(&self) -> Option<&str> {
-        self.segment_data
-            .as_ref()
-            .and_then(|d| d.parent_segment.as_deref())
-    }
-
     pub fn has_captures(&self) -> bool {
         self.segment_data
             .as_ref()
             .map(|d| d.has_captures())
             .unwrap_or(false)
-    }
-
-    pub fn ctx_kind(&self) -> Option<SegmentKind> {
-        self.segment_data.as_ref().map(|d| d.ctx_kind)
     }
 }
