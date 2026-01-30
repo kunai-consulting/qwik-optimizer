@@ -23,7 +23,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 9: TypeScript Support** - TSX parsing, type annotations, and generics
 - [x] **Phase 10: Edge Cases** - Nested loops, illegal code detection, and regression fixes
 - [x] **Phase 11: Research & Code Cleanup** - OXC API adoption, ecosystem research, modularization
-- [ ] **Phase 12: Code Reduction** - Leverage OXC APIs, eliminate unnecessary code, remove comments
+- [x] **Phase 12: Code Reduction** - Leverage OXC APIs, eliminate unnecessary code, remove comments
 
 ## Phase Details
 
@@ -238,9 +238,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 12-01-PLAN.md — Remove debug code and adopt OXC NONE API
-- [ ] 12-02-PLAN.md — Remove comments from core modules (generator, options, state, qrl, scope)
-- [ ] 12-03-PLAN.md — Remove comments from JSX modules and final verification
+- [x] 12-01-PLAN.md — Remove debug code and adopt OXC NONE API
+- [x] 12-02-PLAN.md — Remove comments from core modules (generator, options, state, qrl, scope)
+- [x] 12-03-PLAN.md — Remove comments from JSX modules and final verification
 
 ## Progress
 
@@ -260,8 +260,8 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 12
 | 9. TypeScript Support | 2/2 | Complete | 2026-01-29 |
 | 10. Edge Cases | 5/5 | Complete | 2026-01-29 |
 | 11. Research & Code Cleanup | 5/5 | Complete | 2026-01-29 |
-| 12. Code Reduction | 0/3 | Not Started | - |
+| 12. Code Reduction | 3/3 | Complete | 2026-01-30 |
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-30 (Phase 12 planned)*
+*Last updated: 2026-01-30 (Milestone complete)*
