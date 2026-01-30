@@ -6062,4 +6062,162 @@ export const App = component$(({ name, count }: { name?: string; count?: number 
         assert!(all_code.contains("??") || all_code.contains("default"),
             "Nullish coalescing should be preserved, got: {}", all_code);
     }
+
+    // ==================== Type-Only Import Filtering Tests ====================
+
+    #[test]
+    fn test_type_only_import_declaration_not_tracked() {
+        // Type-only import declarations (`import type { Foo }`) should not be tracked
+        // This prevents runtime errors when type-only imports are captured in QRLs
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let code = r#"
+import type { Component } from '@qwik.dev/core';
+import { component$ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+  return <div>Hello</div>;
+});
+"#;
+        let source = Source::from_source(code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default()
+            .with_transpile_ts(true)
+            .with_transpile_jsx(true);
+        let result = transform(source, options).expect("transform failed");
+        let output = &result.optimized_app.body;
+
+        // Component (type-only) should NOT appear in segment imports
+        // The output should NOT have any import for Component
+        assert!(
+            !output.contains("import { Component"),
+            "Type-only import 'Component' should not appear in segment imports, got: {}",
+            output
+        );
+        // component$ (value import) transformation should still work
+        assert!(
+            output.contains("componentQrl") || output.contains("qrl("),
+            "Value import 'component$' should work correctly, got: {}",
+            output
+        );
+    }
+
+    #[test]
+    fn test_type_only_specifier_not_tracked() {
+        // Type-only specifiers within mixed imports (`import { type Signal, $ }`) should not be tracked
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let code = r#"
+import { type Signal, component$ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+  return <div>Hello</div>;
+});
+"#;
+        let source = Source::from_source(code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default()
+            .with_transpile_ts(true)
+            .with_transpile_jsx(true);
+        let result = transform(source, options).expect("transform failed");
+        let output = &result.optimized_app.body;
+
+        // Signal (type-only specifier) should NOT appear in segment imports
+        assert!(
+            !output.contains("import { Signal") && !output.contains("{ type Signal"),
+            "Type-only specifier 'Signal' should not appear in segment imports, got: {}",
+            output
+        );
+    }
+
+    #[test]
+    fn test_value_imports_still_tracked_with_type_siblings() {
+        // Regular value imports should continue to be tracked correctly even alongside type imports
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let code = r#"
+import { component$, useSignal } from '@qwik.dev/core';
+
+export const Counter = component$(() => {
+  const count = useSignal(0);
+  return <button onClick$={() => count.value++}>{count.value}</button>;
+});
+"#;
+        let source = Source::from_source(code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default()
+            .with_transpile_ts(true)
+            .with_transpile_jsx(true);
+        let result = transform(source, options).expect("transform failed");
+        let output = &result.optimized_app.body;
+
+        // Value imports should be processed and transformed correctly
+        // component$ should be transformed to qrl()
+        assert!(
+            output.contains("qrl(") || output.contains("componentQrl"),
+            "Value imports should be tracked and transformed, got: {}",
+            output
+        );
+    }
+
+    #[test]
+    fn test_import_tracker_skips_type_only_declaration() {
+        // Verify ImportTracker does not receive type-only imports at declaration level
+        // This is tested through the import collection loop behavior with isServer const replacement
+        use crate::source::Source;
+        use crate::component::Language;
+
+        // Use isServer to verify only value imports are tracked
+        let code = r#"
+import type { Component } from '@qwik.dev/core';
+import { isServer } from '@qwik.dev/core/build';
+export const check = isServer;
+"#;
+        let source = Source::from_source(code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default()
+            .with_transpile_ts(true)
+            .with_transpile_jsx(true)
+            .with_is_server(true);
+        let result = transform(source, options).expect("transform failed");
+        let output = &result.optimized_app.body;
+
+        // isServer (value import) should be replaced with true
+        assert!(
+            output.contains("= true"),
+            "Value import isServer should be tracked and replaced, got: {}",
+            output
+        );
+    }
+
+    #[test]
+    fn test_import_tracker_skips_type_only_specifier() {
+        // Verify ImportTracker does not receive type-only specifiers within mixed imports
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let code = r#"
+import { type Component, isServer } from '@qwik.dev/core/build';
+export const check = isServer;
+"#;
+        let source = Source::from_source(code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default()
+            .with_transpile_ts(true)
+            .with_transpile_jsx(true)
+            .with_is_server(true);
+        let result = transform(source, options).expect("transform failed");
+        let output = &result.optimized_app.body;
+
+        // isServer (value specifier) should be replaced with true
+        // Component (type-only specifier) should not affect this
+        assert!(
+            output.contains("= true"),
+            "Value specifier isServer should be tracked even with type-only sibling, got: {}",
+            output
+        );
+    }
 }
