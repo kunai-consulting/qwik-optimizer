@@ -1,13 +1,3 @@
-//! QRL extraction and segment management for Qwik optimizer.
-//!
-//! This module contains QRL-specific transformation logic extracted from
-//! generator.rs following the dispatcher pattern. Contains functions for:
-//!
-//! - Scoped identifier computation (`compute_scoped_idents`)
-//! - Display name generation
-//! - Hash computation
-//! - QRL extraction during call expression handling
-
 use std::collections::HashSet;
 
 use base64::{engine, Engine};
@@ -18,30 +8,12 @@ use crate::collector::Id;
 use super::generator::{IdentType, IdPlusType};
 
 /// Compute which identifiers from parent scopes are captured by a QRL.
-///
-/// Takes all identifiers referenced in the QRL body and all declarations from parent scopes,
-/// returning the intersection (sorted for deterministic output) and whether all captured
-/// variables are const.
-///
-/// # Arguments
-/// * `all_idents` - All identifiers referenced in the QRL body (from IdentCollector)
-/// * `all_decl` - All declarations from parent scopes (flattened decl_stack)
-///
-/// # Returns
-/// A tuple of:
-/// * `Vec<Id>` - Sorted list of captured identifiers
-/// * `bool` - True if all captured variables are const
 pub fn compute_scoped_idents(all_idents: &[Id], all_decl: &[IdPlusType]) -> (Vec<Id>, bool) {
     let mut set: HashSet<Id> = HashSet::new();
     let mut is_const = true;
 
     for ident in all_idents {
-        // Compare by name only - ScopeId differences between IdentCollector (uses 0)
-        // and decl_stack (uses actual scope) should not prevent capture detection.
-        // For QRL capture purposes, name matching is sufficient since we're comparing
-        // within a single file's scope hierarchy.
         if let Some(item) = all_decl.iter().find(|item| item.0 .0 == ident.0) {
-            // Use the declaration's full Id (with correct scope) rather than collector's Id
             set.insert(item.0.clone());
             if !matches!(item.1, IdentType::Var(true)) {
                 is_const = false;
@@ -50,14 +22,10 @@ pub fn compute_scoped_idents(all_idents: &[Id], all_decl: &[IdPlusType]) -> (Vec
     }
 
     let mut output: Vec<Id> = set.into_iter().collect();
-    output.sort(); // Deterministic ordering for stable output
+    output.sort();
     (output, is_const)
 }
 
-/// Builds the display name from a segment stack.
-///
-/// Joins segment names with underscores, handling special cases for named QRLs
-/// and indexed QRLs.
 pub(crate) fn build_display_name(segment_stack: &[crate::segment::Segment]) -> String {
     use crate::segment::Segment;
 
@@ -68,7 +36,7 @@ pub(crate) fn build_display_name(segment_stack: &[crate::segment::Segment]) -> S
             Segment::Named(name) => name.clone(),
             Segment::NamedQrl(name, 0) => name.clone(),
             Segment::NamedQrl(name, index) => format!("{}_{}", name, index),
-            Segment::IndexQrl(0) => continue, // Skip zero-indexed QRLs
+            Segment::IndexQrl(0) => continue,
             Segment::IndexQrl(index) => index.to_string(),
         };
 
@@ -77,7 +45,6 @@ pub(crate) fn build_display_name(segment_stack: &[crate::segment::Segment]) -> S
         }
 
         if display_name.is_empty() {
-            // Prefix with underscore if starts with digit
             if segment_str
                 .chars()
                 .next()
@@ -96,9 +63,6 @@ pub(crate) fn build_display_name(segment_stack: &[crate::segment::Segment]) -> S
     display_name
 }
 
-/// Calculates a hash for a QRL given the source info, display name, and optional scope.
-///
-/// Uses the source file path, display name, and scope to generate a stable hash.
 pub(crate) fn compute_hash(
     rel_path: &std::path::Path,
     display_name: &str,
@@ -122,16 +86,6 @@ pub(crate) fn compute_hash(
         .replace(['-', '_'], "0")
 }
 
-/// Collects imported identifier names from a list of imports.
-///
-/// Used to filter out identifiers that will be imported from those that need
-/// to be captured via useLexicalScope.
-///
-/// # Arguments
-/// * `imports` - List of imports to collect names from
-///
-/// # Returns
-/// A HashSet of imported identifier names
 pub(crate) fn collect_imported_names(imports: &[crate::component::Import]) -> HashSet<String> {
     use crate::component::ImportId;
 
@@ -142,22 +96,11 @@ pub(crate) fn collect_imported_names(imports: &[crate::component::Import]) -> Ha
             ImportId::Named(name) => Some(name.clone()),
             ImportId::Default(name) => Some(name.clone()),
             ImportId::NamedWithAlias(_, local) => Some(local.clone()),
-            ImportId::Namespace(_) => None, // Namespace imports are accessed via member expr
+            ImportId::Namespace(_) => None,
         })
         .collect()
 }
 
-/// Filters scoped identifiers by removing those that are imported.
-///
-/// Identifiers that are imported should not be captured via useLexicalScope
-/// since they will be handled via imports in the segment file.
-///
-/// # Arguments
-/// * `scoped_idents` - List of captured identifiers
-/// * `imported_names` - Set of imported identifier names to exclude
-///
-/// # Returns
-/// Filtered list of captured identifiers
 pub(crate) fn filter_imported_from_scoped(
     scoped_idents: Vec<Id>,
     imported_names: &HashSet<String>,
@@ -168,19 +111,6 @@ pub(crate) fn filter_imported_from_scoped(
         .collect()
 }
 
-/// Collects referenced exports from identifiers in a QRL body.
-///
-/// Identifiers in the QRL body that are exports from the source file need
-/// to be imported in segment files.
-///
-/// # Arguments
-/// * `descendent_idents` - All identifiers used in the QRL body
-/// * `imported_names` - Set of imported names (to exclude)
-/// * `scoped_idents` - Set of captured variables (to exclude)
-/// * `export_by_name` - Map of exports in the source file
-///
-/// # Returns
-/// List of ExportInfo for referenced exports
 pub(crate) fn collect_referenced_exports(
     descendent_idents: &[Id],
     imported_names: &HashSet<String>,
@@ -190,15 +120,12 @@ pub(crate) fn collect_referenced_exports(
     descendent_idents
         .iter()
         .filter_map(|(name, _)| {
-            // Skip if it's an import (will be handled via imports)
             if imported_names.contains(name) {
                 return None;
             }
-            // Skip if it's a captured variable (handled via useLexicalScope)
             if scoped_idents.iter().any(|(n, _)| n == name) {
                 return None;
             }
-            // Check if it's a source export
             export_by_name.get(name).cloned()
         })
         .collect()
