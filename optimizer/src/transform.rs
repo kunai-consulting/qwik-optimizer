@@ -303,6 +303,12 @@ pub struct TransformGenerator<'gen> {
     /// Each loop level can have multiple iteration variables (e.g., `(v, idx)` in map callback).
     /// Used to pass iteration variables via `q:p` prop instead of capture.
     iteration_var_stack: Vec<Vec<Id>>,
+
+    /// Tracks aliased $ marker functions that should skip QRL transformation.
+    /// When `component$` or `$` is imported as a different name (e.g., `component$ as Component`),
+    /// the aliased name is added here. Calls using the alias will NOT be transformed as QRLs.
+    /// This matches SWC's skip_transform behavior.
+    skip_transform_names: HashSet<String>,
 }
 
 impl<'gen> TransformGenerator<'gen> {
@@ -6584,7 +6590,7 @@ export const App = component$(() => {
 
             // Parameter destructuring { track } should be preserved
             assert!(code.contains("track") || code.contains("{ track }"),
-                "Expected parameter destructuring { track } to be preserved.\nSegment code:\n{}", code);
+                "Expected parameter destructuring {{ track }} to be preserved.\nSegment code:\n{}", code);
 
             // await expressions should work
             assert!(code.contains("await someAsyncOperation"),
