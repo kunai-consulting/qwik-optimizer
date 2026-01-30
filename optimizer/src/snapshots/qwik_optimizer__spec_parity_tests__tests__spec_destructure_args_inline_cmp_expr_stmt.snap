@@ -2,68 +2,27 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
+==INPUT==
+
+export default ({ data }: { data: any }) =>
+    <div
+      data-is-active={data.selectedOutputDetail === 'options'}
+      onClick$={() => {
+        data.selectedOutputDetail = 'options';
+      }}
+    />;
+
+============================= test.tsx ==
+
+import { _jsxSorted, qrl } from "@qwik.dev/core";
+const i_onClick = ()=>import("./test.tsx");
+export default ({ data })=>/*#__PURE__*/ _jsxSorted("div", {
+	data-is-active: data.selectedOutputDetail === "options",
+	on:click: /*#__PURE__*/ qrl(i_onClick, "div_onClick")
+}, null, null, 3, null);
 
 
-		export default ({ data }: { data: any }) =>
-            <div
-              data-is-active={data.selectedOutputDetail === 'options'}
-              onClick$={() => {
-                data.selectedOutputDetail = 'options';
-              }}
-            />;
-		
-============================= test.js ==
-
-import { _fnSignal } from "@qwik.dev/core";
-import { qrl } from "@qwik.dev/core";
-import { _jsxSorted } from "@qwik.dev/core";
-const _hf0 = (p0)=>p0.data.selectedOutputDetail === 'options';
-const _hf0_str = 'p0.data.selectedOutputDetail==="options"';
-const i_HJR5N4Nizkc = ()=>import("./test.tsx_test_div_on_click_HJR5N4Nizkc");
-export default ((_rawProps)=>/*#__PURE__*/ _jsxSorted("div", {
-        "data-is-active": _fnSignal(_hf0, [
-            _rawProps
-        ], _hf0_str),
-        "on:click": /*#__PURE__*/ qrl(i_HJR5N4Nizkc, "test_div_on_click_HJR5N4Nizkc", [
-            _rawProps
-        ])
-    }, null, null, 2, "u6_0"));
-
-
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;mBAG8B,GAFV,KAEe,oBAAoB,KAAK;;;AAF1D,eAAe,CAAA,2BACL,WAAC;QACC,gBAAc;;;QACd,UAAQ;;;6BAGT,EAAE\"}")
-============================= test.tsx_test_div_on_click_HJR5N4Nizkc.js (ENTRY POINT)==
-
-import { useLexicalScope } from "@qwik.dev/core";
-export const test_div_on_click_HJR5N4Nizkc = ()=>{
-    const [_rawProps] = useLexicalScope();
-    _rawProps.data.selectedOutputDetail = 'options';
-};
-
-
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";6CAIwB;;IACR,UAJI,KAIC,oBAAoB,GAAG\"}")
-/*
-{
-  "origin": "test.tsx",
-  "name": "test_div_on_click_HJR5N4Nizkc",
-  "entry": null,
-  "displayName": "test.tsx_test_div_on_click",
-  "hash": "HJR5N4Nizkc",
-  "canonicalFilename": "test.tsx_test_div_on_click_HJR5N4Nizkc",
-  "path": "",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "eventHandler",
-  "ctxName": "onClick$",
-  "captures": true,
-  "loc": [
-    160,
-    238
-  ],
-  "captureNames": [
-    "_rawProps"
-  ]
-}
-*/
+None
 == DIAGNOSTICS ==
 
 []

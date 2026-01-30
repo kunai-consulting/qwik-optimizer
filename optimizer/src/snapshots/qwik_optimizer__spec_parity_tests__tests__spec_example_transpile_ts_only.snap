@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-
+==INPUT==
 
 import { component$, useStore } from '@qwik.dev/core';
 
@@ -14,18 +14,46 @@ export const App = component$((props: Stuff) => {
 	);
 });
 
-============================= test.jsx ==
+============================= test.tsx ==
 
-import { componentQrl } from "@qwik.dev/core";
-import { inlinedQrl } from "@qwik.dev/core";
-export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl((props)=>{
-    return <Cmp>
-			<p class="stuff" on:click={/*#__PURE__*/ inlinedQrl(()=>console.log('warn'), "App_component_Cmp_p_on_click_9VylW0qB00s")}>Hello Qwik</p>
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_ckEPmXZlub0 = ()=>import("./test.tsx_App_component_ckEPmXZlub0");
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
+
+
+None
+============================= test.tsx_App_component_ckEPmXZlub0.tsx (ENTRY POINT)==
+
+import { qrl } from "@qwik.dev/core";
+const i_onClick = ()=>import("./test.tsx");
+export const App_component_ckEPmXZlub0 = (props)=>{
+	return <Cmp>
+			<p class="stuff" on:click={/*#__PURE__*/ qrl(i_onClick, "App_component_Cmp_p_onClick")}>Hello Qwik</p>
 		</Cmp>;
-}, "App_component_ckEPmXZlub0"));
+};
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;AAGA,OAAO,MAAM,oBAAM,sCAAW,CAAC;IAC9B,QACE,IAAI;GACJ,CAAC,EAAE,MAAM,QAAQ,mCAAU,IAAM,QAAQ,GAAG,CAAC,sDAAS,UAAU,EAAE,EAAE;EACrE,EAAE;AAEJ,iCAAG\"}")
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "App_component_ckEPmXZlub0",
+  "entry": "entry_segments",
+  "displayName": "test.tsx_App_component",
+  "hash": "ckEPmXZlub0",
+  "canonicalFilename": "test.tsx_App_component_ckEPmXZlub0",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    86,
+    210
+  ]
+}
+*/
 == DIAGNOSTICS ==
 
 []

@@ -43,8 +43,8 @@ None
   "ctxName": "$",
   "captures": true,
   "loc": [
-    0,
-    0
+    192,
+    301
   ]
 }
 */
@@ -56,7 +56,7 @@ const i_GRxSFiyL3cQ = ()=>import("./test_qrl_with_captures.tsx_Counter_increment
 export const Counter = ()=>{
 	const count = useSignal(0);
 	const name = "test";
-	const increment = qrl(i_GRxSFiyL3cQ, "Counter_increment_GRxSFiyL3cQ", [count, name]);
+	const increment = /*#__PURE__*/ qrl(i_GRxSFiyL3cQ, "Counter_increment_GRxSFiyL3cQ", [count, name]);
 	return increment;
 };
 

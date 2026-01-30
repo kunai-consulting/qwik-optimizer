@@ -4,7 +4,6 @@ expression: output
 ---
 ==INPUT==
 
-
 import { $, component$, useStyles$ } from '@qwik.dev/core';
 
 export const Foo = component$(() => {
@@ -18,10 +17,10 @@ export const Foo = component$(() => {
 
 ============================= test.tsx_Foo_component_useStyles_pV9TSCBIhw8.tsx (ENTRY POINT)==
 
-export const Foo_component_useStyles_pV9TSCBIhw8 = '.class {}';
+export const Foo_component_useStyles_pV9TSCBIhw8 = ".class {}";
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"mDAIY\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -32,28 +31,26 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "canonicalFilename": "test.tsx_Foo_component_useStyles_pV9TSCBIhw8",
   "path": "",
   "extension": "tsx",
-  "parent": "Foo_component_HTDRsvUbLiE",
+  "parent": null,
   "ctxKind": "function",
   "ctxName": "useStyles$",
   "captures": false,
   "loc": [
-    113,
-    124
+    111,
+    122
   ]
 }
 */
 ============================= test.tsx_Foo_component_HTDRsvUbLiE.tsx (ENTRY POINT)==
 
-import { qrl } from "@qwik.dev/core";
-import { useStylesQrl } from "@qwik.dev/core";
-const i_pV9TSCBIhw8 = ()=>import("./test.tsx_Foo_component_useStyles_pV9TSCBIhw8");
+import { qrl, useStylesQrl } from "@qwik.dev/core";
 export const Foo_component_HTDRsvUbLiE = ()=>{
-    useStylesQrl(/*#__PURE__*/ qrl(i_pV9TSCBIhw8, "Foo_component_useStyles_pV9TSCBIhw8"));
-    return <div class="class"/>;
+	/*#__PURE__*/ useStylesQrl(/*#__PURE__*/ qrl(i_pV9TSCBIhw8, "Foo_component_useStyles_pV9TSCBIhw8"));
+	return <div class="class" />;
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;yCAG8B;IAC7B;IACA,QACE,IAAI,MAAM;AAEb\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -69,22 +66,20 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    93,
-    165
+    91,
+    163
   ]
 }
 */
 ============================= test.tsx ==
 
-import { componentQrl } from "@qwik.dev/core";
-import { qrl } from "@qwik.dev/core";
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_pV9TSCBIhw8 = ()=>import("./test.tsx_Foo_component_useStyles_pV9TSCBIhw8");
 const i_HTDRsvUbLiE = ()=>import("./test.tsx_Foo_component_HTDRsvUbLiE");
-export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_HTDRsvUbLiE, "Foo_component_HTDRsvUbLiE"), {
-    tagName: "my-foo"
-});
+export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_HTDRsvUbLiE, "Foo_component_HTDRsvUbLiE"));
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAGA,OAAO,MAAM,oBAAM,4EAKhB;IACF,SAAS;AACV,GAAG\"}")
+None
 == DIAGNOSTICS ==
 
 []

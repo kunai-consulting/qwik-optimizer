@@ -4,7 +4,6 @@ expression: output
 ---
 ==INPUT==
 
-
 import { component$ } from '@qwik.dev/core';
 import mongodb from 'mongodb';
 
@@ -21,34 +20,22 @@ export default component$(()=> {
 	return <div>cmp</div>
 });
 
-============================= test.tsx ==
+============================= test.tsx_component_ZUK1E201Ins.tsx (ENTRY POINT)==
 
-import { componentQrl } from "@qwik.dev/core";
-import { qrl } from "@qwik.dev/core";
-const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
-export const onGet = ()=>{
-    throw "Symbol removed by Qwik Optimizer, it can not be called from current platform";
-};
-export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
-
-
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;aAIa;;;AASb,6BAAe,6EAEZ\"}")
-============================= test.tsx_test_component_LUXeXe0DQrg.tsx (ENTRY POINT)==
-
-export const test_component_LUXeXe0DQrg = ()=>{
-    return <div>cmp</div>;
+export const component_ZUK1E201Ins = ()=>{
+	return <div>cmp</div>;
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"0CAa0B;IACzB,QAAQ,IAAI,GAAG,EAAE;AAClB\"}")
+None
 /*
 {
   "origin": "test.tsx",
-  "name": "test_component_LUXeXe0DQrg",
+  "name": "component_ZUK1E201Ins",
   "entry": null,
-  "displayName": "test.tsx_test_component",
-  "hash": "LUXeXe0DQrg",
-  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
+  "displayName": "test.tsx_component",
+  "hash": "ZUK1E201Ins",
+  "canonicalFilename": "test.tsx_component_ZUK1E201Ins",
   "path": "",
   "extension": "tsx",
   "parent": null,
@@ -56,11 +43,24 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    215,
-    246
+    213,
+    244
   ]
 }
 */
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+import mongodb from "mongodb";
+const i_ZUK1E201Ins = ()=>import("./test.tsx_component_ZUK1E201Ins");
+export const onGet = ()=>{
+	const data = mongodb.collection.whatever;
+	return { body: { data } };
+};
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ZUK1E201Ins, "component_ZUK1E201Ins"));
+
+
+None
 == DIAGNOSTICS ==
 
 []

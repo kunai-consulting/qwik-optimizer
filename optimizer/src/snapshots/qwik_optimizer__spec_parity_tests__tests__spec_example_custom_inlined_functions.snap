@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-
+==INPUT==
 
 import { component$, $, useStore, wrap, useEffect } from '@qwik.dev/core';
 
@@ -28,34 +28,15 @@ export const Lightweight = (props) => {
 	});
 };
 
-============================= test.js ==
+============================= test.tsx_App_component_useMemo_6Sc9KVki3Y0.tsx (ENTRY POINT)==
 
-import { componentQrl } from "@qwik.dev/core";
-import { qrl } from "@qwik.dev/core";
-const i_UIcxVTQF1a8 = ()=>import("./test.tsx_Lightweight_useMemo_UIcxVTQF1a8");
-const i_ckEPmXZlub0 = ()=>import("./test.tsx_App_component_ckEPmXZlub0");
-import { wrap, useEffect } from '@qwik.dev/core';
-export const useMemoQrl = (qrt)=>{
-    useEffect(qrt);
-};
-export const useMemo$ = wrap(useMemoQrl);
-export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
-export const Lightweight = (props)=>{
-    useMemoQrl(/*#__PURE__*/ qrl(i_UIcxVTQF1a8, "Lightweight_useMemo_UIcxVTQF1a8"));
-};
-
-
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;AACA,SAAkC,IAAI,EAAE,SAAS,QAAQ,iBAAiB;AAE1E,OAAO,MAAM,aAAa,CAAC;IAC1B,UAAU;AACX,EAAE;AAEF,OAAO,MAAM,WAAW,KAAK,YAAY;AAEzC,OAAO,MAAM,oBAAM,4EAQhB;AAEH,OAAO,MAAM,cAAc,CAAC;IAC3B;AAGD,EAAE\"}")
-============================= test.tsx_App_component_useMemo_6Sc9KVki3Y0.js (ENTRY POINT)==
-
-import { useLexicalScope } from "@qwik.dev/core";
 export const App_component_useMemo_6Sc9KVki3Y0 = ()=>{
-    const [state] = useLexicalScope();
-    console.log(state.count);
+	const [state] = useLexicalScope();
+	console.log(state.count);
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";iDAWU;;IACR,QAAQ,GAAG,CAAC,MAAM,KAAK\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -65,28 +46,42 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "hash": "6Sc9KVki3Y0",
   "canonicalFilename": "test.tsx_App_component_useMemo_6Sc9KVki3Y0",
   "path": "",
-  "extension": "js",
-  "parent": "App_component_ckEPmXZlub0",
+  "extension": "tsx",
+  "parent": null,
   "ctxKind": "function",
   "ctxName": "useMemo$",
   "captures": true,
   "loc": [
-    269,
-    307
-  ],
-  "captureNames": [
-    "state"
+    267,
+    305
   ]
 }
 */
-============================= test.tsx_Lightweight_useMemo_UIcxVTQF1a8.js (ENTRY POINT)==
+============================= test.tsx ==
+
+import { useMemoQrl } from "./test";
+import { componentQrl, qrl, useEffect, useMemoQrl, wrap } from "@qwik.dev/core";
+const i_6Sc9KVki3Y0 = ()=>import("./test.tsx_App_component_useMemo_6Sc9KVki3Y0");
+const i_w0t0o3QMovU = ()=>import("./test.tsx_App_component_1_w0t0o3QMovU");
+const i_ckEPmXZlub0 = ()=>import("./test.tsx_App_component_ckEPmXZlub0");
+const i_UIcxVTQF1a8 = ()=>import("./test.tsx_Lightweight_useMemo_UIcxVTQF1a8");
+export const useMemoQrl = (qrt)=>{
+	useEffect(qrt);
+};
+export const useMemo$ = wrap(useMemoQrl);
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
+export const Lightweight = /*#__PURE__*/ useMemoQrl(/*#__PURE__*/ qrl(i_UIcxVTQF1a8, "Lightweight_useMemo_UIcxVTQF1a8"));
+
+
+None
+============================= test.tsx_Lightweight_useMemo_UIcxVTQF1a8.tsx (ENTRY POINT)==
 
 export const Lightweight_useMemo_UIcxVTQF1a8 = ()=>{
-    console.log(state.count);
+	console.log(state.count);
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"+CAoBU;IACR,QAAQ,GAAG,CAAC,MAAM,KAAK;AACxB\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -96,38 +91,28 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "hash": "UIcxVTQF1a8",
   "canonicalFilename": "test.tsx_Lightweight_useMemo_UIcxVTQF1a8",
   "path": "",
-  "extension": "js",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "useMemo$",
   "captures": false,
   "loc": [
-    415,
-    453
+    413,
+    451
   ]
 }
 */
-============================= test.tsx_App_component_ckEPmXZlub0.js (ENTRY POINT)==
+============================= test.tsx_App_component_ckEPmXZlub0.tsx (ENTRY POINT)==
 
-import { qrl } from "@qwik.dev/core";
-import { useMemoQrl } from "./test";
-import { useStore } from "@qwik.dev/core";
-const i_6Sc9KVki3Y0 = ()=>import("./test.tsx_App_component_useMemo_6Sc9KVki3Y0");
-const i_w0t0o3QMovU = ()=>import("./test.tsx_App_component_1_w0t0o3QMovU");
+import { qrl, useMemoQrl, useStore } from "@qwik.dev/core";
 export const App_component_ckEPmXZlub0 = (props)=>{
-    const state = useStore({
-        count: 0
-    });
-    useMemoQrl(/*#__PURE__*/ qrl(i_6Sc9KVki3Y0, "App_component_useMemo_6Sc9KVki3Y0", [
-        state
-    ]));
-    return /*#__PURE__*/ qrl(i_w0t0o3QMovU, "App_component_1_w0t0o3QMovU", [
-        state
-    ]);
+	const state = useStore({ count: 0 });
+	/*#__PURE__*/ useMemoQrl(/*#__PURE__*/ qrl(i_6Sc9KVki3Y0, "App_component_useMemo_6Sc9KVki3Y0", [state]));
+	return /*#__PURE__*/ qrl(i_w0t0o3QMovU, "App_component_1_w0t0o3QMovU", [state]);
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;yCAS8B,CAAC;IAC9B,MAAM,QAAQ,SAAS;QAAC,OAAO;IAAC;IAChC;;;IAGA;;;AAGD\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -137,32 +122,27 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "hash": "ckEPmXZlub0",
   "canonicalFilename": "test.tsx_App_component_ckEPmXZlub0",
   "path": "",
-  "extension": "js",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    209,
-    361
-  ],
-  "paramNames": [
-    "props"
+    207,
+    359
   ]
 }
 */
-============================= test.tsx_App_component_1_w0t0o3QMovU.js (ENTRY POINT)==
+============================= test.tsx_App_component_1_w0t0o3QMovU.tsx (ENTRY POINT)==
 
-import { useLexicalScope } from "@qwik.dev/core";
 import { _jsxSorted } from "@qwik.dev/core";
-import { _wrapProp } from "@qwik.dev/core";
 export const App_component_1_w0t0o3QMovU = ()=>{
-    const [state] = useLexicalScope();
-    return /*#__PURE__*/ _jsxSorted("div", null, null, _wrapProp(state, "count"), 3, "u6_0");
+	const [state] = useLexicalScope();
+	return /*#__PURE__*/ _jsxSorted("div", null, null, state.count, 1, null);
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;2CAcU;;yBACR,WAAC,6BAAK\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -172,17 +152,14 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "hash": "w0t0o3QMovU",
   "canonicalFilename": "test.tsx_App_component_1_w0t0o3QMovU",
   "path": "",
-  "extension": "js",
-  "parent": "App_component_ckEPmXZlub0",
+  "extension": "tsx",
+  "parent": null,
   "ctxKind": "function",
   "ctxName": "$",
   "captures": true,
   "loc": [
-    320,
-    357
-  ],
-  "captureNames": [
-    "state"
+    318,
+    355
   ]
 }
 */

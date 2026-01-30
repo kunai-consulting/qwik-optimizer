@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-
+==INPUT==
 
 import { component$, useStore, mutable } from '@qwik.dev/core';
 
@@ -38,119 +38,69 @@ export const App = component$(() => {
 	);
 });
 
-============================= test.js ==
+============================= test.tsx ==
 
-import { componentQrl } from "@qwik.dev/core";
-import { _jsxSorted } from "@qwik.dev/core";
-import { _wrapProp } from "@qwik.dev/core";
-import { _fnSignal } from "@qwik.dev/core";
-import { inlinedQrl } from "@qwik.dev/core";
-const _hf0 = (p0)=>12 + p0.value;
-const _hf0_str = "12+p0.value";
-const _hf1 = (p0)=>p0.address.city.name;
-const _hf1_str = "p0.address.city.name";
-const _hf2 = (p0)=>p0.address.city.name ? 'true' : 'false';
-const _hf2_str = 'p0.address.city.name?"true":"false"';
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_ckEPmXZlub0 = ()=>import("./test.tsx_App_component_ckEPmXZlub0");
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
+
+
+None
+============================= test.tsx_App_component_ckEPmXZlub0.tsx (ENTRY POINT)==
+
+import { dep } from "./file";
+import { _jsxSorted, mutable, useStore } from "@qwik.dev/core";
 import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
-import { useStore, mutable } from '@qwik.dev/core';
-import { dep } from './file';
-const App_component_ckEPmXZlub0 = ()=>{
-    const signal = useSignal(0);
-    const store = useStore({});
-    return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [
-        /*#__PURE__*/ _jsxSorted("div", null, null, "First text", 3, null),
-        /*#__PURE__*/ _jsxSorted("div", null, null, [
-            "First ",
-            `text`
-        ], 3, null),
-        /*#__PURE__*/ _jsxSorted("div", null, null, [
-            "First ",
-            1
-        ], 3, null),
-        /*#__PURE__*/ _jsxSorted("div", null, null, [
-            "First ",
-            true
-        ], 3, null),
-        /*#__PURE__*/ _jsxSorted("div", null, null, [
-            "First ",
-            `text${12}`
-        ], 3, null),
-        /*#__PURE__*/ _jsxSorted("div", null, null, [
-            "First ",
-            typeof `text${12}` === 'string' ? 12 : 43
-        ], 3, null),
-        /*#__PURE__*/ _jsxSorted("div", null, null, [
-            "First ",
-            signal
-        ], 3, null),
-        /*#__PURE__*/ _jsxSorted("div", null, null, [
-            "First ",
-            _wrapProp(signal)
-        ], 3, null),
-        /*#__PURE__*/ _jsxSorted("div", null, null, [
-            "First ",
-            _fnSignal(_hf0, [
-                signal
-            ], _hf0_str)
-        ], 3, null),
-        /*#__PURE__*/ _jsxSorted("div", null, null, [
-            "First ",
-            _fnSignal(_hf1, [
-                store
-            ], _hf1_str)
-        ], 3, null),
-        /*#__PURE__*/ _jsxSorted("div", null, null, [
-            "First ",
-            _fnSignal(_hf2, [
-                store
-            ], _hf2_str)
-        ], 3, null),
-        /*#__PURE__*/ _jsxSorted("div", null, null, [
-            "First ",
-            dep
-        ], 3, null),
-        /*#__PURE__*/ _jsxSorted("div", null, null, [
-            "First ",
-            dep.thing
-        ], 3, null),
-        /*#__PURE__*/ _jsxSorted("div", null, null, [
-            "First ",
-            dep.thing + 'stuff'
-        ], 3, null),
-        /*#__PURE__*/ _jsxSorted("div", null, null, [
-            "First ",
-            globalThing
-        ], 1, null),
-        /*#__PURE__*/ _jsxSorted("div", null, null, [
-            "First ",
-            globalThing.thing
-        ], 1, null),
-        /*#__PURE__*/ _jsxSorted("div", null, null, [
-            "First ",
-            globalThing.thing + 'stuff'
-        ], 1, null),
-        /*#__PURE__*/ _jsxSorted("div", null, null, [
-            "First ",
-            signal.value()
-        ], 1, null),
-        /*#__PURE__*/ _jsxSorted("div", null, null, [
-            "First ",
-            signal.value + unknown()
-        ], 1, null),
-        /*#__PURE__*/ _jsxSorted("div", null, null, [
-            "First ",
-            mutable(signal)
-        ], 1, null),
-        /*#__PURE__*/ _jsxSorted("div", null, null, [
-            "First ",
-            signal.value + dep
-        ], 1, null)
-    ], 1, "u6_0");
+export const App_component_ckEPmXZlub0 = ()=>{
+	const signal = useSignal(0);
+	const store = useStore({});
+	return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [
+		/*#__PURE__*/ _jsxSorted("div", null, null, "First text", 3, null),
+		/*#__PURE__*/ _jsxSorted("div", null, null, ["First", `text`], 1, null),
+		/*#__PURE__*/ _jsxSorted("div", null, null, ["First", 1], 1, null),
+		/*#__PURE__*/ _jsxSorted("div", null, null, ["First", true], 1, null),
+		/*#__PURE__*/ _jsxSorted("div", null, null, ["First", `text${12}`], 1, null),
+		/*#__PURE__*/ _jsxSorted("div", null, null, ["First", typeof `text${12}` === "string" ? 12 : 43], 1, null),
+		/*#__PURE__*/ _jsxSorted("div", null, null, ["First", signal], 1, null),
+		/*#__PURE__*/ _jsxSorted("div", null, null, ["First", _wrapProp(signal)], 1, null),
+		/*#__PURE__*/ _jsxSorted("div", null, null, ["First", 12 + signal.value], 1, null),
+		/*#__PURE__*/ _jsxSorted("div", null, null, ["First", store.address.city.name], 1, null),
+		/*#__PURE__*/ _jsxSorted("div", null, null, ["First", store.address.city.name ? "true" : "false"], 1, null),
+		/*#__PURE__*/ _jsxSorted("div", null, null, ["First", dep], 1, null),
+		/*#__PURE__*/ _jsxSorted("div", null, null, ["First", dep.thing], 1, null),
+		/*#__PURE__*/ _jsxSorted("div", null, null, ["First", dep.thing + "stuff"], 1, null),
+		/*#__PURE__*/ _jsxSorted("div", null, null, ["First", globalThing], 1, null),
+		/*#__PURE__*/ _jsxSorted("div", null, null, ["First", globalThing.thing], 1, null),
+		/*#__PURE__*/ _jsxSorted("div", null, null, ["First", globalThing.thing + "stuff"], 1, null),
+		/*#__PURE__*/ _jsxSorted("div", null, null, ["First", signal.value()], 1, null),
+		/*#__PURE__*/ _jsxSorted("div", null, null, ["First", signal.value + unknown()], 1, null),
+		/*#__PURE__*/ _jsxSorted("div", null, null, ["First", mutable(signal)], 1, null),
+		/*#__PURE__*/ _jsxSorted("div", null, null, ["First", signal.value + dep], 1, null)
+	], 3, null);
 };
-export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(App_component_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;mBAkBe,KAAK,GAAO,KAAK;;mBACjB,GAAM,OAAO,CAAC,IAAI,CAAC,IAAI;;mBACvB,GAAM,OAAO,CAAC,IAAI,CAAC,IAAI,GAAG,SAAS;;;AAnBlD,SAAqB,QAAQ,EAAE,OAAO,QAAQ,iBAAiB;AAE/D,SAAQ,GAAG,QAAO,SAAS;kCAEG;IAC7B,MAAM,SAAS,UAAU;IACzB,MAAM,QAAQ,SAAS,CAAC;IACxB,qBACC;sBACC,WAAC,mBAAI;sBACL,WAAC;YAAI;YAAO,CAAC,IAAI,CAAC;;sBAClB,WAAC;YAAI;YAAO;;sBACZ,WAAC;YAAI;YAAO;;sBACZ,WAAC;YAAI;YAAO,CAAC,IAAI,EAAE,IAAI;;sBACvB,WAAC;YAAI;YAAO,OAAO,CAAC,IAAI,EAAE,IAAI,KAAK,WAAW,KAAK;;sBACnD,WAAC;YAAI;YAAO;;sBACZ,WAAC;YAAI;sBAAO;;sBACZ,WAAC;YAAI;;;;;sBACL,WAAC;YAAI;;;;;sBACL,WAAC;YAAI;;;;;sBACL,WAAC;YAAI;YAAO;;sBACZ,WAAC;YAAI;YAAO,IAAI,KAAK;;sBACrB,WAAC;YAAI;YAAO,IAAI,KAAK,GAAG;;sBACxB,WAAC;YAAI;YAAO;;sBACZ,WAAC;YAAI;YAAO,YAAY,KAAK;;sBAC7B,WAAC;YAAI;YAAO,YAAY,KAAK,GAAG;;sBAChC,WAAC;YAAI;YAAO,OAAO,KAAK;;sBACxB,WAAC;YAAI;YAAO,OAAO,KAAK,GAAG;;sBAC3B,WAAC;YAAI;YAAO,QAAQ;;sBACpB,WAAC;YAAI;YAAO,OAAO,KAAK,GAAG;;;AAG9B;AA5BA,OAAO,MAAM,oBAAM,+FA4BhB\"}")
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "App_component_ckEPmXZlub0",
+  "entry": "entry_segments",
+  "displayName": "test.tsx_App_component",
+  "hash": "ckEPmXZlub0",
+  "canonicalFilename": "test.tsx_App_component_ckEPmXZlub0",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    124,
+    1022
+  ]
+}
+*/
 == DIAGNOSTICS ==
 
 []

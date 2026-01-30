@@ -4,7 +4,6 @@ expression: output
 ---
 ==INPUT==
 
-
 import { $, component$ } from '@qwik.dev/core';
 
 export const [a, {b, v1: [c], d=v2, ...e}, f=v3, ...g] = obj;
@@ -29,16 +28,16 @@ export const Header = component$(() => {
 
 export const Footer = component$();
 
-============================= project/test.tsx_Header_component_UVBJuFYfvDo.jsx (ENTRY POINT)==
+============================= project/test.tsx_Header_component_UVBJuFYfvDo.tsx (ENTRY POINT)==
 
 import { qrl } from "@qwik.dev/core";
-const i_uWM1kg0IGO0 = ()=>import("./test.tsx_Header_component_1_uWM1kg0IGO0");
 export const Header_component_UVBJuFYfvDo = ()=>{
-    return /*#__PURE__*/ qrl(i_uWM1kg0IGO0, "Header_component_1_uWM1kg0IGO0");
+	const [exp1, internal] = useLexicalScope();
+	return /*#__PURE__*/ qrl(i_uWM1kg0IGO0, "Header_component_1_uWM1kg0IGO0", [exp1, internal]);
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/project/test.tsx\"],\"names\":[],\"mappings\":\";;4CAciC;IAChC;AAMD\"}")
+None
 /*
 {
   "origin": "project/test.tsx",
@@ -48,56 +47,47 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/project/test.tsx\"],\"names\"
   "hash": "UVBJuFYfvDo",
   "canonicalFilename": "test.tsx_Header_component_UVBJuFYfvDo",
   "path": "project",
-  "extension": "jsx",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
-  "captures": false,
+  "captures": true,
   "loc": [
-    305,
-    461
+    303,
+    459
   ]
 }
 */
-============================= project/test.jsx ==
+============================= project/test.tsx ==
 
-import { componentQrl } from "@qwik.dev/core";
-import { qrl } from "@qwik.dev/core";
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_uWM1kg0IGO0 = ()=>import("./test.tsx_Header_component_1_uWM1kg0IGO0");
 const i_UVBJuFYfvDo = ()=>import("./test.tsx_Header_component_UVBJuFYfvDo");
 export const [a, { b, v1: [c], d = v2, ...e }, f = v3, ...g] = obj;
 const exp1 = 1;
 const internal = 2;
 export { exp1, internal as expr2 };
 export function foo() {}
-export class bar {
-}
+export class bar {}
 export default function DefaultFn() {}
-export const Header = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_UVBJuFYfvDo, "Header_component_UVBJuFYfvDo"));
-export const Footer = /*#__PURE__*/ componentQrl();
+export const Header = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_UVBJuFYfvDo, "Header_component_UVBJuFYfvDo", [exp1, internal]));
+export const Footer = /*#__PURE__*/ qrl(i_uWM1kg0IGO0, "Header_component_1_uWM1kg0IGO0", [exp1, internal]);
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/project/test.tsx\"],\"names\":[],\"mappings\":\";;;AAGA,OAAO,MAAM,CAAC,GAAG,EAAC,CAAC,EAAE,IAAI,CAAC,EAAE,EAAE,IAAE,EAAE,EAAE,GAAG,GAAE,EAAE,IAAE,EAAE,EAAE,GAAG,EAAE,GAAG,IAAI;AAE7D,MAAM,OAAO;AACb,MAAM,WAAW;AACjB,SAAQ,IAAI,EAAE,YAAY,KAAK,GAAE;AAEjC,OAAO,SAAS,OAAQ;AACxB,OAAO,MAAM;AAAK;AAElB,eAAe,SAAS,aAAa;AAErC,OAAO,MAAM,uBAAS,+EAOnB;AAEH,OAAO,MAAM,uBAAS,eAAa\"}")
-============================= project/test.tsx_Header_component_1_uWM1kg0IGO0.jsx (ENTRY POINT)==
+None
+============================= project/test.tsx_Header_component_1_uWM1kg0IGO0.tsx (ENTRY POINT)==
 
-import { default as DefaultFn } from "./test";
-import { Footer } from "./test";
-import { a } from "./test";
-import { b } from "./test";
-import { bar } from "./test";
-import { c } from "./test";
-import { d } from "./test";
-import { e } from "./test";
-import { exp1 } from "./test";
-import { f } from "./test";
-import { foo } from "./test";
-import { expr2 as internal } from "./test";
-export const Header_component_1_uWM1kg0IGO0 = ()=><Footer>
+import { bar, foo, default as DefaultFn } from "./test";
+export const Header_component_1_uWM1kg0IGO0 = ()=>{
+	const [exp1, internal] = useLexicalScope();
+	return <Footer>
 			<div>{a}{b}{c}{d}{e}{f}{exp1}{internal}{foo}{bar}{DefaultFn}</div>
 			<div>{v1}{v2}{v3}{obj}</div>
 		</Footer>;
+};
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/project/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;;;;;;;8CAeU,KACP,OAAO;GACP,CAAC,KAAK,GAAG,GAAG,GAAG,GAAG,GAAG,GAAG,MAAM,UAAU,KAAK,KAAK,YAAY,IAAI;GAClE,CAAC,KAAK,IAAI,IAAI,IAAI,MAAM,IAAI;EAC7B,EAAE\"}")
+None
 /*
 {
   "origin": "project/test.tsx",
@@ -107,14 +97,14 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/project/test.tsx\"],\"names\"
   "hash": "uWM1kg0IGO0",
   "canonicalFilename": "test.tsx_Header_component_1_uWM1kg0IGO0",
   "path": "project",
-  "extension": "jsx",
-  "parent": "Header_component_UVBJuFYfvDo",
+  "extension": "tsx",
+  "parent": null,
   "ctxKind": "function",
   "ctxName": "$",
-  "captures": false,
+  "captures": true,
   "loc": [
-    323,
-    458
+    321,
+    456
   ]
 }
 */

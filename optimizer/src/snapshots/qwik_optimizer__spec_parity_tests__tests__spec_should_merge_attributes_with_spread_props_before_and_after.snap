@@ -2,70 +2,55 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
+==INPUT==
 
+import { component$ } from '@qwik.dev/core';
 
-		import { component$ } from '@qwik.dev/core';
+export default component$((props) => {
+	return <div {...props} class={[props.class, 'component']} {...props} />;
+});
 
-		export default component$((props) => {
-			return <div {...props} class={[props.class, 'component']} {...props} />;
-		});
-		
-============================= test.js ==
+============================= test.tsx_component_ZUK1E201Ins.tsx (ENTRY POINT)==
 
-import { componentQrl } from "@qwik.dev/core";
-import { qrl } from "@qwik.dev/core";
-const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
-export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
-
-
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAGE,6BAAe,6EAEZ\"}")
-============================= test.tsx_test_component_LUXeXe0DQrg.js (ENTRY POINT)==
-
-import { _fnSignal } from "@qwik.dev/core";
-import { _getConstProps } from "@qwik.dev/core";
-import { _getVarProps } from "@qwik.dev/core";
-import { _jsxSplit } from "@qwik.dev/core";
-const _hf0 = (p0)=>[
-        p0.class,
-        'component'
-    ];
-const _hf0_str = '[p0.class,"component"]';
-export const test_component_LUXeXe0DQrg = (props)=>{
-    return /*#__PURE__*/ _jsxSplit("div", {
-        ..._getVarProps(props),
-        ..._getConstProps(props),
-        class: _fnSignal(_hf0, [
-            props
-        ], _hf0_str),
-        ..._getVarProps(props)
-    }, _getConstProps(props), null, 0, "u6_0");
+import { _getConstProps, _getVarProps, _jsxSplit } from "@qwik.dev/core";
+export const component_ZUK1E201Ins = (props)=>{
+	return /*#__PURE__*/ _jsxSplit("div", {
+		..._getVarProps(props),
+		class: [props.class, "component"],
+		..._getVarProps(props)
+	}, _getConstProps(props), null, 0, null);
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;mBAIiC;QAAC,GAAM,KAAK;QAAE;KAAY;;0CAD/B,CAAC;IAC1B,qBAAO,UAAC;wBAAQ;0BAAA;QAAO,KAAK;;;wBAAkC;sBAAA;AAC/D\"}")
+None
 /*
 {
   "origin": "test.tsx",
-  "name": "test_component_LUXeXe0DQrg",
+  "name": "component_ZUK1E201Ins",
   "entry": null,
-  "displayName": "test.tsx_test_component",
-  "hash": "LUXeXe0DQrg",
-  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
+  "displayName": "test.tsx_component",
+  "hash": "ZUK1E201Ins",
+  "canonicalFilename": "test.tsx_component_ZUK1E201Ins",
   "path": "",
-  "extension": "js",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    78,
-    170
-  ],
-  "paramNames": [
-    "props"
+    72,
+    160
   ]
 }
 */
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_ZUK1E201Ins = ()=>import("./test.tsx_component_ZUK1E201Ins");
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ZUK1E201Ins, "component_ZUK1E201Ins"));
+
+
+None
 == DIAGNOSTICS ==
 
 []

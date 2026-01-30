@@ -4,7 +4,6 @@ expression: output
 ---
 ==INPUT==
 
-
 import { component$, useStore } from '@qwik.dev/core';
 
 export enum Thing {
@@ -23,29 +22,27 @@ export const App = component$(() => {
 
 ============================= test.tsx ==
 
-import { componentQrl } from "@qwik.dev/core";
-import { qrl } from "@qwik.dev/core";
+import { componentQrl, qrl } from "@qwik.dev/core";
 const i_ckEPmXZlub0 = ()=>import("./test.tsx_App_component_ckEPmXZlub0");
 export enum Thing {
-    A,
-    B
+	A,
+	B
 }
 export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAGA,YAAY;IACX;IACA;;AAGD,OAAO,MAAM,oBAAM,4EAOhB\"}")
+None
 ============================= test.tsx_App_component_ckEPmXZlub0.tsx (ENTRY POINT)==
 
-import { Thing } from "./test";
 export const App_component_ckEPmXZlub0 = ()=>{
-    console.log(Thing.A);
-    return <>
+	console.log(Thing.A);
+	return <>
 			<p class="stuff">Hello Qwik</p>
 		</>;
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";yCAQ8B;IAC7B,QAAQ,GAAG,CAAC,MAAM,CAAC;IACnB,SACG;GACD,CAAC,EAAE,MAAM,QAAQ,UAAU,EAAE,EAAE;EAChC;AAEF\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -61,8 +58,8 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    118,
-    210
+    116,
+    208
   ]
 }
 */

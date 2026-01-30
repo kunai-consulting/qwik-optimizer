@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-
+==INPUT==
 
 import { component$ } from '@builder.io/qwik';
 export default component$((props) => {
@@ -17,111 +17,53 @@ export default component$((props) => {
 	/>);
 });
 
-============================= test.tsx_test_component_p_on_const_i552ahxj0Ag.js (ENTRY POINT)==
+============================= test.tsx_component_ZUK1E201Ins.tsx (ENTRY POINT)==
 
-export const test_component_p_on_const_i552ahxj0Ag = ()=>'const';
-
-
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"qDASY,IAAM\"}")
-/*
-{
-  "origin": "test.tsx",
-  "name": "test_component_p_on_const_i552ahxj0Ag",
-  "entry": null,
-  "displayName": "test.tsx_test_component_p_on_const",
-  "hash": "i552ahxj0Ag",
-  "canonicalFilename": "test.tsx_test_component_p_on_const_i552ahxj0Ag",
-  "path": "",
-  "extension": "js",
-  "parent": "test_component_LUXeXe0DQrg",
-  "ctxKind": "eventHandler",
-  "ctxName": "onConst$",
-  "captures": false,
-  "loc": [
-    239,
-    252
-  ]
-}
-*/
-============================= test.js ==
-
-import { componentQrl } from "@qwik.dev/core";
-import { qrl } from "@qwik.dev/core";
-const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
-export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
-
-
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAEA,6BAAe,6EAUZ\"}")
-============================= test.tsx_test_component_p_on_hi_UJAnjrKiyXk.js (ENTRY POINT)==
-
-export const test_component_p_on_hi_UJAnjrKiyXk = ()=>'hi';
-
-
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"kDAIS,IAAM\"}")
-/*
-{
-  "origin": "test.tsx",
-  "name": "test_component_p_on_hi_UJAnjrKiyXk",
-  "entry": null,
-  "displayName": "test.tsx_test_component_p_on_hi",
-  "hash": "UJAnjrKiyXk",
-  "canonicalFilename": "test.tsx_test_component_p_on_hi_UJAnjrKiyXk",
-  "path": "",
-  "extension": "js",
-  "parent": "test_component_LUXeXe0DQrg",
-  "ctxKind": "eventHandler",
-  "ctxName": "onHi$",
-  "captures": false,
-  "loc": [
-    111,
-    121
-  ]
-}
-*/
-============================= test.tsx_test_component_LUXeXe0DQrg.js (ENTRY POINT)==
-
-import { _jsxSplit } from "@qwik.dev/core";
-import { qrl } from "@qwik.dev/core";
-const i_UJAnjrKiyXk = ()=>import("./test.tsx_test_component_p_on_hi_UJAnjrKiyXk");
-const i_i552ahxj0Ag = ()=>import("./test.tsx_test_component_p_on_const_i552ahxj0Ag");
-export const test_component_LUXeXe0DQrg = (props)=>{
-    return /*#__PURE__*/ _jsxSplit("p", {
-        "on:hi": /*#__PURE__*/ qrl(i_UJAnjrKiyXk, "test_component_p_on_hi_UJAnjrKiyXk"),
-        ...props.foo,
-        "on:hello": props.helloHandler$,
-        ...props.rest,
-        "on:var": props.onVarHandler$
-    }, {
-        "on:const": /*#__PURE__*/ qrl(i_i552ahxj0Ag, "test_component_p_on_const_i552ahxj0Ag"),
-        asd: "1"
-    }, null, 0, "u6_0");
+import { _getConstProps, _getVarProps, _jsxSplit, qrl } from "@qwik.dev/core";
+const i_onConst = ()=>import("./test.tsx");
+const i_onHi = ()=>import("./test.tsx");
+export const component_ZUK1E201Ins = (props)=>{
+	return /*#__PURE__*/ _jsxSplit("p", {
+		on:hi: /*#__PURE__*/ qrl(i_onHi, "component_p_onHi"),
+		..._getVarProps(props.foo),
+		on:hello: props.helloHandler$,
+		..._getVarProps(props.rest),
+		on:var: props.onVarHandler$,
+		on:const: /*#__PURE__*/ qrl(i_onConst, "component_p_onConst"),
+		asd: "1"
+	}, _getConstProps(props.rest), null, 0, null);
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;0CAE0B,CAAC;IACzB,qBAAQ,UAAC;QACT,OAAK;QACJ,GAAG,MAAM,GAAG;QACb,YAAU,MAAM,aAAa;QAC5B,GAAG,MAAM,IAAI;QACd,UAAQ,MAAM,aAAa;;QAC3B,UAAQ;QACR,KAAK;;AAEP\"}")
+None
 /*
 {
   "origin": "test.tsx",
-  "name": "test_component_LUXeXe0DQrg",
+  "name": "component_ZUK1E201Ins",
   "entry": null,
-  "displayName": "test.tsx_test_component",
-  "hash": "LUXeXe0DQrg",
-  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
+  "displayName": "test.tsx_component",
+  "hash": "ZUK1E201Ins",
+  "canonicalFilename": "test.tsx_component_ZUK1E201Ins",
   "path": "",
-  "extension": "js",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    75,
-    274
-  ],
-  "paramNames": [
-    "props"
+    73,
+    272
   ]
 }
 */
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_ZUK1E201Ins = ()=>import("./test.tsx_component_ZUK1E201Ins");
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ZUK1E201Ins, "component_ZUK1E201Ins"));
+
+
+None
 == DIAGNOSTICS ==
 
 []

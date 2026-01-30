@@ -39,8 +39,8 @@ None
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    138,
+    239
   ]
 }
 */
@@ -49,7 +49,7 @@ None
 import { componentQrl, qrl } from "@qwik.dev/core";
 const i_87M60GhSi7M = ()=>import("./test_qrl_function_declaration.tsx_Counter_component_87M60GhSi7M");
 // Function declaration component$ - transforms correctly
-export const Counter = componentQrl(qrl(i_87M60GhSi7M, "Counter_component_87M60GhSi7M"));
+export const Counter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_87M60GhSi7M, "Counter_component_87M60GhSi7M"));
 
 
 None

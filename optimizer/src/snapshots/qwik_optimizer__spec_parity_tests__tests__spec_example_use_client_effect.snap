@@ -4,7 +4,6 @@ expression: output
 ---
 ==INPUT==
 
-
 import { component$, useBrowserVisibleTask$, useStore, useStyles$ } from '@qwik.dev/core';
 
 export const Child = component$(() => {
@@ -29,22 +28,20 @@ export const Child = component$(() => {
 	);
 });
 
+============================= test.tsx_Child_component_useBrowserVisibleTask_0IGFPOyJmQA.tsx (ENTRY POINT)==
 
-============================= test.tsx_Child_component_useBrowserVisibleTask_0IGFPOyJmQA.js (ENTRY POINT)==
-
-import { useLexicalScope } from "@qwik.dev/core";
 export const Child_component_useBrowserVisibleTask_0IGFPOyJmQA = ()=>{
-    const [state] = useLexicalScope();
-    const timer = setInterval(()=>{
-        state.count++;
-    }, 1000);
-    return ()=>{
-        clearInterval(timer);
-    };
+	const [state] = useLexicalScope();
+	const timer = setInterval(()=>{
+		state.count++;
+	}, 1e3);
+	return ()=>{
+		clearInterval(timer);
+	};
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";iEASwB;;IACtB,MAAM,QAAQ,YAAY;QAC1B,MAAM,KAAK;IACX,GAAG;IACH,OAAO;QACP,cAAc;IACd\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -54,50 +51,28 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "hash": "0IGFPOyJmQA",
   "canonicalFilename": "test.tsx_Child_component_useBrowserVisibleTask_0IGFPOyJmQA",
   "path": "",
-  "extension": "js",
-  "parent": "Child_component_9GyF01GDKqw",
+  "extension": "tsx",
+  "parent": null,
   "ctxKind": "function",
   "ctxName": "useBrowserVisibleTask$",
   "captures": true,
   "loc": [
-    224,
-    344
-  ],
-  "captureNames": [
-    "state"
+    222,
+    342
   ]
 }
 */
-============================= test.js ==
+============================= test.tsx_Child_component_9GyF01GDKqw.tsx (ENTRY POINT)==
 
-import { componentQrl } from "@qwik.dev/core";
-import { qrl } from "@qwik.dev/core";
-const i_9GyF01GDKqw = ()=>import("./test.tsx_Child_component_9GyF01GDKqw");
-export const Child = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_9GyF01GDKqw, "Child_component_9GyF01GDKqw"));
-
-
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAGA,OAAO,MAAM,sBAAQ,8EAoBlB\"}")
-============================= test.tsx_Child_component_9GyF01GDKqw.js (ENTRY POINT)==
-
-import { _jsxSorted } from "@qwik.dev/core";
-import { _wrapProp } from "@qwik.dev/core";
-import { qrl } from "@qwik.dev/core";
-import { useBrowserVisibleTaskQrl } from "@qwik.dev/core";
-import { useStore } from "@qwik.dev/core";
-const i_0IGFPOyJmQA = ()=>import("./test.tsx_Child_component_useBrowserVisibleTask_0IGFPOyJmQA");
+import { _jsxSorted, qrl, useBrowserVisibleTaskQrl, useStore } from "@qwik.dev/core";
 export const Child_component_9GyF01GDKqw = ()=>{
-    const state = useStore({
-        count: 0
-    });
-    // Double count watch
-    useBrowserVisibleTaskQrl(/*#__PURE__*/ qrl(i_0IGFPOyJmQA, "Child_component_useBrowserVisibleTask_0IGFPOyJmQA", [
-        state
-    ]));
-    return /*#__PURE__*/ _jsxSorted("div", null, null, _wrapProp(state, "count"), 3, "u6_0");
+	const state = useStore({ count: 0 });
+	/*#__PURE__*/ useBrowserVisibleTaskQrl(/*#__PURE__*/ qrl(i_0IGFPOyJmQA, "Child_component_useBrowserVisibleTask_0IGFPOyJmQA", [state]));
+	return /*#__PURE__*/ _jsxSorted("div", null, null, state.count, 1, null);
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;2CAGgC;IAC/B,MAAM,QAAQ,SAAS;QACtB,OAAO;IACR;IAEA,qBAAqB;IACrB;;;IASA,qBACC,WAAC,6BACA;AAGH\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -107,17 +82,26 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "hash": "9GyF01GDKqw",
   "canonicalFilename": "test.tsx_Child_component_9GyF01GDKqw",
   "path": "",
-  "extension": "js",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    126,
-    395
+    124,
+    393
   ]
 }
 */
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_0IGFPOyJmQA = ()=>import("./test.tsx_Child_component_useBrowserVisibleTask_0IGFPOyJmQA");
+const i_9GyF01GDKqw = ()=>import("./test.tsx_Child_component_9GyF01GDKqw");
+export const Child = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_9GyF01GDKqw, "Child_component_9GyF01GDKqw"));
+
+
+None
 == DIAGNOSTICS ==
 
 []

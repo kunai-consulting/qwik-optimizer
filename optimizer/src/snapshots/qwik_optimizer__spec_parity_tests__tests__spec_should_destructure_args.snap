@@ -4,99 +4,67 @@ expression: output
 ---
 ==INPUT==
 
+import { component$ } from "@qwik.dev/core";
 
-		import { component$ } from "@qwik.dev/core";
-
-		// the count results in _fnSignal because of the rename
-		// would be nice to consider it a prop too
-		export default component$(({ message, id, count: c, ...rest }: Record<string, any>) => {
-			const renders = useStore({ renders: 0 }, { reactive: false });
-			renders.renders++;
-			const rerenders = renders.renders + 0;
-			return (
-				<div id={id}>
-					<span {...rest}>
-					{message} {c}
-					</span>
-					<div class="renders">{rerenders}</div>
-				</div>
-			);
-		}
-		);
-	
-============================= test.js ==
-
-import { componentQrl } from "@qwik.dev/core";
-import { qrl } from "@qwik.dev/core";
-const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
 // the count results in _fnSignal because of the rename
 // would be nice to consider it a prop too
-export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
+export default component$(({ message, id, count: c, ...rest }: Record<string, any>) => {
+	const renders = useStore({ renders: 0 }, { reactive: false });
+	renders.renders++;
+	const rerenders = renders.renders + 0;
+	return (
+		<div id={id}>
+			<span {...rest}>
+			{message} {c}
+			</span>
+			<div class="renders">{rerenders}</div>
+		</div>
+	);
+}
+);
 
+============================= test.tsx_component_ZUK1E201Ins.tsx (ENTRY POINT)==
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAGE,uDAAuD;AACvD,0CAA0C;AAC1C,6BAAe,6EAab\"}")
-============================= test.tsx_test_component_LUXeXe0DQrg.js (ENTRY POINT)==
-
-import { _getConstProps } from "@qwik.dev/core";
-import { _getVarProps } from "@qwik.dev/core";
-import { _jsxSorted } from "@qwik.dev/core";
-import { _jsxSplit } from "@qwik.dev/core";
-import { _restProps } from "@qwik.dev/core";
-import { _wrapProp } from "@qwik.dev/core";
-export const test_component_LUXeXe0DQrg = (_rawProps)=>{
-    const rest = _restProps(_rawProps, [
-        "message",
-        "id",
-        "count"
-    ]);
-    const renders = useStore({
-        renders: 0
-    }, {
-        reactive: false
-    });
-    renders.renders++;
-    const rerenders = renders.renders + 0;
-    return /*#__PURE__*/ _jsxSorted("div", {
-        id: _wrapProp(_rawProps, "id")
-    }, null, [
-        /*#__PURE__*/ _jsxSplit("span", {
-            ..._getVarProps(rest)
-        }, _getConstProps(rest), [
-            _wrapProp(_rawProps, "message"),
-            " ",
-            _wrapProp(_rawProps, "count")
-        ], 0, null),
-        /*#__PURE__*/ _jsxSorted("div", null, {
-            class: "renders"
-        }, rerenders, 1, null)
-    ], 1, "u6_0");
+import { _getConstProps, _getVarProps, _jsxSorted, _jsxSplit } from "@qwik.dev/core";
+export const component_ZUK1E201Ins = ({ message, id, count: c, ...rest })=>{
+	const renders = useStore({ renders: 0 }, { reactive: false });
+	renders.renders++;
+	const rerenders = renders.renders + 0;
+	return /*#__PURE__*/ _jsxSorted("div", { id: _wrapProp(_rawProps, "id") }, null, [/*#__PURE__*/ _jsxSplit("span", { ..._getVarProps(rest) }, _getConstProps(rest), [_wrapProp(_rawProps, "message"), _wrapProp(_rawProps, "count")], 0, null), /*#__PURE__*/ _jsxSorted("div", null, { class: "renders" }, rerenders, 1, null)], 3, null);
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;0CAK4B;;;;;;IACzB,MAAM,UAAU,SAAS;QAAE,SAAS;IAAE,GAAG;QAAE,UAAU;IAAM;IAC3D,QAAQ,OAAO;IACf,MAAM,YAAY,QAAQ,OAAO,GAAG;IACpC,qBACC,WAAC;QAAI,EAAE;;sBACN,UAAC;4BAAS;0BAAA;;YACD;;;sBAET,WAAC;YAAI,OAAM;WAAW;;AAGzB\"}")
+None
 /*
 {
   "origin": "test.tsx",
-  "name": "test_component_LUXeXe0DQrg",
+  "name": "component_ZUK1E201Ins",
   "entry": null,
-  "displayName": "test.tsx_test_component",
-  "hash": "LUXeXe0DQrg",
-  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
+  "displayName": "test.tsx_component",
+  "hash": "ZUK1E201Ins",
+  "canonicalFilename": "test.tsx_component_ZUK1E201Ins",
   "path": "",
-  "extension": "js",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    181,
-    522
-  ],
-  "paramNames": [
-    "_rawProps"
+    171,
+    488
   ]
 }
 */
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_ZUK1E201Ins = ()=>import("./test.tsx_component_ZUK1E201Ins");
+// the count results in _fnSignal because of the rename
+// would be nice to consider it a prop too
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ZUK1E201Ins, "component_ZUK1E201Ins"));
+
+
+None
 == DIAGNOSTICS ==
 
 []

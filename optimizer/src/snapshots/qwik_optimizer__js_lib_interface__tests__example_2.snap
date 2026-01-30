@@ -38,8 +38,8 @@ None
   "ctxName": "$",
   "captures": false,
   "loc": [
-    0,
-    0
+    135,
+    160
   ]
 }
 */
@@ -49,8 +49,8 @@ import { component, qrl } from "@qwik.dev/core";
 const i_ZYP8O0EEogs = ()=>import("./test_example_2.tsx_renderHeader_div_onClick_ZYP8O0EEogs");
 const i_hMRKEFfLPuk = ()=>import("./test_example_2.tsx_renderHeader_hMRKEFfLPuk");
 const i_1YSz7kbpTeU = ()=>import("./test_example_2.tsx_renderHeader_component_1YSz7kbpTeU");
-export const renderHeader = qrl(i_hMRKEFfLPuk, "renderHeader_hMRKEFfLPuk");
-const renderHeader = component(qrl(i_1YSz7kbpTeU, "renderHeader_component_1YSz7kbpTeU"));
+export const renderHeader = /*#__PURE__*/ qrl(i_hMRKEFfLPuk, "renderHeader_hMRKEFfLPuk");
+const renderHeader = component(/*#__PURE__*/ qrl(i_1YSz7kbpTeU, "renderHeader_component_1YSz7kbpTeU"));
 
 
 None
@@ -78,8 +78,8 @@ None
   "ctxName": "$",
   "captures": false,
   "loc": [
-    0,
-    0
+    209,
+    263
   ]
 }
 */
@@ -88,7 +88,7 @@ None
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 const i_ZYP8O0EEogs = ()=>import("./test_example_2.tsx_renderHeader_div_onClick_ZYP8O0EEogs");
 export const renderHeader_hMRKEFfLPuk = ()=>{
-	return /*#__PURE__*/ _jsxSorted("div", { onClick: qrl(i_ZYP8O0EEogs, "renderHeader_div_onClick_ZYP8O0EEogs") }, null, null, 3, null);
+	return /*#__PURE__*/ _jsxSorted("div", { onClick: /*#__PURE__*/ qrl(i_ZYP8O0EEogs, "renderHeader_div_onClick_ZYP8O0EEogs") }, null, null, 3, null);
 };
 
 
@@ -108,8 +108,8 @@ None
   "ctxName": "$",
   "captures": false,
   "loc": [
-    0,
-    0
+    90,
+    173
   ]
 }
 */

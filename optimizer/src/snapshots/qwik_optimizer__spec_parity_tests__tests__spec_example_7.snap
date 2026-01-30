@@ -4,7 +4,6 @@ expression: output
 ---
 ==INPUT==
 
-
 import { $, component$ } from '@qwik.dev/core';
 
 export const Header = component$(() => {
@@ -25,12 +24,12 @@ const App = component$(() => {
 import { qrl } from "@qwik.dev/core";
 const i_i7ekvWH3674 = ()=>import("./test.tsx_Header_component_div_onClick_i7ekvWH3674");
 export const Header_component_J4uyIhaBNR4 = ()=>{
-    console.log("mount");
-    return <div onClick={/*#__PURE__*/ qrl(i_i7ekvWH3674, "Header_component_div_onClick_i7ekvWH3674")}/>;
+	console.log("mount");
+	return <div onClick={/*#__PURE__*/ qrl(i_i7ekvWH3674, "Header_component_div_onClick_i7ekvWH3674")} />;
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;4CAGiC;IAChC,QAAQ,GAAG,CAAC;IACZ,QACE,IAAI;AAEN\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -46,31 +45,31 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    84,
-    179
+    82,
+    177
   ]
 }
 */
 ============================= test.tsx ==
 
-import { componentQrl } from "@qwik.dev/core";
-import { qrl } from "@qwik.dev/core";
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_i7ekvWH3674 = ()=>import("./test.tsx_Header_component_div_onClick_i7ekvWH3674");
 const i_J4uyIhaBNR4 = ()=>import("./test.tsx_Header_component_J4uyIhaBNR4");
 const i_ckEPmXZlub0 = ()=>import("./test.tsx_App_component_ckEPmXZlub0");
 export const Header = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_J4uyIhaBNR4, "Header_component_J4uyIhaBNR4"));
 /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;AAGA,OAAO,MAAM,uBAAS,+EAKlB;cAEQ\"}")
+None
 ============================= test.tsx_App_component_ckEPmXZlub0.tsx (ENTRY POINT)==
 
 import { Header } from "./test";
 export const App_component_ckEPmXZlub0 = ()=>{
-    return <Header/>;
+	return <Header />;
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";yCAUuB;IACtB,QACE;AAEH\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -86,8 +85,8 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    206,
-    241
+    204,
+    239
   ]
 }
 */
@@ -96,7 +95,7 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
 export const Header_component_div_onClick_i7ekvWH3674 = (ctx)=>console.log(ctx);
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"wDAMkB,CAAC,MAAQ,QAAQ,GAAG,CAAC\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -107,16 +106,13 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "canonicalFilename": "test.tsx_Header_component_div_onClick_i7ekvWH3674",
   "path": "",
   "extension": "tsx",
-  "parent": "Header_component_J4uyIhaBNR4",
+  "parent": null,
   "ctxKind": "function",
   "ctxName": "$",
   "captures": false,
   "loc": [
-    143,
-    168
-  ],
-  "paramNames": [
-    "ctx"
+    141,
+    166
   ]
 }
 */

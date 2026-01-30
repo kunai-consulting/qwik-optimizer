@@ -22,7 +22,7 @@ import { componentQrl, qrl } from "@qwik.dev/core";
 const i_heZI5duJilM = ()=>import("./test_example_ts.tsx_App_Header_component_div_onClick_heZI5duJilM");
 const i_IcZnKqyst0A = ()=>import("./test_example_ts.tsx_App_Header_component_IcZnKqyst0A");
 export const App = ()=>{
-	const Header = componentQrl(qrl(i_IcZnKqyst0A, "App_Header_component_IcZnKqyst0A"));
+	const Header = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_IcZnKqyst0A, "App_Header_component_IcZnKqyst0A"));
 	return Header;
 };
 
@@ -49,8 +49,8 @@ None
   "ctxName": "$",
   "captures": false,
   "loc": [
-    0,
-    0
+    218,
+    243
   ]
 }
 */
@@ -60,7 +60,7 @@ import { _jsxSorted, qrl } from "@qwik.dev/core";
 const i_heZI5duJilM = ()=>import("./test_example_ts.tsx_App_Header_component_div_onClick_heZI5duJilM");
 export const App_Header_component_IcZnKqyst0A = ()=>{
 	console.log("mount");
-	return /*#__PURE__*/ _jsxSorted("div", { onClick: qrl(i_heZI5duJilM, "App_Header_component_div_onClick_heZI5duJilM") }, null, null, 3, null);
+	return /*#__PURE__*/ _jsxSorted("div", { onClick: /*#__PURE__*/ qrl(i_heZI5duJilM, "App_Header_component_div_onClick_heZI5duJilM") }, null, null, 3, null);
 };
 
 
@@ -80,8 +80,8 @@ None
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    135,
+    264
   ]
 }
 */

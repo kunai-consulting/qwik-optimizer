@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-
+==INPUT==
 
 import { component$, useStore } from '@qwik.dev/core';
 
@@ -14,46 +14,24 @@ export const App = component$((props) => {
 	);
 });
 
-============================= test.tsx_App_component_Cmp_p_on_click_9VylW0qB00s.ts (ENTRY POINT)==
+============================= test.tsx ==
 
-export const App_component_Cmp_p_on_click_9VylW0qB00s = ()=>console.log('warn');
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_ckEPmXZlub0 = ()=>import("./test.tsx_App_component_ckEPmXZlub0");
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"wDAM8B,IAAM,QAAQ,GAAG,CAAC\"}")
-/*
-{
-  "origin": "test.tsx",
-  "name": "App_component_Cmp_p_on_click_9VylW0qB00s",
-  "entry": null,
-  "displayName": "test.tsx_App_component_Cmp_p_on_click",
-  "hash": "9VylW0qB00s",
-  "canonicalFilename": "test.tsx_App_component_Cmp_p_on_click_9VylW0qB00s",
-  "path": "",
-  "extension": "ts",
-  "parent": "App_component_ckEPmXZlub0",
-  "ctxKind": "eventHandler",
-  "ctxName": "onClick$",
-  "captures": false,
-  "loc": [
-    149,
-    174
-  ]
-}
-*/
-============================= test.tsx_App_component_ckEPmXZlub0.ts (ENTRY POINT)==
+None
+============================= test.tsx_App_component_ckEPmXZlub0.tsx (ENTRY POINT)==
 
-import { _jsxSorted } from "@qwik.dev/core";
-import { qrl } from "@qwik.dev/core";
-const i_9VylW0qB00s = ()=>import("./test.tsx_App_component_Cmp_p_on_click_9VylW0qB00s.ts");
+import { _jsxSorted, qrl } from "@qwik.dev/core";
+const i_onClick = ()=>import("./test.tsx");
 export const App_component_ckEPmXZlub0 = (props)=>{
-    return /*#__PURE__*/ _jsxSorted(Cmp, null, null, /*#__PURE__*/ _jsxSorted("p", null, {
-        class: "stuff",
-        "on:click": /*#__PURE__*/ qrl(i_9VylW0qB00s, "App_component_Cmp_p_on_click_9VylW0qB00s")
-    }, "Hello Qwik", 3, null), 3, "u6_0");
+	return _jsxSorted(Cmp, null, null, /*#__PURE__*/ _jsxSorted("p", { on:click: /*#__PURE__*/ qrl(i_onClick, "App_component_Cmp_p_onClick") }, { class: "stuff" }, "Hello Qwik", 3, null), 3, null);
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;yCAG8B,CAAC;IAC9B,qBACC,WAAC,+BACA,WAAC;QAAE,OAAM;QAAQ,UAAQ;OAA6B;AAGzD\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -63,29 +41,17 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "hash": "ckEPmXZlub0",
   "canonicalFilename": "test.tsx_App_component_ckEPmXZlub0",
   "path": "",
-  "extension": "ts",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    88,
-    205
-  ],
-  "paramNames": [
-    "props"
+    86,
+    203
   ]
 }
 */
-============================= test.ts ==
-
-import { componentQrl } from "@qwik.dev/core";
-import { qrl } from "@qwik.dev/core";
-const i_ckEPmXZlub0 = ()=>import("./test.tsx_App_component_ckEPmXZlub0.ts");
-export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
-
-
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAGA,OAAO,MAAM,oBAAM,4EAMhB\"}")
 == DIAGNOSTICS ==
 
 []

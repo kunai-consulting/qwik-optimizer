@@ -4,7 +4,6 @@ expression: output
 ---
 ==INPUT==
 
-
 import { component$, $, useStyles$ } from '@qwik.dev/core';
 
 export const App = component$((props) => {
@@ -16,19 +15,20 @@ export const App = component$((props) => {
 
 ============================= test.tsx ==
 
-import { componentQrl } from "@qwik.dev/core";
-import { qrl } from "@qwik.dev/core";
-const i_ckEPmXZlub0 = ()=>import("./test.tsx_App_component_ckEPmXZlub0.tsx");
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_t35nSa5UV7U = ()=>import("./test.tsx_App_component_useStyles_t35nSa5UV7U");
+const i_w0t0o3QMovU = ()=>import("./test.tsx_App_component_1_w0t0o3QMovU");
+const i_ckEPmXZlub0 = ()=>import("./test.tsx_App_component_ckEPmXZlub0");
 export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAGA,OAAO,MAAM,oBAAM,4EAKhB\"}")
-============================= test.tsx_App_component_useStyles_t35nSa5UV7U.tsx ==
+None
+============================= test.tsx_App_component_useStyles_t35nSa5UV7U.tsx (ENTRY POINT)==
 
-export const App_component_useStyles_t35nSa5UV7U = 'hola';
+export const App_component_useStyles_t35nSa5UV7U = "hola";
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"mDAIY\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -39,29 +39,26 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "canonicalFilename": "test.tsx_App_component_useStyles_t35nSa5UV7U",
   "path": "",
   "extension": "tsx",
-  "parent": "App_component_ckEPmXZlub0",
+  "parent": null,
   "ctxKind": "function",
   "ctxName": "useStyles$",
   "captures": false,
   "loc": [
-    118,
-    124
+    116,
+    122
   ]
 }
 */
-============================= test.tsx_App_component_ckEPmXZlub0.tsx ==
+============================= test.tsx_App_component_ckEPmXZlub0.tsx (ENTRY POINT)==
 
-import { qrl } from "@qwik.dev/core";
-import { useStylesQrl } from "@qwik.dev/core";
-const i_t35nSa5UV7U = ()=>import("./test.tsx_App_component_useStyles_t35nSa5UV7U.tsx");
-const i_w0t0o3QMovU = ()=>import("./test.tsx_App_component_1_w0t0o3QMovU.tsx");
+import { qrl, useStylesQrl } from "@qwik.dev/core";
 export const App_component_ckEPmXZlub0 = (props)=>{
-    useStylesQrl(/*#__PURE__*/ qrl(i_t35nSa5UV7U, "App_component_useStyles_t35nSa5UV7U"));
-    return /*#__PURE__*/ qrl(i_w0t0o3QMovU, "App_component_1_w0t0o3QMovU");
+	/*#__PURE__*/ useStylesQrl(/*#__PURE__*/ qrl(i_t35nSa5UV7U, "App_component_useStyles_t35nSa5UV7U"));
+	return /*#__PURE__*/ qrl(i_w0t0o3QMovU, "App_component_1_w0t0o3QMovU");
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;yCAG8B,CAAC;IAC9B;IACA;AAGD\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -77,20 +74,17 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    93,
-    165
-  ],
-  "paramNames": [
-    "props"
+    91,
+    163
   ]
 }
 */
-============================= test.tsx_App_component_1_w0t0o3QMovU.tsx ==
+============================= test.tsx_App_component_1_w0t0o3QMovU.tsx (ENTRY POINT)==
 
 export const App_component_1_w0t0o3QMovU = ()=><div></div>;
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"2CAKU,KACP,MAAM\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -101,13 +95,13 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "canonicalFilename": "test.tsx_App_component_1_w0t0o3QMovU",
   "path": "",
   "extension": "tsx",
-  "parent": "App_component_ckEPmXZlub0",
+  "parent": null,
   "ctxKind": "function",
   "ctxName": "$",
   "captures": false,
   "loc": [
-    137,
-    161
+    135,
+    159
   ]
 }
 */

@@ -2,32 +2,60 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
+==INPUT==
+
+export const \$promoteToRoot$ = (ref: SeenRef) => {
+	const path = \$getObjectPath$(ref) as string;
+	// should stay before the push
+	const idx = roots.length;
+	roots.push(new BackRef(path));
+	ref.\$parent$ = null;
+	ref.\$index$ = idx;
+	return idx;
+};
+
+============================= test.tsx_promoteToRoot_path_getObjectPath_ytJZPsFrXms.tsx (ENTRY POINT)==
+
+export const promoteToRoot_path_getObjectPath_ytJZPsFrXms = ref;
 
 
-		export const $promoteToRoot$ = (ref: SeenRef) => {
-			const path = $getObjectPath$(ref) as string;
-			// should stay before the push
-			const idx = roots.length;
-			roots.push(new BackRef(path));
-			ref.$parent$ = null;
-			ref.$index$ = idx;
-			return idx;
-		};
-		
-============================= test.js ==
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "promoteToRoot_path_getObjectPath_ytJZPsFrXms",
+  "entry": null,
+  "displayName": "test.tsx_promoteToRoot_path_getObjectPath",
+  "hash": "ytJZPsFrXms",
+  "canonicalFilename": "test.tsx_promoteToRoot_path_getObjectPath_ytJZPsFrXms",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "getObjectPath$",
+  "captures": true,
+  "loc": [
+    83,
+    86
+  ]
+}
+*/
+============================= test.tsx ==
 
-export const $promoteToRoot$ = (ref)=>{
-    const path = $getObjectPath$(ref);
-    // should stay before the push
-    const idx = roots.length;
-    roots.push(new BackRef(path));
-    ref.$parent$ = null;
-    ref.$index$ = idx;
-    return idx;
+import { getObjectPathQrl, qrl } from "@qwik.dev/core";
+const i_ytJZPsFrXms = ()=>import("./test.tsx_promoteToRoot_path_getObjectPath_ytJZPsFrXms");
+export const promoteToRoot$ = (ref)=>{
+	const path = /*#__PURE__*/ getObjectPathQrl(/*#__PURE__*/ qrl(i_ytJZPsFrXms, "promoteToRoot_path_getObjectPath_ytJZPsFrXms", [ref]));
+	// should stay before the push
+	const idx = roots.length;
+	roots.push(new BackRef(path));
+	ref.parent$ = null;
+	ref.index$ = idx;
+	return idx;
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"AACE,OAAO,MAAM,kBAAkB,CAAC;IAC/B,MAAM,OAAO,gBAAgB;IAC7B,8BAA8B;IAC9B,MAAM,MAAM,MAAM,MAAM;IACxB,MAAM,IAAI,CAAC,IAAI,QAAQ;IACvB,IAAI,QAAQ,GAAG;IACf,IAAI,OAAO,GAAG;IACd,OAAO;AACR,EAAE\"}")
+None
 == DIAGNOSTICS ==
 
 []

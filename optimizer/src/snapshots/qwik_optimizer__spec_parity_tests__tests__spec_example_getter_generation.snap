@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-
+==INPUT==
 
 import { component$, useStore } from '@qwik.dev/core';
 
@@ -37,42 +37,20 @@ export const Cmp = component$((props) => {
 	);
 });
 
-============================= test.js ==
+============================= test.tsx_Cmp_component_4ryKJTOKjWE.tsx (ENTRY POINT)==
 
-import { componentQrl } from "@qwik.dev/core";
-import { qrl } from "@qwik.dev/core";
-const i_4ryKJTOKjWE = ()=>import("./test.tsx_Cmp_component_4ryKJTOKjWE");
-const i_ckEPmXZlub0 = ()=>import("./test.tsx_App_component_ckEPmXZlub0");
-export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
-export const Cmp = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_4ryKJTOKjWE, "Cmp_component_4ryKJTOKjWE"));
-
-
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;AAGA,OAAO,MAAM,oBAAM,4EAoBhB;AAEH,OAAO,MAAM,oBAAM,4EAOhB\"}")
-============================= test.tsx_Cmp_component_4ryKJTOKjWE.js (ENTRY POINT)==
-
-import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
-import { _fnSignal } from "@qwik.dev/core";
 import { _jsxSorted } from "@qwik.dev/core";
-import { _wrapProp } from "@qwik.dev/core";
-const _hf0 = (p0)=>p0.nested.count;
-const _hf0_str = "p0.nested.count";
+import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
 export const Cmp_component_4ryKJTOKjWE = (props)=>{
-    return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [
-        /*#__PURE__*/ _jsxSorted("p", {
-            "data-value": _wrapProp(props, "count")
-        }, null, _fnSignal(_hf0, [
-            props
-        ], _hf0_str), 1, null),
-        /*#__PURE__*/ _jsxSorted("p", null, null, [
-            "Value ",
-            _wrapProp(props, "count"),
-            /*#__PURE__*/ _jsxSorted("span", null, null, null, 3, null)
-        ], 1, null)
-    ], 1, "u6_1");
+	return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [/*#__PURE__*/ _jsxSorted("p", { data-value: props.count }, null, props.nested.count, 1, null), /*#__PURE__*/ _jsxSorted("p", null, null, [
+		"Value",
+		props.count,
+		/*#__PURE__*/ _jsxSorted("span", null, null, null, 3, null)
+	], 1, null)], 3, null);
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;mBAgBW,GAAM,MAAM,CAAC,KAAK;;yCASC,CAAC;IAC9B,qBACC;sBACC,WAAC;YAAE,YAAU,YAAE;;;;sBACf,WAAC;YAAE;sBAAO;0BAAY,WAAC;;;AAG1B\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -82,60 +60,50 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "hash": "4ryKJTOKjWE",
   "canonicalFilename": "test.tsx_Cmp_component_4ryKJTOKjWE",
   "path": "",
-  "extension": "js",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    458,
-    596
-  ],
-  "paramNames": [
-    "props"
+    456,
+    594
   ]
 }
 */
-============================= test.tsx_App_component_ckEPmXZlub0.js (ENTRY POINT)==
+============================= test.tsx ==
 
-import { Cmp } from "./test";
-import { _fnSignal } from "@qwik.dev/core";
-import { _jsxSorted } from "@qwik.dev/core";
-import { _wrapProp } from "@qwik.dev/core";
-import { useStore } from "@qwik.dev/core";
-const _hf0 = (p0)=>p0.nested.count;
-const _hf0_str = "p0.nested.count";
-const _hf1 = (p0)=>p0.stuff + 12;
-const _hf1_str = "p0.stuff+12";
-const _hf2 = (p0)=>p0.formData?.get('username');
-const _hf2_str = 'p0.formData?.get("username")';
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_ckEPmXZlub0 = ()=>import("./test.tsx_App_component_ckEPmXZlub0");
+const i_4ryKJTOKjWE = ()=>import("./test.tsx_Cmp_component_4ryKJTOKjWE");
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
+export const Cmp = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_4ryKJTOKjWE, "Cmp_component_4ryKJTOKjWE"));
+
+
+None
+============================= test.tsx_App_component_ckEPmXZlub0.tsx (ENTRY POINT)==
+
+import { _jsxSorted, useStore } from "@qwik.dev/core";
 export const App_component_ckEPmXZlub0 = ()=>{
-    const store = useStore({
-        count: 0,
-        stuff: 0,
-        nested: {
-            count: 0
-        }
-    });
-    const signal = useSignal(0);
-    return /*#__PURE__*/ _jsxSorted(Cmp, null, {
-        prop: 'true',
-        count: _wrapProp(store, "count"),
-        nested: _fnSignal(_hf0, [
-            store
-        ], _hf0_str),
-        signal: signal,
-        store: _fnSignal(_hf1, [
-            store
-        ], _hf1_str),
-        value: _fnSignal(_hf2, [
-            signal
-        ], _hf2_str)
-    }, null, 3, "u6_0");
+	const store = useStore({
+		count: 0,
+		stuff: 0,
+		nested: { count: 0 }
+	});
+	const signal = useSignal(0);
+	return _jsxSorted(Cmp, {
+		count: store.count,
+		nested: store.nested.count,
+		store: store.stuff + 12,
+		value: signal.formData?.get("username")
+	}, {
+		prop: "true" + 1 ? "true" : "",
+		signal
+	}, null, 3, null);
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;mBAgBW,GAAM,MAAM,CAAC,KAAK;;mBAEnB,GAAM,KAAK,GAAG;;mBACd,GAAO,QAAQ,EAAE,IAAI;;yCAhBD;IAC7B,MAAM,QAAQ,SAAS;QACtB,OAAO;QACP,OAAO;QACP,QAAQ;YACP,OAAO;QACR;IACD;IACA,MAAM,SAAS,UAAU;IACzB,qBACC,WAAC;QACA,MAAmB;QACnB,KAAK,YAAE;QACP,MAAM;;;QACN,QAAQ;QACR,KAAK;;;QACL,KAAK;;;;AAIR\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -145,14 +113,14 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "hash": "ckEPmXZlub0",
   "canonicalFilename": "test.tsx_App_component_ckEPmXZlub0",
   "path": "",
-  "extension": "js",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    88,
-    424
+    86,
+    422
   ]
 }
 */

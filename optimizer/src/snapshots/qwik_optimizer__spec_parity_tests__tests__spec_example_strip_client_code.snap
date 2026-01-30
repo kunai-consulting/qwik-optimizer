@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-
+==INPUT==
 
 import { component$, useClientMount$, useStore, useTask$ } from '@qwik.dev/core';
 import mongo from 'mongodb';
@@ -41,53 +41,119 @@ export const Parent = component$(() => {
 	);
 });
 
-============================= components/component.js ==
+============================= components/component.tsx ==
 
-import "./keep";
-import "../keep2";
-import { componentQrl } from "@qwik.dev/core";
-import { useClientMountQrl } from "@qwik.dev/core";
-import { _noopQrl } from "@qwik.dev/core";
-import { useTaskQrl } from "@qwik.dev/core";
-import { inlinedQrl } from "@qwik.dev/core";
-import { _wrapProp } from "@qwik.dev/core";
-import { useLexicalScope } from "@qwik.dev/core";
-import { _jsxSorted } from "@qwik.dev/core";
-import { useStore } from '@qwik.dev/core';
-export const Parent = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(()=>{
-    const state = useStore({
-        text: ''
-    });
-    // Double count watch
-    useClientMountQrl(/*#__PURE__*/ _noopQrl("Parent_component_useClientMount_Yn2kIDABoYw", [
-        state
-    ]));
-    useTaskQrl(/*#__PURE__*/ inlinedQrl(()=>{
-    // Code
-    }, "Parent_component_useTask_ngmvcygWux8"));
-    return /*#__PURE__*/ _jsxSorted("div", null, {
-        shouldRemove$: /*#__PURE__*/ _noopQrl("Parent_component_div_shouldRemove_EBj69wTX1do", [
-            state
-        ]),
-        "on:click": /*#__PURE__*/ _noopQrl("Parent_component_div_on_click_qNr5MFLFX9Y", [
-            state
-        ])
-    }, [
-        /*#__PURE__*/ _jsxSorted(Div, null, {
-            onClick$: /*#__PURE__*/ inlinedQrl(()=>console.log('keep'), "Parent_component_div_Div_onClick_kgowuto5dR0"),
-            render$: /*#__PURE__*/ inlinedQrl(()=>{
-                const [state] = useLexicalScope();
-                return state.text;
-            }, "Parent_component_div_Div_render_CkMybN6xzQk", [
-                state
-            ])
-        }, null, 3, "7R_0"),
-        _wrapProp(state, "text")
-    ], 1, "7R_1");
-}, "Parent_component_t6Wy3C0Q0XM"));
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_Yn2kIDABoYw = ()=>import("./component.tsx_Parent_component_useClientMount_Yn2kIDABoYw");
+const i_ngmvcygWux8 = ()=>import("./component.tsx_Parent_component_useTask_ngmvcygWux8");
+const i_t6Wy3C0Q0XM = ()=>import("./component.tsx_Parent_component_t6Wy3C0Q0XM");
+export const Parent = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_t6Wy3C0Q0XM, "Parent_component_t6Wy3C0Q0XM"));
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/components/component.tsx\"],\"names\":[],\"mappings\":\";;;;;;;;;;AACA,SAAsC,QAAQ,QAAkB,iBAAiB;AAQjF,OAAO,MAAM,uBAAS,sCAAW;IAChC,MAAM,QAAQ,SAAS;QACtB,MAAM;IACP;IAEA,qBAAqB;IACrB;;;IAKA,oCAAS;IACR,OAAO;IACR;IAEA,qBACC,WAAC;QACA,aAAa;;;QACb,UAAQ;;;;sBAER,WAAC;YACA,QAAQ,2BAAE,IAAM,QAAQ,GAAG,CAAC;YAC5B,OAAO,2BAAE;;uBAAM,MAAM,IAAI;;;;;kBAEzB;;AAGJ,oCAAG\"}")
+None
+============================= components/component.tsx_Parent_component_useTask_ngmvcygWux8.tsx (ENTRY POINT)==
+
+export const Parent_component_useTask_ngmvcygWux8 = ()=>{};
+
+
+None
+/*
+{
+  "origin": "components/component.tsx",
+  "name": "Parent_component_useTask_ngmvcygWux8",
+  "entry": "entry_segments",
+  "displayName": "component.tsx_Parent_component_useTask",
+  "hash": "ngmvcygWux8",
+  "canonicalFilename": "component.tsx_Parent_component_useTask_ngmvcygWux8",
+  "path": "components",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "useTask$",
+  "captures": false,
+  "loc": [
+    486,
+    506
+  ]
+}
+*/
+============================= components/component.tsx_Parent_component_t6Wy3C0Q0XM.tsx (ENTRY POINT)==
+
+import { _jsxSorted, qrl } from "@qwik.dev/core";
+const i_render = ()=>import("./component.tsx");
+const i_onClick = ()=>import("./component.tsx");
+const i_Yn2kIDABoYw = ()=>import("./component.tsx_Parent_component_useClientMount_Yn2kIDABoYw");
+const i_ngmvcygWux8 = ()=>import("./component.tsx_Parent_component_useTask_ngmvcygWux8");
+export const Parent_component_t6Wy3C0Q0XM = ()=>{
+	const state = useStore({ text: "" });
+	/*#__PURE__*/ useClientMountQrl(/*#__PURE__*/ qrl(i_Yn2kIDABoYw, "Parent_component_useClientMount_Yn2kIDABoYw", [state]));
+	/*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_ngmvcygWux8, "Parent_component_useTask_ngmvcygWux8"));
+	return /*#__PURE__*/ _jsxSorted("div", {
+		shouldRemove$: /*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_ngmvcygWux8, "Parent_component_useTask_ngmvcygWux8")),
+		on:click: /*#__PURE__*/ useClientMountQrl(/*#__PURE__*/ qrl(i_Yn2kIDABoYw, "Parent_component_useClientMount_Yn2kIDABoYw", [state]))
+	}, null, [_jsxSorted(Div, {
+		onClick$: /*#__PURE__*/ qrl(i_onClick, "Parent_component_div_Div_onClick"),
+		render$: /*#__PURE__*/ qrl(i_render, "Parent_component_div_Div_render", [state])
+	}, null, null, 3, null), state.text], 1, null);
+};
+
+
+None
+/*
+{
+  "origin": "components/component.tsx",
+  "name": "Parent_component_t6Wy3C0Q0XM",
+  "entry": "entry_segments",
+  "displayName": "component.tsx_Parent_component",
+  "hash": "t6Wy3C0Q0XM",
+  "canonicalFilename": "component.tsx_Parent_component_t6Wy3C0Q0XM",
+  "path": "components",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    295,
+    741
+  ]
+}
+*/
+============================= components/component.tsx_Parent_component_useClientMount_Yn2kIDABoYw.tsx (ENTRY POINT)==
+
+import { c } from "../../remove";
+import { b } from "../keep2";
+import { a } from "./keep";
+import mongo from "mongodb";
+import redis from "redis";
+export const Parent_component_useClientMount_Yn2kIDABoYw = async ()=>{
+	const [state] = useLexicalScope();
+	state.text = await mongo.users();
+	redis.set(state.text, a, b, c);
+};
+
+
+None
+/*
+{
+  "origin": "components/component.tsx",
+  "name": "Parent_component_useClientMount_Yn2kIDABoYw",
+  "entry": "entry_segments",
+  "displayName": "component.tsx_Parent_component_useClientMount",
+  "hash": "Yn2kIDABoYw",
+  "canonicalFilename": "component.tsx_Parent_component_useClientMount_Yn2kIDABoYw",
+  "path": "components",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "useClientMount$",
+  "captures": true,
+  "loc": [
+    386,
+    472
+  ]
+}
+*/
 == DIAGNOSTICS ==
 
 []

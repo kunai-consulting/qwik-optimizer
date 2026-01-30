@@ -21,7 +21,7 @@ export const Header = component$(() => {
 
 import { qrl } from "@qwik.dev/core";
 export const Header_component_kw3mgfm0lgA = ()=>{
-	return qrl(i_hAK7mEQYxrg, "Header_component_1_hAK7mEQYxrg");
+	return /*#__PURE__*/ qrl(i_hAK7mEQYxrg, "Header_component_1_hAK7mEQYxrg");
 };
 
 
@@ -41,8 +41,8 @@ None
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    84,
+    294
   ]
 }
 */
@@ -51,7 +51,7 @@ None
 import { componentQrl, qrl } from "@qwik.dev/core";
 const i_hAK7mEQYxrg = ()=>import("./test_example_8.tsx_Header_component_1_hAK7mEQYxrg");
 const i_kw3mgfm0lgA = ()=>import("./test_example_8.tsx_Header_component_kw3mgfm0lgA");
-export const Header = componentQrl(qrl(i_kw3mgfm0lgA, "Header_component_kw3mgfm0lgA"));
+export const Header = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_kw3mgfm0lgA, "Header_component_kw3mgfm0lgA"));
 
 
 None
@@ -83,8 +83,8 @@ None
   "ctxName": "$",
   "captures": false,
   "loc": [
-    0,
-    0
+    105,
+    290
   ]
 }
 */

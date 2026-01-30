@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-
+==INPUT==
 
 import { component$, $ } from '@qwik.dev/core';
 import { CustomComponent } from './custom-component';
@@ -19,65 +19,37 @@ export const Greeter = component$(() => {
 	)
 });
 
-
-============================= test.tsx_Greeter_component_div_AnotherComponent_onClick_9BwXJW3s0yA.tsx (ENTRY POINT)==
-
-export const Greeter_component_div_AnotherComponent_onClick_9BwXJW3s0yA = ()=>{};
-
-
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"0EAUgC,KAAO\"}")
-/*
-{
-  "origin": "test.tsx",
-  "name": "Greeter_component_div_AnotherComponent_onClick_9BwXJW3s0yA",
-  "entry": null,
-  "displayName": "test.tsx_Greeter_component_div_AnotherComponent_onClick",
-  "hash": "9BwXJW3s0yA",
-  "canonicalFilename": "test.tsx_Greeter_component_div_AnotherComponent_onClick_9BwXJW3s0yA",
-  "path": "",
-  "extension": "tsx",
-  "parent": "Greeter_component_n7HuG2hhU0Q",
-  "ctxKind": "eventHandler",
-  "ctxName": "onClick$",
-  "captures": false,
-  "loc": [
-    319,
-    327
-  ]
-}
-*/
 ============================= test.tsx ==
 
-import { componentQrl } from "@qwik.dev/core";
-import { qrl } from "@qwik.dev/core";
+import { componentQrl, qrl } from "@qwik.dev/core";
 const i_n7HuG2hhU0Q = ()=>import("./test.tsx_Greeter_component_n7HuG2hhU0Q");
 export const Greeter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_n7HuG2hhU0Q, "Greeter_component_n7HuG2hhU0Q"));
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAKA,OAAO,MAAM,wBAAU,gFASpB\"}")
-============================= test.tsx_Greeter_component_div_CustomComponent_onClick_6xTF8kMcS9w.tsx (ENTRY POINT)==
+None
+============================= test.tsx_Greeter_component_div_map_AnotherComponent_onClick_V6k9qQ2eg0s.tsx (ENTRY POINT)==
 
-export const Greeter_component_div_CustomComponent_onClick_6xTF8kMcS9w = ()=>{};
+export const Greeter_component_div_map_AnotherComponent_onClick_V6k9qQ2eg0s = ()=>{};
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"yEAQ8B,KAAO\"}")
+None
 /*
 {
   "origin": "test.tsx",
-  "name": "Greeter_component_div_CustomComponent_onClick_6xTF8kMcS9w",
+  "name": "Greeter_component_div_map_AnotherComponent_onClick_V6k9qQ2eg0s",
   "entry": null,
-  "displayName": "test.tsx_Greeter_component_div_CustomComponent_onClick",
-  "hash": "6xTF8kMcS9w",
-  "canonicalFilename": "test.tsx_Greeter_component_div_CustomComponent_onClick_6xTF8kMcS9w",
+  "displayName": "test.tsx_Greeter_component_div_map_AnotherComponent_onClick",
+  "hash": "V6k9qQ2eg0s",
+  "canonicalFilename": "test.tsx_Greeter_component_div_map_AnotherComponent_onClick_V6k9qQ2eg0s",
   "path": "",
   "extension": "tsx",
-  "parent": "Greeter_component_n7HuG2hhU0Q",
+  "parent": null,
   "ctxKind": "eventHandler",
   "ctxName": "onClick$",
   "captures": false,
   "loc": [
-    251,
-    259
+    0,
+    0
   ]
 }
 */
@@ -86,17 +58,17 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
 import { AnotherComponent } from "./another-component";
 import { CustomComponent } from "./custom-component";
 import { qrl } from "@qwik.dev/core";
-const i_6xTF8kMcS9w = ()=>import("./test.tsx_Greeter_component_div_CustomComponent_onClick_6xTF8kMcS9w");
-const i_9BwXJW3s0yA = ()=>import("./test.tsx_Greeter_component_div_AnotherComponent_onClick_9BwXJW3s0yA");
+const i_V6k9qQ2eg0s = ()=>import("./test.tsx_Greeter_component_div_map_AnotherComponent_onClick_V6k9qQ2eg0s");
+const i_onClick = ()=>import("./test.tsx");
 export const Greeter_component_n7HuG2hhU0Q = ()=>{
-    return <div>
-			<CustomComponent onClick$={/*#__PURE__*/ qrl(i_6xTF8kMcS9w, "Greeter_component_div_CustomComponent_onClick_6xTF8kMcS9w")}/>
-			{array.map((item)=><AnotherComponent onClick$={/*#__PURE__*/ qrl(i_9BwXJW3s0yA, "Greeter_component_div_AnotherComponent_onClick_9BwXJW3s0yA")}/>)}
+	return <div>
+			<CustomComponent onClick$={/*#__PURE__*/ qrl(i_onClick, "Greeter_component_div_CustomComponent_onClick")} />
+			{array.map((item)=><AnotherComponent onClick$={/*#__PURE__*/ qrl(i_V6k9qQ2eg0s, "Greeter_component_div_map_AnotherComponent_onClick_V6k9qQ2eg0s")} />)}
 		</div>;
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;6CAKkC;IACjC,QACE,IAAI;GACJ,CAAC,gBAAgB,0GAAqB;GACtC,CAAC,MAAM,GAAG,CAAC,CAAA,QACT,iBAAiB,6GAChB;EACJ,EAAE;AAEJ\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -112,8 +84,8 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    195,
-    351
+    193,
+    349
   ]
 }
 */

@@ -16,7 +16,7 @@ export const handler = $(() => {
 import { qrl } from "@qwik.dev/core";
 const i_r3j5WVCJ9mM = ()=>import("./test_qrl_basic_arrow.tsx_handler_r3j5WVCJ9mM");
 // Basic arrow function QRL
-export const handler = qrl(i_r3j5WVCJ9mM, "handler_r3j5WVCJ9mM");
+export const handler = /*#__PURE__*/ qrl(i_r3j5WVCJ9mM, "handler_r3j5WVCJ9mM");
 
 
 None
@@ -43,8 +43,8 @@ None
   "ctxName": "$",
   "captures": false,
   "loc": [
-    0,
-    0
+    90,
+    125
   ]
 }
 */

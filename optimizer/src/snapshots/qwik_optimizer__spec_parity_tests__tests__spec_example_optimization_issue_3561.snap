@@ -4,7 +4,6 @@ expression: output
 ---
 ==INPUT==
 
-
 import { component$ } from '@qwik.dev/core';
 
 export const Issue3561 = component$(() => {
@@ -26,27 +25,49 @@ export const Issue3561 = component$(() => {
 	return <p></p>;
 	});
 
-============================= test.jsx ==
+============================= test.tsx_Issue3561_component_hHTw654BZB8.tsx (ENTRY POINT)==
 
-import { componentQrl } from "@qwik.dev/core";
-import { inlinedQrl } from "@qwik.dev/core";
-export const Issue3561 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(()=>{
-    const props = useStore({
-        product: {
-            currentVariant: {
-                variantImage: 'image',
-                variantNumber: 'number',
-                setContents: 'contents'
-            }
-        }
-    });
-    const { currentVariant: { variantImage, variantNumber, setContents } = {} } = props.product;
-    console.log(variantImage, variantNumber, setContents);
-    return <p></p>;
-}, "Issue3561_component_hHTw654BZB8"));
+export const Issue3561_component_hHTw654BZB8 = ()=>{
+	const props = useStore({ product: { currentVariant: {
+		variantImage: "image",
+		variantNumber: "number",
+		setContents: "contents"
+	} } });
+	const { currentVariant: { variantImage, variantNumber, setContents } = {} } = props.product;
+	console.log(variantImage, variantNumber, setContents);
+	return <p></p>;
+};
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;AAGA,OAAO,MAAM,0BAAY,sCAAW;IACnC,MAAM,QAAQ,SAAS;QACtB,SAAS;YACT,gBAAgB;gBACf,cAAc;gBACd,eAAe;gBACf,aAAa;YACd;QACA;IACD;IACA,MAAM,EACL,gBAAgB,EAAE,YAAY,EAAE,aAAa,EAAE,WAAW,EAAE,GAAG,CAAC,CAAC,EACjE,GAAG,MAAM,OAAO;IAEjB,QAAQ,GAAG,CAAC,cAAc,eAAe;IAEzC,QAAQ,IAAI;AACZ,uCAAG\"}")
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "Issue3561_component_hHTw654BZB8",
+  "entry": "entry_segments",
+  "displayName": "test.tsx_Issue3561_component",
+  "hash": "hHTw654BZB8",
+  "canonicalFilename": "test.tsx_Issue3561_component_hHTw654BZB8",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    82,
+    420
+  ]
+}
+*/
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_hHTw654BZB8 = ()=>import("./test.tsx_Issue3561_component_hHTw654BZB8");
+export const Issue3561 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_hHTw654BZB8, "Issue3561_component_hHTw654BZB8"));
+
+
+None
 == DIAGNOSTICS ==
 
 []

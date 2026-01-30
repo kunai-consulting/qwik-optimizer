@@ -4,7 +4,6 @@ expression: output
 ---
 ==INPUT==
 
-
 import { $, component$ } from '@qwik.dev/core';
 
 export const Foo = component$(({foo}) => {
@@ -29,18 +28,16 @@ export const Bar = component$(({bar}) => {
 	});
 })
 
-============================= test.tsx_Foo_component_HTDRsvUbLiE.jsx (ENTRY POINT)==
+============================= test.tsx_Foo_component_HTDRsvUbLiE.tsx (ENTRY POINT)==
 
 import { qrl } from "@qwik.dev/core";
-const i_DvU6FitWglY = ()=>import("./test.tsx_Foo_component_1_DvU6FitWglY");
-export const Foo_component_HTDRsvUbLiE = (_rawProps)=>{
-    return /*#__PURE__*/ qrl(i_DvU6FitWglY, "Foo_component_1_DvU6FitWglY", [
-        _rawProps
-    ]);
+export const Foo_component_HTDRsvUbLiE = ({ foo })=>{
+	const arg0 = 20;
+	return /*#__PURE__*/ qrl(i_DvU6FitWglY, "Foo_component_1_DvU6FitWglY", [arg0]);
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;yCAG8B;IAE7B;;;AAQD\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -50,43 +47,26 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "hash": "HTDRsvUbLiE",
   "canonicalFilename": "test.tsx_Foo_component_HTDRsvUbLiE",
   "path": "",
-  "extension": "jsx",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    81,
-    221
-  ],
-  "paramNames": [
-    "_rawProps"
+    79,
+    219
   ]
 }
 */
-============================= test.jsx ==
-
-import { componentQrl } from "@qwik.dev/core";
-import { qrl } from "@qwik.dev/core";
-const i_HTDRsvUbLiE = ()=>import("./test.tsx_Foo_component_HTDRsvUbLiE");
-const i_L80pS8Hxf1Y = ()=>import("./test.tsx_Bar_component_L80pS8Hxf1Y");
-export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_HTDRsvUbLiE, "Foo_component_HTDRsvUbLiE"));
-export const Bar = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_L80pS8Hxf1Y, "Bar_component_L80pS8Hxf1Y"));
-
-
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;AAGA,OAAO,MAAM,oBAAM,4EAUjB;AAEF,OAAO,MAAM,oBAAM,4EAQjB\"}")
-============================= test.tsx_Bar_component_L80pS8Hxf1Y.jsx (ENTRY POINT)==
+============================= test.tsx_Bar_component_L80pS8Hxf1Y.tsx (ENTRY POINT)==
 
 import { qrl } from "@qwik.dev/core";
-const i_0xSyNSnVu3k = ()=>import("./test.tsx_Bar_component_1_0xSyNSnVu3k");
-export const Bar_component_L80pS8Hxf1Y = (_rawProps)=>{
-    return /*#__PURE__*/ qrl(i_0xSyNSnVu3k, "Bar_component_1_0xSyNSnVu3k", [
-        _rawProps
-    ]);
+export const Bar_component_L80pS8Hxf1Y = ({ bar })=>{
+	return /*#__PURE__*/ qrl(i_0xSyNSnVu3k, "Bar_component_1_0xSyNSnVu3k");
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;yCAe8B;IAC7B;;;AAOD\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -96,33 +76,29 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "hash": "L80pS8Hxf1Y",
   "canonicalFilename": "test.tsx_Bar_component_L80pS8Hxf1Y",
   "path": "",
-  "extension": "jsx",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    254,
-    335
-  ],
-  "paramNames": [
-    "_rawProps"
+    252,
+    333
   ]
 }
 */
-============================= test.tsx_Foo_component_1_DvU6FitWglY.jsx (ENTRY POINT)==
+============================= test.tsx_Foo_component_1_DvU6FitWglY.tsx (ENTRY POINT)==
 
-import { useLexicalScope } from "@qwik.dev/core";
 export const Foo_component_1_DvU6FitWglY = ()=>{
-    const [_rawProps] = useLexicalScope();
-    const fn = ({ aaa })=>aaa;
-    return <div>
-				{_rawProps.foo}{fn()}{20}
+	const [arg0] = useLexicalScope();
+	const fn = ({ aaa })=>aaa;
+	return <div>
+				{foo}{fn()}{arg0}
 			</div>;
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";2CAKU;;IACR,MAAM,KAAK,CAAC,EAAC,GAAG,EAAC,GAAK;IACtB,QACE,IAAI;IACJ,WAN4B,KAMtB,MALI,GAKO;GAClB,EAAE\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -132,32 +108,27 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "hash": "DvU6FitWglY",
   "canonicalFilename": "test.tsx_Foo_component_1_DvU6FitWglY",
   "path": "",
-  "extension": "jsx",
-  "parent": "Foo_component_HTDRsvUbLiE",
+  "extension": "tsx",
+  "parent": null,
   "ctxKind": "function",
   "ctxName": "$",
   "captures": true,
   "loc": [
-    122,
-    217
-  ],
-  "captureNames": [
-    "_rawProps"
+    120,
+    215
   ]
 }
 */
-============================= test.tsx_Bar_component_1_0xSyNSnVu3k.jsx (ENTRY POINT)==
+============================= test.tsx_Bar_component_1_0xSyNSnVu3k.tsx (ENTRY POINT)==
 
-import { useLexicalScope } from "@qwik.dev/core";
 export const Bar_component_1_0xSyNSnVu3k = ()=>{
-    const [_rawProps] = useLexicalScope();
-    return <div>
-				{_rawProps.bar}
+	return <div>
+				{bar}
 			</div>;
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";2CAgBU;;IACR,QACE,IAAI;IACJ,WAJ4B,IAIvB;GACN,EAAE\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -167,20 +138,29 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "hash": "0xSyNSnVu3k",
   "canonicalFilename": "test.tsx_Bar_component_1_0xSyNSnVu3k",
   "path": "",
-  "extension": "jsx",
-  "parent": "Bar_component_L80pS8Hxf1Y",
+  "extension": "tsx",
+  "parent": null,
   "ctxKind": "function",
   "ctxName": "$",
-  "captures": true,
+  "captures": false,
   "loc": [
-    277,
-    331
-  ],
-  "captureNames": [
-    "_rawProps"
+    275,
+    329
   ]
 }
 */
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_DvU6FitWglY = ()=>import("./test.tsx_Foo_component_1_DvU6FitWglY");
+const i_HTDRsvUbLiE = ()=>import("./test.tsx_Foo_component_HTDRsvUbLiE");
+const i_0xSyNSnVu3k = ()=>import("./test.tsx_Bar_component_1_0xSyNSnVu3k");
+const i_L80pS8Hxf1Y = ()=>import("./test.tsx_Bar_component_L80pS8Hxf1Y");
+export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_HTDRsvUbLiE, "Foo_component_HTDRsvUbLiE"));
+export const Bar = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_L80pS8Hxf1Y, "Bar_component_L80pS8Hxf1Y"));
+
+
+None
 == DIAGNOSTICS ==
 
 []

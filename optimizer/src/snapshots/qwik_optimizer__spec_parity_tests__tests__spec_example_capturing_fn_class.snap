@@ -4,7 +4,6 @@ expression: output
 ---
 ==INPUT==
 
-
 import { $, component$ } from '@qwik.dev/core';
 
 export const App = component$(() => {
@@ -23,25 +22,24 @@ export const App = component$(() => {
 	});
 })
 
-============================= test.js ==
+============================= test.tsx ==
 
-import { componentQrl } from "@qwik.dev/core";
-import { qrl } from "@qwik.dev/core";
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_w0t0o3QMovU = ()=>import("./test.tsx_App_component_1_w0t0o3QMovU");
 const i_ckEPmXZlub0 = ()=>import("./test.tsx_App_component_ckEPmXZlub0");
 export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAGA,OAAO,MAAM,oBAAM,4EAcjB\"}")
-============================= test.tsx_App_component_ckEPmXZlub0.js (ENTRY POINT)==
+None
+============================= test.tsx_App_component_ckEPmXZlub0.tsx (ENTRY POINT)==
 
 import { qrl } from "@qwik.dev/core";
-const i_w0t0o3QMovU = ()=>import("./test.tsx_App_component_1_w0t0o3QMovU");
 export const App_component_ckEPmXZlub0 = ()=>{
-    return /*#__PURE__*/ qrl(i_w0t0o3QMovU, "App_component_1_w0t0o3QMovU");
+	return /*#__PURE__*/ qrl(i_w0t0o3QMovU, "App_component_1_w0t0o3QMovU");
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;yCAG8B;IAO7B;AAOD\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -51,28 +49,28 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "hash": "ckEPmXZlub0",
   "canonicalFilename": "test.tsx_App_component_ckEPmXZlub0",
   "path": "",
-  "extension": "js",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    81,
-    246
+    79,
+    244
   ]
 }
 */
-============================= test.tsx_App_component_1_w0t0o3QMovU.js (ENTRY POINT)==
+============================= test.tsx_App_component_1_w0t0o3QMovU.tsx (ENTRY POINT)==
 
 import { _jsxSorted } from "@qwik.dev/core";
 export const App_component_1_w0t0o3QMovU = ()=>{
-    hola();
-    new Thing();
-    return /*#__PURE__*/ _jsxSorted("div", null, null, null, 3, "u6_0");
+	hola();
+	new Thing();
+	return /*#__PURE__*/ _jsxSorted("div", null, null, null, 3, null);
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";2CAUU;IACR;IACA,IAAI;IACJ,qBACC,WAAC;AAEH\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -82,14 +80,14 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "hash": "w0t0o3QMovU",
   "canonicalFilename": "test.tsx_App_component_1_w0t0o3QMovU",
   "path": "",
-  "extension": "js",
-  "parent": "App_component_ckEPmXZlub0",
+  "extension": "tsx",
+  "parent": null,
   "ctxKind": "function",
   "ctxName": "$",
   "captures": false,
   "loc": [
-    177,
-    242
+    175,
+    240
   ]
 }
 */
@@ -100,7 +98,7 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
     "category": "error",
     "code": "C02",
     "file": "test.tsx",
-    "message": "Reference to identifier 'Thing' can not be used inside a Qrl($) scope because it's a function",
+    "message": "Reference to identifier 'hola' can not be used inside a Qrl($) scope because it's a function",
     "highlights": null,
     "suggestions": null,
     "scope": "optimizer"
@@ -109,7 +107,7 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
     "category": "error",
     "code": "C02",
     "file": "test.tsx",
-    "message": "Reference to identifier 'hola' can not be used inside a Qrl($) scope because it's a function",
+    "message": "Reference to identifier 'Thing' can not be used inside a Qrl($) scope because it's a class",
     "highlights": null,
     "suggestions": null,
     "scope": "optimizer"

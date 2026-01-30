@@ -4,7 +4,6 @@ expression: output
 ---
 ==INPUT==
 
-
 import { $, component$ } from '@qwik.dev/core';
 export const sym1 = $((ctx) => console.log("1"));
 
@@ -13,7 +12,7 @@ export const sym1 = $((ctx) => console.log("1"));
 export const sym1_aXUrPXX5Lak = (ctx)=>console.log("1");
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"gCAEsB,CAAC,MAAQ,QAAQ,GAAG,CAAC\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -29,11 +28,8 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "ctxName": "$",
   "captures": false,
   "loc": [
-    72,
-    97
-  ],
-  "paramNames": [
-    "ctx"
+    70,
+    95
   ]
 }
 */
@@ -44,7 +40,7 @@ const i_aXUrPXX5Lak = ()=>import("./test.tsx_sym1_aXUrPXX5Lak");
 export const sym1 = /*#__PURE__*/ qrl(i_aXUrPXX5Lak, "sym1_aXUrPXX5Lak");
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;AAEA,OAAO,MAAM,4DAAoC\"}")
+None
 == DIAGNOSTICS ==
 
 []

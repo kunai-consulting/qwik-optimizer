@@ -333,6 +333,11 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
                     .map(|sd| sd.has_captures())
                     .unwrap_or(false);
 
+                // Get loc from segment_data
+                let segment_loc = c.segment_data.as_ref()
+                    .map(|sd| sd.loc)
+                    .unwrap_or((0, 0));
+
                 TransformModule {
                     path: format!("{}.{}", &c.id.local_file_name, &segment_extension),
                     code: c.code,
@@ -354,7 +359,7 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
                         ctx_kind: segment_ctx_kind,
                         ctx_name: segment_ctx_name,
                         captures: segment_captures,
-                        loc: (0, 0),
+                        loc: segment_loc,
                     }),
                     is_entry: true,
                     order: c.id.sort_order,

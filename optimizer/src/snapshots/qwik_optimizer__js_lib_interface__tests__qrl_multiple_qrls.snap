@@ -42,8 +42,8 @@ None
   "ctxName": "$",
   "captures": false,
   "loc": [
-    0,
-    0
+    123,
+    161
   ]
 }
 */
@@ -54,9 +54,9 @@ const i_Cd6L8bqdkhc = ()=>import("./test_qrl_multiple_qrls.tsx_handler1_Cd6L8bqd
 const i_Af0RK0AWQpU = ()=>import("./test_qrl_multiple_qrls.tsx_handler2_Af0RK0AWQpU");
 const i_lMHDaYO5yf8 = ()=>import("./test_qrl_multiple_qrls.tsx_handler3_lMHDaYO5yf8");
 // Multiple QRLs in same file - all get unique symbol names
-export const handler1 = qrl(i_Cd6L8bqdkhc, "handler1_Cd6L8bqdkhc");
-export const handler2 = qrl(i_Af0RK0AWQpU, "handler2_Af0RK0AWQpU");
-export const handler3 = qrl(i_lMHDaYO5yf8, "handler3_lMHDaYO5yf8");
+export const handler1 = /*#__PURE__*/ qrl(i_Cd6L8bqdkhc, "handler1_Cd6L8bqdkhc");
+export const handler2 = /*#__PURE__*/ qrl(i_Af0RK0AWQpU, "handler2_Af0RK0AWQpU");
+export const handler3 = /*#__PURE__*/ qrl(i_lMHDaYO5yf8, "handler3_lMHDaYO5yf8");
 
 
 None
@@ -83,8 +83,8 @@ None
   "ctxName": "$",
   "captures": false,
   "loc": [
-    0,
-    0
+    191,
+    229
   ]
 }
 */
@@ -111,8 +111,8 @@ None
   "ctxName": "$",
   "captures": false,
   "loc": [
-    0,
-    0
+    259,
+    297
   ]
 }
 */

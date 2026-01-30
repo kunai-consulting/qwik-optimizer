@@ -4,7 +4,6 @@ expression: output
 ---
 ==INPUT==
 
-
 import { component$ } from '@qwik.dev/core';
 
 const App = component$(() => {
@@ -25,31 +24,16 @@ export { Other as App };
 
 export default App;
 
-============================= test.js ==
+============================= test.tsx_Root_component_royhjYaCbYE.tsx (ENTRY POINT)==
 
-import { componentQrl } from "@qwik.dev/core";
-import { qrl } from "@qwik.dev/core";
-const i_ckEPmXZlub0 = ()=>import("./test.tsx_App_component_ckEPmXZlub0");
-const i_royhjYaCbYE = ()=>import("./test.tsx_Root_component_royhjYaCbYE");
-const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
-export const Root = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_royhjYaCbYE, "Root_component_royhjYaCbYE"));
-const Other = 12;
-export { Other as App };
-export default App;
-export { App as _auto_App };
-
-
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;AAGA,MAAM,oBAAM;AAOZ,OAAO,MAAM,qBAAO,6EAIjB;AAEH,MAAM,QAAQ;AACd,SAAS,SAAS,GAAG,GAAG;AAExB,eAAe,IAAI\"}")
-============================= test.tsx_Root_component_royhjYaCbYE.js (ENTRY POINT)==
-
-import { _auto_App as App } from "./test";
 import { _jsxSorted } from "@qwik.dev/core";
 export const Root_component_royhjYaCbYE = (props)=>{
-    return /*#__PURE__*/ _jsxSorted(App, null, null, null, 3, "u6_1");
+	const [App] = useLexicalScope();
+	return _jsxSorted(App, null, null, null, 3, null);
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;0CAU+B,CAAC;IAC/B,qBACC,WAAC;AAEH\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -59,29 +43,39 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "hash": "royhjYaCbYE",
   "canonicalFilename": "test.tsx_Root_component_royhjYaCbYE",
   "path": "",
-  "extension": "js",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
-  "captures": false,
+  "captures": true,
   "loc": [
-    148,
-    192
-  ],
-  "paramNames": [
-    "props"
+    146,
+    190
   ]
 }
 */
-============================= test.tsx_App_component_ckEPmXZlub0.js (ENTRY POINT)==
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_ckEPmXZlub0 = ()=>import("./test.tsx_App_component_ckEPmXZlub0");
+const i_royhjYaCbYE = ()=>import("./test.tsx_Root_component_royhjYaCbYE");
+const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
+export const Root = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_royhjYaCbYE, "Root_component_royhjYaCbYE", [App]));
+const Other = 12;
+export { Other as App };
+export default App;
+
+
+None
+============================= test.tsx_App_component_ckEPmXZlub0.tsx (ENTRY POINT)==
 
 import { _jsxSorted } from "@qwik.dev/core";
 export const App_component_ckEPmXZlub0 = ()=>{
-    return /*#__PURE__*/ _jsxSorted("div", null, null, "hola", 3, "u6_0");
+	return /*#__PURE__*/ _jsxSorted("div", null, null, "hola", 3, null);
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";yCAGuB;IACtB,qBACC,WAAC,mBAAI;AAEP\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -91,14 +85,14 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "hash": "ckEPmXZlub0",
   "canonicalFilename": "test.tsx_App_component_ckEPmXZlub0",
   "path": "",
-  "extension": "js",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    71,
-    112
+    69,
+    110
   ]
 }
 */

@@ -4,7 +4,6 @@ expression: output
 ---
 ==INPUT==
 
-
 import { $, component$, useStore, useSignal } from '@qwik.dev/core';
 export default component$((props: { id: number }) => {
       const renders = useStore(
@@ -24,66 +23,48 @@ export default component$((props: { id: number }) => {
       );
     });
 
-============================= test.js ==
+============================= test.tsx_component_ZUK1E201Ins.tsx (ENTRY POINT)==
 
-import { componentQrl } from "@qwik.dev/core";
-import { qrl } from "@qwik.dev/core";
-const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
-export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
-
-
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAEA,6BAAe,6EAgBR\"}")
-============================= test.tsx_test_component_LUXeXe0DQrg.js (ENTRY POINT)==
-
+import { _jsxSorted, useStore } from "@qwik.dev/core";
 import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
-import { _jsxSorted } from "@qwik.dev/core";
-import { _wrapProp } from "@qwik.dev/core";
-import { useStore } from "@qwik.dev/core";
-export const test_component_LUXeXe0DQrg = (props)=>{
-    const renders = useStore({
-        count: 0
-    }, {
-        reactive: false
-    });
-    renders.count++;
-    const rerenders = renders.count + 0;
-    const Id = (props)=>/*#__PURE__*/ _jsxSorted("div", null, null, [
-            "Id: ",
-            _wrapProp(props, "id")
-        ], 1, "u6_0");
-    return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [
-        /*#__PURE__*/ _jsxSorted(Id, null, {
-            id: _wrapProp(props, "id")
-        }, null, 3, "u6_1"),
-        rerenders
-    ], 1, "u6_2");
+export const component_ZUK1E201Ins = (props)=>{
+	const renders = useStore({ count: 0 }, { reactive: false });
+	renders.count++;
+	const rerenders = renders.count + 0;
+	const Id = (props)=>/*#__PURE__*/ _jsxSorted("div", null, null, ["Id:", props.id], 1, null);
+	return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [_jsxSorted(Id, { id: props.id }, null, null, 3, null), rerenders], 1, null);
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;0CAE0B,CAAC;IACrB,MAAM,UAAU,SACd;QACE,OAAO;IACT,GACA;QAAE,UAAU;IAAM;IAEpB,QAAQ,KAAK;IACb,MAAM,YAAY,QAAQ,KAAK,GAAG;IAClC,MAAM,KAAK,CAAC,sBAAe,WAAC;YAAI;sBAAK;;IACrC,qBACE;sBACE,WAAC;YAAG,EAAE,YAAE;;QACP;;AAGP\"}")
+None
 /*
 {
   "origin": "test.tsx",
-  "name": "test_component_LUXeXe0DQrg",
+  "name": "component_ZUK1E201Ins",
   "entry": null,
-  "displayName": "test.tsx_test_component",
-  "hash": "LUXeXe0DQrg",
-  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
+  "displayName": "test.tsx_component",
+  "hash": "ZUK1E201Ins",
+  "canonicalFilename": "test.tsx_component_ZUK1E201Ins",
   "path": "",
-  "extension": "js",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    97,
-    467
-  ],
-  "paramNames": [
-    "props"
+    95,
+    465
   ]
 }
 */
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_ZUK1E201Ins = ()=>import("./test.tsx_component_ZUK1E201Ins");
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ZUK1E201Ins, "component_ZUK1E201Ins"));
+
+
+None
 == DIAGNOSTICS ==
 
 []

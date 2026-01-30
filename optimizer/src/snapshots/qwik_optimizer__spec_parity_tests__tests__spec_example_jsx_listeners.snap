@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-
+==INPUT==
 
 import { $, component$ } from '@qwik.dev/core';
 
@@ -36,105 +36,16 @@ export const Foo = component$(() => {
 	tagName: "my-foo",
 });
 
-============================= test.tsx_Foo_component_div_on_document_scroll_fwZMoLBKowg.js (ENTRY POINT)==
-
-export const Foo_component_div_on_document_scroll_fwZMoLBKowg = ()=>console.log('onDocument-sCroll');
-
-
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"gEAcwB,IAAI,QAAQ,GAAG,CAAC\"}")
-/*
-{
-  "origin": "test.tsx",
-  "name": "Foo_component_div_on_document_scroll_fwZMoLBKowg",
-  "entry": null,
-  "displayName": "test.tsx_Foo_component_div_on_document_scroll",
-  "hash": "fwZMoLBKowg",
-  "canonicalFilename": "test.tsx_Foo_component_div_on_document_scroll_fwZMoLBKowg",
-  "path": "",
-  "extension": "js",
-  "parent": "Foo_component_1_DvU6FitWglY",
-  "ctxKind": "eventHandler",
-  "ctxName": "onDocument-sCroll$",
-  "captures": false,
-  "loc": [
-    408,
-    444
-  ]
-}
-*/
-============================= test.tsx_Foo_component_div_on_documentscroll_1_UfhHAHmhARU.js (ENTRY POINT)==
-
-export const Foo_component_div_on_documentscroll_1_UfhHAHmhARU = ()=>console.log('onWindowScroll');
-
-
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"iEAWuB,IAAI,QAAQ,GAAG,CAAC\"}")
-/*
-{
-  "origin": "test.tsx",
-  "name": "Foo_component_div_on_documentscroll_1_UfhHAHmhARU",
-  "entry": null,
-  "displayName": "test.tsx_Foo_component_div_on_documentscroll_1",
-  "hash": "UfhHAHmhARU",
-  "canonicalFilename": "test.tsx_Foo_component_div_on_documentscroll_1_UfhHAHmhARU",
-  "path": "",
-  "extension": "js",
-  "parent": "Foo_component_1_DvU6FitWglY",
-  "ctxKind": "eventHandler",
-  "ctxName": "onDocumentScroll$",
-  "captures": false,
-  "loc": [
-    303,
-    336
-  ]
-}
-*/
-============================= test.tsx_Foo_component_div_host_onDocumentScroll_Zip7mifsjRY.js (ENTRY POINT)==
-
-export const Foo_component_div_host_onDocumentScroll_Zip7mifsjRY = ()=>console.log('host:onDocument:scroll');
-
-
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"mEAkB4B,IAAI,QAAQ,GAAG,CAAC\"}")
-/*
-{
-  "origin": "test.tsx",
-  "name": "Foo_component_div_host_onDocumentScroll_Zip7mifsjRY",
-  "entry": null,
-  "displayName": "test.tsx_Foo_component_div_host_onDocumentScroll",
-  "hash": "Zip7mifsjRY",
-  "canonicalFilename": "test.tsx_Foo_component_div_host_onDocumentScroll_Zip7mifsjRY",
-  "path": "",
-  "extension": "js",
-  "parent": "Foo_component_1_DvU6FitWglY",
-  "ctxKind": "eventHandler",
-  "ctxName": "host:onDocumentScroll$",
-  "captures": false,
-  "loc": [
-    590,
-    631
-  ]
-}
-*/
-============================= test.js ==
-
-import { componentQrl } from "@qwik.dev/core";
-import { qrl } from "@qwik.dev/core";
-const i_HTDRsvUbLiE = ()=>import("./test.tsx_Foo_component_HTDRsvUbLiE");
-export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_HTDRsvUbLiE, "Foo_component_HTDRsvUbLiE"), {
-    tagName: "my-foo"
-});
-
-
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAGA,OAAO,MAAM,oBAAM,4EA0BhB;IACF,SAAS;AACV,GAAG\"}")
-============================= test.tsx_Foo_component_HTDRsvUbLiE.js (ENTRY POINT)==
+============================= test.tsx_Foo_component_HTDRsvUbLiE.tsx (ENTRY POINT)==
 
 import { qrl } from "@qwik.dev/core";
-const i_DvU6FitWglY = ()=>import("./test.tsx_Foo_component_1_DvU6FitWglY");
+const i_H10xZtD0e7w = ()=>import("./test.tsx_Foo_component_handler_H10xZtD0e7w");
 export const Foo_component_HTDRsvUbLiE = ()=>{
-    return /*#__PURE__*/ qrl(i_DvU6FitWglY, "Foo_component_1_DvU6FitWglY");
+	return /*#__PURE__*/ qrl(i_DvU6FitWglY, "Foo_component_1_DvU6FitWglY");
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;yCAG8B;IAE7B;AAwBD\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -144,79 +55,52 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "hash": "HTDRsvUbLiE",
   "canonicalFilename": "test.tsx_Foo_component_HTDRsvUbLiE",
   "path": "",
-  "extension": "js",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    81,
-    845
+    79,
+    843
   ]
 }
 */
-============================= test.tsx_Foo_component_div_host_onClick_cPEH970JbEY.js (ENTRY POINT)==
+============================= test.tsx_Foo_component_1_DvU6FitWglY.tsx (ENTRY POINT)==
 
-export const Foo_component_div_host_onClick_cPEH970JbEY = ()=>console.log('host:onClick$');
-
-
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"0DAiBmB,IAAI,QAAQ,GAAG,CAAC\"}")
-/*
-{
-  "origin": "test.tsx",
-  "name": "Foo_component_div_host_onClick_cPEH970JbEY",
-  "entry": null,
-  "displayName": "test.tsx_Foo_component_div_host_onClick",
-  "hash": "cPEH970JbEY",
-  "canonicalFilename": "test.tsx_Foo_component_div_host_onClick_cPEH970JbEY",
-  "path": "",
-  "extension": "js",
-  "parent": "Foo_component_1_DvU6FitWglY",
-  "ctxKind": "eventHandler",
-  "ctxName": "host:onClick$",
-  "captures": false,
-  "loc": [
-    528,
-    560
-  ]
-}
-*/
-============================= test.tsx_Foo_component_1_DvU6FitWglY.js (ENTRY POINT)==
-
-import { _jsxSorted } from "@qwik.dev/core";
-import { qrl } from "@qwik.dev/core";
-const i_6onYiPhxhrY = ()=>import("./test.tsx_Foo_component_div_on_documentscroll_6onYiPhxhrY");
-const i_BSUCHsKoFY4 = ()=>import("./test.tsx_Foo_component_div_on_c_lick_BSUCHsKoFY4");
-const i_Em1LspK7JVg = ()=>import("./test.tsx_Foo_component_div_host_onDocumentScroll_1_Em1LspK7JVg");
+import { _jsxSorted, qrl } from "@qwik.dev/core";
+const i_custom = ()=>import("./test.tsx");
+const i_3 = ()=>import("./test.tsx");
+const i_2 = ()=>import("./test.tsx");
+const i_onDocument-scroLL = ()=>import("./test.tsx");
+const i_onDocument-sCroll = ()=>import("./test.tsx");
+const i_on-cLick = ()=>import("./test.tsx");
+const i_1 = ()=>import("./test.tsx");
+const i_onDocumentScroll = ()=>import("./test.tsx");
+const i_onClick = ()=>import("./test.tsx");
 const i_H10xZtD0e7w = ()=>import("./test.tsx_Foo_component_handler_H10xZtD0e7w");
-const i_IoDmt25HkZg = ()=>import("./test.tsx_Foo_component_div_on_click_IoDmt25HkZg");
-const i_LbGkYYNVyVw = ()=>import("./test.tsx_Foo_component_div_on_document_scroll_1_LbGkYYNVyVw");
-const i_UfhHAHmhARU = ()=>import("./test.tsx_Foo_component_div_on_documentscroll_1_UfhHAHmhARU");
-const i_Zip7mifsjRY = ()=>import("./test.tsx_Foo_component_div_host_onDocumentScroll_Zip7mifsjRY");
-const i_cPEH970JbEY = ()=>import("./test.tsx_Foo_component_div_host_onClick_cPEH970JbEY");
-const i_fwZMoLBKowg = ()=>import("./test.tsx_Foo_component_div_on_document_scroll_fwZMoLBKowg");
-const i_pyHnxab17ms = ()=>import("./test.tsx_Foo_component_div_custom_pyHnxab17ms");
 export const Foo_component_1_DvU6FitWglY = ()=>{
-    const handler = /*#__PURE__*/ qrl(i_H10xZtD0e7w, "Foo_component_handler_H10xZtD0e7w");
-    return /*#__PURE__*/ _jsxSorted("div", null, {
-        "on:click": /*#__PURE__*/ qrl(i_IoDmt25HkZg, "Foo_component_div_on_click_IoDmt25HkZg"),
-        "on:documentscroll": /*#__PURE__*/ qrl(i_6onYiPhxhrY, "Foo_component_div_on_documentscroll_6onYiPhxhrY"),
-        "on:documentscroll": /*#__PURE__*/ qrl(i_UfhHAHmhARU, "Foo_component_div_on_documentscroll_1_UfhHAHmhARU"),
-        "on:c-lick": /*#__PURE__*/ qrl(i_BSUCHsKoFY4, "Foo_component_div_on_c_lick_BSUCHsKoFY4"),
-        "on:document--scroll": /*#__PURE__*/ qrl(i_fwZMoLBKowg, "Foo_component_div_on_document_scroll_fwZMoLBKowg"),
-        "on:document--scroll": /*#__PURE__*/ qrl(i_LbGkYYNVyVw, "Foo_component_div_on_document_scroll_1_LbGkYYNVyVw"),
-        "host:onClick$": /*#__PURE__*/ qrl(i_cPEH970JbEY, "Foo_component_div_host_onClick_cPEH970JbEY"),
-        "host:onDocumentScroll$": /*#__PURE__*/ qrl(i_Zip7mifsjRY, "Foo_component_div_host_onDocumentScroll_Zip7mifsjRY"),
-        "host:onDocumentScroll$": /*#__PURE__*/ qrl(i_Em1LspK7JVg, "Foo_component_div_host_onDocumentScroll_1_Em1LspK7JVg"),
-        "on:keyup": handler,
-        "on:document:keyup": handler,
-        "on:window:keyup": handler,
-        custom$: /*#__PURE__*/ qrl(i_pyHnxab17ms, "Foo_component_div_custom_pyHnxab17ms")
-    }, null, 3, "u6_0");
+	const handler = /*#__PURE__*/ qrl(i_H10xZtD0e7w, "Foo_component_handler_H10xZtD0e7w");
+	return /*#__PURE__*/ _jsxSorted("div", {
+		on:click: /*#__PURE__*/ qrl(i_onClick, "Foo_component_1_div_onClick"),
+		on:documentscroll: /*#__PURE__*/ qrl(i_onDocumentScroll, "Foo_component_1_div_onDocumentScroll"),
+		on:documentscroll: /*#__PURE__*/ qrl(i_1, "Foo_component_1_div_onDocumentScroll_1"),
+		on:c-lick: /*#__PURE__*/ qrl(i_on-cLick, "Foo_component_1_div_on-cLick"),
+		on:document-scroll: /*#__PURE__*/ qrl(i_onDocument-sCroll, "Foo_component_1_div_onDocument-sCroll"),
+		on:document-scroll: /*#__PURE__*/ qrl(i_onDocument-scroLL, "Foo_component_1_div_onDocument-scroLL"),
+		host:onClick$: /*#__PURE__*/ qrl(i_1, "Foo_component_1_div_onClick_1"),
+		host:onDocumentScroll$: /*#__PURE__*/ qrl(i_2, "Foo_component_1_div_onDocumentScroll_2"),
+		host:onDocumentScroll$: /*#__PURE__*/ qrl(i_3, "Foo_component_1_div_onDocumentScroll_3"),
+		custom$: /*#__PURE__*/ qrl(i_custom, "Foo_component_1_div_custom")
+	}, {
+		on:keyup: handler,
+		on:document:keyup: handler,
+		on:window:keyup: handler
+	}, null, 3, null);
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;;;;;;;;2CAKU;IACR,MAAM;IACN,qBACC,WAAC;QACA,UAAQ;QACR,mBAAiB;QACjB,mBAAiB;QAEjB,WAAS;QACT,qBAAkB;QAClB,qBAAkB;QAPnB,eAkBE;QAlBF,wBAkBE;QAlBF,wBAkBE;QALD,YAAU;QAbX,qBAcoB;QAdpB,mBAekB;QAEjB,OAAO;;AAGV\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -226,179 +110,32 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "hash": "DvU6FitWglY",
   "canonicalFilename": "test.tsx_Foo_component_1_DvU6FitWglY",
   "path": "",
-  "extension": "js",
-  "parent": "Foo_component_HTDRsvUbLiE",
+  "extension": "tsx",
+  "parent": null,
   "ctxKind": "function",
   "ctxName": "$",
   "captures": false,
   "loc": [
-    100,
-    841
+    98,
+    839
   ]
 }
 */
-============================= test.tsx_Foo_component_div_host_onDocumentScroll_1_Em1LspK7JVg.js (ENTRY POINT)==
+============================= test.tsx ==
 
-export const Foo_component_div_host_onDocumentScroll_1_Em1LspK7JVg = ()=>console.log('host:onWindow:scroll');
-
-
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"qEAmB4B,IAAI,QAAQ,GAAG,CAAC\"}")
-/*
-{
-  "origin": "test.tsx",
-  "name": "Foo_component_div_host_onDocumentScroll_1_Em1LspK7JVg",
-  "entry": null,
-  "displayName": "test.tsx_Foo_component_div_host_onDocumentScroll_1",
-  "hash": "Em1LspK7JVg",
-  "canonicalFilename": "test.tsx_Foo_component_div_host_onDocumentScroll_1_Em1LspK7JVg",
-  "path": "",
-  "extension": "js",
-  "parent": "Foo_component_1_DvU6FitWglY",
-  "ctxKind": "eventHandler",
-  "ctxName": "host:onDocumentScroll$",
-  "captures": false,
-  "loc": [
-    661,
-    700
-  ]
-}
-*/
-============================= test.tsx_Foo_component_div_on_document_scroll_1_LbGkYYNVyVw.js (ENTRY POINT)==
-
-export const Foo_component_div_on_document_scroll_1_LbGkYYNVyVw = ()=>console.log('onDocument-scroLL');
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_DvU6FitWglY = ()=>import("./test.tsx_Foo_component_1_DvU6FitWglY");
+const i_HTDRsvUbLiE = ()=>import("./test.tsx_Foo_component_HTDRsvUbLiE");
+export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_HTDRsvUbLiE, "Foo_component_HTDRsvUbLiE"));
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"kEAewB,IAAI,QAAQ,GAAG,CAAC\"}")
-/*
-{
-  "origin": "test.tsx",
-  "name": "Foo_component_div_on_document_scroll_1_LbGkYYNVyVw",
-  "entry": null,
-  "displayName": "test.tsx_Foo_component_div_on_document_scroll_1",
-  "hash": "LbGkYYNVyVw",
-  "canonicalFilename": "test.tsx_Foo_component_div_on_document_scroll_1_LbGkYYNVyVw",
-  "path": "",
-  "extension": "js",
-  "parent": "Foo_component_1_DvU6FitWglY",
-  "ctxKind": "eventHandler",
-  "ctxName": "onDocument-scroLL$",
-  "captures": false,
-  "loc": [
-    470,
-    506
-  ]
-}
-*/
-============================= test.tsx_Foo_component_div_custom_pyHnxab17ms.js (ENTRY POINT)==
+None
+============================= test.tsx_Foo_component_handler_H10xZtD0e7w.tsx (ENTRY POINT)==
 
-export const Foo_component_div_custom_pyHnxab17ms = ()=>console.log('custom');
+export const Foo_component_handler_H10xZtD0e7w = ()=>console.log("reused");
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"oDAyBa,IAAI,QAAQ,GAAG,CAAC\"}")
-/*
-{
-  "origin": "test.tsx",
-  "name": "Foo_component_div_custom_pyHnxab17ms",
-  "entry": null,
-  "displayName": "test.tsx_Foo_component_div_custom",
-  "hash": "pyHnxab17ms",
-  "canonicalFilename": "test.tsx_Foo_component_div_custom_pyHnxab17ms",
-  "path": "",
-  "extension": "js",
-  "parent": "Foo_component_1_DvU6FitWglY",
-  "ctxKind": "eventHandler",
-  "ctxName": "custom$",
-  "captures": false,
-  "loc": [
-    802,
-    827
-  ]
-}
-*/
-============================= test.tsx_Foo_component_div_on_c_lick_BSUCHsKoFY4.js (ENTRY POINT)==
-
-export const Foo_component_div_on_c_lick_BSUCHsKoFY4 = ()=>console.log('on-cLick$');
-
-
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"uDAae,IAAI,QAAQ,GAAG,CAAC\"}")
-/*
-{
-  "origin": "test.tsx",
-  "name": "Foo_component_div_on_c_lick_BSUCHsKoFY4",
-  "entry": null,
-  "displayName": "test.tsx_Foo_component_div_on_c_lick",
-  "hash": "BSUCHsKoFY4",
-  "canonicalFilename": "test.tsx_Foo_component_div_on_c_lick_BSUCHsKoFY4",
-  "path": "",
-  "extension": "js",
-  "parent": "Foo_component_1_DvU6FitWglY",
-  "ctxKind": "eventHandler",
-  "ctxName": "on-cLick$",
-  "captures": false,
-  "loc": [
-    354,
-    382
-  ]
-}
-*/
-============================= test.tsx_Foo_component_div_on_click_IoDmt25HkZg.js (ENTRY POINT)==
-
-export const Foo_component_div_on_click_IoDmt25HkZg = ()=>console.log('onClick$');
-
-
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"sDASc,IAAI,QAAQ,GAAG,CAAC\"}")
-/*
-{
-  "origin": "test.tsx",
-  "name": "Foo_component_div_on_click_IoDmt25HkZg",
-  "entry": null,
-  "displayName": "test.tsx_Foo_component_div_on_click",
-  "hash": "IoDmt25HkZg",
-  "canonicalFilename": "test.tsx_Foo_component_div_on_click_IoDmt25HkZg",
-  "path": "",
-  "extension": "js",
-  "parent": "Foo_component_1_DvU6FitWglY",
-  "ctxKind": "eventHandler",
-  "ctxName": "onClick$",
-  "captures": false,
-  "loc": [
-    191,
-    218
-  ]
-}
-*/
-============================= test.tsx_Foo_component_div_on_documentscroll_6onYiPhxhrY.js (ENTRY POINT)==
-
-export const Foo_component_div_on_documentscroll_6onYiPhxhrY = ()=>console.log('onDocumentScroll');
-
-
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"+DAUuB,IAAI,QAAQ,GAAG,CAAC\"}")
-/*
-{
-  "origin": "test.tsx",
-  "name": "Foo_component_div_on_documentscroll_6onYiPhxhrY",
-  "entry": null,
-  "displayName": "test.tsx_Foo_component_div_on_documentscroll",
-  "hash": "6onYiPhxhrY",
-  "canonicalFilename": "test.tsx_Foo_component_div_on_documentscroll_6onYiPhxhrY",
-  "path": "",
-  "extension": "js",
-  "parent": "Foo_component_1_DvU6FitWglY",
-  "ctxKind": "eventHandler",
-  "ctxName": "onDocumentScroll$",
-  "captures": false,
-  "loc": [
-    243,
-    278
-  ]
-}
-*/
-============================= test.tsx_Foo_component_handler_H10xZtD0e7w.js (ENTRY POINT)==
-
-export const Foo_component_handler_H10xZtD0e7w = ()=>console.log('reused');
-
-
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"iDAMoB,IAAM,QAAQ,GAAG,CAAC\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -408,14 +145,14 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "hash": "H10xZtD0e7w",
   "canonicalFilename": "test.tsx_Foo_component_handler_H10xZtD0e7w",
   "path": "",
-  "extension": "js",
-  "parent": "Foo_component_1_DvU6FitWglY",
+  "extension": "tsx",
+  "parent": null,
   "ctxKind": "function",
   "ctxName": "$",
   "captures": false,
   "loc": [
-    128,
-    155
+    126,
+    153
   ]
 }
 */

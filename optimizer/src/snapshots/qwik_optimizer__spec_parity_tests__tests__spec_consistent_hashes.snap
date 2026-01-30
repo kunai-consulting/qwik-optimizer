@@ -21,44 +21,10 @@ export const Greeter = component$(() => {
 	)
 });
 
-============================= ./consistent_hashes.tsx_Greeter_component_hd1zjB8cngs.js (ENTRY POINT)==
-
-import { _jsxSorted, qrl } from "@qwik.dev/core";
-export const Greeter_component_hd1zjB8cngs = () => {
-	useTaskQrl(qrl(i_Greeter_component_useTask_ttdoGmi3Fx4, "Greeter_component_useTask_ttdoGmi3Fx4"));
-	return /*#__PURE__*/ _jsxSorted("div", null, null, [
-		/*#__PURE__*/ _jsxSorted("div", { on:click: useTaskQrl(qrl(i_Greeter_component_useTask_ttdoGmi3Fx4, "Greeter_component_useTask_ttdoGmi3Fx4")) }, null, null, 3, null),
-		/*#__PURE__*/ _jsxSorted("div", { on:click: qrl(i_Greeter_component_div_div_onClick_1, "Greeter_component_div_div_onClick_1") }, null, null, 3, null),
-		/*#__PURE__*/ _jsxSorted("div", { on:click: qrl(i_Greeter_component_div_div_onClick_2, "Greeter_component_div_div_onClick_2") }, null, null, 3, null)
-	], 3, null);
-};
-
-
-None
-/*
-{
-  "origin": "consistent_hashes.tsx",
-  "name": "Greeter_component_hd1zjB8cngs",
-  "entry": null,
-  "displayName": "consistent_hashes.tsx_Greeter_component",
-  "hash": "hd1zjB8cngs",
-  "canonicalFilename": "consistent_hashes.tsx_Greeter_component_hd1zjB8cngs",
-  "path": ".",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "Greeter_component_hd1zjB8cngs",
-  "captures": false,
-  "loc": [
-    0,
-    0
-  ]
-}
-*/
-============================= ./consistent_hashes.tsx_Greeter_component_useTask_ttdoGmi3Fx4.js (ENTRY POINT)==
+============================= test.tsx_Greeter_component_useTask_ibjq2Rfokxw.tsx (ENTRY POINT)==
 
 import mongo from "mongodb";
-export const Greeter_component_useTask_ttdoGmi3Fx4 = async () => {
+export const Greeter_component_useTask_ibjq2Rfokxw = async ()=>{
 	await mongo.users();
 };
 
@@ -66,35 +32,70 @@ export const Greeter_component_useTask_ttdoGmi3Fx4 = async () => {
 None
 /*
 {
-  "origin": "consistent_hashes.tsx",
-  "name": "Greeter_component_useTask_ttdoGmi3Fx4",
+  "origin": "test.tsx",
+  "name": "Greeter_component_useTask_ibjq2Rfokxw",
   "entry": null,
-  "displayName": "consistent_hashes.tsx_Greeter_component_useTask",
-  "hash": "ttdoGmi3Fx4",
-  "canonicalFilename": "consistent_hashes.tsx_Greeter_component_useTask_ttdoGmi3Fx4",
-  "path": ".",
-  "extension": "js",
+  "displayName": "test.tsx_Greeter_component_useTask",
+  "hash": "ibjq2Rfokxw",
+  "canonicalFilename": "test.tsx_Greeter_component_useTask_ibjq2Rfokxw",
+  "path": "",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
-  "ctxName": "Greeter_component_useTask_ttdoGmi3Fx4",
+  "ctxName": "useTask$",
   "captures": false,
   "loc": [
-    0,
-    0
+    153,
+    192
   ]
 }
 */
-============================= consistent_hashes.tsx ==
+============================= test.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Greeter_component_useTask_ttdoGmi3Fx4 = () => import("./consistent_hashes.tsx_Greeter_component_useTask_ttdoGmi3Fx4.js");
-const i_Greeter_component_div_div_onClick_1 = () => import("./consistent_hashes.tsx.js");
-const i_Greeter_component_div_div_onClick_2 = () => import("./consistent_hashes.tsx.js");
-const i_Greeter_component_hd1zjB8cngs = () => import("./consistent_hashes.tsx_Greeter_component_hd1zjB8cngs.js");
-export const Greeter = componentQrl(qrl(i_Greeter_component_hd1zjB8cngs, "Greeter_component_hd1zjB8cngs"));
+const i_ibjq2Rfokxw = ()=>import("./test.tsx_Greeter_component_useTask_ibjq2Rfokxw");
+const i_n7HuG2hhU0Q = ()=>import("./test.tsx_Greeter_component_n7HuG2hhU0Q");
+export const Greeter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_n7HuG2hhU0Q, "Greeter_component_n7HuG2hhU0Q"));
 
 
 None
+============================= test.tsx_Greeter_component_n7HuG2hhU0Q.tsx (ENTRY POINT)==
+
+import { _jsxSorted, qrl } from "@qwik.dev/core";
+const i_2 = ()=>import("./test.tsx");
+const i_1 = ()=>import("./test.tsx");
+const i_ibjq2Rfokxw = ()=>import("./test.tsx_Greeter_component_useTask_ibjq2Rfokxw");
+export const Greeter_component_n7HuG2hhU0Q = ()=>{
+	/*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_ibjq2Rfokxw, "Greeter_component_useTask_ibjq2Rfokxw"));
+	return /*#__PURE__*/ _jsxSorted("div", null, null, [
+		/*#__PURE__*/ _jsxSorted("div", { on:click: /*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_ibjq2Rfokxw, "Greeter_component_useTask_ibjq2Rfokxw")) }, null, null, 3, null),
+		/*#__PURE__*/ _jsxSorted("div", { on:click: /*#__PURE__*/ qrl(i_1, "Greeter_component_div_div_onClick_1") }, null, null, 3, null),
+		/*#__PURE__*/ _jsxSorted("div", { on:click: /*#__PURE__*/ qrl(i_2, "Greeter_component_div_div_onClick_2") }, null, null, 3, null)
+	], 3, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "Greeter_component_n7HuG2hhU0Q",
+  "entry": null,
+  "displayName": "test.tsx_Greeter_component",
+  "hash": "n7HuG2hhU0Q",
+  "canonicalFilename": "test.tsx_Greeter_component_n7HuG2hhU0Q",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    112,
+    316
+  ]
+}
+*/
 == DIAGNOSTICS ==
 
 []

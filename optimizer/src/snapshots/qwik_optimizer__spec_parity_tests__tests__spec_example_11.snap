@@ -4,7 +4,6 @@ expression: output
 ---
 ==INPUT==
 
-
 import { $, component$ } from '@qwik.dev/core';
 import {foo, bar as bbar} from "../state";
 import * as dep2 from "dep2";
@@ -24,13 +23,13 @@ export const App = component$(() => {
 	);
 });
 
-============================= project/test.tsx_Header_component_Header_onClick_KjD9TCNkNxY.tsx ==
+============================= project/test.tsx_Header_component_Header_onClick_KjD9TCNkNxY.tsx (ENTRY POINT)==
 
 import dep3 from "dep3/something";
 export const Header_component_Header_onClick_KjD9TCNkNxY = (ev)=>dep3(ev);
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/project/test.tsx\"],\"names\":[],\"mappings\":\";2DAQqB,CAAC,KAAO,KAAK\"}")
+None
 /*
 {
   "origin": "project/test.tsx",
@@ -41,34 +40,31 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/project/test.tsx\"],\"names\"
   "canonicalFilename": "test.tsx_Header_component_Header_onClick_KjD9TCNkNxY",
   "path": "project",
   "extension": "tsx",
-  "parent": "Header_component_UVBJuFYfvDo",
+  "parent": null,
   "ctxKind": "function",
   "ctxName": "$",
   "captures": false,
   "loc": [
-    231,
-    247
-  ],
-  "paramNames": [
-    "ev"
+    229,
+    245
   ]
 }
 */
-============================= project/test.tsx_Header_component_UVBJuFYfvDo.tsx ==
+============================= project/test.tsx_Header_component_UVBJuFYfvDo.tsx (ENTRY POINT)==
 
-import { Header } from "./test";
 import { bar as bbar } from "../state";
-import * as dep2 from "dep2";
+import { Header } from "./project/test";
 import { qrl } from "@qwik.dev/core";
+import * as dep2 from "dep2";
 const i_KjD9TCNkNxY = ()=>import("./test.tsx_Header_component_Header_onClick_KjD9TCNkNxY");
 export const Header_component_UVBJuFYfvDo = ()=>{
-    return <Header onClick={/*#__PURE__*/ qrl(i_KjD9TCNkNxY, "Header_component_Header_onClick_KjD9TCNkNxY")}>
+	return <Header onClick={/*#__PURE__*/ qrl(i_KjD9TCNkNxY, "Header_component_Header_onClick_KjD9TCNkNxY")}>
 			{dep2.stuff()}{bbar()}
 		</Header>;
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/project/test.tsx\"],\"names\":[],\"mappings\":\";;;;;4CAMiC;IAChC,QACE,OAAO,0FAA8B;GACrC,CAAC,KAAK,KAAK,IAAI,OAAO;EACvB,EAAE;AAEJ\"}")
+None
 /*
 {
   "origin": "project/test.tsx",
@@ -84,21 +80,21 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/project/test.tsx\"],\"names\"
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    192,
-    294
+    190,
+    292
   ]
 }
 */
-============================= project/test.tsx_App_component_wGkRHWXaqjs.tsx ==
+============================= project/test.tsx_App_component_wGkRHWXaqjs.tsx (ENTRY POINT)==
 
-import { Header } from "./test";
 import { foo } from "../state";
+import { Header } from "./project/test";
 export const App_component_wGkRHWXaqjs = ()=>{
-    return <Header>{foo()}</Header>;
+	return <Header>{foo()}</Header>;
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/project/test.tsx\"],\"names\":[],\"mappings\":\";;yCAc8B;IAC7B,QACE,QAAQ,QAAQ;AAEnB\"}")
+None
 /*
 {
   "origin": "project/test.tsx",
@@ -114,22 +110,22 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/project/test.tsx\"],\"names\"
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    328,
-    378
+    326,
+    376
   ]
 }
 */
 ============================= project/test.tsx ==
 
-import { componentQrl } from "@qwik.dev/core";
-import { qrl } from "@qwik.dev/core";
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_KjD9TCNkNxY = ()=>import("./test.tsx_Header_component_Header_onClick_KjD9TCNkNxY");
 const i_UVBJuFYfvDo = ()=>import("./test.tsx_Header_component_UVBJuFYfvDo");
 const i_wGkRHWXaqjs = ()=>import("./test.tsx_App_component_wGkRHWXaqjs");
 export const Header = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_UVBJuFYfvDo, "Header_component_UVBJuFYfvDo"));
 export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_wGkRHWXaqjs, "App_component_wGkRHWXaqjs"));
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/project/test.tsx\"],\"names\":[],\"mappings\":\";;;;AAMA,OAAO,MAAM,uBAAS,+EAMnB;AAEH,OAAO,MAAM,oBAAM,4EAIhB\"}")
+None
 == DIAGNOSTICS ==
 
 []

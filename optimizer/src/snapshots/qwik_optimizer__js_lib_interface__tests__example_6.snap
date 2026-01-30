@@ -10,7 +10,7 @@ export const sym1 = $((ctx) => console.log("1"));
 
 import { qrl } from "@qwik.dev/core";
 const i_aJjvXXEWJvU = ()=>import("./test_example_6.tsx_sym1_aJjvXXEWJvU");
-export const sym1 = qrl(i_aJjvXXEWJvU, "sym1_aJjvXXEWJvU");
+export const sym1 = /*#__PURE__*/ qrl(i_aJjvXXEWJvU, "sym1_aJjvXXEWJvU");
 
 
 None
@@ -35,8 +35,8 @@ None
   "ctxName": "$",
   "captures": false,
   "loc": [
-    0,
-    0
+    72,
+    97
   ]
 }
 */

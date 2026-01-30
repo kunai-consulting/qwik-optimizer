@@ -4,7 +4,6 @@ expression: output
 ---
 ==INPUT==
 
-
 import { component$, useStore, isDev, isServer as isServer2 } from '@qwik.dev/core';
 import { isServer, isBrowser as isb } from '@qwik.dev/core/build';
 import { mongodb } from 'mondodb';
@@ -37,31 +36,72 @@ export const App = component$(() => {
 	);
 });
 
+============================= test.tsx_s_H8ViXD28YGQ.tsx (ENTRY POINT)==
+
+import { mongodb } from "mondodb";
+import { threejs } from "threejs";
+export const s_H8ViXD28YGQ = ()=>{
+	if (true) {
+		console.log("server", mongodb());
+	}
+	if (false) {
+		console.log("browser", new threejs());
+	}
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "s_H8ViXD28YGQ",
+  "entry": null,
+  "displayName": "test.tsx_App_component_useMount",
+  "hash": "H8ViXD28YGQ",
+  "canonicalFilename": "test.tsx_s_H8ViXD28YGQ",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "useMount$",
+  "captures": false,
+  "loc": [
+    440,
+    568
+  ]
+}
+*/
 ============================= test.tsx ==
 
-import { componentQrl } from "@qwik.dev/core";
-import { qrl } from "@qwik.dev/core";
-const i_ckEPmXZlub0 = ()=>import("./test.tsx_App_component_ckEPmXZlub0");
-export const functionThatNeedsWindow = ()=>{};
+import { componentQrl, qrl } from "@qwik.dev/core";
+import L from "leaflet";
+const i_H8ViXD28YGQ = ()=>import("./test.tsx_s_H8ViXD28YGQ");
+const i_ckEPmXZlub0 = ()=>import("./test.tsx_s_ckEPmXZlub0");
+export const functionThatNeedsWindow = ()=>{
+	if (false) {
+		console.log("l", L);
+		console.log("hey");
+		window.alert("hey");
+	}
+};
 export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ckEPmXZlub0, "s_ckEPmXZlub0"));
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAQA,OAAO,MAAM,0BAA0B,KAMvC,EAAE;AAEF,OAAO,MAAM,oBAAM,gEAehB\"}")
-============================= test.tsx_App_component_ckEPmXZlub0.tsx (ENTRY POINT)==
+None
+============================= test.tsx_s_ckEPmXZlub0.tsx (ENTRY POINT)==
 
-import { mongodb } from "mondodb";
+import { qrl, useMountQrl, isServer as isServer2 } from "@qwik.dev/core";
+import { isBrowser as isb } from "@qwik.dev/core/build";
 export const s_ckEPmXZlub0 = ()=>{
-    useMount$(()=>{
-        console.log('server', mongodb());
-    });
-    return <Cmp>
-			{<p>server</p>}
-			{false}
+	/*#__PURE__*/ useMountQrl(/*#__PURE__*/ qrl(i_H8ViXD28YGQ, "s_H8ViXD28YGQ"));
+	return <Cmp>
+			{isServer2 && <p>server</p>}
+			{isb && <p>server</p>}
 		</Cmp>;
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";6BAgB8B;IAC7B,UAAU;QAER,QAAQ,GAAG,CAAC,UAAU;IAKxB;IACA,QACE,IAAI;GACJ,EAAe,EAAE,MAAM,EAAE,GAAG;GAC5B,OAAsB;EACvB,EAAE;AAEJ\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -69,7 +109,7 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "entry": null,
   "displayName": "test.tsx_App_component",
   "hash": "ckEPmXZlub0",
-  "canonicalFilename": "test.tsx_App_component_ckEPmXZlub0",
+  "canonicalFilename": "test.tsx_s_ckEPmXZlub0",
   "path": "",
   "extension": "tsx",
   "parent": null,
@@ -77,8 +117,8 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    423,
-    663
+    421,
+    661
   ]
 }
 */

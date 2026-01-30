@@ -4,51 +4,113 @@ expression: output
 ---
 ==INPUT==
 
+import { component$, useComputed$, useTask$ } from '@qwik.dev/core'
 
-		import { component$, useComputed$, useTask$ } from '@qwik.dev/core'
+export default component$(({ color, ...props }) => {
+useComputed$(() => color)
 
-		export default component$(({ color, ...props }) => {
-		useComputed$(() => color)
+useTask$(() => {
+	props.checked
+})
 
-		useTask$(() => {
-			props.checked
-		})
+return 'hi'
+})
 
-		return 'hi'
-		})
-		
-============================= test.js ==
+============================= test.tsx_component_useComputed_97haPIkKcj4.tsx (ENTRY POINT)==
 
-import { _restProps } from "@qwik.dev/core";
-import { componentQrl } from "@qwik.dev/core";
-import { useComputedQrl } from "@qwik.dev/core";
-import { useLexicalScope } from "@qwik.dev/core";
-import { inlinedQrl } from "@qwik.dev/core";
-import { useTaskQrl } from "@qwik.dev/core";
-const test_component_useComputed_PYU291PvidQ = ()=>{
-    const [_rawProps] = useLexicalScope();
-    return _rawProps.color;
+export const component_useComputed_97haPIkKcj4 = ()=>color;
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "component_useComputed_97haPIkKcj4",
+  "entry": "entry_segments",
+  "displayName": "test.tsx_component_useComputed",
+  "hash": "97haPIkKcj4",
+  "canonicalFilename": "test.tsx_component_useComputed_97haPIkKcj4",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "useComputed$",
+  "captures": false,
+  "loc": [
+    135,
+    146
+  ]
+}
+*/
+============================= test.tsx_component_useTask_q0Wg23FFwVQ.tsx (ENTRY POINT)==
+
+export const component_useTask_q0Wg23FFwVQ = ()=>{
+	props.checked;
 };
-const test_component_useTask_jewzFYh3XmQ = ()=>{
-    const [props] = useLexicalScope();
-    props.checked;
-};
-const test_component_LUXeXe0DQrg = (_rawProps)=>{
-    const props = _restProps(_rawProps, [
-        "color"
-    ]);
-    useComputedQrl(/*#__PURE__*/ inlinedQrl(test_component_useComputed_PYU291PvidQ, "test_component_useComputed_PYU291PvidQ", [
-        _rawProps
-    ]));
-    useTaskQrl(/*#__PURE__*/ inlinedQrl(test_component_useTask_jewzFYh3XmQ, "test_component_useTask_jewzFYh3XmQ", [
-        props
-    ]));
-    return 'hi';
-};
-export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(test_component_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;+CAIe;;qBADgB;;2CAGpB;;IACR,MAAM,OAAO;;mCAJY;;;;IAC1B;;;IAEA;;;IAIA,OAAO;AACP;AARA,6BAAe,iGAQb\"}")
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "component_useTask_q0Wg23FFwVQ",
+  "entry": "entry_segments",
+  "displayName": "test.tsx_component_useTask",
+  "hash": "q0Wg23FFwVQ",
+  "canonicalFilename": "test.tsx_component_useTask_q0Wg23FFwVQ",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "useTask$",
+  "captures": false,
+  "loc": [
+    158,
+    182
+  ]
+}
+*/
+============================= test.tsx_component_ZUK1E201Ins.tsx (ENTRY POINT)==
+
+import { qrl, useComputedQrl, useTaskQrl } from "@qwik.dev/core";
+export const component_ZUK1E201Ins = ({ color, ...props })=>{
+	/*#__PURE__*/ useComputedQrl(/*#__PURE__*/ qrl(i_97haPIkKcj4, "component_useComputed_97haPIkKcj4"));
+	/*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_q0Wg23FFwVQ, "component_useTask_q0Wg23FFwVQ"));
+	return "hi";
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "component_ZUK1E201Ins",
+  "entry": "entry_segments",
+  "displayName": "test.tsx_component",
+  "hash": "ZUK1E201Ins",
+  "canonicalFilename": "test.tsx_component_ZUK1E201Ins",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    95,
+    198
+  ]
+}
+*/
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_97haPIkKcj4 = ()=>import("./test.tsx_component_useComputed_97haPIkKcj4");
+const i_q0Wg23FFwVQ = ()=>import("./test.tsx_component_useTask_q0Wg23FFwVQ");
+const i_ZUK1E201Ins = ()=>import("./test.tsx_component_ZUK1E201Ins");
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ZUK1E201Ins, "component_ZUK1E201Ins"));
+
+
+None
 == DIAGNOSTICS ==
 
 []

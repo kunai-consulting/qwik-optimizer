@@ -4,7 +4,6 @@ expression: output
 ---
 ==INPUT==
 
-
 import { $, component$ } from '@qwik.dev/core';
 const Header = $((decl1, {decl2}, [decl3]) => {
 	const {decl4, key: decl5} = this;
@@ -21,12 +20,13 @@ const Header = $((decl1, {decl2}, [decl3]) => {
 ============================= test.tsx_Header_WjUaUQN7Oxg.tsx (ENTRY POINT)==
 
 export const Header_WjUaUQN7Oxg = (decl1, { decl2 }, [decl3])=>{
-    const { decl4, key: decl5 } = this;
-    let [decl6, ...decl7] = stuff;
+	const { decl4, key: decl5 } = this;
+	let [decl6, ...decl7] = stuff;
+	const decl8 = 1, decl9;
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"kCAEiB,CAAC,OAAO,EAAC,KAAK,EAAC,EAAE,CAAC,MAAM;IACxC,MAAM,EAAC,KAAK,EAAE,KAAK,KAAK,EAAC,GAAG,IAAI;IAChC,IAAI,CAAC,OAAO,GAAG,MAAM,GAAG;AAQzB\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -42,13 +42,8 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "ctxName": "$",
   "captures": false,
   "loc": [
-    67,
-    344
-  ],
-  "paramNames": [
-    "decl1",
-    "{decl2}",
-    "[decl3]"
+    65,
+    342
   ]
 }
 */
@@ -59,7 +54,7 @@ const i_WjUaUQN7Oxg = ()=>import("./test.tsx_Header_WjUaUQN7Oxg");
 /*#__PURE__*/ qrl(i_WjUaUQN7Oxg, "Header_WjUaUQN7Oxg");
 
 
-Some("{\"version\":3,\"sources\":[],\"names\":[],\"mappings\":\"\"}")
+None
 == DIAGNOSTICS ==
 
 []

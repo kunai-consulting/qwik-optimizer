@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-
+==INPUT==
 
 import { $, component$, useTask$ } from '@qwik.dev/core';
 import { CONST } from 'const';
@@ -45,85 +45,211 @@ export const NoWorks3 = component$(({count, stuff = hola()}) => {
 	);
 });
 
-============================= test.js ==
+============================= test.tsx_NoWorks3_component_useTask_3cQGU0s1VwU.tsx (ENTRY POINT)==
 
-import { _restProps } from "@qwik.dev/core";
-import { componentQrl } from "@qwik.dev/core";
-import { useTaskQrl } from "@qwik.dev/core";
-import { useLexicalScope } from "@qwik.dev/core";
-import { inlinedQrl } from "@qwik.dev/core";
-import { _fnSignal } from "@qwik.dev/core";
-import { _wrapProp } from "@qwik.dev/core";
-import { _getVarProps } from "@qwik.dev/core";
-import { _getConstProps } from "@qwik.dev/core";
-import { _jsxSplit } from "@qwik.dev/core";
-import { _jsxSorted } from "@qwik.dev/core";
-const _hf0 = (p0)=>p0.some ?? 3;
-const _hf0_str = "p0.some??1+2";
-const _hf1 = (p0)=>({
-        some: p0.some ?? 3
-    });
-const _hf1_str = "{some:p0.some??1+2}";
-export const Works = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl((_rawProps)=>{
-    const rest = _restProps(_rawProps, [
-        "count",
-        "some",
-        "hello",
-        "stuff",
-        "stuffDefault"
-    ]);
-    console.log(_rawProps.stuff, _rawProps.some ?? 3);
-    useTaskQrl(/*#__PURE__*/ inlinedQrl(({ track })=>{
-        const [_rawProps, rest] = useLexicalScope();
-        track(()=>_rawProps.count);
-        console.log(_rawProps.count, rest, _rawProps.stuff, _rawProps.some ?? 3, _rawProps.stuffDefault ?? 123);
-    }, "Works_component_useTask_pjo5U5Ikll0", [
-        _rawProps,
-        rest
-    ]));
-    return /*#__PURE__*/ _jsxSplit("div", {
-        some: _fnSignal(_hf0, [
-            _rawProps
-        ], _hf0_str),
-        params: _fnSignal(_hf1, [
-            _rawProps
-        ], _hf1_str),
-        class: _wrapProp(_rawProps, "count"),
-        ..._getVarProps(rest)
-    }, {
-        ..._getConstProps(rest),
-        override: true
-    }, _wrapProp(_rawProps, "count"), 0, "u6_0");
-}, "Works_component_t45qL4vNGv0"));
-export const NoWorks2 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(({ count, stuff: { hey } })=>{
-    console.log(hey);
-    useTaskQrl(/*#__PURE__*/ inlinedQrl(({ track })=>{
-        const [count] = useLexicalScope();
-        track(()=>count);
-        console.log(count);
-    }, "NoWorks2_component_useTask_lXiqwbxxjq0", [
-        count
-    ]));
-    return /*#__PURE__*/ _jsxSorted("div", {
-        class: count
-    }, null, count, 1, "u6_1");
-}, "NoWorks2_component_JPD9t2HyEKg"));
-export const NoWorks3 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(({ count, stuff = hola() })=>{
-    console.log(stuff);
-    useTaskQrl(/*#__PURE__*/ inlinedQrl(({ track })=>{
-        const [count] = useLexicalScope();
-        track(()=>count);
-        console.log(count);
-    }, "NoWorks3_component_useTask_3cQGU0s1VwU", [
-        count
-    ]));
-    return /*#__PURE__*/ _jsxSorted("div", {
-        class: count
-    }, null, count, 1, "u6_2");
-}, "NoWorks3_component_fc13h5yYn14"));
+export const NoWorks3_component_useTask_3cQGU0s1VwU = ({ track })=>{
+	track(()=>count);
+	console.log(count);
+};
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;;;;;;sBAKC,QAAO;;mBAWmB,CAAA;QAAE,IAAI,KAXhC,QAAO;IAW0B,CAAA;;AAblC,OAAO,MAAM,sBAAQ,sCAAW;;;;;;;;IAO/B,QAAQ,GAAG,WAHX,iBAFA,QAAO;IAMP,oCAAS,CAAC,EAAC,KAAK,EAAC;;QAChB,MAAM,cARP;QASC,QAAQ,GAAG,WATZ,OASoB,gBANpB,iBAFA,QAAO,aAGP,gBAAqB;;;;;IAOrB,qBACC,UAAC;QAAI,IAAI;;;QAAQ,MAAM;;;QAAY,KAAK;wBAAa;;0BAAA;QAAM,QAAQ;;AAErE,mCAAG;AAEH,OAAO,MAAM,yBAAW,sCAAW,CAAC,EAAC,KAAK,EAAE,OAAO,EAAC,GAAG,EAAC,EAAC;IACxD,QAAQ,GAAG,CAAC;IACZ,oCAAS,CAAC,EAAC,KAAK,EAAC;;QAChB,MAAM,IAAM;QACZ,QAAQ,GAAG,CAAC;;;;IAEb,qBACC,WAAC;QAAI,OAAO;aAAQ;AAEtB,sCAAG;AAEH,OAAO,MAAM,yBAAW,sCAAW,CAAC,EAAC,KAAK,EAAE,QAAQ,MAAM,EAAC;IAC1D,QAAQ,GAAG,CAAC;IACZ,oCAAS,CAAC,EAAC,KAAK,EAAC;;QAChB,MAAM,IAAM;QACZ,QAAQ,GAAG,CAAC;;;;IAEb,qBACC,WAAC;QAAI,OAAO;aAAQ;AAEtB,sCAAG\"}")
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "NoWorks3_component_useTask_3cQGU0s1VwU",
+  "entry": "entry_segments",
+  "displayName": "test.tsx_NoWorks3_component_useTask",
+  "hash": "3cQGU0s1VwU",
+  "canonicalFilename": "test.tsx_NoWorks3_component_useTask_3cQGU0s1VwU",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "useTask$",
+  "captures": false,
+  "loc": [
+    750,
+    811
+  ]
+}
+*/
+============================= test.tsx_Works_component_useTask_pjo5U5Ikll0.tsx (ENTRY POINT)==
+
+export const Works_component_useTask_pjo5U5Ikll0 = ({ track })=>{
+	track(()=>count);
+	console.log(count, rest, hey, some, hey2);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "Works_component_useTask_pjo5U5Ikll0",
+  "entry": "entry_segments",
+  "displayName": "test.tsx_Works_component_useTask",
+  "hash": "pjo5U5Ikll0",
+  "canonicalFilename": "test.tsx_Works_component_useTask_pjo5U5Ikll0",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "useTask$",
+  "captures": false,
+  "loc": [
+    252,
+    336
+  ]
+}
+*/
+============================= test.tsx_NoWorks3_component_fc13h5yYn14.tsx (ENTRY POINT)==
+
+import { _jsxSorted, qrl, useTaskQrl } from "@qwik.dev/core";
+const i_3cQGU0s1VwU = ()=>import("./test.tsx_NoWorks3_component_useTask_3cQGU0s1VwU");
+export const NoWorks3_component_fc13h5yYn14 = ({ count, stuff = hola() })=>{
+	console.log(stuff);
+	/*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_3cQGU0s1VwU, "NoWorks3_component_useTask_3cQGU0s1VwU"));
+	return /*#__PURE__*/ _jsxSorted("div", { class: /*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_3cQGU0s1VwU, "NoWorks3_component_useTask_3cQGU0s1VwU")) }, null, _wrapProp(_rawProps, "count"), 1, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "NoWorks3_component_fc13h5yYn14",
+  "entry": "entry_segments",
+  "displayName": "test.tsx_NoWorks3_component",
+  "hash": "fc13h5yYn14",
+  "canonicalFilename": "test.tsx_NoWorks3_component_fc13h5yYn14",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    688,
+    864
+  ]
+}
+*/
+============================= test.tsx_NoWorks2_component_JPD9t2HyEKg.tsx (ENTRY POINT)==
+
+import { _jsxSorted, qrl, useTaskQrl } from "@qwik.dev/core";
+const i_lXiqwbxxjq0 = ()=>import("./test.tsx_NoWorks2_component_useTask_lXiqwbxxjq0");
+export const NoWorks2_component_JPD9t2HyEKg = ({ count, stuff: { hey } })=>{
+	console.log(hey);
+	/*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_lXiqwbxxjq0, "NoWorks2_component_useTask_lXiqwbxxjq0"));
+	return /*#__PURE__*/ _jsxSorted("div", { class: /*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_lXiqwbxxjq0, "NoWorks2_component_useTask_lXiqwbxxjq0")) }, null, _wrapProp(_rawProps, "count"), 1, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "NoWorks2_component_JPD9t2HyEKg",
+  "entry": "entry_segments",
+  "displayName": "test.tsx_NoWorks2_component",
+  "hash": "JPD9t2HyEKg",
+  "canonicalFilename": "test.tsx_NoWorks2_component_JPD9t2HyEKg",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    477,
+    649
+  ]
+}
+*/
+============================= test.tsx_NoWorks2_component_useTask_lXiqwbxxjq0.tsx (ENTRY POINT)==
+
+export const NoWorks2_component_useTask_lXiqwbxxjq0 = ({ track })=>{
+	track(()=>count);
+	console.log(count);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "NoWorks2_component_useTask_lXiqwbxxjq0",
+  "entry": "entry_segments",
+  "displayName": "test.tsx_NoWorks2_component_useTask",
+  "hash": "lXiqwbxxjq0",
+  "canonicalFilename": "test.tsx_NoWorks2_component_useTask_lXiqwbxxjq0",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "useTask$",
+  "captures": false,
+  "loc": [
+    535,
+    596
+  ]
+}
+*/
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_pjo5U5Ikll0 = ()=>import("./test.tsx_Works_component_useTask_pjo5U5Ikll0");
+const i_t45qL4vNGv0 = ()=>import("./test.tsx_Works_component_t45qL4vNGv0");
+const i_lXiqwbxxjq0 = ()=>import("./test.tsx_NoWorks2_component_useTask_lXiqwbxxjq0");
+const i_JPD9t2HyEKg = ()=>import("./test.tsx_NoWorks2_component_JPD9t2HyEKg");
+const i_3cQGU0s1VwU = ()=>import("./test.tsx_NoWorks3_component_useTask_3cQGU0s1VwU");
+const i_fc13h5yYn14 = ()=>import("./test.tsx_NoWorks3_component_fc13h5yYn14");
+export const Works = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_t45qL4vNGv0, "Works_component_t45qL4vNGv0"));
+export const NoWorks2 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_JPD9t2HyEKg, "NoWorks2_component_JPD9t2HyEKg"));
+export const NoWorks3 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_fc13h5yYn14, "NoWorks3_component_fc13h5yYn14"));
+
+
+None
+============================= test.tsx_Works_component_t45qL4vNGv0.tsx (ENTRY POINT)==
+
+import { _getConstProps, _getVarProps, _jsxSplit, qrl, useTaskQrl } from "@qwik.dev/core";
+import { CONST } from "const";
+const i_pjo5U5Ikll0 = ()=>import("./test.tsx_Works_component_useTask_pjo5U5Ikll0");
+export const Works_component_t45qL4vNGv0 = ({ count, some = 1 + 2, hello = CONST, stuff: hey, stuffDefault: hey2 = 123, ...rest })=>{
+	console.log(hey, some);
+	/*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_pjo5U5Ikll0, "Works_component_useTask_pjo5U5Ikll0"));
+	return /*#__PURE__*/ _jsxSplit("div", {
+		some: /*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_pjo5U5Ikll0, "Works_component_useTask_pjo5U5Ikll0")),
+		params: { some },
+		class: _wrapProp(_rawProps, "count"),
+		..._getVarProps(rest),
+		override: true
+	}, _getConstProps(rest), _wrapProp(_rawProps, "count"), 0, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "Works_component_t45qL4vNGv0",
+  "entry": "entry_segments",
+  "displayName": "test.tsx_Works_component",
+  "hash": "t45qL4vNGv0",
+  "canonicalFilename": "test.tsx_Works_component_t45qL4vNGv0",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    121,
+    438
+  ]
+}
+*/
 == DIAGNOSTICS ==
 
 []

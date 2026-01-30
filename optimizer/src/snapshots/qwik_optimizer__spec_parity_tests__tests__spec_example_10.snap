@@ -4,7 +4,6 @@ expression: output
 ---
 ==INPUT==
 
-
 import { $, component$ } from '@qwik.dev/core';
 const Header = $((decl1, {decl2}, [decl3]) => {
 
@@ -28,28 +27,16 @@ const Header = $((decl1, {decl2}, [decl3]) => {
 ============================= project/test.tsx_Header_WlR3xnI6u38.tsx (ENTRY POINT)==
 
 export const Header_WlR3xnI6u38 = (decl1, { decl2 }, [decl3])=>{
-    ident1.no;
-    ident2;
-    ident1, ident3;
-    ident1, ident3;
-    ident4(ident5, [
-        ident6
-    ], {
-        ident7
-    }, {
-        key: ident8
-    });
-    class Some {
-        prop = ident9;
-        method() {
-            return ident10;
-        }
-    }
-    return <div onClick={(ident11)=>ident11 + ident12} required={false}/>;
+	const hola = ident1.no;
+	ident2;
+	const a = ident1 + ident3;
+	const b = ident1 + ident3;
+	ident4(ident5, [ident6], { ident7 }, { key: ident8 });
+	return <div onClick={(ident11)=>ident11 + ident12} required={false} />;
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/project/test.tsx\"],\"names\":[],\"mappings\":\"kCAEiB,CAAC,OAAO,EAAC,KAAK,EAAC,EAAE,CAAC,MAAM;IAE3B,OAAO,EAAE;IACtB;IACU,QAAS;IACT,QAAS;IACnB,OAAO,QAAQ;QAAC;KAAO,EAAE;QAAC;IAAM,GAAG;QAAC,KAAK;IAAM;IAC/C,MAAM;QACL,OAAO,OAAO;QACd,SAAS;YACR,OAAO;QACR;IACD;IAEA,QACE,IAAI,SAAS,CAAC,UAAY,UAAU,SAAS,UAAU;AAE1D\"}")
+None
 /*
 {
   "origin": "project/test.tsx",
@@ -65,13 +52,8 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/project/test.tsx\"],\"names\"
   "ctxName": "$",
   "captures": false,
   "loc": [
-    67,
-    393
-  ],
-  "paramNames": [
-    "decl1",
-    "{decl2}",
-    "[decl3]"
+    65,
+    391
   ]
 }
 */
@@ -82,7 +64,7 @@ const i_WlR3xnI6u38 = ()=>import("./test.tsx_Header_WlR3xnI6u38");
 /*#__PURE__*/ qrl(i_WlR3xnI6u38, "Header_WlR3xnI6u38");
 
 
-Some("{\"version\":3,\"sources\":[],\"names\":[],\"mappings\":\"\"}")
+None
 == DIAGNOSTICS ==
 
 []

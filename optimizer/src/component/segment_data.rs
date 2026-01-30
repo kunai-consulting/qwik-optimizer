@@ -71,6 +71,8 @@ pub struct SegmentData {
     /// outer iteration vars go into scoped_idents for useLexicalScope injection.
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub iteration_params: Vec<Id>,
+    /// Source location span (start, end) of the QRL expression in the original source.
+    pub loc: (u32, u32),
 }
 
 impl SegmentData {
@@ -129,6 +131,34 @@ impl SegmentData {
         referenced_exports: Vec<ExportInfo>,
         iteration_params: Vec<Id>,
     ) -> Self {
+        Self::new_with_loc(
+            ctx_name,
+            display_name,
+            hash,
+            origin,
+            scoped_idents,
+            local_idents,
+            parent_segment,
+            referenced_exports,
+            iteration_params,
+            (0, 0), // Default loc for backwards compatibility
+        )
+    }
+
+    /// Create a new SegmentData with source location span.
+    #[allow(clippy::too_many_arguments)]
+    pub fn new_with_loc(
+        ctx_name: &str,
+        display_name: String,
+        hash: String,
+        origin: PathBuf,
+        scoped_idents: Vec<Id>,
+        local_idents: Vec<Id>,
+        parent_segment: Option<String>,
+        referenced_exports: Vec<ExportInfo>,
+        iteration_params: Vec<Id>,
+        loc: (u32, u32),
+    ) -> Self {
         let ctx_kind = SegmentKind::from_ctx_name(ctx_name);
         let need_transform = !scoped_idents.is_empty() || !iteration_params.is_empty();
 
@@ -146,6 +176,7 @@ impl SegmentData {
             need_transform,
             referenced_exports,
             iteration_params,
+            loc,
         }
     }
 

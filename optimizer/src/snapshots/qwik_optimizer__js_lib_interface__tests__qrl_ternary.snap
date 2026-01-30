@@ -34,8 +34,8 @@ None
   "ctxName": "$",
   "captures": false,
   "loc": [
-    0,
-    0
+    174,
+    207
   ]
 }
 */
@@ -46,7 +46,7 @@ const i_0qMTsQPqS0Y = ()=>import("./test_qrl_ternary.tsx_handler_0qMTsQPqS0Y");
 const i_mOTT0ekKnYQ = ()=>import("./test_qrl_ternary.tsx_handler_1_mOTT0ekKnYQ");
 // QRL in ternary expression
 const condition = true;
-export const handler = qrl(i_mOTT0ekKnYQ, "handler_1_mOTT0ekKnYQ");
+export const handler = /*#__PURE__*/ qrl(i_mOTT0ekKnYQ, "handler_1_mOTT0ekKnYQ");
 
 
 None
@@ -71,8 +71,8 @@ None
   "ctxName": "$",
   "captures": false,
   "loc": [
-    0,
-    0
+    132,
+    164
   ]
 }
 */

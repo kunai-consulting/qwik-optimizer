@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-
+==INPUT==
 
 import { componentQrl, inlinedQrl, useStore, jsxs, jsx, useLexicalScope } from '@qwik.dev/core';
 
@@ -38,37 +38,81 @@ export const App = /*#__PURE__*/ componentQrl(inlinedQrl(()=>{
 
 export const STYLES = ".red { color: red; }";
 
+============================= test.tsx_s_tWtGBKzgu0o.tsx (ENTRY POINT)==
 
+const i_p5SexbIOPVI = ()=>import("./test.tsx_s_p5SexbIOPVI");
+export const s_tWtGBKzgu0o = useStylesQrl(i_p5SexbIOPVI, "s_p5SexbIOPVI");
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "s_tWtGBKzgu0o",
+  "entry": "entry_segments",
+  "displayName": "test.tsx_App_componentQrl_inlinedQrl_useStyles_1",
+  "hash": "tWtGBKzgu0o",
+  "canonicalFilename": "test.tsx_s_tWtGBKzgu0o",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "useStyles$",
+  "captures": false,
+  "loc": [
+    227,
+    265
+  ]
+}
+*/
+============================= test.tsx_s_p5SexbIOPVI.tsx (ENTRY POINT)==
+
+import { inlinedQrl } from "@qwik.dev/core";
+export const s_p5SexbIOPVI = inlinedQrl(STYLES, "STYLES_odz7dfdfdM");
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "s_p5SexbIOPVI",
+  "entry": "entry_segments",
+  "displayName": "test.tsx_App_componentQrl_inlinedQrl_useStyles",
+  "hash": "p5SexbIOPVI",
+  "canonicalFilename": "test.tsx_s_p5SexbIOPVI",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "useStyles$",
+  "captures": false,
+  "loc": [
+    173,
+    212
+  ]
+}
+*/
 ============================= test.tsx ==
 
-import { _wrapProp } from "@qwik.dev/core";
-import { _jsxSorted } from "@qwik.dev/core";
-import { componentQrl, inlinedQrl, useStore, useLexicalScope } from '@qwik.dev/core';
-export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(()=>{
-    useStyles$(/*#__PURE__*/ inlinedQrl(STYLES, "s_odz7dfdfdM"));
-    useStyles$(/*#__PURE__*/ inlinedQrl(STYLES, "s_odzdfdfdM"));
-    const store = useStore({
-        count: 0
-    });
-    return /*#__PURE__*/ _jsxSorted("div", null, null, [
-        /*#__PURE__*/ _jsxSorted("p", null, null, [
-            "Count: ",
-            _wrapProp(store, "count")
-        ], 3, null),
-        /*#__PURE__*/ _jsxSorted("p", null, null, /*#__PURE__*/ _jsxSorted("button", {
-            "on:click": /*#__PURE__*/ inlinedQrl(()=>{
-                const [store] = useLexicalScope();
-                return store.count++;
-            }, "s_odz7eidI4GM", [
-                store
-            ])
-        }, null, "Click", 2, null), 1, null)
-    ], 1, "u6_0");
-}, "s_Fh88JClhbC0"));
+import { componentQrl, inlinedQrl, jsx, jsxs, qrl, useLexicalScope, useStylesQrl } from "@qwik.dev/core";
+const i_p5SexbIOPVI = ()=>import("./test.tsx_s_p5SexbIOPVI");
+const i_tWtGBKzgu0o = ()=>import("./test.tsx_s_tWtGBKzgu0o");
+export const App = /*#__PURE__*/ componentQrl(inlinedQrl(()=>{
+	/*#__PURE__*/ useStylesQrl(/*#__PURE__*/ qrl(i_p5SexbIOPVI, "s_p5SexbIOPVI"));
+	/*#__PURE__*/ useStylesQrl(/*#__PURE__*/ qrl(i_tWtGBKzgu0o, "s_tWtGBKzgu0o"));
+	const store = /*#__PURE__*/ useStylesQrl(/*#__PURE__*/ qrl(i_tWtGBKzgu0o, "s_tWtGBKzgu0o"));
+	return /*#__PURE__*/ jsxs("div", { children: [/*#__PURE__*/ jsxs("p", { children: ["Count: ", store.count] }), /*#__PURE__*/ jsx("p", { children: /*#__PURE__*/ jsx("button", {
+		onClick$: inlinedQrl(()=>{
+			const [store] = useLexicalScope();
+			return store.count++;
+		}, "App_component_div_p_button_onClick_odz7eidI4GM", [store]),
+		children: "Click"
+	}) })] });
+}, "App_component_Fh88JClhbC0"));
 export const STYLES = ".red { color: red; }";
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;AACA,SAAS,YAAY,EAAE,UAAU,EAAE,QAAQ,EAAa,eAAe,QAAQ,iBAAiB;AAEhG,OAAO,MAAM,MAAM,WAAW,GAAG,sCAAwB;IACxD,oCAAsB;IACtB,oCAAsB;IAEtB,MAAM,QAAQ,SAAS;QACtB,OAAO;IACR;IACA,OAAO,WAAW,GAAG,WAAK,mBACf;QACT,WAAW,GAAG,WAAK,iBACR;YACT;sBACA;SACA;QAEF,WAAW,GAAG,WAAI,iBACP,WAAW,GAAG,WAAI;YAC3B,UAAQ,2BAAa;gBACpB,MAAM,CAAC,MAAM,GAAG;gBAChB,OAAO,MAAM,KAAK;YACnB;;;iBAGU;KAGZ;AAEH,qBAAiC;AAEjC,OAAO,MAAM,SAAS,uBAAuB\"}")
+None
 == DIAGNOSTICS ==
 
 []

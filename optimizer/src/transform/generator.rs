@@ -693,7 +693,15 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                     }
                 });
 
-                let segment_data = SegmentData::new_with_exports(
+                // Get the source span from the QRL argument (the arrow/function expression)
+                let loc = arg0.as_expression()
+                    .map(|expr| {
+                        let span = expr.span();
+                        (span.start, span.end)
+                    })
+                    .unwrap_or((0, 0));
+
+                let segment_data = SegmentData::new_with_loc(
                     &ctx_name,
                     display_name,
                     hash,
@@ -702,6 +710,8 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
                     descendent_idents,
                     parent_segment,
                     referenced_exports,
+                    Vec::new(), // iteration_params (populated elsewhere if needed)
+                    loc,
                 );
 
                 let entry = self.entry_policy.get_entry_for_sym(&self.stack_ctxt, &segment_data);

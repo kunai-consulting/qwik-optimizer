@@ -47,8 +47,8 @@ None
   "ctxName": "$",
   "captures": false,
   "loc": [
-    0,
-    0
+    196,
+    297
   ]
 }
 */
@@ -56,7 +56,7 @@ None
 
 import { qrl } from "@qwik.dev/core";
 export const App_component_9Afc3zxCXkY = ()=>{
-	return qrl(i_sEJrlBvQHzk, "App_component_1_sEJrlBvQHzk");
+	return /*#__PURE__*/ qrl(i_sEJrlBvQHzk, "App_component_1_sEJrlBvQHzk");
 };
 
 
@@ -76,8 +76,8 @@ None
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    0,
-    0
+    79,
+    301
   ]
 }
 */
@@ -86,7 +86,7 @@ None
 import { componentQrl, qrl } from "@qwik.dev/core";
 const i_sEJrlBvQHzk = ()=>import("./test_example_capturing_fn_class.jsx_App_component_1_sEJrlBvQHzk");
 const i_9Afc3zxCXkY = ()=>import("./test_example_capturing_fn_class.jsx_App_component_9Afc3zxCXkY");
-export const App = componentQrl(qrl(i_9Afc3zxCXkY, "App_component_9Afc3zxCXkY"));
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_9Afc3zxCXkY, "App_component_9Afc3zxCXkY"));
 
 
 None

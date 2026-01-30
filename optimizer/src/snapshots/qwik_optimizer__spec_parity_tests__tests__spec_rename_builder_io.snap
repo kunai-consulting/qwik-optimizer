@@ -4,34 +4,33 @@ expression: output
 ---
 ==INPUT==
 
+import { $, component$ } from "@builder.io/qwik";
+import { isDev } from "@builder.io/qwik/build";
+import { stuff } from "@builder.io/qwik-city";
+import { moreStuff } from "@builder.io/qwik-city/more/here";
+import { qwikify$ } from "@builder.io/qwik-react";
+import sdk from "@builder.io/sdk";
 
-		import { $, component$ } from "@builder.io/qwik";
-		import { isDev } from "@builder.io/qwik/build";
-		import { stuff } from "@builder.io/qwik-city";
-		import { moreStuff } from "@builder.io/qwik-city/more/here";
-		import { qwikify$ } from "@builder.io/qwik-react";
-		import sdk from "@builder.io/sdk";
+export const Foo = qwikify$(MyReactComponent);
 
-		export const Foo = qwikify$(MyReactComponent);
+export const Bar = $("a thing");
 
-		export const Bar = $("a thing");
+export const App = component$(() => {
+	sdk.hello();
+	if (isDev) {
+		stuff()
+	} else {
+		moreStuff()
+	}
+	return "hi";
+});
 
-		export const App = component$(() => {
-			sdk.hello();
-			if (isDev) {
-				stuff()
-			} else {
-				moreStuff()
-			}
-			return "hi";
-		});
-		
-============================= test.tsx_Bar_GXXnVUtURSw.ts (ENTRY POINT)==
+============================= test.tsx_Bar_GXXnVUtURSw.tsx (ENTRY POINT)==
 
 export const Bar_GXXnVUtURSw = "a thing";
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"+BAUuB\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -41,23 +40,23 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "hash": "GXXnVUtURSw",
   "canonicalFilename": "test.tsx_Bar_GXXnVUtURSw",
   "path": "",
-  "extension": "ts",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "$",
   "captures": false,
   "loc": [
-    380,
-    389
+    362,
+    371
   ]
 }
 */
-============================= test.tsx_Foo_qwikify_0Yoy9qA0SC0.ts (ENTRY POINT)==
+============================= test.tsx_Foo_qwikify_0Yoy9qA0SC0.tsx (ENTRY POINT)==
 
 export const Foo_qwikify_0Yoy9qA0SC0 = MyReactComponent;
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"uCAQ8B\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -67,32 +66,48 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "hash": "0Yoy9qA0SC0",
   "canonicalFilename": "test.tsx_Foo_qwikify_0Yoy9qA0SC0",
   "path": "",
-  "extension": "ts",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "qwikify$",
   "captures": false,
   "loc": [
-    337,
-    353
+    321,
+    337
   ]
 }
 */
-============================= test.tsx_App_component_ckEPmXZlub0.ts (ENTRY POINT)==
+============================= test.tsx ==
 
-import { isDev } from "@qwik.dev/core/build";
-import { moreStuff } from "@qwik.dev/router/more/here";
+import { componentQrl, qrl, qwikifyQrl } from "@qwik.dev/core";
+import { qwikifyQrl } from "@qwik.dev/react";
+const i_0Yoy9qA0SC0 = ()=>import("./test.tsx_Foo_qwikify_0Yoy9qA0SC0");
+const i_GXXnVUtURSw = ()=>import("./test.tsx_Bar_GXXnVUtURSw");
+const i_ckEPmXZlub0 = ()=>import("./test.tsx_App_component_ckEPmXZlub0");
+export const Foo = /*#__PURE__*/ qwikifyQrl(/*#__PURE__*/ qrl(i_0Yoy9qA0SC0, "Foo_qwikify_0Yoy9qA0SC0"));
+export const Bar = /*#__PURE__*/ qrl(i_GXXnVUtURSw, "Bar_GXXnVUtURSw");
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
+
+
+None
+============================= test.tsx_App_component_ckEPmXZlub0.tsx (ENTRY POINT)==
+
 import sdk from "@builder.io/sdk";
+import { isDev } from "@qwik.dev/core/build";
 import { stuff } from "@qwik.dev/router";
+import { moreStuff } from "@qwik.dev/router/more/here";
 export const App_component_ckEPmXZlub0 = ()=>{
-    sdk.hello();
-    if (isDev) stuff();
-    else moreStuff();
-    return "hi";
+	sdk.hello();
+	if (isDev) {
+		stuff();
+	} else {
+		moreStuff();
+	}
+	return "hi";
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;yCAYgC;IAC7B,IAAI,KAAK;IACT,IAAI,OACH;SAEA;IAED,OAAO;AACR\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -102,31 +117,17 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "hash": "ckEPmXZlub0",
   "canonicalFilename": "test.tsx_App_component_ckEPmXZlub0",
   "path": "",
-  "extension": "ts",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    425,
-    529
+    405,
+    493
   ]
 }
 */
-============================= test.ts ==
-
-import { qwikifyQrl } from "@qwik.dev/react";
-import { qrl } from "@qwik.dev/core";
-import { componentQrl } from "@qwik.dev/core";
-const i_0Yoy9qA0SC0 = ()=>import("./test.tsx_Foo_qwikify_0Yoy9qA0SC0");
-const i_GXXnVUtURSw = ()=>import("./test.tsx_Bar_GXXnVUtURSw");
-const i_ckEPmXZlub0 = ()=>import("./test.tsx_App_component_ckEPmXZlub0");
-export const Foo = qwikifyQrl(/*#__PURE__*/ qrl(i_0Yoy9qA0SC0, "Foo_qwikify_0Yoy9qA0SC0"));
-export const Bar = /*#__PURE__*/ qrl(i_GXXnVUtURSw, "Bar_GXXnVUtURSw");
-export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
-
-
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;AAQE,OAAO,MAAM,MAAM,wEAA2B;AAE9C,OAAO,MAAM,0DAAmB;AAEhC,OAAO,MAAM,oBAAM,4EAQhB\"}")
 == DIAGNOSTICS ==
 
 []

@@ -2,7 +2,7 @@
 source: optimizer/src/spec_parity_tests.rs
 expression: output
 ---
-
+==INPUT==
 
 import { component$, useStore, serverStuff$, $ } from '@qwik.dev/core';
 
@@ -28,71 +28,59 @@ export const App = component$(() => {
 	);
 });
 
-============================= test.js ==
+============================= test.tsx ==
 
-import { componentQrl } from "@qwik.dev/core";
-import { qrlDEV } from "@qwik.dev/core";
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_ebyHaP15ytQ = ()=>import("./test.tsx_App_component_serverStuff_ebyHaP15ytQ");
+const i_PQCqO0ANabY = ()=>import("./test.tsx_App_component_serverStuff_1_PQCqO0ANabY");
 const i_ckEPmXZlub0 = ()=>import("./test.tsx_App_component_ckEPmXZlub0");
-export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrlDEV(i_ckEPmXZlub0, "App_component_ckEPmXZlub0", {
-    file: "/hello/from/dev/test.tsx",
-    lo: 105,
-    hi: 452,
-    displayName: "test.tsx_App_component"
-}));
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAGA,OAAO,MAAM,oBAAM;;;;;IAoBhB\"}")
-============================= test.tsx_App_component_ckEPmXZlub0.js (ENTRY POINT)==
+None
+============================= test.tsx_App_component_serverStuff_1_PQCqO0ANabY.tsx (ENTRY POINT)==
+
+export const App_component_serverStuff_1_PQCqO0ANabY = async ()=>{};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "App_component_serverStuff_1_PQCqO0ANabY",
+  "entry": null,
+  "displayName": "test.tsx_App_component_serverStuff_1",
+  "hash": "PQCqO0ANabY",
+  "canonicalFilename": "test.tsx_App_component_serverStuff_1_PQCqO0ANabY",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "serverStuff$",
+  "captures": false,
+  "loc": [
+    249,
+    288
+  ]
+}
+*/
+============================= test.tsx_App_component_ckEPmXZlub0.tsx (ENTRY POINT)==
 
 import { _jsxSorted } from "@qwik.dev/core";
-import { _noopQrlDEV } from "@qwik.dev/core";
-import { serverStuffQrl } from "@qwik.dev/core";
-import { useStore } from "@qwik.dev/core";
+const i_ebyHaP15ytQ = ()=>import("./test.tsx_App_component_serverStuff_ebyHaP15ytQ");
+const i_PQCqO0ANabY = ()=>import("./test.tsx_App_component_serverStuff_1_PQCqO0ANabY");
 export const App_component_ckEPmXZlub0 = ()=>{
-    const stuff = useStore();
-    serverStuffQrl(/*#__PURE__*/ _noopQrlDEV("App_component_serverStuff_ebyHaP15ytQ", {
-        file: "/hello/from/dev/test.tsx",
-        lo: 0,
-        hi: 0,
-        displayName: "test.tsx_App_component_serverStuff"
-    }, [
-        stuff
-    ]));
-    serverStuffQrl(/*#__PURE__*/ _noopQrlDEV("App_component_serverStuff_1_PQCqO0ANabY", {
-        file: "/hello/from/dev/test.tsx",
-        lo: 0,
-        hi: 0,
-        displayName: "test.tsx_App_component_serverStuff_1"
-    }));
-    return /*#__PURE__*/ _jsxSorted(Cmp, null, null, /*#__PURE__*/ _jsxSorted("p", null, {
-        class: "stuff",
-        shouldRemove$: /*#__PURE__*/ _noopQrlDEV("App_component_Cmp_p_shouldRemove_uU0MG0jvQD4", {
-            file: "/hello/from/dev/test.tsx",
-            lo: 0,
-            hi: 0,
-            displayName: "test.tsx_App_component_Cmp_p_shouldRemove"
-        }, [
-            stuff
-        ]),
-        "on:click": /*#__PURE__*/ _noopQrlDEV("App_component_Cmp_p_on_click_9VylW0qB00s", {
-            file: "/hello/from/dev/test.tsx",
-            lo: 0,
-            hi: 0,
-            displayName: "test.tsx_App_component_Cmp_p_on_click"
-        })
-    }, "Hello Qwik", 3, null, {
-        fileName: "/hello/from/dev/test.tsx",
-        lineNumber: 16,
-        columnNumber: 4
-    }), 3, "u6_0", {
-        fileName: "/hello/from/dev/test.tsx",
-        lineNumber: 15,
-        columnNumber: 3
-    });
+	const stuff = useStore();
+	/*#__PURE__*/ serverStuffQrl(/*#__PURE__*/ qrl(i_ebyHaP15ytQ, "App_component_serverStuff_ebyHaP15ytQ", [stuff]));
+	/*#__PURE__*/ serverStuffQrl(/*#__PURE__*/ qrl(i_PQCqO0ANabY, "App_component_serverStuff_1_PQCqO0ANabY"));
+	return _jsxSorted(Cmp, null, null, /*#__PURE__*/ _jsxSorted("p", {
+		shouldRemove$: /*#__PURE__*/ serverStuffQrl(/*#__PURE__*/ qrl(i_PQCqO0ANabY, "App_component_serverStuff_1_PQCqO0ANabY")),
+		on:click: /*#__PURE__*/ serverStuffQrl(/*#__PURE__*/ qrl(i_ebyHaP15ytQ, "App_component_serverStuff_ebyHaP15ytQ", [stuff]))
+	}, { class: "stuff" }, "Hello Qwik", 3, null), 3, null);
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;yCAG8B;IAC7B,MAAM,QAAQ;IACd;;;;;;;;IAIA;;;;;;IAIA,qBACC,WAAC,+BACA,WAAC;QAAE,OAAM;QACR,aAAa;;;;;;;;QACb,UAAQ;;;;;;OACR;;;;;;;;;AAKJ\"}")
+None
 /*
 {
   "origin": "test.tsx",
@@ -102,14 +90,43 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
   "hash": "ckEPmXZlub0",
   "canonicalFilename": "test.tsx_App_component_ckEPmXZlub0",
   "path": "",
-  "extension": "js",
+  "extension": "tsx",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
   "captures": false,
   "loc": [
-    105,
-    452
+    103,
+    450
+  ]
+}
+*/
+============================= test.tsx_App_component_serverStuff_ebyHaP15ytQ.tsx (ENTRY POINT)==
+
+export const App_component_serverStuff_ebyHaP15ytQ = async ()=>{
+	const [stuff] = useLexicalScope();
+	console.log(stuff.count);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "App_component_serverStuff_ebyHaP15ytQ",
+  "entry": null,
+  "displayName": "test.tsx_App_component_serverStuff",
+  "hash": "ebyHaP15ytQ",
+  "canonicalFilename": "test.tsx_App_component_serverStuff_ebyHaP15ytQ",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "serverStuff$",
+  "captures": true,
+  "loc": [
+    152,
+    233
   ]
 }
 */
