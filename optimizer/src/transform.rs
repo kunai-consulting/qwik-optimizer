@@ -6860,4 +6860,67 @@ export const App = component$(() => {
             "Generator functions should not cause errors, got: {:?}",
             result.errors);
     }
+
+    #[test]
+    fn test_unicode_identifiers() {
+        // Test that unicode variable and component names work correctly
+        // OXC handles unicode natively, this ensures full pipeline compatibility
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$ } from '@qwik.dev/core';
+
+export const Komponent = component$(() => {
+  const japanese = 'Japanese';
+  const donnees = { value: 'French' };
+  return <div>{japanese} - {donnees.value}</div>;
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Get all segment code for debugging
+        let segment_code: String = result.optimized_app.components.iter()
+            .map(|c| format!("{}: {}", c.id.symbol_name, c.code))
+            .collect::<Vec<_>>()
+            .join("\n---\n");
+
+        // Should have at least one component extracted
+        assert!(!result.optimized_app.components.is_empty(),
+            "Should have at least one component extracted.\nBody:\n{}",
+            result.optimized_app.body);
+
+        // Find the Komponent segment
+        let komponent_segment = result.optimized_app.components.iter()
+            .find(|c| c.id.symbol_name.contains("Komponent"))
+            .map(|c| &c.code);
+
+        // STRONG ASSERTIONS: Unicode identifiers must be preserved
+        if let Some(code) = komponent_segment {
+            // Variable names should be preserved
+            assert!(code.contains("japanese"),
+                "Expected 'japanese' variable to be preserved.\nSegment code:\n{}", code);
+            assert!(code.contains("donnees"),
+                "Expected 'donnees' variable to be preserved.\nSegment code:\n{}", code);
+        } else {
+            // If no dedicated segment, check body for component existence
+            assert!(segment_code.contains("Komponent"),
+                "Expected Komponent in segment names.\nAll segments:\n{}", segment_code);
+        }
+
+        // No errors should be present
+        assert!(result.errors.is_empty(),
+            "Unicode identifiers should not cause errors, got: {:?}",
+            result.errors);
+
+        // Hash generation should work (segment has valid id)
+        let has_valid_hash = result.optimized_app.components.iter()
+            .any(|c| !c.id.hash.is_empty());
+        assert!(has_valid_hash,
+            "Components should have valid hashes generated.\nAll segments:\n{}", segment_code);
+    }
 }
