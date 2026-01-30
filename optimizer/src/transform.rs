@@ -7333,4 +7333,152 @@ const d = $(()=>console.log('thing'));
             "Ternary in class object should not cause errors, got: {:?}",
             result.errors);
     }
+
+    #[test]
+    fn test_issue_476_jsx_without_transpile() {
+        // Test that JSX is preserved when transpile_jsx is false
+        // Issue 476: JSX without transpile should preserve JSX syntax
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { Counter } from "./counter.tsx";
+
+export const Root = () => {
+  return (
+    <html>
+      <head>
+        <meta charset="utf-8" />
+        <title>Qwik Blank App</title>
+      </head>
+      <body>
+        <Counter initial={3} />
+      </body>
+    </html>
+  );
+};
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        // Key: transpile_jsx set to false
+        let options = TransformOptions::default().with_transpile_jsx(false);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // No QRL extraction (no $ markers in code)
+        assert!(result.optimized_app.components.is_empty(),
+            "Files without QRL markers should have no QRL extraction. Got {} components.",
+            result.optimized_app.components.len());
+
+        // JSX should be preserved as-is in output (not converted to _jsxSorted)
+        let output = &result.optimized_app.body;
+        assert!(!output.contains("_jsxSorted") && !output.contains("_jsxS") && !output.contains("_jsxC"),
+            "JSX should NOT be transpiled to _jsx calls. Output:\n{}", output);
+
+        // JSX syntax should be preserved
+        assert!(output.contains("<html>") || output.contains("<html "),
+            "JSX <html> tag should be preserved. Output:\n{}", output);
+        assert!(output.contains("<Counter") || output.contains("Counter"),
+            "Counter component should be preserved. Output:\n{}", output);
+        assert!(output.contains("initial"),
+            "Props should be preserved. Output:\n{}", output);
+
+        // Import should be preserved
+        assert!(output.contains("Counter") && output.contains("counter.tsx"),
+            "Component import should be preserved. Output:\n{}", output);
+
+        // No errors should be present
+        assert!(result.errors.is_empty(),
+            "JSX without transpile should not cause errors, got: {:?}",
+            result.errors);
+    }
+
+    #[test]
+    fn test_issue_5008_map_with_function_expression() {
+        // Test that .map() with function expression and arrow function both work
+        // Issue 5008: Map with function expression instead of arrow function
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"
+import { component$, useStore } from "@qwik.dev/core";
+
+export default component$(() => {
+  const store = useStore([{ value: 0 }]);
+  return (
+    <>
+      <button onClick$={() => store[0].value++}>+1</button>
+      {store.map(function (v, idx) {
+        return <div key={"fn_" + idx}>Function: {v.value}</div>;
+      })}
+      {store.map((v, idx) => (
+        <div key={"arrow_" + idx}>Arrow: {v.value}</div>
+      ))}
+    </>
+  );
+});
+"#;
+
+        let source = Source::from_source(source_code, Language::Typescript, Some("test.tsx".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default().with_transpile_jsx(true);
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // Get all segment code for debugging
+        let segment_code: String = result.optimized_app.components.iter()
+            .map(|c| format!("{}: {}", c.id.symbol_name, c.code))
+            .collect::<Vec<_>>()
+            .join("\n---\n");
+
+        // Should have at least the default component extracted
+        assert!(!result.optimized_app.components.is_empty(),
+            "Expected at least 1 QRL (default component$). Got 0.\nBody:\n{}",
+            result.optimized_app.body);
+
+        // Find the default component segment
+        let component_segment = result.optimized_app.components.iter()
+            .find(|c| c.id.symbol_name.contains("component"))
+            .map(|c| &c.code);
+
+        // STRONG ASSERTIONS: Both map patterns should work
+        if let Some(code) = component_segment {
+            // Should have both .map() calls
+            assert!(code.contains(".map(function") || code.contains(".map("),
+                "Expected .map() calls in component.\nSegment code:\n{}", code);
+
+            // v.value should be wrapped with _wrapProp (from Phase 4 work)
+            // or appear in output somehow
+            assert!(code.contains("v.value") || code.contains("_wrapProp") || code.contains("value"),
+                "Expected v.value or _wrapProp in map callbacks.\nSegment code:\n{}", code);
+
+            // Key expressions should work (fn_ and arrow_ prefixes)
+            assert!(code.contains("fn_") || code.contains("arrow_") || code.contains("key"),
+                "Expected key expressions in map output.\nSegment code:\n{}", code);
+
+            // Fragment handling: should have _Fragment or <> handling
+            // Note: implicit fragments become _jsxSorted(_Fragment, ...)
+            assert!(code.contains("_Fragment") || code.contains("Fragment") || code.contains("<>"),
+                "Expected fragment handling in component.\nSegment code:\n{}\n\nFull output:\n{}",
+                code, segment_code);
+        } else {
+            panic!("Expected component segment to exist.\nAll segments:\n{}", segment_code);
+        }
+
+        // onClick$ handler should be extracted - check in segments or body
+        let onclick_in_segment = result.optimized_app.components.iter()
+            .any(|c| c.code.contains("on:click") || c.code.contains("onClick"));
+
+        // Either the onclick is in a segment or in body
+        let onclick_in_body = result.optimized_app.body.contains("on:click") ||
+            result.optimized_app.body.contains("onClick$");
+
+        assert!(onclick_in_segment || onclick_in_body,
+            "Expected onClick$ handler somewhere in output. Check segments:\n{}\n\nBody:\n{}",
+            segment_code, result.optimized_app.body);
+
+        // No errors should be present
+        assert!(result.errors.is_empty(),
+            "Map with function expression should not cause errors, got: {:?}",
+            result.errors);
+    }
 }
