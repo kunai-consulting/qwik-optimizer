@@ -21,7 +21,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 7: Entry Strategies** - Code-splitting control (Inline, Single, PerSegment, etc.)
 - [x] **Phase 8: SSR & Build Modes** - Server/client code handling and dev/prod modes
 - [x] **Phase 9: TypeScript Support** - TSX parsing, type annotations, and generics
-- [ ] **Phase 10: Edge Cases** - Nested loops, illegal code detection, and regression fixes
+- [x] **Phase 10: Edge Cases** - Nested loops, illegal code detection, and regression fixes
 - [ ] **Phase 11: Test Infrastructure** - Port all 162 tests and validate parity
 
 ## Phase Details
@@ -199,11 +199,11 @@ Plans:
 **Plans**: 5 plans
 
 Plans:
-- [ ] 10-01-PLAN.md — Loop tracking infrastructure (loop_depth, iteration_var_stack)
-- [ ] 10-02-PLAN.md — Skip transform marker and illegal code diagnostic wiring
-- [ ] 10-03-PLAN.md — Empty components, unicode identifiers, generator functions
-- [ ] 10-04-PLAN.md — Async/await preservation in QRL segments
-- [ ] 10-05-PLAN.md — Issue regression tests (117, 150, 476, 964, 5008, 7216)
+- [x] 10-01-PLAN.md — Loop tracking infrastructure (loop_depth, iteration_var_stack)
+- [x] 10-02-PLAN.md — Skip transform marker and illegal code diagnostic wiring
+- [x] 10-03-PLAN.md — Empty components, unicode identifiers, generator functions
+- [x] 10-04-PLAN.md — Async/await preservation in QRL segments
+- [x] 10-05-PLAN.md — Issue regression tests (117, 150, 476, 964, 5008, 7216)
 
 ### Phase 11: Test Infrastructure
 **Goal**: All 162 snapshot tests ported and passing with output parity
@@ -237,9 +237,9 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 | 7. Entry Strategies | 3/3 | Complete | 2026-01-29 |
 | 8. SSR & Build Modes | 3/3 | Complete | 2026-01-29 |
 | 9. TypeScript Support | 2/2 | Complete | 2026-01-29 |
-| 10. Edge Cases | 0/5 | Not started | - |
+| 10. Edge Cases | 5/5 | Complete | 2026-01-29 |
 | 11. Test Infrastructure | 0/3 | Not started | - |
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-29 (Phase 10 planned)*
+*Last updated: 2026-01-29 (Phase 10 complete)*

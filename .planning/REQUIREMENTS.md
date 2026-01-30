@@ -111,15 +111,15 @@ Requirements for achieving test parity with qwik-core SWC optimizer.
 
 ### Edge Cases & Regressions
 
-- [ ] **EDG-01**: Nested loops in QRL
-- [ ] **EDG-02**: Skip transform marker
-- [ ] **EDG-03**: Illegal code detection (classes in QRL)
-- [ ] **EDG-04**: Illegal code detection (functions in QRL)
-- [ ] **EDG-05**: Empty component handling
-- [ ] **EDG-06**: Unicode in identifiers
-- [ ] **EDG-07**: Comments preservation
-- [ ] **EDG-08**: Async/await in QRL
-- [ ] **EDG-09**: Issue regression tests (6 tests)
+- [x] **EDG-01**: Nested loops in QRL
+- [x] **EDG-02**: Skip transform marker
+- [x] **EDG-03**: Illegal code detection (classes in QRL)
+- [x] **EDG-04**: Illegal code detection (functions in QRL)
+- [x] **EDG-05**: Empty component handling
+- [x] **EDG-06**: Unicode in identifiers
+- [x] **EDG-07**: Comments preservation
+- [x] **EDG-08**: Async/await in QRL
+- [x] **EDG-09**: Issue regression tests (6 tests)
 
 ### Test Infrastructure
 
@@ -224,24 +224,24 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ENT-03 | Phase 7 | Complete |
 | ENT-04 | Phase 7 | Complete |
 | ENT-05 | Phase 7 | Complete |
-| SSR-01 | Phase 8 | Pending |
-| SSR-02 | Phase 8 | Pending |
-| SSR-03 | Phase 8 | Pending |
-| SSR-04 | Phase 8 | Pending |
-| SSR-05 | Phase 8 | Pending |
-| TSX-01 | Phase 9 | Pending |
-| TSX-02 | Phase 9 | Pending |
-| TSX-03 | Phase 9 | Pending |
-| TSX-04 | Phase 9 | Pending |
-| EDG-01 | Phase 10 | Pending |
-| EDG-02 | Phase 10 | Pending |
-| EDG-03 | Phase 10 | Pending |
-| EDG-04 | Phase 10 | Pending |
-| EDG-05 | Phase 10 | Pending |
-| EDG-06 | Phase 10 | Pending |
-| EDG-07 | Phase 10 | Pending |
-| EDG-08 | Phase 10 | Pending |
-| EDG-09 | Phase 10 | Pending |
+| SSR-01 | Phase 8 | Complete |
+| SSR-02 | Phase 8 | Complete |
+| SSR-03 | Phase 8 | Complete |
+| SSR-04 | Phase 8 | Complete |
+| SSR-05 | Phase 8 | Complete |
+| TSX-01 | Phase 9 | Complete |
+| TSX-02 | Phase 9 | Complete |
+| TSX-03 | Phase 9 | Complete |
+| TSX-04 | Phase 9 | Complete |
+| EDG-01 | Phase 10 | Complete |
+| EDG-02 | Phase 10 | Complete |
+| EDG-03 | Phase 10 | Complete |
+| EDG-04 | Phase 10 | Complete |
+| EDG-05 | Phase 10 | Complete |
+| EDG-06 | Phase 10 | Complete |
+| EDG-07 | Phase 10 | Complete |
+| EDG-08 | Phase 10 | Complete |
+| EDG-09 | Phase 10 | Complete |
 | TST-01 | Phase 11 | Pending |
 | TST-02 | Phase 11 | Pending |
 | TST-03 | Phase 11 | Pending |
@@ -253,4 +253,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-29*
-*Last updated: 2026-01-29 Phase 7 complete*
+*Last updated: 2026-01-29 Phase 10 complete*
