@@ -6538,4 +6538,38 @@ export const fetchData = $(async () => {
             panic!("Expected fetchData segment to exist.\nAll segments:\n{}", segment_code);
         }
     }
+
+    // ==================== Edge Case Tests ====================
+
+    #[test]
+    fn test_issue_117_empty_passthrough() {
+        // Test that files without QRL markers pass through correctly
+        // Issue 117: Files without Qwik $ markers should not error
+        use crate::source::Source;
+        use crate::component::Language;
+
+        let source_code = r#"export const cache = patternCache[cacheKey] || (patternCache[cacheKey]={});"#;
+
+        let source = Source::from_source(source_code, Language::Javascript, Some("test.js".into()))
+            .expect("Source should parse");
+        let options = TransformOptions::default();
+        let result = transform(source, options).expect("Transform should succeed");
+
+        // No QRL extraction should occur
+        assert!(result.optimized_app.components.is_empty(),
+            "Files without QRL markers should have no components, got: {} components",
+            result.optimized_app.components.len());
+
+        // No errors should be present
+        assert!(result.errors.is_empty(),
+            "Files without QRL markers should have no errors, got: {:?}",
+            result.errors);
+
+        // Output should preserve original code structure
+        let output = &result.optimized_app.body;
+        assert!(output.contains("patternCache"),
+            "Output should preserve original code, got: {}", output);
+        assert!(output.contains("cacheKey"),
+            "Output should preserve identifiers, got: {}", output);
+    }
 }
