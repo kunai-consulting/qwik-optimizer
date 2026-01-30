@@ -1,0 +1,78 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+import { deps } from 'deps';
+
+export const Foo = component$(({foo}) => {
+	useMount$(() => {
+		if (false) {
+			deps();
+		}
+	});
+	return (
+		<div />
+	);
+})
+
+============================= ./example_dead_code.tsx_Foo_component_useMount_bckiP6BHXl4.js (ENTRY POINT)==
+
+import{deps}from"deps";export const Foo_component_useMount_bckiP6BHXl4=()=>{};
+
+None
+/*
+{
+  "origin": "example_dead_code.tsx",
+  "name": "Foo_component_useMount_bckiP6BHXl4",
+  "entry": null,
+  "displayName": "example_dead_code.tsx_Foo_component_useMount",
+  "hash": "bckiP6BHXl4",
+  "canonicalFilename": "example_dead_code.tsx_Foo_component_useMount_bckiP6BHXl4",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Foo_component_useMount_bckiP6BHXl4",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_dead_code.tsx_Foo_component_yiE4DocFe28.js (ENTRY POINT)==
+
+import{qrl,useMountQrl}from"@qwik.dev/core";export const Foo_component_yiE4DocFe28=({foo})=>(useMountQrl(qrl(()=>import(`./example_dead_code.tsx_Foo_component_useMount_bckiP6BHXl4.js`),`Foo_component_useMount_bckiP6BHXl4`)),<div/>);
+
+None
+/*
+{
+  "origin": "example_dead_code.tsx",
+  "name": "Foo_component_yiE4DocFe28",
+  "entry": null,
+  "displayName": "example_dead_code.tsx_Foo_component",
+  "hash": "yiE4DocFe28",
+  "canonicalFilename": "example_dead_code.tsx_Foo_component_yiE4DocFe28",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Foo_component_yiE4DocFe28",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_dead_code.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const Foo=componentQrl(qrl(()=>import(`./example_dead_code.tsx_Foo_component_yiE4DocFe28.js`),`Foo_component_yiE4DocFe28`));
+
+None
+== DIAGNOSTICS ==
+
+[]

@@ -1,0 +1,106 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ as Component, $ as onRender, useStore, wrap, useEffect } from '@qwik.dev/core';
+
+
+export const useMemo$ = (qrt) => {
+	useEffect(qrt);
+};
+
+export const App = component$((props) => {
+	const state = useStore({count: 0});
+	useMemo$(() => {
+		console.log(state.count);
+	});
+	return $(() => (
+		<div>{state.count}</div>
+	));
+});
+
+============================= ./example_missing_custom_inlined_functions.tsx_App_component_1_D70utzYiwQM.js (ENTRY POINT)==
+
+import{_jsxSorted}from"@qwik.dev/core";export const App_component_1_D70utzYiwQM=()=>{let[state]=useLexicalScope();return/* @__PURE__ */ _jsxSorted(`div`,null,null,state.count,1,null)};
+
+None
+/*
+{
+  "origin": "example_missing_custom_inlined_functions.tsx",
+  "name": "App_component_1_D70utzYiwQM",
+  "entry": null,
+  "displayName": "example_missing_custom_inlined_functions.tsx_App_component_1",
+  "hash": "D70utzYiwQM",
+  "canonicalFilename": "example_missing_custom_inlined_functions.tsx_App_component_1_D70utzYiwQM",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_1_D70utzYiwQM",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_missing_custom_inlined_functions.tsx_App_component_useMemo_jvO9s7EZUaU.js (ENTRY POINT)==
+
+export const App_component_useMemo_jvO9s7EZUaU=()=>{let[state]=useLexicalScope();console.log(state.count)};
+
+None
+/*
+{
+  "origin": "example_missing_custom_inlined_functions.tsx",
+  "name": "App_component_useMemo_jvO9s7EZUaU",
+  "entry": null,
+  "displayName": "example_missing_custom_inlined_functions.tsx_App_component_useMemo",
+  "hash": "jvO9s7EZUaU",
+  "canonicalFilename": "example_missing_custom_inlined_functions.tsx_App_component_useMemo_jvO9s7EZUaU",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_useMemo_jvO9s7EZUaU",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_missing_custom_inlined_functions.tsx ==
+
+import{componentQrl,qrl,useEffect}from"@qwik.dev/core";export const useMemo$=qrt=>{useEffect(qrt)};export const App=componentQrl(qrl(()=>import(`./example_missing_custom_inlined_functions.tsx_App_component_B8OmZlkJeO4.js`),`App_component_B8OmZlkJeO4`));
+
+None
+============================= ./example_missing_custom_inlined_functions.tsx_App_component_B8OmZlkJeO4.js (ENTRY POINT)==
+
+import{qrl,useMemoQrl,useStore}from"@qwik.dev/core";export const App_component_B8OmZlkJeO4=props=>{let state=useStore({count:0});return useMemoQrl(qrl(()=>import(`./example_missing_custom_inlined_functions.tsx_App_component_useMemo_jvO9s7EZUaU.js`),`App_component_useMemo_jvO9s7EZUaU`,[state])),qrl(()=>import(`./example_missing_custom_inlined_functions.tsx_App_component_1_D70utzYiwQM.js`),`App_component_1_D70utzYiwQM`,[state])};
+
+None
+/*
+{
+  "origin": "example_missing_custom_inlined_functions.tsx",
+  "name": "App_component_B8OmZlkJeO4",
+  "entry": null,
+  "displayName": "example_missing_custom_inlined_functions.tsx_App_component",
+  "hash": "B8OmZlkJeO4",
+  "canonicalFilename": "example_missing_custom_inlined_functions.tsx_App_component_B8OmZlkJeO4",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_B8OmZlkJeO4",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

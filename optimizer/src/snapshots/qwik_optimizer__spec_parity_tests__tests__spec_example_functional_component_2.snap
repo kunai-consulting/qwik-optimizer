@@ -1,0 +1,68 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$, useStore } from '@qwik.dev/core';
+export const useCounter = () => {
+	return useStore({count: 0});
+}
+
+export const STEP = 1;
+
+export const App = component$((props) => {
+	const state = useCounter();
+	const thing = useStore({thing: 0});
+	const STEP_2 = 2;
+
+	const count2 = state.count * 2;
+	return (
+		<div onClick$={() => state.count+=count2 }>
+			<span>{state.count}</span>
+			{buttons.map(btn => (
+				<button
+					onClick$={() => state.count += btn.offset + thing + STEP + STEP_2 + props.step}
+				>
+					{btn.name}
+				</button>
+			))}
+
+		</div>
+
+	);
+})
+
+============================= ./example_functional_component_2.tsx_App_component_p6uB2qXBgm4.js (ENTRY POINT)==
+
+import{useCounter}from"./example_functional_component_2";import{_jsxSorted,qrl,useStore}from"@qwik.dev/core";export const App_component_p6uB2qXBgm4=props=>{let state=useCounter(),thing=useStore({thing:0});return/* @__PURE__ */ _jsxSorted(`div`,{on:click:qrl(()=>import(`./example_functional_component_2.tsx.js`),`App_component_div_onClick`,[state.count*2,state])},null,[/* @__PURE__ */ _jsxSorted(`span`,null,null,state.count,1,null),buttons.map(btn=>/* @__PURE__ */ _jsxSorted(`button`,{on:click:qrl(()=>import(`./example_functional_component_2.tsx.js`),`App_component_div_map_button_onClick`,[2,btn,props,state,thing])},null,btn.name,1,null))],1,null)};
+
+None
+/*
+{
+  "origin": "example_functional_component_2.tsx",
+  "name": "App_component_p6uB2qXBgm4",
+  "entry": null,
+  "displayName": "example_functional_component_2.tsx_App_component",
+  "hash": "p6uB2qXBgm4",
+  "canonicalFilename": "example_functional_component_2.tsx_App_component_p6uB2qXBgm4",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_p6uB2qXBgm4",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_functional_component_2.tsx ==
+
+import{componentQrl,qrl,useStore}from"@qwik.dev/core";export const useCounter=()=>{return useStore({count:0})};export const STEP=1;export const App=componentQrl(qrl(()=>import(`./example_functional_component_2.tsx_App_component_p6uB2qXBgm4.js`),`App_component_p6uB2qXBgm4`));
+
+None
+== DIAGNOSTICS ==
+
+[]

@@ -1,0 +1,52 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$ } from '@qwik.dev/core';
+const Header = $((decl1, {decl2}, [decl3]) => {
+	const {decl4, key: decl5} = this;
+	let [decl6, ...decl7] = stuff;
+	const decl8 = 1, decl9;
+	function decl10(decl11, {decl12}, [decl13]) {}
+	class decl14 {
+		method(decl15, {decl16}, [decl17]) {}
+	}
+	try{}catch(decl18){}
+	try{}catch({decl19}){}
+});
+
+============================= ./example_9.tsx_Header_y6HLJ5DLjC4.js (ENTRY POINT)==
+
+export const Header_y6HLJ5DLjC4=(decl1,{decl2},[decl3])=>{let{decl4,key:decl5}=this,[decl6,...decl7]=stuff};
+
+None
+/*
+{
+  "origin": "example_9.tsx",
+  "name": "Header_y6HLJ5DLjC4",
+  "entry": null,
+  "displayName": "example_9.tsx_Header",
+  "hash": "y6HLJ5DLjC4",
+  "canonicalFilename": "example_9.tsx_Header_y6HLJ5DLjC4",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Header_y6HLJ5DLjC4",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_9.tsx ==
+
+import{qrl}from"@qwik.dev/core";qrl(()=>import(`./example_9.tsx_Header_y6HLJ5DLjC4.js`),`Header_y6HLJ5DLjC4`);
+
+None
+== DIAGNOSTICS ==
+
+[]

@@ -1,0 +1,51 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+/* @jsxImportSource react */
+
+import { qwikify$ } from './qwikfy';
+
+export const App = () => (
+	<div onClick$={()=>console.log('App')}></div>
+);
+
+export const App2 = qwikify$(() => (
+	<div onClick$={()=>console.log('App2')}></div>
+));
+
+============================= example_jsx_import_source.tsx ==
+
+import{qwikifyQrl}from"./qwikfy";import{_jsxSorted,qrl,qwikifyQrl}from"@qwik.dev/core";export const App=()=>/* @__PURE__ */ _jsxSorted(`div`,{on:click:qrl(()=>import(`./example_jsx_import_source.tsx.js`),`App_div_onClick`)},null,null,3,null);export const App2=qwikifyQrl(qrl(()=>import(`./example_jsx_import_source.tsx_App2_qwikify_EDCXnY08ypQ.js`),`App2_qwikify_EDCXnY08ypQ`));
+
+None
+============================= ./example_jsx_import_source.tsx_App2_qwikify_EDCXnY08ypQ.js (ENTRY POINT)==
+
+import{_jsxSorted,qrl}from"@qwik.dev/core";export const App2_qwikify_EDCXnY08ypQ=()=>/* @__PURE__ */ _jsxSorted(`div`,{on:click:qrl(()=>import(`./example_jsx_import_source.tsx.js`),`App2_qwikify_div_onClick`)},null,null,3,null);
+
+None
+/*
+{
+  "origin": "example_jsx_import_source.tsx",
+  "name": "App2_qwikify_EDCXnY08ypQ",
+  "entry": null,
+  "displayName": "example_jsx_import_source.tsx_App2_qwikify",
+  "hash": "EDCXnY08ypQ",
+  "canonicalFilename": "example_jsx_import_source.tsx_App2_qwikify_EDCXnY08ypQ",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App2_qwikify_EDCXnY08ypQ",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

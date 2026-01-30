@@ -1,0 +1,60 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+
+export const Issue3561 = component$(() => {
+	const props = useStore({
+		product: {
+		currentVariant: {
+			variantImage: 'image',
+			variantNumber: 'number',
+			setContents: 'contents',
+		},
+		},
+	});
+	const {
+		currentVariant: { variantImage, variantNumber, setContents } = {},
+	} = props.product;
+
+	console.log(variantImage, variantNumber, setContents)
+
+	return <p></p>;
+	});
+
+============================= example_optimization_issue_3561.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const Issue3561=componentQrl(qrl(()=>import(`./example_optimization_issue_3561.tsx_Issue3561_component_x4NHJ9LLQ9U.js`),`Issue3561_component_x4NHJ9LLQ9U`));
+
+None
+============================= ./example_optimization_issue_3561.tsx_Issue3561_component_x4NHJ9LLQ9U.js (ENTRY POINT)==
+
+export const Issue3561_component_x4NHJ9LLQ9U=()=>{let{currentVariant:{variantImage,variantNumber,setContents}={}}=useStore({product:{currentVariant:{variantImage:`image`,variantNumber:`number`,setContents:`contents`}}}).product;return console.log(variantImage,variantNumber,setContents),<p></p>};
+
+None
+/*
+{
+  "origin": "example_optimization_issue_3561.tsx",
+  "name": "Issue3561_component_x4NHJ9LLQ9U",
+  "entry": "entry_segments",
+  "displayName": "example_optimization_issue_3561.tsx_Issue3561_component",
+  "hash": "x4NHJ9LLQ9U",
+  "canonicalFilename": "example_optimization_issue_3561.tsx_Issue3561_component_x4NHJ9LLQ9U",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Issue3561_component_x4NHJ9LLQ9U",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

@@ -1,0 +1,101 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$, server$, useStyle$ } from '@qwik.dev/core';
+
+export const Works = component$((props) => {
+	useStyle$(STYLES);
+	const text = 'hola';
+	return (
+		<div onClick$={server$(() => console.log('in server', text))}></div>
+	);
+});
+
+const STYLES = '.class {}';
+
+============================= ./example_reg_ctx_name_segments_hoisted.tsx_Works_component_useStyle_5r3kDX9lHSI.js (ENTRY POINT)==
+
+export const Works_component_useStyle_5r3kDX9lHSI=STYLES;
+
+None
+/*
+{
+  "origin": "example_reg_ctx_name_segments_hoisted.tsx",
+  "name": "Works_component_useStyle_5r3kDX9lHSI",
+  "entry": "entry_segments",
+  "displayName": "example_reg_ctx_name_segments_hoisted.tsx_Works_component_useStyle",
+  "hash": "5r3kDX9lHSI",
+  "canonicalFilename": "example_reg_ctx_name_segments_hoisted.tsx_Works_component_useStyle_5r3kDX9lHSI",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Works_component_useStyle_5r3kDX9lHSI",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_reg_ctx_name_segments_hoisted.tsx_Works_component_div_onClick_server_ljLO32E0X1w.js (ENTRY POINT)==
+
+export const Works_component_div_onClick_server_ljLO32E0X1w=()=>{let[text]=useLexicalScope();return console.log(`in server`,text)};
+
+None
+/*
+{
+  "origin": "example_reg_ctx_name_segments_hoisted.tsx",
+  "name": "Works_component_div_onClick_server_ljLO32E0X1w",
+  "entry": "entry_segments",
+  "displayName": "example_reg_ctx_name_segments_hoisted.tsx_Works_component_div_onClick_server",
+  "hash": "ljLO32E0X1w",
+  "canonicalFilename": "example_reg_ctx_name_segments_hoisted.tsx_Works_component_div_onClick_server_ljLO32E0X1w",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Works_component_div_onClick_server_ljLO32E0X1w",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_reg_ctx_name_segments_hoisted.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const Works=componentQrl(qrl(()=>import(`./example_reg_ctx_name_segments_hoisted.tsx_Works_component_QtxQU1Oe5cE.js`),`Works_component_QtxQU1Oe5cE`));const STYLES=`.class {}`;
+
+None
+============================= ./example_reg_ctx_name_segments_hoisted.tsx_Works_component_QtxQU1Oe5cE.js (ENTRY POINT)==
+
+import{_jsxSorted,qrl,serverQrl,useStyleQrl}from"@qwik.dev/core";export const Works_component_QtxQU1Oe5cE=props=>(useStyleQrl(qrl(()=>import(`./example_reg_ctx_name_segments_hoisted.tsx_Works_component_useStyle_5r3kDX9lHSI.js`),`Works_component_useStyle_5r3kDX9lHSI`)),/* @__PURE__ */ _jsxSorted(`div`,{on:click:serverQrl(qrl(()=>import(`./example_reg_ctx_name_segments_hoisted.tsx_Works_component_div_onClick_server_ljLO32E0X1w.js`),`Works_component_div_onClick_server_ljLO32E0X1w`,[useStyleQrl(qrl(()=>import(`./example_reg_ctx_name_segments_hoisted.tsx_Works_component_useStyle_5r3kDX9lHSI.js`),`Works_component_useStyle_5r3kDX9lHSI`))]))},null,null,3,null));
+
+None
+/*
+{
+  "origin": "example_reg_ctx_name_segments_hoisted.tsx",
+  "name": "Works_component_QtxQU1Oe5cE",
+  "entry": "entry_segments",
+  "displayName": "example_reg_ctx_name_segments_hoisted.tsx_Works_component",
+  "hash": "QtxQU1Oe5cE",
+  "canonicalFilename": "example_reg_ctx_name_segments_hoisted.tsx_Works_component_QtxQU1Oe5cE",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Works_component_QtxQU1Oe5cE",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

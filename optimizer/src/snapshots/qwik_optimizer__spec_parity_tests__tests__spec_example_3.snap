@@ -1,0 +1,25 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$ } from '@qwik.dev/core';
+export const App = () => {
+	const Header = component$(() => {
+		console.log("mount");
+		return (
+			<div onClick={$((ctx) => console.log(ctx))}/>
+		);
+	});
+	return Header;
+});
+
+============================= example_3.tsx ==
+
+
+
+None
+== DIAGNOSTICS ==
+
+[]

@@ -1,0 +1,54 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$, useSignal } from '@qwik.dev/core';
+export const Works = component$(({fromProps}) => {
+	let fromLocal = useSignal(0);
+	return (
+		<div>
+			{fromLocal}
+			{fromProps}
+			{fromLocal + fromProps}
+			{{props: fromProps}}
+			{{local: fromLocal}}
+			{{props: fromProps, local: fromLocal}}
+		</div>
+	);
+});
+
+============================= ./example_props_wrapping_children.tsx_Works_component_LrfB2f8y0FQ.js (ENTRY POINT)==
+
+import{_jsxSorted,useSignal}from"@qwik.dev/core";export const Works_component_LrfB2f8y0FQ=({fromProps})=>{let fromLocal=useSignal(0);return/* @__PURE__ */ _jsxSorted(`div`,null,null,[fromLocal,_wrapProp(_rawProps,`fromProps`),fromLocal+fromProps,{props:fromProps},{local:fromLocal},{props:fromProps,local:fromLocal}],1,null)};
+
+None
+/*
+{
+  "origin": "example_props_wrapping_children.tsx",
+  "name": "Works_component_LrfB2f8y0FQ",
+  "entry": "entry_segments",
+  "displayName": "example_props_wrapping_children.tsx_Works_component",
+  "hash": "LrfB2f8y0FQ",
+  "canonicalFilename": "example_props_wrapping_children.tsx_Works_component_LrfB2f8y0FQ",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Works_component_LrfB2f8y0FQ",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_props_wrapping_children.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const Works=componentQrl(qrl(()=>import(`./example_props_wrapping_children.tsx_Works_component_LrfB2f8y0FQ.js`),`Works_component_LrfB2f8y0FQ`));
+
+None
+== DIAGNOSTICS ==
+
+[]

@@ -1,0 +1,125 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ as Component, $ as onRender } from '@qwik.dev/core';
+
+export const handler = $(()=>console.log('hola'));
+
+export const App = component$((props) => {
+	useStyles$('hola');
+	return $(() => (
+		<div>{state.thing}</div>
+	));
+});
+
+============================= ./example_skip_transform.tsx_App_component_1_qZcUZHIGdhQ.js (ENTRY POINT)==
+
+import{_jsxSorted}from"@qwik.dev/core";export const App_component_1_qZcUZHIGdhQ=()=>/* @__PURE__ */ _jsxSorted(`div`,null,null,state.thing,1,null);
+
+None
+/*
+{
+  "origin": "example_skip_transform.tsx",
+  "name": "App_component_1_qZcUZHIGdhQ",
+  "entry": null,
+  "displayName": "example_skip_transform.tsx_App_component_1",
+  "hash": "qZcUZHIGdhQ",
+  "canonicalFilename": "example_skip_transform.tsx_App_component_1_qZcUZHIGdhQ",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_1_qZcUZHIGdhQ",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_skip_transform.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const handler=qrl(()=>import(`./example_skip_transform.tsx_handler_6Z37Kj2oXcs.js`),`handler_6Z37Kj2oXcs`);export const App=componentQrl(qrl(()=>import(`./example_skip_transform.tsx_App_component_3RSS0v106FQ.js`),`App_component_3RSS0v106FQ`));
+
+None
+============================= ./example_skip_transform.tsx_App_component_3RSS0v106FQ.js (ENTRY POINT)==
+
+import{qrl,useStylesQrl}from"@qwik.dev/core";export const App_component_3RSS0v106FQ=props=>(useStylesQrl(qrl(()=>import(`./example_skip_transform.tsx_App_component_useStyles_cjcvMqPOO2c.js`),`App_component_useStyles_cjcvMqPOO2c`)),qrl(()=>import(`./example_skip_transform.tsx_App_component_1_qZcUZHIGdhQ.js`),`App_component_1_qZcUZHIGdhQ`));
+
+None
+/*
+{
+  "origin": "example_skip_transform.tsx",
+  "name": "App_component_3RSS0v106FQ",
+  "entry": null,
+  "displayName": "example_skip_transform.tsx_App_component",
+  "hash": "3RSS0v106FQ",
+  "canonicalFilename": "example_skip_transform.tsx_App_component_3RSS0v106FQ",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_3RSS0v106FQ",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_skip_transform.tsx_App_component_useStyles_cjcvMqPOO2c.js (ENTRY POINT)==
+
+export const App_component_useStyles_cjcvMqPOO2c=`hola`;
+
+None
+/*
+{
+  "origin": "example_skip_transform.tsx",
+  "name": "App_component_useStyles_cjcvMqPOO2c",
+  "entry": null,
+  "displayName": "example_skip_transform.tsx_App_component_useStyles",
+  "hash": "cjcvMqPOO2c",
+  "canonicalFilename": "example_skip_transform.tsx_App_component_useStyles_cjcvMqPOO2c",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_useStyles_cjcvMqPOO2c",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_skip_transform.tsx_handler_6Z37Kj2oXcs.js (ENTRY POINT)==
+
+export const handler_6Z37Kj2oXcs=()=>console.log(`hola`);
+
+None
+/*
+{
+  "origin": "example_skip_transform.tsx",
+  "name": "handler_6Z37Kj2oXcs",
+  "entry": null,
+  "displayName": "example_skip_transform.tsx_handler",
+  "hash": "6Z37Kj2oXcs",
+  "canonicalFilename": "example_skip_transform.tsx_handler_6Z37Kj2oXcs",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "handler_6Z37Kj2oXcs",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

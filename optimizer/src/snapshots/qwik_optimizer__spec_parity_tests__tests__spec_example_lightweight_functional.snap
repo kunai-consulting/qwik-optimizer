@@ -1,0 +1,67 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$ } from '@qwik.dev/core';
+
+export const Foo = component$((props) => {
+	return (
+		<div>
+			<Button {...props} />
+			<ButtonArrow {...props} />
+		</div>
+	);
+}, {
+	tagName: "my-foo",
+});
+
+export function Button({text, color}) {
+	return (
+		<button onColor$={color} onClick$={()=>console.log(text, color)}>{text}</button>
+	);
+}
+
+export const ButtonArrow = ({text, color}) => {
+	return (
+		<button onColor$={color} onClick$={()=>console.log(text, color)}>{text}</button>
+	);
+}
+
+============================= example_lightweight_functional.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const Foo=componentQrl(qrl(()=>import(`./example_lightweight_functional.tsx_Foo_component_PT5v7jM2PRg.js`),`Foo_component_PT5v7jM2PRg`));export function Button({text,color}){return<button on:color={color} on:click={qrl(()=>import(`./example_lightweight_functional.tsx.js`),`Button_button_onClick`)}>{text}</button>}export const ButtonArrow=({text,color})=>{return<button on:color={color} on:click={qrl(()=>import(`./example_lightweight_functional.tsx.js`),`ButtonArrow_button_onClick`)}>{text}</button>};
+
+None
+============================= ./example_lightweight_functional.tsx_Foo_component_PT5v7jM2PRg.js (ENTRY POINT)==
+
+export const Foo_component_PT5v7jM2PRg=props=><div>
+			<Button{...props}/>
+			<ButtonArrow{...props}/>
+		</div>;
+
+None
+/*
+{
+  "origin": "example_lightweight_functional.tsx",
+  "name": "Foo_component_PT5v7jM2PRg",
+  "entry": null,
+  "displayName": "example_lightweight_functional.tsx_Foo_component",
+  "hash": "PT5v7jM2PRg",
+  "canonicalFilename": "example_lightweight_functional.tsx_Foo_component_PT5v7jM2PRg",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Foo_component_PT5v7jM2PRg",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

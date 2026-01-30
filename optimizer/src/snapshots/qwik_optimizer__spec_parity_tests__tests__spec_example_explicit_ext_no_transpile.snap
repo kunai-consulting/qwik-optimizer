@@ -1,0 +1,98 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, $, useStyles$ } from '@qwik.dev/core';
+
+export const App = component$((props) => {
+	useStyles$('hola');
+	return $(() => (
+		<div></div>
+	));
+});
+
+============================= ./example_explicit_ext_no_transpile.tsx_App_component_useStyles_70K1c89YfDE.js (ENTRY POINT)==
+
+export const App_component_useStyles_70K1c89YfDE=`hola`;
+
+None
+/*
+{
+  "origin": "example_explicit_ext_no_transpile.tsx",
+  "name": "App_component_useStyles_70K1c89YfDE",
+  "entry": "entry_segments",
+  "displayName": "example_explicit_ext_no_transpile.tsx_App_component_useStyles",
+  "hash": "70K1c89YfDE",
+  "canonicalFilename": "example_explicit_ext_no_transpile.tsx_App_component_useStyles_70K1c89YfDE",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_useStyles_70K1c89YfDE",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_explicit_ext_no_transpile.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./example_explicit_ext_no_transpile.tsx_App_component_6GDenKAsF8E.js`),`App_component_6GDenKAsF8E`));
+
+None
+============================= ./example_explicit_ext_no_transpile.tsx_App_component_1_FNQb3qCnOYI.js (ENTRY POINT)==
+
+export const App_component_1_FNQb3qCnOYI=()=><div></div>;
+
+None
+/*
+{
+  "origin": "example_explicit_ext_no_transpile.tsx",
+  "name": "App_component_1_FNQb3qCnOYI",
+  "entry": "entry_segments",
+  "displayName": "example_explicit_ext_no_transpile.tsx_App_component_1",
+  "hash": "FNQb3qCnOYI",
+  "canonicalFilename": "example_explicit_ext_no_transpile.tsx_App_component_1_FNQb3qCnOYI",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_1_FNQb3qCnOYI",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_explicit_ext_no_transpile.tsx_App_component_6GDenKAsF8E.js (ENTRY POINT)==
+
+import{qrl,useStylesQrl}from"@qwik.dev/core";export const App_component_6GDenKAsF8E=props=>(useStylesQrl(qrl(()=>import(`./example_explicit_ext_no_transpile.tsx_App_component_useStyles_70K1c89YfDE.js`),`App_component_useStyles_70K1c89YfDE`)),qrl(()=>import(`./example_explicit_ext_no_transpile.tsx_App_component_1_FNQb3qCnOYI.js`),`App_component_1_FNQb3qCnOYI`));
+
+None
+/*
+{
+  "origin": "example_explicit_ext_no_transpile.tsx",
+  "name": "App_component_6GDenKAsF8E",
+  "entry": "entry_segments",
+  "displayName": "example_explicit_ext_no_transpile.tsx_App_component",
+  "hash": "6GDenKAsF8E",
+  "canonicalFilename": "example_explicit_ext_no_transpile.tsx_App_component_6GDenKAsF8E",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_6GDenKAsF8E",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

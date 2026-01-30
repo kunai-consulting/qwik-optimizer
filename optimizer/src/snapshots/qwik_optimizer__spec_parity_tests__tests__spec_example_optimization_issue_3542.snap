@@ -1,0 +1,55 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+
+export const AtomStatus = component$(({ctx,atom})=>{
+	let status = atom.status;
+	if(!atom.real) {
+		status="WILL-VANISH"
+	} else if (JSON.stringify(atom.atom)==JSON.stringify(atom.real)) {
+		status="WTFED"
+	}
+	return (
+		<span title={atom.ID} onClick$={(ev)=>atomStatusClick(ctx,ev,[atom])} class={["atom",status,ctx.store[atom.ID]?"selected":null]}>
+		</span>
+	);
+})
+
+============================= ./example_optimization_issue_3542.tsx_AtomStatus_component_25gjymXUvzA.js (ENTRY POINT)==
+
+import{qrl}from"@qwik.dev/core";export const AtomStatus_component_25gjymXUvzA=({ctx,atom})=>{let status=atom.status;return atom.real?JSON.stringify(atom.atom)==JSON.stringify(atom.real)&&(status=`WTFED`):status=`WILL-VANISH`,<span title={atom.ID} on:click={qrl(()=>import(`./example_optimization_issue_3542.tsx.js`),`AtomStatus_component_span_onClick`)} class={[`atom`,status,ctx.store[atom.ID]?`selected`:null]}>
+		</span>};
+
+None
+/*
+{
+  "origin": "example_optimization_issue_3542.tsx",
+  "name": "AtomStatus_component_25gjymXUvzA",
+  "entry": "entry_segments",
+  "displayName": "example_optimization_issue_3542.tsx_AtomStatus_component",
+  "hash": "25gjymXUvzA",
+  "canonicalFilename": "example_optimization_issue_3542.tsx_AtomStatus_component_25gjymXUvzA",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "AtomStatus_component_25gjymXUvzA",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_optimization_issue_3542.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const AtomStatus=componentQrl(qrl(()=>import(`./example_optimization_issue_3542.tsx_AtomStatus_component_25gjymXUvzA.js`),`AtomStatus_component_25gjymXUvzA`));
+
+None
+== DIAGNOSTICS ==
+
+[]

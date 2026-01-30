@@ -1,0 +1,72 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$, server$ } from '@qwik.dev/core';
+export const Works = component$((props) => {
+	const text = 'hola';
+	return (
+		<div onClick$={server$(() => console.log('in server', text))}></div>
+	);
+});
+
+============================= example_reg_ctx_name_segments_inlined.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const Works=componentQrl(qrl(()=>import(`./example_reg_ctx_name_segments_inlined.tsx_Works_component_AROoLgAJDOE.js`),`Works_component_AROoLgAJDOE`));
+
+None
+============================= ./example_reg_ctx_name_segments_inlined.tsx_Works_component_div_onClick_server_d8UBeO5neSY.js (ENTRY POINT)==
+
+export const Works_component_div_onClick_server_d8UBeO5neSY=()=>{let[text]=useLexicalScope();return console.log(`in server`,text)};
+
+None
+/*
+{
+  "origin": "example_reg_ctx_name_segments_inlined.tsx",
+  "name": "Works_component_div_onClick_server_d8UBeO5neSY",
+  "entry": "entry_segments",
+  "displayName": "example_reg_ctx_name_segments_inlined.tsx_Works_component_div_onClick_server",
+  "hash": "d8UBeO5neSY",
+  "canonicalFilename": "example_reg_ctx_name_segments_inlined.tsx_Works_component_div_onClick_server_d8UBeO5neSY",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Works_component_div_onClick_server_d8UBeO5neSY",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_reg_ctx_name_segments_inlined.tsx_Works_component_AROoLgAJDOE.js (ENTRY POINT)==
+
+import{_jsxSorted,qrl,serverQrl}from"@qwik.dev/core";export const Works_component_AROoLgAJDOE=props=>/* @__PURE__ */ _jsxSorted(`div`,{on:click:serverQrl(qrl(()=>import(`./example_reg_ctx_name_segments_inlined.tsx_Works_component_div_onClick_server_d8UBeO5neSY.js`),`Works_component_div_onClick_server_d8UBeO5neSY`,[`hola`]))},null,null,3,null);
+
+None
+/*
+{
+  "origin": "example_reg_ctx_name_segments_inlined.tsx",
+  "name": "Works_component_AROoLgAJDOE",
+  "entry": "entry_segments",
+  "displayName": "example_reg_ctx_name_segments_inlined.tsx_Works_component",
+  "hash": "AROoLgAJDOE",
+  "canonicalFilename": "example_reg_ctx_name_segments_inlined.tsx_Works_component_AROoLgAJDOE",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Works_component_AROoLgAJDOE",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

@@ -1,0 +1,76 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$, server$ } from '@qwik.dev/core';
+import { foo } from './foo';
+export const Works = component$((props) => {
+	const text = 'hola';
+	return (
+		<>
+		<div onClick$={server$(() => console.log('in server', text))}></div>
+		<div onClick$={() => foo()}></div>
+		</>
+	);
+});
+
+============================= ./example_reg_ctx_name_segments.tsx_Works_component_div_onClick_server_o0GS8LVQbck.js (ENTRY POINT)==
+
+export const Works_component_div_onClick_server_o0GS8LVQbck=()=>{let[text]=useLexicalScope();return console.log(`in server`,text)};
+
+None
+/*
+{
+  "origin": "example_reg_ctx_name_segments.tsx",
+  "name": "Works_component_div_onClick_server_o0GS8LVQbck",
+  "entry": "entry_segments",
+  "displayName": "example_reg_ctx_name_segments.tsx_Works_component_div_onClick_server",
+  "hash": "o0GS8LVQbck",
+  "canonicalFilename": "example_reg_ctx_name_segments.tsx_Works_component_div_onClick_server_o0GS8LVQbck",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Works_component_div_onClick_server_o0GS8LVQbck",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_reg_ctx_name_segments.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const Works=componentQrl(qrl(()=>import(`./example_reg_ctx_name_segments.tsx_Works_component_tWKactae70E.js`),`Works_component_tWKactae70E`));
+
+None
+============================= ./example_reg_ctx_name_segments.tsx_Works_component_tWKactae70E.js (ENTRY POINT)==
+
+import{_jsxSorted,qrl,serverQrl}from"@qwik.dev/core";import{Fragment as _Fragment}from"@qwik.dev/core/jsx-runtime";export const Works_component_tWKactae70E=props=>/* @__PURE__ */ _jsxSorted(_Fragment,null,null,[/* @__PURE__ */ _jsxSorted(`div`,{on:click:serverQrl(qrl(()=>import(`./example_reg_ctx_name_segments.tsx_Works_component_div_onClick_server_o0GS8LVQbck.js`),`Works_component_div_onClick_server_o0GS8LVQbck`,[`hola`]))},null,null,3,null),/* @__PURE__ */ _jsxSorted(`div`,{on:click:qrl(()=>import(`./example_reg_ctx_name_segments.tsx.js`),`Works_component_div_onClick_1`)},null,null,3,null)],3,null);
+
+None
+/*
+{
+  "origin": "example_reg_ctx_name_segments.tsx",
+  "name": "Works_component_tWKactae70E",
+  "entry": "entry_segments",
+  "displayName": "example_reg_ctx_name_segments.tsx_Works_component",
+  "hash": "tWKactae70E",
+  "canonicalFilename": "example_reg_ctx_name_segments.tsx_Works_component_tWKactae70E",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Works_component_tWKactae70E",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

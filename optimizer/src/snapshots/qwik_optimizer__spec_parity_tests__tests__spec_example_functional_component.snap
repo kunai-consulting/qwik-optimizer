@@ -1,0 +1,57 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$, useStore } from '@qwik.dev/core';
+const Header = component$(() => {
+	const thing = useStore();
+	const {foo, bar} = foo();
+
+	return (
+		<div>{thing}</div>
+	);
+});
+
+============================= example_functional_component.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+componentQrl(qrl(() => import("./example_functional_component.tsx_Header_component_OWytcDw2r0M.js"), "Header_component_OWytcDw2r0M"));
+
+
+None
+============================= ./example_functional_component.tsx_Header_component_OWytcDw2r0M.js (ENTRY POINT)==
+
+import { useStore } from "@qwik.dev/core";
+export const Header_component_OWytcDw2r0M = () => {
+	const thing = useStore();
+	const { foo, bar } = foo();
+	return <div>{thing}</div>;
+};
+
+
+None
+/*
+{
+  "origin": "example_functional_component.tsx",
+  "name": "Header_component_OWytcDw2r0M",
+  "entry": null,
+  "displayName": "example_functional_component.tsx_Header_component",
+  "hash": "OWytcDw2r0M",
+  "canonicalFilename": "example_functional_component.tsx_Header_component_OWytcDw2r0M",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Header_component_OWytcDw2r0M",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

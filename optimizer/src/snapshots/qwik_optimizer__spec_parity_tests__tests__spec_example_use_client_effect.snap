@@ -1,0 +1,88 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useBrowserVisibleTask$, useStore, useStyles$ } from '@qwik.dev/core';
+
+export const Child = component$(() => {
+	const state = useStore({
+		count: 0
+	});
+
+	// Double count watch
+	useBrowserVisibleTask$(() => {
+		const timer = setInterval(() => {
+		state.count++;
+		}, 1000);
+		return () => {
+		clearInterval(timer);
+		}
+	});
+
+	return (
+		<div>
+		{state.count}
+	</div>
+	);
+});
+
+============================= example_use_client_effect.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const Child=componentQrl(qrl(()=>import(`./example_use_client_effect.tsx_Child_component_Cd5C60xhKTg.js`),`Child_component_Cd5C60xhKTg`));
+
+None
+============================= ./example_use_client_effect.tsx_Child_component_Cd5C60xhKTg.js (ENTRY POINT)==
+
+import{_jsxSorted,qrl,useBrowserVisibleTaskQrl,useStore}from"@qwik.dev/core";export const Child_component_Cd5C60xhKTg=()=>{let state=useStore({count:0});return useBrowserVisibleTaskQrl(qrl(()=>import(`./example_use_client_effect.tsx_Child_component_useBrowserVisibleTask_4TrEsGZfnWY.js`),`Child_component_useBrowserVisibleTask_4TrEsGZfnWY`,[state])),/* @__PURE__ */ _jsxSorted(`div`,null,null,state.count,1,null)};
+
+None
+/*
+{
+  "origin": "example_use_client_effect.tsx",
+  "name": "Child_component_Cd5C60xhKTg",
+  "entry": null,
+  "displayName": "example_use_client_effect.tsx_Child_component",
+  "hash": "Cd5C60xhKTg",
+  "canonicalFilename": "example_use_client_effect.tsx_Child_component_Cd5C60xhKTg",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Child_component_Cd5C60xhKTg",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_use_client_effect.tsx_Child_component_useBrowserVisibleTask_4TrEsGZfnWY.js (ENTRY POINT)==
+
+export const Child_component_useBrowserVisibleTask_4TrEsGZfnWY=()=>{let[state]=useLexicalScope(),timer=setInterval(()=>{state.count++},1e3);return()=>{clearInterval(timer)}};
+
+None
+/*
+{
+  "origin": "example_use_client_effect.tsx",
+  "name": "Child_component_useBrowserVisibleTask_4TrEsGZfnWY",
+  "entry": null,
+  "displayName": "example_use_client_effect.tsx_Child_component_useBrowserVisibleTask",
+  "hash": "4TrEsGZfnWY",
+  "canonicalFilename": "example_use_client_effect.tsx_Child_component_useBrowserVisibleTask_4TrEsGZfnWY",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Child_component_useBrowserVisibleTask_4TrEsGZfnWY",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

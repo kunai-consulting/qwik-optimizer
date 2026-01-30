@@ -1,0 +1,98 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, $, useStyles$ } from '@qwik.dev/core';
+
+export const App = component$((props) => {
+	useStyles$('hola');
+	return $(() => (
+		<div></div>
+	));
+});
+
+============================= ./example_explicit_ext_transpile.tsx_App_component_1_rtnhTYmM8yE.js (ENTRY POINT)==
+
+import{_jsxSorted}from"@qwik.dev/core";export const App_component_1_rtnhTYmM8yE=()=>/* @__PURE__ */ _jsxSorted(`div`,null,null,null,3,null);
+
+None
+/*
+{
+  "origin": "example_explicit_ext_transpile.tsx",
+  "name": "App_component_1_rtnhTYmM8yE",
+  "entry": null,
+  "displayName": "example_explicit_ext_transpile.tsx_App_component_1",
+  "hash": "rtnhTYmM8yE",
+  "canonicalFilename": "example_explicit_ext_transpile.tsx_App_component_1_rtnhTYmM8yE",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_1_rtnhTYmM8yE",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_explicit_ext_transpile.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./example_explicit_ext_transpile.tsx_App_component_6JdNgn27xWU.js`),`App_component_6JdNgn27xWU`));
+
+None
+============================= ./example_explicit_ext_transpile.tsx_App_component_6JdNgn27xWU.js (ENTRY POINT)==
+
+import{qrl,useStylesQrl}from"@qwik.dev/core";export const App_component_6JdNgn27xWU=props=>(useStylesQrl(qrl(()=>import(`./example_explicit_ext_transpile.tsx_App_component_useStyles_rDDeRqiE7XE.js`),`App_component_useStyles_rDDeRqiE7XE`)),qrl(()=>import(`./example_explicit_ext_transpile.tsx_App_component_1_rtnhTYmM8yE.js`),`App_component_1_rtnhTYmM8yE`));
+
+None
+/*
+{
+  "origin": "example_explicit_ext_transpile.tsx",
+  "name": "App_component_6JdNgn27xWU",
+  "entry": null,
+  "displayName": "example_explicit_ext_transpile.tsx_App_component",
+  "hash": "6JdNgn27xWU",
+  "canonicalFilename": "example_explicit_ext_transpile.tsx_App_component_6JdNgn27xWU",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_6JdNgn27xWU",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_explicit_ext_transpile.tsx_App_component_useStyles_rDDeRqiE7XE.js (ENTRY POINT)==
+
+export const App_component_useStyles_rDDeRqiE7XE=`hola`;
+
+None
+/*
+{
+  "origin": "example_explicit_ext_transpile.tsx",
+  "name": "App_component_useStyles_rDDeRqiE7XE",
+  "entry": null,
+  "displayName": "example_explicit_ext_transpile.tsx_App_component_useStyles",
+  "hash": "rDDeRqiE7XE",
+  "canonicalFilename": "example_explicit_ext_transpile.tsx_App_component_useStyles_rDDeRqiE7XE",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_useStyles_rDDeRqiE7XE",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

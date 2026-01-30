@@ -1,0 +1,77 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$ } from '@qwik.dev/core';
+export const Header = component$(() => {
+	return (
+		<>
+			<div onClick={(ctx) => console.log("1")}/>
+			<div onClick={$((ctx) => console.log("2"))}/>
+		</>
+	);
+});
+
+============================= ./example_5.tsx_Header_component_9xoomCP7HLY.js (ENTRY POINT)==
+
+import{qrl}from"@qwik.dev/core";export const Header_component_9xoomCP7HLY=()=><>
+			<div onClick={ctx=>console.log(`1`)}/>
+			<div onClick={qrl(()=>import(`./example_5.tsx_Header_component_div_onClick_dK0rWI5Qkd8.js`),`Header_component_div_onClick_dK0rWI5Qkd8`)}/>
+		</>;
+
+None
+/*
+{
+  "origin": "example_5.tsx",
+  "name": "Header_component_9xoomCP7HLY",
+  "entry": null,
+  "displayName": "example_5.tsx_Header_component",
+  "hash": "9xoomCP7HLY",
+  "canonicalFilename": "example_5.tsx_Header_component_9xoomCP7HLY",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Header_component_9xoomCP7HLY",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_5.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const Header=componentQrl(qrl(()=>import(`./example_5.tsx_Header_component_9xoomCP7HLY.js`),`Header_component_9xoomCP7HLY`));
+
+None
+============================= ./example_5.tsx_Header_component_div_onClick_dK0rWI5Qkd8.js (ENTRY POINT)==
+
+export const Header_component_div_onClick_dK0rWI5Qkd8=ctx=>console.log(`2`);
+
+None
+/*
+{
+  "origin": "example_5.tsx",
+  "name": "Header_component_div_onClick_dK0rWI5Qkd8",
+  "entry": null,
+  "displayName": "example_5.tsx_Header_component_div_onClick",
+  "hash": "dK0rWI5Qkd8",
+  "canonicalFilename": "example_5.tsx_Header_component_div_onClick_dK0rWI5Qkd8",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Header_component_div_onClick_dK0rWI5Qkd8",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

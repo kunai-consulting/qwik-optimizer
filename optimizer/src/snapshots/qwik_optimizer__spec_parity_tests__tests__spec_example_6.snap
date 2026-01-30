@@ -1,0 +1,42 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$ } from '@qwik.dev/core';
+export const sym1 = $((ctx) => console.log("1"));
+
+============================= example_6.tsx ==
+
+import{qrl}from"@qwik.dev/core";export const sym1=qrl(()=>import(`./example_6.tsx_sym1_RcEqzwBgJ9Y.js`),`sym1_RcEqzwBgJ9Y`);
+
+None
+============================= ./example_6.tsx_sym1_RcEqzwBgJ9Y.js (ENTRY POINT)==
+
+export const sym1_RcEqzwBgJ9Y=ctx=>console.log(`1`);
+
+None
+/*
+{
+  "origin": "example_6.tsx",
+  "name": "sym1_RcEqzwBgJ9Y",
+  "entry": null,
+  "displayName": "example_6.tsx_sym1",
+  "hash": "RcEqzwBgJ9Y",
+  "canonicalFilename": "example_6.tsx_sym1_RcEqzwBgJ9Y",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "sym1_RcEqzwBgJ9Y",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

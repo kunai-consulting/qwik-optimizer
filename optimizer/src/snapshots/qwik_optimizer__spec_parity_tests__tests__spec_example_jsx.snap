@@ -1,0 +1,104 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$, h, Fragment } from '@qwik.dev/core';
+
+export const Lightweight = (props) => {
+	return (
+		<div>
+			<>
+				<div/>
+				<button {...props}/>
+			</>
+		</div>
+	)
+};
+
+export const Foo = component$((props) => {
+	return $(() => {
+		return (
+			<div>
+				<>
+					<div class="class"/>
+					<div class="class"></div>
+					<div class="class">12</div>
+				</>
+				<div class="class">
+					<Lightweight {...props}/>
+				</div>
+				<div class="class">
+					<div/>
+					<div/>
+					<div/>
+				</div>
+				<div class="class">
+					{children}
+				</div>
+			</div>
+		)
+	});
+}, {
+	tagName: "my-foo",
+});
+
+============================= example_jsx.tsx ==
+
+import{_getConstProps,_getVarProps,_jsxSorted,_jsxSplit,componentQrl,qrl}from"@qwik.dev/core";import{Fragment as _Fragment}from"@qwik.dev/core/jsx-runtime";export const Lightweight=props=>{return/* @__PURE__ */ _jsxSorted(`div`,null,null,/* @__PURE__ */ _jsxSorted(_Fragment,null,null,[/* @__PURE__ */ _jsxSorted(`div`,null,null,null,3,null),/* @__PURE__ */ _jsxSplit(`button`,{..._getVarProps(props)},_getConstProps(props),null,0,null)],3,null),3,null)};export const Foo=componentQrl(qrl(()=>import(`./example_jsx.tsx_Foo_component_WX9QZqKHuzI.js`),`Foo_component_WX9QZqKHuzI`));
+
+None
+============================= ./example_jsx.tsx_Foo_component_WX9QZqKHuzI.js (ENTRY POINT)==
+
+import{qrl}from"@qwik.dev/core";export const Foo_component_WX9QZqKHuzI=props=>qrl(()=>import(`./example_jsx.tsx_Foo_component_1_GOQiJaMDe04.js`),`Foo_component_1_GOQiJaMDe04`,[props]);
+
+None
+/*
+{
+  "origin": "example_jsx.tsx",
+  "name": "Foo_component_WX9QZqKHuzI",
+  "entry": null,
+  "displayName": "example_jsx.tsx_Foo_component",
+  "hash": "WX9QZqKHuzI",
+  "canonicalFilename": "example_jsx.tsx_Foo_component_WX9QZqKHuzI",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Foo_component_WX9QZqKHuzI",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_jsx.tsx_Foo_component_1_GOQiJaMDe04.js (ENTRY POINT)==
+
+import{Lightweight}from"./example_jsx";import{_getConstProps,_getVarProps,_jsxSorted,_jsxSplit}from"@qwik.dev/core";import{Fragment as _Fragment}from"@qwik.dev/core/jsx-runtime";export const Foo_component_1_GOQiJaMDe04=()=>{let[props]=useLexicalScope();return/* @__PURE__ */ _jsxSorted(`div`,null,null,[/* @__PURE__ */ _jsxSorted(_Fragment,null,null,[/* @__PURE__ */ _jsxSorted(`div`,null,{class:`class`},null,3,null),/* @__PURE__ */ _jsxSorted(`div`,null,{class:`class`},null,3,null),/* @__PURE__ */ _jsxSorted(`div`,null,{class:`class`},`12`,3,null)],3,null),/* @__PURE__ */ _jsxSorted(`div`,null,{class:`class`},_jsxSplit(Lightweight,{..._getVarProps(props)},_getConstProps(props),null,0,null),3,null),/* @__PURE__ */ _jsxSorted(`div`,null,{class:`class`},[/* @__PURE__ */ _jsxSorted(`div`,null,null,null,3,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,null,3,null),/* @__PURE__ */ _jsxSorted(`div`,null,null,null,3,null)],3,null),/* @__PURE__ */ _jsxSorted(`div`,null,{class:`class`},children,1,null)],3,null)};
+
+None
+/*
+{
+  "origin": "example_jsx.tsx",
+  "name": "Foo_component_1_GOQiJaMDe04",
+  "entry": null,
+  "displayName": "example_jsx.tsx_Foo_component_1",
+  "hash": "GOQiJaMDe04",
+  "canonicalFilename": "example_jsx.tsx_Foo_component_1_GOQiJaMDe04",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Foo_component_1_GOQiJaMDe04",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

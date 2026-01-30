@@ -1,0 +1,55 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+
+export const Foo = component$(() => {
+	return (
+		<div>
+			<div onClick$={() => console.log('first')}/>
+			<div onClick$={() => console.log('second')}/>
+			<div onClick$={() => console.log('third')}/>
+		</div>
+	);
+});
+
+============================= example_prod_node.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const Foo=componentQrl(qrl(()=>import(`./example_prod_node.tsx_s_v10fFl9PWVg.js`),`s_v10fFl9PWVg`));
+
+None
+============================= ./example_prod_node.tsx_s_v10fFl9PWVg.js (ENTRY POINT)==
+
+import{qrl}from"@qwik.dev/core";export const s_v10fFl9PWVg=()=><div>
+			<div on:click={qrl(()=>import(`./example_prod_node.tsx.js`),`Foo_component_div_div_onClick`)}/>
+			<div on:click={qrl(()=>import(`./example_prod_node.tsx.js`),`Foo_component_div_div_onClick_1`)}/>
+			<div on:click={qrl(()=>import(`./example_prod_node.tsx.js`),`Foo_component_div_div_onClick_2`)}/>
+		</div>;
+
+None
+/*
+{
+  "origin": "example_prod_node.tsx",
+  "name": "s_v10fFl9PWVg",
+  "entry": null,
+  "displayName": "example_prod_node.tsx_Foo_component",
+  "hash": "v10fFl9PWVg",
+  "canonicalFilename": "example_prod_node.tsx_s_v10fFl9PWVg",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "s_v10fFl9PWVg",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

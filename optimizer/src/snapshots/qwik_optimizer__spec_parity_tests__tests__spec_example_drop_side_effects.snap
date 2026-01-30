@@ -1,0 +1,93 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+import { server$ } from '@qwik.dev/router';
+import { clientSupabase } from 'supabase';
+import { Client } from 'openai';
+import { secret } from './secret';
+import { sideEffect } from './secret';
+
+const supabase = clientSupabase();
+const dfd = new Client(secret);
+
+(function() {
+	console.log('run');
+	})();
+	(() => {
+	console.log('run');
+	})();
+
+sideEffect();
+
+export const api = server$(() => {
+	supabase.from('ffg').do(dfd);
+});
+
+export default component$(() => {
+	return (
+		<button onClick$={() => await api()}></button>
+	)
+	});
+
+============================= ./example_drop_side_effects.tsx_api_server_z2u5NPsRqoE.js (ENTRY POINT)==
+
+export const api_server_z2u5NPsRqoE=()=>{let[dfd,supabase]=useLexicalScope();supabase.from(`ffg`).do(dfd)};
+
+None
+/*
+{
+  "origin": "example_drop_side_effects.tsx",
+  "name": "api_server_z2u5NPsRqoE",
+  "entry": null,
+  "displayName": "example_drop_side_effects.tsx_api_server",
+  "hash": "z2u5NPsRqoE",
+  "canonicalFilename": "example_drop_side_effects.tsx_api_server_z2u5NPsRqoE",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "api_server_z2u5NPsRqoE",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_drop_side_effects.tsx ==
+
+import{secret,sideEffect}from"./secret";import{componentQrl,qrl,serverQrl}from"@qwik.dev/core";import{serverQrl}from"@qwik.dev/router";import{Client}from"openai";import{clientSupabase}from"supabase";const supabase=clientSupabase();const dfd=new Client(secret);(function(){console.log(`run`)})();(()=>{console.log(`run`)})();sideEffect();export const api=serverQrl(qrl(()=>import(`./example_drop_side_effects.tsx_api_server_z2u5NPsRqoE.js`),`api_server_z2u5NPsRqoE`,[dfd,supabase]));export default componentQrl(qrl(()=>import(`./example_drop_side_effects.tsx_component_Iyb0rbIdi0U.js`),`component_Iyb0rbIdi0U`));
+
+None
+============================= ./example_drop_side_effects.tsx_component_Iyb0rbIdi0U.js (ENTRY POINT)==
+
+import{_jsxSorted,qrl}from"@qwik.dev/core";export const component_Iyb0rbIdi0U=()=>/* @__PURE__ */ _jsxSorted(`button`,{on:click:qrl(()=>import(`./example_drop_side_effects.tsx.js`),`component_button_onClick`)},null,null,3,null);
+
+None
+/*
+{
+  "origin": "example_drop_side_effects.tsx",
+  "name": "component_Iyb0rbIdi0U",
+  "entry": null,
+  "displayName": "example_drop_side_effects.tsx_component",
+  "hash": "Iyb0rbIdi0U",
+  "canonicalFilename": "example_drop_side_effects.tsx_component_Iyb0rbIdi0U",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component_Iyb0rbIdi0U",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

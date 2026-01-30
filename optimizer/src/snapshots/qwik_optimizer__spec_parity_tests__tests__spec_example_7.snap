@@ -1,0 +1,104 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$ } from '@qwik.dev/core';
+
+export const Header = component$(() => {
+	console.log("mount");
+	return (
+		<div onClick={$((ctx) => console.log(ctx))}/>
+	);
+	});
+
+const App = component$(() => {
+	return (
+		<Header/>
+	);
+});
+
+============================= ./example_7.tsx_Header_component_MNYlMdDxJgA.js (ENTRY POINT)==
+
+import{qrl}from"@qwik.dev/core";export const Header_component_MNYlMdDxJgA=()=>(console.log(`mount`),<div onClick={qrl(()=>import(`./example_7.tsx_Header_component_div_onClick_cfzN1tp7ONI.js`),`Header_component_div_onClick_cfzN1tp7ONI`)}/>);
+
+None
+/*
+{
+  "origin": "example_7.tsx",
+  "name": "Header_component_MNYlMdDxJgA",
+  "entry": null,
+  "displayName": "example_7.tsx_Header_component",
+  "hash": "MNYlMdDxJgA",
+  "canonicalFilename": "example_7.tsx_Header_component_MNYlMdDxJgA",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Header_component_MNYlMdDxJgA",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_7.tsx_App_component_MyRyLlV7VLs.js (ENTRY POINT)==
+
+import{Header}from"./example_7";export const App_component_MyRyLlV7VLs=()=><Header/>;
+
+None
+/*
+{
+  "origin": "example_7.tsx",
+  "name": "App_component_MyRyLlV7VLs",
+  "entry": null,
+  "displayName": "example_7.tsx_App_component",
+  "hash": "MyRyLlV7VLs",
+  "canonicalFilename": "example_7.tsx_App_component_MyRyLlV7VLs",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_MyRyLlV7VLs",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_7.tsx_Header_component_div_onClick_cfzN1tp7ONI.js (ENTRY POINT)==
+
+export const Header_component_div_onClick_cfzN1tp7ONI=ctx=>console.log(ctx);
+
+None
+/*
+{
+  "origin": "example_7.tsx",
+  "name": "Header_component_div_onClick_cfzN1tp7ONI",
+  "entry": null,
+  "displayName": "example_7.tsx_Header_component_div_onClick",
+  "hash": "cfzN1tp7ONI",
+  "canonicalFilename": "example_7.tsx_Header_component_div_onClick_cfzN1tp7ONI",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Header_component_div_onClick_cfzN1tp7ONI",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_7.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const Header=componentQrl(qrl(()=>import(`./example_7.tsx_Header_component_MNYlMdDxJgA.js`),`Header_component_MNYlMdDxJgA`));componentQrl(qrl(()=>import(`./example_7.tsx_App_component_MyRyLlV7VLs.js`),`App_component_MyRyLlV7VLs`));
+
+None
+== DIAGNOSTICS ==
+
+[]

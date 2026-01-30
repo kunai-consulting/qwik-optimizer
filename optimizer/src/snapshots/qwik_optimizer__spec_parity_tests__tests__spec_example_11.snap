@@ -1,0 +1,110 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$ } from '@qwik.dev/core';
+import {foo, bar as bbar} from "../state";
+import * as dep2 from "dep2";
+import dep3 from "dep3/something";
+
+export const Header = component$(() => {
+	return (
+		<Header onClick={$((ev) => dep3(ev))}>
+			{dep2.stuff()}{bbar()}
+		</Header>
+	);
+});
+
+export const App = component$(() => {
+	return (
+		<Header>{foo()}</Header>
+	);
+});
+
+============================= ./project/test.tsx_Header_component_Header_onClick_KjD9TCNkNxY.js (ENTRY POINT)==
+
+import dep3 from"dep3/something";export const Header_component_Header_onClick_KjD9TCNkNxY=ev=>dep3(ev);
+
+None
+/*
+{
+  "origin": "project/test.tsx",
+  "name": "Header_component_Header_onClick_KjD9TCNkNxY",
+  "entry": "entry_segments",
+  "displayName": "test.tsx_Header_component_Header_onClick",
+  "hash": "KjD9TCNkNxY",
+  "canonicalFilename": "test.tsx_Header_component_Header_onClick_KjD9TCNkNxY",
+  "path": "./project",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Header_component_Header_onClick_KjD9TCNkNxY",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./project/test.tsx_Header_component_UVBJuFYfvDo.js (ENTRY POINT)==
+
+import{bar as bbar}from"../state";import{Header}from"./project/test";import{qrl}from"@qwik.dev/core";import*as dep2 from"dep2";export const Header_component_UVBJuFYfvDo=()=><Header onClick={qrl(()=>import(`./test.tsx_Header_component_Header_onClick_KjD9TCNkNxY.js`),`Header_component_Header_onClick_KjD9TCNkNxY`)}>
+			{dep2.stuff()}{bbar()}
+		</Header>;
+
+None
+/*
+{
+  "origin": "project/test.tsx",
+  "name": "Header_component_UVBJuFYfvDo",
+  "entry": "entry_segments",
+  "displayName": "test.tsx_Header_component",
+  "hash": "UVBJuFYfvDo",
+  "canonicalFilename": "test.tsx_Header_component_UVBJuFYfvDo",
+  "path": "./project",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Header_component_UVBJuFYfvDo",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./project/test.tsx_App_component_wGkRHWXaqjs.js (ENTRY POINT)==
+
+import{foo}from"../state";import{Header}from"./project/test";export const App_component_wGkRHWXaqjs=()=><Header>{foo()}</Header>;
+
+None
+/*
+{
+  "origin": "project/test.tsx",
+  "name": "App_component_wGkRHWXaqjs",
+  "entry": "entry_segments",
+  "displayName": "test.tsx_App_component",
+  "hash": "wGkRHWXaqjs",
+  "canonicalFilename": "test.tsx_App_component_wGkRHWXaqjs",
+  "path": "./project",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_wGkRHWXaqjs",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= project/test.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const Header=componentQrl(qrl(()=>import(`./test.tsx_Header_component_UVBJuFYfvDo.js`),`Header_component_UVBJuFYfvDo`));export const App=componentQrl(qrl(()=>import(`./test.tsx_App_component_wGkRHWXaqjs.js`),`App_component_wGkRHWXaqjs`));
+
+None
+== DIAGNOSTICS ==
+
+[]

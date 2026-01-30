@@ -1,0 +1,72 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$ } from '@qwik.dev/core';
+export const Header = component$(() => {
+	console.log("mount");
+	return (
+		<div onClick={$((ctx) => console.log(ctx))}/>
+	);
+});
+
+============================= ./example_2.tsx_Header_component_div_onClick_00vaTLm0siE.js (ENTRY POINT)==
+
+export const Header_component_div_onClick_00vaTLm0siE=ctx=>console.log(ctx);
+
+None
+/*
+{
+  "origin": "example_2.tsx",
+  "name": "Header_component_div_onClick_00vaTLm0siE",
+  "entry": null,
+  "displayName": "example_2.tsx_Header_component_div_onClick",
+  "hash": "00vaTLm0siE",
+  "canonicalFilename": "example_2.tsx_Header_component_div_onClick_00vaTLm0siE",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Header_component_div_onClick_00vaTLm0siE",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_2.tsx_Header_component_l6Npo8g4T98.js (ENTRY POINT)==
+
+import{qrl}from"@qwik.dev/core";export const Header_component_l6Npo8g4T98=()=>(console.log(`mount`),<div onClick={qrl(()=>import(`./example_2.tsx_Header_component_div_onClick_00vaTLm0siE.js`),`Header_component_div_onClick_00vaTLm0siE`)}/>);
+
+None
+/*
+{
+  "origin": "example_2.tsx",
+  "name": "Header_component_l6Npo8g4T98",
+  "entry": null,
+  "displayName": "example_2.tsx_Header_component",
+  "hash": "l6Npo8g4T98",
+  "canonicalFilename": "example_2.tsx_Header_component_l6Npo8g4T98",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Header_component_l6Npo8g4T98",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_2.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const Header=componentQrl(qrl(()=>import(`./example_2.tsx_Header_component_l6Npo8g4T98.js`),`Header_component_l6Npo8g4T98`));
+
+None
+== DIAGNOSTICS ==
+
+[]

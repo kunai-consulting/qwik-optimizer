@@ -1,0 +1,75 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$, useStyles$ } from '@qwik.dev/core';
+
+export const Foo = component$(() => {
+	useStyles$('.class {}');
+	return (
+		<div class="class"/>
+	);
+}, {
+	tagName: "my-foo",
+});
+
+============================= ./example_with_style.tsx_Foo_component_MeEvSrJ4EhA.js (ENTRY POINT)==
+
+import{qrl,useStylesQrl}from"@qwik.dev/core";export const Foo_component_MeEvSrJ4EhA=()=>(useStylesQrl(qrl(()=>import(`./example_with_style.tsx_Foo_component_useStyles_tL9m7IRQ0Cs.js`),`Foo_component_useStyles_tL9m7IRQ0Cs`)),<div class="class"/>);
+
+None
+/*
+{
+  "origin": "example_with_style.tsx",
+  "name": "Foo_component_MeEvSrJ4EhA",
+  "entry": null,
+  "displayName": "example_with_style.tsx_Foo_component",
+  "hash": "MeEvSrJ4EhA",
+  "canonicalFilename": "example_with_style.tsx_Foo_component_MeEvSrJ4EhA",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Foo_component_MeEvSrJ4EhA",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_with_style.tsx_Foo_component_useStyles_tL9m7IRQ0Cs.js (ENTRY POINT)==
+
+export const Foo_component_useStyles_tL9m7IRQ0Cs=`.class {}`;
+
+None
+/*
+{
+  "origin": "example_with_style.tsx",
+  "name": "Foo_component_useStyles_tL9m7IRQ0Cs",
+  "entry": null,
+  "displayName": "example_with_style.tsx_Foo_component_useStyles",
+  "hash": "tL9m7IRQ0Cs",
+  "canonicalFilename": "example_with_style.tsx_Foo_component_useStyles_tL9m7IRQ0Cs",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Foo_component_useStyles_tL9m7IRQ0Cs",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_with_style.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const Foo=componentQrl(qrl(()=>import(`./example_with_style.tsx_Foo_component_MeEvSrJ4EhA.js`),`Foo_component_MeEvSrJ4EhA`));
+
+None
+== DIAGNOSTICS ==
+
+[]

@@ -1,0 +1,78 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$ } from '@qwik.dev/core';
+
+export const Foo = component$(() => {
+	return $(() => {
+		return (
+			<div>
+			</div>
+		)
+	});
+}, {
+	tagName: "my-foo",
+});
+
+============================= ./example_with_tagname.tsx_Foo_component_1_fOrH9o2dCAs.js (ENTRY POINT)==
+
+export const Foo_component_1_fOrH9o2dCAs=()=><div>
+			</div>;
+
+None
+/*
+{
+  "origin": "example_with_tagname.tsx",
+  "name": "Foo_component_1_fOrH9o2dCAs",
+  "entry": null,
+  "displayName": "example_with_tagname.tsx_Foo_component_1",
+  "hash": "fOrH9o2dCAs",
+  "canonicalFilename": "example_with_tagname.tsx_Foo_component_1_fOrH9o2dCAs",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Foo_component_1_fOrH9o2dCAs",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_with_tagname.tsx_Foo_component_zD2Kf7z5p2c.js (ENTRY POINT)==
+
+import{qrl}from"@qwik.dev/core";export const Foo_component_zD2Kf7z5p2c=()=>qrl(()=>import(`./example_with_tagname.tsx_Foo_component_1_fOrH9o2dCAs.js`),`Foo_component_1_fOrH9o2dCAs`);
+
+None
+/*
+{
+  "origin": "example_with_tagname.tsx",
+  "name": "Foo_component_zD2Kf7z5p2c",
+  "entry": null,
+  "displayName": "example_with_tagname.tsx_Foo_component",
+  "hash": "zD2Kf7z5p2c",
+  "canonicalFilename": "example_with_tagname.tsx_Foo_component_zD2Kf7z5p2c",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Foo_component_zD2Kf7z5p2c",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_with_tagname.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const Foo=componentQrl(qrl(()=>import(`./example_with_tagname.tsx_Foo_component_zD2Kf7z5p2c.js`),`Foo_component_zD2Kf7z5p2c`));
+
+None
+== DIAGNOSTICS ==
+
+[]

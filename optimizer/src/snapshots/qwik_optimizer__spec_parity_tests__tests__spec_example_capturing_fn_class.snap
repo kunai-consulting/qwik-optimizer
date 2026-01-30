@@ -1,0 +1,101 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+	function hola() {
+		console.log('hola');
+	}
+	class Thing {}
+	class Other {}
+
+	return $(() => {
+		hola();
+		new Thing();
+		return (
+			<div></div>
+		)
+	});
+})
+
+============================= ./example_capturing_fn_class.tsx_App_component_1_Q5VPv65lTg0.js (ENTRY POINT)==
+
+import{_jsxSorted}from"@qwik.dev/core";export const App_component_1_Q5VPv65lTg0=()=>(hola(),new Thing,/* @__PURE__ */ _jsxSorted(`div`,null,null,null,3,null));
+
+None
+/*
+{
+  "origin": "example_capturing_fn_class.tsx",
+  "name": "App_component_1_Q5VPv65lTg0",
+  "entry": null,
+  "displayName": "example_capturing_fn_class.tsx_App_component_1",
+  "hash": "Q5VPv65lTg0",
+  "canonicalFilename": "example_capturing_fn_class.tsx_App_component_1_Q5VPv65lTg0",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_1_Q5VPv65lTg0",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_capturing_fn_class.tsx_App_component_XjsvSrS7k84.js (ENTRY POINT)==
+
+import{qrl}from"@qwik.dev/core";export const App_component_XjsvSrS7k84=()=>qrl(()=>import(`./example_capturing_fn_class.tsx_App_component_1_Q5VPv65lTg0.js`),`App_component_1_Q5VPv65lTg0`);
+
+None
+/*
+{
+  "origin": "example_capturing_fn_class.tsx",
+  "name": "App_component_XjsvSrS7k84",
+  "entry": null,
+  "displayName": "example_capturing_fn_class.tsx_App_component",
+  "hash": "XjsvSrS7k84",
+  "canonicalFilename": "example_capturing_fn_class.tsx_App_component_XjsvSrS7k84",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_XjsvSrS7k84",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_capturing_fn_class.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const App=componentQrl(qrl(()=>import(`./example_capturing_fn_class.tsx_App_component_XjsvSrS7k84.js`),`App_component_XjsvSrS7k84`));
+
+None
+== DIAGNOSTICS ==
+
+[
+  {
+    "category": "error",
+    "code": "C02",
+    "file": "example_capturing_fn_class.tsx",
+    "message": "Reference to identifier 'hola' can not be used inside a Qrl($) scope because it's a function",
+    "highlights": null,
+    "suggestions": null,
+    "scope": "optimizer"
+  },
+  {
+    "category": "error",
+    "code": "C02",
+    "file": "example_capturing_fn_class.tsx",
+    "message": "Reference to identifier 'Thing' can not be used inside a Qrl($) scope because it's a class",
+    "highlights": null,
+    "suggestions": null,
+    "scope": "optimizer"
+  }
+]

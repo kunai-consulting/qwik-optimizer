@@ -1,0 +1,138 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, $, useStore, wrap, useEffect } from '@qwik.dev/core';
+
+export const useMemoQrl = (qrt) => {
+	useEffect(qrt);
+};
+
+export const useMemo$ = wrap(useMemoQrl);
+
+export const App = component$((props) => {
+	const state = useStore({count: 0});
+	useMemo$(() => {
+		console.log(state.count);
+	});
+	return $(() => (
+		<div>{state.count}</div>
+	));
+});
+
+export const Lightweight = (props) => {
+	useMemo$(() => {
+		console.log(state.count);
+	});
+};
+
+============================= ./example_custom_inlined_functions.tsx_App_component_vG6hChgGi08.js (ENTRY POINT)==
+
+import{qrl,useMemoQrl,useStore}from"@qwik.dev/core";export const App_component_vG6hChgGi08=props=>{let state=useStore({count:0});return useMemoQrl(qrl(()=>import(`./example_custom_inlined_functions.tsx_App_component_useMemo_0w1bkp0dG4A.js`),`App_component_useMemo_0w1bkp0dG4A`,[state])),qrl(()=>import(`./example_custom_inlined_functions.tsx_App_component_1_YsVX9g86VKc.js`),`App_component_1_YsVX9g86VKc`,[state])};
+
+None
+/*
+{
+  "origin": "example_custom_inlined_functions.tsx",
+  "name": "App_component_vG6hChgGi08",
+  "entry": null,
+  "displayName": "example_custom_inlined_functions.tsx_App_component",
+  "hash": "vG6hChgGi08",
+  "canonicalFilename": "example_custom_inlined_functions.tsx_App_component_vG6hChgGi08",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_vG6hChgGi08",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_custom_inlined_functions.tsx ==
+
+import{useMemoQrl}from"./example_custom_inlined_functions";import{componentQrl,qrl,useEffect,useMemoQrl,wrap}from"@qwik.dev/core";export const useMemoQrl=qrt=>{useEffect(qrt)};export const useMemo$=wrap(useMemoQrl);export const App=componentQrl(qrl(()=>import(`./example_custom_inlined_functions.tsx_App_component_vG6hChgGi08.js`),`App_component_vG6hChgGi08`));export const Lightweight=useMemoQrl(qrl(()=>import(`./example_custom_inlined_functions.tsx_Lightweight_useMemo_XQ44W9P7TMY.js`),`Lightweight_useMemo_XQ44W9P7TMY`));
+
+None
+============================= ./example_custom_inlined_functions.tsx_App_component_useMemo_0w1bkp0dG4A.js (ENTRY POINT)==
+
+export const App_component_useMemo_0w1bkp0dG4A=()=>{let[state]=useLexicalScope();console.log(state.count)};
+
+None
+/*
+{
+  "origin": "example_custom_inlined_functions.tsx",
+  "name": "App_component_useMemo_0w1bkp0dG4A",
+  "entry": null,
+  "displayName": "example_custom_inlined_functions.tsx_App_component_useMemo",
+  "hash": "0w1bkp0dG4A",
+  "canonicalFilename": "example_custom_inlined_functions.tsx_App_component_useMemo_0w1bkp0dG4A",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_useMemo_0w1bkp0dG4A",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_custom_inlined_functions.tsx_App_component_1_YsVX9g86VKc.js (ENTRY POINT)==
+
+import{_jsxSorted}from"@qwik.dev/core";export const App_component_1_YsVX9g86VKc=()=>{let[state]=useLexicalScope();return/* @__PURE__ */ _jsxSorted(`div`,null,null,state.count,1,null)};
+
+None
+/*
+{
+  "origin": "example_custom_inlined_functions.tsx",
+  "name": "App_component_1_YsVX9g86VKc",
+  "entry": null,
+  "displayName": "example_custom_inlined_functions.tsx_App_component_1",
+  "hash": "YsVX9g86VKc",
+  "canonicalFilename": "example_custom_inlined_functions.tsx_App_component_1_YsVX9g86VKc",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "App_component_1_YsVX9g86VKc",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_custom_inlined_functions.tsx_Lightweight_useMemo_XQ44W9P7TMY.js (ENTRY POINT)==
+
+export const Lightweight_useMemo_XQ44W9P7TMY=()=>{console.log(state.count)};
+
+None
+/*
+{
+  "origin": "example_custom_inlined_functions.tsx",
+  "name": "Lightweight_useMemo_XQ44W9P7TMY",
+  "entry": null,
+  "displayName": "example_custom_inlined_functions.tsx_Lightweight_useMemo",
+  "hash": "XQ44W9P7TMY",
+  "canonicalFilename": "example_custom_inlined_functions.tsx_Lightweight_useMemo_XQ44W9P7TMY",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Lightweight_useMemo_XQ44W9P7TMY",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

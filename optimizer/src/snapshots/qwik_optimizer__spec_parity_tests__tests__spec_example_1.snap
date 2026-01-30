@@ -1,0 +1,101 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component, onRender } from '@qwik.dev/core';
+
+export const renderHeader = $(() => {
+	return (
+		<div onClick={$((ctx) => console.log(ctx))}/>
+	);
+});
+const renderHeader = component($(() => {
+	console.log("mount");
+	return render;
+}));
+
+============================= example_1.tsx ==
+
+import{component,qrl}from"@qwik.dev/core";export const renderHeader=qrl(()=>import(`./example_1.tsx_renderHeader_YqJKfJJtCNE.js`),`renderHeader_YqJKfJJtCNE`);const renderHeader=component(qrl(()=>import(`./example_1.tsx_renderHeader_component_Er8yzBDEP84.js`),`renderHeader_component_Er8yzBDEP84`));
+
+None
+============================= ./example_1.tsx_renderHeader_div_onClick_Dv0JWltQj3U.js (ENTRY POINT)==
+
+export const renderHeader_div_onClick_Dv0JWltQj3U=ctx=>console.log(ctx);
+
+None
+/*
+{
+  "origin": "example_1.tsx",
+  "name": "renderHeader_div_onClick_Dv0JWltQj3U",
+  "entry": null,
+  "displayName": "example_1.tsx_renderHeader_div_onClick",
+  "hash": "Dv0JWltQj3U",
+  "canonicalFilename": "example_1.tsx_renderHeader_div_onClick_Dv0JWltQj3U",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "renderHeader_div_onClick_Dv0JWltQj3U",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_1.tsx_renderHeader_component_Er8yzBDEP84.js (ENTRY POINT)==
+
+export const renderHeader_component_Er8yzBDEP84=()=>(console.log(`mount`),render);
+
+None
+/*
+{
+  "origin": "example_1.tsx",
+  "name": "renderHeader_component_Er8yzBDEP84",
+  "entry": null,
+  "displayName": "example_1.tsx_renderHeader_component",
+  "hash": "Er8yzBDEP84",
+  "canonicalFilename": "example_1.tsx_renderHeader_component_Er8yzBDEP84",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "renderHeader_component_Er8yzBDEP84",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_1.tsx_renderHeader_YqJKfJJtCNE.js (ENTRY POINT)==
+
+import{qrl}from"@qwik.dev/core";export const renderHeader_YqJKfJJtCNE=()=><div onClick={qrl(()=>import(`./example_1.tsx_renderHeader_div_onClick_Dv0JWltQj3U.js`),`renderHeader_div_onClick_Dv0JWltQj3U`)}/>;
+
+None
+/*
+{
+  "origin": "example_1.tsx",
+  "name": "renderHeader_YqJKfJJtCNE",
+  "entry": null,
+  "displayName": "example_1.tsx_renderHeader",
+  "hash": "YqJKfJJtCNE",
+  "canonicalFilename": "example_1.tsx_renderHeader_YqJKfJJtCNE",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "renderHeader_YqJKfJJtCNE",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

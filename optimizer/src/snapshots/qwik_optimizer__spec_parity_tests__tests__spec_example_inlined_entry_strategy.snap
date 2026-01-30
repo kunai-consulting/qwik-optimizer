@@ -1,0 +1,112 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useBrowserVisibleTask$, useStore, useStyles$ } from '@qwik.dev/core';
+import { thing } from './sibling';
+import mongodb from 'mongodb';
+
+export const Child = component$(() => {
+
+	useStyles$('somestring');
+	const state = useStore({
+		count: 0
+	});
+
+	// Double count watch
+	useBrowserVisibleTask$(() => {
+		state.count = thing.doStuff() + import("./sibling");
+	});
+
+	return (
+		<div onClick$={() => console.log(mongodb)}>
+		</div>
+	);
+});
+
+============================= ./example_inlined_entry_strategy.tsx_Child_component_usUBninIuQc.js (ENTRY POINT)==
+
+export const Child_component_usUBninIuQc=()=>{useStylesQrl(qrl(()=>import(`./example_inlined_entry_strategy.tsx_Child_component_useStyles_u14sZsUq8xQ.js`),`Child_component_useStyles_u14sZsUq8xQ`));let state=useStylesQrl(qrl(()=>import(`./example_inlined_entry_strategy.tsx_Child_component_useStyles_u14sZsUq8xQ.js`),`Child_component_useStyles_u14sZsUq8xQ`));return useBrowserVisibleTaskQrl(qrl(()=>import(`./example_inlined_entry_strategy.tsx_Child_component_useBrowserVisibleTask_mguI2bCnQyY.js`),`Child_component_useBrowserVisibleTask_mguI2bCnQyY`,[state])),<div on:click={useBrowserVisibleTaskQrl(qrl(()=>import(`./example_inlined_entry_strategy.tsx_Child_component_useBrowserVisibleTask_mguI2bCnQyY.js`),`Child_component_useBrowserVisibleTask_mguI2bCnQyY`,[state]))}>
+		</div>};
+
+None
+/*
+{
+  "origin": "example_inlined_entry_strategy.tsx",
+  "name": "Child_component_usUBninIuQc",
+  "entry": "entry_segments",
+  "displayName": "example_inlined_entry_strategy.tsx_Child_component",
+  "hash": "usUBninIuQc",
+  "canonicalFilename": "example_inlined_entry_strategy.tsx_Child_component_usUBninIuQc",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Child_component_usUBninIuQc",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_inlined_entry_strategy.tsx_Child_component_useStyles_u14sZsUq8xQ.js (ENTRY POINT)==
+
+export const Child_component_useStyles_u14sZsUq8xQ=`somestring`;
+
+None
+/*
+{
+  "origin": "example_inlined_entry_strategy.tsx",
+  "name": "Child_component_useStyles_u14sZsUq8xQ",
+  "entry": "entry_segments",
+  "displayName": "example_inlined_entry_strategy.tsx_Child_component_useStyles",
+  "hash": "u14sZsUq8xQ",
+  "canonicalFilename": "example_inlined_entry_strategy.tsx_Child_component_useStyles_u14sZsUq8xQ",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Child_component_useStyles_u14sZsUq8xQ",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= ./example_inlined_entry_strategy.tsx_Child_component_useBrowserVisibleTask_mguI2bCnQyY.js (ENTRY POINT)==
+
+import{thing}from"./sibling";export const Child_component_useBrowserVisibleTask_mguI2bCnQyY=()=>{let[state]=useLexicalScope();state.count=thing.doStuff()+import(`./sibling`)};
+
+None
+/*
+{
+  "origin": "example_inlined_entry_strategy.tsx",
+  "name": "Child_component_useBrowserVisibleTask_mguI2bCnQyY",
+  "entry": "entry_segments",
+  "displayName": "example_inlined_entry_strategy.tsx_Child_component_useBrowserVisibleTask",
+  "hash": "mguI2bCnQyY",
+  "canonicalFilename": "example_inlined_entry_strategy.tsx_Child_component_useBrowserVisibleTask_mguI2bCnQyY",
+  "path": ".",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "Child_component_useBrowserVisibleTask_mguI2bCnQyY",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= example_inlined_entry_strategy.tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export const Child=componentQrl(qrl(()=>import(`./example_inlined_entry_strategy.tsx_Child_component_usUBninIuQc.js`),`Child_component_usUBninIuQc`));
+
+None
+== DIAGNOSTICS ==
+
+[]

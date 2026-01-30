@@ -1,0 +1,49 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+import { sibling } from './sibling';
+
+export default component$(() => {
+	return (
+		<div onClick$={() => console.log(mongodb, sibling)}>
+		</div>
+	);
+});
+
+============================= src/routes/_repl/[id]/[[...slug]].tsx ==
+
+import{componentQrl,qrl}from"@qwik.dev/core";export default componentQrl(qrl(()=>import(`./[[...slug]].tsx_component_6n0k9fnD07Y.js`),`component_6n0k9fnD07Y`));
+
+None
+============================= ./src/routes/_repl/[id]/[[...slug]].tsx_component_6n0k9fnD07Y.js (ENTRY POINT)==
+
+import{_jsxSorted,qrl}from"@qwik.dev/core";export const component_6n0k9fnD07Y=()=>/* @__PURE__ */ _jsxSorted(`div`,{on:click:qrl(()=>import(`./[[...slug]].tsx.js`),`component_div_onClick`)},null,null,3,null);
+
+None
+/*
+{
+  "origin": "src/routes/_repl/[id]/[[...slug]].tsx",
+  "name": "component_6n0k9fnD07Y",
+  "entry": "./src/routes/_repl/[id]/[[...slug]].tsx_entry_component$",
+  "displayName": "[[...slug]].tsx_component",
+  "hash": "6n0k9fnD07Y",
+  "canonicalFilename": "[[...slug]].tsx_component_6n0k9fnD07Y",
+  "path": "./src/routes/_repl/[id]",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component_6n0k9fnD07Y",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]
