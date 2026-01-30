@@ -59,9 +59,12 @@ pub fn exit_jsx_child<'a>(
             JSXChild::Element(_) => Some(gen.replace_expr.take().unwrap().into()),
             JSXChild::Fragment(_) => Some(gen.replace_expr.take().unwrap().into()),
             JSXChild::ExpressionContainer(b) => {
-                jsx.static_subtree = false;
-                let expr = (*b).expression.to_expression_mut();
-                let span = expr.span();
+                if !(*b).expression.is_expression() {
+                    None
+                } else {
+                    jsx.static_subtree = false;
+                    let expr = (*b).expression.to_expression_mut();
+                    let span = expr.span();
 
                 if let Some(prop_key) = &prop_wrap_key {
                     gen.needs_wrap_prop_import = true;
@@ -104,6 +107,7 @@ pub fn exit_jsx_child<'a>(
                     }
                 } else {
                     Some(move_expression(&gen.builder, expr).into())
+                }
                 }
             }
             JSXChild::Spread(b) => {
