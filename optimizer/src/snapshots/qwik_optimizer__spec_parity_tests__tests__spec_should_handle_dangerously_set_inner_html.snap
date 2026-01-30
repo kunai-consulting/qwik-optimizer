@@ -39,20 +39,20 @@ None
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 export const Cmp_component_EQ0oObQaGng = () => {
 	const htmlSignal = useSignal("<h2><span>I'm a signal value!</span></h2>");
-	return /* @__PURE__ */ _jsxSorted("div", null, null, [
-		/* @__PURE__ */ _jsxSorted("div", null, null, /* @__PURE__ */ _jsxSorted("span", null, {
+	return /*#__PURE__*/ _jsxSorted("div", null, null, [
+		/*#__PURE__*/ _jsxSorted("div", null, null, /*#__PURE__*/ _jsxSorted("span", null, {
 			id: "first",
 			dangerouslySetInnerHTML: "vanilla HTML here"
 		}, null, 3, null), 3, null),
-		/* @__PURE__ */ _jsxSorted("div", null, null, /* @__PURE__ */ _jsxSorted("span", null, {
+		/*#__PURE__*/ _jsxSorted("div", null, null, /*#__PURE__*/ _jsxSorted("span", null, {
 			id: "second",
 			dangerouslySetInnerHTML: "<h1>I'm an h1!</h1>",
 			class: "after"
 		}, null, 3, null), 3, null),
-		/* @__PURE__ */ _jsxSorted("div", null, null, [/* @__PURE__ */ _jsxSorted("span", { dangerouslySetInnerHTML: _wrapProp(htmlSignal) }, {
+		/*#__PURE__*/ _jsxSorted("div", null, null, [/*#__PURE__*/ _jsxSorted("span", { dangerouslySetInnerHTML: _wrapProp(htmlSignal) }, {
 			id: "third",
 			class: "after"
-		}, null, 3, null), /* @__PURE__ */ _jsxSorted("button", { on:click: qrl(() => import("./should_handle_dangerously_set_inner_html.tsx.js"), "Cmp_component_div_div_button_onClick", [htmlSignal]) }, null, null, 3, null)], 3, null)
+		}, null, 3, null), /*#__PURE__*/ _jsxSorted("button", { on:click: qrl(() => import("./should_handle_dangerously_set_inner_html.tsx.js"), "Cmp_component_div_div_button_onClick", [htmlSignal]) }, null, null, 3, null)], 3, null)
 	], 3, null);
 };
 

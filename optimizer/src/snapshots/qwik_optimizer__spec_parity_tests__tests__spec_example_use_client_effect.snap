@@ -41,7 +41,7 @@ import { _jsxSorted, qrl, useBrowserVisibleTaskQrl, useStore } from "@qwik.dev/c
 export const Child_component_Cd5C60xhKTg = () => {
 	const state = useStore({ count: 0 });
 	useBrowserVisibleTaskQrl(qrl(() => import("./example_use_client_effect.tsx_Child_component_useBrowserVisibleTask_4TrEsGZfnWY.js"), "Child_component_useBrowserVisibleTask_4TrEsGZfnWY", [state]));
-	return /* @__PURE__ */ _jsxSorted("div", null, null, state.count, 1, null);
+	return /*#__PURE__*/ _jsxSorted("div", null, null, state.count, 1, null);
 };
 
 

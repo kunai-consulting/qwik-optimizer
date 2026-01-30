@@ -44,7 +44,7 @@ export const Foo_component_bj6aWAb5AEM = () => {
 	const qwik = useStylesQrl(qrl(() => import("./example_qwik_conflict.tsx_Foo_component_useStyles_uF9rJ0YgPYQ.js"), "Foo_component_useStyles_uF9rJ0YgPYQ"));
 	console.log(qwik);
 	const qrl = 23;
-	return /* @__PURE__ */ _jsxSorted("div", { on:click: qrl(() => import("./example_qwik_conflict.tsx.js"), "Foo_component_div_onClick", [qrl]) }, null, null, 3, null);
+	return /*#__PURE__*/ _jsxSorted("div", { on:click: qrl(() => import("./example_qwik_conflict.tsx.js"), "Foo_component_div_onClick", [qrl]) }, null, null, 3, null);
 };
 
 
@@ -168,7 +168,7 @@ None
 
 import { _jsxSorted } from "@qwik.dev/core";
 export const Root_component_1_wQlGTVuPwNk = () => {
-	return /* @__PURE__ */ _jsxSorted("div", null, null, null, 3, null);
+	return /*#__PURE__*/ _jsxSorted("div", null, null, null, 3, null);
 };
 
 

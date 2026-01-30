@@ -42,7 +42,7 @@ export const component_TR0O8wI8W8c = () => {
 		active: "Input",
 		list: PANELS
 	}));
-	return /* @__PURE__ */ _jsxSorted("div", {
+	return /*#__PURE__*/ _jsxSorted("div", {
 		stuff: panelStore.active ? "yes" : "no",
 		class: {
 			"too-long-to-wrap": true,

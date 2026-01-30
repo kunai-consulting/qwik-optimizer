@@ -19,7 +19,7 @@ export const App = Component((props) => {
 import { _jsxSorted, useStore, Qrl as onRender, componentQrl as Component } from "@qwik.dev/core";
 export const App = Component((props) => {
 	const state = useStore({ thing: 0 });
-	return onRender(() => /* @__PURE__ */ _jsxSorted("div", null, null, state.thing, 1, null));
+	return onRender(() => /*#__PURE__*/ _jsxSorted("div", null, null, state.thing, 1, null));
 });
 
 

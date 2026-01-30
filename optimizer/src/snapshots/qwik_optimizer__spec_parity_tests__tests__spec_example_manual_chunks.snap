@@ -81,7 +81,7 @@ import { _jsxSorted } from "@qwik.dev/core";
 export const Child_component_j4HyVQeRtoU = () => {
 	const state = useStore({ text: "" });
 	useTaskQrl(qrl(() => import("./example_manual_chunks.tsx_Child_component_useTask_OL000WqWc0k.js"), "Child_component_useTask_OL000WqWc0k", [state]));
-	return /* @__PURE__ */ _jsxSorted("div", { on:click: useTaskQrl(qrl(() => import("./example_manual_chunks.tsx_Child_component_useTask_OL000WqWc0k.js"), "Child_component_useTask_OL000WqWc0k", [state])) }, null, state.text, 1, null);
+	return /*#__PURE__*/ _jsxSorted("div", { on:click: useTaskQrl(qrl(() => import("./example_manual_chunks.tsx_Child_component_useTask_OL000WqWc0k.js"), "Child_component_useTask_OL000WqWc0k", [state])) }, null, state.text, 1, null);
 };
 
 
@@ -112,7 +112,7 @@ import { _jsxSorted } from "@qwik.dev/core";
 export const Parent_component_ok6MmANKRtw = () => {
 	const state = useStore({ text: "" });
 	useTaskQrl(qrl(() => import("./example_manual_chunks.tsx_Parent_component_useTask_95A7dV6HqnI.js"), "Parent_component_useTask_95A7dV6HqnI", [state]));
-	return /* @__PURE__ */ _jsxSorted("div", { on:click: useTaskQrl(qrl(() => import("./example_manual_chunks.tsx_Parent_component_useTask_95A7dV6HqnI.js"), "Parent_component_useTask_95A7dV6HqnI", [state])) }, null, state.text, 1, null);
+	return /*#__PURE__*/ _jsxSorted("div", { on:click: useTaskQrl(qrl(() => import("./example_manual_chunks.tsx_Parent_component_useTask_95A7dV6HqnI.js"), "Parent_component_useTask_95A7dV6HqnI", [state])) }, null, state.text, 1, null);
 };
 
 

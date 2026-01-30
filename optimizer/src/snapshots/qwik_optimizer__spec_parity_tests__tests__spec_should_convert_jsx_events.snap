@@ -39,10 +39,10 @@ None
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 export const ManyEventsComponent_component_G4OWRG2dK5E = () => {
-	return /* @__PURE__ */ _jsxSorted("div", null, null, [/* @__PURE__ */ _jsxSorted("button", {
+	return /*#__PURE__*/ _jsxSorted("div", null, null, [/*#__PURE__*/ _jsxSorted("button", {
 		on:click: qrl(() => import("./should_convert_jsx_events.tsx.js"), "ManyEventsComponent_component_div_button_onClick"),
 		on:dblclick: qrl(() => import("./should_convert_jsx_events.tsx.js"), "ManyEventsComponent_component_div_button_onDblClick")
-	}, null, "click", 3, null), /* @__PURE__ */ _jsxSorted("button", {
+	}, null, "click", 3, null), /*#__PURE__*/ _jsxSorted("button", {
 		on:click: qrl(() => import("./should_convert_jsx_events.tsx.js"), "ManyEventsComponent_component_div_button_onClick_1"),
 		on:blur: qrl(() => import("./should_convert_jsx_events.tsx.js"), "ManyEventsComponent_component_div_button_onBlur"),
 		on:another-custom: qrl(() => import("./should_convert_jsx_events.tsx.js"), "ManyEventsComponent_component_div_button_on-anotherCustom"),

@@ -217,7 +217,7 @@ impl QrlComponent {
             ..Default::default()
         };
 
-        if options.minify && !options.format_output {
+        let code = if options.minify && !options.format_output {
             let ops = MinifierOptions {
                 compress: Some(CompressOptions::default()),
                 mangle: None,
@@ -233,7 +233,9 @@ impl QrlComponent {
                 .code
         } else {
             codegen.with_options(codegen_options).build(&new_pgm).code
-        }
+        };
+        // Post-process PURE annotations to match qwik-core format
+        code.replace("/* @__PURE__ */", "/*#__PURE__*/")
     }
 
     #[allow(clippy::too_many_arguments)]

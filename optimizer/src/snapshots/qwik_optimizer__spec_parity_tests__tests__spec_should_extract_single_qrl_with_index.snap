@@ -89,11 +89,11 @@ export const App_component_BG7ATvMKir4 = () => {
 	const data = useSignal([]);
 	const selectedItem = useSignal(null);
 	const clickedIndex = useSignal(null);
-	return /* @__PURE__ */ _jsxSorted("div", null, null, data.value.map((row, idx) => /* @__PURE__ */ _jsxSorted("tr", { class: _fnSignal((p0, p1) => p0.value.selected.value ? "danger" : "", [row, idx], "p0.value.selected.value?`danger`:``") }, null, [
-		/* @__PURE__ */ _jsxSorted("td", null, { class: "col-md-1" }, _fnSignal((p0, p1) => p0.value.id, [row, idx], "p0.value.id"), 1, null),
-		/* @__PURE__ */ _jsxSorted("td", null, { class: "col-md-4" }, /* @__PURE__ */ _jsxSorted("a", { on:click: qrl(() => import("./should_extract_single_qrl_with_index.tsx_App_component_div_map_tr_td_a_onClick_f2rG3o4XBOE.js"), "App_component_div_map_tr_td_a_onClick_f2rG3o4XBOE", [clickedIndex, selectedItem]) }, null, _wrapProp(row.value.label), 1, null), 3, null),
-		/* @__PURE__ */ _jsxSorted("td", null, { class: "col-md-1" }, /* @__PURE__ */ _jsxSorted("a", { on:click: qrl(() => import("./should_extract_single_qrl_with_index.tsx_App_component_div_map_tr_td_a_onClick_1_TPSouZvQJzc.js"), "App_component_div_map_tr_td_a_onClick_1_TPSouZvQJzc", [data]) }, null, /* @__PURE__ */ _jsxSorted("span", null, { aria-hidden: "true" }, "x", 3, null), 3, null), 3, null),
-		/* @__PURE__ */ _jsxSorted("td", null, { class: "col-md-6" }, null, 3, null)
+	return /*#__PURE__*/ _jsxSorted("div", null, null, data.value.map((row, idx) => /*#__PURE__*/ _jsxSorted("tr", { class: _fnSignal((p0, p1) => p0.value.selected.value ? "danger" : "", [row, idx], "p0.value.selected.value?`danger`:``") }, null, [
+		/*#__PURE__*/ _jsxSorted("td", null, { class: "col-md-1" }, _fnSignal((p0, p1) => p0.value.id, [row, idx], "p0.value.id"), 1, null),
+		/*#__PURE__*/ _jsxSorted("td", null, { class: "col-md-4" }, /*#__PURE__*/ _jsxSorted("a", { on:click: qrl(() => import("./should_extract_single_qrl_with_index.tsx_App_component_div_map_tr_td_a_onClick_f2rG3o4XBOE.js"), "App_component_div_map_tr_td_a_onClick_f2rG3o4XBOE", [clickedIndex, selectedItem]) }, null, _wrapProp(row.value.label), 1, null), 3, null),
+		/*#__PURE__*/ _jsxSorted("td", null, { class: "col-md-1" }, /*#__PURE__*/ _jsxSorted("a", { on:click: qrl(() => import("./should_extract_single_qrl_with_index.tsx_App_component_div_map_tr_td_a_onClick_1_TPSouZvQJzc.js"), "App_component_div_map_tr_td_a_onClick_1_TPSouZvQJzc", [data]) }, null, /*#__PURE__*/ _jsxSorted("span", null, { aria-hidden: "true" }, "x", 3, null), 3, null), 3, null),
+		/*#__PURE__*/ _jsxSorted("td", null, { class: "col-md-6" }, null, 3, null)
 	], 3, untrack(() => row.value.id))), 1, null);
 };
 

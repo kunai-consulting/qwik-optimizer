@@ -47,8 +47,8 @@ export const App_component_0Uh5oJsjbyw = () => {
 			selected: { value: true }
 		} }
 	] };
-	return /* @__PURE__ */ _jsxSorted("table", null, null, data.value.map((row) => {
-		return /* @__PURE__ */ _jsxSorted("tr", { class: _fnSignal((p0) => p0.value.selected.value ? "danger" : "", [row], "p0.value.selected.value?`danger`:``") }, null, /* @__PURE__ */ _jsxSorted("td", null, null, _fnSignal((p0) => p0.value.id, [row], "p0.value.id"), 1, null), 3, _fnSignal((p0) => p0.value.id, [row], "p0.value.id"));
+	return /*#__PURE__*/ _jsxSorted("table", null, null, data.value.map((row) => {
+		return /*#__PURE__*/ _jsxSorted("tr", { class: _fnSignal((p0) => p0.value.selected.value ? "danger" : "", [row], "p0.value.selected.value?`danger`:``") }, null, /*#__PURE__*/ _jsxSorted("td", null, null, _fnSignal((p0) => p0.value.id, [row], "p0.value.id"), 1, null), 3, _fnSignal((p0) => p0.value.id, [row], "p0.value.id"));
 	}), 1, null);
 };
 

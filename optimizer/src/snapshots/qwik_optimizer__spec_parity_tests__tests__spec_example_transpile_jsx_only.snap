@@ -18,7 +18,7 @@ export const App = component$((props) => {
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 export const App_component_Qk2mU66h51I = (props) => {
-	return _jsxSorted(Cmp, null, null, /* @__PURE__ */ _jsxSorted("p", { on:click: qrl(() => import("./example_transpile_jsx_only.tsx.js"), "App_component_Cmp_p_onClick") }, { class: "stuff" }, "Hello Qwik", 3, null), 3, null);
+	return _jsxSorted(Cmp, null, null, /*#__PURE__*/ _jsxSorted("p", { on:click: qrl(() => import("./example_transpile_jsx_only.tsx.js"), "App_component_Cmp_p_onClick") }, { class: "stuff" }, "Hello Qwik", 3, null), 3, null);
 };
 
 

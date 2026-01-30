@@ -24,7 +24,7 @@ export const FieldInput = component$(() => {
 import { _jsxSorted, qrl, useSignal } from "@qwik.dev/core";
 export const FieldInput_component_vW5302DrkaM = () => {
 	const localValue = useSignal(false);
-	return /* @__PURE__ */ _jsxSorted("input", null, {
+	return /*#__PURE__*/ _jsxSorted("input", null, {
 		checked: localValue,
 		on:input: [qrl(() => import("./should_merge_on_input_and_bind_checked.tsx.js"), "FieldInput_component_input_onInput"), inlinedQrl(_chk, "_chk", [localValue])]
 	}, null, 3, null);

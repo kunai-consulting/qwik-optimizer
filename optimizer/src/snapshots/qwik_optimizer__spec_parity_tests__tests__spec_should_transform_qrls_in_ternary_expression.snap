@@ -40,7 +40,7 @@ import { _jsxSorted, qrl, useSignal } from "@qwik.dev/core";
 export const FieldInput_component_UpjUSe16JYE = () => {
 	const enabled = useSignal(false);
 	const input = useSignal("");
-	return /* @__PURE__ */ _jsxSorted("input", {
+	return /*#__PURE__*/ _jsxSorted("input", {
 		on:input: qrl(() => import("./should_transform_qrls_in_ternary_expression.tsx_FieldInput_component_input_onInput_1_nr72jKD0uZI.js"), "FieldInput_component_input_onInput_1_nr72jKD0uZI", [input]),
 		on:focus: qrl(() => import("./should_transform_qrls_in_ternary_expression.tsx.js"), "FieldInput_component_input_onFocus", [enabled])
 	}, { id: "input" }, null, 3, null);

@@ -28,7 +28,7 @@ import { _jsxSorted } from "@qwik.dev/core";
 import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
 export const component_m0d6HKr04bo = (props) => {
 	const item = props.something.count;
-	return /* @__PURE__ */ _jsxSorted(_Fragment, null, null, /* @__PURE__ */ _jsxSorted("div", { data-wrap: props.myobj.id + "test" }, { data-no-wrap: item ? item * 2 : null }, null, 3, null), 3, null);
+	return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, /*#__PURE__*/ _jsxSorted("div", { data-wrap: props.myobj.id + "test" }, { data-no-wrap: item ? item * 2 : null }, null, 3, null), 3, null);
 };
 
 

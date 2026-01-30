@@ -72,7 +72,7 @@ export const App_component_lqTjl2rpomE = (props) => {
 	const signal = useSignal(0);
 	const store = useStore({});
 	const count = props.counter.count;
-	return /* @__PURE__ */ _jsxSorted("div", {
+	return /*#__PURE__*/ _jsxSorted("div", {
 		staticClass: styles.foo,
 		staticDocument: window.document,
 		signalValue: _wrapProp(signal),

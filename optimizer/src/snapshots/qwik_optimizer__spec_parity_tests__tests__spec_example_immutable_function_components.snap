@@ -18,7 +18,7 @@ export const App = component$((props: Stuff) => {
 
 import { Slot, _jsxSorted } from "@qwik.dev/core";
 export const App_component_JSjeGHs3sWk = (props) => {
-	return /* @__PURE__ */ _jsxSorted("div", null, null, _jsxSorted(Slot, null, null, null, 3, null), 3, null);
+	return /*#__PURE__*/ _jsxSorted("div", null, null, _jsxSorted(Slot, null, null, null, 3, null), 3, null);
 };
 
 

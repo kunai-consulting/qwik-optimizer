@@ -25,7 +25,7 @@ None
 import { state } from "./sibling";
 import { _jsxSorted } from "@qwik.dev/core";
 export const Local_component_sWOiIooheYg = () => {
-	return /* @__PURE__ */ _jsxSorted("div", null, null, state, 1, null);
+	return /*#__PURE__*/ _jsxSorted("div", null, null, state, 1, null);
 };
 
 

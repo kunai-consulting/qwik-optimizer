@@ -24,7 +24,7 @@ export const Works = component$(({fromProps}) => {
 import { _jsxSorted, useSignal } from "@qwik.dev/core";
 export const Works_component_LrfB2f8y0FQ = ({ fromProps }) => {
 	let fromLocal = useSignal(0);
-	return /* @__PURE__ */ _jsxSorted("div", null, null, [
+	return /*#__PURE__*/ _jsxSorted("div", null, null, [
 		fromLocal,
 		_wrapProp(_rawProps, "fromProps"),
 		fromLocal + fromProps,

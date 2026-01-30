@@ -31,8 +31,8 @@ export const component_KLKKMDeygxU = (props) => {
 	const renders = useStore({ count: 0 }, { reactive: false });
 	renders.count++;
 	const rerenders = renders.count + 0;
-	const Id = (props) => /* @__PURE__ */ _jsxSorted("div", null, null, ["Id:", props.id], 1, null);
-	return /* @__PURE__ */ _jsxSorted(_Fragment, null, null, [_jsxSorted(Id, { id: props.id }, null, null, 3, null), rerenders], 1, null);
+	const Id = (props) => /*#__PURE__*/ _jsxSorted("div", null, null, ["Id:", props.id], 1, null);
+	return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [_jsxSorted(Id, { id: props.id }, null, null, 3, null), rerenders], 1, null);
 };
 
 

@@ -106,7 +106,7 @@ None
 import { _jsxSorted } from "@qwik.dev/core";
 export const App_component_1_YsVX9g86VKc = () => {
 	const [state] = useLexicalScope();
-	return /* @__PURE__ */ _jsxSorted("div", null, null, state.count, 1, null);
+	return /*#__PURE__*/ _jsxSorted("div", null, null, state.count, 1, null);
 };
 
 

@@ -71,7 +71,7 @@ export const App_component_BaANpMtVD1s = () => {
 	const stuff = useStore();
 	serverStuffQrl(qrl(() => import("./example_noop_dev_mode.tsx_App_component_serverStuff_nmX08tX3gCM.js"), "App_component_serverStuff_nmX08tX3gCM", [stuff]));
 	serverStuffQrl(qrl(() => import("./example_noop_dev_mode.tsx_App_component_serverStuff_1_tr0kky31M4E.js"), "App_component_serverStuff_1_tr0kky31M4E"));
-	return _jsxSorted(Cmp, null, null, /* @__PURE__ */ _jsxSorted("p", {
+	return _jsxSorted(Cmp, null, null, /*#__PURE__*/ _jsxSorted("p", {
 		shouldRemove$: serverStuffQrl(qrl(() => import("./example_noop_dev_mode.tsx_App_component_serverStuff_1_tr0kky31M4E.js"), "App_component_serverStuff_1_tr0kky31M4E")),
 		on:click: serverStuffQrl(qrl(() => import("./example_noop_dev_mode.tsx_App_component_serverStuff_nmX08tX3gCM.js"), "App_component_serverStuff_nmX08tX3gCM", [stuff]))
 	}, { class: "stuff" }, "Hello Qwik", 3, null), 3, null);

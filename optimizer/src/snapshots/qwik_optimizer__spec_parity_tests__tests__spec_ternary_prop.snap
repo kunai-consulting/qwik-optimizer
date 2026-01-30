@@ -25,7 +25,7 @@ import { _jsxSorted, qrl, useSignal } from "@qwik.dev/core";
 export const Cmp_component_wXRs53PuG1k = () => {
 	const toggleSig = useSignal(false);
 	const handleClick$ = qrl(() => import("./ternary_prop.tsx_Cmp_component_handleClick_1_3TrHxsRcNoU.js"), "Cmp_component_handleClick_1_3TrHxsRcNoU", [toggleSig]);
-	return /* @__PURE__ */ _jsxSorted("button", { data-open: toggleSig.value ? true : undefined }, { on:click: handleClick$ }, "Removing data-open re-renders", 3, null);
+	return /*#__PURE__*/ _jsxSorted("button", { data-open: toggleSig.value ? true : undefined }, { on:click: handleClick$ }, "Removing data-open re-renders", 3, null);
 };
 
 

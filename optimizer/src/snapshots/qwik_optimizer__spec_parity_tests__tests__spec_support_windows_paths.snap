@@ -17,7 +17,7 @@ None
 ============================= ./components\apps\apps.tsx_Greeter_component_Q7eEoxaolmI.js (ENTRY POINT)==
 
 import { _jsxSorted } from "@qwik.dev/core";
-export const Greeter_component_Q7eEoxaolmI = () => /* @__PURE__ */ _jsxSorted("div", null, null, null, 3, null);
+export const Greeter_component_Q7eEoxaolmI = () => /*#__PURE__*/ _jsxSorted("div", null, null, null, 3, null);
 
 
 None

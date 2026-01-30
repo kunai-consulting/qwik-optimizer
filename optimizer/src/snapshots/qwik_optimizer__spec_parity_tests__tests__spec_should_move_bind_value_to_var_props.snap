@@ -38,7 +38,7 @@ import { _getConstProps, _getVarProps, _jsxSplit, qrl } from "@qwik.dev/core";
 export const FieldInput_component_jF56ghUqNi0 = (props) => {
 	const initialValues = { value: undefined };
 	const rest = destructureBindings(props, initialValues);
-	return /* @__PURE__ */ _jsxSplit("input", {
+	return /*#__PURE__*/ _jsxSplit("input", {
 		..._getVarProps(rest),
 		on:click: qrl(() => import("./should_move_bind_value_to_var_props.tsx.js"), "FieldInput_component_input_onClick")
 	}, _getConstProps(rest), null, 0, null);

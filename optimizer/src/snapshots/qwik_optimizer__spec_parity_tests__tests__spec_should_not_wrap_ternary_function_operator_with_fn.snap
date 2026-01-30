@@ -28,7 +28,7 @@ import { _jsxSorted, useSignal } from "@qwik.dev/core";
 export const component_nWh6ksvJtT4 = () => {
 	const toggle = useSignal(true);
 	const t = (key) => key;
-	return /* @__PURE__ */ _jsxSorted("button", { title: toggle.value !== "" ? t("app.message.exists@@there is a message for you") : t("app.message.not_exists@@click to get a message!") }, { type: "button" }, null, 3, null);
+	return /*#__PURE__*/ _jsxSorted("button", { title: toggle.value !== "" ? t("app.message.exists@@there is a message for you") : t("app.message.not_exists@@click to get a message!") }, { type: "button" }, null, 3, null);
 };
 
 

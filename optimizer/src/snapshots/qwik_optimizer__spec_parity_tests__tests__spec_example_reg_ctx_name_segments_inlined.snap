@@ -53,7 +53,7 @@ None
 import { _jsxSorted, qrl, serverQrl } from "@qwik.dev/core";
 export const Works_component_AROoLgAJDOE = (props) => {
 	const text = "hola";
-	return /* @__PURE__ */ _jsxSorted("div", { on:click: serverQrl(qrl(() => import("./example_reg_ctx_name_segments_inlined.tsx_Works_component_div_onClick_server_d8UBeO5neSY.js"), "Works_component_div_onClick_server_d8UBeO5neSY", [text])) }, null, null, 3, null);
+	return /*#__PURE__*/ _jsxSorted("div", { on:click: serverQrl(qrl(() => import("./example_reg_ctx_name_segments_inlined.tsx_Works_component_div_onClick_server_d8UBeO5neSY.js"), "Works_component_div_onClick_server_d8UBeO5neSY", [text])) }, null, null, 3, null);
 };
 
 

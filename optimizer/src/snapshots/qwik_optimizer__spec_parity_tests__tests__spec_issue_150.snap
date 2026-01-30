@@ -86,7 +86,7 @@ import { _jsxSorted } from "@qwik.dev/core";
 import { hola } from "sdfds";
 export const Greeter_component_1_n0fwlO3BxZ4 = () => {
 	const [stuff] = useLexicalScope();
-	return /* @__PURE__ */ _jsxSorted("div", { class: {
+	return /*#__PURE__*/ _jsxSorted("div", { class: {
 		"foo": true,
 		"bar": stuff.condition,
 		"baz": hola ? "true" : "false"

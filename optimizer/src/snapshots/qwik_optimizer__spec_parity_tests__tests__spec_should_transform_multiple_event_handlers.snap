@@ -73,10 +73,10 @@ None
 import { _jsxSorted, qrl, useSignal } from "@qwik.dev/core";
 export const Foo_component_9sC0K6gcHmk = function() {
 	const data = useSignal([]);
-	return /* @__PURE__ */ _jsxSorted("div", null, null, data.value.map((row) => /* @__PURE__ */ _jsxSorted("div", {
+	return /*#__PURE__*/ _jsxSorted("div", null, null, data.value.map((row) => /*#__PURE__*/ _jsxSorted("div", {
 		on:click: qrl(() => import("./should_transform_multiple_event_handlers.tsx_Foo_component_div_map_div_onClick_XOagi40n8ho.js"), "Foo_component_div_map_div_onClick_XOagi40n8ho"),
 		on:mouseover: qrl(() => import("./should_transform_multiple_event_handlers.tsx_Foo_component_div_map_div_onMouseOver_zx8EU4EZhTs.js"), "Foo_component_div_map_div_onMouseOver_zx8EU4EZhTs")
-	}, null, /* @__PURE__ */ _jsxSorted("p", { on:click: qrl(() => import("./should_transform_multiple_event_handlers.tsx_Foo_component_div_map_div_p_onClick_75YEdFOa3e4.js"), "Foo_component_div_map_div_p_onClick_75YEdFOa3e4") }, null, item.value.id, 1, null), 3, null)), 1, null);
+	}, null, /*#__PURE__*/ _jsxSorted("p", { on:click: qrl(() => import("./should_transform_multiple_event_handlers.tsx_Foo_component_div_map_div_p_onClick_75YEdFOa3e4.js"), "Foo_component_div_map_div_p_onClick_75YEdFOa3e4") }, null, item.value.id, 1, null), 3, null)), 1, null);
 };
 
 

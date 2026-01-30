@@ -21,7 +21,7 @@ None
 
 import { _getConstProps, _getVarProps, _jsxSplit } from "@qwik.dev/core";
 export const component_lIIsCU6UqXw = (props) => {
-	return /* @__PURE__ */ _jsxSplit("div", {
+	return /*#__PURE__*/ _jsxSplit("div", {
 		..._getVarProps(props),
 		class: [props.class, "component"],
 		..._getVarProps(props)

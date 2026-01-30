@@ -18,7 +18,7 @@ export const App = component$((props) => {
 ============================= ./example_skip_transform.tsx_App_component_1_qZcUZHIGdhQ.js (ENTRY POINT)==
 
 import { _jsxSorted } from "@qwik.dev/core";
-export const App_component_1_qZcUZHIGdhQ = () => /* @__PURE__ */ _jsxSorted("div", null, null, state.thing, 1, null);
+export const App_component_1_qZcUZHIGdhQ = () => /*#__PURE__*/ _jsxSorted("div", null, null, state.thing, 1, null);
 
 
 None

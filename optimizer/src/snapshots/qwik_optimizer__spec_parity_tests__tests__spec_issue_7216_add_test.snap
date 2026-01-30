@@ -21,7 +21,7 @@ export default component$((props) => {
 
 import { _getConstProps, _getVarProps, _jsxSplit, qrl } from "@qwik.dev/core";
 export const component_I5K09rr6byg = (props) => {
-	return /* @__PURE__ */ _jsxSplit("p", {
+	return /*#__PURE__*/ _jsxSplit("p", {
 		on:hi: qrl(() => import("./issue_7216_add_test.tsx.js"), "component_p_onHi"),
 		..._getVarProps(props.foo),
 		on:hello: props.helloHandler$,

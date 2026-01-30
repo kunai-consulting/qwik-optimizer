@@ -31,7 +31,7 @@ None
 import { _jsxSorted, qrl, useSignal } from "@qwik.dev/core";
 export const FieldInput_component_TeVdetEzCYQ = () => {
 	const localValue = useSignal("");
-	return /* @__PURE__ */ _jsxSorted("input", null, {
+	return /*#__PURE__*/ _jsxSorted("input", null, {
 		value: localValue,
 		on:input: [qrl(() => import("./should_merge_on_input_and_bind_value.tsx.js"), "FieldInput_component_input_onInput"), inlinedQrl(_val, "_val", [localValue])]
 	}, null, 3, null);

@@ -33,7 +33,7 @@ None
 import { _jsxSorted, useSignal } from "@qwik.dev/core";
 export const Works_component_X6FZK0kqFbo = (props) => {
 	let fromLocal = useSignal(0);
-	return /* @__PURE__ */ _jsxSorted("div", null, null, [
+	return /*#__PURE__*/ _jsxSorted("div", null, null, [
 		"before-",
 		fromLocal,
 		props.fromProps,

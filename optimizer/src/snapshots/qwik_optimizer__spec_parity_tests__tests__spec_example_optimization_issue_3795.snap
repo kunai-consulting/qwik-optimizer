@@ -31,7 +31,7 @@ export const Issue3795_component_TM6XuigdMPg = () => {
 	const firstAssignment = base;
 	base += "bar";
 	const secondAssignment = base;
-	return /* @__PURE__ */ _jsxSorted("div", null, { id: "issue-3795-result" }, [firstAssignment, secondAssignment], 1, null);
+	return /*#__PURE__*/ _jsxSorted("div", null, { id: "issue-3795-result" }, [firstAssignment, secondAssignment], 1, null);
 };
 
 

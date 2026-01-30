@@ -41,7 +41,7 @@ export const Cmp_component_GNFKuDlkc3k = () => {
 	const getStep = (step, type) => {
 		return step === "STEP_1" ? "STEP_2" : "STEP_1";
 	};
-	return /* @__PURE__ */ _jsxSorted(_Fragment, null, null, [/* @__PURE__ */ _jsxSorted("button", { on:click: qrl(() => import("./should_not_wrap_fn.tsx.js"), "Cmp_component_button_onClick", [currentType]) }, null, "CLICK", 3, null), _jsxSorted(A, { href: getStep(currentStep.value, currentType.value) }, null, null, 3, null)], 3, null);
+	return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [/*#__PURE__*/ _jsxSorted("button", { on:click: qrl(() => import("./should_not_wrap_fn.tsx.js"), "Cmp_component_button_onClick", [currentType]) }, null, "CLICK", 3, null), _jsxSorted(A, { href: getStep(currentStep.value, currentType.value) }, null, null, 3, null)], 3, null);
 };
 
 

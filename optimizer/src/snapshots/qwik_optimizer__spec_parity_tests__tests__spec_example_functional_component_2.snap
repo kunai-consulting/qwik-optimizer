@@ -73,7 +73,7 @@ export const App_component_p6uB2qXBgm4 = (props) => {
 	const thing = useStore({ thing: 0 });
 	const STEP_2 = 2;
 	const count2 = state.count * 2;
-	return /* @__PURE__ */ _jsxSorted("div", { on:click: qrl(() => import("./example_functional_component_2.tsx.js"), "App_component_div_onClick", [count2, state]) }, null, [/* @__PURE__ */ _jsxSorted("span", null, null, state.count, 1, null), buttons.map((btn) => /* @__PURE__ */ _jsxSorted("button", { on:click: qrl(() => import("./example_functional_component_2.tsx_App_component_div_map_button_onClick_sbIqTncz8UU.js"), "App_component_div_map_button_onClick_sbIqTncz8UU", [
+	return /*#__PURE__*/ _jsxSorted("div", { on:click: qrl(() => import("./example_functional_component_2.tsx.js"), "App_component_div_onClick", [count2, state]) }, null, [/*#__PURE__*/ _jsxSorted("span", null, null, state.count, 1, null), buttons.map((btn) => /*#__PURE__*/ _jsxSorted("button", { on:click: qrl(() => import("./example_functional_component_2.tsx_App_component_div_map_button_onClick_sbIqTncz8UU.js"), "App_component_div_map_button_onClick_sbIqTncz8UU", [
 		STEP_2,
 		props,
 		state,

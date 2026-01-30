@@ -21,7 +21,7 @@ return <Hola>
 
 import { _jsxSorted } from "@qwik.dev/core";
 export const component_ADYPS3WuK14 = () => {
-	return _jsxSorted(Hola, null, null, [/* @__PURE__ */ _jsxSorted("div", null, null, "1", 3, null), /* @__PURE__ */ _jsxSorted("div", null, null, "2", 3, null)], 3, null);
+	return _jsxSorted(Hola, null, null, [/*#__PURE__*/ _jsxSorted("div", null, null, "1", 3, null), /*#__PURE__*/ _jsxSorted("div", null, null, "2", 3, null)], 3, null);
 };
 
 
@@ -50,7 +50,7 @@ None
 
 import { _getConstProps, _getVarProps, _jsxSplit, componentQrl, qrl } from "@qwik.dev/core";
 function Hola(props) {
-	return /* @__PURE__ */ _jsxSplit("div", { ..._getVarProps(props) }, _getConstProps(props), null, 0, null);
+	return /*#__PURE__*/ _jsxSplit("div", { ..._getVarProps(props) }, _getConstProps(props), null, 0, null);
 }
 export default componentQrl(qrl(() => import("./should_split_spread_props_with_additional_prop5.tsx_component_ADYPS3WuK14.js"), "component_ADYPS3WuK14"));
 

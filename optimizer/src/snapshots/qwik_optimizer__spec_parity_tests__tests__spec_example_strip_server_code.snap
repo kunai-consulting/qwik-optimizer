@@ -178,7 +178,7 @@ export const s_w5E0E9exVp0 = () => {
 	serverStuffQrl(qrl(() => import("./example_strip_server_code.tsx_s_eJVbqUgUhAA.js"), "s_eJVbqUgUhAA"));
 	serverLoaderQrl(qrl(() => import("./example_strip_server_code.tsx_s_QzLANtCpgqY.js"), "s_QzLANtCpgqY"));
 	useTaskQrl(qrl(() => import("./example_strip_server_code.tsx_s_33lR4XqeKI4.js"), "s_33lR4XqeKI4"));
-	return /* @__PURE__ */ _jsxSorted("div", { on:click: useTaskQrl(qrl(() => import("./example_strip_server_code.tsx_s_33lR4XqeKI4.js"), "s_33lR4XqeKI4")) }, null, state.text, 1, null);
+	return /*#__PURE__*/ _jsxSorted("div", { on:click: useTaskQrl(qrl(() => import("./example_strip_server_code.tsx_s_33lR4XqeKI4.js"), "s_33lR4XqeKI4")) }, null, state.text, 1, null);
 };
 
 

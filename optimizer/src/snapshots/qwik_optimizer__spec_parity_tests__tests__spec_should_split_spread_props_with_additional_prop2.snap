@@ -23,7 +23,7 @@ None
 
 import { _getConstProps, _getVarProps, _jsxSplit } from "@qwik.dev/core";
 export const component_Cfroz8hlVp8 = (props) => {
-	return /* @__PURE__ */ _jsxSplit("div", {
+	return /*#__PURE__*/ _jsxSplit("div", {
 		test: "test",
 		..._getVarProps(props)
 	}, _getConstProps(props), null, 0, null);

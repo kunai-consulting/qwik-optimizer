@@ -31,11 +31,11 @@ import { _getConstProps, _getVarProps, _jsxSorted, _jsxSplit, useSignal } from "
 import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
 export const FieldInput_component_O7e736kxgiI = (props) => {
 	const input = useSignal("");
-	return /* @__PURE__ */ _jsxSorted(_Fragment, null, null, [/* @__PURE__ */ _jsxSplit("input", {
+	return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [/*#__PURE__*/ _jsxSplit("input", {
 		value: input,
 		on:input: inlinedQrl(_val, "_val", [input]),
 		..._getVarProps(props)
-	}, _getConstProps(props), null, 0, null), /* @__PURE__ */ _jsxSplit("input", { ..._getVarProps(props) }, _getConstProps(props), null, 0, null)], 3, null);
+	}, _getConstProps(props), null, 0, null), /*#__PURE__*/ _jsxSplit("input", { ..._getVarProps(props) }, _getConstProps(props), null, 0, null)], 3, null);
 };
 
 

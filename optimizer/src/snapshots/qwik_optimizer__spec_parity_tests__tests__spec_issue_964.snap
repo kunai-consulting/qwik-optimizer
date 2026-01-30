@@ -21,7 +21,7 @@ export const App_component_mGS56mGKM0E = () => {
 	console.log(function* (lo, t) {
 		console.log(yield (yield lo)(t.href).then((r) => r.json()));
 	});
-	return /* @__PURE__ */ _jsxSorted("p", null, null, "Hello Qwik", 3, null);
+	return /*#__PURE__*/ _jsxSorted("p", null, null, "Hello Qwik", 3, null);
 };
 
 

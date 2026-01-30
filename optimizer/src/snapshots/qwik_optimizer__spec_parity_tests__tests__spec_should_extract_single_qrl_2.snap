@@ -47,13 +47,13 @@ import { _jsxSorted, qrl, useSignal, useStore } from "@qwik.dev/core";
 export const Parent_component_aSM0bQEMPbU = () => {
 	const cart = useStore([]);
 	const results = useSignal(["foo", "bar"]);
-	return /* @__PURE__ */ _jsxSorted("div", null, null, [
-		/* @__PURE__ */ _jsxSorted("button", { on:click: qrl(() => import("./should_extract_single_qrl_2.tsx.js"), "Parent_component_div_button_onClick", [results]) }, { id: "first" }, null, 3, null),
-		results.value.map((item, key) => /* @__PURE__ */ _jsxSorted("button", {
+	return /*#__PURE__*/ _jsxSorted("div", null, null, [
+		/*#__PURE__*/ _jsxSorted("button", { on:click: qrl(() => import("./should_extract_single_qrl_2.tsx.js"), "Parent_component_div_button_onClick", [results]) }, { id: "first" }, null, 3, null),
+		results.value.map((item, key) => /*#__PURE__*/ _jsxSorted("button", {
 			id: "second-" + key,
 			on:click: qrl(() => import("./should_extract_single_qrl_2.tsx_Parent_component_div_map_button_onClick_sAbiN5OoGe4.js"), "Parent_component_div_map_button_onClick_sAbiN5OoGe4", [cart])
 		}, null, item, 1, null)),
-		/* @__PURE__ */ _jsxSorted("ul", null, null, cart.map((item) => /* @__PURE__ */ _jsxSorted("li", null, null, /* @__PURE__ */ _jsxSorted("span", null, null, item, 1, null), 3, null)), 1, null)
+		/*#__PURE__*/ _jsxSorted("ul", null, null, cart.map((item) => /*#__PURE__*/ _jsxSorted("li", null, null, /*#__PURE__*/ _jsxSorted("span", null, null, item, 1, null), 3, null)), 1, null)
 	], 1, null);
 };
 

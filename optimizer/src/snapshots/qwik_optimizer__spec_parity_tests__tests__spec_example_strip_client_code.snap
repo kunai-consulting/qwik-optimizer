@@ -81,7 +81,7 @@ export const Parent_component_t6Wy3C0Q0XM = () => {
 	const state = useStore({ text: "" });
 	useClientMountQrl(qrl(() => import("./component.tsx_Parent_component_useClientMount_Yn2kIDABoYw.js"), "Parent_component_useClientMount_Yn2kIDABoYw", [state]));
 	useTaskQrl(qrl(() => import("./component.tsx_Parent_component_useTask_ngmvcygWux8.js"), "Parent_component_useTask_ngmvcygWux8"));
-	return /* @__PURE__ */ _jsxSorted("div", {
+	return /*#__PURE__*/ _jsxSorted("div", {
 		shouldRemove$: useTaskQrl(qrl(() => import("./component.tsx_Parent_component_useTask_ngmvcygWux8.js"), "Parent_component_useTask_ngmvcygWux8")),
 		on:click: useClientMountQrl(qrl(() => import("./component.tsx_Parent_component_useClientMount_Yn2kIDABoYw.js"), "Parent_component_useClientMount_Yn2kIDABoYw", [state]))
 	}, null, [_jsxSorted(Div, {

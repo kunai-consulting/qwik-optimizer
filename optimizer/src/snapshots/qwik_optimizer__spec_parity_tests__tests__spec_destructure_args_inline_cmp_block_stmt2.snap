@@ -21,7 +21,7 @@ export default (props: { data: any }) => {
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 export default (props) => {
 	const { data } = props;
-	return /* @__PURE__ */ _jsxSorted("div", {
+	return /*#__PURE__*/ _jsxSorted("div", {
 		data-is-active: data.selectedOutputDetail === "options",
 		on:click: qrl(() => import("./destructure_args_inline_cmp_block_stmt2.tsx.js"), "div_onClick")
 	}, null, null, 3, null);

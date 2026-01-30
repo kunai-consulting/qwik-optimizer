@@ -74,7 +74,7 @@ None
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 export const Foo_component_1_u3P4ZlOev6I = () => {
 	const handler = qrl(() => import("./example_jsx_listeners.tsx_Foo_component_handler_qsIND80K9ow.js"), "Foo_component_handler_qsIND80K9ow");
-	return /* @__PURE__ */ _jsxSorted("div", {
+	return /*#__PURE__*/ _jsxSorted("div", {
 		on:click: qrl(() => import("./example_jsx_listeners.tsx.js"), "Foo_component_1_div_onClick"),
 		on:documentscroll: qrl(() => import("./example_jsx_listeners.tsx.js"), "Foo_component_1_div_onDocumentScroll"),
 		on:documentscroll: qrl(() => import("./example_jsx_listeners.tsx.js"), "Foo_component_1_div_onDocumentScroll_1"),

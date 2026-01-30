@@ -30,7 +30,7 @@ export const component_GlftmZLvuro = ({ message, id, count: c, ...rest }) => {
 	const renders = useStore({ renders: 0 }, { reactive: false });
 	renders.renders++;
 	const rerenders = renders.renders + 0;
-	return /* @__PURE__ */ _jsxSorted("div", { id: _wrapProp(_rawProps, "id") }, null, [/* @__PURE__ */ _jsxSplit("span", { ..._getVarProps(rest) }, _getConstProps(rest), [_wrapProp(_rawProps, "message"), _wrapProp(_rawProps, "count")], 0, null), /* @__PURE__ */ _jsxSorted("div", null, { class: "renders" }, rerenders, 1, null)], 3, null);
+	return /*#__PURE__*/ _jsxSorted("div", { id: _wrapProp(_rawProps, "id") }, null, [/*#__PURE__*/ _jsxSplit("span", { ..._getVarProps(rest) }, _getConstProps(rest), [_wrapProp(_rawProps, "message"), _wrapProp(_rawProps, "count")], 0, null), /*#__PURE__*/ _jsxSorted("div", null, { class: "renders" }, rerenders, 1, null)], 3, null);
 };
 
 

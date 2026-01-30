@@ -46,7 +46,7 @@ export const Child_component_mqGppPl3Vsw = () => {
 	const propCounterWithNested = useSignal(() => {
 		return { data: [{ attributeInArray: { counter: globalThis.propsCounter++ } }, { attributeInArray: { counter: globalThis.propsCounter } }] };
 	});
-	return /* @__PURE__ */ _jsxSorted("div", null, null, propCounterWithNested.value.data.map((item, index) => {
+	return /*#__PURE__*/ _jsxSorted("div", null, null, propCounterWithNested.value.data.map((item, index) => {
 		return _jsxSorted(TestComponent, { counter: _fnSignal((p0, p1) => p0.attributeInArray.counter, [item, index], "p0.attributeInArray.counter") }, { logString: "Nested read through array" }, null, 3, index);
 	}), 1, null);
 };

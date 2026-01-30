@@ -32,7 +32,7 @@ None
 import { _jsxSorted, qrl, useSignal } from "@qwik.dev/core";
 export const Issue3742_component_PQ3njr4eKr4 = ({ description = "", other }) => {
 	const counter = useSignal(0);
-	return /* @__PURE__ */ _jsxSorted("div", { title: description && "description" in other ? `Hello ${counter.value}` : `Bye ${counter.value}` }, null, ["Issue3742", /* @__PURE__ */ _jsxSorted("button", { on:click: qrl(() => import("./example_issue_33443.tsx.js"), "Issue3742_component_div_button_onClick", [counter]) }, null, "Increment", 3, null)], 3, null);
+	return /*#__PURE__*/ _jsxSorted("div", { title: description && "description" in other ? `Hello ${counter.value}` : `Bye ${counter.value}` }, null, ["Issue3742", /*#__PURE__*/ _jsxSorted("button", { on:click: qrl(() => import("./example_issue_33443.tsx.js"), "Issue3742_component_div_button_onClick", [counter]) }, null, "Increment", 3, null)], 3, null);
 };
 
 

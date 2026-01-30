@@ -27,7 +27,7 @@ None
 import { _jsxSorted, useSignal } from "@qwik.dev/core";
 export const component_GColZQ6KlD8 = () => {
 	const count = useSignal(0);
-	return /* @__PURE__ */ _jsxSorted("div", null, null, _wrapProp(count), 1, null);
+	return /*#__PURE__*/ _jsxSorted("div", null, null, _wrapProp(count), 1, null);
 };
 
 

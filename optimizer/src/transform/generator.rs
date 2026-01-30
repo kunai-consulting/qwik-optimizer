@@ -500,6 +500,8 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         let codegen = Codegen::new().with_options(codegen_options);
 
         let body = codegen.build(node).code;
+        // Post-process PURE annotations to match qwik-core format
+        let body = body.replace("/* @__PURE__ */", "/*#__PURE__*/");
 
         self.app = OptimizedApp {
             body,

@@ -32,7 +32,7 @@ None
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 export const App_component_1_CmRomoox4Hk = () => {
 	const [state] = useLexicalScope();
-	return /* @__PURE__ */ _jsxSorted("div", { on:click: qrl(() => import("./example_functional_component_capture_props.tsx.js"), "App_component_1_div_onClick", [state]) }, null, [
+	return /*#__PURE__*/ _jsxSorted("div", { on:click: qrl(() => import("./example_functional_component_capture_props.tsx.js"), "App_component_1_div_onClick", [state]) }, null, [
 		I2,
 		I3,
 		I4,

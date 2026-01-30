@@ -87,7 +87,7 @@ None
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 export const component_Iyb0rbIdi0U = () => {
-	return /* @__PURE__ */ _jsxSorted("button", { on:click: qrl(() => import("./example_drop_side_effects.tsx.js"), "component_button_onClick") }, null, null, 3, null);
+	return /*#__PURE__*/ _jsxSorted("button", { on:click: qrl(() => import("./example_drop_side_effects.tsx.js"), "component_button_onClick") }, null, null, 3, null);
 };
 
 

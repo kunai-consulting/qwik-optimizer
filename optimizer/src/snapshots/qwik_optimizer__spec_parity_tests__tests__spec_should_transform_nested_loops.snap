@@ -25,7 +25,7 @@ import { _fnSignal, _jsxSorted, qrl, useSignal } from "@qwik.dev/core";
 export const Foo_component_Cz0TozV0aEg = function() {
 	const data = useSignal([]);
 	const data2 = useSignal([]);
-	return /* @__PURE__ */ _jsxSorted("div", null, null, data.value.map((row) => /* @__PURE__ */ _jsxSorted("div", { on:click: qrl(() => import("./should_transform_nested_loops.tsx_Foo_component_div_map_div_onClick_aR80SEY5Guw.js"), "Foo_component_div_map_div_onClick_aR80SEY5Guw") }, null, data2.value.map((item) => /* @__PURE__ */ _jsxSorted("p", { on:click: qrl(() => import("./should_transform_nested_loops.tsx_Foo_component_div_map_div_map_p_onClick_9unwgHJ0eJI.js"), "Foo_component_div_map_div_map_p_onClick_9unwgHJ0eJI", [row]) }, null, [
+	return /*#__PURE__*/ _jsxSorted("div", null, null, data.value.map((row) => /*#__PURE__*/ _jsxSorted("div", { on:click: qrl(() => import("./should_transform_nested_loops.tsx_Foo_component_div_map_div_onClick_aR80SEY5Guw.js"), "Foo_component_div_map_div_onClick_aR80SEY5Guw") }, null, data2.value.map((item) => /*#__PURE__*/ _jsxSorted("p", { on:click: qrl(() => import("./should_transform_nested_loops.tsx_Foo_component_div_map_div_map_p_onClick_9unwgHJ0eJI.js"), "Foo_component_div_map_div_map_p_onClick_9unwgHJ0eJI", [row]) }, null, [
 		row.value.id,
 		"-",
 		_fnSignal((p0) => p0.value.id, [item], "p0.value.id")

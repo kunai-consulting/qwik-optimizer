@@ -35,7 +35,7 @@ import { inlineTranslate } from "translate-lib";
 export const component_t8YaDkmgCZs = () => {
 	const t = inlineTranslate();
 	const productTitle = useComputedQrl(qrl(() => import("./should_not_wrap_var_template_string.tsx_component_productTitle_useComputed_EKd81xgCo8Q.js"), "component_productTitle_useComputed_EKd81xgCo8Q"));
-	return /* @__PURE__ */ _jsxSorted("img", {
+	return /*#__PURE__*/ _jsxSorted("img", {
 		attr: t("home.imageAlt.founded-product:"),
 		alt: `${t("home.imageAlt.founded-product:")} ${productTitle.value}`
 	}, null, null, 3, null);

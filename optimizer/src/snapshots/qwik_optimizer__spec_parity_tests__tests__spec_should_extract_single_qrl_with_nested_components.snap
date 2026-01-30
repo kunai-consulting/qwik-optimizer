@@ -20,7 +20,7 @@ import { _fnSignal, _jsxSorted, qrl } from "@qwik.dev/core";
 export const Foo_component_Inner_component_w18tmCTFVVo = (props) => {
 	const [data] = useLexicalScope();
 	const data = props.data;
-	return /* @__PURE__ */ _jsxSorted("div", null, null, data.value.map((item) => /* @__PURE__ */ _jsxSorted("p", { on:click: qrl(() => import("./should_extract_single_qrl_with_nested_components.tsx_Foo_component_Inner_component_div_map_p_onClick_Xrv1cgBzIpg.js"), "Foo_component_Inner_component_div_map_p_onClick_Xrv1cgBzIpg") }, null, _fnSignal((p0) => p0.value.id, [item], "p0.value.id"), 1, null)), 1, null);
+	return /*#__PURE__*/ _jsxSorted("div", null, null, data.value.map((item) => /*#__PURE__*/ _jsxSorted("p", { on:click: qrl(() => import("./should_extract_single_qrl_with_nested_components.tsx_Foo_component_Inner_component_div_map_p_onClick_Xrv1cgBzIpg.js"), "Foo_component_Inner_component_div_map_p_onClick_Xrv1cgBzIpg") }, null, _fnSignal((p0) => p0.value.id, [item], "p0.value.id"), 1, null)), 1, null);
 };
 
 

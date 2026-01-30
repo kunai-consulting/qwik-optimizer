@@ -16,7 +16,7 @@ export const App = component$((props) => {
 ============================= ./example_explicit_ext_transpile.tsx_App_component_1_rtnhTYmM8yE.js (ENTRY POINT)==
 
 import { _jsxSorted } from "@qwik.dev/core";
-export const App_component_1_rtnhTYmM8yE = () => /* @__PURE__ */ _jsxSorted("div", null, null, null, 3, null);
+export const App_component_1_rtnhTYmM8yE = () => /*#__PURE__*/ _jsxSorted("div", null, null, null, 3, null);
 
 
 None

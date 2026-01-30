@@ -16,7 +16,7 @@ export default component$((props) => {
 
 import { _getConstProps, _getVarProps, _jsxSplit } from "@qwik.dev/core";
 export const component_HplvOUfWbqo = (props) => {
-	return /* @__PURE__ */ _jsxSplit("div", { ..._getVarProps(props) }, _getConstProps(props), null, 0, null);
+	return /*#__PURE__*/ _jsxSplit("div", { ..._getVarProps(props) }, _getConstProps(props), null, 0, null);
 };
 
 
