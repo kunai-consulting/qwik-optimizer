@@ -196,14 +196,14 @@ Plans:
   3. Illegal code (classes, functions in QRL) detected and reported
   4. Empty components, unicode identifiers, and comments handle correctly
   5. All 6 issue regression tests pass (issues 117, 150, 476, 964, etc.)
-**Plans**: TBD
+**Plans**: 5 plans
 
 Plans:
-- [ ] 10-01: Nested loops and skip transform marker
-- [ ] 10-02: Illegal code detection
-- [ ] 10-03: Empty components, unicode, and comments
-- [ ] 10-04: Async/await in QRL
-- [ ] 10-05: Issue regression tests
+- [ ] 10-01-PLAN.md — Loop tracking infrastructure (loop_depth, iteration_var_stack)
+- [ ] 10-02-PLAN.md — Skip transform marker and illegal code diagnostic wiring
+- [ ] 10-03-PLAN.md — Empty components, unicode identifiers, generator functions
+- [ ] 10-04-PLAN.md — Async/await preservation in QRL segments
+- [ ] 10-05-PLAN.md — Issue regression tests (117, 150, 476, 964, 5008, 7216)
 
 ### Phase 11: Test Infrastructure
 **Goal**: All 162 snapshot tests ported and passing with output parity
@@ -242,4 +242,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-29 (Phase 9 complete)*
+*Last updated: 2026-01-29 (Phase 10 planned)*
