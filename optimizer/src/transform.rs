@@ -2878,14 +2878,24 @@ pub fn transform(script_source: Source, options: TransformOptions) -> Result<Opt
     }
 
     // Collect imports BEFORE const replacement (for import aliasing)
+    // Skip type-only imports as they don't exist at runtime and shouldn't be captured in QRLs
     let mut import_tracker = ImportTracker::new();
     for stmt in &program.body {
         if let Statement::ImportDeclaration(import) = stmt {
+            // Skip entire type-only import declarations: `import type { Foo } from '...'`
+            if import.import_kind.is_type() {
+                continue;
+            }
+
             let source = import.source.value.to_string();
             if let Some(specifiers) = &import.specifiers {
                 for specifier in specifiers {
                     match specifier {
                         ImportDeclarationSpecifier::ImportSpecifier(spec) => {
+                            // Skip type-only specifiers: `import { type Foo, bar } from '...'`
+                            if spec.import_kind.is_type() {
+                                continue;
+                            }
                             let imported = spec.imported.name().to_string();
                             let local = spec.local.name.to_string();
                             import_tracker.add_import(&source, &imported, &local);
