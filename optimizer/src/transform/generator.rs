@@ -42,6 +42,7 @@ use crate::is_const::is_const_expr;
 use super::jsx;
 use super::options::TransformOptions;
 use super::qrl as qrl_module;
+use super::scope as scope_module;
 use super::state::{ImportTracker, JsxState};
 
 // Re-export types needed by tests in transform_tests.rs
@@ -1098,69 +1099,26 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         println!("push segment: {segment}");
         self.segment_stack.push(segment);
 
-        // Track function name as Fn declaration in parent scope
-        // and push to stack_ctxt for entry strategy (SWC fold_fn_decl)
-        if let Some(name) = node.name() {
-            if let Some(current_scope) = self.decl_stack.last_mut() {
-                let scope_id = ctx.current_scope_id();
-                current_scope.push(((name.to_string(), scope_id), IdentType::Fn));
-            }
-            // Push function name to stack_ctxt
-            self.stack_ctxt.push(name.to_string());
-        }
-
-        // Push new scope for function body
-        self.decl_stack.push(Vec::new());
-
-        // Track function parameters in the new scope
-        if let Some(current_scope) = self.decl_stack.last_mut() {
-            for param in &node.params.items {
-                if let Some(ident) = param.pattern.get_binding_identifier() {
-                    let scope_id = ctx.current_scope_id();
-                    // Parameters are always treated as non-const for capture purposes
-                    current_scope.push(((ident.name.to_string(), scope_id), IdentType::Var(false)));
-                }
-            }
-        }
+        // Delegate scope tracking to scope module
+        scope_module::enter_function(self, node, ctx);
     }
 
     fn exit_function(&mut self, node: &mut Function<'a>, ctx: &mut TraverseCtx<'a, ()>) {
         let popped = self.segment_stack.pop();
         println!("pop segment: {popped:?}");
 
-        // Pop function scope from decl_stack
-        self.decl_stack.pop();
-
-        // Pop stack_ctxt if we pushed a function name (SWC fold_fn_decl)
-        if node.name().is_some() {
-            self.stack_ctxt.pop();
-        }
+        // Delegate scope tracking to scope module
+        scope_module::exit_function(self, node, ctx);
     }
 
     fn enter_class(&mut self, node: &mut Class<'a>, ctx: &mut TraverseCtx<'a, ()>) {
-        // Track class name as Class declaration in parent scope
-        // and push to stack_ctxt for entry strategy (SWC fold_class_decl)
-        if let Some(ident) = &node.id {
-            if let Some(current_scope) = self.decl_stack.last_mut() {
-                let scope_id = ctx.current_scope_id();
-                current_scope.push(((ident.name.to_string(), scope_id), IdentType::Class));
-            }
-            // Push class name to stack_ctxt
-            self.stack_ctxt.push(ident.name.to_string());
-        }
-
-        // Push new scope for class body
-        self.decl_stack.push(Vec::new());
+        // Delegate scope tracking to scope module
+        scope_module::enter_class(self, node, ctx);
     }
 
     fn exit_class(&mut self, node: &mut Class<'a>, ctx: &mut TraverseCtx<'a, ()>) {
-        // Pop class scope from decl_stack
-        self.decl_stack.pop();
-
-        // Pop stack_ctxt if we pushed a class name (SWC fold_class_decl)
-        if node.id.is_some() {
-            self.stack_ctxt.pop();
-        }
+        // Delegate scope tracking to scope module
+        scope_module::exit_class(self, node, ctx);
     }
 
     fn enter_export_named_declaration(
@@ -1266,19 +1224,8 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         node: &mut ArrowFunctionExpression<'a>,
         ctx: &mut TraverseCtx<'a, ()>,
     ) {
-        // Push new scope for arrow function body
-        self.decl_stack.push(Vec::new());
-
-        // Track arrow function parameters in the new scope
-        if let Some(current_scope) = self.decl_stack.last_mut() {
-            for param in &node.params.items {
-                if let Some(ident) = param.pattern.get_binding_identifier() {
-                    let scope_id = ctx.current_scope_id();
-                    // Parameters are always treated as non-const for capture purposes
-                    current_scope.push(((ident.name.to_string(), scope_id), IdentType::Var(false)));
-                }
-            }
-        }
+        // Delegate scope tracking to scope module
+        scope_module::enter_arrow_function_expression(self, node, ctx);
     }
 
     fn exit_arrow_function_expression(
@@ -1286,8 +1233,8 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
         node: &mut ArrowFunctionExpression<'a>,
         ctx: &mut TraverseCtx<'a, ()>,
     ) {
-        // Pop arrow function scope from decl_stack
-        self.decl_stack.pop();
+        // Delegate scope tracking to scope module
+        scope_module::exit_arrow_function_expression(self, node, ctx);
     }
 
     fn exit_argument(&mut self, node: &mut Argument<'a>, ctx: &mut TraverseCtx<'a, ()>) {
@@ -1336,13 +1283,8 @@ impl<'a> Traverse<'a, ()> for TransformGenerator<'a> {
             self.expr_is_const_stack.push(is_const);
         }
 
-        // Track variable declaration in decl_stack for scope capture
-        if let Some(current_scope) = self.decl_stack.last_mut() {
-            if let Some(ident) = id.get_binding_identifier() {
-                let scope_id = ctx.current_scope_id();
-                current_scope.push(((ident.name.to_string(), scope_id), IdentType::Var(is_const)));
-            }
-        }
+        // Delegate scope tracking to scope module
+        scope_module::track_variable_declaration(self, node, ctx);
 
         if let Some(name) = id.get_identifier_name() {
             /// Adds symbol and import information in the case this declaration ends up being referenced in

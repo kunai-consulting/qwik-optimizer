@@ -10,11 +10,13 @@
 //! - `generator`: Core AST transformation logic
 //! - `jsx`: JSX transformation helpers
 //! - `qrl`: QRL extraction and segment management
+//! - `scope`: Scope tracking and declaration stack management
 
 pub mod generator;
 pub mod jsx;
 pub mod options;
 pub mod qrl;
+pub mod scope;
 pub mod state;
 
 // Re-export main types for public API
