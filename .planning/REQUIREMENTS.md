@@ -96,18 +96,18 @@ Requirements for achieving test parity with qwik-core SWC optimizer.
 
 ### SSR & Build Modes
 
-- [ ] **SSR-01**: isServer const replacement
-- [ ] **SSR-02**: isDev const replacement
-- [ ] **SSR-03**: Server-only code elimination
-- [ ] **SSR-04**: Client-only code elimination
-- [ ] **SSR-05**: Mode-specific transformations
+- [x] **SSR-01**: isServer const replacement
+- [x] **SSR-02**: isDev const replacement
+- [x] **SSR-03**: Server-only code elimination
+- [x] **SSR-04**: Client-only code elimination
+- [x] **SSR-05**: Mode-specific transformations
 
 ### TypeScript Support
 
-- [ ] **TSX-01**: TSX file parsing and transformation
-- [ ] **TSX-02**: Type annotation preservation where needed
-- [ ] **TSX-03**: Type-only import handling
-- [ ] **TSX-04**: Generic component types
+- [x] **TSX-01**: TSX file parsing and transformation
+- [x] **TSX-02**: Type annotation preservation where needed
+- [x] **TSX-03**: Type-only import handling
+- [x] **TSX-04**: Generic component types
 
 ### Edge Cases & Regressions
 

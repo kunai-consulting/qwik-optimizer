@@ -20,7 +20,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 6: Imports & Exports** - Module system completeness including dynamic imports
 - [x] **Phase 7: Entry Strategies** - Code-splitting control (Inline, Single, PerSegment, etc.)
 - [x] **Phase 8: SSR & Build Modes** - Server/client code handling and dev/prod modes
-- [ ] **Phase 9: TypeScript Support** - TSX parsing, type annotations, and generics
+- [x] **Phase 9: TypeScript Support** - TSX parsing, type annotations, and generics
 - [ ] **Phase 10: Edge Cases** - Nested loops, illegal code detection, and regression fixes
 - [ ] **Phase 11: Test Infrastructure** - Port all 162 tests and validate parity
 
@@ -183,8 +183,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 09-01-PLAN.md — Filter type-only imports from QRL capture tracking
-- [ ] 09-02-PLAN.md — Add comprehensive TypeScript and TSX transformation tests
+- [x] 09-01-PLAN.md — Filter type-only imports from QRL capture tracking
+- [x] 09-02-PLAN.md — Add comprehensive TypeScript and TSX transformation tests
 
 ### Phase 10: Edge Cases
 **Goal**: All edge cases and regression tests pass
@@ -236,10 +236,10 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> ... -> 11
 | 6. Imports & Exports | 4/4 | Complete | 2026-01-29 |
 | 7. Entry Strategies | 3/3 | Complete | 2026-01-29 |
 | 8. SSR & Build Modes | 3/3 | Complete | 2026-01-29 |
-| 9. TypeScript Support | 0/2 | Not started | - |
+| 9. TypeScript Support | 2/2 | Complete | 2026-01-29 |
 | 10. Edge Cases | 0/5 | Not started | - |
 | 11. Test Infrastructure | 0/3 | Not started | - |
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-29 (Phase 9 planned)*
+*Last updated: 2026-01-29 (Phase 9 complete)*
