@@ -134,6 +134,9 @@ Recent decisions affecting current work:
 - [09-01]: ImportDefaultSpecifier and ImportNamespaceSpecifier don't need type-only checks
 - [10-04]: Test async preservation by checking segment code contains "async" keyword
 - [10-04]: Use multiple assertion patterns (async () =>, async function) for flexibility
+- [10-02]: ProcessingFailure changed from enum to struct with SWC diagnostic fields
+- [10-02]: Skip transform check happens early in enter_call_expression before QRL processing
+- [10-02]: Illegal code continues transformation with diagnostic, does not fail
 
 ### Pending Todos
 
@@ -145,8 +148,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-30T01:33:01Z
-Stopped at: Completed 10-04-PLAN.md (Async/Await Preservation)
+Last session: 2026-01-30T01:43:24Z
+Stopped at: Completed 10-02-PLAN.md (Skip Transform & Illegal Code Diagnostics)
 Resume file: None
 
 ## Phase 2 QRL Core Summary
@@ -412,9 +415,13 @@ Phase 10 Edge Cases in progress with 4/5 plans complete:
    - loop_depth and iteration_var_stack fields added
    - Infrastructure for q:p prop optimization
 
-2. **10-02:** Aliased $ Markers - COMPLETE (10 min)
+2. **10-02:** Skip Transform & Illegal Code Diagnostics - COMPLETE (20 min)
    - skip_transform_names HashSet for aliased imports
    - import { component$ as Component } handling
+   - ProcessingFailure updated to struct with SWC diagnostic fields
+   - C02 illegal code diagnostics match SWC format exactly
+   - Tests for skip transform and illegal code diagnostics
+   - 229 total tests passing
 
 3. **10-03:** Empty/Unicode/Generator Edge Cases - COMPLETE (13 min)
    - test_issue_117_empty_passthrough: Files without QRL markers
