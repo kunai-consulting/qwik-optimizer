@@ -1,9 +1,12 @@
+//! Core AST transformation generator for Qwik optimizer.
+//!
+//! This module contains the `TransformGenerator` struct which implements
+//! the `Traverse` trait to walk the AST and transform QRL markers.
+
 #![allow(unused)]
 
-use crate::const_replace::ConstReplacerVisitor;
 use crate::dead_code::DeadCode;
 use crate::entry_strategy::*;
-use crate::error::Error;
 use crate::ext::*;
 use crate::prelude::*;
 use crate::ref_counter::RefCounter;
@@ -17,28 +20,27 @@ use oxc_ast::{match_member_expression, AstBuilder, AstType, Comment, NONE};
 use oxc_ast_visit::{Visit, VisitMut};
 use oxc_codegen::{Codegen, CodegenOptions, Context, Gen};
 use oxc_index::Idx;
-use oxc_transformer::JsxOptions;
 use std::borrow::{Borrow, Cow};
 use std::collections::{BTreeSet, HashMap, HashSet};
 
 use crate::component::*;
 use crate::import_clean_up::ImportCleanUp;
 use crate::macros::*;
-use crate::source::Source;
-use oxc_parser::Parser;
 use oxc_semantic::{
-    NodeId, ReferenceId, ScopeFlags, Scoping, SemanticBuilder, SemanticBuilderReturn, SymbolFlags,
-    SymbolId,
+    NodeId, ReferenceId, ScopeFlags, Scoping, SymbolFlags, SymbolId,
 };
 use oxc_span::*;
-use oxc_transformer::{TransformOptions as OxcTransformOptions, Transformer, TypeScriptOptions};
-use oxc_traverse::{traverse_mut, Ancestor, Traverse, TraverseCtx};
+use oxc_traverse::{Ancestor, Traverse, TraverseCtx};
 use serde::{Deserialize, Serialize};
 use std::cell::{Cell, RefCell};
 use std::fmt::{write, Display, Pointer};
 
 use crate::collector::{ExportInfo, Id};
 use crate::is_const::is_const_expr;
+
+// Import types from sibling modules
+use super::options::TransformOptions;
+use super::state::{ImportTracker, JsxState};
 
 // Re-export types needed by tests in transform_tests.rs
 pub(crate) use crate::component::Target;
@@ -57,36 +59,6 @@ pub enum IdentType {
 
 /// Identifier plus its type for scope tracking
 pub type IdPlusType = (Id, IdentType);
-
-/// Tracks imported identifiers by source module.
-/// Maps (source, specifier) -> local_name for finding aliased imports.
-#[derive(Debug, Default)]
-pub struct ImportTracker {
-    /// Maps (source, imported_name) -> local_name
-    /// e.g., ("@qwik.dev/core/build", "isServer") -> "s" for `import { isServer as s }`
-    imports: HashMap<(String, String), String>,
-}
-
-impl ImportTracker {
-    pub fn new() -> Self {
-        Self::default()
-    }
-
-    /// Record an import: import { specifier as local } from 'source'
-    pub fn add_import(&mut self, source: &str, specifier: &str, local: &str) {
-        self.imports.insert(
-            (source.to_string(), specifier.to_string()),
-            local.to_string(),
-        );
-    }
-
-    /// Get the local name for an imported specifier from a source.
-    /// Returns None if not imported.
-    pub fn get_imported_local(&self, specifier: &str, source: &str) -> Option<&String> {
-        self.imports
-            .get(&(source.to_string(), specifier.to_string()))
-    }
-}
 
 use std::iter::Sum;
 use std::ops::Deref;
@@ -154,23 +126,7 @@ impl OptimizationResult {
     }
 }
 
-struct JsxState<'gen> {
-    is_fn: bool,
-    is_text_only: bool,
-    is_segment: bool,
-    should_runtime_sort: bool,
-    static_listeners: bool,
-    static_subtree: bool,
-    key_prop: Option<Expression<'gen>>,
-    var_props: OxcVec<'gen, ObjectPropertyKind<'gen>>,
-    const_props: OxcVec<'gen, ObjectPropertyKind<'gen>>,
-    children: OxcVec<'gen, ArrayExpressionElement<'gen>>,
-    /// Spread expression for _getVarProps/_getConstProps generation.
-    /// Set when encountering spread attribute, used in exit_jsx_element.
-    spread_expr: Option<Expression<'gen>>,
-    /// Whether we pushed to stack_ctxt for this JSX element (for pop on exit).
-    stacked_ctxt: bool,
-}
+// JsxState is defined in super::state
 
 pub struct TransformGenerator<'gen> {
     pub options: TransformOptions,
@@ -315,7 +271,7 @@ pub struct TransformGenerator<'gen> {
 }
 
 impl<'gen> TransformGenerator<'gen> {
-    fn new(
+    pub(crate) fn new(
         source_info: &'gen SourceInfo,
         options: TransformOptions,
         scope: Option<String>,
@@ -2922,149 +2878,4 @@ pub(crate) fn compute_scoped_idents(all_idents: &[Id], all_decl: &[IdPlusType]) 
     (output, is_const)
 }
 
-#[derive(Clone)]
-pub struct TransformOptions {
-    pub minify: bool,
-    pub target: Target,
-    pub transpile_ts: bool,
-    pub transpile_jsx: bool,
-    /// Entry strategy for determining how segments are grouped for bundling.
-    pub entry_strategy: EntryStrategy,
-    /// Whether this is a server build (true) or client/browser build (false).
-    /// Default: true (safe default - server code is safer to run on server than client code on server)
-    pub is_server: bool,
-}
-
-impl TransformOptions {
-    pub fn with_transpile_ts(mut self, transpile_ts: bool) -> Self {
-        self.transpile_ts = transpile_ts;
-        self
-    }
-
-    pub fn with_transpile_jsx(mut self, transpile_jsx: bool) -> Self {
-        self.transpile_jsx = transpile_jsx;
-        self
-    }
-
-    pub fn with_is_server(mut self, is_server: bool) -> Self {
-        self.is_server = is_server;
-        self
-    }
-
-    /// Returns true if running in development mode (Target::Dev)
-    pub fn is_dev(&self) -> bool {
-        self.target == Target::Dev
-    }
-}
-
-impl Default for TransformOptions {
-    fn default() -> Self {
-        TransformOptions {
-            minify: false,
-            target: Target::Dev,
-            transpile_ts: false,
-            transpile_jsx: false,
-            entry_strategy: EntryStrategy::Segment,
-            is_server: true, // Safe default
-        }
-    }
-}
-
-pub fn transform(script_source: Source, options: TransformOptions) -> Result<OptimizationResult> {
-    let allocator = Allocator::default();
-    let source_text = script_source.source_code();
-    let source_info = script_source.source_info();
-    let source_type = script_source.source_info().try_into()?;
-
-    let mut errors = Vec::new();
-
-    let parse_return = Parser::new(&allocator, source_text, source_type).parse();
-    errors.extend(parse_return.errors);
-
-    let mut program = parse_return.program;
-
-    if (options.transpile_ts) {
-        let SemanticBuilderReturn {
-            semantic,
-            errors: semantic_errors,
-        } = SemanticBuilder::new().build(&program);
-        let scoping = semantic.into_scoping();
-        Transformer::new(
-            &allocator,
-            source_info.rel_path.as_path(),
-            &OxcTransformOptions {
-                typescript: TypeScriptOptions::default(),
-                jsx: JsxOptions::disable(),
-                ..OxcTransformOptions::default()
-            },
-        )
-        .build_with_scoping(scoping, &mut program);
-    }
-
-    // Collect imports BEFORE const replacement (for import aliasing)
-    // Skip type-only imports as they don't exist at runtime and shouldn't be captured in QRLs
-    let mut import_tracker = ImportTracker::new();
-    for stmt in &program.body {
-        if let Statement::ImportDeclaration(import) = stmt {
-            // Skip entire type-only import declarations: `import type { Foo } from '...'`
-            if import.import_kind.is_type() {
-                continue;
-            }
-
-            let source = import.source.value.to_string();
-            if let Some(specifiers) = &import.specifiers {
-                for specifier in specifiers {
-                    match specifier {
-                        ImportDeclarationSpecifier::ImportSpecifier(spec) => {
-                            // Skip type-only specifiers: `import { type Foo, bar } from '...'`
-                            if spec.import_kind.is_type() {
-                                continue;
-                            }
-                            let imported = spec.imported.name().to_string();
-                            let local = spec.local.name.to_string();
-                            import_tracker.add_import(&source, &imported, &local);
-                        }
-                        ImportDeclarationSpecifier::ImportDefaultSpecifier(spec) => {
-                            let local = spec.local.name.to_string();
-                            import_tracker.add_import(&source, "default", &local);
-                        }
-                        ImportDeclarationSpecifier::ImportNamespaceSpecifier(spec) => {
-                            let local = spec.local.name.to_string();
-                            import_tracker.add_import(&source, "*", &local);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    // Apply const replacement (skip in Test mode to match SWC behavior)
-    if options.target != Target::Test {
-        let mut const_replacer = ConstReplacerVisitor::new(
-            &allocator,
-            options.is_server,
-            options.is_dev(),
-            &import_tracker,
-        );
-        const_replacer.visit_program(&mut program);
-    }
-
-    let SemanticBuilderReturn {
-        semantic,
-        errors: semantic_errors,
-    } = SemanticBuilder::new()
-        .with_check_syntax_error(true) // Enable extra syntax error checking
-        .with_cfg(true) // Build a Control Flow Graph
-        .build(&program);
-
-    let mut transform = TransformGenerator::new(source_info, options, None, &allocator);
-
-    // let (symbols, scopes) = semantic.into_symbol_table_and_scope_tree();
-    let scoping = semantic.into_scoping();
-
-    traverse_mut(&mut transform, &allocator, &mut program, scoping, ());
-
-    let TransformGenerator { app, errors, .. } = transform;
-    Ok(OptimizationResult::new(app, errors))
-}
-
+// TransformOptions and transform() are defined in super::options
