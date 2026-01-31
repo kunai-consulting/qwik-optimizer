@@ -14,18 +14,10 @@ export const App = component$((props: Stuff) => {
 	);
 });
 
-============================= test.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_ckEPmXZlub0 = ()=>import("./test.tsx_App_component_ckEPmXZlub0");
-export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
-
-
-None
-============================= test.tsx_App_component_ckEPmXZlub0.tsx (ENTRY POINT)==
+============================= test.tsx_test_App_component_jYXJI01qFIU.js (ENTRY POINT)==
 
 import { Slot, _jsxSorted } from "@qwik.dev/core";
-export const App_component_ckEPmXZlub0 = (props)=>{
+export const test_App_component_jYXJI01qFIU = (props)=>{
 	return /*#__PURE__*/ _jsxSorted("div", null, null, _jsxSorted(Slot, null, null, null, 3, null), 3, null);
 };
 
@@ -34,13 +26,13 @@ None
 /*
 {
   "origin": "test.tsx",
-  "name": "App_component_ckEPmXZlub0",
+  "name": "test_App_component_jYXJI01qFIU",
   "entry": "entry_segments",
-  "displayName": "test.tsx_App_component",
-  "hash": "ckEPmXZlub0",
-  "canonicalFilename": "test.tsx_App_component_ckEPmXZlub0",
+  "displayName": "test_App_component",
+  "hash": "jYXJI01qFIU",
+  "canonicalFilename": "test.tsx_test_App_component_jYXJI01qFIU",
   "path": "",
-  "extension": "tsx",
+  "extension": "js",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
@@ -51,6 +43,14 @@ None
   ]
 }
 */
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
+
+
+None
 == DIAGNOSTICS ==
 
 []

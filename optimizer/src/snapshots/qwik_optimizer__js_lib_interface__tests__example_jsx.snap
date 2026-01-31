@@ -43,41 +43,25 @@ export const Foo = component$((props) => {
 }, {
     tagName: "my-foo",
 });
-============================= test_example_jsx.jsx_Foo_component_pGZPkYSFNjQ.js (ENTRY POINT)==
+============================= test_example_jsx.js ==
 
-import { qrl } from "@qwik.dev/core";
-export const Foo_component_pGZPkYSFNjQ = (props)=>{
-	return /*#__PURE__*/ qrl(i_Za18NfgUnDQ, "Foo_component_1_Za18NfgUnDQ", [props]);
+import { _getConstProps, _getVarProps, _jsxSorted, _jsxSplit, componentQrl, qrl } from "@qwik.dev/core";
+import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
+const i_nOw2h0rjMbA = ()=>import("./test_example_jsx.jsx_test_example_jsx_Foo_component_1_nOw2h0rjMbA");
+const i_edT9UqiY0dA = ()=>import("./test_example_jsx.jsx_test_example_jsx_Foo_component_edT9UqiY0dA");
+export const Lightweight = (props)=>{
+	return /*#__PURE__*/ _jsxSorted("div", null, null, /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [/*#__PURE__*/ _jsxSorted("div", null, null, null, 3, null), /*#__PURE__*/ _jsxSplit("button", { ..._getVarProps(props) }, _getConstProps(props), null, 0, null)], 3, null), 3, null);
 };
+export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_edT9UqiY0dA, "test_example_jsx_Foo_component_edT9UqiY0dA"));
 
 
 None
-/*
-{
-  "origin": "test_example_jsx.js",
-  "name": "Foo_component_pGZPkYSFNjQ",
-  "entry": null,
-  "displayName": "test_example_jsx.jsx_Foo_component",
-  "hash": "pGZPkYSFNjQ",
-  "canonicalFilename": "test_example_jsx.jsx_Foo_component_pGZPkYSFNjQ",
-  "path": "",
-  "extension": "js",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "component$",
-  "captures": false,
-  "loc": [
-    275,
-    891
-  ]
-}
-*/
-============================= test_example_jsx.jsx_Foo_component_1_Za18NfgUnDQ.js (ENTRY POINT)==
+============================= test_example_jsx.jsx_test_example_jsx_Foo_component_1_nOw2h0rjMbA.js (ENTRY POINT)==
 
 import { Lightweight } from "./test_example_jsx.jsx";
 import { _getConstProps, _getVarProps, _jsxSorted, _jsxSplit } from "@qwik.dev/core";
 import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
-export const Foo_component_1_Za18NfgUnDQ = ()=>{
+export const test_example_jsx_Foo_component_1_nOw2h0rjMbA = ()=>{
 	const [props] = useLexicalScope();
 	return /*#__PURE__*/ _jsxSorted("div", null, null, [
 		/*#__PURE__*/ _jsxSorted(_Fragment, null, null, [
@@ -100,11 +84,11 @@ None
 /*
 {
   "origin": "test_example_jsx.js",
-  "name": "Foo_component_1_Za18NfgUnDQ",
+  "name": "test_example_jsx_Foo_component_1_nOw2h0rjMbA",
   "entry": null,
-  "displayName": "test_example_jsx.jsx_Foo_component_1",
-  "hash": "Za18NfgUnDQ",
-  "canonicalFilename": "test_example_jsx.jsx_Foo_component_1_Za18NfgUnDQ",
+  "displayName": "test_example_jsx_Foo_component_1",
+  "hash": "nOw2h0rjMbA",
+  "canonicalFilename": "test_example_jsx.jsx_test_example_jsx_Foo_component_1_nOw2h0rjMbA",
   "path": "",
   "extension": "js",
   "parent": "component",
@@ -117,19 +101,35 @@ None
   ]
 }
 */
-============================= test_example_jsx.js ==
+============================= test_example_jsx.jsx_test_example_jsx_Foo_component_edT9UqiY0dA.js (ENTRY POINT)==
 
-import { _getConstProps, _getVarProps, _jsxSorted, _jsxSplit, componentQrl, qrl } from "@qwik.dev/core";
-import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
-const i_Za18NfgUnDQ = ()=>import("./test_example_jsx.jsx_Foo_component_1_Za18NfgUnDQ");
-const i_pGZPkYSFNjQ = ()=>import("./test_example_jsx.jsx_Foo_component_pGZPkYSFNjQ");
-export const Lightweight = (props)=>{
-	return /*#__PURE__*/ _jsxSorted("div", null, null, /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [/*#__PURE__*/ _jsxSorted("div", null, null, null, 3, null), /*#__PURE__*/ _jsxSplit("button", { ..._getVarProps(props) }, _getConstProps(props), null, 0, null)], 3, null), 3, null);
+import { qrl } from "@qwik.dev/core";
+export const test_example_jsx_Foo_component_edT9UqiY0dA = (props)=>{
+	return /*#__PURE__*/ qrl(i_nOw2h0rjMbA, "test_example_jsx_Foo_component_1_nOw2h0rjMbA", [props]);
 };
-export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_pGZPkYSFNjQ, "Foo_component_pGZPkYSFNjQ"));
 
 
 None
+/*
+{
+  "origin": "test_example_jsx.js",
+  "name": "test_example_jsx_Foo_component_edT9UqiY0dA",
+  "entry": null,
+  "displayName": "test_example_jsx_Foo_component",
+  "hash": "edT9UqiY0dA",
+  "canonicalFilename": "test_example_jsx.jsx_test_example_jsx_Foo_component_edT9UqiY0dA",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    275,
+    891
+  ]
+}
+*/
 == DIAGNOSTICS ==
 
 []

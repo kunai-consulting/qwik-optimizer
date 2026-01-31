@@ -20,9 +20,22 @@ export default component$(()=> {
 	return <div>cmp</div>
 });
 
-============================= test.tsx_component_ZUK1E201Ins.tsx (ENTRY POINT)==
+============================= test.tsx ==
 
-export const component_ZUK1E201Ins = ()=>{
+import { componentQrl, qrl } from "@qwik.dev/core";
+import mongodb from "mongodb";
+const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
+export const onGet = ()=>{
+	const data = mongodb.collection.whatever;
+	return { body: { data } };
+};
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
+
+
+None
+============================= test.tsx_test_component_LUXeXe0DQrg.tsx (ENTRY POINT)==
+
+export const test_component_LUXeXe0DQrg = ()=>{
 	return <div>cmp</div>;
 };
 
@@ -31,11 +44,11 @@ None
 /*
 {
   "origin": "test.tsx",
-  "name": "component_ZUK1E201Ins",
+  "name": "test_component_LUXeXe0DQrg",
   "entry": null,
-  "displayName": "test.tsx_component",
-  "hash": "ZUK1E201Ins",
-  "canonicalFilename": "test.tsx_component_ZUK1E201Ins",
+  "displayName": "test_component",
+  "hash": "LUXeXe0DQrg",
+  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
   "path": "",
   "extension": "tsx",
   "parent": null,
@@ -48,19 +61,6 @@ None
   ]
 }
 */
-============================= test.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-import mongodb from "mongodb";
-const i_ZUK1E201Ins = ()=>import("./test.tsx_component_ZUK1E201Ins");
-export const onGet = ()=>{
-	const data = mongodb.collection.whatever;
-	return { body: { data } };
-};
-export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ZUK1E201Ins, "component_ZUK1E201Ins"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

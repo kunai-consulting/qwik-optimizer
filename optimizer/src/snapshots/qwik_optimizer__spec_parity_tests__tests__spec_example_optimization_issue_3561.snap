@@ -25,9 +25,17 @@ export const Issue3561 = component$(() => {
 	return <p></p>;
 	});
 
-============================= test.tsx_Issue3561_component_hHTw654BZB8.tsx (ENTRY POINT)==
+============================= test.tsx ==
 
-export const Issue3561_component_hHTw654BZB8 = ()=>{
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_F5mXbx6XQMI = ()=>import("./test.tsx_test_Issue3561_component_F5mXbx6XQMI");
+export const Issue3561 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_F5mXbx6XQMI, "test_Issue3561_component_F5mXbx6XQMI"));
+
+
+None
+============================= test.tsx_test_Issue3561_component_F5mXbx6XQMI.tsx (ENTRY POINT)==
+
+export const test_Issue3561_component_F5mXbx6XQMI = ()=>{
 	const props = useStore({ product: { currentVariant: {
 		variantImage: "image",
 		variantNumber: "number",
@@ -43,11 +51,11 @@ None
 /*
 {
   "origin": "test.tsx",
-  "name": "Issue3561_component_hHTw654BZB8",
+  "name": "test_Issue3561_component_F5mXbx6XQMI",
   "entry": "entry_segments",
-  "displayName": "test.tsx_Issue3561_component",
-  "hash": "hHTw654BZB8",
-  "canonicalFilename": "test.tsx_Issue3561_component_hHTw654BZB8",
+  "displayName": "test_Issue3561_component",
+  "hash": "F5mXbx6XQMI",
+  "canonicalFilename": "test.tsx_test_Issue3561_component_F5mXbx6XQMI",
   "path": "",
   "extension": "tsx",
   "parent": null,
@@ -60,14 +68,6 @@ None
   ]
 }
 */
-============================= test.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_hHTw654BZB8 = ()=>import("./test.tsx_Issue3561_component_hHTw654BZB8");
-export const Issue3561 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_hHTw654BZB8, "Issue3561_component_hHTw654BZB8"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

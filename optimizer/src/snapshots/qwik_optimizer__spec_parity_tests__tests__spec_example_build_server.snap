@@ -36,11 +36,11 @@ export const App = component$(() => {
 	);
 });
 
-============================= test.tsx_s_H8ViXD28YGQ.tsx (ENTRY POINT)==
+============================= test.tsx_s_EXum0EDkazw.tsx (ENTRY POINT)==
 
 import { mongodb } from "mondodb";
 import { threejs } from "threejs";
-export const s_H8ViXD28YGQ = ()=>{
+export const s_EXum0EDkazw = ()=>{
 	if (true) {
 		console.log("server", mongodb());
 	}
@@ -54,11 +54,11 @@ None
 /*
 {
   "origin": "test.tsx",
-  "name": "s_H8ViXD28YGQ",
+  "name": "s_EXum0EDkazw",
   "entry": null,
-  "displayName": "test.tsx_App_component_useMount",
-  "hash": "H8ViXD28YGQ",
-  "canonicalFilename": "test.tsx_s_H8ViXD28YGQ",
+  "displayName": "test_App_component_useMount",
+  "hash": "EXum0EDkazw",
+  "canonicalFilename": "test.tsx_s_EXum0EDkazw",
   "path": "",
   "extension": "tsx",
   "parent": "component",
@@ -71,29 +71,12 @@ None
   ]
 }
 */
-============================= test.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-import L from "leaflet";
-const i_H8ViXD28YGQ = ()=>import("./test.tsx_s_H8ViXD28YGQ");
-const i_ckEPmXZlub0 = ()=>import("./test.tsx_s_ckEPmXZlub0");
-export const functionThatNeedsWindow = ()=>{
-	if (false) {
-		console.log("l", L);
-		console.log("hey");
-		window.alert("hey");
-	}
-};
-export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ckEPmXZlub0, "s_ckEPmXZlub0"));
-
-
-None
-============================= test.tsx_s_ckEPmXZlub0.tsx (ENTRY POINT)==
+============================= test.tsx_s_jYXJI01qFIU.tsx (ENTRY POINT)==
 
 import { qrl, useMountQrl, isServer as isServer2 } from "@qwik.dev/core";
 import { isBrowser as isb } from "@qwik.dev/core/build";
-export const s_ckEPmXZlub0 = ()=>{
-	/*#__PURE__*/ useMountQrl(/*#__PURE__*/ qrl(i_H8ViXD28YGQ, "s_H8ViXD28YGQ"));
+export const s_jYXJI01qFIU = ()=>{
+	/*#__PURE__*/ useMountQrl(/*#__PURE__*/ qrl(i_EXum0EDkazw, "s_EXum0EDkazw"));
 	return <Cmp>
 			{isServer2 && <p>server</p>}
 			{isb && <p>server</p>}
@@ -105,11 +88,11 @@ None
 /*
 {
   "origin": "test.tsx",
-  "name": "s_ckEPmXZlub0",
+  "name": "s_jYXJI01qFIU",
   "entry": null,
-  "displayName": "test.tsx_App_component",
-  "hash": "ckEPmXZlub0",
-  "canonicalFilename": "test.tsx_s_ckEPmXZlub0",
+  "displayName": "test_App_component",
+  "hash": "jYXJI01qFIU",
+  "canonicalFilename": "test.tsx_s_jYXJI01qFIU",
   "path": "",
   "extension": "tsx",
   "parent": null,
@@ -122,6 +105,23 @@ None
   ]
 }
 */
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+import L from "leaflet";
+const i_EXum0EDkazw = ()=>import("./test.tsx_s_EXum0EDkazw");
+const i_jYXJI01qFIU = ()=>import("./test.tsx_s_jYXJI01qFIU");
+export const functionThatNeedsWindow = ()=>{
+	if (false) {
+		console.log("l", L);
+		console.log("hey");
+		window.alert("hey");
+	}
+};
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "s_jYXJI01qFIU"));
+
+
+None
 == DIAGNOSTICS ==
 
 []

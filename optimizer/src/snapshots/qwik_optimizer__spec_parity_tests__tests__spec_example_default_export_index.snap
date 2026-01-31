@@ -16,16 +16,16 @@ export default component$(() => {
 ============================= src/components/mongo/index.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-const i_rKJvPlyphow = ()=>import("./index.tsx_component_rKJvPlyphow");
-export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_rKJvPlyphow, "component_rKJvPlyphow"));
+const i_SlchSt2Vxlo = ()=>import("./index.tsx_index_component_SlchSt2Vxlo");
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_SlchSt2Vxlo, "index_component_SlchSt2Vxlo"));
 
 
 None
-============================= src/components/mongo/index.tsx_component_rKJvPlyphow.tsx (ENTRY POINT)==
+============================= src/components/mongo/index.tsx_index_component_SlchSt2Vxlo.tsx (ENTRY POINT)==
 
 import { qrl } from "@qwik.dev/core";
 const i_onClick = ()=>import("./index.tsx");
-export const component_rKJvPlyphow = ()=>{
+export const index_component_SlchSt2Vxlo = ()=>{
 	return <div on:click={/*#__PURE__*/ qrl(i_onClick, "component_div_onClick")}>
 		</div>;
 };
@@ -35,11 +35,11 @@ None
 /*
 {
   "origin": "src/components/mongo/index.tsx",
-  "name": "component_rKJvPlyphow",
+  "name": "index_component_SlchSt2Vxlo",
   "entry": "entry_segments",
-  "displayName": "index.tsx_component",
-  "hash": "rKJvPlyphow",
-  "canonicalFilename": "index.tsx_component_rKJvPlyphow",
+  "displayName": "index_component",
+  "hash": "SlchSt2Vxlo",
+  "canonicalFilename": "index.tsx_index_component_SlchSt2Vxlo",
   "path": "src/components/mongo",
   "extension": "tsx",
   "parent": null,

@@ -24,9 +24,17 @@ const Header = $((decl1, {decl2}, [decl3]) => {
 	)
 });
 
-============================= project/test.tsx_Header_WlR3xnI6u38.tsx (ENTRY POINT)==
+============================= project/test.tsx ==
 
-export const Header_WlR3xnI6u38 = (decl1, { decl2 }, [decl3])=>{
+import { qrl } from "@qwik.dev/core";
+const i_hK08HU61t5U = ()=>import("./test.tsx_test_Header_hK08HU61t5U");
+/*#__PURE__*/ qrl(i_hK08HU61t5U, "test_Header_hK08HU61t5U");
+
+
+None
+============================= project/test.tsx_test_Header_hK08HU61t5U.tsx (ENTRY POINT)==
+
+export const test_Header_hK08HU61t5U = (decl1, { decl2 }, [decl3])=>{
 	const hola = ident1.no;
 	ident2;
 	const a = ident1 + ident3;
@@ -40,11 +48,11 @@ None
 /*
 {
   "origin": "project/test.tsx",
-  "name": "Header_WlR3xnI6u38",
+  "name": "test_Header_hK08HU61t5U",
   "entry": null,
-  "displayName": "test.tsx_Header",
-  "hash": "WlR3xnI6u38",
-  "canonicalFilename": "test.tsx_Header_WlR3xnI6u38",
+  "displayName": "test_Header",
+  "hash": "hK08HU61t5U",
+  "canonicalFilename": "test.tsx_test_Header_hK08HU61t5U",
   "path": "project",
   "extension": "tsx",
   "parent": null,
@@ -57,14 +65,6 @@ None
   ]
 }
 */
-============================= project/test.tsx ==
-
-import { qrl } from "@qwik.dev/core";
-const i_WlR3xnI6u38 = ()=>import("./test.tsx_Header_WlR3xnI6u38");
-/*#__PURE__*/ qrl(i_WlR3xnI6u38, "Header_WlR3xnI6u38");
-
-
-None
 == DIAGNOSTICS ==
 
 []

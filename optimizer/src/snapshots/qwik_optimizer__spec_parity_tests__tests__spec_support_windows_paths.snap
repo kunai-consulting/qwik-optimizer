@@ -7,31 +7,31 @@ expression: output
 import { component$ } from '@qwik.dev/core';
 export const Greeter = component$(() => <div/>)
 
-============================= components\apps\apps.tsx ==
+============================= components\apps\apps.js ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Q7eEoxaolmI = ()=>import("./components\\apps\\apps.tsx_Greeter_component_Q7eEoxaolmI");
-export const Greeter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_Q7eEoxaolmI, "Greeter_component_Q7eEoxaolmI"));
+const i_h0r88ndKnt4 = ()=>import("./components\\apps\\apps.tsx_components\\apps\\apps_Greeter_component_h0r88ndKnt4");
+export const Greeter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_h0r88ndKnt4, "components\\apps\\apps_Greeter_component_h0r88ndKnt4"));
 
 
 None
-============================= components\apps\apps.tsx_Greeter_component_Q7eEoxaolmI.tsx (ENTRY POINT)==
+============================= components\apps\apps.tsx_components\apps\apps_Greeter_component_h0r88ndKnt4.js (ENTRY POINT)==
 
 import { _jsxSorted } from "@qwik.dev/core";
-export const Greeter_component_Q7eEoxaolmI = ()=>/*#__PURE__*/ _jsxSorted("div", null, null, null, 3, null);
+export const components\apps\apps_Greeter_component_h0r88ndKnt4 = ()=>/*#__PURE__*/ _jsxSorted("div", null, null, null, 3, null);
 
 
 None
 /*
 {
   "origin": "components\\apps\\apps.tsx",
-  "name": "Greeter_component_Q7eEoxaolmI",
+  "name": "components\\apps\\apps_Greeter_component_h0r88ndKnt4",
   "entry": null,
-  "displayName": "components\\apps\\apps.tsx_Greeter_component",
-  "hash": "Q7eEoxaolmI",
-  "canonicalFilename": "components\\apps\\apps.tsx_Greeter_component_Q7eEoxaolmI",
+  "displayName": "components\\apps\\apps_Greeter_component",
+  "hash": "h0r88ndKnt4",
+  "canonicalFilename": "components\\apps\\apps.tsx_components\\apps\\apps_Greeter_component_h0r88ndKnt4",
   "path": "",
-  "extension": "tsx",
+  "extension": "js",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",

@@ -45,9 +45,9 @@ export const NoWorks3 = component$(({count, stuff = hola()}) => {
 	);
 });
 
-============================= test.tsx_NoWorks3_component_useTask_3cQGU0s1VwU.tsx (ENTRY POINT)==
+============================= test.tsx_test_NoWorks2_component_useTask_zfY9LNb3rg8.js (ENTRY POINT)==
 
-export const NoWorks3_component_useTask_3cQGU0s1VwU = ({ track })=>{
+export const test_NoWorks2_component_useTask_zfY9LNb3rg8 = ({ track })=>{
 	track(()=>count);
 	console.log(count);
 };
@@ -57,135 +57,13 @@ None
 /*
 {
   "origin": "test.tsx",
-  "name": "NoWorks3_component_useTask_3cQGU0s1VwU",
+  "name": "test_NoWorks2_component_useTask_zfY9LNb3rg8",
   "entry": "entry_segments",
-  "displayName": "test.tsx_NoWorks3_component_useTask",
-  "hash": "3cQGU0s1VwU",
-  "canonicalFilename": "test.tsx_NoWorks3_component_useTask_3cQGU0s1VwU",
+  "displayName": "test_NoWorks2_component_useTask",
+  "hash": "zfY9LNb3rg8",
+  "canonicalFilename": "test.tsx_test_NoWorks2_component_useTask_zfY9LNb3rg8",
   "path": "",
-  "extension": "tsx",
-  "parent": "component",
-  "ctxKind": "function",
-  "ctxName": "useTask$",
-  "captures": false,
-  "loc": [
-    750,
-    811
-  ]
-}
-*/
-============================= test.tsx_Works_component_useTask_pjo5U5Ikll0.tsx (ENTRY POINT)==
-
-export const Works_component_useTask_pjo5U5Ikll0 = ({ track })=>{
-	track(()=>count);
-	console.log(count, rest, hey, some, hey2);
-};
-
-
-None
-/*
-{
-  "origin": "test.tsx",
-  "name": "Works_component_useTask_pjo5U5Ikll0",
-  "entry": "entry_segments",
-  "displayName": "test.tsx_Works_component_useTask",
-  "hash": "pjo5U5Ikll0",
-  "canonicalFilename": "test.tsx_Works_component_useTask_pjo5U5Ikll0",
-  "path": "",
-  "extension": "tsx",
-  "parent": "component",
-  "ctxKind": "function",
-  "ctxName": "useTask$",
-  "captures": false,
-  "loc": [
-    252,
-    336
-  ]
-}
-*/
-============================= test.tsx_NoWorks3_component_fc13h5yYn14.tsx (ENTRY POINT)==
-
-import { _jsxSorted, qrl, useTaskQrl } from "@qwik.dev/core";
-const i_3cQGU0s1VwU = ()=>import("./test.tsx_NoWorks3_component_useTask_3cQGU0s1VwU");
-export const NoWorks3_component_fc13h5yYn14 = ({ count, stuff = hola() })=>{
-	console.log(stuff);
-	/*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_3cQGU0s1VwU, "NoWorks3_component_useTask_3cQGU0s1VwU"));
-	return /*#__PURE__*/ _jsxSorted("div", { class: /*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_3cQGU0s1VwU, "NoWorks3_component_useTask_3cQGU0s1VwU")) }, null, _wrapProp(_rawProps, "count"), 1, null);
-};
-
-
-None
-/*
-{
-  "origin": "test.tsx",
-  "name": "NoWorks3_component_fc13h5yYn14",
-  "entry": "entry_segments",
-  "displayName": "test.tsx_NoWorks3_component",
-  "hash": "fc13h5yYn14",
-  "canonicalFilename": "test.tsx_NoWorks3_component_fc13h5yYn14",
-  "path": "",
-  "extension": "tsx",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "component$",
-  "captures": false,
-  "loc": [
-    688,
-    864
-  ]
-}
-*/
-============================= test.tsx_NoWorks2_component_JPD9t2HyEKg.tsx (ENTRY POINT)==
-
-import { _jsxSorted, qrl, useTaskQrl } from "@qwik.dev/core";
-const i_lXiqwbxxjq0 = ()=>import("./test.tsx_NoWorks2_component_useTask_lXiqwbxxjq0");
-export const NoWorks2_component_JPD9t2HyEKg = ({ count, stuff: { hey } })=>{
-	console.log(hey);
-	/*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_lXiqwbxxjq0, "NoWorks2_component_useTask_lXiqwbxxjq0"));
-	return /*#__PURE__*/ _jsxSorted("div", { class: /*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_lXiqwbxxjq0, "NoWorks2_component_useTask_lXiqwbxxjq0")) }, null, _wrapProp(_rawProps, "count"), 1, null);
-};
-
-
-None
-/*
-{
-  "origin": "test.tsx",
-  "name": "NoWorks2_component_JPD9t2HyEKg",
-  "entry": "entry_segments",
-  "displayName": "test.tsx_NoWorks2_component",
-  "hash": "JPD9t2HyEKg",
-  "canonicalFilename": "test.tsx_NoWorks2_component_JPD9t2HyEKg",
-  "path": "",
-  "extension": "tsx",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "component$",
-  "captures": false,
-  "loc": [
-    477,
-    649
-  ]
-}
-*/
-============================= test.tsx_NoWorks2_component_useTask_lXiqwbxxjq0.tsx (ENTRY POINT)==
-
-export const NoWorks2_component_useTask_lXiqwbxxjq0 = ({ track })=>{
-	track(()=>count);
-	console.log(count);
-};
-
-
-None
-/*
-{
-  "origin": "test.tsx",
-  "name": "NoWorks2_component_useTask_lXiqwbxxjq0",
-  "entry": "entry_segments",
-  "displayName": "test.tsx_NoWorks2_component_useTask",
-  "hash": "lXiqwbxxjq0",
-  "canonicalFilename": "test.tsx_NoWorks2_component_useTask_lXiqwbxxjq0",
-  "path": "",
-  "extension": "tsx",
+  "extension": "js",
   "parent": "component",
   "ctxKind": "function",
   "ctxName": "useTask$",
@@ -196,31 +74,121 @@ None
   ]
 }
 */
-============================= test.tsx ==
+============================= test.tsx_test_NoWorks2_component_0YZp9hAQWRE.js (ENTRY POINT)==
 
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_pjo5U5Ikll0 = ()=>import("./test.tsx_Works_component_useTask_pjo5U5Ikll0");
-const i_t45qL4vNGv0 = ()=>import("./test.tsx_Works_component_t45qL4vNGv0");
-const i_lXiqwbxxjq0 = ()=>import("./test.tsx_NoWorks2_component_useTask_lXiqwbxxjq0");
-const i_JPD9t2HyEKg = ()=>import("./test.tsx_NoWorks2_component_JPD9t2HyEKg");
-const i_3cQGU0s1VwU = ()=>import("./test.tsx_NoWorks3_component_useTask_3cQGU0s1VwU");
-const i_fc13h5yYn14 = ()=>import("./test.tsx_NoWorks3_component_fc13h5yYn14");
-export const Works = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_t45qL4vNGv0, "Works_component_t45qL4vNGv0"));
-export const NoWorks2 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_JPD9t2HyEKg, "NoWorks2_component_JPD9t2HyEKg"));
-export const NoWorks3 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_fc13h5yYn14, "NoWorks3_component_fc13h5yYn14"));
+import { _jsxSorted, qrl, useTaskQrl } from "@qwik.dev/core";
+const i_zfY9LNb3rg8 = ()=>import("./test.tsx_test_NoWorks2_component_useTask_zfY9LNb3rg8");
+export const test_NoWorks2_component_0YZp9hAQWRE = ({ count, stuff: { hey } })=>{
+	console.log(hey);
+	/*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_zfY9LNb3rg8, "test_NoWorks2_component_useTask_zfY9LNb3rg8"));
+	return /*#__PURE__*/ _jsxSorted("div", { class: /*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_zfY9LNb3rg8, "test_NoWorks2_component_useTask_zfY9LNb3rg8")) }, null, _wrapProp(_rawProps, "count"), 1, null);
+};
 
 
 None
-============================= test.tsx_Works_component_t45qL4vNGv0.tsx (ENTRY POINT)==
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_NoWorks2_component_0YZp9hAQWRE",
+  "entry": "entry_segments",
+  "displayName": "test_NoWorks2_component",
+  "hash": "0YZp9hAQWRE",
+  "canonicalFilename": "test.tsx_test_NoWorks2_component_0YZp9hAQWRE",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    477,
+    649
+  ]
+}
+*/
+============================= test.tsx_test_NoWorks3_component_useTask_bxR5hV745Vk.js (ENTRY POINT)==
+
+export const test_NoWorks3_component_useTask_bxR5hV745Vk = ({ track })=>{
+	track(()=>count);
+	console.log(count);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_NoWorks3_component_useTask_bxR5hV745Vk",
+  "entry": "entry_segments",
+  "displayName": "test_NoWorks3_component_useTask",
+  "hash": "bxR5hV745Vk",
+  "canonicalFilename": "test.tsx_test_NoWorks3_component_useTask_bxR5hV745Vk",
+  "path": "",
+  "extension": "js",
+  "parent": "component",
+  "ctxKind": "function",
+  "ctxName": "useTask$",
+  "captures": false,
+  "loc": [
+    750,
+    811
+  ]
+}
+*/
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_zRRxWpAhQbg = ()=>import("./test.tsx_test_Works_component_useTask_zRRxWpAhQbg");
+const i_qX3vIioPG0E = ()=>import("./test.tsx_test_Works_component_qX3vIioPG0E");
+const i_zfY9LNb3rg8 = ()=>import("./test.tsx_test_NoWorks2_component_useTask_zfY9LNb3rg8");
+const i_0YZp9hAQWRE = ()=>import("./test.tsx_test_NoWorks2_component_0YZp9hAQWRE");
+const i_bxR5hV745Vk = ()=>import("./test.tsx_test_NoWorks3_component_useTask_bxR5hV745Vk");
+const i_3IsfUQbPNPY = ()=>import("./test.tsx_test_NoWorks3_component_3IsfUQbPNPY");
+export const Works = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_qX3vIioPG0E, "test_Works_component_qX3vIioPG0E"));
+export const NoWorks2 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_0YZp9hAQWRE, "test_NoWorks2_component_0YZp9hAQWRE"));
+export const NoWorks3 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_3IsfUQbPNPY, "test_NoWorks3_component_3IsfUQbPNPY"));
+
+
+None
+============================= test.tsx_test_Works_component_useTask_zRRxWpAhQbg.js (ENTRY POINT)==
+
+export const test_Works_component_useTask_zRRxWpAhQbg = ({ track })=>{
+	track(()=>count);
+	console.log(count, rest, hey, some, hey2);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Works_component_useTask_zRRxWpAhQbg",
+  "entry": "entry_segments",
+  "displayName": "test_Works_component_useTask",
+  "hash": "zRRxWpAhQbg",
+  "canonicalFilename": "test.tsx_test_Works_component_useTask_zRRxWpAhQbg",
+  "path": "",
+  "extension": "js",
+  "parent": "component",
+  "ctxKind": "function",
+  "ctxName": "useTask$",
+  "captures": false,
+  "loc": [
+    252,
+    336
+  ]
+}
+*/
+============================= test.tsx_test_Works_component_qX3vIioPG0E.js (ENTRY POINT)==
 
 import { _getConstProps, _getVarProps, _jsxSplit, qrl, useTaskQrl } from "@qwik.dev/core";
 import { CONST } from "const";
-const i_pjo5U5Ikll0 = ()=>import("./test.tsx_Works_component_useTask_pjo5U5Ikll0");
-export const Works_component_t45qL4vNGv0 = ({ count, some = 1 + 2, hello = CONST, stuff: hey, stuffDefault: hey2 = 123, ...rest })=>{
+const i_zRRxWpAhQbg = ()=>import("./test.tsx_test_Works_component_useTask_zRRxWpAhQbg");
+export const test_Works_component_qX3vIioPG0E = ({ count, some = 1 + 2, hello = CONST, stuff: hey, stuffDefault: hey2 = 123, ...rest })=>{
 	console.log(hey, some);
-	/*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_pjo5U5Ikll0, "Works_component_useTask_pjo5U5Ikll0"));
+	/*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_zRRxWpAhQbg, "test_Works_component_useTask_zRRxWpAhQbg"));
 	return /*#__PURE__*/ _jsxSplit("div", {
-		some: /*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_pjo5U5Ikll0, "Works_component_useTask_pjo5U5Ikll0")),
+		some: /*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_zRRxWpAhQbg, "test_Works_component_useTask_zRRxWpAhQbg")),
 		params: { some },
 		class: _wrapProp(_rawProps, "count"),
 		..._getVarProps(rest),
@@ -233,13 +201,13 @@ None
 /*
 {
   "origin": "test.tsx",
-  "name": "Works_component_t45qL4vNGv0",
+  "name": "test_Works_component_qX3vIioPG0E",
   "entry": "entry_segments",
-  "displayName": "test.tsx_Works_component",
-  "hash": "t45qL4vNGv0",
-  "canonicalFilename": "test.tsx_Works_component_t45qL4vNGv0",
+  "displayName": "test_Works_component",
+  "hash": "qX3vIioPG0E",
+  "canonicalFilename": "test.tsx_test_Works_component_qX3vIioPG0E",
   "path": "",
-  "extension": "tsx",
+  "extension": "js",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
@@ -247,6 +215,38 @@ None
   "loc": [
     121,
     438
+  ]
+}
+*/
+============================= test.tsx_test_NoWorks3_component_3IsfUQbPNPY.js (ENTRY POINT)==
+
+import { _jsxSorted, qrl, useTaskQrl } from "@qwik.dev/core";
+const i_bxR5hV745Vk = ()=>import("./test.tsx_test_NoWorks3_component_useTask_bxR5hV745Vk");
+export const test_NoWorks3_component_3IsfUQbPNPY = ({ count, stuff = hola() })=>{
+	console.log(stuff);
+	/*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_bxR5hV745Vk, "test_NoWorks3_component_useTask_bxR5hV745Vk"));
+	return /*#__PURE__*/ _jsxSorted("div", { class: /*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_bxR5hV745Vk, "test_NoWorks3_component_useTask_bxR5hV745Vk")) }, null, _wrapProp(_rawProps, "count"), 1, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_NoWorks3_component_3IsfUQbPNPY",
+  "entry": "entry_segments",
+  "displayName": "test_NoWorks3_component",
+  "hash": "3IsfUQbPNPY",
+  "canonicalFilename": "test.tsx_test_NoWorks3_component_3IsfUQbPNPY",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    688,
+    864
   ]
 }
 */

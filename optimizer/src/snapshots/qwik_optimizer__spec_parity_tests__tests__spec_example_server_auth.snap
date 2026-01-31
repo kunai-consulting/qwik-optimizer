@@ -43,65 +43,12 @@ export const { onRequest, logout, getSession, signup } = auth$({
 	]
 });
 
-============================= test.tsx_auth_GU0aY5QCETY.tsx (ENTRY POINT)==
+============================= test.tsx_test_serverAuth_fOwC85dKyEY.js (ENTRY POINT)==
 
 import GitHub from "@auth/core/providers/github";
 import Facebook from "next-auth/providers/facebook";
 import Google from "next-auth/providers/google";
-export const auth_GU0aY5QCETY = { providers: [
-	GitHub({
-		clientId: process.env.GITHUB_ID,
-		clientSecret: process.env.GITHUB_SECRET
-	}),
-	Facebook({
-		clientId: process.env.FACEBOOK_ID,
-		clientSecret: process.env.FACEBOOK_SECRET
-	}),
-	Google({
-		clientId: process.env.GOOGLE_ID,
-		clientSecret: process.env.GOOGLE_SECRET
-	})
-] };
-
-
-None
-/*
-{
-  "origin": "test.tsx",
-  "name": "auth_GU0aY5QCETY",
-  "entry": null,
-  "displayName": "test.tsx_auth",
-  "hash": "GU0aY5QCETY",
-  "canonicalFilename": "test.tsx_auth_GU0aY5QCETY",
-  "path": "",
-  "extension": "tsx",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "auth$",
-  "captures": false,
-  "loc": [
-    642,
-    943
-  ]
-}
-*/
-============================= test.tsx ==
-
-import { authQrl, serverAuthQrl } from "@auth/qwik";
-import { authQrl, qrl, serverAuthQrl } from "@qwik.dev/core";
-const i_qVqpX2a0p9Y = ()=>import("./test.tsx_serverAuth_qVqpX2a0p9Y");
-const i_GU0aY5QCETY = ()=>import("./test.tsx_auth_GU0aY5QCETY");
-export const { onRequest, logout, getSession, signup } = /*#__PURE__*/ serverAuthQrl(/*#__PURE__*/ qrl(i_qVqpX2a0p9Y, "serverAuth_qVqpX2a0p9Y"));
-export const { onRequest, logout, getSession, signup } = /*#__PURE__*/ authQrl(/*#__PURE__*/ qrl(i_GU0aY5QCETY, "auth_GU0aY5QCETY"));
-
-
-None
-============================= test.tsx_serverAuth_qVqpX2a0p9Y.tsx (ENTRY POINT)==
-
-import GitHub from "@auth/core/providers/github";
-import Facebook from "next-auth/providers/facebook";
-import Google from "next-auth/providers/google";
-export const serverAuth_qVqpX2a0p9Y = { providers: [
+export const test_serverAuth_fOwC85dKyEY = { providers: [
 	GitHub({
 		clientId: process.env.GITHUB_ID,
 		clientSecret: process.env.GITHUB_SECRET
@@ -121,13 +68,13 @@ None
 /*
 {
   "origin": "test.tsx",
-  "name": "serverAuth_qVqpX2a0p9Y",
+  "name": "test_serverAuth_fOwC85dKyEY",
   "entry": null,
-  "displayName": "test.tsx_serverAuth",
-  "hash": "qVqpX2a0p9Y",
-  "canonicalFilename": "test.tsx_serverAuth_qVqpX2a0p9Y",
+  "displayName": "test_serverAuth",
+  "hash": "fOwC85dKyEY",
+  "canonicalFilename": "test.tsx_test_serverAuth_fOwC85dKyEY",
   "path": "",
-  "extension": "tsx",
+  "extension": "js",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "serverAuth$",
@@ -138,6 +85,59 @@ None
   ]
 }
 */
+============================= test.tsx_test_auth_bL3Fr0lPRI0.js (ENTRY POINT)==
+
+import GitHub from "@auth/core/providers/github";
+import Facebook from "next-auth/providers/facebook";
+import Google from "next-auth/providers/google";
+export const test_auth_bL3Fr0lPRI0 = { providers: [
+	GitHub({
+		clientId: process.env.GITHUB_ID,
+		clientSecret: process.env.GITHUB_SECRET
+	}),
+	Facebook({
+		clientId: process.env.FACEBOOK_ID,
+		clientSecret: process.env.FACEBOOK_SECRET
+	}),
+	Google({
+		clientId: process.env.GOOGLE_ID,
+		clientSecret: process.env.GOOGLE_SECRET
+	})
+] };
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_auth_bL3Fr0lPRI0",
+  "entry": null,
+  "displayName": "test_auth",
+  "hash": "bL3Fr0lPRI0",
+  "canonicalFilename": "test.tsx_test_auth_bL3Fr0lPRI0",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "auth$",
+  "captures": false,
+  "loc": [
+    642,
+    943
+  ]
+}
+*/
+============================= test.js ==
+
+import { authQrl, serverAuthQrl } from "@auth/qwik";
+import { authQrl, qrl, serverAuthQrl } from "@qwik.dev/core";
+const i_fOwC85dKyEY = ()=>import("./test.tsx_test_serverAuth_fOwC85dKyEY");
+const i_bL3Fr0lPRI0 = ()=>import("./test.tsx_test_auth_bL3Fr0lPRI0");
+export const { onRequest, logout, getSession, signup } = /*#__PURE__*/ serverAuthQrl(/*#__PURE__*/ qrl(i_fOwC85dKyEY, "test_serverAuth_fOwC85dKyEY"));
+export const { onRequest, logout, getSession, signup } = /*#__PURE__*/ authQrl(/*#__PURE__*/ qrl(i_bL3Fr0lPRI0, "test_auth_bL3Fr0lPRI0"));
+
+
+None
 == DIAGNOSTICS ==
 
 []

@@ -41,56 +41,65 @@ export const Parent = component$(() => {
 	);
 });
 
-============================= components/component.tsx ==
+============================= components/component.js ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Yn2kIDABoYw = ()=>import("./component.tsx_Parent_component_useClientMount_Yn2kIDABoYw");
-const i_ngmvcygWux8 = ()=>import("./component.tsx_Parent_component_useTask_ngmvcygWux8");
-const i_t6Wy3C0Q0XM = ()=>import("./component.tsx_Parent_component_t6Wy3C0Q0XM");
-export const Parent = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_t6Wy3C0Q0XM, "Parent_component_t6Wy3C0Q0XM"));
+const i_czIQbteepiI = ()=>import("./component.tsx_component_Parent_component_useClientMount_czIQbteepiI");
+const i_pzGFMTS09oc = ()=>import("./component.tsx_component_Parent_component_useTask_pzGFMTS09oc");
+const i_B0DcWUHmOms = ()=>import("./component.tsx_component_Parent_component_B0DcWUHmOms");
+export const Parent = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_B0DcWUHmOms, "component_Parent_component_B0DcWUHmOms"));
 
 
 None
-============================= components/component.tsx_Parent_component_useTask_ngmvcygWux8.tsx (ENTRY POINT)==
+============================= components/component.tsx_component_Parent_component_useClientMount_czIQbteepiI.js (ENTRY POINT)==
 
-export const Parent_component_useTask_ngmvcygWux8 = ()=>{};
+import { c } from "../../remove";
+import { b } from "../keep2";
+import { a } from "./keep";
+import mongo from "mongodb";
+import redis from "redis";
+export const component_Parent_component_useClientMount_czIQbteepiI = async ()=>{
+	const [state] = useLexicalScope();
+	state.text = await mongo.users();
+	redis.set(state.text, a, b, c);
+};
 
 
 None
 /*
 {
   "origin": "components/component.tsx",
-  "name": "Parent_component_useTask_ngmvcygWux8",
+  "name": "component_Parent_component_useClientMount_czIQbteepiI",
   "entry": "entry_segments",
-  "displayName": "component.tsx_Parent_component_useTask",
-  "hash": "ngmvcygWux8",
-  "canonicalFilename": "component.tsx_Parent_component_useTask_ngmvcygWux8",
+  "displayName": "component_Parent_component_useClientMount",
+  "hash": "czIQbteepiI",
+  "canonicalFilename": "component.tsx_component_Parent_component_useClientMount_czIQbteepiI",
   "path": "components",
-  "extension": "tsx",
+  "extension": "js",
   "parent": "component",
   "ctxKind": "function",
-  "ctxName": "useTask$",
-  "captures": false,
+  "ctxName": "useClientMount$",
+  "captures": true,
   "loc": [
-    486,
-    506
+    386,
+    472
   ]
 }
 */
-============================= components/component.tsx_Parent_component_t6Wy3C0Q0XM.tsx (ENTRY POINT)==
+============================= components/component.tsx_component_Parent_component_B0DcWUHmOms.js (ENTRY POINT)==
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 const i_render = ()=>import("./component.tsx");
 const i_onClick = ()=>import("./component.tsx");
-const i_Yn2kIDABoYw = ()=>import("./component.tsx_Parent_component_useClientMount_Yn2kIDABoYw");
-const i_ngmvcygWux8 = ()=>import("./component.tsx_Parent_component_useTask_ngmvcygWux8");
-export const Parent_component_t6Wy3C0Q0XM = ()=>{
+const i_czIQbteepiI = ()=>import("./component.tsx_component_Parent_component_useClientMount_czIQbteepiI");
+const i_pzGFMTS09oc = ()=>import("./component.tsx_component_Parent_component_useTask_pzGFMTS09oc");
+export const component_Parent_component_B0DcWUHmOms = ()=>{
 	const state = useStore({ text: "" });
-	/*#__PURE__*/ useClientMountQrl(/*#__PURE__*/ qrl(i_Yn2kIDABoYw, "Parent_component_useClientMount_Yn2kIDABoYw", [state]));
-	/*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_ngmvcygWux8, "Parent_component_useTask_ngmvcygWux8"));
+	/*#__PURE__*/ useClientMountQrl(/*#__PURE__*/ qrl(i_czIQbteepiI, "component_Parent_component_useClientMount_czIQbteepiI", [state]));
+	/*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_pzGFMTS09oc, "component_Parent_component_useTask_pzGFMTS09oc"));
 	return /*#__PURE__*/ _jsxSorted("div", {
-		shouldRemove$: /*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_ngmvcygWux8, "Parent_component_useTask_ngmvcygWux8")),
-		on:click: /*#__PURE__*/ useClientMountQrl(/*#__PURE__*/ qrl(i_Yn2kIDABoYw, "Parent_component_useClientMount_Yn2kIDABoYw", [state]))
+		shouldRemove$: /*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_pzGFMTS09oc, "component_Parent_component_useTask_pzGFMTS09oc")),
+		on:click: /*#__PURE__*/ useClientMountQrl(/*#__PURE__*/ qrl(i_czIQbteepiI, "component_Parent_component_useClientMount_czIQbteepiI", [state]))
 	}, null, [_jsxSorted(Div, {
 		onClick$: /*#__PURE__*/ qrl(i_onClick, "Parent_component_div_Div_onClick"),
 		render$: /*#__PURE__*/ qrl(i_render, "Parent_component_div_Div_render", [state])
@@ -102,13 +111,13 @@ None
 /*
 {
   "origin": "components/component.tsx",
-  "name": "Parent_component_t6Wy3C0Q0XM",
+  "name": "component_Parent_component_B0DcWUHmOms",
   "entry": "entry_segments",
-  "displayName": "component.tsx_Parent_component",
-  "hash": "t6Wy3C0Q0XM",
-  "canonicalFilename": "component.tsx_Parent_component_t6Wy3C0Q0XM",
+  "displayName": "component_Parent_component",
+  "hash": "B0DcWUHmOms",
+  "canonicalFilename": "component.tsx_component_Parent_component_B0DcWUHmOms",
   "path": "components",
-  "extension": "tsx",
+  "extension": "js",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
@@ -119,38 +128,29 @@ None
   ]
 }
 */
-============================= components/component.tsx_Parent_component_useClientMount_Yn2kIDABoYw.tsx (ENTRY POINT)==
+============================= components/component.tsx_component_Parent_component_useTask_pzGFMTS09oc.js (ENTRY POINT)==
 
-import { c } from "../../remove";
-import { b } from "../keep2";
-import { a } from "./keep";
-import mongo from "mongodb";
-import redis from "redis";
-export const Parent_component_useClientMount_Yn2kIDABoYw = async ()=>{
-	const [state] = useLexicalScope();
-	state.text = await mongo.users();
-	redis.set(state.text, a, b, c);
-};
+export const component_Parent_component_useTask_pzGFMTS09oc = ()=>{};
 
 
 None
 /*
 {
   "origin": "components/component.tsx",
-  "name": "Parent_component_useClientMount_Yn2kIDABoYw",
+  "name": "component_Parent_component_useTask_pzGFMTS09oc",
   "entry": "entry_segments",
-  "displayName": "component.tsx_Parent_component_useClientMount",
-  "hash": "Yn2kIDABoYw",
-  "canonicalFilename": "component.tsx_Parent_component_useClientMount_Yn2kIDABoYw",
+  "displayName": "component_Parent_component_useTask",
+  "hash": "pzGFMTS09oc",
+  "canonicalFilename": "component.tsx_component_Parent_component_useTask_pzGFMTS09oc",
   "path": "components",
-  "extension": "tsx",
+  "extension": "js",
   "parent": "component",
   "ctxKind": "function",
-  "ctxName": "useClientMount$",
-  "captures": true,
+  "ctxName": "useTask$",
+  "captures": false,
   "loc": [
-    386,
-    472
+    486,
+    506
   ]
 }
 */

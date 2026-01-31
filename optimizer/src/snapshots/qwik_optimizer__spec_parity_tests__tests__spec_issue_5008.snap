@@ -21,12 +21,20 @@ return (
 );
 });
 
-============================= test.tsx_component_ZUK1E201Ins.tsx (ENTRY POINT)==
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
+
+
+None
+============================= test.tsx_test_component_LUXeXe0DQrg.js (ENTRY POINT)==
 
 import { _jsxSorted, qrl, useStore } from "@qwik.dev/core";
 import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
 const i_onClick = ()=>import("./test.tsx");
-export const component_ZUK1E201Ins = ()=>{
+export const test_component_LUXeXe0DQrg = ()=>{
 	const store = useStore([{ value: 0 }]);
 	return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [
 		/*#__PURE__*/ _jsxSorted("button", { on:click: /*#__PURE__*/ qrl(i_onClick, "component_button_onClick", [store]) }, null, "+1", 3, null),
@@ -42,13 +50,13 @@ None
 /*
 {
   "origin": "test.tsx",
-  "name": "component_ZUK1E201Ins",
+  "name": "test_component_LUXeXe0DQrg",
   "entry": null,
-  "displayName": "test.tsx_component",
-  "hash": "ZUK1E201Ins",
-  "canonicalFilename": "test.tsx_component_ZUK1E201Ins",
+  "displayName": "test_component",
+  "hash": "LUXeXe0DQrg",
+  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
   "path": "",
-  "extension": "tsx",
+  "extension": "js",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
@@ -59,14 +67,6 @@ None
   ]
 }
 */
-============================= test.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_ZUK1E201Ins = ()=>import("./test.tsx_component_ZUK1E201Ins");
-export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ZUK1E201Ins, "component_ZUK1E201Ins"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

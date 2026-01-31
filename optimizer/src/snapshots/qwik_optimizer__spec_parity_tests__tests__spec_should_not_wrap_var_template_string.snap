@@ -21,14 +21,51 @@ export default component$(() => {
 	);
 });
 
-============================= test.tsx_component_ZUK1E201Ins.tsx (ENTRY POINT)==
+============================= test.tsx_test_component_productTitle_useComputed_ZVQVUkxqtiQ.js (ENTRY POINT)==
+
+export const test_component_productTitle_useComputed_ZVQVUkxqtiQ = ()=>{
+	return "Test title";
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_component_productTitle_useComputed_ZVQVUkxqtiQ",
+  "entry": null,
+  "displayName": "test_component_productTitle_useComputed",
+  "hash": "ZVQVUkxqtiQ",
+  "canonicalFilename": "test.tsx_test_component_productTitle_useComputed_ZVQVUkxqtiQ",
+  "path": "",
+  "extension": "js",
+  "parent": "component",
+  "ctxKind": "function",
+  "ctxName": "useComputed$",
+  "captures": false,
+  "loc": [
+    209,
+    242
+  ]
+}
+*/
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_ZVQVUkxqtiQ = ()=>import("./test.tsx_test_component_productTitle_useComputed_ZVQVUkxqtiQ");
+const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
+
+
+None
+============================= test.tsx_test_component_LUXeXe0DQrg.js (ENTRY POINT)==
 
 import { _jsxSorted, qrl, useComputedQrl } from "@qwik.dev/core";
 import { inlineTranslate } from "translate-lib";
-const i_qyvYoxyiPuk = ()=>import("./test.tsx_component_productTitle_useComputed_qyvYoxyiPuk");
-export const component_ZUK1E201Ins = ()=>{
+const i_ZVQVUkxqtiQ = ()=>import("./test.tsx_test_component_productTitle_useComputed_ZVQVUkxqtiQ");
+export const test_component_LUXeXe0DQrg = ()=>{
 	const t = inlineTranslate();
-	const productTitle = /*#__PURE__*/ useComputedQrl(/*#__PURE__*/ qrl(i_qyvYoxyiPuk, "component_productTitle_useComputed_qyvYoxyiPuk"));
+	const productTitle = /*#__PURE__*/ useComputedQrl(/*#__PURE__*/ qrl(i_ZVQVUkxqtiQ, "test_component_productTitle_useComputed_ZVQVUkxqtiQ"));
 	return /*#__PURE__*/ _jsxSorted("img", {
 		attr: t("home.imageAlt.founded-product:"),
 		alt: `${t("home.imageAlt.founded-product:")} ${productTitle.value}`
@@ -40,13 +77,13 @@ None
 /*
 {
   "origin": "test.tsx",
-  "name": "component_ZUK1E201Ins",
+  "name": "test_component_LUXeXe0DQrg",
   "entry": null,
-  "displayName": "test.tsx_component",
-  "hash": "ZUK1E201Ins",
-  "canonicalFilename": "test.tsx_component_ZUK1E201Ins",
+  "displayName": "test_component",
+  "hash": "LUXeXe0DQrg",
+  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
   "path": "",
-  "extension": "tsx",
+  "extension": "js",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
@@ -54,43 +91,6 @@ None
   "loc": [
     135,
     390
-  ]
-}
-*/
-============================= test.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_qyvYoxyiPuk = ()=>import("./test.tsx_component_productTitle_useComputed_qyvYoxyiPuk");
-const i_ZUK1E201Ins = ()=>import("./test.tsx_component_ZUK1E201Ins");
-export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ZUK1E201Ins, "component_ZUK1E201Ins"));
-
-
-None
-============================= test.tsx_component_productTitle_useComputed_qyvYoxyiPuk.tsx (ENTRY POINT)==
-
-export const component_productTitle_useComputed_qyvYoxyiPuk = ()=>{
-	return "Test title";
-};
-
-
-None
-/*
-{
-  "origin": "test.tsx",
-  "name": "component_productTitle_useComputed_qyvYoxyiPuk",
-  "entry": null,
-  "displayName": "test.tsx_component_productTitle_useComputed",
-  "hash": "qyvYoxyiPuk",
-  "canonicalFilename": "test.tsx_component_productTitle_useComputed_qyvYoxyiPuk",
-  "path": "",
-  "extension": "tsx",
-  "parent": "component",
-  "ctxKind": "function",
-  "ctxName": "useComputed$",
-  "captures": false,
-  "loc": [
-    209,
-    242
   ]
 }
 */

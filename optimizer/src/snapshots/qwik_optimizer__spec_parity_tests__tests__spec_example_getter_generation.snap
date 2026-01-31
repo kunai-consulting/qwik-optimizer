@@ -37,54 +37,10 @@ export const Cmp = component$((props) => {
 	);
 });
 
-============================= test.tsx_Cmp_component_4ryKJTOKjWE.tsx (ENTRY POINT)==
-
-import { _jsxSorted } from "@qwik.dev/core";
-import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
-export const Cmp_component_4ryKJTOKjWE = (props)=>{
-	return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [/*#__PURE__*/ _jsxSorted("p", { data-value: props.count }, null, props.nested.count, 1, null), /*#__PURE__*/ _jsxSorted("p", null, null, [
-		"Value",
-		props.count,
-		/*#__PURE__*/ _jsxSorted("span", null, null, null, 3, null)
-	], 1, null)], 3, null);
-};
-
-
-None
-/*
-{
-  "origin": "test.tsx",
-  "name": "Cmp_component_4ryKJTOKjWE",
-  "entry": null,
-  "displayName": "test.tsx_Cmp_component",
-  "hash": "4ryKJTOKjWE",
-  "canonicalFilename": "test.tsx_Cmp_component_4ryKJTOKjWE",
-  "path": "",
-  "extension": "tsx",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "component$",
-  "captures": false,
-  "loc": [
-    456,
-    594
-  ]
-}
-*/
-============================= test.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_ckEPmXZlub0 = ()=>import("./test.tsx_App_component_ckEPmXZlub0");
-const i_4ryKJTOKjWE = ()=>import("./test.tsx_Cmp_component_4ryKJTOKjWE");
-export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
-export const Cmp = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_4ryKJTOKjWE, "Cmp_component_4ryKJTOKjWE"));
-
-
-None
-============================= test.tsx_App_component_ckEPmXZlub0.tsx (ENTRY POINT)==
+============================= test.tsx_test_App_component_jYXJI01qFIU.js (ENTRY POINT)==
 
 import { _jsxSorted, useStore } from "@qwik.dev/core";
-export const App_component_ckEPmXZlub0 = ()=>{
+export const test_App_component_jYXJI01qFIU = ()=>{
 	const store = useStore({
 		count: 0,
 		stuff: 0,
@@ -107,13 +63,13 @@ None
 /*
 {
   "origin": "test.tsx",
-  "name": "App_component_ckEPmXZlub0",
+  "name": "test_App_component_jYXJI01qFIU",
   "entry": null,
-  "displayName": "test.tsx_App_component",
-  "hash": "ckEPmXZlub0",
-  "canonicalFilename": "test.tsx_App_component_ckEPmXZlub0",
+  "displayName": "test_App_component",
+  "hash": "jYXJI01qFIU",
+  "canonicalFilename": "test.tsx_test_App_component_jYXJI01qFIU",
   "path": "",
-  "extension": "tsx",
+  "extension": "js",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
@@ -121,6 +77,50 @@ None
   "loc": [
     86,
     422
+  ]
+}
+*/
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
+const i_xd53fXgnHL8 = ()=>import("./test.tsx_test_Cmp_component_xd53fXgnHL8");
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
+export const Cmp = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_xd53fXgnHL8, "test_Cmp_component_xd53fXgnHL8"));
+
+
+None
+============================= test.tsx_test_Cmp_component_xd53fXgnHL8.js (ENTRY POINT)==
+
+import { _jsxSorted } from "@qwik.dev/core";
+import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
+export const test_Cmp_component_xd53fXgnHL8 = (props)=>{
+	return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [/*#__PURE__*/ _jsxSorted("p", { data-value: props.count }, null, props.nested.count, 1, null), /*#__PURE__*/ _jsxSorted("p", null, null, [
+		"Value",
+		props.count,
+		/*#__PURE__*/ _jsxSorted("span", null, null, null, 3, null)
+	], 1, null)], 3, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Cmp_component_xd53fXgnHL8",
+  "entry": null,
+  "displayName": "test_Cmp_component",
+  "hash": "xd53fXgnHL8",
+  "canonicalFilename": "test.tsx_test_Cmp_component_xd53fXgnHL8",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    456,
+    594
   ]
 }
 */

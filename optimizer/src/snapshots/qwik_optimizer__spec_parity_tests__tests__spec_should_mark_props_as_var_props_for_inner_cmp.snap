@@ -40,7 +40,7 @@ export const ModelImg = component$<ModelProps>((props) => {
   );
 });
 
-============================= test.tsx ==
+============================= test.js ==
 
 
 

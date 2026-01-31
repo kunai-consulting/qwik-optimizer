@@ -12,7 +12,7 @@ export default ({ data }: { data: any }) =>
       }}
     />;
 
-============================= test.tsx ==
+============================= test.js ==
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 const i_onClick = ()=>import("./test.tsx");

@@ -17,10 +17,21 @@ return <Hola>
 </Hola>;
 });
 
-============================= test.tsx_component_ZUK1E201Ins.tsx (ENTRY POINT)==
+============================= test.js ==
+
+import { _getConstProps, _getVarProps, _jsxSplit, componentQrl, qrl } from "@qwik.dev/core";
+const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
+function Hola(props) {
+	return /*#__PURE__*/ _jsxSplit("div", { ..._getVarProps(props) }, _getConstProps(props), null, 0, null);
+}
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
+
+
+None
+============================= test.tsx_test_component_LUXeXe0DQrg.js (ENTRY POINT)==
 
 import { _jsxSorted } from "@qwik.dev/core";
-export const component_ZUK1E201Ins = ()=>{
+export const test_component_LUXeXe0DQrg = ()=>{
 	return _jsxSorted(Hola, null, null, [/*#__PURE__*/ _jsxSorted("div", null, null, "1", 3, null), /*#__PURE__*/ _jsxSorted("div", null, null, "2", 3, null)], 3, null);
 };
 
@@ -29,13 +40,13 @@ None
 /*
 {
   "origin": "test.tsx",
-  "name": "component_ZUK1E201Ins",
+  "name": "test_component_LUXeXe0DQrg",
   "entry": null,
-  "displayName": "test.tsx_component",
-  "hash": "ZUK1E201Ins",
-  "canonicalFilename": "test.tsx_component_ZUK1E201Ins",
+  "displayName": "test_component",
+  "hash": "LUXeXe0DQrg",
+  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
   "path": "",
-  "extension": "tsx",
+  "extension": "js",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
@@ -46,17 +57,6 @@ None
   ]
 }
 */
-============================= test.tsx ==
-
-import { _getConstProps, _getVarProps, _jsxSplit, componentQrl, qrl } from "@qwik.dev/core";
-const i_ZUK1E201Ins = ()=>import("./test.tsx_component_ZUK1E201Ins");
-function Hola(props) {
-	return /*#__PURE__*/ _jsxSplit("div", { ..._getVarProps(props) }, _getConstProps(props), null, 0, null);
-}
-export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ZUK1E201Ins, "component_ZUK1E201Ins"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

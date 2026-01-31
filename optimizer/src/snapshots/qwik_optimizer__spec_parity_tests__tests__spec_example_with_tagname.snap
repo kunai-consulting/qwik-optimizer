@@ -17,38 +17,9 @@ export const Foo = component$(() => {
 	tagName: "my-foo",
 });
 
-============================= test.tsx_Foo_component_HTDRsvUbLiE.tsx (ENTRY POINT)==
+============================= test.tsx_test_Foo_component_1_AeLWTA7YAKE.tsx (ENTRY POINT)==
 
-import { qrl } from "@qwik.dev/core";
-export const Foo_component_HTDRsvUbLiE = ()=>{
-	return /*#__PURE__*/ qrl(i_DvU6FitWglY, "Foo_component_1_DvU6FitWglY");
-};
-
-
-None
-/*
-{
-  "origin": "test.tsx",
-  "name": "Foo_component_HTDRsvUbLiE",
-  "entry": null,
-  "displayName": "test.tsx_Foo_component",
-  "hash": "HTDRsvUbLiE",
-  "canonicalFilename": "test.tsx_Foo_component_HTDRsvUbLiE",
-  "path": "",
-  "extension": "tsx",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "component$",
-  "captures": false,
-  "loc": [
-    79,
-    145
-  ]
-}
-*/
-============================= test.tsx_Foo_component_1_DvU6FitWglY.tsx (ENTRY POINT)==
-
-export const Foo_component_1_DvU6FitWglY = ()=>{
+export const test_Foo_component_1_AeLWTA7YAKE = ()=>{
 	return <div>
 			</div>;
 };
@@ -58,11 +29,11 @@ None
 /*
 {
   "origin": "test.tsx",
-  "name": "Foo_component_1_DvU6FitWglY",
+  "name": "test_Foo_component_1_AeLWTA7YAKE",
   "entry": null,
-  "displayName": "test.tsx_Foo_component_1",
-  "hash": "DvU6FitWglY",
-  "canonicalFilename": "test.tsx_Foo_component_1_DvU6FitWglY",
+  "displayName": "test_Foo_component_1",
+  "hash": "AeLWTA7YAKE",
+  "canonicalFilename": "test.tsx_test_Foo_component_1_AeLWTA7YAKE",
   "path": "",
   "extension": "tsx",
   "parent": "component",
@@ -78,12 +49,41 @@ None
 ============================= test.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-const i_DvU6FitWglY = ()=>import("./test.tsx_Foo_component_1_DvU6FitWglY");
-const i_HTDRsvUbLiE = ()=>import("./test.tsx_Foo_component_HTDRsvUbLiE");
-export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_HTDRsvUbLiE, "Foo_component_HTDRsvUbLiE"));
+const i_AeLWTA7YAKE = ()=>import("./test.tsx_test_Foo_component_1_AeLWTA7YAKE");
+const i_NK5Hyit5tec = ()=>import("./test.tsx_test_Foo_component_NK5Hyit5tec");
+export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_NK5Hyit5tec, "test_Foo_component_NK5Hyit5tec"));
 
 
 None
+============================= test.tsx_test_Foo_component_NK5Hyit5tec.tsx (ENTRY POINT)==
+
+import { qrl } from "@qwik.dev/core";
+export const test_Foo_component_NK5Hyit5tec = ()=>{
+	return /*#__PURE__*/ qrl(i_AeLWTA7YAKE, "test_Foo_component_1_AeLWTA7YAKE");
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Foo_component_NK5Hyit5tec",
+  "entry": null,
+  "displayName": "test_Foo_component",
+  "hash": "NK5Hyit5tec",
+  "canonicalFilename": "test.tsx_test_Foo_component_NK5Hyit5tec",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    79,
+    145
+  ]
+}
+*/
 == DIAGNOSTICS ==
 
 []

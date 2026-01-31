@@ -31,11 +31,21 @@ export const Child = component$(() => {
   );
 })
 
-============================= test.tsx_Child_component_9GyF01GDKqw.tsx (ENTRY POINT)==
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_1dotO0YXFtY = ()=>import("./test.tsx_test_Child_component_1dotO0YXFtY");
+const _hf0 = (p0, p1)=>p0.attributeInArray.counter;
+const _hf0_str = "p0.attributeInArray.counter";
+export const Child = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_1dotO0YXFtY, "test_Child_component_1dotO0YXFtY"));
+
+
+None
+============================= test.tsx_test_Child_component_1dotO0YXFtY.js (ENTRY POINT)==
 
 import { TestComponent } from "./testComponent";
 import { _fnSignal, _jsxSorted, useSignal } from "@qwik.dev/core";
-export const Child_component_9GyF01GDKqw = ()=>{
+export const test_Child_component_1dotO0YXFtY = ()=>{
 	const propCounterWithNested = useSignal(()=>{
 		return { data: [{ attributeInArray: { counter: globalThis.propsCounter++ } }, { attributeInArray: { counter: globalThis.propsCounter } }] };
 	});
@@ -49,13 +59,13 @@ None
 /*
 {
   "origin": "test.tsx",
-  "name": "Child_component_9GyF01GDKqw",
+  "name": "test_Child_component_1dotO0YXFtY",
   "entry": null,
-  "displayName": "test.tsx_Child_component",
-  "hash": "9GyF01GDKqw",
-  "canonicalFilename": "test.tsx_Child_component_9GyF01GDKqw",
+  "displayName": "test_Child_component",
+  "hash": "1dotO0YXFtY",
+  "canonicalFilename": "test.tsx_test_Child_component_1dotO0YXFtY",
   "path": "",
-  "extension": "tsx",
+  "extension": "js",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
@@ -66,16 +76,6 @@ None
   ]
 }
 */
-============================= test.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_9GyF01GDKqw = ()=>import("./test.tsx_Child_component_9GyF01GDKqw");
-const _hf0 = (p0, p1)=>p0.attributeInArray.counter;
-const _hf0_str = "p0.attributeInArray.counter";
-export const Child = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_9GyF01GDKqw, "Child_component_9GyF01GDKqw"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

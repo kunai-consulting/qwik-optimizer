@@ -22,19 +22,11 @@ export const Greeter = component$(() => {
 	)
 });
 
-============================= test.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_n7HuG2hhU0Q = ()=>import("./test.tsx_s_n7HuG2hhU0Q");
-export const Greeter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_n7HuG2hhU0Q, "s_n7HuG2hhU0Q"));
-
-
-None
-============================= test.tsx_s_n7HuG2hhU0Q.tsx (ENTRY POINT)==
+============================= test.tsx_s_ypCtrRwcmFs.js (ENTRY POINT)==
 
 import { _jsxSorted } from "@qwik.dev/core";
 import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
-export const s_n7HuG2hhU0Q = ()=>{
+export const s_ypCtrRwcmFs = ()=>{
 	const value = useSignal(0);
 	const checked = useSignal(false);
 	const stuff = useSignal();
@@ -58,13 +50,13 @@ None
 /*
 {
   "origin": "test.tsx",
-  "name": "s_n7HuG2hhU0Q",
+  "name": "s_ypCtrRwcmFs",
   "entry": "entry_segments",
-  "displayName": "test.tsx_Greeter_component",
-  "hash": "n7HuG2hhU0Q",
-  "canonicalFilename": "test.tsx_s_n7HuG2hhU0Q",
+  "displayName": "test_Greeter_component",
+  "hash": "ypCtrRwcmFs",
+  "canonicalFilename": "test.tsx_s_ypCtrRwcmFs",
   "path": "",
-  "extension": "tsx",
+  "extension": "js",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
@@ -75,6 +67,14 @@ None
   ]
 }
 */
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_ypCtrRwcmFs = ()=>import("./test.tsx_s_ypCtrRwcmFs");
+export const Greeter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ypCtrRwcmFs, "s_ypCtrRwcmFs"));
+
+
+None
 == DIAGNOSTICS ==
 
 []

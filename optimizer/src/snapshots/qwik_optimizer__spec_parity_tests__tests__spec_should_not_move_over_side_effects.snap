@@ -14,38 +14,12 @@ export const \$promoteToRoot$ = (ref: SeenRef) => {
 	return idx;
 };
 
-============================= test.tsx_promoteToRoot_path_getObjectPath_ytJZPsFrXms.tsx (ENTRY POINT)==
-
-export const promoteToRoot_path_getObjectPath_ytJZPsFrXms = ref;
-
-
-None
-/*
-{
-  "origin": "test.tsx",
-  "name": "promoteToRoot_path_getObjectPath_ytJZPsFrXms",
-  "entry": null,
-  "displayName": "test.tsx_promoteToRoot_path_getObjectPath",
-  "hash": "ytJZPsFrXms",
-  "canonicalFilename": "test.tsx_promoteToRoot_path_getObjectPath_ytJZPsFrXms",
-  "path": "",
-  "extension": "tsx",
-  "parent": "promoteToRoot",
-  "ctxKind": "function",
-  "ctxName": "getObjectPath$",
-  "captures": true,
-  "loc": [
-    83,
-    86
-  ]
-}
-*/
-============================= test.tsx ==
+============================= test.js ==
 
 import { getObjectPathQrl, qrl } from "@qwik.dev/core";
-const i_ytJZPsFrXms = ()=>import("./test.tsx_promoteToRoot_path_getObjectPath_ytJZPsFrXms");
+const i_hN5kOkVHRNA = ()=>import("./test.tsx_test_promoteToRoot_path_getObjectPath_hN5kOkVHRNA");
 export const promoteToRoot$ = (ref)=>{
-	const path = /*#__PURE__*/ getObjectPathQrl(/*#__PURE__*/ qrl(i_ytJZPsFrXms, "promoteToRoot_path_getObjectPath_ytJZPsFrXms", [ref]));
+	const path = /*#__PURE__*/ getObjectPathQrl(/*#__PURE__*/ qrl(i_hN5kOkVHRNA, "test_promoteToRoot_path_getObjectPath_hN5kOkVHRNA", [ref]));
 	// should stay before the push
 	const idx = roots.length;
 	roots.push(new BackRef(path));
@@ -56,6 +30,32 @@ export const promoteToRoot$ = (ref)=>{
 
 
 None
+============================= test.tsx_test_promoteToRoot_path_getObjectPath_hN5kOkVHRNA.js (ENTRY POINT)==
+
+export const test_promoteToRoot_path_getObjectPath_hN5kOkVHRNA = ref;
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_promoteToRoot_path_getObjectPath_hN5kOkVHRNA",
+  "entry": null,
+  "displayName": "test_promoteToRoot_path_getObjectPath",
+  "hash": "hN5kOkVHRNA",
+  "canonicalFilename": "test.tsx_test_promoteToRoot_path_getObjectPath_hN5kOkVHRNA",
+  "path": "",
+  "extension": "js",
+  "parent": "promoteToRoot",
+  "ctxKind": "function",
+  "ctxName": "getObjectPath$",
+  "captures": true,
+  "loc": [
+    83,
+    86
+  ]
+}
+*/
 == DIAGNOSTICS ==
 
 []

@@ -28,54 +28,18 @@ export const App = component$(() => {
 	);
 });
 
-============================= test.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_ebyHaP15ytQ = ()=>import("./test.tsx_App_component_serverStuff_ebyHaP15ytQ");
-const i_PQCqO0ANabY = ()=>import("./test.tsx_App_component_serverStuff_1_PQCqO0ANabY");
-const i_ckEPmXZlub0 = ()=>import("./test.tsx_App_component_ckEPmXZlub0");
-export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
-
-
-None
-============================= test.tsx_App_component_serverStuff_1_PQCqO0ANabY.tsx (ENTRY POINT)==
-
-export const App_component_serverStuff_1_PQCqO0ANabY = async ()=>{};
-
-
-None
-/*
-{
-  "origin": "test.tsx",
-  "name": "App_component_serverStuff_1_PQCqO0ANabY",
-  "entry": null,
-  "displayName": "test.tsx_App_component_serverStuff_1",
-  "hash": "PQCqO0ANabY",
-  "canonicalFilename": "test.tsx_App_component_serverStuff_1_PQCqO0ANabY",
-  "path": "",
-  "extension": "tsx",
-  "parent": "component",
-  "ctxKind": "function",
-  "ctxName": "serverStuff$",
-  "captures": false,
-  "loc": [
-    249,
-    288
-  ]
-}
-*/
-============================= test.tsx_App_component_ckEPmXZlub0.tsx (ENTRY POINT)==
+============================= test.tsx_test_App_component_jYXJI01qFIU.js (ENTRY POINT)==
 
 import { _jsxSorted } from "@qwik.dev/core";
-const i_ebyHaP15ytQ = ()=>import("./test.tsx_App_component_serverStuff_ebyHaP15ytQ");
-const i_PQCqO0ANabY = ()=>import("./test.tsx_App_component_serverStuff_1_PQCqO0ANabY");
-export const App_component_ckEPmXZlub0 = ()=>{
+const i_Xl1lXgcF0bE = ()=>import("./test.tsx_test_App_component_serverStuff_Xl1lXgcF0bE");
+const i_gewTbXZkQfM = ()=>import("./test.tsx_test_App_component_serverStuff_1_gewTbXZkQfM");
+export const test_App_component_jYXJI01qFIU = ()=>{
 	const stuff = useStore();
-	/*#__PURE__*/ serverStuffQrl(/*#__PURE__*/ qrl(i_ebyHaP15ytQ, "App_component_serverStuff_ebyHaP15ytQ", [stuff]));
-	/*#__PURE__*/ serverStuffQrl(/*#__PURE__*/ qrl(i_PQCqO0ANabY, "App_component_serverStuff_1_PQCqO0ANabY"));
+	/*#__PURE__*/ serverStuffQrl(/*#__PURE__*/ qrl(i_Xl1lXgcF0bE, "test_App_component_serverStuff_Xl1lXgcF0bE", [stuff]));
+	/*#__PURE__*/ serverStuffQrl(/*#__PURE__*/ qrl(i_gewTbXZkQfM, "test_App_component_serverStuff_1_gewTbXZkQfM"));
 	return _jsxSorted(Cmp, null, null, /*#__PURE__*/ _jsxSorted("p", {
-		shouldRemove$: /*#__PURE__*/ serverStuffQrl(/*#__PURE__*/ qrl(i_PQCqO0ANabY, "App_component_serverStuff_1_PQCqO0ANabY")),
-		on:click: /*#__PURE__*/ serverStuffQrl(/*#__PURE__*/ qrl(i_ebyHaP15ytQ, "App_component_serverStuff_ebyHaP15ytQ", [stuff]))
+		shouldRemove$: /*#__PURE__*/ serverStuffQrl(/*#__PURE__*/ qrl(i_gewTbXZkQfM, "test_App_component_serverStuff_1_gewTbXZkQfM")),
+		on:click: /*#__PURE__*/ serverStuffQrl(/*#__PURE__*/ qrl(i_Xl1lXgcF0bE, "test_App_component_serverStuff_Xl1lXgcF0bE", [stuff]))
 	}, { class: "stuff" }, "Hello Qwik", 3, null), 3, null);
 };
 
@@ -84,13 +48,13 @@ None
 /*
 {
   "origin": "test.tsx",
-  "name": "App_component_ckEPmXZlub0",
+  "name": "test_App_component_jYXJI01qFIU",
   "entry": null,
-  "displayName": "test.tsx_App_component",
-  "hash": "ckEPmXZlub0",
-  "canonicalFilename": "test.tsx_App_component_ckEPmXZlub0",
+  "displayName": "test_App_component",
+  "hash": "jYXJI01qFIU",
+  "canonicalFilename": "test.tsx_test_App_component_jYXJI01qFIU",
   "path": "",
-  "extension": "tsx",
+  "extension": "js",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
@@ -101,9 +65,19 @@ None
   ]
 }
 */
-============================= test.tsx_App_component_serverStuff_ebyHaP15ytQ.tsx (ENTRY POINT)==
+============================= test.js ==
 
-export const App_component_serverStuff_ebyHaP15ytQ = async ()=>{
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_Xl1lXgcF0bE = ()=>import("./test.tsx_test_App_component_serverStuff_Xl1lXgcF0bE");
+const i_gewTbXZkQfM = ()=>import("./test.tsx_test_App_component_serverStuff_1_gewTbXZkQfM");
+const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
+
+
+None
+============================= test.tsx_test_App_component_serverStuff_Xl1lXgcF0bE.js (ENTRY POINT)==
+
+export const test_App_component_serverStuff_Xl1lXgcF0bE = async ()=>{
 	const [stuff] = useLexicalScope();
 	console.log(stuff.count);
 };
@@ -113,13 +87,13 @@ None
 /*
 {
   "origin": "test.tsx",
-  "name": "App_component_serverStuff_ebyHaP15ytQ",
+  "name": "test_App_component_serverStuff_Xl1lXgcF0bE",
   "entry": null,
-  "displayName": "test.tsx_App_component_serverStuff",
-  "hash": "ebyHaP15ytQ",
-  "canonicalFilename": "test.tsx_App_component_serverStuff_ebyHaP15ytQ",
+  "displayName": "test_App_component_serverStuff",
+  "hash": "Xl1lXgcF0bE",
+  "canonicalFilename": "test.tsx_test_App_component_serverStuff_Xl1lXgcF0bE",
   "path": "",
-  "extension": "tsx",
+  "extension": "js",
   "parent": "component",
   "ctxKind": "function",
   "ctxName": "serverStuff$",
@@ -127,6 +101,32 @@ None
   "loc": [
     152,
     233
+  ]
+}
+*/
+============================= test.tsx_test_App_component_serverStuff_1_gewTbXZkQfM.js (ENTRY POINT)==
+
+export const test_App_component_serverStuff_1_gewTbXZkQfM = async ()=>{};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_App_component_serverStuff_1_gewTbXZkQfM",
+  "entry": null,
+  "displayName": "test_App_component_serverStuff_1",
+  "hash": "gewTbXZkQfM",
+  "canonicalFilename": "test.tsx_test_App_component_serverStuff_1_gewTbXZkQfM",
+  "path": "",
+  "extension": "js",
+  "parent": "component",
+  "ctxKind": "function",
+  "ctxName": "serverStuff$",
+  "captures": false,
+  "loc": [
+    249,
+    288
   ]
 }
 */

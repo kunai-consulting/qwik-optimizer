@@ -21,11 +21,20 @@ export const Counter = component$(() => {
     );
 });
 
-============================= test_qrl_nested_component.tsx_Counter_component_IcgXRDFMPFQ.tsx (ENTRY POINT)==
+============================= test_qrl_nested_component.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_miJFRAklrrE = ()=>import("./test_qrl_nested_component.tsx_test_qrl_nested_component_Counter_component_miJFRAklrrE");
+// Nested component with handler - tests parent segment linking
+export const Counter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_miJFRAklrrE, "test_qrl_nested_component_Counter_component_miJFRAklrrE"));
+
+
+None
+============================= test_qrl_nested_component.tsx_test_qrl_nested_component_Counter_component_miJFRAklrrE.js (ENTRY POINT)==
 
 import { _jsxSorted, qrl, useSignal } from "@qwik.dev/core";
 const i_onClick = ()=>import("./test_qrl_nested_component.tsx");
-export const Counter_component_IcgXRDFMPFQ = ()=>{
+export const test_qrl_nested_component_Counter_component_miJFRAklrrE = ()=>{
 	const count = useSignal(0);
 	return /*#__PURE__*/ _jsxSorted("div", null, null, /*#__PURE__*/ _jsxSorted("button", { on:click: /*#__PURE__*/ qrl(i_onClick, "Counter_component_div_button_onClick", [count]) }, null, _wrapProp(count), 1, null), 3, null);
 };
@@ -35,13 +44,13 @@ None
 /*
 {
   "origin": "test_qrl_nested_component.tsx",
-  "name": "Counter_component_IcgXRDFMPFQ",
+  "name": "test_qrl_nested_component_Counter_component_miJFRAklrrE",
   "entry": null,
-  "displayName": "test_qrl_nested_component.tsx_Counter_component",
-  "hash": "IcgXRDFMPFQ",
-  "canonicalFilename": "test_qrl_nested_component.tsx_Counter_component_IcgXRDFMPFQ",
+  "displayName": "test_qrl_nested_component_Counter_component",
+  "hash": "miJFRAklrrE",
+  "canonicalFilename": "test_qrl_nested_component.tsx_test_qrl_nested_component_Counter_component_miJFRAklrrE",
   "path": "",
-  "extension": "tsx",
+  "extension": "js",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
@@ -52,15 +61,6 @@ None
   ]
 }
 */
-============================= test_qrl_nested_component.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_IcgXRDFMPFQ = ()=>import("./test_qrl_nested_component.tsx_Counter_component_IcgXRDFMPFQ");
-// Nested component with handler - tests parent segment linking
-export const Counter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_IcgXRDFMPFQ, "Counter_component_IcgXRDFMPFQ"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

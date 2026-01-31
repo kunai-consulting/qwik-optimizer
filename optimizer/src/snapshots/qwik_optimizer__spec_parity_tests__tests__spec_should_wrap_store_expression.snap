@@ -26,10 +26,19 @@ export default component$(() => {
 });
 export const PANELS: ActivePanel[] = ['Examples', 'Input', 'Output', 'Console'];
 
-============================= test.tsx_component_ZUK1E201Ins.tsx (ENTRY POINT)==
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
+export const PANELS = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
+
+
+None
+============================= test.tsx_test_component_LUXeXe0DQrg.js (ENTRY POINT)==
 
 import { _jsxSorted, useStore } from "@qwik.dev/core";
-export const component_ZUK1E201Ins = ()=>{
+export const test_component_LUXeXe0DQrg = ()=>{
 	const panelStore = useStore(()=>({
 		active: "Input",
 		list: PANELS
@@ -50,13 +59,13 @@ None
 /*
 {
   "origin": "test.tsx",
-  "name": "component_ZUK1E201Ins",
+  "name": "test_component_LUXeXe0DQrg",
   "entry": null,
-  "displayName": "test.tsx_component",
-  "hash": "ZUK1E201Ins",
-  "canonicalFilename": "test.tsx_component_ZUK1E201Ins",
+  "displayName": "test_component",
+  "hash": "LUXeXe0DQrg",
+  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
   "path": "",
-  "extension": "tsx",
+  "extension": "js",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
@@ -67,15 +76,6 @@ None
   ]
 }
 */
-============================= test.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_ZUK1E201Ins = ()=>import("./test.tsx_component_ZUK1E201Ins");
-export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ZUK1E201Ins, "component_ZUK1E201Ins"));
-export const PANELS = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ZUK1E201Ins, "component_ZUK1E201Ins"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

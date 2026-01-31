@@ -20,21 +20,9 @@ export const App = component$(() => {
 	);
 });
 
-============================= test.tsx ==
+============================= test.tsx_test_App_component_jYXJI01qFIU.tsx (ENTRY POINT)==
 
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_ckEPmXZlub0 = ()=>import("./test.tsx_App_component_ckEPmXZlub0");
-export enum Thing {
-	A,
-	B
-}
-export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
-
-
-None
-============================= test.tsx_App_component_ckEPmXZlub0.tsx (ENTRY POINT)==
-
-export const App_component_ckEPmXZlub0 = ()=>{
+export const test_App_component_jYXJI01qFIU = ()=>{
 	console.log(Thing.A);
 	return <>
 			<p class="stuff">Hello Qwik</p>
@@ -46,11 +34,11 @@ None
 /*
 {
   "origin": "test.tsx",
-  "name": "App_component_ckEPmXZlub0",
+  "name": "test_App_component_jYXJI01qFIU",
   "entry": null,
-  "displayName": "test.tsx_App_component",
-  "hash": "ckEPmXZlub0",
-  "canonicalFilename": "test.tsx_App_component_ckEPmXZlub0",
+  "displayName": "test_App_component",
+  "hash": "jYXJI01qFIU",
+  "canonicalFilename": "test.tsx_test_App_component_jYXJI01qFIU",
   "path": "",
   "extension": "tsx",
   "parent": null,
@@ -63,6 +51,18 @@ None
   ]
 }
 */
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
+export enum Thing {
+	A,
+	B
+}
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
+
+
+None
 == DIAGNOSTICS ==
 
 []

@@ -13,19 +13,11 @@ export default component$(() => {
 	);
 });
 
-============================= src/components/mongo/404.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_fw9Bo3UeA0o = ()=>import("./404.tsx_component_fw9Bo3UeA0o");
-export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_fw9Bo3UeA0o, "component_fw9Bo3UeA0o"));
-
-
-None
-============================= src/components/mongo/404.tsx_component_fw9Bo3UeA0o.tsx (ENTRY POINT)==
+============================= src/components/mongo/404.tsx_404_component_aa6ReVOPyKc.tsx (ENTRY POINT)==
 
 import { qrl } from "@qwik.dev/core";
 const i_onClick = ()=>import("./404.tsx");
-export const component_fw9Bo3UeA0o = ()=>{
+export const 404_component_aa6ReVOPyKc = ()=>{
 	return <div on:click={/*#__PURE__*/ qrl(i_onClick, "component_div_onClick")}>
 		</div>;
 };
@@ -35,11 +27,11 @@ None
 /*
 {
   "origin": "src/components/mongo/404.tsx",
-  "name": "component_fw9Bo3UeA0o",
+  "name": "404_component_aa6ReVOPyKc",
   "entry": null,
-  "displayName": "404.tsx_component",
-  "hash": "fw9Bo3UeA0o",
-  "canonicalFilename": "404.tsx_component_fw9Bo3UeA0o",
+  "displayName": "404_component",
+  "hash": "aa6ReVOPyKc",
+  "canonicalFilename": "404.tsx_404_component_aa6ReVOPyKc",
   "path": "src/components/mongo",
   "extension": "tsx",
   "parent": null,
@@ -52,6 +44,14 @@ None
   ]
 }
 */
+============================= src/components/mongo/404.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_aa6ReVOPyKc = ()=>import("./404.tsx_404_component_aa6ReVOPyKc");
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_aa6ReVOPyKc, "404_component_aa6ReVOPyKc"));
+
+
+None
 == DIAGNOSTICS ==
 
 []

@@ -29,9 +29,24 @@ export const ButtonArrow = ({text, color}) => {
 	);
 }
 
-============================= test.tsx_Foo_component_HTDRsvUbLiE.tsx (ENTRY POINT)==
+============================= test.tsx ==
 
-export const Foo_component_HTDRsvUbLiE = (props)=>{
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_NK5Hyit5tec = ()=>import("./test.tsx_test_Foo_component_NK5Hyit5tec");
+const i_onClick = ()=>import("./test.tsx");
+export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_NK5Hyit5tec, "test_Foo_component_NK5Hyit5tec"));
+export function Button({ text, color }) {
+	return <button on:color={color} on:click={/*#__PURE__*/ qrl(i_onClick, "Button_button_onClick")}>{text}</button>;
+}
+export const ButtonArrow = ({ text, color })=>{
+	return <button on:color={color} on:click={/*#__PURE__*/ qrl(i_onClick, "ButtonArrow_button_onClick")}>{text}</button>;
+};
+
+
+None
+============================= test.tsx_test_Foo_component_NK5Hyit5tec.tsx (ENTRY POINT)==
+
+export const test_Foo_component_NK5Hyit5tec = (props)=>{
 	return <div>
 			<Button {...props} />
 			<ButtonArrow {...props} />
@@ -43,11 +58,11 @@ None
 /*
 {
   "origin": "test.tsx",
-  "name": "Foo_component_HTDRsvUbLiE",
+  "name": "test_Foo_component_NK5Hyit5tec",
   "entry": null,
-  "displayName": "test.tsx_Foo_component",
-  "hash": "HTDRsvUbLiE",
-  "canonicalFilename": "test.tsx_Foo_component_HTDRsvUbLiE",
+  "displayName": "test_Foo_component",
+  "hash": "NK5Hyit5tec",
+  "canonicalFilename": "test.tsx_test_Foo_component_NK5Hyit5tec",
   "path": "",
   "extension": "tsx",
   "parent": null,
@@ -60,21 +75,6 @@ None
   ]
 }
 */
-============================= test.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_HTDRsvUbLiE = ()=>import("./test.tsx_Foo_component_HTDRsvUbLiE");
-const i_onClick = ()=>import("./test.tsx");
-export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_HTDRsvUbLiE, "Foo_component_HTDRsvUbLiE"));
-export function Button({ text, color }) {
-	return <button on:color={color} on:click={/*#__PURE__*/ qrl(i_onClick, "Button_button_onClick")}>{text}</button>;
-}
-export const ButtonArrow = ({ text, color })=>{
-	return <button on:color={color} on:click={/*#__PURE__*/ qrl(i_onClick, "ButtonArrow_button_onClick")}>{text}</button>;
-};
-
-
-None
 == DIAGNOSTICS ==
 
 []

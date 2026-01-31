@@ -33,11 +33,34 @@ export default component$(() => {
 	)
 	});
 
-============================= test.tsx_component_ZUK1E201Ins.tsx (ENTRY POINT)==
+============================= test.js ==
+
+import { secret, sideEffect } from "./secret";
+import { componentQrl, qrl, serverQrl } from "@qwik.dev/core";
+import { serverQrl } from "@qwik.dev/router";
+import { Client } from "openai";
+import { clientSupabase } from "supabase";
+const i_xl5xjgwqXMU = ()=>import("./test.tsx_test_api_server_xl5xjgwqXMU");
+const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
+const supabase = clientSupabase();
+const dfd = new Client(secret);
+(function() {
+	console.log("run");
+})();
+(()=>{
+	console.log("run");
+})();
+sideEffect();
+export const api = /*#__PURE__*/ serverQrl(/*#__PURE__*/ qrl(i_xl5xjgwqXMU, "test_api_server_xl5xjgwqXMU", [dfd, supabase]));
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
+
+
+None
+============================= test.tsx_test_component_LUXeXe0DQrg.js (ENTRY POINT)==
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 const i_onClick = ()=>import("./test.tsx");
-export const component_ZUK1E201Ins = ()=>{
+export const test_component_LUXeXe0DQrg = ()=>{
 	return /*#__PURE__*/ _jsxSorted("button", { on:click: /*#__PURE__*/ qrl(i_onClick, "component_button_onClick") }, null, null, 3, null);
 };
 
@@ -46,13 +69,13 @@ None
 /*
 {
   "origin": "test.tsx",
-  "name": "component_ZUK1E201Ins",
+  "name": "test_component_LUXeXe0DQrg",
   "entry": null,
-  "displayName": "test.tsx_component",
-  "hash": "ZUK1E201Ins",
-  "canonicalFilename": "test.tsx_component_ZUK1E201Ins",
+  "displayName": "test_component",
+  "hash": "LUXeXe0DQrg",
+  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
   "path": "",
-  "extension": "tsx",
+  "extension": "js",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
@@ -63,9 +86,9 @@ None
   ]
 }
 */
-============================= test.tsx_api_server_JonPp043gH0.tsx (ENTRY POINT)==
+============================= test.tsx_test_api_server_xl5xjgwqXMU.js (ENTRY POINT)==
 
-export const api_server_JonPp043gH0 = ()=>{
+export const test_api_server_xl5xjgwqXMU = ()=>{
 	const [dfd, supabase] = useLexicalScope();
 	supabase.from("ffg").do(dfd);
 };
@@ -75,13 +98,13 @@ None
 /*
 {
   "origin": "test.tsx",
-  "name": "api_server_JonPp043gH0",
+  "name": "test_api_server_xl5xjgwqXMU",
   "entry": null,
-  "displayName": "test.tsx_api_server",
-  "hash": "JonPp043gH0",
-  "canonicalFilename": "test.tsx_api_server_JonPp043gH0",
+  "displayName": "test_api_server",
+  "hash": "xl5xjgwqXMU",
+  "canonicalFilename": "test.tsx_test_api_server_xl5xjgwqXMU",
   "path": "",
-  "extension": "tsx",
+  "extension": "js",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "server$",
@@ -92,29 +115,6 @@ None
   ]
 }
 */
-============================= test.tsx ==
-
-import { secret, sideEffect } from "./secret";
-import { componentQrl, qrl, serverQrl } from "@qwik.dev/core";
-import { serverQrl } from "@qwik.dev/router";
-import { Client } from "openai";
-import { clientSupabase } from "supabase";
-const i_JonPp043gH0 = ()=>import("./test.tsx_api_server_JonPp043gH0");
-const i_ZUK1E201Ins = ()=>import("./test.tsx_component_ZUK1E201Ins");
-const supabase = clientSupabase();
-const dfd = new Client(secret);
-(function() {
-	console.log("run");
-})();
-(()=>{
-	console.log("run");
-})();
-sideEffect();
-export const api = /*#__PURE__*/ serverQrl(/*#__PURE__*/ qrl(i_JonPp043gH0, "api_server_JonPp043gH0", [dfd, supabase]));
-export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ZUK1E201Ins, "component_ZUK1E201Ins"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

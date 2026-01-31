@@ -18,11 +18,11 @@ export const Counter = component$(() => {
 	);
 });
 
-============================= test.tsx_Counter_component_zTmRHlL09Gg.tsx (ENTRY POINT)==
+============================= test.tsx_test_Counter_component_iURg6pGFsVc.js (ENTRY POINT)==
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 const i_onClick = ()=>import("./test.tsx");
-export const Counter_component_zTmRHlL09Gg = ()=>{
+export const test_Counter_component_iURg6pGFsVc = ()=>{
 	const count = useSignal(0);
 	return /*#__PURE__*/ _jsxSorted("div", null, null, [/*#__PURE__*/ _jsxSorted("p", null, null, ["Count:", _wrapProp(count)], 1, null), /*#__PURE__*/ _jsxSorted("p", null, null, /*#__PURE__*/ _jsxSorted("button", { on:click: /*#__PURE__*/ qrl(i_onClick, "Counter_component_div_p_button_onClick", [count]) }, null, "Increment", 3, null), 3, null)], 3, null);
 };
@@ -32,13 +32,13 @@ None
 /*
 {
   "origin": "test.tsx",
-  "name": "Counter_component_zTmRHlL09Gg",
+  "name": "test_Counter_component_iURg6pGFsVc",
   "entry": null,
-  "displayName": "test.tsx_Counter_component",
-  "hash": "zTmRHlL09Gg",
-  "canonicalFilename": "test.tsx_Counter_component_zTmRHlL09Gg",
+  "displayName": "test_Counter_component",
+  "hash": "iURg6pGFsVc",
+  "canonicalFilename": "test.tsx_test_Counter_component_iURg6pGFsVc",
   "path": "",
-  "extension": "tsx",
+  "extension": "js",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
@@ -49,11 +49,11 @@ None
   ]
 }
 */
-============================= test.tsx ==
+============================= test.js ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-const i_zTmRHlL09Gg = ()=>import("./test.tsx_Counter_component_zTmRHlL09Gg");
-export const Counter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_zTmRHlL09Gg, "Counter_component_zTmRHlL09Gg"));
+const i_iURg6pGFsVc = ()=>import("./test.tsx_test_Counter_component_iURg6pGFsVc");
+export const Counter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_iURg6pGFsVc, "test_Counter_component_iURg6pGFsVc"));
 
 
 None

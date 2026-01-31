@@ -14,7 +14,7 @@ export const App = Component((props) => {
 	));
 });
 
-============================= test.tsx ==
+============================= test.js ==
 
 import { _jsxSorted, useStore, Qrl as onRender, componentQrl as Component } from "@qwik.dev/core";
 export const App = Component((props)=>{

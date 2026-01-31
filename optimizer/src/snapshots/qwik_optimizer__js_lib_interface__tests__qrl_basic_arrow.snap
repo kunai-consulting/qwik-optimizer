@@ -11,18 +11,18 @@ export const handler = $(() => {
     console.log('hello');
 });
 
-============================= test_qrl_basic_arrow.tsx ==
+============================= test_qrl_basic_arrow.js ==
 
 import { qrl } from "@qwik.dev/core";
-const i_r3j5WVCJ9mM = ()=>import("./test_qrl_basic_arrow.tsx_handler_r3j5WVCJ9mM");
+const i_IKU7t4XDamU = ()=>import("./test_qrl_basic_arrow.tsx_test_qrl_basic_arrow_handler_IKU7t4XDamU");
 // Basic arrow function QRL
-export const handler = /*#__PURE__*/ qrl(i_r3j5WVCJ9mM, "handler_r3j5WVCJ9mM");
+export const handler = /*#__PURE__*/ qrl(i_IKU7t4XDamU, "test_qrl_basic_arrow_handler_IKU7t4XDamU");
 
 
 None
-============================= test_qrl_basic_arrow.tsx_handler_r3j5WVCJ9mM.tsx (ENTRY POINT)==
+============================= test_qrl_basic_arrow.tsx_test_qrl_basic_arrow_handler_IKU7t4XDamU.js (ENTRY POINT)==
 
-export const handler_r3j5WVCJ9mM = ()=>{
+export const test_qrl_basic_arrow_handler_IKU7t4XDamU = ()=>{
 	console.log("hello");
 };
 
@@ -31,13 +31,13 @@ None
 /*
 {
   "origin": "test_qrl_basic_arrow.tsx",
-  "name": "handler_r3j5WVCJ9mM",
+  "name": "test_qrl_basic_arrow_handler_IKU7t4XDamU",
   "entry": null,
-  "displayName": "test_qrl_basic_arrow.tsx_handler",
-  "hash": "r3j5WVCJ9mM",
-  "canonicalFilename": "test_qrl_basic_arrow.tsx_handler_r3j5WVCJ9mM",
+  "displayName": "test_qrl_basic_arrow_handler",
+  "hash": "IKU7t4XDamU",
+  "canonicalFilename": "test_qrl_basic_arrow.tsx_test_qrl_basic_arrow_handler_IKU7t4XDamU",
   "path": "",
-  "extension": "tsx",
+  "extension": "js",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "$",

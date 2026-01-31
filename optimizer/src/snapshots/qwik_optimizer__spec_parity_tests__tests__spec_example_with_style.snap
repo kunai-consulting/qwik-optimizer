@@ -15,20 +15,29 @@ export const Foo = component$(() => {
 	tagName: "my-foo",
 });
 
-============================= test.tsx_Foo_component_useStyles_pV9TSCBIhw8.tsx (ENTRY POINT)==
+============================= test.tsx ==
 
-export const Foo_component_useStyles_pV9TSCBIhw8 = ".class {}";
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_pnb0KSS7tbU = ()=>import("./test.tsx_test_Foo_component_useStyles_pnb0KSS7tbU");
+const i_NK5Hyit5tec = ()=>import("./test.tsx_test_Foo_component_NK5Hyit5tec");
+export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_NK5Hyit5tec, "test_Foo_component_NK5Hyit5tec"));
+
+
+None
+============================= test.tsx_test_Foo_component_useStyles_pnb0KSS7tbU.tsx (ENTRY POINT)==
+
+export const test_Foo_component_useStyles_pnb0KSS7tbU = ".class {}";
 
 
 None
 /*
 {
   "origin": "test.tsx",
-  "name": "Foo_component_useStyles_pV9TSCBIhw8",
+  "name": "test_Foo_component_useStyles_pnb0KSS7tbU",
   "entry": null,
-  "displayName": "test.tsx_Foo_component_useStyles",
-  "hash": "pV9TSCBIhw8",
-  "canonicalFilename": "test.tsx_Foo_component_useStyles_pV9TSCBIhw8",
+  "displayName": "test_Foo_component_useStyles",
+  "hash": "pnb0KSS7tbU",
+  "canonicalFilename": "test.tsx_test_Foo_component_useStyles_pnb0KSS7tbU",
   "path": "",
   "extension": "tsx",
   "parent": "component",
@@ -41,11 +50,11 @@ None
   ]
 }
 */
-============================= test.tsx_Foo_component_HTDRsvUbLiE.tsx (ENTRY POINT)==
+============================= test.tsx_test_Foo_component_NK5Hyit5tec.tsx (ENTRY POINT)==
 
 import { qrl, useStylesQrl } from "@qwik.dev/core";
-export const Foo_component_HTDRsvUbLiE = ()=>{
-	/*#__PURE__*/ useStylesQrl(/*#__PURE__*/ qrl(i_pV9TSCBIhw8, "Foo_component_useStyles_pV9TSCBIhw8"));
+export const test_Foo_component_NK5Hyit5tec = ()=>{
+	/*#__PURE__*/ useStylesQrl(/*#__PURE__*/ qrl(i_pnb0KSS7tbU, "test_Foo_component_useStyles_pnb0KSS7tbU"));
 	return <div class="class" />;
 };
 
@@ -54,11 +63,11 @@ None
 /*
 {
   "origin": "test.tsx",
-  "name": "Foo_component_HTDRsvUbLiE",
+  "name": "test_Foo_component_NK5Hyit5tec",
   "entry": null,
-  "displayName": "test.tsx_Foo_component",
-  "hash": "HTDRsvUbLiE",
-  "canonicalFilename": "test.tsx_Foo_component_HTDRsvUbLiE",
+  "displayName": "test_Foo_component",
+  "hash": "NK5Hyit5tec",
+  "canonicalFilename": "test.tsx_test_Foo_component_NK5Hyit5tec",
   "path": "",
   "extension": "tsx",
   "parent": null,
@@ -71,15 +80,6 @@ None
   ]
 }
 */
-============================= test.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_pV9TSCBIhw8 = ()=>import("./test.tsx_Foo_component_useStyles_pV9TSCBIhw8");
-const i_HTDRsvUbLiE = ()=>import("./test.tsx_Foo_component_HTDRsvUbLiE");
-export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_HTDRsvUbLiE, "Foo_component_HTDRsvUbLiE"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

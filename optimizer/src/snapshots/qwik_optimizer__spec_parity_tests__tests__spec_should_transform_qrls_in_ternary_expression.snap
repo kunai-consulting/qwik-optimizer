@@ -27,45 +27,16 @@ export const FieldInput = component$(() => {
   );
 });
 
-============================= test.tsx_FieldInput_component_input_onInput_1_Zg4NvOwcLaM.tsx (ENTRY POINT)==
-
-export const FieldInput_component_input_onInput_1_Zg4NvOwcLaM = (ev, el)=>{
-	const [input] = useLexicalScope();
-	input.value = el.value;
-};
-
-
-None
-/*
-{
-  "origin": "test.tsx",
-  "name": "FieldInput_component_input_onInput_1_Zg4NvOwcLaM",
-  "entry": null,
-  "displayName": "test.tsx_FieldInput_component_input_onInput_1",
-  "hash": "Zg4NvOwcLaM",
-  "canonicalFilename": "test.tsx_FieldInput_component_input_onInput_1_Zg4NvOwcLaM",
-  "path": "",
-  "extension": "tsx",
-  "parent": "onInput",
-  "ctxKind": "function",
-  "ctxName": "$",
-  "captures": true,
-  "loc": [
-    243,
-    289
-  ]
-}
-*/
-============================= test.tsx_FieldInput_component_V4XAtJSTRKg.tsx (ENTRY POINT)==
+============================= test.tsx_test_FieldInput_component_TcrbhczYDyU.js (ENTRY POINT)==
 
 import { _jsxSorted, qrl, useSignal } from "@qwik.dev/core";
 const i_onFocus = ()=>import("./test.tsx");
-const i_Zg4NvOwcLaM = ()=>import("./test.tsx_FieldInput_component_input_onInput_1_Zg4NvOwcLaM");
-export const FieldInput_component_V4XAtJSTRKg = ()=>{
+const i_zacDI0VJAjI = ()=>import("./test.tsx_test_FieldInput_component_input_onInput_1_zacDI0VJAjI");
+export const test_FieldInput_component_TcrbhczYDyU = ()=>{
 	const enabled = useSignal(false);
 	const input = useSignal("");
 	return /*#__PURE__*/ _jsxSorted("input", {
-		on:input: /*#__PURE__*/ qrl(i_Zg4NvOwcLaM, "FieldInput_component_input_onInput_1_Zg4NvOwcLaM", [input]),
+		on:input: /*#__PURE__*/ qrl(i_zacDI0VJAjI, "test_FieldInput_component_input_onInput_1_zacDI0VJAjI", [input]),
 		on:focus: /*#__PURE__*/ qrl(i_onFocus, "FieldInput_component_input_onFocus", [enabled])
 	}, { id: "input" }, null, 3, null);
 };
@@ -75,13 +46,13 @@ None
 /*
 {
   "origin": "test.tsx",
-  "name": "FieldInput_component_V4XAtJSTRKg",
+  "name": "test_FieldInput_component_TcrbhczYDyU",
   "entry": null,
-  "displayName": "test.tsx_FieldInput_component",
-  "hash": "V4XAtJSTRKg",
-  "canonicalFilename": "test.tsx_FieldInput_component_V4XAtJSTRKg",
+  "displayName": "test_FieldInput_component",
+  "hash": "TcrbhczYDyU",
+  "canonicalFilename": "test.tsx_test_FieldInput_component_TcrbhczYDyU",
   "path": "",
-  "extension": "tsx",
+  "extension": "js",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
@@ -92,12 +63,41 @@ None
   ]
 }
 */
-============================= test.tsx ==
+============================= test.tsx_test_FieldInput_component_input_onInput_1_zacDI0VJAjI.js (ENTRY POINT)==
+
+export const test_FieldInput_component_input_onInput_1_zacDI0VJAjI = (ev, el)=>{
+	const [input] = useLexicalScope();
+	input.value = el.value;
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_FieldInput_component_input_onInput_1_zacDI0VJAjI",
+  "entry": null,
+  "displayName": "test_FieldInput_component_input_onInput_1",
+  "hash": "zacDI0VJAjI",
+  "canonicalFilename": "test.tsx_test_FieldInput_component_input_onInput_1_zacDI0VJAjI",
+  "path": "",
+  "extension": "js",
+  "parent": "onInput",
+  "ctxKind": "function",
+  "ctxName": "$",
+  "captures": true,
+  "loc": [
+    243,
+    289
+  ]
+}
+*/
+============================= test.js ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Zg4NvOwcLaM = ()=>import("./test.tsx_FieldInput_component_input_onInput_1_Zg4NvOwcLaM");
-const i_V4XAtJSTRKg = ()=>import("./test.tsx_FieldInput_component_V4XAtJSTRKg");
-export const FieldInput = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_V4XAtJSTRKg, "FieldInput_component_V4XAtJSTRKg"));
+const i_zacDI0VJAjI = ()=>import("./test.tsx_test_FieldInput_component_input_onInput_1_zacDI0VJAjI");
+const i_TcrbhczYDyU = ()=>import("./test.tsx_test_FieldInput_component_TcrbhczYDyU");
+export const FieldInput = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_TcrbhczYDyU, "test_FieldInput_component_TcrbhczYDyU"));
 
 
 None

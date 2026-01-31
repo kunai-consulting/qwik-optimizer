@@ -19,10 +19,23 @@ export const FOO_MAPPING = {
 	return <>{value}</>;
 	});
 
-============================= test.tsx_component_ZUK1E201Ins.tsx (ENTRY POINT)==
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
+export const FOO_MAPPING = {
+	A: 1,
+	B: 2,
+	C: 3
+};
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
+
+
+None
+============================= test.tsx_test_component_LUXeXe0DQrg.tsx (ENTRY POINT)==
 
 import { FOO_MAPPING } from "./test";
-export const component_ZUK1E201Ins = ()=>{
+export const test_component_LUXeXe0DQrg = ()=>{
 	const key = "A";
 	const value = FOO_MAPPING[key];
 	return <>{value}</>;
@@ -33,11 +46,11 @@ None
 /*
 {
   "origin": "test.tsx",
-  "name": "component_ZUK1E201Ins",
+  "name": "test_component_LUXeXe0DQrg",
   "entry": "entry_segments",
-  "displayName": "test.tsx_component",
-  "hash": "ZUK1E201Ins",
-  "canonicalFilename": "test.tsx_component_ZUK1E201Ins",
+  "displayName": "test_component",
+  "hash": "LUXeXe0DQrg",
+  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
   "path": "",
   "extension": "tsx",
   "parent": null,
@@ -50,19 +63,6 @@ None
   ]
 }
 */
-============================= test.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_ZUK1E201Ins = ()=>import("./test.tsx_component_ZUK1E201Ins");
-export const FOO_MAPPING = {
-	A: 1,
-	B: 2,
-	C: 3
-};
-export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ZUK1E201Ins, "component_ZUK1E201Ins"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

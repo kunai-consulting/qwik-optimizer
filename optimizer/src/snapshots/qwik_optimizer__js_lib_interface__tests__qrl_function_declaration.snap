@@ -15,10 +15,10 @@ export const Counter = component$(function Counter() {
     );
 });
 
-============================= test_qrl_function_declaration.tsx_Counter_component_87M60GhSi7M.tsx (ENTRY POINT)==
+============================= test_qrl_function_declaration.tsx_test_qrl_function_declaration_Counter_component_nOJ26WQIA90.js (ENTRY POINT)==
 
 import { _jsxSorted } from "@qwik.dev/core";
-export const Counter_component_87M60GhSi7M = function Counter() {
+export const test_qrl_function_declaration_Counter_component_nOJ26WQIA90 = function Counter() {
 	return /*#__PURE__*/ _jsxSorted("div", null, null, "Counter component", 3, null);
 };
 
@@ -27,13 +27,13 @@ None
 /*
 {
   "origin": "test_qrl_function_declaration.tsx",
-  "name": "Counter_component_87M60GhSi7M",
+  "name": "test_qrl_function_declaration_Counter_component_nOJ26WQIA90",
   "entry": null,
-  "displayName": "test_qrl_function_declaration.tsx_Counter_component",
-  "hash": "87M60GhSi7M",
-  "canonicalFilename": "test_qrl_function_declaration.tsx_Counter_component_87M60GhSi7M",
+  "displayName": "test_qrl_function_declaration_Counter_component",
+  "hash": "nOJ26WQIA90",
+  "canonicalFilename": "test_qrl_function_declaration.tsx_test_qrl_function_declaration_Counter_component_nOJ26WQIA90",
   "path": "",
-  "extension": "tsx",
+  "extension": "js",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "component$",
@@ -44,12 +44,12 @@ None
   ]
 }
 */
-============================= test_qrl_function_declaration.tsx ==
+============================= test_qrl_function_declaration.js ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-const i_87M60GhSi7M = ()=>import("./test_qrl_function_declaration.tsx_Counter_component_87M60GhSi7M");
+const i_nOJ26WQIA90 = ()=>import("./test_qrl_function_declaration.tsx_test_qrl_function_declaration_Counter_component_nOJ26WQIA90");
 // Function declaration component$ - transforms correctly
-export const Counter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_87M60GhSi7M, "Counter_component_87M60GhSi7M"));
+export const Counter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_nOJ26WQIA90, "test_qrl_function_declaration_Counter_component_nOJ26WQIA90"));
 
 
 None

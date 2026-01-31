@@ -16,24 +16,24 @@ export const App2 = qwikify$(() => (
 	<div onClick$={()=>console.log('App2')}></div>
 ));
 
-============================= test.tsx_App2_qwikify_RKJW7oCMdS4.tsx (ENTRY POINT)==
+============================= test.tsx_test_App2_qwikify_5uoPoR00zCg.js (ENTRY POINT)==
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
 const i_onClick = ()=>import("./test.tsx");
-export const App2_qwikify_RKJW7oCMdS4 = ()=>/*#__PURE__*/ _jsxSorted("div", { on:click: /*#__PURE__*/ qrl(i_onClick, "App2_qwikify_div_onClick") }, null, null, 3, null);
+export const test_App2_qwikify_5uoPoR00zCg = ()=>/*#__PURE__*/ _jsxSorted("div", { on:click: /*#__PURE__*/ qrl(i_onClick, "App2_qwikify_div_onClick") }, null, null, 3, null);
 
 
 None
 /*
 {
   "origin": "test.tsx",
-  "name": "App2_qwikify_RKJW7oCMdS4",
+  "name": "test_App2_qwikify_5uoPoR00zCg",
   "entry": null,
-  "displayName": "test.tsx_App2_qwikify",
-  "hash": "RKJW7oCMdS4",
-  "canonicalFilename": "test.tsx_App2_qwikify_RKJW7oCMdS4",
+  "displayName": "test_App2_qwikify",
+  "hash": "5uoPoR00zCg",
+  "canonicalFilename": "test.tsx_test_App2_qwikify_5uoPoR00zCg",
   "path": "",
-  "extension": "tsx",
+  "extension": "js",
   "parent": null,
   "ctxKind": "function",
   "ctxName": "qwikify$",
@@ -44,14 +44,14 @@ None
   ]
 }
 */
-============================= test.tsx ==
+============================= test.js ==
 
 import { qwikifyQrl } from "./qwikfy";
 import { _jsxSorted, qrl, qwikifyQrl } from "@qwik.dev/core";
 const i_onClick = ()=>import("./test.tsx");
-const i_RKJW7oCMdS4 = ()=>import("./test.tsx_App2_qwikify_RKJW7oCMdS4");
+const i_5uoPoR00zCg = ()=>import("./test.tsx_test_App2_qwikify_5uoPoR00zCg");
 export const App = ()=>/*#__PURE__*/ _jsxSorted("div", { on:click: /*#__PURE__*/ qrl(i_onClick, "App_div_onClick") }, null, null, 3, null);
-export const App2 = /*#__PURE__*/ qwikifyQrl(/*#__PURE__*/ qrl(i_RKJW7oCMdS4, "App2_qwikify_RKJW7oCMdS4"));
+export const App2 = /*#__PURE__*/ qwikifyQrl(/*#__PURE__*/ qrl(i_5uoPoR00zCg, "test_App2_qwikify_5uoPoR00zCg"));
 
 
 None

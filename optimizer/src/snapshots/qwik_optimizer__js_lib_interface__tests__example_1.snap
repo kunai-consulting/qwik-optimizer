@@ -19,81 +19,22 @@ const renderHeader = component($(() => {
     return render;
 }));
 
-============================= test_example_1.tsx_renderHeader_component_l1SEbA0PBzg.tsx (ENTRY POINT)==
+============================= test_example_1.tsx_test_example_1_renderHeader_div_onClick_QOZPW1kdNwM.js (ENTRY POINT)==
 
-export const renderHeader_component_l1SEbA0PBzg = ()=>{
-	console.log("mount");
-	return render;
-};
+export const test_example_1_renderHeader_div_onClick_QOZPW1kdNwM = (ctx)=>console.log(ctx);
 
 
 None
 /*
 {
   "origin": "test_example_1.tsx",
-  "name": "renderHeader_component_l1SEbA0PBzg",
+  "name": "test_example_1_renderHeader_div_onClick_QOZPW1kdNwM",
   "entry": null,
-  "displayName": "test_example_1.tsx_renderHeader_component",
-  "hash": "l1SEbA0PBzg",
-  "canonicalFilename": "test_example_1.tsx_renderHeader_component_l1SEbA0PBzg",
+  "displayName": "test_example_1_renderHeader_div_onClick",
+  "hash": "QOZPW1kdNwM",
+  "canonicalFilename": "test_example_1.tsx_test_example_1_renderHeader_div_onClick_QOZPW1kdNwM",
   "path": "",
-  "extension": "tsx",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "$",
-  "captures": false,
-  "loc": [
-    249,
-    303
-  ]
-}
-*/
-============================= test_example_1.tsx_renderHeader_ZgC5rsivXF0.tsx (ENTRY POINT)==
-
-import { _jsxSorted, qrl } from "@qwik.dev/core";
-const i_vU0qgjVefds = ()=>import("./test_example_1.tsx_renderHeader_div_onClick_vU0qgjVefds");
-export const renderHeader_ZgC5rsivXF0 = ()=>{
-	return /*#__PURE__*/ _jsxSorted("div", { onClick: /*#__PURE__*/ qrl(i_vU0qgjVefds, "renderHeader_div_onClick_vU0qgjVefds") }, null, null, 3, null);
-};
-
-
-None
-/*
-{
-  "origin": "test_example_1.tsx",
-  "name": "renderHeader_ZgC5rsivXF0",
-  "entry": null,
-  "displayName": "test_example_1.tsx_renderHeader",
-  "hash": "ZgC5rsivXF0",
-  "canonicalFilename": "test_example_1.tsx_renderHeader_ZgC5rsivXF0",
-  "path": "",
-  "extension": "tsx",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "$",
-  "captures": false,
-  "loc": [
-    116,
-    199
-  ]
-}
-*/
-============================= test_example_1.tsx_renderHeader_div_onClick_vU0qgjVefds.tsx (ENTRY POINT)==
-
-export const renderHeader_div_onClick_vU0qgjVefds = (ctx)=>console.log(ctx);
-
-
-None
-/*
-{
-  "origin": "test_example_1.tsx",
-  "name": "renderHeader_div_onClick_vU0qgjVefds",
-  "entry": null,
-  "displayName": "test_example_1.tsx_renderHeader_div_onClick",
-  "hash": "vU0qgjVefds",
-  "canonicalFilename": "test_example_1.tsx_renderHeader_div_onClick_vU0qgjVefds",
-  "path": "",
-  "extension": "tsx",
+  "extension": "js",
   "parent": "$0",
   "ctxKind": "function",
   "ctxName": "$",
@@ -104,16 +45,75 @@ None
   ]
 }
 */
-============================= test_example_1.tsx ==
+============================= test_example_1.tsx_test_example_1_renderHeader_component_cE2tqZWCYg4.js (ENTRY POINT)==
+
+export const test_example_1_renderHeader_component_cE2tqZWCYg4 = ()=>{
+	console.log("mount");
+	return render;
+};
+
+
+None
+/*
+{
+  "origin": "test_example_1.tsx",
+  "name": "test_example_1_renderHeader_component_cE2tqZWCYg4",
+  "entry": null,
+  "displayName": "test_example_1_renderHeader_component",
+  "hash": "cE2tqZWCYg4",
+  "canonicalFilename": "test_example_1.tsx_test_example_1_renderHeader_component_cE2tqZWCYg4",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "$",
+  "captures": false,
+  "loc": [
+    249,
+    303
+  ]
+}
+*/
+============================= test_example_1.tsx_test_example_1_renderHeader_oJxJhJVJMno.js (ENTRY POINT)==
+
+import { _jsxSorted, qrl } from "@qwik.dev/core";
+const i_QOZPW1kdNwM = ()=>import("./test_example_1.tsx_test_example_1_renderHeader_div_onClick_QOZPW1kdNwM");
+export const test_example_1_renderHeader_oJxJhJVJMno = ()=>{
+	return /*#__PURE__*/ _jsxSorted("div", { onClick: /*#__PURE__*/ qrl(i_QOZPW1kdNwM, "test_example_1_renderHeader_div_onClick_QOZPW1kdNwM") }, null, null, 3, null);
+};
+
+
+None
+/*
+{
+  "origin": "test_example_1.tsx",
+  "name": "test_example_1_renderHeader_oJxJhJVJMno",
+  "entry": null,
+  "displayName": "test_example_1_renderHeader",
+  "hash": "oJxJhJVJMno",
+  "canonicalFilename": "test_example_1.tsx_test_example_1_renderHeader_oJxJhJVJMno",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "$",
+  "captures": false,
+  "loc": [
+    116,
+    199
+  ]
+}
+*/
+============================= test_example_1.js ==
 
 import { component, qrl } from "@qwik.dev/core";
-const i_vU0qgjVefds = ()=>import("./test_example_1.tsx_renderHeader_div_onClick_vU0qgjVefds");
-const i_ZgC5rsivXF0 = ()=>import("./test_example_1.tsx_renderHeader_ZgC5rsivXF0");
-const i_l1SEbA0PBzg = ()=>import("./test_example_1.tsx_renderHeader_component_l1SEbA0PBzg");
+const i_QOZPW1kdNwM = ()=>import("./test_example_1.tsx_test_example_1_renderHeader_div_onClick_QOZPW1kdNwM");
+const i_oJxJhJVJMno = ()=>import("./test_example_1.tsx_test_example_1_renderHeader_oJxJhJVJMno");
+const i_cE2tqZWCYg4 = ()=>import("./test_example_1.tsx_test_example_1_renderHeader_component_cE2tqZWCYg4");
 // @ts-ignore
-export const renderHeader = /*#__PURE__*/ qrl(i_ZgC5rsivXF0, "renderHeader_ZgC5rsivXF0");
+export const renderHeader = /*#__PURE__*/ qrl(i_oJxJhJVJMno, "test_example_1_renderHeader_oJxJhJVJMno");
 // @ts-ignore
-const renderHeader = component(/*#__PURE__*/ qrl(i_l1SEbA0PBzg, "renderHeader_component_l1SEbA0PBzg"));
+const renderHeader = component(/*#__PURE__*/ qrl(i_cE2tqZWCYg4, "test_example_1_renderHeader_component_cE2tqZWCYg4"));
 
 
 None

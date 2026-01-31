@@ -26,84 +26,20 @@ export const Child = component$(() => {
 	);
 });
 
-============================= test.tsx_Child_component_useBrowserVisibleTask_0IGFPOyJmQA.tsx (ENTRY POINT)==
+============================= test.tsx_test_Child_component_useStyles_63eLuusp2Ao.tsx (ENTRY POINT)==
 
-import { thing } from "./sibling";
-export const Child_component_useBrowserVisibleTask_0IGFPOyJmQA = ()=>{
-	const [state] = useLexicalScope();
-	state.count = thing.doStuff() + import("./sibling");
-};
+export const test_Child_component_useStyles_63eLuusp2Ao = "somestring";
 
 
 None
 /*
 {
   "origin": "test.tsx",
-  "name": "Child_component_useBrowserVisibleTask_0IGFPOyJmQA",
+  "name": "test_Child_component_useStyles_63eLuusp2Ao",
   "entry": "entry_segments",
-  "displayName": "test.tsx_Child_component_useBrowserVisibleTask",
-  "hash": "0IGFPOyJmQA",
-  "canonicalFilename": "test.tsx_Child_component_useBrowserVisibleTask_0IGFPOyJmQA",
-  "path": "",
-  "extension": "tsx",
-  "parent": "component",
-  "ctxKind": "function",
-  "ctxName": "useBrowserVisibleTask$",
-  "captures": true,
-  "loc": [
-    316,
-    381
-  ]
-}
-*/
-============================= test.tsx_Child_component_9GyF01GDKqw.tsx (ENTRY POINT)==
-
-const i_0IGFPOyJmQA = ()=>import("./test.tsx_Child_component_useBrowserVisibleTask_0IGFPOyJmQA");
-const i_qBZTuFM0160 = ()=>import("./test.tsx_Child_component_useStyles_qBZTuFM0160");
-export const Child_component_9GyF01GDKqw = ()=>{
-	/*#__PURE__*/ useStylesQrl(/*#__PURE__*/ qrl(i_qBZTuFM0160, "Child_component_useStyles_qBZTuFM0160"));
-	const state = /*#__PURE__*/ useStylesQrl(/*#__PURE__*/ qrl(i_qBZTuFM0160, "Child_component_useStyles_qBZTuFM0160"));
-	/*#__PURE__*/ useBrowserVisibleTaskQrl(/*#__PURE__*/ qrl(i_0IGFPOyJmQA, "Child_component_useBrowserVisibleTask_0IGFPOyJmQA", [state]));
-	return <div on:click={/*#__PURE__*/ useBrowserVisibleTaskQrl(/*#__PURE__*/ qrl(i_0IGFPOyJmQA, "Child_component_useBrowserVisibleTask_0IGFPOyJmQA", [state]))}>
-		</div>;
-};
-
-
-None
-/*
-{
-  "origin": "test.tsx",
-  "name": "Child_component_9GyF01GDKqw",
-  "entry": "entry_segments",
-  "displayName": "test.tsx_Child_component",
-  "hash": "9GyF01GDKqw",
-  "canonicalFilename": "test.tsx_Child_component_9GyF01GDKqw",
-  "path": "",
-  "extension": "tsx",
-  "parent": null,
-  "ctxKind": "function",
-  "ctxName": "component$",
-  "captures": false,
-  "loc": [
-    190,
-    455
-  ]
-}
-*/
-============================= test.tsx_Child_component_useStyles_qBZTuFM0160.tsx (ENTRY POINT)==
-
-export const Child_component_useStyles_qBZTuFM0160 = "somestring";
-
-
-None
-/*
-{
-  "origin": "test.tsx",
-  "name": "Child_component_useStyles_qBZTuFM0160",
-  "entry": "entry_segments",
-  "displayName": "test.tsx_Child_component_useStyles",
-  "hash": "qBZTuFM0160",
-  "canonicalFilename": "test.tsx_Child_component_useStyles_qBZTuFM0160",
+  "displayName": "test_Child_component_useStyles",
+  "hash": "63eLuusp2Ao",
+  "canonicalFilename": "test.tsx_test_Child_component_useStyles_63eLuusp2Ao",
   "path": "",
   "extension": "tsx",
   "parent": "component",
@@ -119,13 +55,77 @@ None
 ============================= test.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-const i_qBZTuFM0160 = ()=>import("./test.tsx_Child_component_useStyles_qBZTuFM0160");
-const i_0IGFPOyJmQA = ()=>import("./test.tsx_Child_component_useBrowserVisibleTask_0IGFPOyJmQA");
-const i_9GyF01GDKqw = ()=>import("./test.tsx_Child_component_9GyF01GDKqw");
-export const Child = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_9GyF01GDKqw, "Child_component_9GyF01GDKqw"));
+const i_63eLuusp2Ao = ()=>import("./test.tsx_test_Child_component_useStyles_63eLuusp2Ao");
+const i_PSTgqIrkXbw = ()=>import("./test.tsx_test_Child_component_useBrowserVisibleTask_PSTgqIrkXbw");
+const i_1dotO0YXFtY = ()=>import("./test.tsx_test_Child_component_1dotO0YXFtY");
+export const Child = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_1dotO0YXFtY, "test_Child_component_1dotO0YXFtY"));
 
 
 None
+============================= test.tsx_test_Child_component_useBrowserVisibleTask_PSTgqIrkXbw.tsx (ENTRY POINT)==
+
+import { thing } from "./sibling";
+export const test_Child_component_useBrowserVisibleTask_PSTgqIrkXbw = ()=>{
+	const [state] = useLexicalScope();
+	state.count = thing.doStuff() + import("./sibling");
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Child_component_useBrowserVisibleTask_PSTgqIrkXbw",
+  "entry": "entry_segments",
+  "displayName": "test_Child_component_useBrowserVisibleTask",
+  "hash": "PSTgqIrkXbw",
+  "canonicalFilename": "test.tsx_test_Child_component_useBrowserVisibleTask_PSTgqIrkXbw",
+  "path": "",
+  "extension": "tsx",
+  "parent": "component",
+  "ctxKind": "function",
+  "ctxName": "useBrowserVisibleTask$",
+  "captures": true,
+  "loc": [
+    316,
+    381
+  ]
+}
+*/
+============================= test.tsx_test_Child_component_1dotO0YXFtY.tsx (ENTRY POINT)==
+
+const i_PSTgqIrkXbw = ()=>import("./test.tsx_test_Child_component_useBrowserVisibleTask_PSTgqIrkXbw");
+const i_63eLuusp2Ao = ()=>import("./test.tsx_test_Child_component_useStyles_63eLuusp2Ao");
+export const test_Child_component_1dotO0YXFtY = ()=>{
+	/*#__PURE__*/ useStylesQrl(/*#__PURE__*/ qrl(i_63eLuusp2Ao, "test_Child_component_useStyles_63eLuusp2Ao"));
+	const state = /*#__PURE__*/ useStylesQrl(/*#__PURE__*/ qrl(i_63eLuusp2Ao, "test_Child_component_useStyles_63eLuusp2Ao"));
+	/*#__PURE__*/ useBrowserVisibleTaskQrl(/*#__PURE__*/ qrl(i_PSTgqIrkXbw, "test_Child_component_useBrowserVisibleTask_PSTgqIrkXbw", [state]));
+	return <div on:click={/*#__PURE__*/ useBrowserVisibleTaskQrl(/*#__PURE__*/ qrl(i_PSTgqIrkXbw, "test_Child_component_useBrowserVisibleTask_PSTgqIrkXbw", [state]))}>
+		</div>;
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Child_component_1dotO0YXFtY",
+  "entry": "entry_segments",
+  "displayName": "test_Child_component",
+  "hash": "1dotO0YXFtY",
+  "canonicalFilename": "test.tsx_test_Child_component_1dotO0YXFtY",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    190,
+    455
+  ]
+}
+*/
 == DIAGNOSTICS ==
 
 []

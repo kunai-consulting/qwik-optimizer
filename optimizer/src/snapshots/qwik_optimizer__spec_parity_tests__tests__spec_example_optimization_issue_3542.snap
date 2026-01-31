@@ -19,11 +19,11 @@ export const AtomStatus = component$(({ctx,atom})=>{
 	);
 })
 
-============================= test.tsx_AtomStatus_component_hdwpoUtydSA.tsx (ENTRY POINT)==
+============================= test.tsx_test_AtomStatus_component_eLHxgQK6wDY.tsx (ENTRY POINT)==
 
 import { qrl } from "@qwik.dev/core";
 const i_onClick = ()=>import("./test.tsx");
-export const AtomStatus_component_hdwpoUtydSA = ({ ctx, atom })=>{
+export const test_AtomStatus_component_eLHxgQK6wDY = ({ ctx, atom })=>{
 	let status = atom.status;
 	if (!atom.real) {
 		status = "WILL-VANISH";
@@ -43,11 +43,11 @@ None
 /*
 {
   "origin": "test.tsx",
-  "name": "AtomStatus_component_hdwpoUtydSA",
+  "name": "test_AtomStatus_component_eLHxgQK6wDY",
   "entry": "entry_segments",
-  "displayName": "test.tsx_AtomStatus_component",
-  "hash": "hdwpoUtydSA",
-  "canonicalFilename": "test.tsx_AtomStatus_component_hdwpoUtydSA",
+  "displayName": "test_AtomStatus_component",
+  "hash": "eLHxgQK6wDY",
+  "canonicalFilename": "test.tsx_test_AtomStatus_component_eLHxgQK6wDY",
   "path": "",
   "extension": "tsx",
   "parent": null,
@@ -63,8 +63,8 @@ None
 ============================= test.tsx ==
 
 import { componentQrl, qrl } from "@qwik.dev/core";
-const i_hdwpoUtydSA = ()=>import("./test.tsx_AtomStatus_component_hdwpoUtydSA");
-export const AtomStatus = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_hdwpoUtydSA, "AtomStatus_component_hdwpoUtydSA"));
+const i_eLHxgQK6wDY = ()=>import("./test.tsx_test_AtomStatus_component_eLHxgQK6wDY");
+export const AtomStatus = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_eLHxgQK6wDY, "test_AtomStatus_component_eLHxgQK6wDY"));
 
 
 None
