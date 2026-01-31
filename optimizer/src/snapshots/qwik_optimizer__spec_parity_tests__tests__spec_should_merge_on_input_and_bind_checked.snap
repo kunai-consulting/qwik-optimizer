@@ -19,6 +19,14 @@ export const FieldInput = component$(() => {
   );
 });
 
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_TcrbhczYDyU = ()=>import("./test.tsx_test_FieldInput_component_TcrbhczYDyU");
+export const FieldInput = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_TcrbhczYDyU, "test_FieldInput_component_TcrbhczYDyU"));
+
+
+None
 ============================= test.tsx_test_FieldInput_component_TcrbhczYDyU.js (ENTRY POINT)==
 
 import { _jsxSorted, qrl, useSignal } from "@qwik.dev/core";
@@ -53,14 +61,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_TcrbhczYDyU = ()=>import("./test.tsx_test_FieldInput_component_TcrbhczYDyU");
-export const FieldInput = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_TcrbhczYDyU, "test_FieldInput_component_TcrbhczYDyU"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

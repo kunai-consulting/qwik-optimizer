@@ -15,6 +15,18 @@ export function App() {
 	return Header;
 }
 
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_4YKWrYYVYmo = ()=>import("./test.tsx_test_App_Header_component_div_onClick_4YKWrYYVYmo");
+const i_4FYSnzxHlAY = ()=>import("./test.tsx_test_App_Header_component_4FYSnzxHlAY");
+export function App() {
+	const Header = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_4FYSnzxHlAY, "test_App_Header_component_4FYSnzxHlAY"));
+	return Header;
+}
+
+
+None
 ============================= test.tsx_test_App_Header_component_4FYSnzxHlAY.tsx (ENTRY POINT)==
 
 import { qrl } from "@qwik.dev/core";
@@ -72,18 +84,6 @@ None
   ]
 }
 */
-============================= test.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_4YKWrYYVYmo = ()=>import("./test.tsx_test_App_Header_component_div_onClick_4YKWrYYVYmo");
-const i_4FYSnzxHlAY = ()=>import("./test.tsx_test_App_Header_component_4FYSnzxHlAY");
-export function App() {
-	const Header = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_4FYSnzxHlAY, "test_App_Header_component_4FYSnzxHlAY"));
-	return Header;
-}
-
-
-None
 == DIAGNOSTICS ==
 
 []

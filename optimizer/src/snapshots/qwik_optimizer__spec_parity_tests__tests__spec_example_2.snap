@@ -12,6 +12,15 @@ export const Header = component$(() => {
 	);
 });
 
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_AG0jC3BcBUI = ()=>import("./test.tsx_test_Header_component_div_onClick_AG0jC3BcBUI");
+const i_Y14t9IFYaQE = ()=>import("./test.tsx_test_Header_component_Y14t9IFYaQE");
+export const Header = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_Y14t9IFYaQE, "test_Header_component_Y14t9IFYaQE"));
+
+
+None
 ============================= test.tsx_test_Header_component_Y14t9IFYaQE.tsx (ENTRY POINT)==
 
 import { qrl } from "@qwik.dev/core";
@@ -69,15 +78,6 @@ None
   ]
 }
 */
-============================= test.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_AG0jC3BcBUI = ()=>import("./test.tsx_test_Header_component_div_onClick_AG0jC3BcBUI");
-const i_Y14t9IFYaQE = ()=>import("./test.tsx_test_Header_component_Y14t9IFYaQE");
-export const Header = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_Y14t9IFYaQE, "test_Header_component_Y14t9IFYaQE"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

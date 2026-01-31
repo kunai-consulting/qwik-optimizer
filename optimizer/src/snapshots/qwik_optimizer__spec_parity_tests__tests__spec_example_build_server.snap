@@ -36,6 +36,23 @@ export const App = component$(() => {
 	);
 });
 
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+import L from "leaflet";
+const i_EXum0EDkazw = ()=>import("./test.tsx_s_EXum0EDkazw");
+const i_jYXJI01qFIU = ()=>import("./test.tsx_s_jYXJI01qFIU");
+export const functionThatNeedsWindow = ()=>{
+	if (false) {
+		console.log("l", L);
+		console.log("hey");
+		window.alert("hey");
+	}
+};
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "s_jYXJI01qFIU"));
+
+
+None
 ============================= test.tsx_s_EXum0EDkazw.tsx (ENTRY POINT)==
 
 import { mongodb } from "mondodb";
@@ -105,23 +122,6 @@ None
   ]
 }
 */
-============================= test.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-import L from "leaflet";
-const i_EXum0EDkazw = ()=>import("./test.tsx_s_EXum0EDkazw");
-const i_jYXJI01qFIU = ()=>import("./test.tsx_s_jYXJI01qFIU");
-export const functionThatNeedsWindow = ()=>{
-	if (false) {
-		console.log("l", L);
-		console.log("hey");
-		window.alert("hey");
-	}
-};
-export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "s_jYXJI01qFIU"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

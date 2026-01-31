@@ -19,6 +19,20 @@ export const Counter = () => {
     return increment;
 };
 
+============================= test_qrl_with_captures.js ==
+
+import { qrl, useSignal } from "@qwik.dev/core";
+const i_s0iChmcskqY = ()=>import("./test_qrl_with_captures.tsx_test_qrl_with_captures_Counter_increment_s0iChmcskqY");
+// QRL with captured variables
+export const Counter = ()=>{
+	const count = useSignal(0);
+	const name = "test";
+	const increment = /*#__PURE__*/ qrl(i_s0iChmcskqY, "test_qrl_with_captures_Counter_increment_s0iChmcskqY", [count, name]);
+	return increment;
+};
+
+
+None
 ============================= test_qrl_with_captures.tsx_test_qrl_with_captures_Counter_increment_s0iChmcskqY.js (ENTRY POINT)==
 
 export const test_qrl_with_captures_Counter_increment_s0iChmcskqY = ()=>{
@@ -48,20 +62,6 @@ None
   ]
 }
 */
-============================= test_qrl_with_captures.js ==
-
-import { qrl, useSignal } from "@qwik.dev/core";
-const i_s0iChmcskqY = ()=>import("./test_qrl_with_captures.tsx_test_qrl_with_captures_Counter_increment_s0iChmcskqY");
-// QRL with captured variables
-export const Counter = ()=>{
-	const count = useSignal(0);
-	const name = "test";
-	const increment = /*#__PURE__*/ qrl(i_s0iChmcskqY, "test_qrl_with_captures_Counter_increment_s0iChmcskqY", [count, name]);
-	return increment;
-};
-
-
-None
 == DIAGNOSTICS ==
 
 []

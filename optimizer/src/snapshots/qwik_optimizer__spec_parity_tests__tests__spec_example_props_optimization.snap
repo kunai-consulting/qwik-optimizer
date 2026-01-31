@@ -45,6 +45,21 @@ export const NoWorks3 = component$(({count, stuff = hola()}) => {
 	);
 });
 
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_zRRxWpAhQbg = ()=>import("./test.tsx_test_Works_component_useTask_zRRxWpAhQbg");
+const i_qX3vIioPG0E = ()=>import("./test.tsx_test_Works_component_qX3vIioPG0E");
+const i_zfY9LNb3rg8 = ()=>import("./test.tsx_test_NoWorks2_component_useTask_zfY9LNb3rg8");
+const i_0YZp9hAQWRE = ()=>import("./test.tsx_test_NoWorks2_component_0YZp9hAQWRE");
+const i_bxR5hV745Vk = ()=>import("./test.tsx_test_NoWorks3_component_useTask_bxR5hV745Vk");
+const i_3IsfUQbPNPY = ()=>import("./test.tsx_test_NoWorks3_component_3IsfUQbPNPY");
+export const Works = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_qX3vIioPG0E, "test_Works_component_qX3vIioPG0E"));
+export const NoWorks2 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_0YZp9hAQWRE, "test_NoWorks2_component_0YZp9hAQWRE"));
+export const NoWorks3 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_3IsfUQbPNPY, "test_NoWorks3_component_3IsfUQbPNPY"));
+
+
+None
 ============================= test.tsx_test_NoWorks2_component_useTask_zfY9LNb3rg8.js (ENTRY POINT)==
 
 export const test_NoWorks2_component_useTask_zfY9LNb3rg8 = ({ track })=>{
@@ -135,21 +150,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_zRRxWpAhQbg = ()=>import("./test.tsx_test_Works_component_useTask_zRRxWpAhQbg");
-const i_qX3vIioPG0E = ()=>import("./test.tsx_test_Works_component_qX3vIioPG0E");
-const i_zfY9LNb3rg8 = ()=>import("./test.tsx_test_NoWorks2_component_useTask_zfY9LNb3rg8");
-const i_0YZp9hAQWRE = ()=>import("./test.tsx_test_NoWorks2_component_0YZp9hAQWRE");
-const i_bxR5hV745Vk = ()=>import("./test.tsx_test_NoWorks3_component_useTask_bxR5hV745Vk");
-const i_3IsfUQbPNPY = ()=>import("./test.tsx_test_NoWorks3_component_3IsfUQbPNPY");
-export const Works = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_qX3vIioPG0E, "test_Works_component_qX3vIioPG0E"));
-export const NoWorks2 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_0YZp9hAQWRE, "test_NoWorks2_component_0YZp9hAQWRE"));
-export const NoWorks3 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_3IsfUQbPNPY, "test_NoWorks3_component_3IsfUQbPNPY"));
-
-
-None
 ============================= test.tsx_test_Works_component_useTask_zRRxWpAhQbg.js (ENTRY POINT)==
 
 export const test_Works_component_useTask_zRRxWpAhQbg = ({ track })=>{

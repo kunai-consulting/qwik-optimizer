@@ -46,6 +46,18 @@ export const Parent = component$(() => {
 	);
 });
 
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_JdtXrkbNScg = ()=>import("./test.tsx_s_JdtXrkbNScg");
+const i_Ojv7CkviM30 = ()=>import("./test.tsx_s_Ojv7CkviM30");
+const i_h9M8hohsT6A = ()=>import("./test.tsx_s_h9M8hohsT6A");
+const i_HkQgPUlSdoY = ()=>import("./test.tsx_s_HkQgPUlSdoY");
+const i_TnpkkJz23Wg = ()=>import("./test.tsx_s_TnpkkJz23Wg");
+export const Parent = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_TnpkkJz23Wg, "s_TnpkkJz23Wg"));
+
+
+None
 ============================= test.tsx_s_IMkxIuptgAk.js (ENTRY POINT)==
 
 export const s_IMkxIuptgAk = ()=>{};
@@ -221,18 +233,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_JdtXrkbNScg = ()=>import("./test.tsx_s_JdtXrkbNScg");
-const i_Ojv7CkviM30 = ()=>import("./test.tsx_s_Ojv7CkviM30");
-const i_h9M8hohsT6A = ()=>import("./test.tsx_s_h9M8hohsT6A");
-const i_HkQgPUlSdoY = ()=>import("./test.tsx_s_HkQgPUlSdoY");
-const i_TnpkkJz23Wg = ()=>import("./test.tsx_s_TnpkkJz23Wg");
-export const Parent = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_TnpkkJz23Wg, "s_TnpkkJz23Wg"));
-
-
-None
 ============================= test.tsx_s_JdtXrkbNScg.js (ENTRY POINT)==
 
 import mongo from "mongodb";

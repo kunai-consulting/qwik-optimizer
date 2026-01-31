@@ -20,6 +20,14 @@ export const Issue3742 = component$(({description = '', other}: any) => {
 	)
 	});
 
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_w5DjAPZKQqw = ()=>import("./test.tsx_test_Issue3742_component_w5DjAPZKQqw");
+export const Issue3742 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_w5DjAPZKQqw, "test_Issue3742_component_w5DjAPZKQqw"));
+
+
+None
 ============================= test.tsx_test_Issue3742_component_w5DjAPZKQqw.js (ENTRY POINT)==
 
 import { _jsxSorted, qrl, useSignal } from "@qwik.dev/core";
@@ -51,14 +59,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_w5DjAPZKQqw = ()=>import("./test.tsx_test_Issue3742_component_w5DjAPZKQqw");
-export const Issue3742 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_w5DjAPZKQqw, "test_Issue3742_component_w5DjAPZKQqw"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

@@ -18,6 +18,15 @@ export const Foo = component$(({foo}) => {
 	);
 })
 
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_mLJNQ7hIFC0 = ()=>import("./test.tsx_test_Foo_component_useMount_mLJNQ7hIFC0");
+const i_NK5Hyit5tec = ()=>import("./test.tsx_test_Foo_component_NK5Hyit5tec");
+export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_NK5Hyit5tec, "test_Foo_component_NK5Hyit5tec"));
+
+
+None
 ============================= test.tsx_test_Foo_component_useMount_mLJNQ7hIFC0.tsx (ENTRY POINT)==
 
 import { deps } from "deps";
@@ -49,15 +58,6 @@ None
   ]
 }
 */
-============================= test.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_mLJNQ7hIFC0 = ()=>import("./test.tsx_test_Foo_component_useMount_mLJNQ7hIFC0");
-const i_NK5Hyit5tec = ()=>import("./test.tsx_test_Foo_component_NK5Hyit5tec");
-export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_NK5Hyit5tec, "test_Foo_component_NK5Hyit5tec"));
-
-
-None
 ============================= test.tsx_test_Foo_component_NK5Hyit5tec.tsx (ENTRY POINT)==
 
 import { qrl, useMountQrl } from "@qwik.dev/core";

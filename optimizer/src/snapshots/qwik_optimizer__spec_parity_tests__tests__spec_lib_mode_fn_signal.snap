@@ -18,6 +18,14 @@ export const Counter = component$(() => {
 	);
 });
 
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_iURg6pGFsVc = ()=>import("./test.tsx_test_Counter_component_iURg6pGFsVc");
+export const Counter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_iURg6pGFsVc, "test_Counter_component_iURg6pGFsVc"));
+
+
+None
 ============================= test.tsx_test_Counter_component_iURg6pGFsVc.js (ENTRY POINT)==
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
@@ -49,14 +57,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_iURg6pGFsVc = ()=>import("./test.tsx_test_Counter_component_iURg6pGFsVc");
-export const Counter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_iURg6pGFsVc, "test_Counter_component_iURg6pGFsVc"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

@@ -19,6 +19,14 @@ export const AtomStatus = component$(({ctx,atom})=>{
 	);
 })
 
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_eLHxgQK6wDY = ()=>import("./test.tsx_test_AtomStatus_component_eLHxgQK6wDY");
+export const AtomStatus = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_eLHxgQK6wDY, "test_AtomStatus_component_eLHxgQK6wDY"));
+
+
+None
 ============================= test.tsx_test_AtomStatus_component_eLHxgQK6wDY.tsx (ENTRY POINT)==
 
 import { qrl } from "@qwik.dev/core";
@@ -60,14 +68,6 @@ None
   ]
 }
 */
-============================= test.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_eLHxgQK6wDY = ()=>import("./test.tsx_test_AtomStatus_component_eLHxgQK6wDY");
-export const AtomStatus = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_eLHxgQK6wDY, "test_AtomStatus_component_eLHxgQK6wDY"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

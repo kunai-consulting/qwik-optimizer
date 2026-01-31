@@ -19,6 +19,19 @@ const renderHeader = component($(() => {
     return render;
 }));
 
+============================= test_example_1.js ==
+
+import { component, qrl } from "@qwik.dev/core";
+const i_QOZPW1kdNwM = ()=>import("./test_example_1.tsx_test_example_1_renderHeader_div_onClick_QOZPW1kdNwM");
+const i_oJxJhJVJMno = ()=>import("./test_example_1.tsx_test_example_1_renderHeader_oJxJhJVJMno");
+const i_cE2tqZWCYg4 = ()=>import("./test_example_1.tsx_test_example_1_renderHeader_component_cE2tqZWCYg4");
+// @ts-ignore
+export const renderHeader = /*#__PURE__*/ qrl(i_oJxJhJVJMno, "test_example_1_renderHeader_oJxJhJVJMno");
+// @ts-ignore
+const renderHeader = component(/*#__PURE__*/ qrl(i_cE2tqZWCYg4, "test_example_1_renderHeader_component_cE2tqZWCYg4"));
+
+
+None
 ============================= test_example_1.tsx_test_example_1_renderHeader_div_onClick_QOZPW1kdNwM.js (ENTRY POINT)==
 
 export const test_example_1_renderHeader_div_onClick_QOZPW1kdNwM = (ctx)=>console.log(ctx);
@@ -104,19 +117,6 @@ None
   ]
 }
 */
-============================= test_example_1.js ==
-
-import { component, qrl } from "@qwik.dev/core";
-const i_QOZPW1kdNwM = ()=>import("./test_example_1.tsx_test_example_1_renderHeader_div_onClick_QOZPW1kdNwM");
-const i_oJxJhJVJMno = ()=>import("./test_example_1.tsx_test_example_1_renderHeader_oJxJhJVJMno");
-const i_cE2tqZWCYg4 = ()=>import("./test_example_1.tsx_test_example_1_renderHeader_component_cE2tqZWCYg4");
-// @ts-ignore
-export const renderHeader = /*#__PURE__*/ qrl(i_oJxJhJVJMno, "test_example_1_renderHeader_oJxJhJVJMno");
-// @ts-ignore
-const renderHeader = component(/*#__PURE__*/ qrl(i_cE2tqZWCYg4, "test_example_1_renderHeader_component_cE2tqZWCYg4"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

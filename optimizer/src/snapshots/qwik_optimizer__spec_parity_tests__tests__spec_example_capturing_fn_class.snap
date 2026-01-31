@@ -22,6 +22,15 @@ export const App = component$(() => {
 	});
 })
 
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_eRb5Uu4bkw4 = ()=>import("./test.tsx_test_App_component_1_eRb5Uu4bkw4");
+const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
+
+
+None
 ============================= test.tsx_test_App_component_1_eRb5Uu4bkw4.js (ENTRY POINT)==
 
 import { _jsxSorted } from "@qwik.dev/core";
@@ -82,15 +91,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_eRb5Uu4bkw4 = ()=>import("./test.tsx_test_App_component_1_eRb5Uu4bkw4");
-const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
-export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
-
-
-None
 == DIAGNOSTICS ==
 
 [

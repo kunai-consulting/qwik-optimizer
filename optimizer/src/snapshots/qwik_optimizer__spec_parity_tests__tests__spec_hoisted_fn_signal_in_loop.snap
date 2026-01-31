@@ -29,6 +29,20 @@ export const App = component$(() => {
   );
 });
 
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
+const _hf0 = (p0)=>p0.value.id;
+const _hf0_str = "p0.value.id";
+const _hf1 = (p0)=>p0.value.selected.value ? "danger" : "";
+const _hf1_str = "p0.value.selected.value?`danger`:``";
+const _hf2 = (p0)=>p0.value.id;
+const _hf2_str = "p0.value.id";
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
+
+
+None
 ============================= test.tsx_test_App_component_jYXJI01qFIU.js (ENTRY POINT)==
 
 import { _fnSignal, _jsxSorted } from "@qwik.dev/core";
@@ -74,20 +88,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
-const _hf0 = (p0)=>p0.value.id;
-const _hf0_str = "p0.value.id";
-const _hf1 = (p0)=>p0.value.selected.value ? "danger" : "";
-const _hf1_str = "p0.value.selected.value?`danger`:``";
-const _hf2 = (p0)=>p0.value.id;
-const _hf2_str = "p0.value.id";
-export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

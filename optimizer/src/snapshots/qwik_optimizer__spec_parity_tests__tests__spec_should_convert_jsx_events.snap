@@ -28,6 +28,14 @@ const ManyEventsComponent = component$(() => {
 	);
 });
 
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_JDzwMBQYzyg = ()=>import("./test.tsx_test_ManyEventsComponent_component_JDzwMBQYzyg");
+/*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_JDzwMBQYzyg, "test_ManyEventsComponent_component_JDzwMBQYzyg"));
+
+
+None
 ============================= test.tsx_test_ManyEventsComponent_component_JDzwMBQYzyg.js (ENTRY POINT)==
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
@@ -73,14 +81,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_JDzwMBQYzyg = ()=>import("./test.tsx_test_ManyEventsComponent_component_JDzwMBQYzyg");
-/*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_JDzwMBQYzyg, "test_ManyEventsComponent_component_JDzwMBQYzyg"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

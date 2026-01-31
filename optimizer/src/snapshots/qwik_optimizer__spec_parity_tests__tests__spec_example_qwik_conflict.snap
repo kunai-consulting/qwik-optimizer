@@ -36,6 +36,24 @@ export const Root = component$(() => {
 	tagName: "my-foo",
 });
 
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+import { qrl } from "@qwik.dev/core/what";
+const i_pnb0KSS7tbU = ()=>import("./test.tsx_test_Foo_component_useStyles_pnb0KSS7tbU");
+const i_NK5Hyit5tec = ()=>import("./test.tsx_test_Foo_component_NK5Hyit5tec");
+const i_0SnjuFgYQwM = ()=>import("./test.tsx_test_Root_component_useStyles_0SnjuFgYQwM");
+const i_4LcUydpMwDo = ()=>import("./test.tsx_test_Root_component_1_4LcUydpMwDo");
+const i_Fdi7ywWnD40 = ()=>import("./test.tsx_test_Root_component_Fdi7ywWnD40");
+export const hW = 12;
+export const handleWatch = 42;
+const componentQrl = ()=>console.log("not this", qrl());
+componentQrl();
+export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_NK5Hyit5tec, "test_Foo_component_NK5Hyit5tec"));
+export const Root = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_Fdi7ywWnD40, "test_Root_component_Fdi7ywWnD40"));
+
+
+None
 ============================= test.tsx_test_Root_component_useStyles_0SnjuFgYQwM.js (ENTRY POINT)==
 
 export const test_Root_component_useStyles_0SnjuFgYQwM = "thing";
@@ -122,24 +140,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-import { qrl } from "@qwik.dev/core/what";
-const i_pnb0KSS7tbU = ()=>import("./test.tsx_test_Foo_component_useStyles_pnb0KSS7tbU");
-const i_NK5Hyit5tec = ()=>import("./test.tsx_test_Foo_component_NK5Hyit5tec");
-const i_0SnjuFgYQwM = ()=>import("./test.tsx_test_Root_component_useStyles_0SnjuFgYQwM");
-const i_4LcUydpMwDo = ()=>import("./test.tsx_test_Root_component_1_4LcUydpMwDo");
-const i_Fdi7ywWnD40 = ()=>import("./test.tsx_test_Root_component_Fdi7ywWnD40");
-export const hW = 12;
-export const handleWatch = 42;
-const componentQrl = ()=>console.log("not this", qrl());
-componentQrl();
-export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_NK5Hyit5tec, "test_Foo_component_NK5Hyit5tec"));
-export const Root = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_Fdi7ywWnD40, "test_Root_component_Fdi7ywWnD40"));
-
-
-None
 ============================= test.tsx_test_Foo_component_useStyles_pnb0KSS7tbU.js (ENTRY POINT)==
 
 export const test_Foo_component_useStyles_pnb0KSS7tbU = "thing";

@@ -34,6 +34,14 @@ return (
 );
 });
 
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_TnpkkJz23Wg = ()=>import("./test.tsx_test_Parent_component_TnpkkJz23Wg");
+/*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_TnpkkJz23Wg, "test_Parent_component_TnpkkJz23Wg"));
+
+
+None
 ============================= test.tsx_test_Parent_component_div_map_button_onClick_xr4avDZIzB0.js (ENTRY POINT)==
 
 import { useLexicalScope } from "@qwik.dev/core";
@@ -105,14 +113,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_TnpkkJz23Wg = ()=>import("./test.tsx_test_Parent_component_TnpkkJz23Wg");
-/*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_TnpkkJz23Wg, "test_Parent_component_TnpkkJz23Wg"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

@@ -15,6 +15,15 @@ export const Counter = component$(function Counter() {
     );
 });
 
+============================= test_qrl_function_declaration.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_nOJ26WQIA90 = ()=>import("./test_qrl_function_declaration.tsx_test_qrl_function_declaration_Counter_component_nOJ26WQIA90");
+// Function declaration component$ - transforms correctly
+export const Counter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_nOJ26WQIA90, "test_qrl_function_declaration_Counter_component_nOJ26WQIA90"));
+
+
+None
 ============================= test_qrl_function_declaration.tsx_test_qrl_function_declaration_Counter_component_nOJ26WQIA90.js (ENTRY POINT)==
 
 import { _jsxSorted } from "@qwik.dev/core";
@@ -44,15 +53,6 @@ None
   ]
 }
 */
-============================= test_qrl_function_declaration.js ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_nOJ26WQIA90 = ()=>import("./test_qrl_function_declaration.tsx_test_qrl_function_declaration_Counter_component_nOJ26WQIA90");
-// Function declaration component$ - transforms correctly
-export const Counter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_nOJ26WQIA90, "test_qrl_function_declaration_Counter_component_nOJ26WQIA90"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

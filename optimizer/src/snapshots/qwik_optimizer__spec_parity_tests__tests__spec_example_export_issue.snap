@@ -24,6 +24,19 @@ export { Other as App };
 
 export default App;
 
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
+const i_Fdi7ywWnD40 = ()=>import("./test.tsx_test_Root_component_Fdi7ywWnD40");
+const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
+export const Root = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_Fdi7ywWnD40, "test_Root_component_Fdi7ywWnD40", [App]));
+const Other = 12;
+export { Other as App };
+export default App;
+
+
+None
 ============================= test.tsx_test_App_component_jYXJI01qFIU.js (ENTRY POINT)==
 
 import { _jsxSorted } from "@qwik.dev/core";
@@ -83,19 +96,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
-const i_Fdi7ywWnD40 = ()=>import("./test.tsx_test_Root_component_Fdi7ywWnD40");
-const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
-export const Root = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_Fdi7ywWnD40, "test_Root_component_Fdi7ywWnD40", [App]));
-const Other = 12;
-export { Other as App };
-export default App;
-
-
-None
 == DIAGNOSTICS ==
 
 []

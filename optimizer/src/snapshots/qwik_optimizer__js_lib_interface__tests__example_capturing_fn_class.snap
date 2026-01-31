@@ -21,6 +21,15 @@ export const App = component$(() => {
         )
     });
 })
+============================= test_example_capturing_fn_class.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_TYN8QviqDGo = ()=>import("./test_example_capturing_fn_class.jsx_test_example_capturing_fn_class_App_component_1_TYN8QviqDGo");
+const i_FJLlBuEFi6Y = ()=>import("./test_example_capturing_fn_class.jsx_test_example_capturing_fn_class_App_component_FJLlBuEFi6Y");
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_FJLlBuEFi6Y, "test_example_capturing_fn_class_App_component_FJLlBuEFi6Y"));
+
+
+None
 ============================= test_example_capturing_fn_class.jsx_test_example_capturing_fn_class_App_component_1_TYN8QviqDGo.js (ENTRY POINT)==
 
 import { _jsxSorted } from "@qwik.dev/core";
@@ -81,15 +90,6 @@ None
   ]
 }
 */
-============================= test_example_capturing_fn_class.js ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_TYN8QviqDGo = ()=>import("./test_example_capturing_fn_class.jsx_test_example_capturing_fn_class_App_component_1_TYN8QviqDGo");
-const i_FJLlBuEFi6Y = ()=>import("./test_example_capturing_fn_class.jsx_test_example_capturing_fn_class_App_component_FJLlBuEFi6Y");
-export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_FJLlBuEFi6Y, "test_example_capturing_fn_class_App_component_FJLlBuEFi6Y"));
-
-
-None
 == DIAGNOSTICS ==
 
 [

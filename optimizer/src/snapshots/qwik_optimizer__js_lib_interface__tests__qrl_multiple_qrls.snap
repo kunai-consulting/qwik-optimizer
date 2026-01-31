@@ -19,6 +19,19 @@ export const handler3 = $(() => {
     console.log('handler3');
 });
 
+============================= test_qrl_multiple_qrls.js ==
+
+import { qrl } from "@qwik.dev/core";
+const i_0Ncl8KpuAEg = ()=>import("./test_qrl_multiple_qrls.tsx_test_qrl_multiple_qrls_handler1_0Ncl8KpuAEg");
+const i_wzFi8e1hOPc = ()=>import("./test_qrl_multiple_qrls.tsx_test_qrl_multiple_qrls_handler2_wzFi8e1hOPc");
+const i_jQPmZaJ0hq8 = ()=>import("./test_qrl_multiple_qrls.tsx_test_qrl_multiple_qrls_handler3_jQPmZaJ0hq8");
+// Multiple QRLs in same file - all get unique symbol names
+export const handler1 = /*#__PURE__*/ qrl(i_0Ncl8KpuAEg, "test_qrl_multiple_qrls_handler1_0Ncl8KpuAEg");
+export const handler2 = /*#__PURE__*/ qrl(i_wzFi8e1hOPc, "test_qrl_multiple_qrls_handler2_wzFi8e1hOPc");
+export const handler3 = /*#__PURE__*/ qrl(i_jQPmZaJ0hq8, "test_qrl_multiple_qrls_handler3_jQPmZaJ0hq8");
+
+
+None
 ============================= test_qrl_multiple_qrls.tsx_test_qrl_multiple_qrls_handler1_0Ncl8KpuAEg.js (ENTRY POINT)==
 
 export const test_qrl_multiple_qrls_handler1_0Ncl8KpuAEg = ()=>{
@@ -47,19 +60,6 @@ None
   ]
 }
 */
-============================= test_qrl_multiple_qrls.js ==
-
-import { qrl } from "@qwik.dev/core";
-const i_0Ncl8KpuAEg = ()=>import("./test_qrl_multiple_qrls.tsx_test_qrl_multiple_qrls_handler1_0Ncl8KpuAEg");
-const i_wzFi8e1hOPc = ()=>import("./test_qrl_multiple_qrls.tsx_test_qrl_multiple_qrls_handler2_wzFi8e1hOPc");
-const i_jQPmZaJ0hq8 = ()=>import("./test_qrl_multiple_qrls.tsx_test_qrl_multiple_qrls_handler3_jQPmZaJ0hq8");
-// Multiple QRLs in same file - all get unique symbol names
-export const handler1 = /*#__PURE__*/ qrl(i_0Ncl8KpuAEg, "test_qrl_multiple_qrls_handler1_0Ncl8KpuAEg");
-export const handler2 = /*#__PURE__*/ qrl(i_wzFi8e1hOPc, "test_qrl_multiple_qrls_handler2_wzFi8e1hOPc");
-export const handler3 = /*#__PURE__*/ qrl(i_jQPmZaJ0hq8, "test_qrl_multiple_qrls_handler3_jQPmZaJ0hq8");
-
-
-None
 ============================= test_qrl_multiple_qrls.tsx_test_qrl_multiple_qrls_handler3_jQPmZaJ0hq8.js (ENTRY POINT)==
 
 export const test_qrl_multiple_qrls_handler3_jQPmZaJ0hq8 = ()=>{

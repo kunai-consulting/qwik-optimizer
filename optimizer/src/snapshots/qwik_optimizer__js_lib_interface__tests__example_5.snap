@@ -13,6 +13,15 @@ export const Header = component$(() => {
         </>
     );
 });
+============================= test_example_5.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_LquTc5o2Kag = ()=>import("./test_example_5.tsx_test_example_5_Header_component_div_onClick_LquTc5o2Kag");
+const i_EqZN400GvU0 = ()=>import("./test_example_5.tsx_test_example_5_Header_component_EqZN400GvU0");
+export const Header = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_EqZN400GvU0, "test_example_5_Header_component_EqZN400GvU0"));
+
+
+None
 ============================= test_example_5.tsx_test_example_5_Header_component_EqZN400GvU0.js (ENTRY POINT)==
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
@@ -44,15 +53,6 @@ None
   ]
 }
 */
-============================= test_example_5.js ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_LquTc5o2Kag = ()=>import("./test_example_5.tsx_test_example_5_Header_component_div_onClick_LquTc5o2Kag");
-const i_EqZN400GvU0 = ()=>import("./test_example_5.tsx_test_example_5_Header_component_EqZN400GvU0");
-export const Header = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_EqZN400GvU0, "test_example_5_Header_component_EqZN400GvU0"));
-
-
-None
 ============================= test_example_5.tsx_test_example_5_Header_component_div_onClick_LquTc5o2Kag.js (ENTRY POINT)==
 
 export const test_example_5_Header_component_div_onClick_LquTc5o2Kag = (ctx)=>console.log("2");

@@ -33,6 +33,20 @@ export const App = component$((props) => {
 	);
 })
 
+============================= test.js ==
+
+import { componentQrl, qrl, useStore } from "@qwik.dev/core";
+const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
+const _hf0 = (p0)=>p0.name;
+const _hf0_str = "p0.name";
+export const useCounter = ()=>{
+	return useStore({ count: 0 });
+};
+export const STEP = 1;
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
+
+
+None
 ============================= test.tsx_test_App_component_jYXJI01qFIU.js (ENTRY POINT)==
 
 import { useCounter } from "./test";
@@ -108,20 +122,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { componentQrl, qrl, useStore } from "@qwik.dev/core";
-const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
-const _hf0 = (p0)=>p0.name;
-const _hf0_str = "p0.name";
-export const useCounter = ()=>{
-	return useStore({ count: 0 });
-};
-export const STEP = 1;
-export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

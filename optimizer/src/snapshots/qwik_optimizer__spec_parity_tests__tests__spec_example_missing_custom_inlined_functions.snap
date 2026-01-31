@@ -21,6 +21,19 @@ export const App = component$((props) => {
 	));
 });
 
+============================= test.js ==
+
+import { componentQrl, qrl, useEffect } from "@qwik.dev/core";
+const i_tw8oo7z6mt0 = ()=>import("./test.tsx_test_App_component_useMemo_tw8oo7z6mt0");
+const i_eRb5Uu4bkw4 = ()=>import("./test.tsx_test_App_component_1_eRb5Uu4bkw4");
+const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
+export const useMemo$ = (qrt)=>{
+	useEffect(qrt);
+};
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
+
+
+None
 ============================= test.tsx_test_App_component_1_eRb5Uu4bkw4.js (ENTRY POINT)==
 
 import { _jsxSorted } from "@qwik.dev/core";
@@ -82,19 +95,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { componentQrl, qrl, useEffect } from "@qwik.dev/core";
-const i_tw8oo7z6mt0 = ()=>import("./test.tsx_test_App_component_useMemo_tw8oo7z6mt0");
-const i_eRb5Uu4bkw4 = ()=>import("./test.tsx_test_App_component_1_eRb5Uu4bkw4");
-const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
-export const useMemo$ = (qrt)=>{
-	useEffect(qrt);
-};
-export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
-
-
-None
 ============================= test.tsx_test_App_component_useMemo_tw8oo7z6mt0.js (ENTRY POINT)==
 
 export const test_App_component_useMemo_tw8oo7z6mt0 = ()=>{

@@ -44,6 +44,19 @@ export const Foo = component$((props) => {
 	tagName: "my-foo",
 });
 
+============================= test.js ==
+
+import { _getConstProps, _getVarProps, _jsxSorted, _jsxSplit, componentQrl, qrl } from "@qwik.dev/core";
+import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
+const i_AeLWTA7YAKE = ()=>import("./test.tsx_test_Foo_component_1_AeLWTA7YAKE");
+const i_NK5Hyit5tec = ()=>import("./test.tsx_test_Foo_component_NK5Hyit5tec");
+export const Lightweight = (props)=>{
+	return /*#__PURE__*/ _jsxSorted("div", null, null, /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [/*#__PURE__*/ _jsxSorted("div", null, null, null, 3, null), /*#__PURE__*/ _jsxSplit("button", { ..._getVarProps(props) }, _getConstProps(props), null, 0, null)], 3, null), 3, null);
+};
+export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_NK5Hyit5tec, "test_Foo_component_NK5Hyit5tec"));
+
+
+None
 ============================= test.tsx_test_Foo_component_1_AeLWTA7YAKE.js (ENTRY POINT)==
 
 import { Lightweight } from "./test";
@@ -89,19 +102,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { _getConstProps, _getVarProps, _jsxSorted, _jsxSplit, componentQrl, qrl } from "@qwik.dev/core";
-import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
-const i_AeLWTA7YAKE = ()=>import("./test.tsx_test_Foo_component_1_AeLWTA7YAKE");
-const i_NK5Hyit5tec = ()=>import("./test.tsx_test_Foo_component_NK5Hyit5tec");
-export const Lightweight = (props)=>{
-	return /*#__PURE__*/ _jsxSorted("div", null, null, /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [/*#__PURE__*/ _jsxSorted("div", null, null, null, 3, null), /*#__PURE__*/ _jsxSplit("button", { ..._getVarProps(props) }, _getConstProps(props), null, 0, null)], 3, null), 3, null);
-};
-export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_NK5Hyit5tec, "test_Foo_component_NK5Hyit5tec"));
-
-
-None
 ============================= test.tsx_test_Foo_component_NK5Hyit5tec.js (ENTRY POINT)==
 
 import { qrl } from "@qwik.dev/core";

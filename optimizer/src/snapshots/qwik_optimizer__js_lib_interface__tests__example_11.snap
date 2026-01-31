@@ -23,6 +23,17 @@ export const App = component$(() => {
     );
 });
 
+============================= test_example_11.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_Nafy0zwxPGM = ()=>import("./test_example_11.tsx_test_example_11_Header_component_Header_onClick_Nafy0zwxPGM");
+const i_70TTDw4QOAg = ()=>import("./test_example_11.tsx_test_example_11_Header_component_70TTDw4QOAg");
+const i_vaBQtgSTf84 = ()=>import("./test_example_11.tsx_test_example_11_App_component_vaBQtgSTf84");
+export const Header = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_70TTDw4QOAg, "test_example_11_Header_component_70TTDw4QOAg"));
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_vaBQtgSTf84, "test_example_11_App_component_vaBQtgSTf84"));
+
+
+None
 ============================= test_example_11.tsx_test_example_11_Header_component_70TTDw4QOAg.js (ENTRY POINT)==
 
 import { bar as bbar } from "../state";
@@ -56,17 +67,6 @@ None
   ]
 }
 */
-============================= test_example_11.js ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Nafy0zwxPGM = ()=>import("./test_example_11.tsx_test_example_11_Header_component_Header_onClick_Nafy0zwxPGM");
-const i_70TTDw4QOAg = ()=>import("./test_example_11.tsx_test_example_11_Header_component_70TTDw4QOAg");
-const i_vaBQtgSTf84 = ()=>import("./test_example_11.tsx_test_example_11_App_component_vaBQtgSTf84");
-export const Header = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_70TTDw4QOAg, "test_example_11_Header_component_70TTDw4QOAg"));
-export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_vaBQtgSTf84, "test_example_11_App_component_vaBQtgSTf84"));
-
-
-None
 ============================= test_example_11.tsx_test_example_11_Header_component_Header_onClick_Nafy0zwxPGM.js (ENTRY POINT)==
 
 import dep3 from "dep3/something";

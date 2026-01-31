@@ -13,6 +13,17 @@ export const handler = condition
     ? $(() => console.log('true branch'))
     : $(() => console.log('false branch'));
 
+============================= test_qrl_ternary.js ==
+
+import { qrl } from "@qwik.dev/core";
+const i_q6ae3xZ3n3E = ()=>import("./test_qrl_ternary.tsx_test_qrl_ternary_handler_q6ae3xZ3n3E");
+const i_J000KvkQ8aY = ()=>import("./test_qrl_ternary.tsx_test_qrl_ternary_handler_1_J000KvkQ8aY");
+// QRL in ternary expression
+const condition = true;
+export const handler = /*#__PURE__*/ qrl(i_J000KvkQ8aY, "test_qrl_ternary_handler_1_J000KvkQ8aY");
+
+
+None
 ============================= test_qrl_ternary.tsx_test_qrl_ternary_handler_q6ae3xZ3n3E.js (ENTRY POINT)==
 
 export const test_qrl_ternary_handler_q6ae3xZ3n3E = ()=>console.log("true branch");
@@ -39,17 +50,6 @@ None
   ]
 }
 */
-============================= test_qrl_ternary.js ==
-
-import { qrl } from "@qwik.dev/core";
-const i_q6ae3xZ3n3E = ()=>import("./test_qrl_ternary.tsx_test_qrl_ternary_handler_q6ae3xZ3n3E");
-const i_J000KvkQ8aY = ()=>import("./test_qrl_ternary.tsx_test_qrl_ternary_handler_1_J000KvkQ8aY");
-// QRL in ternary expression
-const condition = true;
-export const handler = /*#__PURE__*/ qrl(i_J000KvkQ8aY, "test_qrl_ternary_handler_1_J000KvkQ8aY");
-
-
-None
 ============================= test_qrl_ternary.tsx_test_qrl_ternary_handler_1_J000KvkQ8aY.js (ENTRY POINT)==
 
 export const test_qrl_ternary_handler_1_J000KvkQ8aY = ()=>console.log("false branch");

@@ -28,6 +28,18 @@ export const Bar = component$(({bar}) => {
 	});
 })
 
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_AeLWTA7YAKE = ()=>import("./test.tsx_test_Foo_component_1_AeLWTA7YAKE");
+const i_NK5Hyit5tec = ()=>import("./test.tsx_test_Foo_component_NK5Hyit5tec");
+const i_YE9eK0JEou0 = ()=>import("./test.tsx_test_Bar_component_1_YE9eK0JEou0");
+const i_2yOPyUuApFc = ()=>import("./test.tsx_test_Bar_component_2yOPyUuApFc");
+export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_NK5Hyit5tec, "test_Foo_component_NK5Hyit5tec"));
+export const Bar = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_2yOPyUuApFc, "test_Bar_component_2yOPyUuApFc"));
+
+
+None
 ============================= test.tsx_test_Bar_component_2yOPyUuApFc.tsx (ENTRY POINT)==
 
 import { qrl } from "@qwik.dev/core";
@@ -89,18 +101,6 @@ None
   ]
 }
 */
-============================= test.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_AeLWTA7YAKE = ()=>import("./test.tsx_test_Foo_component_1_AeLWTA7YAKE");
-const i_NK5Hyit5tec = ()=>import("./test.tsx_test_Foo_component_NK5Hyit5tec");
-const i_YE9eK0JEou0 = ()=>import("./test.tsx_test_Bar_component_1_YE9eK0JEou0");
-const i_2yOPyUuApFc = ()=>import("./test.tsx_test_Bar_component_2yOPyUuApFc");
-export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_NK5Hyit5tec, "test_Foo_component_NK5Hyit5tec"));
-export const Bar = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_2yOPyUuApFc, "test_Bar_component_2yOPyUuApFc"));
-
-
-None
 ============================= test.tsx_test_Foo_component_NK5Hyit5tec.tsx (ENTRY POINT)==
 
 import { qrl } from "@qwik.dev/core";

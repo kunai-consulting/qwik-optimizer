@@ -13,6 +13,14 @@ export const Local = component$(() => {
 	)
 });
 
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_o7lYFdQrMGw = ()=>import("./test.tsx_test_Local_component_o7lYFdQrMGw");
+export const Local = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_o7lYFdQrMGw, "test_Local_component_o7lYFdQrMGw"));
+
+
+None
 ============================= test.tsx_test_Local_component_o7lYFdQrMGw.js (ENTRY POINT)==
 
 import { state } from "./sibling";
@@ -43,14 +51,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_o7lYFdQrMGw = ()=>import("./test.tsx_test_Local_component_o7lYFdQrMGw");
-export const Local = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_o7lYFdQrMGw, "test_Local_component_o7lYFdQrMGw"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

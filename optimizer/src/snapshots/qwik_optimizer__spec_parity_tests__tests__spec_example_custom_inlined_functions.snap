@@ -28,6 +28,23 @@ export const Lightweight = (props) => {
 	});
 };
 
+============================= test.js ==
+
+import { useMemoQrl } from "./test";
+import { componentQrl, qrl, useEffect, useMemoQrl, wrap } from "@qwik.dev/core";
+const i_tw8oo7z6mt0 = ()=>import("./test.tsx_test_App_component_useMemo_tw8oo7z6mt0");
+const i_eRb5Uu4bkw4 = ()=>import("./test.tsx_test_App_component_1_eRb5Uu4bkw4");
+const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
+const i_fhiK00eeGYQ = ()=>import("./test.tsx_test_Lightweight_useMemo_fhiK00eeGYQ");
+export const useMemoQrl = (qrt)=>{
+	useEffect(qrt);
+};
+export const useMemo$ = wrap(useMemoQrl);
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
+export const Lightweight = /*#__PURE__*/ useMemoQrl(/*#__PURE__*/ qrl(i_fhiK00eeGYQ, "test_Lightweight_useMemo_fhiK00eeGYQ"));
+
+
+None
 ============================= test.tsx_test_App_component_1_eRb5Uu4bkw4.js (ENTRY POINT)==
 
 import { _jsxSorted } from "@qwik.dev/core";
@@ -117,23 +134,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { useMemoQrl } from "./test";
-import { componentQrl, qrl, useEffect, useMemoQrl, wrap } from "@qwik.dev/core";
-const i_tw8oo7z6mt0 = ()=>import("./test.tsx_test_App_component_useMemo_tw8oo7z6mt0");
-const i_eRb5Uu4bkw4 = ()=>import("./test.tsx_test_App_component_1_eRb5Uu4bkw4");
-const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
-const i_fhiK00eeGYQ = ()=>import("./test.tsx_test_Lightweight_useMemo_fhiK00eeGYQ");
-export const useMemoQrl = (qrt)=>{
-	useEffect(qrt);
-};
-export const useMemo$ = wrap(useMemoQrl);
-export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
-export const Lightweight = /*#__PURE__*/ useMemoQrl(/*#__PURE__*/ qrl(i_fhiK00eeGYQ, "test_Lightweight_useMemo_fhiK00eeGYQ"));
-
-
-None
 ============================= test.tsx_test_App_component_useMemo_tw8oo7z6mt0.js (ENTRY POINT)==
 
 export const test_App_component_useMemo_tw8oo7z6mt0 = ()=>{

@@ -20,6 +20,19 @@ export const App = component$(() => {
 	);
 });
 
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
+var Thing = /*#__PURE__*/ function(Thing) {
+	Thing[Thing["A"] = 0] = "A";
+	Thing[Thing["B"] = 1] = "B";
+	return Thing;
+}(Thing || {});
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU", [Thing]));
+
+
+None
 ============================= test.tsx_test_App_component_jYXJI01qFIU.js (ENTRY POINT)==
 
 import { _jsxSorted } from "@qwik.dev/core";
@@ -52,19 +65,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
-var Thing = /*#__PURE__*/ function(Thing) {
-	Thing[Thing["A"] = 0] = "A";
-	Thing[Thing["B"] = 1] = "B";
-	return Thing;
-}(Thing || {});
-export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU", [Thing]));
-
-
-None
 == DIAGNOSTICS ==
 
 []

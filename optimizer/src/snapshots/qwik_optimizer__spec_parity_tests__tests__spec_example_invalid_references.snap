@@ -21,6 +21,17 @@ export const App = component$(({count}) => {
 	});
 })
 
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_eRb5Uu4bkw4 = ()=>import("./test.tsx_test_App_component_1_eRb5Uu4bkw4");
+const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
+const I1 = 12;
+const [I2, { I3, v1: [I4], I5 = v2, ...I6 }, I7 = v3, ...I8] = obj;
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU", [I1]));
+
+
+None
 ============================= test.tsx_test_App_component_1_eRb5Uu4bkw4.js (ENTRY POINT)==
 
 import { _jsxSorted } from "@qwik.dev/core";
@@ -82,17 +93,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_eRb5Uu4bkw4 = ()=>import("./test.tsx_test_App_component_1_eRb5Uu4bkw4");
-const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
-const I1 = 12;
-const [I2, { I3, v1: [I4], I5 = v2, ...I6 }, I7 = v3, ...I8] = obj;
-export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU", [I1]));
-
-
-None
 == DIAGNOSTICS ==
 
 []

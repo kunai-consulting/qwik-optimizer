@@ -43,6 +43,17 @@ export const { onRequest, logout, getSession, signup } = auth$({
 	]
 });
 
+============================= test.js ==
+
+import { authQrl, serverAuthQrl } from "@auth/qwik";
+import { authQrl, qrl, serverAuthQrl } from "@qwik.dev/core";
+const i_fOwC85dKyEY = ()=>import("./test.tsx_test_serverAuth_fOwC85dKyEY");
+const i_bL3Fr0lPRI0 = ()=>import("./test.tsx_test_auth_bL3Fr0lPRI0");
+export const { onRequest, logout, getSession, signup } = /*#__PURE__*/ serverAuthQrl(/*#__PURE__*/ qrl(i_fOwC85dKyEY, "test_serverAuth_fOwC85dKyEY"));
+export const { onRequest, logout, getSession, signup } = /*#__PURE__*/ authQrl(/*#__PURE__*/ qrl(i_bL3Fr0lPRI0, "test_auth_bL3Fr0lPRI0"));
+
+
+None
 ============================= test.tsx_test_serverAuth_fOwC85dKyEY.js (ENTRY POINT)==
 
 import GitHub from "@auth/core/providers/github";
@@ -127,17 +138,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { authQrl, serverAuthQrl } from "@auth/qwik";
-import { authQrl, qrl, serverAuthQrl } from "@qwik.dev/core";
-const i_fOwC85dKyEY = ()=>import("./test.tsx_test_serverAuth_fOwC85dKyEY");
-const i_bL3Fr0lPRI0 = ()=>import("./test.tsx_test_auth_bL3Fr0lPRI0");
-export const { onRequest, logout, getSession, signup } = /*#__PURE__*/ serverAuthQrl(/*#__PURE__*/ qrl(i_fOwC85dKyEY, "test_serverAuth_fOwC85dKyEY"));
-export const { onRequest, logout, getSession, signup } = /*#__PURE__*/ authQrl(/*#__PURE__*/ qrl(i_bL3Fr0lPRI0, "test_auth_bL3Fr0lPRI0"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

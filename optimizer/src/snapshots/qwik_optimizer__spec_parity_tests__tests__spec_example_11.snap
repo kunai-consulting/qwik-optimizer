@@ -23,6 +23,17 @@ export const App = component$(() => {
 	);
 });
 
+============================= project/test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_mwHjQDfdiUE = ()=>import("./test.tsx_test_Header_component_Header_onClick_mwHjQDfdiUE");
+const i_ixIjsYrBxJ8 = ()=>import("./test.tsx_test_Header_component_ixIjsYrBxJ8");
+const i_ojk5Lwh50E4 = ()=>import("./test.tsx_test_App_component_ojk5Lwh50E4");
+export const Header = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ixIjsYrBxJ8, "test_Header_component_ixIjsYrBxJ8"));
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ojk5Lwh50E4, "test_App_component_ojk5Lwh50E4"));
+
+
+None
 ============================= project/test.tsx_test_Header_component_Header_onClick_mwHjQDfdiUE.tsx (ENTRY POINT)==
 
 import dep3 from "dep3/something";
@@ -80,17 +91,6 @@ None
   ]
 }
 */
-============================= project/test.tsx ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_mwHjQDfdiUE = ()=>import("./test.tsx_test_Header_component_Header_onClick_mwHjQDfdiUE");
-const i_ixIjsYrBxJ8 = ()=>import("./test.tsx_test_Header_component_ixIjsYrBxJ8");
-const i_ojk5Lwh50E4 = ()=>import("./test.tsx_test_App_component_ojk5Lwh50E4");
-export const Header = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ixIjsYrBxJ8, "test_Header_component_ixIjsYrBxJ8"));
-export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ojk5Lwh50E4, "test_App_component_ojk5Lwh50E4"));
-
-
-None
 ============================= project/test.tsx_test_Header_component_ixIjsYrBxJ8.tsx (ENTRY POINT)==
 
 import { bar as bbar } from "../state";

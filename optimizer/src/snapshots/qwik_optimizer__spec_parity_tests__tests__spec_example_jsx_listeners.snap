@@ -36,6 +36,15 @@ export const Foo = component$(() => {
 	tagName: "my-foo",
 });
 
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_AeLWTA7YAKE = ()=>import("./test.tsx_test_Foo_component_1_AeLWTA7YAKE");
+const i_NK5Hyit5tec = ()=>import("./test.tsx_test_Foo_component_NK5Hyit5tec");
+export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_NK5Hyit5tec, "test_Foo_component_NK5Hyit5tec"));
+
+
+None
 ============================= test.tsx_test_Foo_component_1_AeLWTA7YAKE.js (ENTRY POINT)==
 
 import { _jsxSorted, qrl } from "@qwik.dev/core";
@@ -91,15 +100,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_AeLWTA7YAKE = ()=>import("./test.tsx_test_Foo_component_1_AeLWTA7YAKE");
-const i_NK5Hyit5tec = ()=>import("./test.tsx_test_Foo_component_NK5Hyit5tec");
-export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_NK5Hyit5tec, "test_Foo_component_NK5Hyit5tec"));
-
-
-None
 ============================= test.tsx_test_Foo_component_NK5Hyit5tec.js (ENTRY POINT)==
 
 import { qrl } from "@qwik.dev/core";

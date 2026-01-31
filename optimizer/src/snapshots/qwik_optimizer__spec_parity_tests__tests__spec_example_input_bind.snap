@@ -22,6 +22,14 @@ export const Greeter = component$(() => {
 	)
 });
 
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_ypCtrRwcmFs = ()=>import("./test.tsx_s_ypCtrRwcmFs");
+export const Greeter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ypCtrRwcmFs, "s_ypCtrRwcmFs"));
+
+
+None
 ============================= test.tsx_s_ypCtrRwcmFs.js (ENTRY POINT)==
 
 import { _jsxSorted } from "@qwik.dev/core";
@@ -67,14 +75,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_ypCtrRwcmFs = ()=>import("./test.tsx_s_ypCtrRwcmFs");
-export const Greeter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ypCtrRwcmFs, "s_ypCtrRwcmFs"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

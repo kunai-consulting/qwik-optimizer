@@ -38,6 +38,27 @@ export const App = /*#__PURE__*/ componentQrl(inlinedQrl(()=>{
 
 export const STYLES = ".red { color: red; }";
 
+============================= test.tsx ==
+
+import { componentQrl, inlinedQrl, jsx, jsxs, qrl, useLexicalScope, useStylesQrl } from "@qwik.dev/core";
+const i_5oneJzcZfTU = ()=>import("./test.tsx_s_5oneJzcZfTU");
+const i_jQBSdVxi2GA = ()=>import("./test.tsx_s_jQBSdVxi2GA");
+export const App = /*#__PURE__*/ componentQrl(inlinedQrl(()=>{
+	/*#__PURE__*/ useStylesQrl(/*#__PURE__*/ qrl(i_5oneJzcZfTU, "s_5oneJzcZfTU"));
+	/*#__PURE__*/ useStylesQrl(/*#__PURE__*/ qrl(i_jQBSdVxi2GA, "s_jQBSdVxi2GA"));
+	const store = /*#__PURE__*/ useStylesQrl(/*#__PURE__*/ qrl(i_jQBSdVxi2GA, "s_jQBSdVxi2GA"));
+	return /*#__PURE__*/ jsxs("div", { children: [/*#__PURE__*/ jsxs("p", { children: ["Count: ", store.count] }), /*#__PURE__*/ jsx("p", { children: /*#__PURE__*/ jsx("button", {
+		onClick$: inlinedQrl(()=>{
+			const [store] = useLexicalScope();
+			return store.count++;
+		}, "App_component_div_p_button_onClick_odz7eidI4GM", [store]),
+		children: "Click"
+	}) })] });
+}, "App_component_Fh88JClhbC0"));
+export const STYLES = ".red { color: red; }";
+
+
+None
 ============================= test.tsx_s_5oneJzcZfTU.tsx (ENTRY POINT)==
 
 import { inlinedQrl } from "@qwik.dev/core";
@@ -92,27 +113,6 @@ None
   ]
 }
 */
-============================= test.tsx ==
-
-import { componentQrl, inlinedQrl, jsx, jsxs, qrl, useLexicalScope, useStylesQrl } from "@qwik.dev/core";
-const i_5oneJzcZfTU = ()=>import("./test.tsx_s_5oneJzcZfTU");
-const i_jQBSdVxi2GA = ()=>import("./test.tsx_s_jQBSdVxi2GA");
-export const App = /*#__PURE__*/ componentQrl(inlinedQrl(()=>{
-	/*#__PURE__*/ useStylesQrl(/*#__PURE__*/ qrl(i_5oneJzcZfTU, "s_5oneJzcZfTU"));
-	/*#__PURE__*/ useStylesQrl(/*#__PURE__*/ qrl(i_jQBSdVxi2GA, "s_jQBSdVxi2GA"));
-	const store = /*#__PURE__*/ useStylesQrl(/*#__PURE__*/ qrl(i_jQBSdVxi2GA, "s_jQBSdVxi2GA"));
-	return /*#__PURE__*/ jsxs("div", { children: [/*#__PURE__*/ jsxs("p", { children: ["Count: ", store.count] }), /*#__PURE__*/ jsx("p", { children: /*#__PURE__*/ jsx("button", {
-		onClick$: inlinedQrl(()=>{
-			const [store] = useLexicalScope();
-			return store.count++;
-		}, "App_component_div_p_button_onClick_odz7eidI4GM", [store]),
-		children: "Click"
-	}) })] });
-}, "App_component_Fh88JClhbC0"));
-export const STYLES = ".red { color: red; }";
-
-
-None
 == DIAGNOSTICS ==
 
 []

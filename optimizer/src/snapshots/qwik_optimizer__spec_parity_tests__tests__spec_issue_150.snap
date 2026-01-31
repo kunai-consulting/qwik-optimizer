@@ -24,6 +24,17 @@ export const Greeter = component$(() => {
 
 const d = $(()=>console.log('thing'));
 
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_9YpoUAEQprM = ()=>import("./test.tsx_test_Greeter_component_1_9YpoUAEQprM");
+const i_ypCtrRwcmFs = ()=>import("./test.tsx_test_Greeter_component_ypCtrRwcmFs");
+const i_u48MVt0PaS8 = ()=>import("./test.tsx_test_d_u48MVt0PaS8");
+export const Greeter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ypCtrRwcmFs, "test_Greeter_component_ypCtrRwcmFs"));
+/*#__PURE__*/ qrl(i_u48MVt0PaS8, "test_d_u48MVt0PaS8");
+
+
+None
 ============================= test.tsx_test_d_u48MVt0PaS8.js (ENTRY POINT)==
 
 export const test_d_u48MVt0PaS8 = ()=>console.log("thing");
@@ -80,17 +91,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_9YpoUAEQprM = ()=>import("./test.tsx_test_Greeter_component_1_9YpoUAEQprM");
-const i_ypCtrRwcmFs = ()=>import("./test.tsx_test_Greeter_component_ypCtrRwcmFs");
-const i_u48MVt0PaS8 = ()=>import("./test.tsx_test_d_u48MVt0PaS8");
-export const Greeter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ypCtrRwcmFs, "test_Greeter_component_ypCtrRwcmFs"));
-/*#__PURE__*/ qrl(i_u48MVt0PaS8, "test_d_u48MVt0PaS8");
-
-
-None
 ============================= test.tsx_test_Greeter_component_1_9YpoUAEQprM.js (ENTRY POINT)==
 
 import { _jsxSorted } from "@qwik.dev/core";

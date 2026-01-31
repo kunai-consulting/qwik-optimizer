@@ -19,6 +19,16 @@ const Foo = component$(function() {
   </div>;
 })
 
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_NK5Hyit5tec = ()=>import("./test.tsx_test_Foo_component_NK5Hyit5tec");
+const _hf0 = (p0)=>p0.value.id;
+const _hf0_str = "p0.value.id";
+/*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_NK5Hyit5tec, "test_Foo_component_NK5Hyit5tec"));
+
+
+None
 ============================= test.tsx_test_Foo_component_div_map_div_map_p_onClick_TlIzsC7iPEM.js (ENTRY POINT)==
 
 import { useLexicalScope } from "@qwik.dev/core";
@@ -49,16 +59,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_NK5Hyit5tec = ()=>import("./test.tsx_test_Foo_component_NK5Hyit5tec");
-const _hf0 = (p0)=>p0.value.id;
-const _hf0_str = "p0.value.id";
-/*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_NK5Hyit5tec, "test_Foo_component_NK5Hyit5tec"));
-
-
-None
 ============================= test.tsx_test_Foo_component_NK5Hyit5tec.js (ENTRY POINT)==
 
 import { _fnSignal, _jsxSorted, qrl, useSignal } from "@qwik.dev/core";

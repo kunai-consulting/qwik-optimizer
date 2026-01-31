@@ -19,6 +19,15 @@ export const Cmp = component$(() => {
 	);
 });
 
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_vlEdMxla0jk = ()=>import("./test.tsx_test_Cmp_component_handleClick_1_vlEdMxla0jk");
+const i_xd53fXgnHL8 = ()=>import("./test.tsx_test_Cmp_component_xd53fXgnHL8");
+export const Cmp = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_xd53fXgnHL8, "test_Cmp_component_xd53fXgnHL8"));
+
+
+None
 ============================= test.tsx_test_Cmp_component_handleClick_1_vlEdMxla0jk.js (ENTRY POINT)==
 
 export const test_Cmp_component_handleClick_1_vlEdMxla0jk = ()=>{
@@ -48,15 +57,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_vlEdMxla0jk = ()=>import("./test.tsx_test_Cmp_component_handleClick_1_vlEdMxla0jk");
-const i_xd53fXgnHL8 = ()=>import("./test.tsx_test_Cmp_component_xd53fXgnHL8");
-export const Cmp = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_xd53fXgnHL8, "test_Cmp_component_xd53fXgnHL8"));
-
-
-None
 ============================= test.tsx_test_Cmp_component_xd53fXgnHL8.js (ENTRY POINT)==
 
 import { _jsxSorted, qrl, useSignal } from "@qwik.dev/core";

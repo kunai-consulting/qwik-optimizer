@@ -8,6 +8,15 @@ import { component$, $ } from '@qwik.dev/core';
 export const Cmp = component$(() =>
 	<Cmp foo={$(() => console.log('hi there'))}>Hello Qwik</Cmp>);
 
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_cXWup67OSHE = ()=>import("./test.tsx_test_Cmp_component_Cmp_foo_cXWup67OSHE");
+const i_xd53fXgnHL8 = ()=>import("./test.tsx_test_Cmp_component_xd53fXgnHL8");
+export const Cmp = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_xd53fXgnHL8, "test_Cmp_component_xd53fXgnHL8"));
+
+
+None
 ============================= test.tsx_test_Cmp_component_Cmp_foo_cXWup67OSHE.js (ENTRY POINT)==
 
 export const test_Cmp_component_Cmp_foo_cXWup67OSHE = ()=>console.log("hi there");
@@ -34,15 +43,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_cXWup67OSHE = ()=>import("./test.tsx_test_Cmp_component_Cmp_foo_cXWup67OSHE");
-const i_xd53fXgnHL8 = ()=>import("./test.tsx_test_Cmp_component_xd53fXgnHL8");
-export const Cmp = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_xd53fXgnHL8, "test_Cmp_component_xd53fXgnHL8"));
-
-
-None
 ============================= test.tsx_test_Cmp_component_xd53fXgnHL8.js (ENTRY POINT)==
 
 import { Cmp } from "./test";

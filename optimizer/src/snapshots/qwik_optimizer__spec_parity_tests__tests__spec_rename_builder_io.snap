@@ -25,6 +25,19 @@ export const App = component$(() => {
 	return "hi";
 });
 
+============================= test.js ==
+
+import { componentQrl, qrl, qwikifyQrl } from "@qwik.dev/core";
+import { qwikifyQrl } from "@qwik.dev/react";
+const i_J9SzmASVbVg = ()=>import("./test.tsx_test_Foo_qwikify_J9SzmASVbVg");
+const i_0KyZrfSgKVo = ()=>import("./test.tsx_test_Bar_0KyZrfSgKVo");
+const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
+export const Foo = /*#__PURE__*/ qwikifyQrl(/*#__PURE__*/ qrl(i_J9SzmASVbVg, "test_Foo_qwikify_J9SzmASVbVg"));
+export const Bar = /*#__PURE__*/ qrl(i_0KyZrfSgKVo, "test_Bar_0KyZrfSgKVo");
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
+
+
+None
 ============================= test.tsx_test_Foo_qwikify_J9SzmASVbVg.js (ENTRY POINT)==
 
 export const test_Foo_qwikify_J9SzmASVbVg = MyReactComponent;
@@ -115,19 +128,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { componentQrl, qrl, qwikifyQrl } from "@qwik.dev/core";
-import { qwikifyQrl } from "@qwik.dev/react";
-const i_J9SzmASVbVg = ()=>import("./test.tsx_test_Foo_qwikify_J9SzmASVbVg");
-const i_0KyZrfSgKVo = ()=>import("./test.tsx_test_Bar_0KyZrfSgKVo");
-const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
-export const Foo = /*#__PURE__*/ qwikifyQrl(/*#__PURE__*/ qrl(i_J9SzmASVbVg, "test_Foo_qwikify_J9SzmASVbVg"));
-export const Bar = /*#__PURE__*/ qrl(i_0KyZrfSgKVo, "test_Bar_0KyZrfSgKVo");
-export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
-
-
-None
 == DIAGNOSTICS ==
 
 []

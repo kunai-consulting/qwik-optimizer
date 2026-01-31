@@ -21,6 +21,17 @@ return (
 );
 });
 
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_tjWqwFDDkLo = ()=>import("./test.tsx_test_component_input_onClick_sync_tjWqwFDDkLo");
+const i_QpUOB9VrMjY = ()=>import("./test.tsx_test_component_input_onClick_1_sync_QpUOB9VrMjY");
+const i_nKEYIseetKw = ()=>import("./test.tsx_test_component_input_onClick_2_sync_nKEYIseetKw");
+const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
+
+
+None
 ============================= test.tsx_test_component_input_onClick_1_sync_QpUOB9VrMjY.js (ENTRY POINT)==
 
 export const test_component_input_onClick_1_sync_QpUOB9VrMjY = (event, target)=>{
@@ -75,17 +86,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_tjWqwFDDkLo = ()=>import("./test.tsx_test_component_input_onClick_sync_tjWqwFDDkLo");
-const i_QpUOB9VrMjY = ()=>import("./test.tsx_test_component_input_onClick_1_sync_QpUOB9VrMjY");
-const i_nKEYIseetKw = ()=>import("./test.tsx_test_component_input_onClick_2_sync_nKEYIseetKw");
-const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
-export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
-
-
-None
 ============================= test.tsx_test_component_LUXeXe0DQrg.js (ENTRY POINT)==
 
 import { _jsxSorted, qrl, syncQrl } from "@qwik.dev/core";

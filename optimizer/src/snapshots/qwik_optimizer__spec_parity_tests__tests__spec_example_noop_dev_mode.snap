@@ -28,6 +28,16 @@ export const App = component$(() => {
 	);
 });
 
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_Xl1lXgcF0bE = ()=>import("./test.tsx_test_App_component_serverStuff_Xl1lXgcF0bE");
+const i_gewTbXZkQfM = ()=>import("./test.tsx_test_App_component_serverStuff_1_gewTbXZkQfM");
+const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
+
+
+None
 ============================= test.tsx_test_App_component_jYXJI01qFIU.js (ENTRY POINT)==
 
 import { _jsxSorted } from "@qwik.dev/core";
@@ -65,16 +75,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_Xl1lXgcF0bE = ()=>import("./test.tsx_test_App_component_serverStuff_Xl1lXgcF0bE");
-const i_gewTbXZkQfM = ()=>import("./test.tsx_test_App_component_serverStuff_1_gewTbXZkQfM");
-const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
-export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
-
-
-None
 ============================= test.tsx_test_App_component_serverStuff_Xl1lXgcF0bE.js (ENTRY POINT)==
 
 export const test_App_component_serverStuff_Xl1lXgcF0bE = async ()=>{

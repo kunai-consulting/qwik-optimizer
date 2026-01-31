@@ -12,6 +12,15 @@ export const Works = component$((props) => {
 	);
 });
 
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_tPCo87HRgAs = ()=>import("./test.tsx_test_Works_component_div_onClick_server_tPCo87HRgAs");
+const i_qX3vIioPG0E = ()=>import("./test.tsx_test_Works_component_qX3vIioPG0E");
+export const Works = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_qX3vIioPG0E, "test_Works_component_qX3vIioPG0E"));
+
+
+None
 ============================= test.tsx_test_Works_component_div_onClick_server_tPCo87HRgAs.js (ENTRY POINT)==
 
 export const test_Works_component_div_onClick_server_tPCo87HRgAs = ()=>{
@@ -41,15 +50,6 @@ None
   ]
 }
 */
-============================= test.js ==
-
-import { componentQrl, qrl } from "@qwik.dev/core";
-const i_tPCo87HRgAs = ()=>import("./test.tsx_test_Works_component_div_onClick_server_tPCo87HRgAs");
-const i_qX3vIioPG0E = ()=>import("./test.tsx_test_Works_component_qX3vIioPG0E");
-export const Works = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_qX3vIioPG0E, "test_Works_component_qX3vIioPG0E"));
-
-
-None
 ============================= test.tsx_test_Works_component_qX3vIioPG0E.js (ENTRY POINT)==
 
 import { _jsxSorted, qrl, serverQrl } from "@qwik.dev/core";
