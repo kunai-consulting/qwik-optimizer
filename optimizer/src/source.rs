@@ -49,7 +49,7 @@ impl Source {
 mod tests {
     use super::*;
 
-    const TEST_FILE: &str = "./src/test_input/test_example_1.tsx";
+    const TEST_FILE: &str = "./src/test_input/spec/consistent_hashes.tsx";
 
     #[test]
     fn can_load_from_file() {

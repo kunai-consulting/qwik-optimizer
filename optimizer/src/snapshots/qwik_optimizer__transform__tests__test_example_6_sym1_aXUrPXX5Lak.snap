@@ -1,6 +1,0 @@
----
-source: src/transform.rs
-expression: comp.code
-snapshot_kind: text
----
-"export const sym1_aXUrPXX5Lak = (ctx) => console.log(\"1\");\n"
