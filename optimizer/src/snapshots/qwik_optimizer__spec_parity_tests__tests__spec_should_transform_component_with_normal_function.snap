@@ -58,7 +58,10 @@ const i_TA0Ipt6LQ0U = ()=>import("./test.tsx_test_Foo_component_Inner_component_
 export const test_Foo_component_Inner_component_ZC4KYkw3qcs = function(props) {
 	const [data] = useLexicalScope();
 	const data = props.data;
-	return /*#__PURE__*/ _jsxSorted("div", null, null, data.value.map((item)=>/*#__PURE__*/ _jsxSorted("p", { on:click: /*#__PURE__*/ qrl(i_TA0Ipt6LQ0U, "test_Foo_component_Inner_component_div_map_p_onClick_TA0Ipt6LQ0U") }, null, _fnSignal(_hf0, [item], _hf0_str), 1, null)), 1, null);
+	return /*#__PURE__*/ _jsxSorted("div", null, null, data.value.map((item)=>/*#__PURE__*/ _jsxSorted("p", {
+		q:p: item,
+		on:click: /*#__PURE__*/ qrl(i_TA0Ipt6LQ0U, "test_Foo_component_Inner_component_div_map_p_onClick_TA0Ipt6LQ0U")
+	}, null, _fnSignal(_hf0, [item], _hf0_str), 1, null)), 1, null);
 };
 
 

@@ -44,12 +44,15 @@ export const test_App_component_jYXJI01qFIU = (props)=>{
 	const thing = useStore({ thing: 0 });
 	const STEP_2 = 2;
 	const count2 = state.count * 2;
-	return /*#__PURE__*/ _jsxSorted("div", { on:click: /*#__PURE__*/ qrl(i_onClick, "App_component_div_onClick", [count2, state]) }, null, [/*#__PURE__*/ _jsxSorted("span", null, null, state.count, 1, null), buttons.map((btn)=>/*#__PURE__*/ _jsxSorted("button", { on:click: /*#__PURE__*/ qrl(i_MSILHyo6VJs, "test_App_component_div_map_button_onClick_MSILHyo6VJs", [
-		STEP_2,
-		props,
-		state,
-		thing
-	]) }, null, _fnSignal(_hf0, [btn], _hf0_str), 1, null))], 1, null);
+	return /*#__PURE__*/ _jsxSorted("div", { on:click: /*#__PURE__*/ qrl(i_onClick, "App_component_div_onClick", [count2, state]) }, null, [/*#__PURE__*/ _jsxSorted("span", null, null, state.count, 1, null), buttons.map((btn)=>/*#__PURE__*/ _jsxSorted("button", {
+		q:p: btn,
+		on:click: /*#__PURE__*/ qrl(i_MSILHyo6VJs, "test_App_component_div_map_button_onClick_MSILHyo6VJs", [
+			STEP_2,
+			props,
+			state,
+			thing
+		])
+	}, null, _fnSignal(_hf0, [btn], _hf0_str), 1, null))], 1, null);
 };
 
 

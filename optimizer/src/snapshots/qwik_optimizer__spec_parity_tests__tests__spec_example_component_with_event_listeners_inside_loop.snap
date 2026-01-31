@@ -110,7 +110,10 @@ export const test_App_component_jYXJI01qFIU = ()=>{
 	const cart = useStore([]);
 	const results = useSignal(["foo"]);
 	return /*#__PURE__*/ _jsxSorted("div", null, null, [
-		results.value.map((item)=>/*#__PURE__*/ _jsxSorted("button", { on:click: /*#__PURE__*/ qrl(i_MSILHyo6VJs, "test_App_component_div_map_button_onClick_MSILHyo6VJs", [cart]) }, { id: "second" }, item, 1, null)),
+		results.value.map((item)=>/*#__PURE__*/ _jsxSorted("button", {
+			q:p: item,
+			on:click: /*#__PURE__*/ qrl(i_MSILHyo6VJs, "test_App_component_div_map_button_onClick_MSILHyo6VJs", [cart])
+		}, { id: "second" }, item, 1, null)),
 		loopArrowFn(results.value),
 		loopForI(results.value),
 		loopForOf(results.value),

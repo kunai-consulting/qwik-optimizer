@@ -85,9 +85,13 @@ const i_0ECFp3N7wOw = ()=>import("./test.tsx_test_Foo_component_div_map_div_onCl
 export const test_Foo_component_NK5Hyit5tec = function() {
 	const data = useSignal([]);
 	return /*#__PURE__*/ _jsxSorted("div", null, null, data.value.map((row)=>/*#__PURE__*/ _jsxSorted("div", {
+		q:p: row,
 		on:click: /*#__PURE__*/ qrl(i_0ECFp3N7wOw, "test_Foo_component_div_map_div_onClick_0ECFp3N7wOw"),
 		on:mouseover: /*#__PURE__*/ qrl(i_JIfOMS6PpZo, "test_Foo_component_div_map_div_onMouseOver_JIfOMS6PpZo")
-	}, null, /*#__PURE__*/ _jsxSorted("p", { on:click: /*#__PURE__*/ qrl(i_0NpjtiEz3bA, "test_Foo_component_div_map_div_p_onClick_0NpjtiEz3bA") }, null, item.value.id, 1, null), 3, null)), 1, null);
+	}, null, /*#__PURE__*/ _jsxSorted("p", {
+		q:p: row,
+		on:click: /*#__PURE__*/ qrl(i_0NpjtiEz3bA, "test_Foo_component_div_map_div_p_onClick_0NpjtiEz3bA")
+	}, null, item.value.id, 1, null), 3, null)), 1, null);
 };
 
 

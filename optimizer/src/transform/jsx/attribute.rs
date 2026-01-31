@@ -286,6 +286,57 @@ pub fn exit_jsx_attribute<'a>(
 
                         container.expression =
                             JSXExpression::from(Expression::CallExpression(ctx.ast.alloc(call_expr)));
+
+                        // Add q:p (single) or q:ps (multiple) prop if this handler uses iteration variables
+                        // Only add for native elements, and only once per element
+                        if !iteration_params.is_empty() && is_native && gen.options.transpile_jsx {
+                            if let Some(jsx) = gen.jsx_stack.last_mut() {
+                                if !jsx.added_iter_var_prop {
+                                    let (prop_name, value): (&str, Expression<'a>) =
+                                        if iteration_params.len() == 1 {
+                                            // Single parameter: use q:p with identifier
+                                            let ident_name = &iteration_params[0].0;
+                                            (
+                                                "q:p",
+                                                ctx.ast.expression_identifier(
+                                                    SPAN,
+                                                    ctx.ast.atom(ident_name),
+                                                ),
+                                            )
+                                        } else {
+                                            // Multiple parameters: use q:ps with array
+                                            let elements = ctx.ast.vec_from_iter(
+                                                iteration_params.iter().map(|(name, _)| {
+                                                    ArrayExpressionElement::from(
+                                                        ctx.ast.expression_identifier(
+                                                            SPAN,
+                                                            ctx.ast.atom(name),
+                                                        ),
+                                                    )
+                                                }),
+                                            );
+                                            (
+                                                "q:ps",
+                                                ctx.ast.expression_array(SPAN, elements),
+                                            )
+                                        };
+
+                                    let prop_name_atom = gen.builder.atom(prop_name);
+                                    jsx.var_props.push(
+                                        gen.builder.object_property_kind_object_property(
+                                            SPAN,
+                                            PropertyKind::Init,
+                                            gen.builder.property_key_static_identifier(SPAN, prop_name_atom),
+                                            value,
+                                            false,
+                                            false,
+                                            false,
+                                        ),
+                                    );
+                                    jsx.added_iter_var_prop = true;
+                                }
+                            }
+                        }
                     } else {
                         let qrl = Qrl::new_with_iteration_params(
                             gen.source_info.rel_path.clone(),

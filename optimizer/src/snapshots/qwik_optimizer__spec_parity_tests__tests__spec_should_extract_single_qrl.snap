@@ -90,8 +90,14 @@ export const test_App_component_jYXJI01qFIU = ()=>{
 	const selectedItem = useSignal(null);
 	return /*#__PURE__*/ _jsxSorted("div", null, null, data.value.map((row)=>/*#__PURE__*/ _jsxSorted("tr", { class: _fnSignal(_hf0, [row], _hf0_str) }, null, [
 		/*#__PURE__*/ _jsxSorted("td", null, { class: "col-md-1" }, _fnSignal(_hf1, [row], _hf1_str), 1, null),
-		/*#__PURE__*/ _jsxSorted("td", null, { class: "col-md-4" }, /*#__PURE__*/ _jsxSorted("a", { on:click: /*#__PURE__*/ qrl(i_VhViNiM0j40, "test_App_component_div_map_tr_td_a_onClick_VhViNiM0j40", [selectedItem]) }, null, _wrapProp(row.value.label), 1, null), 3, null),
-		/*#__PURE__*/ _jsxSorted("td", null, { class: "col-md-1" }, /*#__PURE__*/ _jsxSorted("a", { on:click: /*#__PURE__*/ qrl(i_icMTFRNaNyw, "test_App_component_div_map_tr_td_a_onClick_1_icMTFRNaNyw", [data]) }, null, /*#__PURE__*/ _jsxSorted("span", null, { aria-hidden: "true" }, "x", 3, null), 3, null), 3, null),
+		/*#__PURE__*/ _jsxSorted("td", null, { class: "col-md-4" }, /*#__PURE__*/ _jsxSorted("a", {
+			q:p: row,
+			on:click: /*#__PURE__*/ qrl(i_VhViNiM0j40, "test_App_component_div_map_tr_td_a_onClick_VhViNiM0j40", [selectedItem])
+		}, null, _wrapProp(row.value.label), 1, null), 3, null),
+		/*#__PURE__*/ _jsxSorted("td", null, { class: "col-md-1" }, /*#__PURE__*/ _jsxSorted("a", {
+			q:p: row,
+			on:click: /*#__PURE__*/ qrl(i_icMTFRNaNyw, "test_App_component_div_map_tr_td_a_onClick_1_icMTFRNaNyw", [data])
+		}, null, /*#__PURE__*/ _jsxSorted("span", null, { aria-hidden: "true" }, "x", 3, null), 3, null), 3, null),
 		/*#__PURE__*/ _jsxSorted("td", null, { class: "col-md-6" }, null, 3, null)
 	], 3, untrack(()=>row.value.id))), 1, null);
 };
