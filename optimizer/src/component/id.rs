@@ -117,6 +117,16 @@ impl Id {
         let normalized_local_file_name = local_file_name
             .strip_prefix("./")
             .unwrap_or(&local_file_name);
+
+        // Include file stem in display_name before hashing (matches qwik-core)
+        // qwik-core builds display_name from stack context which includes filename
+        let file_stem = source_info
+            .file_name
+            .rsplit('.')
+            .last()
+            .unwrap_or(&source_info.file_name);
+        let display_name = format!("{}_{}", file_stem, display_name);
+
         let (sort_order, hash) =
             Self::calculate_hash(normalized_local_file_name, &display_name, scope);
 
@@ -124,8 +134,6 @@ impl Id {
             Target::Dev | Target::Test => format!("{}_{}", display_name, hash),
             Target::Lib | Target::Prod => format!("s_{}", hash),
         };
-
-        let display_name = format!("{}_{}", &source_info.file_name, display_name);
 
         // Use normalized path (without ./ prefix) for local_file_name
         let local_file_name = format!("{}_{}", normalized_local_file_name, symbol_name);
@@ -173,12 +181,13 @@ mod tests {
             &Target::Dev,
             &Option::None,
         );
-        let (sort_order, hash0) = Id::calculate_hash("app.js", "a_b_c", &None);
+        // Now display_name includes file stem (app) before hashing
+        let (sort_order, hash0) = Id::calculate_hash("app.js", "app_a_b_c", &None);
 
         let expected0 = Id {
-            display_name: "app.js_a_b_c".to_string(),
-            symbol_name: format!("a_b_c_{}", hash0),
-            local_file_name: "app.js_a_b_c_tZuivXMgs2w".to_string(),
+            display_name: "app_a_b_c".to_string(),
+            symbol_name: format!("app_a_b_c_{}", hash0),
+            local_file_name: format!("app.js_app_a_b_c_{}", hash0),
             hash: hash0,
             sort_order,
             scope: None,
@@ -195,11 +204,12 @@ mod tests {
             &Target::Prod,
             &scope1,
         );
-        let (sort_order, hash1) = Id::calculate_hash("app.js", "_1_b_c", &scope1);
+        // With leading digit, display_name starts with _1
+        let (sort_order, hash1) = Id::calculate_hash("app.js", "app__1_b_c", &scope1);
         let expected1 = Id {
-            display_name: "app.js__1_b_c".to_string(),
+            display_name: "app__1_b_c".to_string(),
             symbol_name: format!("s_{}", hash1),
-            local_file_name: "app.js_s_bQ4D62Vr0Zg".to_string(),
+            local_file_name: format!("app.js_s_{}", hash1),
             hash: hash1,
             sort_order,
             scope: Some("scope".to_string()),
@@ -280,11 +290,12 @@ mod tests {
             &None,
         );
 
-        assert_eq!(id1.display_name, "app.js_a_b");
-        assert_eq!(id2.display_name, "app.js_a_b_1");
-        assert_eq!(id3.display_name, "app.js_a_b_c");
-        assert_eq!(id4.display_name, "app.js_a_b_c_1");
-        assert_eq!(id5.display_name, "app.js_a_b_1");
-        assert_eq!(id6.display_name, "app.js_a_b");
+        // display_name now includes file stem (app) without extension
+        assert_eq!(id1.display_name, "app_a_b");
+        assert_eq!(id2.display_name, "app_a_b_1");
+        assert_eq!(id3.display_name, "app_a_b_c");
+        assert_eq!(id4.display_name, "app_a_b_c_1");
+        assert_eq!(id5.display_name, "app_a_b_1");
+        assert_eq!(id6.display_name, "app_a_b");
     }
 }
