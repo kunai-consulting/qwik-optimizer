@@ -1008,6 +1008,7 @@ dependencies = [
  "oxc_transformer",
  "oxc_traverse",
  "pathdiff",
+ "regex",
  "serde",
  "serde_json",
  "similar",
