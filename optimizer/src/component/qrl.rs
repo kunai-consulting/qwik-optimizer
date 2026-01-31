@@ -1,6 +1,6 @@
+use crate::collector::{ExportInfo, Id};
 use crate::component::{Import, QRL, QRL_SUFFIX, QWIK_CORE_SOURCE};
-use crate::ext::AstBuilderExt;
-use oxc_allocator::{Allocator, Box as OxcBox, CloneIn, FromIn, Vec as OxcVec};
+use oxc_allocator::{Box as OxcBox, CloneIn, Vec as OxcVec};
 use oxc_ast::ast::*;
 use oxc_ast::AstBuilder;
 use oxc_semantic::{NodeId, ReferenceFlags, ReferenceId, ScopeId, SymbolFlags, SymbolId};
@@ -38,15 +38,75 @@ pub struct Qrl {
     pub rel_path: PathBuf,
     pub display_name: String,
     pub qrl_type: QrlType,
+    /// Captured variables from enclosing scope (sorted for deterministic output)
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub scoped_idents: Vec<Id>,
+    /// Source file exports referenced in the QRL body.
+    /// These need to be imported in the segment file from the source file.
+    /// Contains: (local_name, exported_name, is_default)
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub referenced_exports: Vec<ExportInfo>,
+    /// Iteration variables that become function parameters instead of captures.
+    /// Used for event handlers inside loops.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub iteration_params: Vec<Id>,
 }
 
 impl Qrl {
-    pub fn new<T: Into<PathBuf>>(rel_path: T, display_name: &str, qrl_type: QrlType) -> Self {
+    pub fn new_with_exports<T: Into<PathBuf>>(
+        rel_path: T,
+        display_name: &str,
+        qrl_type: QrlType,
+        scoped_idents: Vec<Id>,
+        referenced_exports: Vec<ExportInfo>,
+    ) -> Self {
+        Self::new_with_iteration_params(
+            rel_path,
+            display_name,
+            qrl_type,
+            scoped_idents,
+            referenced_exports,
+            Vec::new(),
+        )
+    }
+
+    pub fn new_with_iteration_params<T: Into<PathBuf>>(
+        rel_path: T,
+        display_name: &str,
+        qrl_type: QrlType,
+        scoped_idents: Vec<Id>,
+        referenced_exports: Vec<ExportInfo>,
+        iteration_params: Vec<Id>,
+    ) -> Self {
         Self {
             rel_path: rel_path.into(),
             display_name: display_name.into(),
             qrl_type,
+            scoped_idents,
+            referenced_exports,
+            iteration_params,
         }
+    }
+
+    /// Generate the hoisted import identifier name (e.g., "i_abc123")
+    /// Uses just the hash portion to match qwik-core format
+    pub fn hoisted_import_name(&self) -> String {
+        // Extract hash from display_name (format: name_hash)
+        // e.g., "renderHeader_div_onClick_fV2uzAL99u4" -> "fV2uzAL99u4"
+        let hash = self.display_name
+            .rsplit('_')
+            .next()
+            .unwrap_or(&self.display_name);
+        format!("i_{}", hash)
+    }
+
+    /// Generate the filename for the dynamic import (e.g., "./test.tsx_component_abc123")
+    /// Note: No extension on import paths - bundlers resolve these
+    pub fn import_filename(&self) -> String {
+        format!(
+            "./{}",
+            self.rel_path.file_name().unwrap().to_string_lossy()
+        )
     }
 
     /// Creates a reference id, attempting to bind it
@@ -60,8 +120,6 @@ impl Qrl {
     ) -> ReferenceId {
         match qrl_type {
             QrlType::Qrl | QrlType::IndexedQrl(_) => {
-                // `qrl` is ALWAYS part of newly created expression, even if `$` was not used in the initial script.
-                // If `qrl` was not explicitly imported in the original script, we need to synthesize both a SymbolId and an Import.
                 let qrl_symbol_id = if !symbols_by_name.contains_key(QRL) {
                     let symbol_id = ctx.scoping_mut().create_symbol(
                         SPAN,
@@ -126,65 +184,45 @@ impl Qrl {
         }
     }
 
-    /// Creates an arrow function expression that lazily imports a named module
-    ///
-    /// # Examples
-    /// ```javascript
-    /// () => import("./test.tsx_renderHeader_zBbHWn4e8Cg")
-    /// ```
-    ///
-    /// This arrow function expression will eventually be used to construct a call expression e.g. a function call to `qrl()`.
-    ///
-    /// ```javascript
-    /// qrl(() => import("./test.tsx_renderHeader_zBbHWn4e8Cg"), "renderHeader_zBbHWn4e8Cg");
-    /// ```
-    ///
-    fn into_arrow_function<'a>(&self, ast_builder: &AstBuilder<'a>) -> ArrowFunctionExpression<'a> {
-        let filename = format!(
-            "./{}.js",
-            self.rel_path.file_name().unwrap().to_string_lossy()
-        );
-
-        // Function Body /////////
-        let mut statements = ast_builder.vec_with_capacity(1);
-        statements.push(ast_builder.create_simple_import(filename.as_ref()));
-        let function_body = ast_builder.function_body(SPAN, ast_builder.vec(), statements);
-        let func_params = ast_builder.formal_parameters(
-            SPAN,
-            FormalParameterKind::ArrowFormalParameters,
-            OxcVec::with_capacity_in(0, ast_builder.allocator),
-            None::<OxcBox<BindingRestElement>>,
-        );
-
-        //  Arrow Function Expression ////////
-        ast_builder.arrow_function_expression(
-            SPAN,
-            true,
-            false,
-            None::<OxcBox<TSTypeParameterDeclaration>>,
-            func_params,
-            None::<OxcBox<TSTypeAnnotation>>,
-            function_body,
-        )
-    }
-
-    fn into_arguments<'a>(&self, ast_builder: &AstBuilder<'a>) -> OxcVec<'a, Argument<'a>> {
+    pub(crate) fn into_arguments<'a>(
+        &self,
+        ast_builder: &AstBuilder<'a>,
+        hoisted_imports: &mut Vec<(String, String)>,
+    ) -> OxcVec<'a, Argument<'a>> {
         let allocator = ast_builder.allocator;
 
-        // ARG: Display name string literal ////////
+        // Generate hoisted import name and register for hoisting (with deduplication)
+        let hoisted_name = self.hoisted_import_name();
+        let filename = self.import_filename();
+
+        // Check if this import is already registered (deduplication)
+        if !hoisted_imports.iter().any(|(name, _)| name == &hoisted_name) {
+            hoisted_imports.push((hoisted_name.clone(), filename));
+        }
+
         let raw = ast_builder.atom(&format!(r#""{}""#, &self.display_name));
         let display_name_arg = OxcBox::new_in(
             ast_builder.string_literal(SPAN, ast_builder.atom(&self.display_name), Some(raw)),
             allocator,
         );
 
-        let mut args = ast_builder.vec_with_capacity(2);
-        let arrow_function = self.into_arrow_function(ast_builder);
-        args.push(Argument::ArrowFunctionExpression(OxcBox::new_in(
-            arrow_function,
-            allocator,
-        )));
+        let capacity = if self.scoped_idents.is_empty() { 2 } else { 3 };
+        let mut args = ast_builder.vec_with_capacity(capacity);
+
+        // Use identifier reference to hoisted import instead of inline arrow
+        let import_ident = ast_builder.expression_identifier(SPAN, ast_builder.atom(&hoisted_name));
+        args.push(Argument::from(import_ident));
         args.push(Argument::StringLiteral(display_name_arg));
+
+        if !self.scoped_idents.is_empty() {
+            let mut elements = ast_builder.vec_with_capacity(self.scoped_idents.len());
+            for (name, _scope_id) in &self.scoped_idents {
+                let ident_ref = ast_builder.expression_identifier(SPAN, ast_builder.atom(name.as_str()));
+                elements.push(ArrayExpressionElement::from(ident_ref));
+            }
+            let captures_array = ast_builder.expression_array(SPAN, elements);
+            args.push(Argument::from(captures_array));
+        }
 
         args
     }
@@ -194,6 +232,7 @@ impl Qrl {
         ctx: &mut TraverseCtx<'a, ()>,
         symbols_by_name: &mut HashMap<String, SymbolId>,
         import_by_symbol: &mut HashMap<SymbolId, Import>,
+        hoisted_imports: &mut Vec<(String, String)>,
     ) -> CallExpression<'a> {
         let ast_builder = ctx.ast;
 
@@ -202,16 +241,18 @@ impl Qrl {
         let qrl_type = self.qrl_type.clone();
 
         let args = self
-            .into_arguments(&ast_builder)
+            .into_arguments(&ast_builder, hoisted_imports)
             .clone_in(ast_builder.allocator);
         let qrl = OxcBox::new_in(qrl, ast_builder.allocator);
 
-        let qrl_call_expr = ast_builder.call_expression(
+        // Create qrl() call with PURE annotation for tree-shaking
+        let qrl_call_expr = ast_builder.call_expression_with_pure(
             SPAN,
             Expression::Identifier(qrl),
             None::<OxcBox<TSTypeParameterInstantiation>>,
             args,
             false,
+            true, // pure: true - adds /* @__PURE__ */ annotation
         );
 
         match qrl_type {
@@ -232,12 +273,14 @@ impl Qrl {
                 let arg =
                     Argument::CallExpression(OxcBox::new_in(qrl_call_expr, ast_builder.allocator));
                 let args = ast_builder.vec1(arg);
-                ast_builder.call_expression(
+                // Prefixed calls (like componentQrl()) also get PURE annotation
+                ast_builder.call_expression_with_pure(
                     SPAN,
                     Expression::Identifier(ident),
                     None::<OxcBox<TSTypeParameterInstantiation>>,
                     args,
                     false,
+                    true, // pure: true - adds /* @__PURE__ */ annotation
                 )
             }
         }
@@ -251,21 +294,26 @@ impl Qrl {
     ///
     ///
     /// let allocator = Allocator::default();
-    /// let qrl = Qrl::new("./test.tsx_renderHeader_zBbHWn4e8Cg", "renderHeader_zBbHWn4e8Cg");
+    /// let qrl = Qrl::new("./test.tsx_renderHeader_zBbHWn4e8Cg", "renderHeader_zBbHWn4e8Cg", QrlType::Qrl, vec![]);
     /// let expr: Expression = qrl.into_in(&allocator);
     /// ```
     /// The resulting Javascript, when rendered, will be:
     /// ```javascript
     /// qrl(() => import("./test.tsx_renderHeader_zBbHWn4e8Cg"), "renderHeader_zBbHWn4e8Cg");
+    /// ```
+    /// Or with captures:
+    /// ```javascript
+    /// qrl(() => import("./test.tsx_renderHeader_zBbHWn4e8Cg"), "renderHeader_zBbHWn4e8Cg", [count, name]);
     ///
     pub(crate) fn into_expression<'a>(
         self,
         ctx: &mut TraverseCtx<'a, ()>,
         symbols_by_name: &mut HashMap<String, SymbolId>,
         import_by_symbol: &mut HashMap<SymbolId, Import>,
+        hoisted_imports: &mut Vec<(String, String)>,
     ) -> Expression<'a> {
         Expression::CallExpression(OxcBox::new_in(
-            self.into_call_expression(ctx, symbols_by_name, import_by_symbol),
+            self.into_call_expression(ctx, symbols_by_name, import_by_symbol, hoisted_imports),
             ctx.ast.allocator,
         ))
     }
@@ -275,8 +323,9 @@ impl Qrl {
         ctx: &mut TraverseCtx<'a, ()>,
         symbols_by_name: &mut HashMap<String, SymbolId>,
         import_by_symbol: &mut HashMap<SymbolId, Import>,
+        hoisted_imports: &mut Vec<(String, String)>,
     ) -> Statement<'a> {
-        let call_expr = self.into_expression(ctx, symbols_by_name, import_by_symbol);
+        let call_expr = self.into_expression(ctx, symbols_by_name, import_by_symbol, hoisted_imports);
         ctx.ast.statement_expression(SPAN, call_expr)
     }
 
@@ -285,16 +334,10 @@ impl Qrl {
         ctx: &mut TraverseCtx<'a, ()>,
         symbols_by_name: &mut HashMap<String, SymbolId>,
         import_by_symbol: &mut HashMap<SymbolId, Import>,
+        hoisted_imports: &mut Vec<(String, String)>,
     ) -> JSXExpression<'a> {
-        let call_expr = self.into_call_expression(ctx, symbols_by_name, import_by_symbol);
+        let call_expr = self.into_call_expression(ctx, symbols_by_name, import_by_symbol, hoisted_imports);
         JSXExpression::CallExpression(OxcBox::new_in(call_expr, ctx.ast.allocator))
-    }
-}
-
-impl<'a> FromIn<'a, Qrl> for OxcVec<'a, Argument<'a>> {
-    fn from_in(qrl: Qrl, allocator: &'a Allocator) -> Self {
-        let ast_builder = AstBuilder::new(allocator);
-        qrl.into_arguments(&ast_builder)
     }
 }
 

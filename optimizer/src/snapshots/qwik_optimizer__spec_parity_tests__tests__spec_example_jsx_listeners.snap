@@ -1,0 +1,161 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$ } from '@qwik.dev/core';
+
+export const Foo = component$(() => {
+
+	return $(() => {
+		const handler = $(() => console.log('reused'));
+		return (
+			<div
+				onClick$={()=>console.log('onClick$')}
+				onDocumentScroll$={()=>console.log('onDocumentScroll')}
+				onDocumentScroll$={()=>console.log('onWindowScroll')}
+
+				on-cLick$={()=>console.log('on-cLick$')}
+				onDocument-sCroll$={()=>console.log('onDocument-sCroll')}
+				onDocument-scroLL$={()=>console.log('onDocument-scroLL')}
+
+				host:onClick$={()=>console.log('host:onClick$')}
+				host:onDocumentScroll$={()=>console.log('host:onDocument:scroll')}
+				host:onDocumentScroll$={()=>console.log('host:onWindow:scroll')}
+
+				onKeyup$={handler}
+				onDocument:keyup$={handler}
+				onWindow:keyup$={handler}
+
+				custom$={()=>console.log('custom')}
+			/>
+		)
+	});
+}, {
+	tagName: "my-foo",
+});
+
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_AeLWTA7YAKE = ()=>import("./test.tsx_test_Foo_component_1_AeLWTA7YAKE");
+const i_NK5Hyit5tec = ()=>import("./test.tsx_test_Foo_component_NK5Hyit5tec");
+export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_NK5Hyit5tec, "test_Foo_component_NK5Hyit5tec"));
+
+
+None
+============================= test.tsx_test_Foo_component_1_AeLWTA7YAKE.js (ENTRY POINT)==
+
+import { _jsxSorted, qrl } from "@qwik.dev/core";
+const i_custom = ()=>import("./test.tsx");
+const i_3 = ()=>import("./test.tsx");
+const i_2 = ()=>import("./test.tsx");
+const i_onDocument-scroLL = ()=>import("./test.tsx");
+const i_onDocument-sCroll = ()=>import("./test.tsx");
+const i_on-cLick = ()=>import("./test.tsx");
+const i_1 = ()=>import("./test.tsx");
+const i_onDocumentScroll = ()=>import("./test.tsx");
+const i_onClick = ()=>import("./test.tsx");
+const i_Vqvn0DPgifs = ()=>import("./test.tsx_test_Foo_component_handler_Vqvn0DPgifs");
+export const test_Foo_component_1_AeLWTA7YAKE = ()=>{
+	const handler = /*#__PURE__*/ qrl(i_Vqvn0DPgifs, "test_Foo_component_handler_Vqvn0DPgifs");
+	return /*#__PURE__*/ _jsxSorted("div", {
+		on:click: /*#__PURE__*/ qrl(i_onClick, "Foo_component_1_div_onClick"),
+		on:documentscroll: /*#__PURE__*/ qrl(i_onDocumentScroll, "Foo_component_1_div_onDocumentScroll"),
+		on:documentscroll: /*#__PURE__*/ qrl(i_1, "Foo_component_1_div_onDocumentScroll_1"),
+		on:c-lick: /*#__PURE__*/ qrl(i_on-cLick, "Foo_component_1_div_on-cLick"),
+		on:document-scroll: /*#__PURE__*/ qrl(i_onDocument-sCroll, "Foo_component_1_div_onDocument-sCroll"),
+		on:document-scroll: /*#__PURE__*/ qrl(i_onDocument-scroLL, "Foo_component_1_div_onDocument-scroLL"),
+		host:onClick$: /*#__PURE__*/ qrl(i_1, "Foo_component_1_div_onClick_1"),
+		host:onDocumentScroll$: /*#__PURE__*/ qrl(i_2, "Foo_component_1_div_onDocumentScroll_2"),
+		host:onDocumentScroll$: /*#__PURE__*/ qrl(i_3, "Foo_component_1_div_onDocumentScroll_3"),
+		custom$: /*#__PURE__*/ qrl(i_custom, "Foo_component_1_div_custom")
+	}, {
+		on:keyup: handler,
+		on:document:keyup: handler,
+		on:window:keyup: handler
+	}, null, 3, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Foo_component_1_AeLWTA7YAKE",
+  "entry": null,
+  "displayName": "test_Foo_component_1",
+  "hash": "AeLWTA7YAKE",
+  "canonicalFilename": "test.tsx_test_Foo_component_1_AeLWTA7YAKE",
+  "path": "",
+  "extension": "js",
+  "parent": "component",
+  "ctxKind": "function",
+  "ctxName": "$",
+  "captures": false,
+  "loc": [
+    98,
+    839
+  ]
+}
+*/
+============================= test.tsx_test_Foo_component_NK5Hyit5tec.js (ENTRY POINT)==
+
+import { qrl } from "@qwik.dev/core";
+const i_Vqvn0DPgifs = ()=>import("./test.tsx_test_Foo_component_handler_Vqvn0DPgifs");
+export const test_Foo_component_NK5Hyit5tec = ()=>{
+	return /*#__PURE__*/ qrl(i_AeLWTA7YAKE, "test_Foo_component_1_AeLWTA7YAKE");
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Foo_component_NK5Hyit5tec",
+  "entry": null,
+  "displayName": "test_Foo_component",
+  "hash": "NK5Hyit5tec",
+  "canonicalFilename": "test.tsx_test_Foo_component_NK5Hyit5tec",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    79,
+    843
+  ]
+}
+*/
+============================= test.tsx_test_Foo_component_handler_Vqvn0DPgifs.js (ENTRY POINT)==
+
+export const test_Foo_component_handler_Vqvn0DPgifs = ()=>console.log("reused");
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Foo_component_handler_Vqvn0DPgifs",
+  "entry": null,
+  "displayName": "test_Foo_component_handler",
+  "hash": "Vqvn0DPgifs",
+  "canonicalFilename": "test.tsx_test_Foo_component_handler_Vqvn0DPgifs",
+  "path": "",
+  "extension": "js",
+  "parent": "$1",
+  "ctxKind": "function",
+  "ctxName": "$",
+  "captures": false,
+  "loc": [
+    126,
+    153
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

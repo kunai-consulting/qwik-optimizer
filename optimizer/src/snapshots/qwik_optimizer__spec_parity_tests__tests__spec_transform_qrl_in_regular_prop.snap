@@ -1,0 +1,77 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, $ } from '@qwik.dev/core';
+export const Cmp = component$(() =>
+	<Cmp foo={$(() => console.log('hi there'))}>Hello Qwik</Cmp>);
+
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_cXWup67OSHE = ()=>import("./test.tsx_test_Cmp_component_Cmp_foo_cXWup67OSHE");
+const i_xd53fXgnHL8 = ()=>import("./test.tsx_test_Cmp_component_xd53fXgnHL8");
+export const Cmp = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_xd53fXgnHL8, "test_Cmp_component_xd53fXgnHL8"));
+
+
+None
+============================= test.tsx_test_Cmp_component_Cmp_foo_cXWup67OSHE.js (ENTRY POINT)==
+
+export const test_Cmp_component_Cmp_foo_cXWup67OSHE = ()=>console.log("hi there");
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Cmp_component_Cmp_foo_cXWup67OSHE",
+  "entry": null,
+  "displayName": "test_Cmp_component_Cmp_foo",
+  "hash": "cXWup67OSHE",
+  "canonicalFilename": "test.tsx_test_Cmp_component_Cmp_foo_cXWup67OSHE",
+  "path": "",
+  "extension": "js",
+  "parent": "component",
+  "ctxKind": "function",
+  "ctxName": "$",
+  "captures": false,
+  "loc": [
+    97,
+    126
+  ]
+}
+*/
+============================= test.tsx_test_Cmp_component_xd53fXgnHL8.js (ENTRY POINT)==
+
+import { Cmp } from "./test";
+import { _jsxSorted, qrl } from "@qwik.dev/core";
+const i_cXWup67OSHE = ()=>import("./test.tsx_test_Cmp_component_Cmp_foo_cXWup67OSHE");
+export const test_Cmp_component_xd53fXgnHL8 = ()=>_jsxSorted(Cmp, { foo: /*#__PURE__*/ qrl(i_cXWup67OSHE, "test_Cmp_component_Cmp_foo_cXWup67OSHE") }, null, "Hello Qwik", 3, null);
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Cmp_component_xd53fXgnHL8",
+  "entry": null,
+  "displayName": "test_Cmp_component",
+  "hash": "xd53fXgnHL8",
+  "canonicalFilename": "test.tsx_test_Cmp_component_xd53fXgnHL8",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    78,
+    145
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

@@ -1,0 +1,59 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+	console.log(function*(lo: any, t: any) {
+	console.log(yield (yield lo)(t.href).then((r) => r.json()));
+	});
+
+	return <p>Hello Qwik</p>;
+});
+
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
+
+
+None
+============================= test.tsx_test_App_component_jYXJI01qFIU.js (ENTRY POINT)==
+
+import { _jsxSorted } from "@qwik.dev/core";
+export const test_App_component_jYXJI01qFIU = ()=>{
+	console.log(function* (lo, t) {
+		console.log(yield (yield lo)(t.href).then((r)=>r.json()));
+	});
+	return /*#__PURE__*/ _jsxSorted("p", null, null, "Hello Qwik", 3, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_App_component_jYXJI01qFIU",
+  "entry": null,
+  "displayName": "test_App_component",
+  "hash": "jYXJI01qFIU",
+  "canonicalFilename": "test.tsx_test_App_component_jYXJI01qFIU",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    76,
+    222
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

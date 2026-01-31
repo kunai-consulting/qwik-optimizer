@@ -1,0 +1,133 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$ } from "@builder.io/qwik";
+import { isDev } from "@builder.io/qwik/build";
+import { stuff } from "@builder.io/qwik-city";
+import { moreStuff } from "@builder.io/qwik-city/more/here";
+import { qwikify$ } from "@builder.io/qwik-react";
+import sdk from "@builder.io/sdk";
+
+export const Foo = qwikify$(MyReactComponent);
+
+export const Bar = $("a thing");
+
+export const App = component$(() => {
+	sdk.hello();
+	if (isDev) {
+		stuff()
+	} else {
+		moreStuff()
+	}
+	return "hi";
+});
+
+============================= test.js ==
+
+import { componentQrl, qrl, qwikifyQrl } from "@qwik.dev/core";
+import { qwikifyQrl } from "@qwik.dev/react";
+const i_J9SzmASVbVg = ()=>import("./test.tsx_test_Foo_qwikify_J9SzmASVbVg");
+const i_0KyZrfSgKVo = ()=>import("./test.tsx_test_Bar_0KyZrfSgKVo");
+const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
+export const Foo = /*#__PURE__*/ qwikifyQrl(/*#__PURE__*/ qrl(i_J9SzmASVbVg, "test_Foo_qwikify_J9SzmASVbVg"));
+export const Bar = /*#__PURE__*/ qrl(i_0KyZrfSgKVo, "test_Bar_0KyZrfSgKVo");
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
+
+
+None
+============================= test.tsx_test_Foo_qwikify_J9SzmASVbVg.js (ENTRY POINT)==
+
+export const test_Foo_qwikify_J9SzmASVbVg = MyReactComponent;
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Foo_qwikify_J9SzmASVbVg",
+  "entry": null,
+  "displayName": "test_Foo_qwikify",
+  "hash": "J9SzmASVbVg",
+  "canonicalFilename": "test.tsx_test_Foo_qwikify_J9SzmASVbVg",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "qwikify$",
+  "captures": false,
+  "loc": [
+    321,
+    337
+  ]
+}
+*/
+============================= test.tsx_test_Bar_0KyZrfSgKVo.js (ENTRY POINT)==
+
+export const test_Bar_0KyZrfSgKVo = "a thing";
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Bar_0KyZrfSgKVo",
+  "entry": null,
+  "displayName": "test_Bar",
+  "hash": "0KyZrfSgKVo",
+  "canonicalFilename": "test.tsx_test_Bar_0KyZrfSgKVo",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "$",
+  "captures": false,
+  "loc": [
+    362,
+    371
+  ]
+}
+*/
+============================= test.tsx_test_App_component_jYXJI01qFIU.js (ENTRY POINT)==
+
+import sdk from "@builder.io/sdk";
+import { isDev } from "@qwik.dev/core/build";
+import { stuff } from "@qwik.dev/router";
+import { moreStuff } from "@qwik.dev/router/more/here";
+export const test_App_component_jYXJI01qFIU = ()=>{
+	sdk.hello();
+	if (isDev) {
+		stuff();
+	} else {
+		moreStuff();
+	}
+	return "hi";
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_App_component_jYXJI01qFIU",
+  "entry": null,
+  "displayName": "test_App_component",
+  "hash": "jYXJI01qFIU",
+  "canonicalFilename": "test.tsx_test_App_component_jYXJI01qFIU",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    405,
+    493
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

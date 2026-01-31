@@ -14,7 +14,6 @@ use serde::{Deserialize, Serialize};
 use std::iter::Sum;
 
 use std::cmp::Ordering;
-use std::hash::{DefaultHasher, Hasher};
 use std::path::{Path, PathBuf};
 use std::str;
 
@@ -55,6 +54,9 @@ pub struct TransformModulesOptions {
     pub strip_event_handlers: bool,
     pub reg_ctx_name: Option<Vec<String>>,
     pub is_server: Option<bool>,
+    /// When true, output is formatted with newlines and indentation for readability.
+    #[serde(default)]
+    pub format_output: bool,
 }
 
 #[derive(Debug, Serialize, Default)]
@@ -194,22 +196,26 @@ pub enum DiagnosticScope {
     Optimizer,
 }
 
-fn error_to_diagnostic(error: ProcessingFailure, path: &Path) -> Diagnostic {
-    let message = match error {
-        ProcessingFailure::IllegalCode(code) =>
-            format!(
-                "Reference to identifier '{id}' can not be used inside a Qrl($) scope because it's a {expr_type}",
-                id = code.identifier(), expr_type = code.expression_type()
-            )
+fn error_to_diagnostic(error: ProcessingFailure, _path: &Path) -> Diagnostic {
+    let category = match error.category.as_str() {
+        "error" => DiagnosticCategory::Error,
+        "warning" => DiagnosticCategory::Warning,
+        _ => DiagnosticCategory::Error,
     };
+
+    let scope = match error.scope.as_str() {
+        "optimizer" => DiagnosticScope::Optimizer,
+        _ => DiagnosticScope::Optimizer,
+    };
+
     Diagnostic {
-        category: DiagnosticCategory::Error,
-        code: None,
-        file: path.to_string_lossy().to_string(),
-        message,
+        category,
+        code: Some(error.code),
+        file: error.file,
+        message: error.message,
         highlights: None,
         suggestions: None,
-        scope: DiagnosticScope::Optimizer,
+        scope,
     }
 }
 
@@ -259,27 +265,111 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
                     target: config.mode,
                     transpile_ts: config.transpile_ts,
                     transpile_jsx: config.transpile_jsx,
+                    entry_strategy: config.entry_strategy,
+                    is_server: true, // Default to server build
+                    format_output: config.format_output,
                 },
             )?;
-            let mut hasher = DefaultHasher::new();
-            hasher.write(relative_path.as_bytes());
+            // Note: Source maps are not currently implemented in the OXC optimizer.
+            // qwik-core (SWC-based) generates source maps, but OXC does not.
+            // This is an accepted difference - source map generation would require
+            // significant additional implementation using oxc_sourcemap crate.
+            // The map field is set to None for all modules.
+
+            // Use .js extension for main file when transpilation is enabled (matches qwik-core)
+            let main_file_path = if config.transpile_ts && config.transpile_jsx {
+                PathBuf::from(&relative_path)
+                    .with_extension("js")
+                    .to_string_lossy()
+                    .to_string()
+            } else {
+                relative_path.clone()
+            };
+            // Main file gets order 0 to sort first (qwik-core convention)
+            // Entry point segments use hash-based order (guaranteed > 0)
             let mut modules = vec![TransformModule {
-                path: relative_path.clone(),
+                path: main_file_path,
                 code: optimized_app.body,
-                map: None,
+                map: None, // Source maps not implemented
                 segment: None,
                 is_entry: false,
-                order: hasher.finish(),
+                order: 0, // Main file first
             }];
             modules.extend(optimized_app.components.into_iter().map(|c| {
+                // Get path from segment_data, normalizing to match qwik-core format:
+                // - Convert "." to "" for root-level files
+                // - Strip "./" prefix if present
+                let segment_path = c.segment_data.as_ref()
+                    .map(|sd| {
+                        let p = sd.path.to_string_lossy().to_string();
+                        let p = p.strip_prefix("./").unwrap_or(&p);
+                        // Convert "." to "" to match qwik-core format
+                        if p == "." { "".to_string() } else { p.to_string() }
+                    })
+                    .unwrap_or_else(|| {
+                        let p = PathBuf::from(&c.id.local_file_name)
+                            .parent()
+                            .unwrap()
+                            .to_string_lossy()
+                            .to_string();
+                        let p = p.strip_prefix("./").unwrap_or(&p);
+                        if p == "." { "".to_string() } else { p.to_string() }
+                    });
+
+                // Use .js extension when transpilation is enabled (matches qwik-core)
+                // qwik-core always outputs .js when both transpile_ts and transpile_jsx are true
+                let segment_extension = if config.transpile_ts && config.transpile_jsx {
+                    "js".to_string()
+                } else {
+                    PathBuf::from(&relative_path)
+                        .extension()
+                        .map(|e| e.to_string_lossy().to_string())
+                        .unwrap_or_else(|| "js".to_string())
+                };
+
+                // Get ctx_name from segment_data (marker name like "$", "component$")
+                let segment_ctx_name = c.segment_data.as_ref()
+                    .map(|sd| sd.ctx_name.clone())
+                    .unwrap_or_else(|| c.id.symbol_name.clone());
+
+                // Get ctx_kind from segment_data
+                let segment_ctx_kind = c.segment_data.as_ref()
+                    .map(|sd| match sd.ctx_kind {
+                        crate::component::SegmentKind::Function => SegmentKind::Function,
+                        crate::component::SegmentKind::EventHandler => SegmentKind::EventHandler,
+                        crate::component::SegmentKind::JSXProp => SegmentKind::JSXProp,
+                    })
+                    .unwrap_or_else(|| {
+                        if c.id.symbol_name.starts_with("on") {
+                            SegmentKind::JSXProp
+                        } else {
+                            SegmentKind::Function
+                        }
+                    });
+
+                // Get captures from segment_data
+                let segment_captures = c.segment_data.as_ref()
+                    .map(|sd| sd.has_captures())
+                    .unwrap_or(false);
+
+                // Get loc from segment_data
+                let segment_loc = c.segment_data.as_ref()
+                    .map(|sd| sd.loc)
+                    .unwrap_or((0, 0));
+
+                // Get parent segment from segment_data (not id.scope)
+                // parent_segment contains the enclosing QRL's hash/name for nested QRLs
+                let segment_parent = c.segment_data.as_ref()
+                    .and_then(|sd| sd.parent_segment.clone());
+
                 TransformModule {
-                    path: format!("{}.js", &c.id.local_file_name),
+                    path: format!("{}.{}", &c.id.local_file_name, &segment_extension),
                     code: c.code,
-                    map: None,
+                    map: None, // Source maps not implemented
                     segment: Some(SegmentAnalysis {
                         origin: relative_path.clone(),
                         name: c.id.symbol_name.clone(),
-                        entry: None,
+                        entry: c.entry.clone(),
                         display_name: c.id.display_name,
                         hash: c.id.hash,
                         canonical_filename: PathBuf::from(&c.id.local_file_name)
@@ -287,21 +377,13 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
                             .unwrap()
                             .to_string_lossy()
                             .to_string(),
-                        path: PathBuf::from(&c.id.local_file_name)
-                            .parent()
-                            .unwrap()
-                            .to_string_lossy()
-                            .to_string(),
-                        extension: "js".to_string(),
-                        parent: c.id.scope,
-                        ctx_kind: if c.id.symbol_name.starts_with("on") {
-                            SegmentKind::JSXProp
-                        } else {
-                            SegmentKind::Function
-                        },
-                        ctx_name: c.id.symbol_name,
-                        captures: false,
-                        loc: (0, 0),
+                        path: segment_path,
+                        extension: segment_extension,
+                        parent: segment_parent,
+                        ctx_kind: segment_ctx_kind,
+                        ctx_name: segment_ctx_name,
+                        captures: segment_captures,
+                        loc: segment_loc,
                     }),
                     is_entry: true,
                     order: c.id.sort_order,
@@ -313,8 +395,8 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
                     .into_iter()
                     .map(|e| error_to_diagnostic(e, &path))
                     .collect(),
-                is_type_script: config.transpile_ts, // TODO: Set this flag correctly
-                is_jsx: config.transpile_jsx,        // TODO: Set this flag correctly
+                is_type_script: config.transpile_ts,
+                is_jsx: config.transpile_jsx,
             }))
         })
         .sum::<Result<Option<TransformOutput>>>()?
@@ -327,143 +409,19 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
 #[cfg(test)]
 mod tests {
     use super::*;
-    use glob::glob;
-    use serde_json::to_string_pretty;
-    use std::path::PathBuf;
 
-    #[test]
-    fn test_example_1() {
-        assert_valid_transform_debug!(EntryStrategy::Segment);
-    }
-
-    #[test]
-    fn test_example_2() {
-        assert_valid_transform!(EntryStrategy::Segment);
-    }
-
-    #[test]
-    fn test_example_3() {
-        assert_valid_transform!(EntryStrategy::Segment);
-    }
-
-    #[test]
-    fn test_example_4() {
-        assert_valid_transform!(EntryStrategy::Segment);
-    }
-
-    #[test]
-    fn test_example_5() {
-        assert_valid_transform!(EntryStrategy::Segment);
-    }
-
-    #[test]
-    fn test_example_6() {
-        assert_valid_transform!(EntryStrategy::Segment);
-    }
-
-    #[test]
-    fn test_example_7() {
-        assert_valid_transform_debug!(EntryStrategy::Segment);
-    }
-
-    #[test]
-    fn test_example_8() {
-        assert_valid_transform_debug!(EntryStrategy::Segment);
-    }
-
-    // #[test]
-    fn test_example_9() {
-        // Not removing:
-        // const decl8 = 1, decl9;
-        assert_valid_transform_debug!(EntryStrategy::Segment);
-    }
-
-    // #[test]
-    fn test_example_10() {
-        // Not converting:
-        // const a = ident1 + ident3;
-        // const b = ident1 + ident3;
-        // to:
-        // ident1, ident3;
-        // ident1, ident3;
-        assert_valid_transform!(EntryStrategy::Segment);
-    }
-
-    #[test]
-    fn test_example_11() {
-        assert_valid_transform!(EntryStrategy::Segment);
-    }
-
-    #[test]
-    fn test_example_capture_imports() {
-        assert_valid_transform!(EntryStrategy::Segment);
-    }
-
-    #[test]
-    fn test_example_capturing_fn_class() {
-        assert_valid_transform_debug!(EntryStrategy::Segment);
-        /*
-        assert_processing_errors!(|errors: Vec<ProcessingFailure>| {
-            assert_eq!(errors.len(), 2);
-
-            if let ProcessingFailure::IllegalCode(IllegalCodeType::Function(_, Some(name))) =
-                &errors[0]
-            {
-                assert_eq!(name, "hola");
-            } else {
-                panic!("Expected function invocation to be illegal code");
-            }
-
-            if let ProcessingFailure::IllegalCode(IllegalCodeType::Class(_, Some(name))) =
-                &errors[1]
-            {
-                assert_eq!(name, "Thing");
-            } else {
-                panic!("Expected class construction to be illegal code");
-            }
-        });
-        */
-    }
-
-    #[test]
-    fn test_example_jsx() {
-        assert_valid_transform_debug!(EntryStrategy::Segment);
-    }
-
-    #[test]
-    fn test_example_ts() {
-        assert_valid_transform_debug!(EntryStrategy::Segment);
-    }
-
-    #[test]
-    fn test_project_1() {
-        // This should be a macro eventually
-        let func_name = function_name!();
-        let path = PathBuf::from("./src/test_input").join(func_name);
-
-        println!(
-            "Loading test input project directory from path: {:?}",
-            &path
-        );
-
-        let result = transform_modules(TransformModulesOptions {
-            input: glob(path.join("src/**/*.ts*").to_str().unwrap())
-                .unwrap()
-                .into_iter()
-                .map(|file| {
-                    let file = Path::new(".").join(file.unwrap());
-                    let code = std::fs::read_to_string(&file).unwrap();
-                    TransformModuleInput {
-                        path: file.into_os_string().into_string().unwrap(),
-                        dev_path: None,
-                        code,
-                    }
-                })
-                .collect(),
-            src_dir: path.clone().into_os_string().into_string().unwrap(),
-            root_dir: Some(path.clone().into_os_string().into_string().unwrap()),
+    /// Helper function to transform code with a specific entry strategy
+    fn transform_with_strategy(code: &str, strategy: EntryStrategy) -> TransformOutput {
+        transform_modules(TransformModulesOptions {
+            input: vec![TransformModuleInput {
+                path: "test.tsx".to_string(),
+                dev_path: None,
+                code: code.to_string(),
+            }],
+            src_dir: ".".to_string(),
+            root_dir: None,
             minify: MinifyMode::None,
-            entry_strategy: EntryStrategy::Component,
+            entry_strategy: strategy,
             source_maps: false,
             transpile_ts: true,
             transpile_jsx: true,
@@ -471,16 +429,313 @@ mod tests {
             explicit_extensions: false,
             mode: Target::Dev,
             scope: None,
-
             core_module: None,
             strip_exports: None,
             strip_ctx_name: None,
             strip_event_handlers: false,
             reg_ctx_name: None,
             is_server: None,
+            format_output: false,
         })
-        .unwrap();
+        .unwrap()
+    }
 
-        insta::assert_yaml_snapshot!(func_name, result);
+    /// Test InlineStrategy groups all segments into "entry_segments"
+    #[test]
+    fn test_entry_strategy_inline() {
+        let code = r#"
+            import { component$ } from "@qwik.dev/core";
+            export const Counter = component$(() => {
+                return <button onClick$={() => console.log("click")}>Click</button>;
+            });
+        "#;
+
+        let result = transform_with_strategy(code, EntryStrategy::Inline);
+
+        let segments: Vec<_> = result
+            .modules
+            .iter()
+            .filter_map(|m| m.segment.as_ref())
+            .collect();
+
+        assert!(!segments.is_empty(), "Should have segments");
+        for segment in segments {
+            assert_eq!(
+                segment.entry,
+                Some("entry_segments".to_string()),
+                "InlineStrategy should group all to entry_segments, got {:?}",
+                segment.entry
+            );
+        }
+    }
+
+    /// Test SingleStrategy groups all segments into "entry_segments"
+    #[test]
+    fn test_entry_strategy_single() {
+        let code = r#"
+            import { component$ } from "@qwik.dev/core";
+            export const Counter = component$(() => {
+                return <button onClick$={() => console.log("click")}>Click</button>;
+            });
+        "#;
+
+        let result = transform_with_strategy(code, EntryStrategy::Single);
+
+        let segments: Vec<_> = result
+            .modules
+            .iter()
+            .filter_map(|m| m.segment.as_ref())
+            .collect();
+
+        assert!(!segments.is_empty(), "Should have segments");
+        for segment in segments {
+            assert_eq!(
+                segment.entry,
+                Some("entry_segments".to_string()),
+                "SingleStrategy should group all to entry_segments, got {:?}",
+                segment.entry
+            );
+        }
+    }
+
+    /// Test PerSegmentStrategy creates separate files (entry = None)
+    #[test]
+    fn test_entry_strategy_segment() {
+        let code = r#"
+            import { component$ } from "@qwik.dev/core";
+            export const Counter = component$(() => {
+                return <button onClick$={() => console.log("click")}>Click</button>;
+            });
+        "#;
+
+        let result = transform_with_strategy(code, EntryStrategy::Segment);
+
+        let segments: Vec<_> = result
+            .modules
+            .iter()
+            .filter_map(|m| m.segment.as_ref())
+            .collect();
+
+        assert!(!segments.is_empty(), "Should have segments");
+        for segment in segments {
+            assert_eq!(
+                segment.entry, None,
+                "PerSegmentStrategy should produce separate files (None), got {:?}",
+                segment.entry
+            );
+        }
+    }
+
+    /// Test HookStrategy (alias for PerSegment) creates separate files
+    #[test]
+    fn test_entry_strategy_hook() {
+        let code = r#"
+            import { component$ } from "@qwik.dev/core";
+            export const Counter = component$(() => {
+                return <button onClick$={() => console.log("click")}>Click</button>;
+            });
+        "#;
+
+        let result = transform_with_strategy(code, EntryStrategy::Hook);
+
+        let segments: Vec<_> = result
+            .modules
+            .iter()
+            .filter_map(|m| m.segment.as_ref())
+            .collect();
+
+        assert!(!segments.is_empty(), "Should have segments");
+        for segment in segments {
+            assert_eq!(
+                segment.entry, None,
+                "HookStrategy should produce separate files (None), got {:?}",
+                segment.entry
+            );
+        }
+    }
+
+    /// Test PerComponentStrategy groups by component name
+    #[test]
+    fn test_entry_strategy_component() {
+        let code = r#"
+            import { component$ } from "@qwik.dev/core";
+            export const Counter = component$(() => {
+                return <button onClick$={() => console.log("click")}>Click</button>;
+            });
+        "#;
+
+        let result = transform_with_strategy(code, EntryStrategy::Component);
+
+        let segments: Vec<_> = result
+            .modules
+            .iter()
+            .filter_map(|m| m.segment.as_ref())
+            .collect();
+
+        assert!(!segments.is_empty(), "Should have segments");
+        for segment in segments {
+            assert!(
+                segment.entry.is_some(),
+                "PerComponentStrategy should have entry value"
+            );
+            let entry = segment.entry.as_ref().unwrap();
+            assert!(
+                entry.contains("_entry_"),
+                "PerComponentStrategy entry should contain '_entry_', got {}",
+                entry
+            );
+        }
+    }
+
+    /// Test SmartStrategy behavior for component$ segments
+    /// Note: JSX event handlers (onClick$={() => ...}) don't produce separate segment files
+    /// in this implementation - they're inlined QRLs. Only component$() calls produce segments.
+    #[test]
+    fn test_entry_strategy_smart() {
+        let code = r#"
+            import { component$ } from "@qwik.dev/core";
+            export const Counter = component$(() => {
+                const count = 0;
+                return (
+                    <div>
+                        <button onClick$={() => console.log("no capture")}>A</button>
+                        <button onClick$={() => console.log(count)}>B</button>
+                    </div>
+                );
+            });
+        "#;
+
+        let result = transform_with_strategy(code, EntryStrategy::Smart);
+
+        let segments: Vec<_> = result
+            .modules
+            .iter()
+            .filter_map(|m| m.segment.as_ref())
+            .collect();
+
+        assert!(!segments.is_empty(), "Should have segments");
+
+        for segment in &segments {
+            if segment.ctx_name.contains("component") {
+                assert!(
+                    segment.entry.is_some(),
+                    "component$ segment should have grouped entry"
+                );
+            }
+        }
+    }
+
+    /// Test SmartStrategy with multiple components
+    /// Each component$ produces a segment, grouped by its component context
+    #[test]
+    fn test_entry_strategy_smart_multiple_components() {
+        let code = r#"
+            import { component$ } from "@qwik.dev/core";
+
+            export const CompA = component$(() => {
+                const stateA = "A";
+                return <button onClick$={() => console.log(stateA)}>A</button>;
+            });
+
+            export const CompB = component$(() => {
+                return <button onClick$={() => console.log("stateless")}>B</button>;
+            });
+        "#;
+
+        let result = transform_with_strategy(code, EntryStrategy::Smart);
+
+        let segments: Vec<_> = result
+            .modules
+            .iter()
+            .filter_map(|m| m.segment.as_ref())
+            .collect();
+
+        assert_eq!(
+            segments.len(), 2,
+            "Should have 2 segments (one per component), got {}",
+            segments.len()
+        );
+
+        for segment in &segments {
+            assert!(
+                segment.entry.is_some(),
+                "component$ segment {} should have grouped entry",
+                segment.name
+            );
+            let entry = segment.entry.as_ref().unwrap();
+            assert!(
+                entry.contains("_entry_"),
+                "Entry should contain component grouping, got {}",
+                entry
+            );
+        }
+    }
+
+    /// Test SmartStrategy with named QRL (has context from variable name)
+    /// Named QRLs get grouped by their variable name context
+    #[test]
+    fn test_entry_strategy_smart_named_qrl() {
+        let code = r#"
+            import { $ } from "@qwik.dev/core";
+            export const handler = $(() => console.log("named qrl"));
+        "#;
+
+        let result = transform_with_strategy(code, EntryStrategy::Smart);
+
+        let segments: Vec<_> = result
+            .modules
+            .iter()
+            .filter_map(|m| m.segment.as_ref())
+            .collect();
+
+        assert_eq!(segments.len(), 1, "Should have 1 segment");
+
+        assert!(
+            segments[0].entry.is_some(),
+            "Named QRL should have grouped entry (context from variable name)"
+        );
+        let entry = segments[0].entry.as_ref().unwrap();
+        assert!(
+            entry.contains("_entry_handler"),
+            "Entry should reference the variable name, got {}",
+            entry
+        );
+    }
+
+    /// Test that SmartStrategy behavior matches PerComponentStrategy for component$ QRLs
+    #[test]
+    fn test_entry_strategy_smart_vs_component() {
+        let code = r#"
+            import { component$ } from "@qwik.dev/core";
+            export const Counter = component$(() => {
+                return <div>Hello</div>;
+            });
+        "#;
+
+        let smart_result = transform_with_strategy(code, EntryStrategy::Smart);
+        let component_result = transform_with_strategy(code, EntryStrategy::Component);
+
+        let smart_segments: Vec<_> = smart_result
+            .modules
+            .iter()
+            .filter_map(|m| m.segment.as_ref())
+            .collect();
+
+        let component_segments: Vec<_> = component_result
+            .modules
+            .iter()
+            .filter_map(|m| m.segment.as_ref())
+            .collect();
+
+        assert_eq!(smart_segments.len(), component_segments.len(), "Same number of segments");
+
+        for (smart, comp) in smart_segments.iter().zip(component_segments.iter()) {
+            assert!(smart.entry.is_some(), "Smart entry should exist");
+            assert!(comp.entry.is_some(), "Component entry should exist");
+            assert_eq!(
+                smart.entry, comp.entry,
+                "Smart and Component strategies should produce same entry for component$ QRLs"
+            );
+        }
     }
 }

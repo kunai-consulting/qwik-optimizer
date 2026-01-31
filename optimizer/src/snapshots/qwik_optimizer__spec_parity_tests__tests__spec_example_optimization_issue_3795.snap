@@ -1,0 +1,62 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+
+export const Issue3795 = component$(() => {
+	let base = "foo";
+	const firstAssignment = base;
+	base += "bar";
+	const secondAssignment = base;
+	return (
+		<div id='issue-3795-result'>{firstAssignment} {secondAssignment}</div>
+	)
+	});
+
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_7pSpmaJTjo4 = ()=>import("./test.tsx_test_Issue3795_component_7pSpmaJTjo4");
+export const Issue3795 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_7pSpmaJTjo4, "test_Issue3795_component_7pSpmaJTjo4"));
+
+
+None
+============================= test.tsx_test_Issue3795_component_7pSpmaJTjo4.js (ENTRY POINT)==
+
+import { _jsxSorted } from "@qwik.dev/core";
+export const test_Issue3795_component_7pSpmaJTjo4 = ()=>{
+	let base = "foo";
+	const firstAssignment = base;
+	base += "bar";
+	const secondAssignment = base;
+	return /*#__PURE__*/ _jsxSorted("div", null, { id: "issue-3795-result" }, [firstAssignment, secondAssignment], 1, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Issue3795_component_7pSpmaJTjo4",
+  "entry": "entry_segments",
+  "displayName": "test_Issue3795_component",
+  "hash": "7pSpmaJTjo4",
+  "canonicalFilename": "test.tsx_test_Issue3795_component_7pSpmaJTjo4",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    82,
+    276
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

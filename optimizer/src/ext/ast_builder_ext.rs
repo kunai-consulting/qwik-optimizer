@@ -4,6 +4,7 @@ use oxc_ast::ast::{ImportOrExportKind, Statement, WithClause};
 use oxc_ast::AstBuilder;
 use oxc_span::{Atom, SPAN};
 
+#[allow(dead_code)]
 pub trait AstBuilderExt<'a> {
     fn create_import_statement<U: AsRef<str>>(
         self,

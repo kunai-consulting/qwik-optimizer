@@ -1,0 +1,65 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+
+export const Foo = component$(() => {
+	return (
+		<div>
+			<div onClick$={() => console.log('first')}/>
+			<div onClick$={() => console.log('second')}/>
+			<div onClick$={() => console.log('third')}/>
+		</div>
+	);
+});
+
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_NK5Hyit5tec = ()=>import("./test.tsx_s_NK5Hyit5tec");
+export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_NK5Hyit5tec, "s_NK5Hyit5tec"));
+
+
+None
+============================= test.tsx_s_NK5Hyit5tec.tsx (ENTRY POINT)==
+
+import { qrl } from "@qwik.dev/core";
+const i_2 = ()=>import("./test.tsx");
+const i_1 = ()=>import("./test.tsx");
+const i_onClick = ()=>import("./test.tsx");
+export const s_NK5Hyit5tec = ()=>{
+	return <div>
+			<div on:click={/*#__PURE__*/ qrl(i_onClick, "Foo_component_div_div_onClick")} />
+			<div on:click={/*#__PURE__*/ qrl(i_1, "Foo_component_div_div_onClick_1")} />
+			<div on:click={/*#__PURE__*/ qrl(i_2, "Foo_component_div_div_onClick_2")} />
+		</div>;
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "s_NK5Hyit5tec",
+  "entry": null,
+  "displayName": "test_Foo_component",
+  "hash": "NK5Hyit5tec",
+  "canonicalFilename": "test.tsx_s_NK5Hyit5tec",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    76,
+    261
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

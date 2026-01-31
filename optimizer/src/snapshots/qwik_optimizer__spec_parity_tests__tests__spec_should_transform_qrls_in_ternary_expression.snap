@@ -1,0 +1,106 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$, useSignal } from "@qwik.dev/core";
+
+export const FieldInput = component$(() => {
+	const enabled = useSignal(false);
+	const input = useSignal("");
+
+  return (
+     <input
+		id="input"
+		onInput$={
+		enabled.value
+			? $((ev, el) => {
+				input.value = el.value;
+			})
+			: undefined
+		}
+		onFocus$={() => {
+			enabled.value = true;
+		}}
+	/>
+  );
+});
+
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_zacDI0VJAjI = ()=>import("./test.tsx_test_FieldInput_component_input_onInput_1_zacDI0VJAjI");
+const i_TcrbhczYDyU = ()=>import("./test.tsx_test_FieldInput_component_TcrbhczYDyU");
+export const FieldInput = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_TcrbhczYDyU, "test_FieldInput_component_TcrbhczYDyU"));
+
+
+None
+============================= test.tsx_test_FieldInput_component_TcrbhczYDyU.js (ENTRY POINT)==
+
+import { _jsxSorted, qrl, useSignal } from "@qwik.dev/core";
+const i_onFocus = ()=>import("./test.tsx");
+const i_zacDI0VJAjI = ()=>import("./test.tsx_test_FieldInput_component_input_onInput_1_zacDI0VJAjI");
+export const test_FieldInput_component_TcrbhczYDyU = ()=>{
+	const enabled = useSignal(false);
+	const input = useSignal("");
+	return /*#__PURE__*/ _jsxSorted("input", {
+		on:input: /*#__PURE__*/ qrl(i_zacDI0VJAjI, "test_FieldInput_component_input_onInput_1_zacDI0VJAjI", [input]),
+		on:focus: /*#__PURE__*/ qrl(i_onFocus, "FieldInput_component_input_onFocus", [enabled])
+	}, { id: "input" }, null, 3, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_FieldInput_component_TcrbhczYDyU",
+  "entry": null,
+  "displayName": "test_FieldInput_component",
+  "hash": "TcrbhczYDyU",
+  "canonicalFilename": "test.tsx_test_FieldInput_component_TcrbhczYDyU",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    97,
+    370
+  ]
+}
+*/
+============================= test.tsx_test_FieldInput_component_input_onInput_1_zacDI0VJAjI.js (ENTRY POINT)==
+
+export const test_FieldInput_component_input_onInput_1_zacDI0VJAjI = (ev, el)=>{
+	const [input] = useLexicalScope();
+	input.value = el.value;
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_FieldInput_component_input_onInput_1_zacDI0VJAjI",
+  "entry": null,
+  "displayName": "test_FieldInput_component_input_onInput_1",
+  "hash": "zacDI0VJAjI",
+  "canonicalFilename": "test.tsx_test_FieldInput_component_input_onInput_1_zacDI0VJAjI",
+  "path": "",
+  "extension": "js",
+  "parent": "onInput",
+  "ctxKind": "function",
+  "ctxName": "$",
+  "captures": true,
+  "loc": [
+    243,
+    289
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

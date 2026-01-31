@@ -1,0 +1,89 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$ } from '@qwik.dev/core';
+
+export const Foo = component$(() => {
+	return $(() => {
+		return (
+			<div>
+			</div>
+		)
+	});
+}, {
+	tagName: "my-foo",
+});
+
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_AeLWTA7YAKE = ()=>import("./test.tsx_test_Foo_component_1_AeLWTA7YAKE");
+const i_NK5Hyit5tec = ()=>import("./test.tsx_test_Foo_component_NK5Hyit5tec");
+export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_NK5Hyit5tec, "test_Foo_component_NK5Hyit5tec"));
+
+
+None
+============================= test.tsx_test_Foo_component_1_AeLWTA7YAKE.tsx (ENTRY POINT)==
+
+export const test_Foo_component_1_AeLWTA7YAKE = ()=>{
+	return <div>
+			</div>;
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Foo_component_1_AeLWTA7YAKE",
+  "entry": null,
+  "displayName": "test_Foo_component_1",
+  "hash": "AeLWTA7YAKE",
+  "canonicalFilename": "test.tsx_test_Foo_component_1_AeLWTA7YAKE",
+  "path": "",
+  "extension": "tsx",
+  "parent": "component",
+  "ctxKind": "function",
+  "ctxName": "$",
+  "captures": false,
+  "loc": [
+    97,
+    141
+  ]
+}
+*/
+============================= test.tsx_test_Foo_component_NK5Hyit5tec.tsx (ENTRY POINT)==
+
+import { qrl } from "@qwik.dev/core";
+export const test_Foo_component_NK5Hyit5tec = ()=>{
+	return /*#__PURE__*/ qrl(i_AeLWTA7YAKE, "test_Foo_component_1_AeLWTA7YAKE");
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Foo_component_NK5Hyit5tec",
+  "entry": null,
+  "displayName": "test_Foo_component",
+  "hash": "NK5Hyit5tec",
+  "canonicalFilename": "test.tsx_test_Foo_component_NK5Hyit5tec",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    79,
+    145
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

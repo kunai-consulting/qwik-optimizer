@@ -1,0 +1,120 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+import { server$ } from '@qwik.dev/router';
+import { clientSupabase } from 'supabase';
+import { Client } from 'openai';
+import { secret } from './secret';
+import { sideEffect } from './secret';
+
+const supabase = clientSupabase();
+const dfd = new Client(secret);
+
+(function() {
+	console.log('run');
+	})();
+	(() => {
+	console.log('run');
+	})();
+
+sideEffect();
+
+export const api = server$(() => {
+	supabase.from('ffg').do(dfd);
+});
+
+export default component$(() => {
+	return (
+		<button onClick$={() => await api()}></button>
+	)
+	});
+
+============================= test.js ==
+
+import { secret, sideEffect } from "./secret";
+import { componentQrl, qrl, serverQrl } from "@qwik.dev/core";
+import { serverQrl } from "@qwik.dev/router";
+import { Client } from "openai";
+import { clientSupabase } from "supabase";
+const i_xl5xjgwqXMU = ()=>import("./test.tsx_test_api_server_xl5xjgwqXMU");
+const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
+const supabase = clientSupabase();
+const dfd = new Client(secret);
+(function() {
+	console.log("run");
+})();
+(()=>{
+	console.log("run");
+})();
+sideEffect();
+export const api = /*#__PURE__*/ serverQrl(/*#__PURE__*/ qrl(i_xl5xjgwqXMU, "test_api_server_xl5xjgwqXMU", [dfd, supabase]));
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
+
+
+None
+============================= test.tsx_test_component_LUXeXe0DQrg.js (ENTRY POINT)==
+
+import { _jsxSorted, qrl } from "@qwik.dev/core";
+const i_onClick = ()=>import("./test.tsx");
+export const test_component_LUXeXe0DQrg = ()=>{
+	return /*#__PURE__*/ _jsxSorted("button", { on:click: /*#__PURE__*/ qrl(i_onClick, "component_button_onClick") }, null, null, 3, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_component_LUXeXe0DQrg",
+  "entry": null,
+  "displayName": "test_component",
+  "hash": "LUXeXe0DQrg",
+  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    501,
+    573
+  ]
+}
+*/
+============================= test.tsx_test_api_server_xl5xjgwqXMU.js (ENTRY POINT)==
+
+export const test_api_server_xl5xjgwqXMU = ()=>{
+	const [dfd, supabase] = useLexicalScope();
+	supabase.from("ffg").do(dfd);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_api_server_xl5xjgwqXMU",
+  "entry": null,
+  "displayName": "test_api_server",
+  "hash": "xl5xjgwqXMU",
+  "canonicalFilename": "test.tsx_test_api_server_xl5xjgwqXMU",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "server$",
+  "captures": true,
+  "loc": [
+    431,
+    471
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

@@ -1,0 +1,135 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useStore, serverStuff$, $ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+	const stuff = useStore();
+	serverStuff$(async () => {
+		// should be removed but keep scope
+		console.log(stuff.count)
+	})
+	serverStuff$(async () => {
+		// should be removed
+	})
+
+	return (
+		<Cmp>
+			<p class="stuff"
+				shouldRemove$={() => stuff.count}
+				onClick$={() => console.log('warn')}
+			>
+				Hello Qwik
+			</p>
+		</Cmp>
+	);
+});
+
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_Xl1lXgcF0bE = ()=>import("./test.tsx_test_App_component_serverStuff_Xl1lXgcF0bE");
+const i_gewTbXZkQfM = ()=>import("./test.tsx_test_App_component_serverStuff_1_gewTbXZkQfM");
+const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
+
+
+None
+============================= test.tsx_test_App_component_jYXJI01qFIU.js (ENTRY POINT)==
+
+import { _jsxSorted } from "@qwik.dev/core";
+const i_Xl1lXgcF0bE = ()=>import("./test.tsx_test_App_component_serverStuff_Xl1lXgcF0bE");
+const i_gewTbXZkQfM = ()=>import("./test.tsx_test_App_component_serverStuff_1_gewTbXZkQfM");
+export const test_App_component_jYXJI01qFIU = ()=>{
+	const stuff = useStore();
+	/*#__PURE__*/ serverStuffQrl(/*#__PURE__*/ qrl(i_Xl1lXgcF0bE, "test_App_component_serverStuff_Xl1lXgcF0bE", [stuff]));
+	/*#__PURE__*/ serverStuffQrl(/*#__PURE__*/ qrl(i_gewTbXZkQfM, "test_App_component_serverStuff_1_gewTbXZkQfM"));
+	return _jsxSorted(Cmp, null, null, /*#__PURE__*/ _jsxSorted("p", {
+		shouldRemove$: /*#__PURE__*/ serverStuffQrl(/*#__PURE__*/ qrl(i_gewTbXZkQfM, "test_App_component_serverStuff_1_gewTbXZkQfM")),
+		on:click: /*#__PURE__*/ serverStuffQrl(/*#__PURE__*/ qrl(i_Xl1lXgcF0bE, "test_App_component_serverStuff_Xl1lXgcF0bE", [stuff]))
+	}, { class: "stuff" }, "Hello Qwik", 3, null), 3, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_App_component_jYXJI01qFIU",
+  "entry": null,
+  "displayName": "test_App_component",
+  "hash": "jYXJI01qFIU",
+  "canonicalFilename": "test.tsx_test_App_component_jYXJI01qFIU",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    103,
+    450
+  ]
+}
+*/
+============================= test.tsx_test_App_component_serverStuff_Xl1lXgcF0bE.js (ENTRY POINT)==
+
+export const test_App_component_serverStuff_Xl1lXgcF0bE = async ()=>{
+	const [stuff] = useLexicalScope();
+	console.log(stuff.count);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_App_component_serverStuff_Xl1lXgcF0bE",
+  "entry": null,
+  "displayName": "test_App_component_serverStuff",
+  "hash": "Xl1lXgcF0bE",
+  "canonicalFilename": "test.tsx_test_App_component_serverStuff_Xl1lXgcF0bE",
+  "path": "",
+  "extension": "js",
+  "parent": "component",
+  "ctxKind": "function",
+  "ctxName": "serverStuff$",
+  "captures": true,
+  "loc": [
+    152,
+    233
+  ]
+}
+*/
+============================= test.tsx_test_App_component_serverStuff_1_gewTbXZkQfM.js (ENTRY POINT)==
+
+export const test_App_component_serverStuff_1_gewTbXZkQfM = async ()=>{};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_App_component_serverStuff_1_gewTbXZkQfM",
+  "entry": null,
+  "displayName": "test_App_component_serverStuff_1",
+  "hash": "gewTbXZkQfM",
+  "canonicalFilename": "test.tsx_test_App_component_serverStuff_1_gewTbXZkQfM",
+  "path": "",
+  "extension": "js",
+  "parent": "component",
+  "ctxKind": "function",
+  "ctxName": "serverStuff$",
+  "captures": false,
+  "loc": [
+    249,
+    288
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

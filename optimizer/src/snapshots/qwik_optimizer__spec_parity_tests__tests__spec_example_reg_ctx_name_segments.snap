@@ -1,0 +1,92 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$, server$ } from '@qwik.dev/core';
+import { foo } from './foo';
+export const Works = component$((props) => {
+	const text = 'hola';
+	return (
+		<>
+		<div onClick$={server$(() => console.log('in server', text))}></div>
+		<div onClick$={() => foo()}></div>
+		</>
+	);
+});
+
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_tPCo87HRgAs = ()=>import("./test.tsx_test_Works_component_div_onClick_server_tPCo87HRgAs");
+const i_qX3vIioPG0E = ()=>import("./test.tsx_test_Works_component_qX3vIioPG0E");
+export const Works = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_qX3vIioPG0E, "test_Works_component_qX3vIioPG0E"));
+
+
+None
+============================= test.tsx_test_Works_component_div_onClick_server_tPCo87HRgAs.js (ENTRY POINT)==
+
+export const test_Works_component_div_onClick_server_tPCo87HRgAs = ()=>{
+	const [text] = useLexicalScope();
+	return console.log("in server", text);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Works_component_div_onClick_server_tPCo87HRgAs",
+  "entry": "entry_segments",
+  "displayName": "test_Works_component_div_onClick_server",
+  "hash": "tPCo87HRgAs",
+  "canonicalFilename": "test.tsx_test_Works_component_div_onClick_server_tPCo87HRgAs",
+  "path": "",
+  "extension": "js",
+  "parent": "onClick",
+  "ctxKind": "function",
+  "ctxName": "server$",
+  "captures": true,
+  "loc": [
+    193,
+    229
+  ]
+}
+*/
+============================= test.tsx_test_Works_component_qX3vIioPG0E.js (ENTRY POINT)==
+
+import { _jsxSorted, qrl, serverQrl } from "@qwik.dev/core";
+import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
+const i_1 = ()=>import("./test.tsx");
+const i_tPCo87HRgAs = ()=>import("./test.tsx_test_Works_component_div_onClick_server_tPCo87HRgAs");
+export const test_Works_component_qX3vIioPG0E = (props)=>{
+	const text = "hola";
+	return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [/*#__PURE__*/ _jsxSorted("div", { on:click: /*#__PURE__*/ serverQrl(/*#__PURE__*/ qrl(i_tPCo87HRgAs, "test_Works_component_div_onClick_server_tPCo87HRgAs", [text])) }, null, null, 3, null), /*#__PURE__*/ _jsxSorted("div", { on:click: /*#__PURE__*/ qrl(i_1, "Works_component_div_onClick_1") }, null, null, 3, null)], 3, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Works_component_qX3vIioPG0E",
+  "entry": "entry_segments",
+  "displayName": "test_Works_component",
+  "hash": "qX3vIioPG0E",
+  "canonicalFilename": "test.tsx_test_Works_component_qX3vIioPG0E",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    118,
+    287
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

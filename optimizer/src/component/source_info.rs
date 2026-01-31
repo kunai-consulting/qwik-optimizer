@@ -5,8 +5,7 @@ use oxc_span::SourceType;
 use std::ffi::OsStr;
 use std::path::{Path, PathBuf};
 
-/// Contains information about the source file, including its absolute and relative paths, directory paths.
-/// Renamed from `PathData` in V 1.0.
+/// Source file information including paths and language.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub struct SourceInfo {
     pub rel_path: PathBuf,
@@ -16,15 +15,7 @@ pub struct SourceInfo {
 }
 
 impl SourceInfo {
-    /// Creates a new `SourceInfo` instance from a source file path and a base directory.
-    ///
-    /// From this information it computes the absolute path, relative path, absolute directory, relative directory,
-    /// file stem (file name less the extension), file name, and file extension.
-    ///
-    /// # Arguments
-    /// - src - source file.  e.g. `./app.js`
     pub fn new<P: AsRef<Path>>(path: P) -> Result<SourceInfo> {
-        // let path = Path::new(src);
         let path = path.as_ref();
         let rel_dir = path.parent().map(|p| p.to_path_buf()).ok_or_else(|| {
             Error::StringConversion(

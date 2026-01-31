@@ -1,0 +1,94 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, $, useSignal } from '@qwik.dev/core';
+export const Cmp = component$(() => {
+	const toggleSig = useSignal(false);
+
+	const handleClick$ = $(() => {
+		toggleSig.value = !toggleSig.value;
+	});
+
+	return (
+		<button onClick$={handleClick$} data-open={toggleSig.value ? true : undefined}>
+			Removing data-open re-renders
+		</button>
+	);
+});
+
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_vlEdMxla0jk = ()=>import("./test.tsx_test_Cmp_component_handleClick_1_vlEdMxla0jk");
+const i_xd53fXgnHL8 = ()=>import("./test.tsx_test_Cmp_component_xd53fXgnHL8");
+export const Cmp = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_xd53fXgnHL8, "test_Cmp_component_xd53fXgnHL8"));
+
+
+None
+============================= test.tsx_test_Cmp_component_handleClick_1_vlEdMxla0jk.js (ENTRY POINT)==
+
+export const test_Cmp_component_handleClick_1_vlEdMxla0jk = ()=>{
+	const [toggleSig] = useLexicalScope();
+	toggleSig.value = !toggleSig.value;
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Cmp_component_handleClick_1_vlEdMxla0jk",
+  "entry": null,
+  "displayName": "test_Cmp_component_handleClick_1",
+  "hash": "vlEdMxla0jk",
+  "canonicalFilename": "test.tsx_test_Cmp_component_handleClick_1_vlEdMxla0jk",
+  "path": "",
+  "extension": "js",
+  "parent": "handleClick",
+  "ctxKind": "function",
+  "ctxName": "$",
+  "captures": true,
+  "loc": [
+    159,
+    207
+  ]
+}
+*/
+============================= test.tsx_test_Cmp_component_xd53fXgnHL8.js (ENTRY POINT)==
+
+import { _jsxSorted, qrl, useSignal } from "@qwik.dev/core";
+const i_vlEdMxla0jk = ()=>import("./test.tsx_test_Cmp_component_handleClick_1_vlEdMxla0jk");
+export const test_Cmp_component_xd53fXgnHL8 = ()=>{
+	const toggleSig = useSignal(false);
+	const handleClick$ = /*#__PURE__*/ qrl(i_vlEdMxla0jk, "test_Cmp_component_handleClick_1_vlEdMxla0jk", [toggleSig]);
+	return /*#__PURE__*/ _jsxSorted("button", { data-open: toggleSig.value ? true : undefined }, { on:click: handleClick$ }, "Removing data-open re-renders", 3, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Cmp_component_xd53fXgnHL8",
+  "entry": null,
+  "displayName": "test_Cmp_component",
+  "hash": "xd53fXgnHL8",
+  "canonicalFilename": "test.tsx_test_Cmp_component_xd53fXgnHL8",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    89,
+    353
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

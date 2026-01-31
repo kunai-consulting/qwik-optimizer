@@ -1,0 +1,81 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useSignal } from "@qwik.dev/core";
+import { TestComponent } from "./testComponent";
+
+export const Child = component$(() => {
+  const propCounterWithNested = useSignal(() => {
+  return {
+      data: [
+        { attributeInArray: { counter: globalThis.propsCounter++ } },
+        { attributeInArray: { counter: globalThis.propsCounter } },
+      ],
+    };
+  })
+  return (
+    <div>
+        {propCounterWithNested.value.data.map((item, index) => {
+          return (
+            <TestComponent
+              counter={item.attributeInArray.counter}
+              logString="Nested read through array"
+              key={index}
+            />
+          );
+        })}
+    </div>
+  );
+})
+
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_1dotO0YXFtY = ()=>import("./test.tsx_test_Child_component_1dotO0YXFtY");
+const _hf0 = (p0, p1)=>p0.attributeInArray.counter;
+const _hf0_str = "p0.attributeInArray.counter";
+export const Child = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_1dotO0YXFtY, "test_Child_component_1dotO0YXFtY"));
+
+
+None
+============================= test.tsx_test_Child_component_1dotO0YXFtY.js (ENTRY POINT)==
+
+import { TestComponent } from "./testComponent";
+import { _fnSignal, _jsxSorted, useSignal } from "@qwik.dev/core";
+export const test_Child_component_1dotO0YXFtY = ()=>{
+	const propCounterWithNested = useSignal(()=>{
+		return { data: [{ attributeInArray: { counter: globalThis.propsCounter++ } }, { attributeInArray: { counter: globalThis.propsCounter } }] };
+	});
+	return /*#__PURE__*/ _jsxSorted("div", null, null, propCounterWithNested.value.data.map((item, index)=>{
+		return _jsxSorted(TestComponent, { counter: _fnSignal(_hf0, [item, index], _hf0_str) }, { logString: "Nested read through array" }, null, 3, index);
+	}), 1, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Child_component_1dotO0YXFtY",
+  "entry": null,
+  "displayName": "test_Child_component",
+  "hash": "1dotO0YXFtY",
+  "canonicalFilename": "test.tsx_test_Child_component_1dotO0YXFtY",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    138,
+    701
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

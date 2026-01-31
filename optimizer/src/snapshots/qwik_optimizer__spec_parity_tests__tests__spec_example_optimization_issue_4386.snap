@@ -1,0 +1,68 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+
+export const FOO_MAPPING = {
+	A: 1,
+	B: 2,
+	C: 3,
+	};
+
+	export default component$(() => {
+	const key = 'A';
+	const value = FOO_MAPPING[key];
+
+	return <>{value}</>;
+	});
+
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
+export const FOO_MAPPING = {
+	A: 1,
+	B: 2,
+	C: 3
+};
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
+
+
+None
+============================= test.tsx_test_component_LUXeXe0DQrg.tsx (ENTRY POINT)==
+
+import { FOO_MAPPING } from "./test";
+export const test_component_LUXeXe0DQrg = ()=>{
+	const key = "A";
+	const value = FOO_MAPPING[key];
+	return <>{value}</>;
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_component_LUXeXe0DQrg",
+  "entry": "entry_segments",
+  "displayName": "test_component",
+  "hash": "LUXeXe0DQrg",
+  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    128,
+    212
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

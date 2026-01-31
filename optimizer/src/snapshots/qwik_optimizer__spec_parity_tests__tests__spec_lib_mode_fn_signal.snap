@@ -1,0 +1,62 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+export const Counter = component$(() => {
+	const count = useSignal(0);
+
+	return (
+		<div>
+			<p>Count: {count.value}</p>
+			<p>
+				<button onClick$={() => count.value++}>Increment</button>
+			</p>
+		</div>
+	);
+});
+
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_iURg6pGFsVc = ()=>import("./test.tsx_test_Counter_component_iURg6pGFsVc");
+export const Counter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_iURg6pGFsVc, "test_Counter_component_iURg6pGFsVc"));
+
+
+None
+============================= test.tsx_test_Counter_component_iURg6pGFsVc.js (ENTRY POINT)==
+
+import { _jsxSorted, qrl } from "@qwik.dev/core";
+const i_onClick = ()=>import("./test.tsx");
+export const test_Counter_component_iURg6pGFsVc = ()=>{
+	const count = useSignal(0);
+	return /*#__PURE__*/ _jsxSorted("div", null, null, [/*#__PURE__*/ _jsxSorted("p", null, null, ["Count:", _wrapProp(count)], 1, null), /*#__PURE__*/ _jsxSorted("p", null, null, /*#__PURE__*/ _jsxSorted("button", { on:click: /*#__PURE__*/ qrl(i_onClick, "Counter_component_div_p_button_onClick", [count]) }, null, "Increment", 3, null), 3, null)], 3, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Counter_component_iURg6pGFsVc",
+  "entry": null,
+  "displayName": "test_Counter_component",
+  "hash": "iURg6pGFsVc",
+  "canonicalFilename": "test.tsx_test_Counter_component_iURg6pGFsVc",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    79,
+    257
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

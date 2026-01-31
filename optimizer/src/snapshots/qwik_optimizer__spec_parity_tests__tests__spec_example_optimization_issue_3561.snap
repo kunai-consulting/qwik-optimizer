@@ -1,0 +1,73 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+
+export const Issue3561 = component$(() => {
+	const props = useStore({
+		product: {
+		currentVariant: {
+			variantImage: 'image',
+			variantNumber: 'number',
+			setContents: 'contents',
+		},
+		},
+	});
+	const {
+		currentVariant: { variantImage, variantNumber, setContents } = {},
+	} = props.product;
+
+	console.log(variantImage, variantNumber, setContents)
+
+	return <p></p>;
+	});
+
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_F5mXbx6XQMI = ()=>import("./test.tsx_test_Issue3561_component_F5mXbx6XQMI");
+export const Issue3561 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_F5mXbx6XQMI, "test_Issue3561_component_F5mXbx6XQMI"));
+
+
+None
+============================= test.tsx_test_Issue3561_component_F5mXbx6XQMI.tsx (ENTRY POINT)==
+
+export const test_Issue3561_component_F5mXbx6XQMI = ()=>{
+	const props = useStore({ product: { currentVariant: {
+		variantImage: "image",
+		variantNumber: "number",
+		setContents: "contents"
+	} } });
+	const { currentVariant: { variantImage, variantNumber, setContents } = {} } = props.product;
+	console.log(variantImage, variantNumber, setContents);
+	return <p></p>;
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Issue3561_component_F5mXbx6XQMI",
+  "entry": "entry_segments",
+  "displayName": "test_Issue3561_component",
+  "hash": "F5mXbx6XQMI",
+  "canonicalFilename": "test.tsx_test_Issue3561_component_F5mXbx6XQMI",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    82,
+    420
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

@@ -1,0 +1,68 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useStore } from '@qwik.dev/core';
+
+export enum Thing {
+	A,
+	B
+}
+
+export const App = component$(() => {
+	console.log(Thing.A);
+	return (
+		<>
+			<p class="stuff">Hello Qwik</p>
+		</>
+	);
+});
+
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
+export enum Thing {
+	A,
+	B
+}
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
+
+
+None
+============================= test.tsx_test_App_component_jYXJI01qFIU.tsx (ENTRY POINT)==
+
+export const test_App_component_jYXJI01qFIU = ()=>{
+	console.log(Thing.A);
+	return <>
+			<p class="stuff">Hello Qwik</p>
+		</>;
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_App_component_jYXJI01qFIU",
+  "entry": null,
+  "displayName": "test_App_component",
+  "hash": "jYXJI01qFIU",
+  "canonicalFilename": "test.tsx_test_App_component_jYXJI01qFIU",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    116,
+    208
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

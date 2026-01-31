@@ -1,0 +1,89 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$ } from '@qwik.dev/core';
+export function App() {
+	const Header = component$(() => {
+		console.log("mount");
+		return (
+			<div onClick={$((ctx) => console.log(ctx))}/>
+		);
+	});
+	return Header;
+}
+
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_4YKWrYYVYmo = ()=>import("./test.tsx_test_App_Header_component_div_onClick_4YKWrYYVYmo");
+const i_4FYSnzxHlAY = ()=>import("./test.tsx_test_App_Header_component_4FYSnzxHlAY");
+export function App() {
+	const Header = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_4FYSnzxHlAY, "test_App_Header_component_4FYSnzxHlAY"));
+	return Header;
+}
+
+
+None
+============================= test.tsx_test_App_Header_component_4FYSnzxHlAY.tsx (ENTRY POINT)==
+
+import { qrl } from "@qwik.dev/core";
+const i_4YKWrYYVYmo = ()=>import("./test.tsx_test_App_Header_component_div_onClick_4YKWrYYVYmo");
+export const test_App_Header_component_4FYSnzxHlAY = ()=>{
+	console.log("mount");
+	return <div onClick={/*#__PURE__*/ qrl(i_4YKWrYYVYmo, "test_App_Header_component_div_onClick_4YKWrYYVYmo")} />;
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_App_Header_component_4FYSnzxHlAY",
+  "entry": null,
+  "displayName": "test_App_Header_component",
+  "hash": "4FYSnzxHlAY",
+  "canonicalFilename": "test.tsx_test_App_Header_component_4FYSnzxHlAY",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    99,
+    198
+  ]
+}
+*/
+============================= test.tsx_test_App_Header_component_div_onClick_4YKWrYYVYmo.tsx (ENTRY POINT)==
+
+export const test_App_Header_component_div_onClick_4YKWrYYVYmo = (ctx)=>console.log(ctx);
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_App_Header_component_div_onClick_4YKWrYYVYmo",
+  "entry": null,
+  "displayName": "test_App_Header_component_div_onClick",
+  "hash": "4YKWrYYVYmo",
+  "canonicalFilename": "test.tsx_test_App_Header_component_div_onClick_4YKWrYYVYmo",
+  "path": "",
+  "extension": "tsx",
+  "parent": "component",
+  "ctxKind": "function",
+  "ctxName": "$",
+  "captures": false,
+  "loc": [
+    161,
+    186
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

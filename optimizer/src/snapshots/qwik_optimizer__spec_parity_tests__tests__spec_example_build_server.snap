@@ -1,0 +1,127 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useStore, isDev, isServer as isServer2 } from '@qwik.dev/core';
+import { isServer, isBrowser as isb } from '@qwik.dev/core/build';
+import { mongodb } from 'mondodb';
+import { threejs } from 'threejs';
+
+import L from 'leaflet';
+
+export const functionThatNeedsWindow = () => {
+  if (isb) {
+    console.log('l', L);
+    console.log('hey');
+    window.alert('hey');
+  }
+};
+
+export const App = component$(() => {
+	useMount$(() => {
+		if (isServer) {
+			console.log('server', mongodb());
+		}
+		if (isb) {
+			console.log('browser', new threejs());
+		}
+	});
+	return (
+		<Cmp>
+			{isServer2 && <p>server</p>}
+			{isb && <p>server</p>}
+		</Cmp>
+	);
+});
+
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+import L from "leaflet";
+const i_EXum0EDkazw = ()=>import("./test.tsx_s_EXum0EDkazw");
+const i_jYXJI01qFIU = ()=>import("./test.tsx_s_jYXJI01qFIU");
+export const functionThatNeedsWindow = ()=>{
+	if (false) {
+		console.log("l", L);
+		console.log("hey");
+		window.alert("hey");
+	}
+};
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "s_jYXJI01qFIU"));
+
+
+None
+============================= test.tsx_s_EXum0EDkazw.tsx (ENTRY POINT)==
+
+import { mongodb } from "mondodb";
+import { threejs } from "threejs";
+export const s_EXum0EDkazw = ()=>{
+	if (true) {
+		console.log("server", mongodb());
+	}
+	if (false) {
+		console.log("browser", new threejs());
+	}
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "s_EXum0EDkazw",
+  "entry": null,
+  "displayName": "test_App_component_useMount",
+  "hash": "EXum0EDkazw",
+  "canonicalFilename": "test.tsx_s_EXum0EDkazw",
+  "path": "",
+  "extension": "tsx",
+  "parent": "component",
+  "ctxKind": "function",
+  "ctxName": "useMount$",
+  "captures": false,
+  "loc": [
+    440,
+    568
+  ]
+}
+*/
+============================= test.tsx_s_jYXJI01qFIU.tsx (ENTRY POINT)==
+
+import { qrl, useMountQrl, isServer as isServer2 } from "@qwik.dev/core";
+import { isBrowser as isb } from "@qwik.dev/core/build";
+export const s_jYXJI01qFIU = ()=>{
+	/*#__PURE__*/ useMountQrl(/*#__PURE__*/ qrl(i_EXum0EDkazw, "s_EXum0EDkazw"));
+	return <Cmp>
+			{isServer2 && <p>server</p>}
+			{isb && <p>server</p>}
+		</Cmp>;
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "s_jYXJI01qFIU",
+  "entry": null,
+  "displayName": "test_App_component",
+  "hash": "jYXJI01qFIU",
+  "canonicalFilename": "test.tsx_s_jYXJI01qFIU",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    421,
+    661
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

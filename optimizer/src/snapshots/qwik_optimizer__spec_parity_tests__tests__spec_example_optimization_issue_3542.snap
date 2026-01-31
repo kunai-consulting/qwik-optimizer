@@ -1,0 +1,73 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+
+export const AtomStatus = component$(({ctx,atom})=>{
+	let status = atom.status;
+	if(!atom.real) {
+		status="WILL-VANISH"
+	} else if (JSON.stringify(atom.atom)==JSON.stringify(atom.real)) {
+		status="WTFED"
+	}
+	return (
+		<span title={atom.ID} onClick$={(ev)=>atomStatusClick(ctx,ev,[atom])} class={["atom",status,ctx.store[atom.ID]?"selected":null]}>
+		</span>
+	);
+})
+
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_eLHxgQK6wDY = ()=>import("./test.tsx_test_AtomStatus_component_eLHxgQK6wDY");
+export const AtomStatus = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_eLHxgQK6wDY, "test_AtomStatus_component_eLHxgQK6wDY"));
+
+
+None
+============================= test.tsx_test_AtomStatus_component_eLHxgQK6wDY.tsx (ENTRY POINT)==
+
+import { qrl } from "@qwik.dev/core";
+const i_onClick = ()=>import("./test.tsx");
+export const test_AtomStatus_component_eLHxgQK6wDY = ({ ctx, atom })=>{
+	let status = atom.status;
+	if (!atom.real) {
+		status = "WILL-VANISH";
+	} else if (JSON.stringify(atom.atom) == JSON.stringify(atom.real)) {
+		status = "WTFED";
+	}
+	return <span title={atom.ID} on:click={/*#__PURE__*/ qrl(i_onClick, "AtomStatus_component_span_onClick")} class={[
+		"atom",
+		status,
+		ctx.store[atom.ID] ? "selected" : null
+	]}>
+		</span>;
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_AtomStatus_component_eLHxgQK6wDY",
+  "entry": "entry_segments",
+  "displayName": "test_AtomStatus_component",
+  "hash": "eLHxgQK6wDY",
+  "canonicalFilename": "test.tsx_test_AtomStatus_component_eLHxgQK6wDY",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    83,
+    412
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

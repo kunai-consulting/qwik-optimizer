@@ -1,0 +1,166 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$ } from '@qwik.dev/core';
+
+export const Foo = component$(({foo}) => {
+	const arg0 = 20;
+	return $(() => {
+		const fn = ({aaa}) => aaa;
+		return (
+			<div>
+				{foo}{fn()}{arg0}
+			</div>
+		)
+	});
+})
+
+export const Bar = component$(({bar}) => {
+	return $(() => {
+		return (
+			<div>
+				{bar}
+			</div>
+		)
+	});
+})
+
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_AeLWTA7YAKE = ()=>import("./test.tsx_test_Foo_component_1_AeLWTA7YAKE");
+const i_NK5Hyit5tec = ()=>import("./test.tsx_test_Foo_component_NK5Hyit5tec");
+const i_YE9eK0JEou0 = ()=>import("./test.tsx_test_Bar_component_1_YE9eK0JEou0");
+const i_2yOPyUuApFc = ()=>import("./test.tsx_test_Bar_component_2yOPyUuApFc");
+export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_NK5Hyit5tec, "test_Foo_component_NK5Hyit5tec"));
+export const Bar = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_2yOPyUuApFc, "test_Bar_component_2yOPyUuApFc"));
+
+
+None
+============================= test.tsx_test_Bar_component_2yOPyUuApFc.tsx (ENTRY POINT)==
+
+import { qrl } from "@qwik.dev/core";
+export const test_Bar_component_2yOPyUuApFc = ({ bar })=>{
+	return /*#__PURE__*/ qrl(i_YE9eK0JEou0, "test_Bar_component_1_YE9eK0JEou0");
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Bar_component_2yOPyUuApFc",
+  "entry": null,
+  "displayName": "test_Bar_component",
+  "hash": "2yOPyUuApFc",
+  "canonicalFilename": "test.tsx_test_Bar_component_2yOPyUuApFc",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    252,
+    333
+  ]
+}
+*/
+============================= test.tsx_test_Foo_component_1_AeLWTA7YAKE.tsx (ENTRY POINT)==
+
+export const test_Foo_component_1_AeLWTA7YAKE = ()=>{
+	const [arg0] = useLexicalScope();
+	const fn = ({ aaa })=>aaa;
+	return <div>
+				{foo}{fn()}{arg0}
+			</div>;
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Foo_component_1_AeLWTA7YAKE",
+  "entry": null,
+  "displayName": "test_Foo_component_1",
+  "hash": "AeLWTA7YAKE",
+  "canonicalFilename": "test.tsx_test_Foo_component_1_AeLWTA7YAKE",
+  "path": "",
+  "extension": "tsx",
+  "parent": "component",
+  "ctxKind": "function",
+  "ctxName": "$",
+  "captures": true,
+  "loc": [
+    120,
+    215
+  ]
+}
+*/
+============================= test.tsx_test_Foo_component_NK5Hyit5tec.tsx (ENTRY POINT)==
+
+import { qrl } from "@qwik.dev/core";
+export const test_Foo_component_NK5Hyit5tec = ({ foo })=>{
+	const arg0 = 20;
+	return /*#__PURE__*/ qrl(i_AeLWTA7YAKE, "test_Foo_component_1_AeLWTA7YAKE", [arg0]);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Foo_component_NK5Hyit5tec",
+  "entry": null,
+  "displayName": "test_Foo_component",
+  "hash": "NK5Hyit5tec",
+  "canonicalFilename": "test.tsx_test_Foo_component_NK5Hyit5tec",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    79,
+    219
+  ]
+}
+*/
+============================= test.tsx_test_Bar_component_1_YE9eK0JEou0.tsx (ENTRY POINT)==
+
+export const test_Bar_component_1_YE9eK0JEou0 = ()=>{
+	return <div>
+				{bar}
+			</div>;
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Bar_component_1_YE9eK0JEou0",
+  "entry": null,
+  "displayName": "test_Bar_component_1",
+  "hash": "YE9eK0JEou0",
+  "canonicalFilename": "test.tsx_test_Bar_component_1_YE9eK0JEou0",
+  "path": "",
+  "extension": "tsx",
+  "parent": "component",
+  "ctxKind": "function",
+  "ctxName": "$",
+  "captures": false,
+  "loc": [
+    275,
+    329
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

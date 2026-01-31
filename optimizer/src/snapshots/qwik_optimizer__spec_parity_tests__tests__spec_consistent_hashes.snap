@@ -1,0 +1,101 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, $ } from '@qwik.dev/core';
+import mongo from 'mongodb';
+
+export const Greeter = component$(() => {
+	// Double count watch
+	useTask$(async () => {
+		await mongo.users();
+	});
+	return (
+		<div>
+			<div onClick$={() => {}}/>
+			<div onClick$={() => {}}/>
+			<div onClick$={() => {}}/>
+		</div>
+	)
+});
+
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_vVUhqydPeP4 = ()=>import("./test.tsx_test_Greeter_component_useTask_vVUhqydPeP4");
+const i_ypCtrRwcmFs = ()=>import("./test.tsx_test_Greeter_component_ypCtrRwcmFs");
+export const Greeter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ypCtrRwcmFs, "test_Greeter_component_ypCtrRwcmFs"));
+
+
+None
+============================= test.tsx_test_Greeter_component_ypCtrRwcmFs.js (ENTRY POINT)==
+
+import { _jsxSorted, qrl } from "@qwik.dev/core";
+const i_2 = ()=>import("./test.tsx");
+const i_1 = ()=>import("./test.tsx");
+const i_vVUhqydPeP4 = ()=>import("./test.tsx_test_Greeter_component_useTask_vVUhqydPeP4");
+export const test_Greeter_component_ypCtrRwcmFs = ()=>{
+	/*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_vVUhqydPeP4, "test_Greeter_component_useTask_vVUhqydPeP4"));
+	return /*#__PURE__*/ _jsxSorted("div", null, null, [
+		/*#__PURE__*/ _jsxSorted("div", { on:click: /*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_vVUhqydPeP4, "test_Greeter_component_useTask_vVUhqydPeP4")) }, null, null, 3, null),
+		/*#__PURE__*/ _jsxSorted("div", { on:click: /*#__PURE__*/ qrl(i_1, "Greeter_component_div_div_onClick_1") }, null, null, 3, null),
+		/*#__PURE__*/ _jsxSorted("div", { on:click: /*#__PURE__*/ qrl(i_2, "Greeter_component_div_div_onClick_2") }, null, null, 3, null)
+	], 3, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Greeter_component_ypCtrRwcmFs",
+  "entry": null,
+  "displayName": "test_Greeter_component",
+  "hash": "ypCtrRwcmFs",
+  "canonicalFilename": "test.tsx_test_Greeter_component_ypCtrRwcmFs",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    112,
+    316
+  ]
+}
+*/
+============================= test.tsx_test_Greeter_component_useTask_vVUhqydPeP4.js (ENTRY POINT)==
+
+import mongo from "mongodb";
+export const test_Greeter_component_useTask_vVUhqydPeP4 = async ()=>{
+	await mongo.users();
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Greeter_component_useTask_vVUhqydPeP4",
+  "entry": null,
+  "displayName": "test_Greeter_component_useTask",
+  "hash": "vVUhqydPeP4",
+  "canonicalFilename": "test.tsx_test_Greeter_component_useTask_vVUhqydPeP4",
+  "path": "",
+  "extension": "js",
+  "parent": "component",
+  "ctxKind": "function",
+  "ctxName": "useTask$",
+  "captures": false,
+  "loc": [
+    153,
+    192
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

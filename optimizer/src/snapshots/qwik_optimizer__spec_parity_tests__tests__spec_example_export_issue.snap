@@ -1,0 +1,101 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+
+const App = component$(() => {
+	return (
+		<div>hola</div>
+	);
+});
+
+
+export const Root = component$((props: Stuff) => {
+	return (
+		<App/>
+	);
+});
+
+const Other = 12;
+export { Other as App };
+
+export default App;
+
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
+const i_Fdi7ywWnD40 = ()=>import("./test.tsx_test_Root_component_Fdi7ywWnD40");
+const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
+export const Root = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_Fdi7ywWnD40, "test_Root_component_Fdi7ywWnD40", [App]));
+const Other = 12;
+export { Other as App };
+export default App;
+
+
+None
+============================= test.tsx_test_App_component_jYXJI01qFIU.js (ENTRY POINT)==
+
+import { _jsxSorted } from "@qwik.dev/core";
+export const test_App_component_jYXJI01qFIU = ()=>{
+	return /*#__PURE__*/ _jsxSorted("div", null, null, "hola", 3, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_App_component_jYXJI01qFIU",
+  "entry": null,
+  "displayName": "test_App_component",
+  "hash": "jYXJI01qFIU",
+  "canonicalFilename": "test.tsx_test_App_component_jYXJI01qFIU",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    69,
+    110
+  ]
+}
+*/
+============================= test.tsx_test_Root_component_Fdi7ywWnD40.js (ENTRY POINT)==
+
+import { _jsxSorted } from "@qwik.dev/core";
+export const test_Root_component_Fdi7ywWnD40 = (props)=>{
+	const [App] = useLexicalScope();
+	return _jsxSorted(App, null, null, null, 3, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Root_component_Fdi7ywWnD40",
+  "entry": null,
+  "displayName": "test_Root_component",
+  "hash": "Fdi7ywWnD40",
+  "canonicalFilename": "test.tsx_test_Root_component_Fdi7ywWnD40",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": true,
+  "loc": [
+    146,
+    190
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

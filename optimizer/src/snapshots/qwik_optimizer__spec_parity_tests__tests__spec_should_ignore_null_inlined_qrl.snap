@@ -1,0 +1,20 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { inlinedQrl } from '@qwik.dev/core';
+
+const foo = inlinedQrl(null, 'some_hash');
+
+============================= test.js ==
+
+import { inlinedQrl } from "@qwik.dev/core";
+inlinedQrl(null, "some_hash");
+
+
+None
+== DIAGNOSTICS ==
+
+[]

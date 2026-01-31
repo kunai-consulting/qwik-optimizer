@@ -1,0 +1,87 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$ } from '@qwik.dev/core';
+export const Header = component$(() => {
+	return (
+		<>
+			<div onClick={(ctx) => console.log("1")}/>
+			<div onClick={$((ctx) => console.log("2"))}/>
+		</>
+	);
+});
+
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_AG0jC3BcBUI = ()=>import("./test.tsx_test_Header_component_div_onClick_AG0jC3BcBUI");
+const i_Y14t9IFYaQE = ()=>import("./test.tsx_test_Header_component_Y14t9IFYaQE");
+export const Header = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_Y14t9IFYaQE, "test_Header_component_Y14t9IFYaQE"));
+
+
+None
+============================= test.tsx_test_Header_component_Y14t9IFYaQE.tsx (ENTRY POINT)==
+
+import { qrl } from "@qwik.dev/core";
+const i_AG0jC3BcBUI = ()=>import("./test.tsx_test_Header_component_div_onClick_AG0jC3BcBUI");
+export const test_Header_component_Y14t9IFYaQE = ()=>{
+	return <>
+			<div onClick={(ctx)=>console.log("1")} />
+			<div onClick={/*#__PURE__*/ qrl(i_AG0jC3BcBUI, "test_Header_component_div_onClick_AG0jC3BcBUI")} />
+		</>;
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Header_component_Y14t9IFYaQE",
+  "entry": null,
+  "displayName": "test_Header_component",
+  "hash": "Y14t9IFYaQE",
+  "canonicalFilename": "test.tsx_test_Header_component_Y14t9IFYaQE",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    81,
+    210
+  ]
+}
+*/
+============================= test.tsx_test_Header_component_div_onClick_AG0jC3BcBUI.tsx (ENTRY POINT)==
+
+export const test_Header_component_div_onClick_AG0jC3BcBUI = (ctx)=>console.log("2");
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Header_component_div_onClick_AG0jC3BcBUI",
+  "entry": null,
+  "displayName": "test_Header_component_div_onClick",
+  "hash": "AG0jC3BcBUI",
+  "canonicalFilename": "test.tsx_test_Header_component_div_onClick_AG0jC3BcBUI",
+  "path": "",
+  "extension": "tsx",
+  "parent": "component",
+  "ctxKind": "function",
+  "ctxName": "$",
+  "captures": false,
+  "loc": [
+    169,
+    194
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

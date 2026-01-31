@@ -1,0 +1,80 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$ } from '@qwik.dev/core';
+
+export const Foo = component$((props) => {
+	return (
+		<div>
+			<Button {...props} />
+			<ButtonArrow {...props} />
+		</div>
+	);
+}, {
+	tagName: "my-foo",
+});
+
+export function Button({text, color}) {
+	return (
+		<button onColor$={color} onClick$={()=>console.log(text, color)}>{text}</button>
+	);
+}
+
+export const ButtonArrow = ({text, color}) => {
+	return (
+		<button onColor$={color} onClick$={()=>console.log(text, color)}>{text}</button>
+	);
+}
+
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_NK5Hyit5tec = ()=>import("./test.tsx_test_Foo_component_NK5Hyit5tec");
+const i_onClick = ()=>import("./test.tsx");
+export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_NK5Hyit5tec, "test_Foo_component_NK5Hyit5tec"));
+export function Button({ text, color }) {
+	return <button on:color={color} on:click={/*#__PURE__*/ qrl(i_onClick, "Button_button_onClick")}>{text}</button>;
+}
+export const ButtonArrow = ({ text, color })=>{
+	return <button on:color={color} on:click={/*#__PURE__*/ qrl(i_onClick, "ButtonArrow_button_onClick")}>{text}</button>;
+};
+
+
+None
+============================= test.tsx_test_Foo_component_NK5Hyit5tec.tsx (ENTRY POINT)==
+
+export const test_Foo_component_NK5Hyit5tec = (props)=>{
+	return <div>
+			<Button {...props} />
+			<ButtonArrow {...props} />
+		</div>;
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Foo_component_NK5Hyit5tec",
+  "entry": null,
+  "displayName": "test_Foo_component",
+  "hash": "NK5Hyit5tec",
+  "canonicalFilename": "test.tsx_test_Foo_component_NK5Hyit5tec",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    79,
+    179
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

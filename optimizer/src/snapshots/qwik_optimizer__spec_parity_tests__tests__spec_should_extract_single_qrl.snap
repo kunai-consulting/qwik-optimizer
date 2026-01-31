@@ -1,0 +1,175 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$, useSignal, Signal } from '@qwik.dev/core';
+export const App = component$(() => {
+	const data = useSignal<Signal<any>[]>([]);
+	const selectedItem = useSignal<any | null>(null);
+    return (
+        <div>
+          {data.value.map((row) => (
+              <tr
+                key={untrack(() => row.value.id)}
+                class={row.value.selected.value ? "danger" : ""}
+              >
+                <td class="col-md-1">{row.value.id}</td>
+                <td class="col-md-4">
+                  <a
+                    onClick$={() => {
+                      if (selectedItem.value) {
+                        selectedItem.value.selected.value = false;
+                      }
+                      selectedItem.value = row.value;
+                      row.value.selected.value = true;
+                    }}
+                  >
+                    {row.value.label.value}
+                  </a>
+                </td>
+                <td class="col-md-1">
+                  <a
+                    onClick$={() => {
+                      const dataValue = untrack(() => data.value);
+                      data.value = dataValue.toSpliced(
+                        dataValue.findIndex((d) => d.value.id === row.value.id),
+                        1,
+                      );
+                    }}
+                  >
+                    <span aria-hidden="true">x</span>
+                  </a>
+                </td>
+                <td class="col-md-6" />
+              </tr>
+          ))}
+        </div>
+      );
+    });
+
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
+const _hf0 = (p0)=>p0.value.selected.value ? "danger" : "";
+const _hf0_str = "p0.value.selected.value?`danger`:``";
+const _hf1 = (p0)=>p0.value.id;
+const _hf1_str = "p0.value.id";
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
+
+
+None
+============================= test.tsx_test_App_component_div_map_tr_td_a_onClick_1_icMTFRNaNyw.js (ENTRY POINT)==
+
+import { useLexicalScope } from "@qwik.dev/core";
+export const test_App_component_div_map_tr_td_a_onClick_1_icMTFRNaNyw = (_, _1, row)=>{
+	const [data] = useLexicalScope();
+	const dataValue = untrack(()=>data.value);
+	data.value = dataValue.toSpliced(dataValue.findIndex((d)=>d.value.id === row.value.id), 1);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_App_component_div_map_tr_td_a_onClick_1_icMTFRNaNyw",
+  "entry": null,
+  "displayName": "test_App_component_div_map_tr_td_a_onClick_1",
+  "hash": "icMTFRNaNyw",
+  "canonicalFilename": "test.tsx_test_App_component_div_map_tr_td_a_onClick_1_icMTFRNaNyw",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "eventHandler",
+  "ctxName": "onClick$",
+  "captures": true,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= test.tsx_test_App_component_jYXJI01qFIU.js (ENTRY POINT)==
+
+import { _fnSignal, _jsxSorted, qrl, useSignal } from "@qwik.dev/core";
+const i_icMTFRNaNyw = ()=>import("./test.tsx_test_App_component_div_map_tr_td_a_onClick_1_icMTFRNaNyw");
+const i_VhViNiM0j40 = ()=>import("./test.tsx_test_App_component_div_map_tr_td_a_onClick_VhViNiM0j40");
+export const test_App_component_jYXJI01qFIU = ()=>{
+	const data = useSignal([]);
+	const selectedItem = useSignal(null);
+	return /*#__PURE__*/ _jsxSorted("div", null, null, data.value.map((row)=>/*#__PURE__*/ _jsxSorted("tr", { class: _fnSignal(_hf0, [row], _hf0_str) }, null, [
+		/*#__PURE__*/ _jsxSorted("td", null, { class: "col-md-1" }, _fnSignal(_hf1, [row], _hf1_str), 1, null),
+		/*#__PURE__*/ _jsxSorted("td", null, { class: "col-md-4" }, /*#__PURE__*/ _jsxSorted("a", {
+			q:p: row,
+			on:click: /*#__PURE__*/ qrl(i_VhViNiM0j40, "test_App_component_div_map_tr_td_a_onClick_VhViNiM0j40", [selectedItem])
+		}, null, _wrapProp(row.value.label), 1, null), 3, null),
+		/*#__PURE__*/ _jsxSorted("td", null, { class: "col-md-1" }, /*#__PURE__*/ _jsxSorted("a", {
+			q:p: row,
+			on:click: /*#__PURE__*/ qrl(i_icMTFRNaNyw, "test_App_component_div_map_tr_td_a_onClick_1_icMTFRNaNyw", [data])
+		}, null, /*#__PURE__*/ _jsxSorted("span", null, { aria-hidden: "true" }, "x", 3, null), 3, null), 3, null),
+		/*#__PURE__*/ _jsxSorted("td", null, { class: "col-md-6" }, null, 3, null)
+	], 3, untrack(()=>row.value.id))), 1, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_App_component_jYXJI01qFIU",
+  "entry": null,
+  "displayName": "test_App_component",
+  "hash": "jYXJI01qFIU",
+  "canonicalFilename": "test.tsx_test_App_component_jYXJI01qFIU",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    97,
+    1545
+  ]
+}
+*/
+============================= test.tsx_test_App_component_div_map_tr_td_a_onClick_VhViNiM0j40.js (ENTRY POINT)==
+
+import { useLexicalScope } from "@qwik.dev/core";
+export const test_App_component_div_map_tr_td_a_onClick_VhViNiM0j40 = (_, _1, row)=>{
+	const [selectedItem] = useLexicalScope();
+	if (selectedItem.value) {
+		selectedItem.value.selected.value = false;
+	}
+	selectedItem.value = row.value;
+	row.value.selected.value = true;
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_App_component_div_map_tr_td_a_onClick_VhViNiM0j40",
+  "entry": null,
+  "displayName": "test_App_component_div_map_tr_td_a_onClick",
+  "hash": "VhViNiM0j40",
+  "canonicalFilename": "test.tsx_test_App_component_div_map_tr_td_a_onClick_VhViNiM0j40",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "eventHandler",
+  "ctxName": "onClick$",
+  "captures": true,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

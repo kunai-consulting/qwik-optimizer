@@ -1,0 +1,56 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, $ } from '@qwik.dev/core';
+import { state } from './sibling';
+
+export const Local = component$(() => {
+	return (
+		<div>{state}</div>
+	)
+});
+
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_o7lYFdQrMGw = ()=>import("./test.tsx_test_Local_component_o7lYFdQrMGw");
+export const Local = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_o7lYFdQrMGw, "test_Local_component_o7lYFdQrMGw"));
+
+
+None
+============================= test.tsx_test_Local_component_o7lYFdQrMGw.js (ENTRY POINT)==
+
+import { state } from "./sibling";
+import { _jsxSorted } from "@qwik.dev/core";
+export const test_Local_component_o7lYFdQrMGw = ()=>{
+	return /*#__PURE__*/ _jsxSorted("div", null, null, state, 1, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Local_component_o7lYFdQrMGw",
+  "entry": null,
+  "displayName": "test_Local_component",
+  "hash": "o7lYFdQrMGw",
+  "canonicalFilename": "test.tsx_test_Local_component_o7lYFdQrMGw",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    116,
+    159
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

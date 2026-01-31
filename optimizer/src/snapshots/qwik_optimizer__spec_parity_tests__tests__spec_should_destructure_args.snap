@@ -1,0 +1,70 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from "@qwik.dev/core";
+
+// the count results in _fnSignal because of the rename
+// would be nice to consider it a prop too
+export default component$(({ message, id, count: c, ...rest }: Record<string, any>) => {
+	const renders = useStore({ renders: 0 }, { reactive: false });
+	renders.renders++;
+	const rerenders = renders.renders + 0;
+	return (
+		<div id={id}>
+			<span {...rest}>
+			{message} {c}
+			</span>
+			<div class="renders">{rerenders}</div>
+		</div>
+	);
+}
+);
+
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
+// the count results in _fnSignal because of the rename
+// would be nice to consider it a prop too
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
+
+
+None
+============================= test.tsx_test_component_LUXeXe0DQrg.js (ENTRY POINT)==
+
+import { _getConstProps, _getVarProps, _jsxSorted, _jsxSplit } from "@qwik.dev/core";
+export const test_component_LUXeXe0DQrg = ({ message, id, count: c, ...rest })=>{
+	const renders = useStore({ renders: 0 }, { reactive: false });
+	renders.renders++;
+	const rerenders = renders.renders + 0;
+	return /*#__PURE__*/ _jsxSorted("div", { id: _wrapProp(_rawProps, "id") }, null, [/*#__PURE__*/ _jsxSplit("span", { ..._getVarProps(rest) }, _getConstProps(rest), [_wrapProp(_rawProps, "message"), _wrapProp(_rawProps, "count")], 0, null), /*#__PURE__*/ _jsxSorted("div", null, { class: "renders" }, rerenders, 1, null)], 3, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_component_LUXeXe0DQrg",
+  "entry": null,
+  "displayName": "test_component",
+  "hash": "LUXeXe0DQrg",
+  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    171,
+    488
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

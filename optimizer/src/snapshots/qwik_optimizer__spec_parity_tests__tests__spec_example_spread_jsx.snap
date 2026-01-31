@@ -1,0 +1,110 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+import { useDocumentHead, useLocation } from '@qwik.dev/router';
+
+/**
+ * The RouterHead component is placed inside of the document `<head>` element.
+ */
+export const RouterHead = component$(() => {
+	const head = useDocumentHead();
+	const loc = useLocation();
+
+	return (
+	<>
+		<title>{head.title}</title>
+
+		<link rel="canonical" href={loc.href} />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+		{head.meta.map((m) => (
+			<meta {...m} />
+		))}
+
+		{head.links.map((l) => (
+			<link {...l} key={l.key} />
+		))}
+
+		{head.styles.map((s) => (
+			<style {...s.props} dangerouslySetInnerHTML={s.style} key={s.key} />
+		))}
+	</>
+	);
+});
+
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_PMPm2u1d1Po = ()=>import("./test.tsx_test_RouterHead_component_PMPm2u1d1Po");
+const _hf0 = (p0)=>p0.key;
+const _hf0_str = "p0.key";
+const _hf1 = (p0)=>p0.style;
+const _hf1_str = "p0.style";
+const _hf2 = (p0)=>p0.key;
+const _hf2_str = "p0.key";
+/**
+* The RouterHead component is placed inside of the document `<head>` element.
+*/
+export const RouterHead = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_PMPm2u1d1Po, "test_RouterHead_component_PMPm2u1d1Po"));
+
+
+None
+============================= test.tsx_test_RouterHead_component_PMPm2u1d1Po.js (ENTRY POINT)==
+
+import { _fnSignal, _getConstProps, _getVarProps, _jsxSorted, _jsxSplit } from "@qwik.dev/core";
+import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
+import { useDocumentHead, useLocation } from "@qwik.dev/router";
+export const test_RouterHead_component_PMPm2u1d1Po = ()=>{
+	const head = useDocumentHead();
+	const loc = useLocation();
+	return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [
+		/*#__PURE__*/ _jsxSorted("title", null, null, head.title, 1, null),
+		/*#__PURE__*/ _jsxSorted("link", { href: loc.href }, { rel: "canonical" }, null, 3, null),
+		/*#__PURE__*/ _jsxSorted("meta", null, {
+			name: "viewport",
+			content: "width=device-width, initial-scale=1.0"
+		}, null, 3, null),
+		/*#__PURE__*/ _jsxSorted("link", null, {
+			rel: "icon",
+			type: "image/svg+xml",
+			href: "/favicon.svg"
+		}, null, 3, null),
+		head.meta.map((m)=>/*#__PURE__*/ _jsxSplit("meta", { ..._getVarProps(m) }, _getConstProps(m), null, 0, null)),
+		head.links.map((l)=>/*#__PURE__*/ _jsxSplit("link", { ..._getVarProps(l) }, _getConstProps(l), null, 0, _fnSignal(_hf0, [l], _hf0_str))),
+		head.styles.map((s)=>/*#__PURE__*/ _jsxSplit("style", {
+			..._getVarProps(s.props),
+			dangerouslySetInnerHTML: _fnSignal(_hf1, [s], _hf1_str)
+		}, _getConstProps(s.props), null, 0, _fnSignal(_hf2, [s], _hf2_str)))
+	], 1, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_RouterHead_component_PMPm2u1d1Po",
+  "entry": null,
+  "displayName": "test_RouterHead_component",
+  "hash": "PMPm2u1d1Po",
+  "canonicalFilename": "test.tsx_test_RouterHead_component_PMPm2u1d1Po",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    235,
+    765
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

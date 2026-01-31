@@ -1,0 +1,58 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$, useStore } from '@qwik.dev/core';
+const Header = component$(() => {
+	const thing = useStore();
+	const {foo, bar} = foo();
+
+	return (
+		<div>{thing}</div>
+	);
+});
+
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_Y14t9IFYaQE = ()=>import("./test.tsx_test_Header_component_Y14t9IFYaQE");
+/*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_Y14t9IFYaQE, "test_Header_component_Y14t9IFYaQE"));
+
+
+None
+============================= test.tsx_test_Header_component_Y14t9IFYaQE.tsx (ENTRY POINT)==
+
+import { useStore } from "@qwik.dev/core";
+export const test_Header_component_Y14t9IFYaQE = ()=>{
+	const thing = useStore();
+	const { foo, bar } = foo();
+	return <div>{thing}</div>;
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Header_component_Y14t9IFYaQE",
+  "entry": null,
+  "displayName": "test_Header_component",
+  "hash": "Y14t9IFYaQE",
+  "canonicalFilename": "test.tsx_test_Header_component_Y14t9IFYaQE",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    84,
+    183
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

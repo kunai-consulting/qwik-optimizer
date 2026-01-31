@@ -1,0 +1,86 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useTask$ } from '@qwik.dev/core'
+
+export default component$<any>(({ ...props }) => {
+useTask$(() => {
+	props.checked
+})
+
+return 'hi'
+})
+
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_jewzFYh3XmQ = ()=>import("./test.tsx_test_component_useTask_jewzFYh3XmQ");
+const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
+
+
+None
+============================= test.tsx_test_component_useTask_jewzFYh3XmQ.js (ENTRY POINT)==
+
+export const test_component_useTask_jewzFYh3XmQ = ()=>{
+	props.checked;
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_component_useTask_jewzFYh3XmQ",
+  "entry": null,
+  "displayName": "test_component_useTask",
+  "hash": "jewzFYh3XmQ",
+  "canonicalFilename": "test.tsx_test_component_useTask_jewzFYh3XmQ",
+  "path": "",
+  "extension": "js",
+  "parent": "component",
+  "ctxKind": "function",
+  "ctxName": "useTask$",
+  "captures": false,
+  "loc": [
+    115,
+    139
+  ]
+}
+*/
+============================= test.tsx_test_component_LUXeXe0DQrg.js (ENTRY POINT)==
+
+import { qrl, useTaskQrl } from "@qwik.dev/core";
+export const test_component_LUXeXe0DQrg = ({ ...props })=>{
+	/*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_jewzFYh3XmQ, "test_component_useTask_jewzFYh3XmQ"));
+	return "hi";
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_component_LUXeXe0DQrg",
+  "entry": null,
+  "displayName": "test_component",
+  "hash": "LUXeXe0DQrg",
+  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    86,
+    155
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

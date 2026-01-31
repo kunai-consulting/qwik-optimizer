@@ -1,0 +1,156 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { sync$, component$ } from "@qwik.dev/core";
+
+export default component$(() => {
+return (
+	<>
+		<input onClick$={sync$(function(event, target) {
+			// comment should be removed
+			event.preventDefault();
+		})}/>
+		<input onClick$={sync$((event, target) => {
+			event.preventDefault();
+		})}/>
+		<input onClick$={sync$((event, target) => event.preventDefault())}/>
+	</>
+);
+});
+
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_tjWqwFDDkLo = ()=>import("./test.tsx_test_component_input_onClick_sync_tjWqwFDDkLo");
+const i_QpUOB9VrMjY = ()=>import("./test.tsx_test_component_input_onClick_1_sync_QpUOB9VrMjY");
+const i_nKEYIseetKw = ()=>import("./test.tsx_test_component_input_onClick_2_sync_nKEYIseetKw");
+const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
+
+
+None
+============================= test.tsx_test_component_input_onClick_1_sync_QpUOB9VrMjY.js (ENTRY POINT)==
+
+export const test_component_input_onClick_1_sync_QpUOB9VrMjY = (event, target)=>{
+	event.preventDefault();
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_component_input_onClick_1_sync_QpUOB9VrMjY",
+  "entry": null,
+  "displayName": "test_component_input_onClick_1_sync",
+  "hash": "QpUOB9VrMjY",
+  "canonicalFilename": "test.tsx_test_component_input_onClick_1_sync_QpUOB9VrMjY",
+  "path": "",
+  "extension": "js",
+  "parent": "onClick_1",
+  "ctxKind": "function",
+  "ctxName": "sync$",
+  "captures": false,
+  "loc": [
+    243,
+    294
+  ]
+}
+*/
+============================= test.tsx_test_component_input_onClick_2_sync_nKEYIseetKw.js (ENTRY POINT)==
+
+export const test_component_input_onClick_2_sync_nKEYIseetKw = (event, target)=>event.preventDefault();
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_component_input_onClick_2_sync_nKEYIseetKw",
+  "entry": null,
+  "displayName": "test_component_input_onClick_2_sync",
+  "hash": "nKEYIseetKw",
+  "canonicalFilename": "test.tsx_test_component_input_onClick_2_sync_nKEYIseetKw",
+  "path": "",
+  "extension": "js",
+  "parent": "onClick_2",
+  "ctxKind": "function",
+  "ctxName": "sync$",
+  "captures": false,
+  "loc": [
+    324,
+    365
+  ]
+}
+*/
+============================= test.tsx_test_component_LUXeXe0DQrg.js (ENTRY POINT)==
+
+import { _jsxSorted, qrl, syncQrl } from "@qwik.dev/core";
+import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
+const i_nKEYIseetKw = ()=>import("./test.tsx_test_component_input_onClick_2_sync_nKEYIseetKw");
+const i_QpUOB9VrMjY = ()=>import("./test.tsx_test_component_input_onClick_1_sync_QpUOB9VrMjY");
+const i_tjWqwFDDkLo = ()=>import("./test.tsx_test_component_input_onClick_sync_tjWqwFDDkLo");
+export const test_component_LUXeXe0DQrg = ()=>{
+	return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [
+		/*#__PURE__*/ _jsxSorted("input", { on:click: /*#__PURE__*/ syncQrl(/*#__PURE__*/ qrl(i_tjWqwFDDkLo, "test_component_input_onClick_sync_tjWqwFDDkLo")) }, null, null, 3, null),
+		/*#__PURE__*/ _jsxSorted("input", { on:click: /*#__PURE__*/ syncQrl(/*#__PURE__*/ qrl(i_QpUOB9VrMjY, "test_component_input_onClick_1_sync_QpUOB9VrMjY")) }, null, null, 3, null),
+		/*#__PURE__*/ _jsxSorted("input", { on:click: /*#__PURE__*/ syncQrl(/*#__PURE__*/ qrl(i_nKEYIseetKw, "test_component_input_onClick_2_sync_nKEYIseetKw")) }, null, null, 3, null)
+	], 3, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_component_LUXeXe0DQrg",
+  "entry": null,
+  "displayName": "test_component",
+  "hash": "LUXeXe0DQrg",
+  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    79,
+    379
+  ]
+}
+*/
+============================= test.tsx_test_component_input_onClick_sync_tjWqwFDDkLo.js (ENTRY POINT)==
+
+export const test_component_input_onClick_sync_tjWqwFDDkLo = function(event, target) {
+	event.preventDefault();
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_component_input_onClick_sync_tjWqwFDDkLo",
+  "entry": null,
+  "displayName": "test_component_input_onClick_sync",
+  "hash": "tjWqwFDDkLo",
+  "canonicalFilename": "test.tsx_test_component_input_onClick_sync_tjWqwFDDkLo",
+  "path": "",
+  "extension": "js",
+  "parent": "onClick",
+  "ctxKind": "function",
+  "ctxName": "sync$",
+  "captures": false,
+  "loc": [
+    125,
+    213
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

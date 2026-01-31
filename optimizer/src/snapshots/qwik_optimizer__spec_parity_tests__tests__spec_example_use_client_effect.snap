@@ -1,0 +1,107 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useBrowserVisibleTask$, useStore, useStyles$ } from '@qwik.dev/core';
+
+export const Child = component$(() => {
+	const state = useStore({
+		count: 0
+	});
+
+	// Double count watch
+	useBrowserVisibleTask$(() => {
+		const timer = setInterval(() => {
+		state.count++;
+		}, 1000);
+		return () => {
+		clearInterval(timer);
+		}
+	});
+
+	return (
+		<div>
+		{state.count}
+	</div>
+	);
+});
+
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_PSTgqIrkXbw = ()=>import("./test.tsx_test_Child_component_useBrowserVisibleTask_PSTgqIrkXbw");
+const i_1dotO0YXFtY = ()=>import("./test.tsx_test_Child_component_1dotO0YXFtY");
+export const Child = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_1dotO0YXFtY, "test_Child_component_1dotO0YXFtY"));
+
+
+None
+============================= test.tsx_test_Child_component_useBrowserVisibleTask_PSTgqIrkXbw.js (ENTRY POINT)==
+
+export const test_Child_component_useBrowserVisibleTask_PSTgqIrkXbw = ()=>{
+	const [state] = useLexicalScope();
+	const timer = setInterval(()=>{
+		state.count++;
+	}, 1e3);
+	return ()=>{
+		clearInterval(timer);
+	};
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Child_component_useBrowserVisibleTask_PSTgqIrkXbw",
+  "entry": null,
+  "displayName": "test_Child_component_useBrowserVisibleTask",
+  "hash": "PSTgqIrkXbw",
+  "canonicalFilename": "test.tsx_test_Child_component_useBrowserVisibleTask_PSTgqIrkXbw",
+  "path": "",
+  "extension": "js",
+  "parent": "component",
+  "ctxKind": "function",
+  "ctxName": "useBrowserVisibleTask$",
+  "captures": true,
+  "loc": [
+    222,
+    342
+  ]
+}
+*/
+============================= test.tsx_test_Child_component_1dotO0YXFtY.js (ENTRY POINT)==
+
+import { _jsxSorted, qrl, useBrowserVisibleTaskQrl, useStore } from "@qwik.dev/core";
+export const test_Child_component_1dotO0YXFtY = ()=>{
+	const state = useStore({ count: 0 });
+	/*#__PURE__*/ useBrowserVisibleTaskQrl(/*#__PURE__*/ qrl(i_PSTgqIrkXbw, "test_Child_component_useBrowserVisibleTask_PSTgqIrkXbw", [state]));
+	return /*#__PURE__*/ _jsxSorted("div", null, null, state.count, 1, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Child_component_1dotO0YXFtY",
+  "entry": null,
+  "displayName": "test_Child_component",
+  "hash": "1dotO0YXFtY",
+  "canonicalFilename": "test.tsx_test_Child_component_1dotO0YXFtY",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    124,
+    393
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

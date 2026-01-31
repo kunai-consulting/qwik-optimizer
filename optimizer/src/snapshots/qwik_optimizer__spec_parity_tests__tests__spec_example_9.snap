@@ -1,0 +1,60 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$ } from '@qwik.dev/core';
+const Header = $((decl1, {decl2}, [decl3]) => {
+	const {decl4, key: decl5} = this;
+	let [decl6, ...decl7] = stuff;
+	const decl8 = 1, decl9;
+	function decl10(decl11, {decl12}, [decl13]) {}
+	class decl14 {
+		method(decl15, {decl16}, [decl17]) {}
+	}
+	try{}catch(decl18){}
+	try{}catch({decl19}){}
+});
+
+============================= test.tsx ==
+
+import { qrl } from "@qwik.dev/core";
+const i_IbqPq6x9eik = ()=>import("./test.tsx_test_Header_IbqPq6x9eik");
+/*#__PURE__*/ qrl(i_IbqPq6x9eik, "test_Header_IbqPq6x9eik");
+
+
+None
+============================= test.tsx_test_Header_IbqPq6x9eik.tsx (ENTRY POINT)==
+
+export const test_Header_IbqPq6x9eik = (decl1, { decl2 }, [decl3])=>{
+	const { decl4, key: decl5 } = this;
+	let [decl6, ...decl7] = stuff;
+	const decl8 = 1, decl9;
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Header_IbqPq6x9eik",
+  "entry": null,
+  "displayName": "test_Header",
+  "hash": "IbqPq6x9eik",
+  "canonicalFilename": "test.tsx_test_Header_IbqPq6x9eik",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "$",
+  "captures": false,
+  "loc": [
+    65,
+    342
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

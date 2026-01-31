@@ -1,0 +1,57 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+
+export default component$(() => {
+	return (
+		<div onClick$={() => console.log(mongodb)}>
+		</div>
+	);
+});
+
+============================= src/components/mongo/index.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_SlchSt2Vxlo = ()=>import("./index.tsx_index_component_SlchSt2Vxlo");
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_SlchSt2Vxlo, "index_component_SlchSt2Vxlo"));
+
+
+None
+============================= src/components/mongo/index.tsx_index_component_SlchSt2Vxlo.tsx (ENTRY POINT)==
+
+import { qrl } from "@qwik.dev/core";
+const i_onClick = ()=>import("./index.tsx");
+export const index_component_SlchSt2Vxlo = ()=>{
+	return <div on:click={/*#__PURE__*/ qrl(i_onClick, "component_div_onClick")}>
+		</div>;
+};
+
+
+None
+/*
+{
+  "origin": "src/components/mongo/index.tsx",
+  "name": "index_component_SlchSt2Vxlo",
+  "entry": "entry_segments",
+  "displayName": "index_component",
+  "hash": "SlchSt2Vxlo",
+  "canonicalFilename": "index.tsx_index_component_SlchSt2Vxlo",
+  "path": "src/components/mongo",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    72,
+    150
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

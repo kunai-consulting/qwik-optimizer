@@ -1,0 +1,159 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useClientMount$, useStore, useTask$ } from '@qwik.dev/core';
+import mongo from 'mongodb';
+import redis from 'redis';
+import threejs from 'threejs';
+import { a } from './keep';
+import { b } from '../keep2';
+import { c } from '../../remove';
+
+export const Parent = component$(() => {
+	const state = useStore({
+		text: ''
+	});
+
+	// Double count watch
+	useClientMount$(async () => {
+		state.text = await mongo.users();
+		redis.set(state.text, a, b, c);
+	});
+
+	useTask$(() => {
+		// Code
+	});
+
+	return (
+		<div
+			shouldRemove$={() => state.text}
+			onClick$={() => console.log('parent', state, threejs)}
+		>
+			<Div
+				onClick$={() => console.log('keep')}
+				render$={() => state.text}
+			/>
+			{state.text}
+		</div>
+	);
+});
+
+============================= components/component.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_czIQbteepiI = ()=>import("./component.tsx_component_Parent_component_useClientMount_czIQbteepiI");
+const i_pzGFMTS09oc = ()=>import("./component.tsx_component_Parent_component_useTask_pzGFMTS09oc");
+const i_B0DcWUHmOms = ()=>import("./component.tsx_component_Parent_component_B0DcWUHmOms");
+export const Parent = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_B0DcWUHmOms, "component_Parent_component_B0DcWUHmOms"));
+
+
+None
+============================= components/component.tsx_component_Parent_component_useClientMount_czIQbteepiI.js (ENTRY POINT)==
+
+import { c } from "../../remove";
+import { b } from "../keep2";
+import { a } from "./keep";
+import mongo from "mongodb";
+import redis from "redis";
+export const component_Parent_component_useClientMount_czIQbteepiI = async ()=>{
+	const [state] = useLexicalScope();
+	state.text = await mongo.users();
+	redis.set(state.text, a, b, c);
+};
+
+
+None
+/*
+{
+  "origin": "components/component.tsx",
+  "name": "component_Parent_component_useClientMount_czIQbteepiI",
+  "entry": "entry_segments",
+  "displayName": "component_Parent_component_useClientMount",
+  "hash": "czIQbteepiI",
+  "canonicalFilename": "component.tsx_component_Parent_component_useClientMount_czIQbteepiI",
+  "path": "components",
+  "extension": "js",
+  "parent": "component",
+  "ctxKind": "function",
+  "ctxName": "useClientMount$",
+  "captures": true,
+  "loc": [
+    386,
+    472
+  ]
+}
+*/
+============================= components/component.tsx_component_Parent_component_B0DcWUHmOms.js (ENTRY POINT)==
+
+import { _jsxSorted, qrl } from "@qwik.dev/core";
+const i_render = ()=>import("./component.tsx");
+const i_onClick = ()=>import("./component.tsx");
+const i_czIQbteepiI = ()=>import("./component.tsx_component_Parent_component_useClientMount_czIQbteepiI");
+const i_pzGFMTS09oc = ()=>import("./component.tsx_component_Parent_component_useTask_pzGFMTS09oc");
+export const component_Parent_component_B0DcWUHmOms = ()=>{
+	const state = useStore({ text: "" });
+	/*#__PURE__*/ useClientMountQrl(/*#__PURE__*/ qrl(i_czIQbteepiI, "component_Parent_component_useClientMount_czIQbteepiI", [state]));
+	/*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_pzGFMTS09oc, "component_Parent_component_useTask_pzGFMTS09oc"));
+	return /*#__PURE__*/ _jsxSorted("div", {
+		shouldRemove$: /*#__PURE__*/ useTaskQrl(/*#__PURE__*/ qrl(i_pzGFMTS09oc, "component_Parent_component_useTask_pzGFMTS09oc")),
+		on:click: /*#__PURE__*/ useClientMountQrl(/*#__PURE__*/ qrl(i_czIQbteepiI, "component_Parent_component_useClientMount_czIQbteepiI", [state]))
+	}, null, [_jsxSorted(Div, {
+		onClick$: /*#__PURE__*/ qrl(i_onClick, "Parent_component_div_Div_onClick"),
+		render$: /*#__PURE__*/ qrl(i_render, "Parent_component_div_Div_render", [state])
+	}, null, null, 3, null), state.text], 1, null);
+};
+
+
+None
+/*
+{
+  "origin": "components/component.tsx",
+  "name": "component_Parent_component_B0DcWUHmOms",
+  "entry": "entry_segments",
+  "displayName": "component_Parent_component",
+  "hash": "B0DcWUHmOms",
+  "canonicalFilename": "component.tsx_component_Parent_component_B0DcWUHmOms",
+  "path": "components",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    295,
+    741
+  ]
+}
+*/
+============================= components/component.tsx_component_Parent_component_useTask_pzGFMTS09oc.js (ENTRY POINT)==
+
+export const component_Parent_component_useTask_pzGFMTS09oc = ()=>{};
+
+
+None
+/*
+{
+  "origin": "components/component.tsx",
+  "name": "component_Parent_component_useTask_pzGFMTS09oc",
+  "entry": "entry_segments",
+  "displayName": "component_Parent_component_useTask",
+  "hash": "pzGFMTS09oc",
+  "canonicalFilename": "component.tsx_component_Parent_component_useTask_pzGFMTS09oc",
+  "path": "components",
+  "extension": "js",
+  "parent": "component",
+  "ctxKind": "function",
+  "ctxName": "useTask$",
+  "captures": false,
+  "loc": [
+    486,
+    506
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

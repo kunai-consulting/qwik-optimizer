@@ -1,6 +1,0 @@
----
-source: src/transform.rs
-expression: comp.code
-snapshot_kind: text
----
-"export const renderHeader_div_onClick_fV2uzAL99u4 = (ctx) => console.log(ctx);\n"

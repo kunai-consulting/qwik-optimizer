@@ -84,6 +84,7 @@ macro_rules! _assert_valid_transform {
             strip_event_handlers: false,
             reg_ctx_name: None,
             is_server: None,
+            format_output: false,
         };
 
         let result = transform_modules(options);
@@ -115,11 +116,11 @@ macro_rules! assert_processing_errors {
     ($verifier:expr) => {{
         let func_name = function_name!();
         let mut path = PathBuf::from("./src/test_input").join(format!("{func_name}.tsx"));
-        let mut lang = crate::component::Language::Typescript;
+        let mut lang = $crate::component::Language::Typescript;
 
         if !path.exists() {
             path = PathBuf::from("./src/test_input").join(format!("{func_name}.js"));
-            lang = crate::component::Language::Javascript;
+            lang = $crate::component::Language::Javascript;
         }
 
         println!("Loading test input file from path: {:?}", &path);

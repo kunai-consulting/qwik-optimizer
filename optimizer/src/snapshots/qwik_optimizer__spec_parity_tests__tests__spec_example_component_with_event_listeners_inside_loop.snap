@@ -1,0 +1,233 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$, useStore, useSignal } from '@qwik.dev/core';
+export const App = component$(() => {
+      const cart = useStore<string[]>([]);
+      const results = useSignal(['foo']);
+      function loopArrowFn(results: string[]) {
+        return results.map((item) => (
+          <span
+            onClick$={() => {
+              cart.push(item);
+            }}
+          >
+            {item}
+          </span>
+        ));
+      }
+      function loopForI(results: string[]) {
+        const items = [];
+        for (let i = 0; i < results.length; i++) {
+          items.push(
+            <span
+              onClick$={() => {
+                cart.push(results[i]);
+              }}
+            >
+              {results[i]}
+            </span>
+          );
+        }
+        return items;
+      }
+      function loopForOf(results: string[]) {
+        const items = [];
+        for (const item of results) {
+          items.push(
+            <span
+              onClick$={() => {
+                cart.push(item);
+              }}
+            >
+              {item}
+            </span>
+          );
+        }
+        return items;
+      }
+      function loopForIn(results: string[]) {
+        const items = [];
+        for (const key in results) {
+          items.push(
+            <span
+              onClick$={() => {
+                cart.push(results[key]);
+              }}
+            >
+              {results[key]}
+            </span>
+          );
+        }
+        return items;
+      }
+      function loopWhile(results: string[]) {
+        const items = [];
+        let i = 0;
+        while (i < results.length) {
+          items.push(
+            <span
+              onClick$={() => {
+                cart.push(results[i]);
+              }}
+            >
+              {results[i]}
+            </span>
+          );
+          i++;
+        }
+        return items;
+      }
+      return (
+        <div>
+          {results.value.map((item) => (
+            <button
+              id="second"
+              onClick$={() => {
+                cart.push(item);
+              }}
+            >
+              {item}
+            </button>
+          ))}
+          {loopArrowFn(results.value)}
+          {loopForI(results.value)}
+          {loopForOf(results.value)}
+          {loopForIn(results.value)}
+          {loopWhile(results.value)}
+        </div>
+      );
+    });
+
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
+
+
+None
+============================= test.tsx_test_App_component_jYXJI01qFIU.js (ENTRY POINT)==
+
+import { _jsxSorted, qrl, useSignal, useStore } from "@qwik.dev/core";
+const i_MSILHyo6VJs = ()=>import("./test.tsx_test_App_component_div_map_button_onClick_MSILHyo6VJs");
+export const test_App_component_jYXJI01qFIU = ()=>{
+	const cart = useStore([]);
+	const results = useSignal(["foo"]);
+	return /*#__PURE__*/ _jsxSorted("div", null, null, [
+		results.value.map((item)=>/*#__PURE__*/ _jsxSorted("button", {
+			q:p: item,
+			on:click: /*#__PURE__*/ qrl(i_MSILHyo6VJs, "test_App_component_div_map_button_onClick_MSILHyo6VJs", [cart])
+		}, { id: "second" }, item, 1, null)),
+		loopArrowFn(results.value),
+		loopForI(results.value),
+		loopForOf(results.value),
+		loopForIn(results.value),
+		loopWhile(results.value)
+	], 1, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_App_component_jYXJI01qFIU",
+  "entry": null,
+  "displayName": "test_App_component",
+  "hash": "jYXJI01qFIU",
+  "canonicalFilename": "test.tsx_test_App_component_jYXJI01qFIU",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    99,
+    2368
+  ]
+}
+*/
+============================= test.tsx_test_App_component_div_map_button_onClick_MSILHyo6VJs.js (ENTRY POINT)==
+
+import { useLexicalScope } from "@qwik.dev/core";
+export const test_App_component_div_map_button_onClick_MSILHyo6VJs = (_, _1, item)=>{
+	const [cart] = useLexicalScope();
+	cart.push(item);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_App_component_div_map_button_onClick_MSILHyo6VJs",
+  "entry": null,
+  "displayName": "test_App_component_div_map_button_onClick",
+  "hash": "MSILHyo6VJs",
+  "canonicalFilename": "test.tsx_test_App_component_div_map_button_onClick_MSILHyo6VJs",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "eventHandler",
+  "ctxName": "onClick$",
+  "captures": true,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[
+  {
+    "category": "error",
+    "code": "C02",
+    "file": "test.tsx",
+    "message": "Reference to identifier 'loopArrowFn' can not be used inside a Qrl($) scope because it's a function",
+    "highlights": null,
+    "suggestions": null,
+    "scope": "optimizer"
+  },
+  {
+    "category": "error",
+    "code": "C02",
+    "file": "test.tsx",
+    "message": "Reference to identifier 'loopForI' can not be used inside a Qrl($) scope because it's a function",
+    "highlights": null,
+    "suggestions": null,
+    "scope": "optimizer"
+  },
+  {
+    "category": "error",
+    "code": "C02",
+    "file": "test.tsx",
+    "message": "Reference to identifier 'loopForOf' can not be used inside a Qrl($) scope because it's a function",
+    "highlights": null,
+    "suggestions": null,
+    "scope": "optimizer"
+  },
+  {
+    "category": "error",
+    "code": "C02",
+    "file": "test.tsx",
+    "message": "Reference to identifier 'loopForIn' can not be used inside a Qrl($) scope because it's a function",
+    "highlights": null,
+    "suggestions": null,
+    "scope": "optimizer"
+  },
+  {
+    "category": "error",
+    "code": "C02",
+    "file": "test.tsx",
+    "message": "Reference to identifier 'loopWhile' can not be used inside a Qrl($) scope because it's a function",
+    "highlights": null,
+    "suggestions": null,
+    "scope": "optimizer"
+  }
+]

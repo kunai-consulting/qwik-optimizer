@@ -1,0 +1,121 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$ } from '@qwik.dev/core';
+
+export const Header = component$(() => {
+	console.log("mount");
+	return (
+		<div onClick={$((ctx) => console.log(ctx))}/>
+	);
+	});
+
+const App = component$(() => {
+	return (
+		<Header/>
+	);
+});
+
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_AG0jC3BcBUI = ()=>import("./test.tsx_test_Header_component_div_onClick_AG0jC3BcBUI");
+const i_Y14t9IFYaQE = ()=>import("./test.tsx_test_Header_component_Y14t9IFYaQE");
+const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
+export const Header = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_Y14t9IFYaQE, "test_Header_component_Y14t9IFYaQE"));
+/*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
+
+
+None
+============================= test.tsx_test_Header_component_Y14t9IFYaQE.tsx (ENTRY POINT)==
+
+import { qrl } from "@qwik.dev/core";
+const i_AG0jC3BcBUI = ()=>import("./test.tsx_test_Header_component_div_onClick_AG0jC3BcBUI");
+export const test_Header_component_Y14t9IFYaQE = ()=>{
+	console.log("mount");
+	return <div onClick={/*#__PURE__*/ qrl(i_AG0jC3BcBUI, "test_Header_component_div_onClick_AG0jC3BcBUI")} />;
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Header_component_Y14t9IFYaQE",
+  "entry": null,
+  "displayName": "test_Header_component",
+  "hash": "Y14t9IFYaQE",
+  "canonicalFilename": "test.tsx_test_Header_component_Y14t9IFYaQE",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    82,
+    177
+  ]
+}
+*/
+============================= test.tsx_test_Header_component_div_onClick_AG0jC3BcBUI.tsx (ENTRY POINT)==
+
+export const test_Header_component_div_onClick_AG0jC3BcBUI = (ctx)=>console.log(ctx);
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Header_component_div_onClick_AG0jC3BcBUI",
+  "entry": null,
+  "displayName": "test_Header_component_div_onClick",
+  "hash": "AG0jC3BcBUI",
+  "canonicalFilename": "test.tsx_test_Header_component_div_onClick_AG0jC3BcBUI",
+  "path": "",
+  "extension": "tsx",
+  "parent": "component",
+  "ctxKind": "function",
+  "ctxName": "$",
+  "captures": false,
+  "loc": [
+    141,
+    166
+  ]
+}
+*/
+============================= test.tsx_test_App_component_jYXJI01qFIU.tsx (ENTRY POINT)==
+
+import { Header } from "./test";
+export const test_App_component_jYXJI01qFIU = ()=>{
+	return <Header />;
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_App_component_jYXJI01qFIU",
+  "entry": null,
+  "displayName": "test_App_component",
+  "hash": "jYXJI01qFIU",
+  "canonicalFilename": "test.tsx_test_App_component_jYXJI01qFIU",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    204,
+    239
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

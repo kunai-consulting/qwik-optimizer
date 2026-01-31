@@ -1,0 +1,127 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { $, component$, useStore } from '@qwik.dev/core';
+export const useCounter = () => {
+	return useStore({count: 0});
+}
+
+export const STEP = 1;
+
+export const App = component$((props) => {
+	const state = useCounter();
+	const thing = useStore({thing: 0});
+	const STEP_2 = 2;
+
+	const count2 = state.count * 2;
+	return (
+		<div onClick$={() => state.count+=count2 }>
+			<span>{state.count}</span>
+			{buttons.map(btn => (
+				<button
+					onClick$={() => state.count += btn.offset + thing + STEP + STEP_2 + props.step}
+				>
+					{btn.name}
+				</button>
+			))}
+
+		</div>
+
+	);
+})
+
+============================= test.js ==
+
+import { componentQrl, qrl, useStore } from "@qwik.dev/core";
+const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
+const _hf0 = (p0)=>p0.name;
+const _hf0_str = "p0.name";
+export const useCounter = ()=>{
+	return useStore({ count: 0 });
+};
+export const STEP = 1;
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
+
+
+None
+============================= test.tsx_test_App_component_jYXJI01qFIU.js (ENTRY POINT)==
+
+import { useCounter } from "./test";
+import { _fnSignal, _jsxSorted, qrl, useStore } from "@qwik.dev/core";
+const i_MSILHyo6VJs = ()=>import("./test.tsx_test_App_component_div_map_button_onClick_MSILHyo6VJs");
+const i_onClick = ()=>import("./test.tsx");
+export const test_App_component_jYXJI01qFIU = (props)=>{
+	const state = useCounter();
+	const thing = useStore({ thing: 0 });
+	const STEP_2 = 2;
+	const count2 = state.count * 2;
+	return /*#__PURE__*/ _jsxSorted("div", { on:click: /*#__PURE__*/ qrl(i_onClick, "App_component_div_onClick", [count2, state]) }, null, [/*#__PURE__*/ _jsxSorted("span", null, null, state.count, 1, null), buttons.map((btn)=>/*#__PURE__*/ _jsxSorted("button", {
+		q:p: btn,
+		on:click: /*#__PURE__*/ qrl(i_MSILHyo6VJs, "test_App_component_div_map_button_onClick_MSILHyo6VJs", [
+			STEP_2,
+			props,
+			state,
+			thing
+		])
+	}, null, _fnSignal(_hf0, [btn], _hf0_str), 1, null))], 1, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_App_component_jYXJI01qFIU",
+  "entry": null,
+  "displayName": "test_App_component",
+  "hash": "jYXJI01qFIU",
+  "canonicalFilename": "test.tsx_test_App_component_jYXJI01qFIU",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    179,
+    578
+  ]
+}
+*/
+============================= test.tsx_test_App_component_div_map_button_onClick_MSILHyo6VJs.js (ENTRY POINT)==
+
+import { STEP } from "./test";
+import { useLexicalScope } from "@qwik.dev/core";
+export const test_App_component_div_map_button_onClick_MSILHyo6VJs = (_, _1, btn)=>{
+	const [STEP_2, props, state, thing] = useLexicalScope();
+	return state.count += btn.offset + thing + STEP + STEP_2 + props.step;
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_App_component_div_map_button_onClick_MSILHyo6VJs",
+  "entry": null,
+  "displayName": "test_App_component_div_map_button_onClick",
+  "hash": "MSILHyo6VJs",
+  "canonicalFilename": "test.tsx_test_App_component_div_map_button_onClick_MSILHyo6VJs",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "eventHandler",
+  "ctxName": "onClick$",
+  "captures": true,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

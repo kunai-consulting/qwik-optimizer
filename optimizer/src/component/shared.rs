@@ -9,11 +9,26 @@ use std::convert::Into;
 use std::path::PathBuf;
 
 pub const QWIK_CORE_SOURCE: &str = "@qwik.dev/core";
-pub const JSX_SORTED_NAME: &str = "_jsxSorted";
-pub const JSX_SPLIT_NAME: &str = "_jsxSplit";
+
+pub const QWIK_CORE_BUILD: &str = "@qwik.dev/core/build";
+
+pub const IS_SERVER: &str = "isServer";
+pub const IS_BROWSER: &str = "isBrowser";
+pub const IS_DEV: &str = "isDev";
+
 pub const MARKER_SUFFIX: &str = "$";
 pub const QRL: &str = "qrl";
 pub const QRL_SUFFIX: &str = "Qrl";
+
+pub const _REST_PROPS: &str = "_restProps";
+pub const _WRAP_PROP: &str = "_wrapProp";
+pub const _FN_SIGNAL: &str = "_fnSignal";
+pub const _VAL: &str = "_val";
+pub const _CHK: &str = "_chk";
+
+pub const _FRAGMENT: &str = "_Fragment";
+pub const _GET_VAR_PROPS: &str = "_getVarProps";
+pub const _GET_CONST_PROPS: &str = "_getConstProps";
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum ImportId {
@@ -43,7 +58,8 @@ impl From<&ImportDeclarationSpecifier<'_>> for ImportId {
         match value {
             ImportDeclarationSpecifier::ImportSpecifier(specifier) => {
                 let imported = replace_marker_with_qrl(specifier.imported.name());
-                let local_name = replace_marker_with_qrl(specifier.local.name);
+                let local_atom: Atom<'_> = specifier.local.name.clone().into();
+                let local_name = replace_marker_with_qrl(local_atom);
 
                 if imported == local_name {
                     ImportId::Named(imported)
@@ -102,7 +118,7 @@ impl<'a> FromIn<'a, ImportId> for ImportDeclarationSpecifier<'a> {
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Import {
-    names: Vec<ImportId>,
+    pub names: Vec<ImportId>,
     source: PathBuf,
 }
 
@@ -132,6 +148,11 @@ impl Import {
         let names = vec![QRL.into()];
         Self::new(names, QWIK_CORE_SOURCE)
     }
+
+    pub fn use_lexical_scope() -> Self {
+        let names = vec![ImportId::Named("useLexicalScope".to_string())];
+        Self::new(names, QWIK_CORE_SOURCE)
+    }
 }
 
 impl<'a> FromIn<'a, &Import> for Statement<'a> {
@@ -146,7 +167,6 @@ impl<'a> FromIn<'a, Import> for Statement<'a> {
     }
 }
 
-/// Renamed from `EmitMode` in V 1.0.
 #[allow(dead_code)]
 #[derive(Debug, Serialize, Deserialize, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Target {

@@ -1,0 +1,93 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+
+export const App = component$(() => {
+  const data = { value: [
+    { value: { id: 1, selected: { value: true } } },
+    { value: { id: 2, selected: { value: false } } },
+    { value: { id: 3, selected: { value: true } } }
+  ]};
+  
+  return (
+    <table>
+      {data.value.map((row) => {
+        return (
+          <tr
+            key={row.value.id}
+            class={row.value.selected.value ? "danger" : ""}
+          >
+            <td>{row.value.id}</td>
+          </tr>
+        );
+      })}
+    </table>
+  );
+});
+
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
+const _hf0 = (p0)=>p0.value.id;
+const _hf0_str = "p0.value.id";
+const _hf1 = (p0)=>p0.value.selected.value ? "danger" : "";
+const _hf1_str = "p0.value.selected.value?`danger`:``";
+const _hf2 = (p0)=>p0.value.id;
+const _hf2_str = "p0.value.id";
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
+
+
+None
+============================= test.tsx_test_App_component_jYXJI01qFIU.js (ENTRY POINT)==
+
+import { _fnSignal, _jsxSorted } from "@qwik.dev/core";
+export const test_App_component_jYXJI01qFIU = ()=>{
+	const data = { value: [
+		{ value: {
+			id: 1,
+			selected: { value: true }
+		} },
+		{ value: {
+			id: 2,
+			selected: { value: false }
+		} },
+		{ value: {
+			id: 3,
+			selected: { value: true }
+		} }
+	] };
+	return /*#__PURE__*/ _jsxSorted("table", null, null, data.value.map((row)=>{
+		return /*#__PURE__*/ _jsxSorted("tr", { class: _fnSignal(_hf1, [row], _hf1_str) }, null, /*#__PURE__*/ _jsxSorted("td", null, null, _fnSignal(_hf2, [row], _hf2_str), 1, null), 3, _fnSignal(_hf0, [row], _hf0_str));
+	}), 1, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_App_component_jYXJI01qFIU",
+  "entry": null,
+  "displayName": "test_App_component",
+  "hash": "jYXJI01qFIU",
+  "canonicalFilename": "test.tsx_test_App_component_jYXJI01qFIU",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    76,
+    561
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

@@ -1,0 +1,80 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, $ } from '@qwik.dev/core';
+
+export const Greeter = component$(() => {
+	const value = useSignal(0);
+	const checked = useSignal(false);
+	const stuff = useSignal();
+	return (
+		<>
+			<input bind:value={value} />
+			<input bind:checked={checked} />
+			<input bind:stuff={stuff} />
+			<div>{value}</div>
+			<div>{value.value}</div>
+		</>
+
+	)
+});
+
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_ypCtrRwcmFs = ()=>import("./test.tsx_s_ypCtrRwcmFs");
+export const Greeter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_ypCtrRwcmFs, "s_ypCtrRwcmFs"));
+
+
+None
+============================= test.tsx_s_ypCtrRwcmFs.js (ENTRY POINT)==
+
+import { _jsxSorted } from "@qwik.dev/core";
+import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
+export const s_ypCtrRwcmFs = ()=>{
+	const value = useSignal(0);
+	const checked = useSignal(false);
+	const stuff = useSignal();
+	return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [
+		/*#__PURE__*/ _jsxSorted("input", null, {
+			value,
+			on:input: inlinedQrl(_val, "_val", [value])
+		}, null, 3, null),
+		/*#__PURE__*/ _jsxSorted("input", null, {
+			checked,
+			on:input: inlinedQrl(_chk, "_chk", [checked])
+		}, null, 3, null),
+		/*#__PURE__*/ _jsxSorted("input", null, { bind:stuff: stuff }, null, 3, null),
+		/*#__PURE__*/ _jsxSorted("div", null, null, value, 1, null),
+		/*#__PURE__*/ _jsxSorted("div", null, null, _wrapProp(value), 1, null)
+	], 3, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "s_ypCtrRwcmFs",
+  "entry": "entry_segments",
+  "displayName": "test_Greeter_component",
+  "hash": "ypCtrRwcmFs",
+  "canonicalFilename": "test.tsx_s_ypCtrRwcmFs",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    83,
+    359
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

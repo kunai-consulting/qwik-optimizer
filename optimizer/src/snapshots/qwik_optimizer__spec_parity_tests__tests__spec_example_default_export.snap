@@ -1,0 +1,57 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$ } from '@qwik.dev/core';
+import { sibling } from './sibling';
+
+export default component$(() => {
+	return (
+		<div onClick$={() => console.log(mongodb, sibling)}>
+		</div>
+	);
+});
+
+============================= src/routes/_repl/[id]/[[...slug]].js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_TcBOm8u2moY = ()=>import("./[[...slug]].tsx_[[_component_TcBOm8u2moY");
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_TcBOm8u2moY, "[[_component_TcBOm8u2moY"));
+
+
+None
+============================= src/routes/_repl/[id]/[[...slug]].tsx_[[_component_TcBOm8u2moY.js (ENTRY POINT)==
+
+import { _jsxSorted, qrl } from "@qwik.dev/core";
+const i_onClick = ()=>import("./[[...slug]].tsx");
+export const [[_component_TcBOm8u2moY = ()=>{
+	return /*#__PURE__*/ _jsxSorted("div", { on:click: /*#__PURE__*/ qrl(i_onClick, "component_div_onClick") }, null, null, 3, null);
+};
+
+
+None
+/*
+{
+  "origin": "src/routes/_repl/[id]/[[...slug]].tsx",
+  "name": "[[_component_TcBOm8u2moY",
+  "entry": "./src/routes/_repl/[id]/[[...slug]].tsx_entry_component$",
+  "displayName": "[[_component",
+  "hash": "TcBOm8u2moY",
+  "canonicalFilename": "[[...slug]].tsx_[[_component_TcBOm8u2moY",
+  "path": "src/routes/_repl/[id]",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    109,
+    196
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

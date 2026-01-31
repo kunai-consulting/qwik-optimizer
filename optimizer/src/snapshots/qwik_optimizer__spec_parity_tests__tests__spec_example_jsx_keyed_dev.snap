@@ -1,0 +1,67 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useStore } from '@qwik.dev/core';
+
+export const App = component$((props: Stuff) => {
+	return (
+		<>
+			<Cmp key="stuff"></Cmp>
+			<Cmp></Cmp>
+			<Cmp prop="23"></Cmp>
+			<Cmp prop="23" key={props.stuff}></Cmp>
+			<p key={props.stuff}>Hello Qwik</p>
+		</>
+	);
+});
+
+============================= project/index.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_BzEB8g3YX1k = ()=>import("./index.tsx_index_App_component_BzEB8g3YX1k");
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_BzEB8g3YX1k, "index_App_component_BzEB8g3YX1k"));
+
+
+None
+============================= project/index.tsx_index_App_component_BzEB8g3YX1k.js (ENTRY POINT)==
+
+import { _jsxSorted } from "@qwik.dev/core";
+import { Fragment as _Fragment } from "@qwik.dev/core/jsx-runtime";
+export const index_App_component_BzEB8g3YX1k = (props)=>{
+	return /*#__PURE__*/ _jsxSorted(_Fragment, null, null, [
+		_jsxSorted(Cmp, null, null, null, 3, "stuff"),
+		_jsxSorted(Cmp, null, null, null, 3, null),
+		_jsxSorted(Cmp, null, { prop: "23" }, null, 3, null),
+		_jsxSorted(Cmp, null, { prop: "23" }, null, 3, props.stuff),
+		/*#__PURE__*/ _jsxSorted("p", null, null, "Hello Qwik", 3, props.stuff)
+	], 3, null);
+};
+
+
+None
+/*
+{
+  "origin": "project/index.tsx",
+  "name": "index_App_component_BzEB8g3YX1k",
+  "entry": null,
+  "displayName": "index_App_component",
+  "hash": "BzEB8g3YX1k",
+  "canonicalFilename": "index.tsx_index_App_component_BzEB8g3YX1k",
+  "path": "project",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    86,
+    281
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

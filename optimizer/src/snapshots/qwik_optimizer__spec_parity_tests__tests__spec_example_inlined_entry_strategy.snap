@@ -1,0 +1,131 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useBrowserVisibleTask$, useStore, useStyles$ } from '@qwik.dev/core';
+import { thing } from './sibling';
+import mongodb from 'mongodb';
+
+export const Child = component$(() => {
+
+	useStyles$('somestring');
+	const state = useStore({
+		count: 0
+	});
+
+	// Double count watch
+	useBrowserVisibleTask$(() => {
+		state.count = thing.doStuff() + import("./sibling");
+	});
+
+	return (
+		<div onClick$={() => console.log(mongodb)}>
+		</div>
+	);
+});
+
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_63eLuusp2Ao = ()=>import("./test.tsx_test_Child_component_useStyles_63eLuusp2Ao");
+const i_PSTgqIrkXbw = ()=>import("./test.tsx_test_Child_component_useBrowserVisibleTask_PSTgqIrkXbw");
+const i_1dotO0YXFtY = ()=>import("./test.tsx_test_Child_component_1dotO0YXFtY");
+export const Child = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_1dotO0YXFtY, "test_Child_component_1dotO0YXFtY"));
+
+
+None
+============================= test.tsx_test_Child_component_useStyles_63eLuusp2Ao.tsx (ENTRY POINT)==
+
+export const test_Child_component_useStyles_63eLuusp2Ao = "somestring";
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Child_component_useStyles_63eLuusp2Ao",
+  "entry": "entry_segments",
+  "displayName": "test_Child_component_useStyles",
+  "hash": "63eLuusp2Ao",
+  "canonicalFilename": "test.tsx_test_Child_component_useStyles_63eLuusp2Ao",
+  "path": "",
+  "extension": "tsx",
+  "parent": "component",
+  "ctxKind": "function",
+  "ctxName": "useStyles$",
+  "captures": false,
+  "loc": [
+    211,
+    223
+  ]
+}
+*/
+============================= test.tsx_test_Child_component_useBrowserVisibleTask_PSTgqIrkXbw.tsx (ENTRY POINT)==
+
+import { thing } from "./sibling";
+export const test_Child_component_useBrowserVisibleTask_PSTgqIrkXbw = ()=>{
+	const [state] = useLexicalScope();
+	state.count = thing.doStuff() + import("./sibling");
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Child_component_useBrowserVisibleTask_PSTgqIrkXbw",
+  "entry": "entry_segments",
+  "displayName": "test_Child_component_useBrowserVisibleTask",
+  "hash": "PSTgqIrkXbw",
+  "canonicalFilename": "test.tsx_test_Child_component_useBrowserVisibleTask_PSTgqIrkXbw",
+  "path": "",
+  "extension": "tsx",
+  "parent": "component",
+  "ctxKind": "function",
+  "ctxName": "useBrowserVisibleTask$",
+  "captures": true,
+  "loc": [
+    316,
+    381
+  ]
+}
+*/
+============================= test.tsx_test_Child_component_1dotO0YXFtY.tsx (ENTRY POINT)==
+
+const i_PSTgqIrkXbw = ()=>import("./test.tsx_test_Child_component_useBrowserVisibleTask_PSTgqIrkXbw");
+const i_63eLuusp2Ao = ()=>import("./test.tsx_test_Child_component_useStyles_63eLuusp2Ao");
+export const test_Child_component_1dotO0YXFtY = ()=>{
+	/*#__PURE__*/ useStylesQrl(/*#__PURE__*/ qrl(i_63eLuusp2Ao, "test_Child_component_useStyles_63eLuusp2Ao"));
+	const state = /*#__PURE__*/ useStylesQrl(/*#__PURE__*/ qrl(i_63eLuusp2Ao, "test_Child_component_useStyles_63eLuusp2Ao"));
+	/*#__PURE__*/ useBrowserVisibleTaskQrl(/*#__PURE__*/ qrl(i_PSTgqIrkXbw, "test_Child_component_useBrowserVisibleTask_PSTgqIrkXbw", [state]));
+	return <div on:click={/*#__PURE__*/ useBrowserVisibleTaskQrl(/*#__PURE__*/ qrl(i_PSTgqIrkXbw, "test_Child_component_useBrowserVisibleTask_PSTgqIrkXbw", [state]))}>
+		</div>;
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Child_component_1dotO0YXFtY",
+  "entry": "entry_segments",
+  "displayName": "test_Child_component",
+  "hash": "1dotO0YXFtY",
+  "canonicalFilename": "test.tsx_test_Child_component_1dotO0YXFtY",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    190,
+    455
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

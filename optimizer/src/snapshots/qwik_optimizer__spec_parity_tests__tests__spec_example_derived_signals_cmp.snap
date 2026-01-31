@@ -1,0 +1,114 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useStore, mutable } from '@qwik.dev/core';
+
+import {dep} from './file';
+import {Cmp} from './cmp';
+
+export const App = component$(() => {
+	const signal = useSignal(0);
+	const store = useStore({});
+	return (
+		<Cmp
+			staticText="text"
+			staticText2={`text`}
+			staticNumber={1}
+			staticBoolean={true}
+			staticExpr={`text${12}`}
+			staticExpr2={typeof `text${12}` === 'string' ? 12 : 43}
+
+			signal={signal}
+			signalValue={signal.value}
+			signalComputedValue={12 + signal.value}
+
+			store={store.address.city.name}
+			storeComputed={store.address.city.name ? 'true' : 'false'}
+
+			dep={dep}
+			depAccess={dep.thing}
+			depComputed={dep.thing + 'stuff'}
+
+			global={globalThing}
+			globalAccess={globalThing.thing}
+			globalComputed={globalThing.thing + 'stuff'}
+
+
+			noInline={signal.value()}
+			noInline2={signal.value + unknown()}
+			noInline3={mutable(signal)}
+			noInline4={signal.value + dep}
+		/>
+	);
+});
+
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
+
+
+None
+============================= test.tsx_test_App_component_jYXJI01qFIU.js (ENTRY POINT)==
+
+import { Cmp } from "./cmp";
+import { dep } from "./file";
+import { _jsxSorted, mutable, useStore } from "@qwik.dev/core";
+export const test_App_component_jYXJI01qFIU = ()=>{
+	const signal = useSignal(0);
+	const store = useStore({});
+	return _jsxSorted(Cmp, {
+		signalValue: _wrapProp(signal),
+		signalComputedValue: 12 + signal.value,
+		store: store.address.city.name,
+		storeComputed: store.address.city.name ? "true" : "false",
+		depAccess: dep.thing,
+		depComputed: dep.thing + "stuff",
+		global: globalThing,
+		globalAccess: globalThing.thing,
+		globalComputed: globalThing.thing + "stuff",
+		noInline: signal.value(),
+		noInline2: signal.value + unknown(),
+		noInline3: mutable(signal),
+		noInline4: signal.value + dep
+	}, {
+		staticText: "text",
+		staticText2: `text`,
+		staticNumber: 1,
+		staticBoolean: true,
+		staticExpr: `text${12}`,
+		staticExpr2: typeof `text${12}` === "string" ? 12 : 43,
+		signal,
+		dep
+	}, null, 3, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_App_component_jYXJI01qFIU",
+  "entry": "entry_segments",
+  "displayName": "test_App_component",
+  "hash": "jYXJI01qFIU",
+  "canonicalFilename": "test.tsx_test_App_component_jYXJI01qFIU",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    151,
+    933
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

@@ -1,0 +1,56 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useStore, Slot } from '@qwik.dev/core';
+
+export const App = component$((props: Stuff) => {
+	return (
+		<div>
+			<Slot/>
+		</div>
+	);
+});
+
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
+
+
+None
+============================= test.tsx_test_App_component_jYXJI01qFIU.js (ENTRY POINT)==
+
+import { Slot, _jsxSorted } from "@qwik.dev/core";
+export const test_App_component_jYXJI01qFIU = (props)=>{
+	return /*#__PURE__*/ _jsxSorted("div", null, null, _jsxSorted(Slot, null, null, null, 3, null), 3, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_App_component_jYXJI01qFIU",
+  "entry": "entry_segments",
+  "displayName": "test_App_component",
+  "hash": "jYXJI01qFIU",
+  "canonicalFilename": "test.tsx_test_App_component_jYXJI01qFIU",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    92,
+    155
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

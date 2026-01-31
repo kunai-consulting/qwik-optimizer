@@ -1,0 +1,99 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useComputed$ } from '@qwik.dev/core';
+import { inlineTranslate } from 'translate-lib';
+
+export default component$(() => {
+	const t = inlineTranslate();
+
+	const productTitle = useComputed$(() => {
+		return 'Test title';
+	});
+
+	return (
+		<img 
+			attr={t('home.imageAlt.founded-product:')}
+			alt={`${t('home.imageAlt.founded-product:')} ${productTitle.value}`} />
+	);
+});
+
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_ZVQVUkxqtiQ = ()=>import("./test.tsx_test_component_productTitle_useComputed_ZVQVUkxqtiQ");
+const i_LUXeXe0DQrg = ()=>import("./test.tsx_test_component_LUXeXe0DQrg");
+export default /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_LUXeXe0DQrg, "test_component_LUXeXe0DQrg"));
+
+
+None
+============================= test.tsx_test_component_productTitle_useComputed_ZVQVUkxqtiQ.js (ENTRY POINT)==
+
+export const test_component_productTitle_useComputed_ZVQVUkxqtiQ = ()=>{
+	return "Test title";
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_component_productTitle_useComputed_ZVQVUkxqtiQ",
+  "entry": null,
+  "displayName": "test_component_productTitle_useComputed",
+  "hash": "ZVQVUkxqtiQ",
+  "canonicalFilename": "test.tsx_test_component_productTitle_useComputed_ZVQVUkxqtiQ",
+  "path": "",
+  "extension": "js",
+  "parent": "component",
+  "ctxKind": "function",
+  "ctxName": "useComputed$",
+  "captures": false,
+  "loc": [
+    209,
+    242
+  ]
+}
+*/
+============================= test.tsx_test_component_LUXeXe0DQrg.js (ENTRY POINT)==
+
+import { _jsxSorted, qrl, useComputedQrl } from "@qwik.dev/core";
+import { inlineTranslate } from "translate-lib";
+const i_ZVQVUkxqtiQ = ()=>import("./test.tsx_test_component_productTitle_useComputed_ZVQVUkxqtiQ");
+export const test_component_LUXeXe0DQrg = ()=>{
+	const t = inlineTranslate();
+	const productTitle = /*#__PURE__*/ useComputedQrl(/*#__PURE__*/ qrl(i_ZVQVUkxqtiQ, "test_component_productTitle_useComputed_ZVQVUkxqtiQ"));
+	return /*#__PURE__*/ _jsxSorted("img", {
+		attr: t("home.imageAlt.founded-product:"),
+		alt: `${t("home.imageAlt.founded-product:")} ${productTitle.value}`
+	}, null, null, 3, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_component_LUXeXe0DQrg",
+  "entry": null,
+  "displayName": "test_component",
+  "hash": "LUXeXe0DQrg",
+  "canonicalFilename": "test.tsx_test_component_LUXeXe0DQrg",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    135,
+    390
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

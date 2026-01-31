@@ -1,0 +1,57 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useStore } from '@qwik.dev/core';
+
+export const App = component$((props) => {
+	return (
+		<Cmp>
+			<p class="stuff" onClick$={() => console.log('warn')}>Hello Qwik</p>
+		</Cmp>
+	);
+});
+
+============================= test.tsx ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_jYXJI01qFIU = ()=>import("./test.tsx_test_App_component_jYXJI01qFIU");
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_jYXJI01qFIU, "test_App_component_jYXJI01qFIU"));
+
+
+None
+============================= test.tsx_test_App_component_jYXJI01qFIU.tsx (ENTRY POINT)==
+
+import { _jsxSorted, qrl } from "@qwik.dev/core";
+const i_onClick = ()=>import("./test.tsx");
+export const test_App_component_jYXJI01qFIU = (props)=>{
+	return _jsxSorted(Cmp, null, null, /*#__PURE__*/ _jsxSorted("p", { on:click: /*#__PURE__*/ qrl(i_onClick, "App_component_Cmp_p_onClick") }, { class: "stuff" }, "Hello Qwik", 3, null), 3, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_App_component_jYXJI01qFIU",
+  "entry": "entry_segments",
+  "displayName": "test_App_component",
+  "hash": "jYXJI01qFIU",
+  "canonicalFilename": "test.tsx_test_App_component_jYXJI01qFIU",
+  "path": "",
+  "extension": "tsx",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    86,
+    203
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

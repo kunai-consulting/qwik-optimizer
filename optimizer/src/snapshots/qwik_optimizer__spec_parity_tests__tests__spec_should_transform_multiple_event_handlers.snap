@@ -1,0 +1,147 @@
+---
+source: optimizer/src/spec_parity_tests.rs
+expression: output
+---
+==INPUT==
+
+import { component$, useSignal, Signal } from '@qwik.dev/core';
+const Foo = component$(function() {
+  const data = useSignal<Signal<any>[]>([]);
+  return <div>
+	{data.value.map(row => (
+	  <div onClick$={() => console.log(row.value.id)} onMouseOver$={() => console.log('over' + row.value.id)}>
+		<p onClick$={() => console.log('inner' + row.value.id)}>{item.value.id}</p>
+	  </div>
+	))}
+  </div>;
+})
+
+============================= test.js ==
+
+import { componentQrl, qrl } from "@qwik.dev/core";
+const i_NK5Hyit5tec = ()=>import("./test.tsx_test_Foo_component_NK5Hyit5tec");
+/*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(i_NK5Hyit5tec, "test_Foo_component_NK5Hyit5tec"));
+
+
+None
+============================= test.tsx_test_Foo_component_div_map_div_onMouseOver_JIfOMS6PpZo.js (ENTRY POINT)==
+
+export const test_Foo_component_div_map_div_onMouseOver_JIfOMS6PpZo = (_, _1, row)=>console.log("over" + row.value.id);
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Foo_component_div_map_div_onMouseOver_JIfOMS6PpZo",
+  "entry": null,
+  "displayName": "test_Foo_component_div_map_div_onMouseOver",
+  "hash": "JIfOMS6PpZo",
+  "canonicalFilename": "test.tsx_test_Foo_component_div_map_div_onMouseOver_JIfOMS6PpZo",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "eventHandler",
+  "ctxName": "onMouseOver$",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= test.tsx_test_Foo_component_div_map_div_p_onClick_0NpjtiEz3bA.js (ENTRY POINT)==
+
+export const test_Foo_component_div_map_div_p_onClick_0NpjtiEz3bA = (_, _1, row)=>console.log("inner" + row.value.id);
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Foo_component_div_map_div_p_onClick_0NpjtiEz3bA",
+  "entry": null,
+  "displayName": "test_Foo_component_div_map_div_p_onClick",
+  "hash": "0NpjtiEz3bA",
+  "canonicalFilename": "test.tsx_test_Foo_component_div_map_div_p_onClick_0NpjtiEz3bA",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "eventHandler",
+  "ctxName": "onClick$",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+============================= test.tsx_test_Foo_component_NK5Hyit5tec.js (ENTRY POINT)==
+
+import { _jsxSorted, qrl, useSignal } from "@qwik.dev/core";
+const i_0NpjtiEz3bA = ()=>import("./test.tsx_test_Foo_component_div_map_div_p_onClick_0NpjtiEz3bA");
+const i_JIfOMS6PpZo = ()=>import("./test.tsx_test_Foo_component_div_map_div_onMouseOver_JIfOMS6PpZo");
+const i_0ECFp3N7wOw = ()=>import("./test.tsx_test_Foo_component_div_map_div_onClick_0ECFp3N7wOw");
+export const test_Foo_component_NK5Hyit5tec = function() {
+	const data = useSignal([]);
+	return /*#__PURE__*/ _jsxSorted("div", null, null, data.value.map((row)=>/*#__PURE__*/ _jsxSorted("div", {
+		q:p: row,
+		on:click: /*#__PURE__*/ qrl(i_0ECFp3N7wOw, "test_Foo_component_div_map_div_onClick_0ECFp3N7wOw"),
+		on:mouseover: /*#__PURE__*/ qrl(i_JIfOMS6PpZo, "test_Foo_component_div_map_div_onMouseOver_JIfOMS6PpZo")
+	}, null, /*#__PURE__*/ _jsxSorted("p", {
+		q:p: row,
+		on:click: /*#__PURE__*/ qrl(i_0NpjtiEz3bA, "test_Foo_component_div_map_div_p_onClick_0NpjtiEz3bA")
+	}, null, item.value.id, 1, null), 3, null)), 1, null);
+};
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Foo_component_NK5Hyit5tec",
+  "entry": null,
+  "displayName": "test_Foo_component",
+  "hash": "NK5Hyit5tec",
+  "canonicalFilename": "test.tsx_test_Foo_component_NK5Hyit5tec",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    87,
+    398
+  ]
+}
+*/
+============================= test.tsx_test_Foo_component_div_map_div_onClick_0ECFp3N7wOw.js (ENTRY POINT)==
+
+export const test_Foo_component_div_map_div_onClick_0ECFp3N7wOw = (_, _1, row)=>console.log(row.value.id);
+
+
+None
+/*
+{
+  "origin": "test.tsx",
+  "name": "test_Foo_component_div_map_div_onClick_0ECFp3N7wOw",
+  "entry": null,
+  "displayName": "test_Foo_component_div_map_div_onClick",
+  "hash": "0ECFp3N7wOw",
+  "canonicalFilename": "test.tsx_test_Foo_component_div_map_div_onClick_0ECFp3N7wOw",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "eventHandler",
+  "ctxName": "onClick$",
+  "captures": false,
+  "loc": [
+    0,
+    0
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]
