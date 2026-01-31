@@ -28,6 +28,7 @@ pub fn enter_jsx_fragment<'a>(
         children: OxcVec::new_in(gen.builder.allocator),
         spread_expr: None,
         stacked_ctxt: false,
+        added_iter_var_prop: false,
     });
     gen.debug("ENTER: JSXFragment", ctx);
 }

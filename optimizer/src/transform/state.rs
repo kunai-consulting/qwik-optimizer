@@ -15,6 +15,8 @@ pub struct JsxState<'gen> {
     pub children: OxcVec<'gen, ArrayExpressionElement<'gen>>,
     pub spread_expr: Option<Expression<'gen>>,
     pub stacked_ctxt: bool,
+    /// Track if q:p or q:ps has been added to this element (only add once per element)
+    pub added_iter_var_prop: bool,
 }
 
 #[derive(Debug, Default)]

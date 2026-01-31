@@ -60,6 +60,7 @@ pub fn enter_jsx_element<'a>(
         children: OxcVec::new_in(gen.builder.allocator),
         spread_expr: None,
         stacked_ctxt: jsx_element_name.is_some(),
+        added_iter_var_prop: false,
     });
     if let Some(segment) = segment {
         gen.segment_stack.push(segment);

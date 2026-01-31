@@ -278,8 +278,18 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
             // This is an accepted difference - source map generation would require
             // significant additional implementation using oxc_sourcemap crate.
             // The map field is set to None for all modules.
+
+            // Use .js extension for main file when transpilation is enabled (matches qwik-core)
+            let main_file_path = if config.transpile_ts && config.transpile_jsx {
+                PathBuf::from(&relative_path)
+                    .with_extension("js")
+                    .to_string_lossy()
+                    .to_string()
+            } else {
+                relative_path.clone()
+            };
             let mut modules = vec![TransformModule {
-                path: relative_path.clone(),
+                path: main_file_path,
                 code: optimized_app.body,
                 map: None, // Source maps not implemented
                 segment: None,
@@ -307,11 +317,16 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
                         if p == "." { "".to_string() } else { p.to_string() }
                     });
 
-                // Get extension from origin filename (input file extension)
-                let segment_extension = PathBuf::from(&relative_path)
-                    .extension()
-                    .map(|e| e.to_string_lossy().to_string())
-                    .unwrap_or_else(|| "tsx".to_string());
+                // Use .js extension when transpilation is enabled (matches qwik-core)
+                // qwik-core always outputs .js when both transpile_ts and transpile_jsx are true
+                let segment_extension = if config.transpile_ts && config.transpile_jsx {
+                    "js".to_string()
+                } else {
+                    PathBuf::from(&relative_path)
+                        .extension()
+                        .map(|e| e.to_string_lossy().to_string())
+                        .unwrap_or_else(|| "js".to_string())
+                };
 
                 // Get ctx_name from segment_data (marker name like "$", "component$")
                 let segment_ctx_name = c.segment_data.as_ref()
