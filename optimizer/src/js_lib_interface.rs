@@ -271,8 +271,6 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
                     format_output: config.format_output,
                 },
             )?;
-            let mut hasher = DefaultHasher::new();
-            hasher.write(relative_path.as_bytes());
             // Note: Source maps are not currently implemented in the OXC optimizer.
             // qwik-core (SWC-based) generates source maps, but OXC does not.
             // This is an accepted difference - source map generation would require
@@ -288,13 +286,15 @@ pub fn transform_modules(config: TransformModulesOptions) -> Result<TransformOut
             } else {
                 relative_path.clone()
             };
+            // Main file gets order 0 to sort first (qwik-core convention)
+            // Entry point segments use hash-based order (guaranteed > 0)
             let mut modules = vec![TransformModule {
                 path: main_file_path,
                 code: optimized_app.body,
                 map: None, // Source maps not implemented
                 segment: None,
                 is_entry: false,
-                order: hasher.finish(),
+                order: 0, // Main file first
             }];
             modules.extend(optimized_app.components.into_iter().map(|c| {
                 // Get path from segment_data, normalizing to match qwik-core format:
